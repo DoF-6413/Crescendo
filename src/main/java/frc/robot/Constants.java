@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.RobotBase;
  */
 public final class Constants {
 
+  /** Defines State of Robot */
   public static class RobotStateConstants{
   public static enum Mode {
     /** Running on a real robot. */
@@ -41,6 +42,7 @@ public final class Constants {
     REPLAY
   }
 
+  /** Gets Robot Mode (Real, Sim, or Replay)*/
     public static Mode getMode() {
     if (RobotBase.isReal()) {
       return Mode.REAL;
@@ -51,15 +53,20 @@ public final class Constants {
     }
   }
 
+  /** Get Alliance (Blue, Red, Null) */
     public static Optional<Alliance> getAlliance() {
     return DriverStation.getAlliance();
   }
 
+  /** If CAN takes too long, it cancels */
   public static final int CAN_CONFIG_TIMEOUT = 500;
+
+  /**Command Loop Seconds */
   public static final double LOOP_PERIODIC_SEC = 0.02;
 
 }
 
+/** Controller Ports */
 public static class OperatorConstants {
   public static final int DRIVE_CONTROLLER = 0;
   public static final int AUX_CONTROLLER = 1;

@@ -29,7 +29,7 @@ import frc.robot.Constants.RobotStateConstants;
 public class RobotContainer {
   // Subsystems
 
-  // Controller
+  // Controllers
   private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
