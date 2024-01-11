@@ -13,8 +13,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.RobotStateConstants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,11 +30,11 @@ public class RobotContainer {
   // Subsystems
 
   // Controller
-  private final CommandXboxController controller = new CommandXboxController(0);
+  private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    switch (Constants.currentMode) {
+    switch (RobotStateConstants.getMode()) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
         break;

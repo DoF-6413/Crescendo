@@ -13,6 +13,12 @@
 
 package frc.robot;
 
+import java.util.Optional;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotBase;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -22,8 +28,8 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final Mode currentMode = Mode.REAL;
 
+  public static class RobotStateConstants{
   public static enum Mode {
     /** Running on a real robot. */
     REAL,
@@ -34,4 +40,28 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+
+    public static Mode getMode() {
+    if (RobotBase.isReal()) {
+      return Mode.REAL;
+    } else if (RobotBase.isSimulation()) {
+      return Mode.SIM;
+    } else {
+      return Mode.REPLAY;
+    }
+  }
+
+    public static Optional<Alliance> getAlliance() {
+    return DriverStation.getAlliance();
+  }
+
+  public static final int CAN_CONFIG_TIMEOUT = 500;
+  public static final double LOOP_PERIODIC_SEC = 0.02;
+
+}
+
+public static class OperatorConstants {
+  public static final int DRIVE_CONTROLLER = 0;
+  public static final int AUX_CONTROLLER = 1;
+}
 }
