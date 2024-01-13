@@ -40,7 +40,7 @@ public interface ModuleIO {
   public default void setTurnBrakeMode(boolean enable) {}
 
   /** Determines Wether Krakens are being Used for the Propulsion or Not */
-  public default <Optional>Boolean isL3(boolean isL3){
+  public default <Optional> Boolean isL3(boolean isL3) {
     return isL3;
   }
 }
