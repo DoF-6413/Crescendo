@@ -105,6 +105,30 @@ public final class Constants {
       }
     }
 
+    /**
+     * Gives the Feed Forward Constant S for the Drive Motors Depending on Whether the Module is an
+     * L3 or L2
+     */
+    public static final double driveKS(boolean isL3) {
+      if (isL3) {
+        return DRIVE_KS_KRAKEN;
+      } else {
+        return DRIVE_KS_NEO;
+      }
+    }
+
+    /**
+     * Gives the Feed Forward Constant V for the Drive Motors Depending on Whether the Module is an
+     * L3 or L2
+     */
+    public static final double driveKV(boolean isL3) {
+      if (isL3) {
+        return DRIVE_KV_KRAKEN;
+      } else {
+        return DRIVE_KV_NEO;
+      }
+    }
+
     /** Gives the Gear Ratio for the Module Depending on Whether the Module is an L3 or L2 */
     public static final double gearRatio(boolean isL3) {
       if (isL3) {
@@ -123,6 +147,14 @@ public final class Constants {
     public static final double DRIVE_KP_KRAKEN = 0;
     public static final double DRIVE_KI_KRAKEN = 0;
     public static final double DRIVE_KD_KRAKEN = 0;
+
+    // Feed Forward Constants for Kraken Drive
+    public static final double DRIVE_KS_KRAKEN = 0;
+    public static final double DRIVE_KV_KRAKEN = 0;
+
+    // Feed Forward Constants for Neo Drive
+    public static final double DRIVE_KS_NEO = 0;
+    public static final double DRIVE_KV_NEO = 0;
 
     // PID Constants for Neo Steer PID
     public static final double STEER_KP_NEO = 0;
