@@ -7,7 +7,9 @@ package frc.robot.Subsystems.drive;
 /** Runs Simulation for an Individual Swerve Module with both Motors as Neos */
 public class ModuleIOSimNeo implements ModuleIO {
 
-  public ModuleIOSimNeo() {}
+  public ModuleIOSimNeo() {
+    System.out.println("[Init] Creating ModuleIOSimNeo");
+  }
 
   @Override
   public void updateInputs(ModuleIOInputs inputs) {}

@@ -7,7 +7,9 @@ package frc.robot.Subsystems.drive;
 /** Runs an Individual Real Module with all Motors as Neos */
 public class ModuleIOSparkMax implements ModuleIO {
 
-  public ModuleIOSparkMax() {}
+  public ModuleIOSparkMax() {
+    System.out.println("[Init] Creating ModuleIOSparkMax");
+  }
 
   @Override
   public void updateInputs(ModuleIOInputs inputs) {}

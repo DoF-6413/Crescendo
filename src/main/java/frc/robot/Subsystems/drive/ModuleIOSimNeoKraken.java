@@ -10,7 +10,9 @@ package frc.robot.Subsystems.drive;
  */
 public class ModuleIOSimNeoKraken implements ModuleIO {
 
-  public ModuleIOSimNeoKraken() {}
+  public ModuleIOSimNeoKraken() {
+    System.out.println("[Init] Creating ModuleIOSimNeoKraken");
+  }
 
   @Override
   public void updateInputs(ModuleIOInputs inputs) {}

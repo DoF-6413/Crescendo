@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /** This Runs the full Swerve (All Modules) for all Modes of the Robot */
 public class Drive extends SubsystemBase {
 
-  public Drive() {}
+  public Drive() {
+    System.out.println("[Init] Creating Drive");
+  }
 
   @Override
   public void periodic() {}

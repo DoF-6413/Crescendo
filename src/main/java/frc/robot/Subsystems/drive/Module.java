@@ -11,6 +11,7 @@ public class Module {
   private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
 
   public Module(ModuleIO io) {
+    System.out.println("[Init] Creating Module");
     this.io = io;
   }
 
