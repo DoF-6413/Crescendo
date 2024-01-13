@@ -42,7 +42,7 @@ public final class Constants {
     }
 
     /** Gets Robot Mode (Real, Sim, or Replay) */
-    public static Mode getMode() {
+    public static final Mode getMode() {
       if (RobotBase.isReal()) {
         return Mode.REAL;
       } else if (RobotBase.isSimulation()) {
@@ -53,7 +53,7 @@ public final class Constants {
     }
 
     /** Get Alliance (Blue, Red, Null) */
-    public static Optional<Alliance> getAlliance() {
+    public static final Optional<Alliance> getAlliance() {
       return DriverStation.getAlliance();
     }
 
@@ -68,5 +68,64 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int AUX_CONTROLLER = 1;
+  }
+
+  public class DriveConstants{
+
+    /** Gives the PID Constant P for the Drive Motors Depending on Whether the Module is an L3 or L2 */
+    public static final double driveKP(boolean isL3){
+      if(isL3){
+      return DRIVE_KP_KRAKEN;
+      }else{
+      return DRIVE_KP_NEO;
+      }
+    }
+
+    /** Gives the PID Constant I for the Drive Motors Depending on Whether the Module is an L3 or L2 */
+    public static final double driveKI(boolean isL3){
+      if(isL3){
+      return DRIVE_KI_KRAKEN;
+      }else{
+      return DRIVE_KI_NEO;
+      }
+    }
+
+    /** Gives the PID Constant I for the Drive Motors Depending on Whether the Module is an L3 or L2 */
+    public static final double driveKD(boolean isL3){
+      if(isL3){
+      return DRIVE_KD_KRAKEN;
+      }else{
+      return DRIVE_KD_NEO;
+      }
+    }
+
+    /** Gives the Gear Ratio for the Module Depending on Whether the Module is an L3 or L2 */
+    public static final double gearRatio(boolean isL3){
+      if(isL3){
+        return GEAR_RATIO_L3;
+      } else{
+        return GEAR_RATIO_L2;
+      }
+    }
+
+    //PID Constants for Neo Drive PID
+    public static final double DRIVE_KP_NEO = 0;
+    public static final double DRIVE_KI_NEO = 0;
+    public static final double DRIVE_KD_NEO = 0;
+
+    //PID Constants for Kraken Drive PID
+    public static final double DRIVE_KP_KRAKEN = 0;
+    public static final double DRIVE_KI_KRAKEN = 0;
+    public static final double DRIVE_KD_KRAKEN = 0;
+
+    //PID Constants for Neo Steer PID
+    public static final double STEER_KP_NEO = 0;
+    public static final double STEER_KI_NEO = 0;
+    public static final double STEER_KD_NEO = 0;
+
+    //Gear Ratio for MK4I L3 
+    public static final double GEAR_RATIO_L3 = 0;
+    //Gear Ratio for MK4I L2
+    public static final double GEAR_RATIO_L2 = 0;
   }
 }
