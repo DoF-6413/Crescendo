@@ -4,5 +4,23 @@
 
 package frc.robot.Subsystems.drive;
 
-/** Add your docs here. */
-public class Module {}
+/** This Runs Each Individual Module of a Swerve Drive for all Modes of the Robot */
+public class Module {
+
+  private final ModuleIO io;
+  private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
+
+  public Module(ModuleIO io) {
+    this.io = io;
+  }
+
+  /**
+   * Update inputs without running the rest of the periodic logic. This is useful since these
+   * updates need to be properly thread-locked.
+   */
+  public void updateInputs() {
+    io.updateInputs(inputs);
+  }
+
+  public void periodic() {}
+}

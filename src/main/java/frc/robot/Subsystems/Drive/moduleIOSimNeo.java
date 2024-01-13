@@ -4,5 +4,11 @@
 
 package frc.robot.Subsystems.drive;
 
-/** Add your docs here. */
-public class ModuleIOSimNeo {}
+/** Runs Simulation for an Individual Swerve Module with both Motors as Neos */
+public class ModuleIOSimNeo implements ModuleIO {
+
+  public ModuleIOSimNeo() {}
+
+  @Override
+  public void updateInputs(ModuleIOInputs inputs) {}
+}

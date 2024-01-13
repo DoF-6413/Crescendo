@@ -4,5 +4,14 @@
 
 package frc.robot.Subsystems.drive;
 
-/** Add your docs here. */
-public class ModuleIOSimNeoKraken {}
+/**
+ * Runs Simulation for an Individual Swerve Module with the Turn Motor as a Neo and the Drive Motor
+ * as a Kraken
+ */
+public class ModuleIOSimNeoKraken implements ModuleIO {
+
+  public ModuleIOSimNeoKraken() {}
+
+  @Override
+  public void updateInputs(ModuleIOInputs inputs) {}
+}

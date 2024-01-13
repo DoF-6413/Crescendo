@@ -4,5 +4,13 @@
 
 package frc.robot.Subsystems.drive;
 
-/** Add your docs here. */
-public class ModuleIO {}
+import org.littletonrobotics.junction.AutoLog;
+
+/** All the Loggable Inputs and Outputs of Each Individual Module */
+public interface ModuleIO {
+  @AutoLog
+  public static class ModuleIOInputs {}
+
+  /** Updates the set of loggable inputs. */
+  public default void updateInputs(ModuleIOInputs inputs) {}
+}
