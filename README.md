@@ -1,5 +1,5 @@
-# 0-To-Swerve
-FRC Team 6413 Degrees of Freedom's Swerve Code from Scratch (No WPILIB Libraries) Each Branch is a Different Programming Member's Code
+# Crescendo
+Code Base for FRC Team 6413's 2024 Crescendo Robot Code
 
 ## Code Ediquiete
 
@@ -16,14 +16,14 @@ FRC Team 6413 Degrees of Freedom's Swerve Code from Scratch (No WPILIB Libraries
   - Log Out of Google
   - Log Out of Github
 
-   organization of the code etiquette
+   Beta Numbers
  - first number = the repository
  - second number = pushes to Dev
  - third number = Issues #
  - fourth = # of commits
  - fifth = functionality (1 is working ,0 is work but not as intented, -1 is crashes ,-2 is doesn't build)
 
-for exemple the first repository that has 2 pushes to Dev , with a issue number of 7 with  18 commits and it works but not as intented should look like    "1.2.7.18.0"
+For Example, the First Repository that has 2 Pushes to Dev, with an issue number of 7, with 18 commits, and it works but not as intented, should look like: "1.2.7.18.0"
 
 ## Branch Organization
 
