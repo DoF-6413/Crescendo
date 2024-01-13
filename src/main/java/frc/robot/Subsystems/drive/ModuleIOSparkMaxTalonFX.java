@@ -5,9 +5,9 @@
 package frc.robot.Subsystems.drive;
 
 /** Runs an Individual Real Module with the Turn Motors as a Neo and Drive Motor as a Krakens */
-public class ModuleIOSparkMax implements ModuleIO {
+public class ModuleIOSparkMaxTalonFX implements ModuleIO {
 
-  public ModuleIOSparkMax() {}
+  public ModuleIOSparkMaxTalonFX() {}
 
   @Override
   public void updateInputs(ModuleIOInputs inputs) {}
