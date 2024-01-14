@@ -18,14 +18,14 @@ public interface GyroIO {
     public double yawPositionRad = 0.0;
     public double anglePositionRad = 0.0;
     public double rate = 0.0;
-    public double rollVelocityRadPerSec = 0.0;
-    public double pitchVelocityRadPerSec = 0.0;
-    public double yawVelocityRadPerSec = 0.0;
-    public double heading = 0.0;
+    public double rollVelocityDegPerSec = 0.0;
+    public double pitchVelocityDegPerSec = 0.0;
+    public double yawVelocityDegPerSec = 0.0;
   }
 
   /** Updates the set of loggable inputs. */
   public default void updateInputs(GyroIOInputs inputs) {}
 
-  public default void updateHeading(){}
+  /** Resets the Heading/ Direction the Robot Considers "Forward" */
+  public default void zeroHeading() {}
 }
