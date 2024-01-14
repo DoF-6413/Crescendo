@@ -11,8 +11,21 @@ import org.littletonrobotics.junction.AutoLog;
 public interface GyroIO {
 
   @AutoLog
-  public static class GyroIOInputs {}
+  public static class GyroIOInputs {
+    public boolean connected = false;
+    public double rollPositionRad = 0.0;
+    public double pitchPositionRad = 0.0;
+    public double yawPositionRad = 0.0;
+    public double anglePositionRad = 0.0;
+    public double rate = 0.0;
+    public double rollVelocityDegPerSec = 0.0;
+    public double pitchVelocityDegPerSec = 0.0;
+    public double yawVelocityDegPerSec = 0.0;
+  }
 
   /** Updates the set of loggable inputs. */
   public default void updateInputs(GyroIOInputs inputs) {}
+
+  /** Resets the Heading/ Direction the Robot Considers "Forward" */
+  public default void zeroHeading() {}
 }
