@@ -13,7 +13,8 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation; 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
 import java.util.Optional;
@@ -71,10 +72,7 @@ public final class Constants {
   }
 
   public class DriveConstants {
-
-    /**
-     * Gives the PID Constant P for the Drive Motors Depending on Whether the Module is an L3 or L2
-     */
+    // Gives the PID Constant P for the Drive Motors depending on whether the Module is an L3 or L2
     public static final double driveKP(boolean isL3) {
       if (isL3) {
         return DRIVE_KP_KRAKEN;
@@ -83,9 +81,7 @@ public final class Constants {
       }
     }
 
-    /**
-     * Gives the PID Constant I for the Drive Motors Depending on Whether the Module is an L3 or L2
-     */
+    // Gives the PID Constant I for the Drive Motors depending on whether the Module is an L3 or L2
     public static final double driveKI(boolean isL3) {
       if (isL3) {
         return DRIVE_KI_KRAKEN;
@@ -94,9 +90,8 @@ public final class Constants {
       }
     }
 
-    /**
-     * Gives the PID Constant I for the Drive Motors Depending on Whether the Module is an L3 or L2
-     */
+    // Gives the PID Constant D for the Drive Motors depending on whether the Module is an L3 or L2
+
     public static final double driveKD(boolean isL3) {
       if (isL3) {
         return DRIVE_KD_KRAKEN;
@@ -105,10 +100,8 @@ public final class Constants {
       }
     }
 
-    /**
-     * Gives the Feed Forward Constant S for the Drive Motors Depending on Whether the Module is an
-     * L3 or L2
-     */
+    // Gives the FeedFoward Constant S for the Drive Motors depending on whether the Module is an L3 or L2
+
     public static final double driveKS(boolean isL3) {
       if (isL3) {
         return DRIVE_KS_KRAKEN;
@@ -117,10 +110,8 @@ public final class Constants {
       }
     }
 
-    /**
-     * Gives the Feed Forward Constant V for the Drive Motors Depending on Whether the Module is an
-     * L3 or L2
-     */
+    // Gives the Feed Forward V for the Drive Motors depending on whether the Module is an L3 or L2
+
     public static final double driveKV(boolean isL3) {
       if (isL3) {
         return DRIVE_KV_KRAKEN;
@@ -129,7 +120,7 @@ public final class Constants {
       }
     }
 
-    /** Gives the Gear Ratio for the Module Depending on Whether the Module is an L3 or L2 */
+    // Gives the Gear Ratio for the Module depending on whether the Module is an L3 or L2
     public static final double gearRatio(boolean isL3) {
       if (isL3) {
         return GEAR_RATIO_L3;
@@ -137,6 +128,12 @@ public final class Constants {
         return GEAR_RATIO_L2;
       }
     }
+
+    // wheel
+    public static final double WHEEL_RADIUS_M = Units.inchesToMeters(1.5); //TODO: verify
+
+    // chassis 
+    public static final double TRACK_WIDTH = Units.inchesToMeters(32.173359); //distance between the centerline of two adjacent wheels, same for x & y bc DT is square
 
     // PID Constants for Neo Drive PID
     public static final double DRIVE_KP_NEO = 0;
@@ -165,5 +162,6 @@ public final class Constants {
     public static final double GEAR_RATIO_L3 = 0;
     // Gear Ratio for MK4I L2
     public static final double GEAR_RATIO_L2 = 0;
+
   }
 }

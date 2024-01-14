@@ -23,7 +23,7 @@ public class Module {
     System.out.println("[Init] Creating Module");
     this.io = io;
     this.index = index;
-
+ 
     drivePID =
         new PIDController(
             DriveConstants.driveKP(io.isL3()),
@@ -34,7 +34,9 @@ public class Module {
         new SimpleMotorFeedforward(
             DriveConstants.driveKS(io.isL3()), DriveConstants.driveKV(io.isL3()));
 
-    steerPID = new PIDController(DriveConstants.STEER_KP_NEO,DriveConstants.STEER_KI_NEO, DriveConstants.STEER_KD_NEO);
+    steerPID =
+        new PIDController(
+            DriveConstants.STEER_KP_NEO, DriveConstants.STEER_KI_NEO, DriveConstants.STEER_KD_NEO);
 
     steerPID.enableContinuousInput(-Math.PI, Math.PI);
   }
