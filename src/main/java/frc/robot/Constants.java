@@ -135,6 +135,8 @@ public final class Constants {
     // chassis 
     public static final double TRACK_WIDTH = Units.inchesToMeters(32.173359); //distance between the centerline of two adjacent wheels, same for x & y bc DT is square
 
+    // linear 
+
     // PID Constants for Neo Drive PID
     public static final double DRIVE_KP_NEO = 0;
     public static final double DRIVE_KI_NEO = 0;
@@ -163,5 +165,7 @@ public final class Constants {
     // Gear Ratio for MK4I L2
     public static final double GEAR_RATIO_L2 = 0;
 
+    public static final boolean IS_BRAKE_MODE = false;
+    public static boolean IS_CHARACTERIZING = false; //determining drive values
   }
 }

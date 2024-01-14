@@ -4,6 +4,8 @@
 
 package frc.robot.Subsystems.drive;
 
+import java.util.Arrays;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*; //ChassisSpeeds, SwerveDriveKinematics, SwerveModuleStates
 import edu.wpi.first.wpilibj.*; //Timer
@@ -36,12 +38,46 @@ public class Drive extends SubsystemBase {
     modules[1] = new Module(FRModuleIO, 1);
     modules[2] = new Module(BLModuleIO, 2);
     modules[3] = new Module(BRModuleIO, 3);
+    lastMovementTimer.start(); //start timer
+    for (var module : modules) { 
+      module.setBrakeMode(true); //set brake mode to be true by default
+    }
   }
 
   @Override
   public void periodic() {
+
+    for(int i = 0; i < 4; i++){
+      modules[i].periodic();
+    }
+    
+    if (DriverStation.isDisabled()) {
+      // Stops driving when disabled
+      for (var module : modules) {
+        module.stop();
+      }
+    }
+
+    swerveKinematics = new SwerveDriveKinematics(getModuleTranslations());
+    maxAngularSpeed = DriveConstants.MAX_LINEAR_SPEED
+    / Arrays.stream(getModuleTranslations())
+      .map(translation -> translation.getNorm())
+      .max(Double::compare)
+      .get();
+
+    
+  }
+  
+  public void runVelocity(ChassisSpeeds speeds) { //set velocity
+    DriveConstants.IS_CHARACTERIZING = false; //not really used 
+    setpoint = speeds;
   }
 
+  public void setRaw(double x, double y, double rot) { //
+    runVelocity(
+      ChassisSpeeds.fromFieldRelativeSpeeds(x, y, rot, gyro.getYaw()))
+  }
+  
   public Translation2d[] getModuleTranslations() {
     return new Translation2d[] {
       new Translation2d(DriveConstants.TRACK_WIDTH / 2.0, DriveConstants.TRACK_WIDTH / 2.0),
