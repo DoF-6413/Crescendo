@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.gyro;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
 
 /** This Runs the Gyro for all Modes of the Robot */
 public class Gyro extends SubsystemBase {
@@ -20,5 +21,26 @@ public class Gyro extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+    Logger.processInputs("Gyro", inputs);
+  }
+
+  /**Returns the Roll (Y Axis) in Radians (-pi, pi) */
+  public double getRoll() {
+    return inputs.rollPositionRad;
+  }
+
+  /**Returns the Pitch (X Axis) in Radians (-pi, pi)*/
+  public double getPitch() {
+    return inputs.pitchPositionRad;
+  }
+
+  /**Returns the Yaw (Z Axis) in Radians (-pi, pi)*/
+  public double getYaw() {
+    return inputs.yawPositionRad;
+  }
+
+  /** Resets the Heading to the Direction the Gyro is Facing */
+  public void zeroYaw() {
+    io.zeroHeading();
   }
 }
