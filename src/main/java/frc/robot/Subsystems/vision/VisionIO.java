@@ -15,7 +15,7 @@ public class VisionIO {
     @AutoLog
     public static class VisionIOInputs {
         public PhotonPipelineResult PhotonPipelineResult = new PhotonPipelineResult();
-        public boolean HasTargets = false;
+        public boolean HasTargets = false;                           //checks for targets
         public PhotonTrackedTarget Target = null;
         public int BestFiducialID = 0;
         public Transform3d BestCamToTarget = new Transform3d();

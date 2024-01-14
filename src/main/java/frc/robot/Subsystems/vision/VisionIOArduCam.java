@@ -17,9 +17,9 @@ public class VisionIOArduCam extends VisionIO {
 
     @Override
     public void updateInputs(VisionIOInputs inputs) {
-        inputs.PhotonPipelineResult = camera.getLatestResult();
+        inputs.PhotonPipelineResult = camera.getLatestResult(); //gets latest camera result
         inputs.HasTargets = inputs.PhotonPipelineResult.hasTargets();
-        if (inputs.HasTargets == true) {
+        if (inputs.HasTargets == true) {                        //gets following info if there is a target
             inputs.Target = inputs.PhotonPipelineResult.getBestTarget();
             inputs.BestFiducialID = inputs.Target.getFiducialId();
             inputs.BestCamToTarget = inputs.Target.getBestCameraToTarget();
