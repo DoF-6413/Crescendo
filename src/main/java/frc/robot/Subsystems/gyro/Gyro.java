@@ -24,17 +24,17 @@ public class Gyro extends SubsystemBase {
     Logger.processInputs("Gyro", inputs);
   }
 
-  /**Returns the Roll (Y Axis) in Radians (-pi, pi) */
+  /** Returns the Roll (Y Axis) in Radians (-pi, pi) */
   public double getRoll() {
     return inputs.rollPositionRad;
   }
 
-  /**Returns the Pitch (X Axis) in Radians (-pi, pi)*/
+  /** Returns the Pitch (X Axis) in Radians (-pi, pi) */
   public double getPitch() {
     return inputs.pitchPositionRad;
   }
 
-  /**Returns the Yaw (Z Axis) in Radians (-pi, pi)*/
+  /** Returns the Yaw (Z Axis) in Radians (-pi, pi) */
   public double getYaw() {
     return inputs.yawPositionRad;
   }

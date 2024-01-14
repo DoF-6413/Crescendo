@@ -14,7 +14,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation; 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
 import java.util.Optional;
@@ -100,7 +100,8 @@ public final class Constants {
       }
     }
 
-    // Gives the FeedFoward Constant S for the Drive Motors depending on whether the Module is an L3 or L2
+    // Gives the FeedFoward Constant S for the Drive Motors depending on whether the Module is an L3
+    // or L2
 
     public static final double driveKS(boolean isL3) {
       if (isL3) {
@@ -130,12 +131,15 @@ public final class Constants {
     }
 
     // wheel
-    public static final double WHEEL_RADIUS_M = Units.inchesToMeters(1.5); //TODO: verify
+    public static final double WHEEL_RADIUS_M = Units.inchesToMeters(1.5); // TODO: verify
 
-    // chassis 
-    public static final double TRACK_WIDTH = Units.inchesToMeters(32.173359); //distance between the centerline of two adjacent wheels, same for x & y bc DT is square
+    // chassis
+    public static final double TRACK_WIDTH =
+        Units.inchesToMeters(
+            32.173359); // distance between the centerline of two adjacent wheels, same for x & y bc
+    // DT is square
 
-    // linear 
+    // linear
 
     // PID Constants for Neo Drive PID
     public static final double DRIVE_KP_NEO = 0;
@@ -166,6 +170,6 @@ public final class Constants {
     public static final double GEAR_RATIO_L2 = 0;
 
     public static final boolean IS_BRAKE_MODE = false;
-    public static boolean IS_CHARACTERIZING = false; //determining drive values
+    public static boolean IS_CHARACTERIZING = false; // determining drive values
   }
 }

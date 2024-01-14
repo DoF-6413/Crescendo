@@ -6,7 +6,6 @@ package frc.robot.Subsystems.drive;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.robot.Constants.DriveConstants;
 
 /** This Runs Each Individual Module of a Swerve Drive for all Modes of the Robot */
@@ -24,7 +23,7 @@ public class Module {
     System.out.println("[Init] Creating Module");
     this.io = io;
     this.index = index;
- 
+
     drivePID =
         new PIDController(
             DriveConstants.driveKP(io.isL3()),
@@ -55,8 +54,7 @@ public class Module {
     io.setTurnVoltage(0.0);
   }
 
-  public void setBrakeMode() {
-    
-  }
+  public void setBrakeMode(boolean Brake) {}
+
   public void periodic() {}
 }
