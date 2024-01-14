@@ -69,7 +69,7 @@ public class Drive extends SubsystemBase {
         DriveConstants.MAX_LINEAR_SPEED
             / Arrays.stream(getModuleTranslations())
                 .map(translation -> translation.getNorm())
-                .max(Double::compare) //
+                .max(Double::compare)
                 .get();
 
     Logger.getInstance().recordOutput("SwerveStates/Setpoints", new double[] {});
