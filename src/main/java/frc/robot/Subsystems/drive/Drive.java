@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.*; // Timer
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Subsystems.gyro.Gyro;
-import java.util.Arrays;
 import org.littletonrobotics.junction.Logger; // Logger
 
 /** This Runs the full Swerve (All Modules) for all Modes of the Robot */
@@ -23,13 +22,13 @@ public class Drive extends SubsystemBase {
   private double maxAngularSpeed;
 
   // swerve kinematics library
-  public SwerveDriveKinematics swerveKinematics =
-      new SwerveDriveKinematics(getModuleTranslations());
+  public SwerveDriveKinematics swerveKinematics;
 
   // chassis & swerve modules
   private ChassisSpeeds setpoint = new ChassisSpeeds();
   private SwerveModuleState[] lastSetpointStates = new SwerveModuleState[4];
 
+  /** Measures Movement Time to Determine Brake Mode or Coast Mode */
   private Timer lastMovementTimer = new Timer();
 
   public Drive(
@@ -43,9 +42,11 @@ public class Drive extends SubsystemBase {
     modules[1] = new Module(FRModuleIO, 1);
     modules[2] = new Module(BLModuleIO, 2);
     modules[3] = new Module(BRModuleIO, 3);
+
     lastMovementTimer.start(); // start timer
+
     for (var module : modules) {
-      module.setBrakeMode(true); // set brake mode to be true by default
+      module.setBrakeModeAll(true); // set brake mode to be true by default
     }
     this.gyro = gyro;
   }
@@ -64,41 +65,21 @@ public class Drive extends SubsystemBase {
       }
     }
 
-    swerveKinematics = new SwerveDriveKinematics(getModuleTranslations());
-    maxAngularSpeed =
-        DriveConstants.MAX_LINEAR_SPEED
-            / Arrays.stream(getModuleTranslations())
-                .map(translation -> translation.getNorm())
-                .max(Double::compare)
-                .get();
+    swerveKinematics = new SwerveDriveKinematics(DriveConstants.getModuleTranslations());
 
-    Logger.getInstance().recordOutput("SwerveStates/Setpoints", new double[] {});
-    Logger.getInstance().recordOutput("SwerveStates/SetpointsOptimized", new double[] {});
+    Logger.recordOutput("SwerveStates/Setpoints", new double[] {});
+    Logger.recordOutput("SwerveStates/SetpointsOptimized", new double[] {});
   }
 
+  /**
+   * Sets the Velocity of the Swerve Drive through Passing in a ChassisSpeeds (Can be Field Relative
+   * OR Robot Orientated)
+   */
   public void runVelocity(ChassisSpeeds speeds) { // set velocity
-    DriveConstants.IS_CHARACTERIZING = false; // not really used
     setpoint = speeds;
   }
 
   public void setRaw(double x, double y, double rot) { // runs velocity from
     runVelocity(ChassisSpeeds.fromFieldRelativeSpeeds(x, y, rot, new Rotation2d(gyro.getYaw())));
-  }
-
-  public double getMaxLinearSpeed() {
-    return DriveConstants.MAX_LINEAR_SPEED;
-  }
-
-  public double getMaxAngularSpeed() {
-    return DriveConstants.MAX_ANGULAR_SPEED;
-  }
-
-  public Translation2d[] getModuleTranslations() {
-    return new Translation2d[] {
-      new Translation2d(DriveConstants.TRACK_WIDTH / 2.0, DriveConstants.TRACK_WIDTH / 2.0),
-      new Translation2d(DriveConstants.TRACK_WIDTH / 2.0, -DriveConstants.TRACK_WIDTH / 2.0),
-      new Translation2d(-DriveConstants.TRACK_WIDTH / 2.0, DriveConstants.TRACK_WIDTH / 2.0),
-      new Translation2d(-DriveConstants.TRACK_WIDTH / 2.0, -DriveConstants.TRACK_WIDTH / 2.0)
-    };
   }
 }

@@ -49,12 +49,47 @@ public class Module {
     io.updateInputs(inputs);
   }
 
+  /** Stops the Robot */
   public void stop() {
     io.setDriveVoltage(0.0);
     io.setTurnVoltage(0.0);
   }
 
-  public void setBrakeMode(boolean Brake) {}
+  /** Manually Sets Voltage of the Drive Motor in Individual Module (Max is 12 Volts) */
+  public void setDriveVoltage(double volts) {
+    io.setDriveVoltage(volts);
+  }
 
+  /** Manually Sets Voltage of the Turn Motor in Individual Module (Max is 12 Volts) */
+  public void seTurnVoltage(double volts) {
+    io.setTurnVoltage(volts);
+  }
+
+  /**
+   * Manually Sets the Percent Speed of the Drive Motor in Individual Module (On a -1 to 1 Scale. 1
+   * representing 100)
+   */
+  public void setDrivePercentSpeed(double percent) {
+    io.setDriveVoltage(percent * 12);
+  }
+
+  /**
+   * Manually Sets the Percent Speed of the Turn Motor in Individual Module (On a -1 to 1 Scale. 1
+   * representing 100)
+   */
+  public void setPercentSpeed(double percent) {
+    io.setTurnVoltage(percent * 12);
+  }
+
+  /** Sets Breake Mode for Turn and Drive Motors */
+  public void setBrakeModeAll(boolean enable) {
+    io.setDriveBrakeMode(enable);
+    io.setTurnBrakeMode(enable);
+  }
+
+  /**
+   * Put Values that Should Be Called Periodically for EACH individual Module Here. Module.periodic
+   * NEEDS to be in Drive periodic OR it wont run
+   */
   public void periodic() {}
 }
