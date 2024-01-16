@@ -19,6 +19,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Subsystems.drive.Drive;
+import frc.robot.Subsystems.drive.ModuleIO;
+import frc.robot.Subsystems.drive.ModuleIOSimNeo;
+import frc.robot.Subsystems.drive.ModuleIOSparkMax;
+import frc.robot.Subsystems.gyro.Gyro;
+import frc.robot.Subsystems.gyro.GyroIO;
+import frc.robot.Subsystems.gyro.GyroIONavX;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,7 +35,8 @@ import frc.robot.Constants.RobotStateConstants;
  */
 public class RobotContainer {
   // Subsystems
-
+  private final Gyro m_gyroSubsystem;
+  private final Drive m_driveSubsystem;
   // Controllers
   private final CommandXboxController controller =
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
@@ -38,14 +46,38 @@ public class RobotContainer {
     switch (RobotStateConstants.getMode()) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
+        m_gyroSubsystem = new Gyro(new GyroIONavX());
+        m_driveSubsystem =
+            new Drive(
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
+                m_gyroSubsystem);
         break;
 
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
+        m_gyroSubsystem = new Gyro(new GyroIO() {});
+        m_driveSubsystem =
+            new Drive(
+                new ModuleIOSimNeo(),
+                new ModuleIOSimNeo(),
+                new ModuleIOSimNeo(),
+                new ModuleIOSimNeo(),
+                m_gyroSubsystem);
         break;
 
       default:
         // Replayed robot, disable IO implementations
+        m_gyroSubsystem = new Gyro(new GyroIO() {});
+        m_driveSubsystem =
+            new Drive(
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                m_gyroSubsystem);
         break;
     }
 

@@ -23,14 +23,16 @@ public class ModuleIOSimNeo implements ModuleIO {
 
   public ModuleIOSimNeo() {
     System.out.println("[Init] Creating ModuleIOSimNeo");
-    driveSim = new FlywheelSim(
-        DCMotor.getNEO(1),
-        DriveConstants.GEAR_RATIO_L2,
-        DriveConstants.DRIVE_J_KG_METERS_SQUARED);
-    turnSim = new FlywheelSim(
-        DCMotor.getNEO(1),
-        DriveConstants.GEAR_RATIO_L2,
-        DriveConstants.STEER_J_KG_METERS_SQUARED);
+    driveSim =
+        new FlywheelSim(
+            DCMotor.getNEO(1),
+            DriveConstants.GEAR_RATIO_L2,
+            DriveConstants.DRIVE_J_KG_METERS_SQUARED);
+    turnSim =
+        new FlywheelSim(
+            DCMotor.getNEO(1),
+            DriveConstants.GEAR_RATIO_L2,
+            DriveConstants.STEER_J_KG_METERS_SQUARED);
   }
 
   @Override
@@ -47,7 +49,8 @@ public class ModuleIOSimNeo implements ModuleIO {
      * If the Absolute Position is over the distance of a circle or under the
      * distance of a circle add/subtract 2pi to become within a circle
      */
-    double angleDiffRad = turnSim.getAngularVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
+    double angleDiffRad =
+        turnSim.getAngularVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
     turnRelativePositionRad += angleDiffRad;
     turnAbsolutePositionRad += angleDiffRad;
     while (turnAbsolutePositionRad < 0) {
@@ -59,19 +62,20 @@ public class ModuleIOSimNeo implements ModuleIO {
 
     // Drive Position Rad caclulated from Velocity Rads/s multiplied by seconds to
     // leave with Radians
-    inputs.drivePositionRad = inputs.drivePositionRad
-        + (driveSim.getAngularVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC);
+    inputs.drivePositionRad =
+        inputs.drivePositionRad
+            + (driveSim.getAngularVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC);
     inputs.driveVelocityRadPerSec = driveSim.getAngularVelocityRadPerSec();
     inputs.driveAppliedVolts = driveAppliedVolts;
     // Math.abs = absolute value, sim sometimes makes amps directional
-    inputs.driveCurrentAmps = new double[] { Math.abs(driveSim.getCurrentDrawAmps()) };
+    inputs.driveCurrentAmps = new double[] {Math.abs(driveSim.getCurrentDrawAmps())};
     inputs.driveTempCelcius = new double[] {};
 
     inputs.turnAbsolutePositionRad = turnAbsolutePositionRad;
     inputs.turnPositionRad = turnRelativePositionRad;
     inputs.turnVelocityRadPerSec = turnSim.getAngularVelocityRadPerSec();
     inputs.turnAppliedVolts = turnAppliedVolts;
-    inputs.turnCurrentAmps = new double[] { Math.abs(turnSim.getCurrentDrawAmps()) };
+    inputs.turnCurrentAmps = new double[] {Math.abs(turnSim.getCurrentDrawAmps())};
     inputs.turnTempCelcius = new double[] {};
   }
 
