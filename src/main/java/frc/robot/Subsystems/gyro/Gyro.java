@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystems.gyro;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -25,18 +26,22 @@ public class Gyro extends SubsystemBase {
   }
 
   /** Returns the Roll (Y Axis) in Radians (-pi, pi) */
-  public double getRoll() {
+  public Rotation2d getRoll() {
     return inputs.rollPositionRad;
   }
 
   /** Returns the Pitch (X Axis) in Radians (-pi, pi) */
-  public double getPitch() {
+  public Rotation2d getPitch() {
     return inputs.pitchPositionRad;
   }
 
   /** Returns the Yaw (Z Axis) in Radians (-pi, pi) */
-  public double getYaw() {
+  public Rotation2d getYaw() {
     return inputs.yawPositionRad;
+  }
+
+  public Rotation2d getAngle() {
+    return inputs.anglePositionRad;
   }
 
   /** Resets the Heading to the Direction the Gyro is Facing */

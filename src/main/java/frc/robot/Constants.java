@@ -60,7 +60,7 @@ public final class Constants {
     }
 
     /** If CAN takes too long, it cancels */
-    public static final int CAN_CONFIG_TIMEOUT = 500;
+    public static final int CAN_CONFIG_TIMEOUT_SEC = 500;
 
     /** Command Loop Seconds */
     public static final double LOOP_PERIODIC_SEC = 0.02;
@@ -140,26 +140,26 @@ public final class Constants {
     }
 
     /** Wheel Radius in Meters */
-    public static final double WHEEL_RADIUS_M = Units.inchesToMeters(1.5); // TODO: verify
+    public static final double WHEEL_RADIUS_M = Units.inchesToMeters(2);
 
     /**
      * Chassis Length and Width (distance between the centerline of two adjacent wheels, same for x
      * & y bc DT is square)
      */
-    public static final double TRACK_WIDTH = Units.inchesToMeters(32.173359);
+    public static final double TRACK_WIDTH_IN = Units.inchesToMeters(32.173359);
 
     /** Max Speed the Robot Can Travel in One Linear Direction (m/s) */
-    public static final double MAX_LINEAR_SPEED = 0; // TODO: Update
+    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 0; // TODO: Update
 
     /**
      * Max Speed the Robot Can Rotate (rads/s) Angular Speed can be Calulated by Dividing Max Linear
      * Speed by Radius of the Circle an Object is Moving Around (v/r = w) The Radius of the Swerve
      * Drive is Equivelant to Half of the Distance of one Corner to the Other Corner This Can be
      * Calculated by Using Pythagoreans Theorem on Two of the Sides of the Robot and taking Half of
-     * the Hypotenues
+     * the Hypotenuses
      */
-    public static final double MAX_ANGULAR_SPEED =
-        MAX_LINEAR_SPEED / (Math.sqrt(2 * (TRACK_WIDTH * TRACK_WIDTH)) / 2);
+    public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC =
+        MAX_LINEAR_SPEED_M_PER_SEC / (Math.sqrt(2 * (TRACK_WIDTH_IN * TRACK_WIDTH_IN)) / 2);
 
     // PID Constants for Neo Drive PID
     public static final double DRIVE_KP_NEO = 0; // TODO: Update
@@ -197,10 +197,13 @@ public final class Constants {
 
     public static final Translation2d[] getModuleTranslations() {
       return new Translation2d[] {
-        new Translation2d(DriveConstants.TRACK_WIDTH / 2.0, DriveConstants.TRACK_WIDTH / 2.0),
-        new Translation2d(DriveConstants.TRACK_WIDTH / 2.0, -DriveConstants.TRACK_WIDTH / 2.0),
-        new Translation2d(-DriveConstants.TRACK_WIDTH / 2.0, DriveConstants.TRACK_WIDTH / 2.0),
-        new Translation2d(-DriveConstants.TRACK_WIDTH / 2.0, -DriveConstants.TRACK_WIDTH / 2.0)
+        new Translation2d(DriveConstants.TRACK_WIDTH_IN / 2.0, DriveConstants.TRACK_WIDTH_IN / 2.0),
+        new Translation2d(
+            DriveConstants.TRACK_WIDTH_IN / 2.0, -DriveConstants.TRACK_WIDTH_IN / 2.0),
+        new Translation2d(
+            -DriveConstants.TRACK_WIDTH_IN / 2.0, DriveConstants.TRACK_WIDTH_IN / 2.0),
+        new Translation2d(
+            -DriveConstants.TRACK_WIDTH_IN / 2.0, -DriveConstants.TRACK_WIDTH_IN / 2.0)
       };
     }
   }
