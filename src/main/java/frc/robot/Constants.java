@@ -189,7 +189,6 @@ public final class Constants {
 
     /** Gear Ratio for MK4I L3 */
     public static final double GEAR_RATIO_L3 = 6.12;
-
     /** Gear Ratio for MK4I L2 */
     public static final double GEAR_RATIO_L2 = 6.75;
 
