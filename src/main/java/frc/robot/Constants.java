@@ -159,7 +159,7 @@ public final class Constants {
      * the Hypotenuses
      */
     public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC =
-        MAX_LINEAR_SPEED_M_PER_SEC / (Math.sqrt(2 * (TRACK_WIDTH_IN * TRACK_WIDTH_IN)) / 2);
+        MAX_LINEAR_SPEED_M_PER_SEC / (Math.sqrt(2 * (TRACK_WIDTH_M * TRACK_WIDTH_M)) / 2);
 
     // PID Constants for Neo Drive PID
     public static final double DRIVE_KP_NEO = 0; // TODO: Update
@@ -197,13 +197,13 @@ public final class Constants {
 
     public static final Translation2d[] getModuleTranslations() {
       return new Translation2d[] {
-        new Translation2d(DriveConstants.TRACK_WIDTH_IN / 2.0, DriveConstants.TRACK_WIDTH_IN / 2.0),
+        new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
         new Translation2d(
-            DriveConstants.TRACK_WIDTH_IN / 2.0, -DriveConstants.TRACK_WIDTH_IN / 2.0),
+            DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0),
         new Translation2d(
-            -DriveConstants.TRACK_WIDTH_IN / 2.0, DriveConstants.TRACK_WIDTH_IN / 2.0),
+            -DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
         new Translation2d(
-            -DriveConstants.TRACK_WIDTH_IN / 2.0, -DriveConstants.TRACK_WIDTH_IN / 2.0)
+            -DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
       };
     }
   }
