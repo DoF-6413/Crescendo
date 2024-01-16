@@ -146,7 +146,7 @@ public final class Constants {
      * Chassis Length and Width (distance between the centerline of two adjacent wheels, same for x
      * & y bc DT is square)
      */
-    public static final double TRACK_WIDTH_IN = Units.inchesToMeters(32.173359);
+    public static final double TRACK_WIDTH_M = Units.inchesToMeters(32.173359);
 
     /** Max Speed the Robot Can Travel in One Linear Direction (m/s) */
     public static final double MAX_LINEAR_SPEED_M_PER_SEC = 0; // TODO: Update
