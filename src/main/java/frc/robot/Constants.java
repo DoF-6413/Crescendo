@@ -185,25 +185,26 @@ public final class Constants {
     public static final double STEER_KD_NEO = 0; // TODO: Update
 
     /** Gear Ratio for MK4I L3 */
-    public static final double GEAR_RATIO_L3 = 0; // TODO: Update
+    public static final double GEAR_RATIO_L3 = 6.12;
 
     /** Gear Ratio for MK4I L2 */
-    public static final double GEAR_RATIO_L2 = 0; // TODO: Update
+    public static final double GEAR_RATIO_L2 = 6.75;
 
     public static final boolean IS_BRAKE_MODE = true;
 
     /** Used in Robot Characterization Tool to Help Determine Drive Values like PID */
     public static final boolean IS_CHARACTERIZING = false;
 
+    public static final double DRIVE_J_KG_METERS_SQUARED = 0.0003125;
+
+    public static final double STEER_J_KG_METERS_SQUARED = 0.0003125; // TODO: Update
+
     public static final Translation2d[] getModuleTranslations() {
       return new Translation2d[] {
         new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
-        new Translation2d(
-            DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0),
-        new Translation2d(
-            -DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
-        new Translation2d(
-            -DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
+        new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
       };
     }
   }
