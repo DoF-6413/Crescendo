@@ -44,7 +44,7 @@ public final class Constants {
     }
 
     /** Gets Robot Mode (Real, Sim, or Replay) */
-    public static final Mode getMode() {
+    public static Mode getMode() {
       if (RobotBase.isReal()) {
         return Mode.REAL;
       } else if (RobotBase.isSimulation()) {
