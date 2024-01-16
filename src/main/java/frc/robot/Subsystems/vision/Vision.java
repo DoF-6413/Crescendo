@@ -11,58 +11,58 @@ import org.photonvision.targeting.PhotonPipelineResult;
 /** Add your docs here. */
 public class Vision extends SubsystemBase {
 
-    private final VisionIOInputsAutoLogged inputs = new VisionIOInputsAutoLogged();
-    private final VisionIO VisionIO;
+  private final VisionIOInputsAutoLogged inputs = new VisionIOInputsAutoLogged();
+  private final VisionIO VisionIO;
 
-    public Vision(VisionIO io) {
-        VisionIO = io;
-    }
+  public Vision(VisionIO io) {
+    VisionIO = io;
+  }
 
-    public void periodic() {
-        VisionIO.updateInputs(inputs);
-        Logger.processInputs("Vision", inputs);
-    }
+  public void periodic() {
+    VisionIO.updateInputs(inputs);
+    Logger.processInputs("Vision", inputs);
+  }
 
-    public PhotonPipelineResult getResult() {
+  public PhotonPipelineResult getResult() {
 
-        return inputs.PhotonPipelineResult;
-    }
+    return inputs.PhotonPipelineResult;
+  }
 
-    public double getTargetX() {
+  public double getTargetX() {
 
-        return inputs.TargetX;
-    }
+    return inputs.TargetX;
+  }
 
-    public double getTargetY() {
+  public double getTargetY() {
 
-        return inputs.TargetY;
-    }
+    return inputs.TargetY;
+  }
 
-    public double getTargetZ() {
+  public double getTargetZ() {
 
-        return inputs.TargetZ;
-    }
+    return inputs.TargetZ;
+  }
 
-    public double getTargetPitch() {
+  public double getTargetPitch() {
 
-        return inputs.TargetX;
-    }
+    return inputs.TargetX;
+  }
 
-    public double getTargetYaw() {
+  public double getTargetYaw() {
 
-        return inputs.TargetX;
-    }
+    return inputs.TargetX;
+  }
 
-    public double getTargetArea() {
+  public double getTargetArea() {
 
-        return inputs.TargetArea;
-    }
+    return inputs.TargetArea;
+  }
 
-    public boolean hasTargets() {
-        return inputs.HasTargets;
-    }
+  public boolean hasTargets() {
+    return inputs.HasTargets;
+  }
 
-    public int getBestFiducialID() {
-        return inputs.BestFiducialID;
-    }
+  public int getBestFiducialID() {
+    return inputs.BestFiducialID;
+  }
 }
