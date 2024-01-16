@@ -120,7 +120,7 @@ public class ModuleIOSparkMax implements ModuleIO {
     inputs.driveAppliedVolts = driveSparkMax.getAppliedOutput() * driveSparkMax.getBusVoltage();
 
     inputs.driveCurrentAmps = new double[] {driveSparkMax.getOutputCurrent()};
-    inputs.driveTempCelcius = new double[] {driveSparkMax.getMotorTemperature()};
+    inputs.driveTempCelsius = new double[] {driveSparkMax.getMotorTemperature()};
 
     inputs.turnAbsolutePositionRad =
         MathUtil.angleModulus(
@@ -142,7 +142,7 @@ public class ModuleIOSparkMax implements ModuleIO {
 
     inputs.turnAppliedVolts = turnSparkMax.getAppliedOutput() * turnSparkMax.getBusVoltage();
     inputs.turnCurrentAmps = new double[] {turnSparkMax.getOutputCurrent()};
-    inputs.turnTempCelcius = new double[] {turnSparkMax.getMotorTemperature()};
+    inputs.turnTempCelsius = new double[] {turnSparkMax.getMotorTemperature()};
   }
 
   // sets voltage output of drive sparkmaxes
