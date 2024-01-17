@@ -94,6 +94,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    // A default command always runs unless another command is called
     m_driveSubsystem.setDefaultCommand(
         new InstantCommand(
             () ->

@@ -25,11 +25,14 @@ public class ModuleIOSimNeoKraken implements ModuleIO {
 
   public ModuleIOSimNeoKraken() {
     System.out.println("[Init] Creating ModuleIOSimNeoKraken");
+    // Builds Drive Wheel for the Kraken Motor in the L3 Module
     driveSim =
         new FlywheelSim(
             DCMotor.getKrakenX60(1),
             DriveConstants.GEAR_RATIO_L3,
             DriveConstants.DRIVE_J_KG_METERS_SQUARED);
+
+    // Builds Turn Wheel for the Neo Motor in the L3 Module
     turnSim =
         new FlywheelSim(
             DCMotor.getNEO(1),

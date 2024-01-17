@@ -23,11 +23,14 @@ public class ModuleIOSimNeo implements ModuleIO {
 
   public ModuleIOSimNeo() {
     System.out.println("[Init] Creating ModuleIOSimNeo");
+    // Builds Drive Wheel for the Neo Motor in the L2 Module
     driveSim =
         new FlywheelSim(
             DCMotor.getNEO(1),
             DriveConstants.GEAR_RATIO_L2,
             DriveConstants.DRIVE_J_KG_METERS_SQUARED);
+
+    // Builds Turn Wheel for the Neo Motor in the L2 Module
     turnSim =
         new FlywheelSim(
             DCMotor.getNEO(1),
