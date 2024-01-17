@@ -9,7 +9,7 @@ import org.photonvision.PhotonCamera;
 /** Add your docs here. */
 public class VisionIOArduCam extends VisionIO {
   private static PhotonCamera camera =
-      new PhotonCamera("Arducam_IMX298_Camera_2_Top"); // TO-DO: update camera names
+      new PhotonCamera("Arducam_IMX298_Camera_2_Top"); // TODO: update camera names
   // (front & back)
 
   public VisionIOArduCam() {}
