@@ -1,7 +1,6 @@
 package frc.robot.Subsystems.utbintake;
 
 import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 /** All the Loggable Inputs and Outputs of the UTB Intake */
 public interface UTBIntakeIO {
