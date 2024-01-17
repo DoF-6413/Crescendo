@@ -206,6 +206,47 @@ public final class Constants {
         new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
       };
     }
+
+    public enum DRIVE_MOTOR {
+      FRONT_RIGHT(4),
+      FRONT_LEFT(7),
+      BACK_LEFT(10),
+      BACK_RIGHT(13);
+
+      public final int CAN_ID;
+
+      
+
+      DRIVE_MOTOR(int value) {
+        CAN_ID = value;
+      }
+
+    }
+
+    public enum TURN_MOTOR {
+      FRONT_RIGHT(3),
+      FRONT_LEFT(6),
+      BACK_LEFT(9),
+      BACK_RIGHT(12);
+
+      public final int CAN_ID;
+
+      TURN_MOTOR(int value) {
+        CAN_ID = value;
+      }
+    }
+
+    public static enum ABSOLUTE_ENCODER {
+      FRONT_RIGHT(2),
+      FRONT_LEFT(5),
+      BACK_LEFT(8),
+      BACK_RIGHT(11);
+
+      public final int ENCODER_ID;
+      ABSOLUTE_ENCODER(int ID){
+       ENCODER_ID = ID;
+      }
+    }
   }
 
   public static class ShooterConstants {
