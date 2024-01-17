@@ -7,13 +7,11 @@ package frc.robot.Subsystems.shooter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
-public class Shooter extends SubsystemBase{
-    public Shooter(ShooterIO ShooterIO){
-        System.out.println("[Init] Creating Shooter");
-    }
+public class Shooter extends SubsystemBase {
+  public Shooter(ShooterIO ShooterIO) {
+    System.out.println("[Init] Creating Shooter");
+  }
 
-    @Override
-    public void periodic(){
-        
-    }
+  @Override
+  public void periodic() {}
 }

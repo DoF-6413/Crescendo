@@ -8,19 +8,28 @@ import org.littletonrobotics.junction.AutoLog;
 
 /** All the Loggable Inputs and Outputs of All Shooter Modes */
 public interface ShooterIO {
-    @AutoLog
-    public static class ShooterIOInputs{
+  @AutoLog
+  public static class ShooterIOInputs {
+    // All the Inputs for the Left Shooter Motor (Should be nearly identical to the Right Shooter
+    // Motor)
+    public double leftShooterMotorRPM = 0.0;
+    public double leftShooterAppliedVolts = 0.0;
+    public double[] leftShooterCurrentAmps = new double[] {};
+    public double[] leftShooterTempCelcius = new double[] {};
 
-    }
-    /** Updates the set of loggable inputs. */
+    // All the Inputs for the Right Shooter Motor (Should be nearly identical to the Left Shooter
+    // Motor)
+    public double rightShooterMotorRPM = 0.0;
+    public double rightShooterAppliedVolts = 0.0;
+    public double[] rightShooterCurrentAmps = new double[] {};
+    public double[] rightShooterTempCelcius = new double[] {};
+  }
+  /** Updates the set of loggable inputs. */
   public default void updateInputs(ShooterIOInputs inputs) {}
 
-  /**Sets Left Shooter Motor at the specified Voltage */
-  public default void setLeftShooterMotorVoltage(double volts){}
+  /** Sets ALL Shooter Motors at the specified Voltage */
+  public default void setShooterMotorsVoltage(double volts) {}
 
-  /**Sets Right Shooter Motor at the specified Voltage */
-  public default void setRigtShooterMotorVoltage(double volts){}
-
-  /**Break Mode for BOTH Shooter Motors */
-  public default void setShooterBreakMode(boolean enable){}
+  /** Break Mode for BOTH Shooter Motors */
+  public default void setShooterBreakMode(boolean enable) {}
 }
