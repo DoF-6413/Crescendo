@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.RobotStateConstants.Mode;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.gyro.Gyro;
@@ -27,25 +28,33 @@ import org.photonvision.targeting.PhotonPipelineResult;
 
 /** Add your docs here. */
 public class PoseEstimator extends SubsystemBase {
-
+  /**
+  * increase the numbers to trust the model's state estimate less
+  * it is a matrix in form of [x, y, theta] or meters, meters, radians
+  */
   public static Vector<N3> stateStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
-
+  /**
+   * increase the numbers to trust the vision measurements less 
+   * also in form [x, y, theta] or meters, meters, radians
+   */
   public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
 
   private SwerveDrivePoseEstimator poseEstimator;
-  private Field2d field2d;
   private Drive drive;
   private Vision vision;
   private Gyro gyro;
+  private Field2d field2d;
   public PhotonPipelineResult pipelineResult;
   public double resultsTimeStamp;
-  public double lastTimestamp;
+  
+  private double previousPipelineTimestamp = 0;
 
   public PoseEstimator(SwerveDriveKinematics kinematics, Drive drive, Vision vision, Gyro gyro) {
 
     field2d = new Field2d();
     this.drive = drive;
     this.vision = vision;
+    this.gyro = gyro;
 
     poseEstimator =
         new SwerveDrivePoseEstimator(
@@ -64,9 +73,9 @@ public class PoseEstimator extends SubsystemBase {
     pipelineResult = vision.getResult();
     resultsTimeStamp = pipelineResult.getTimestampSeconds();
 
-    if (resultsTimeStamp != lastTimestamp && vision.hasTargets()) {
+    if (resultsTimeStamp != previousPipelineTimestamp && vision.hasTargets()) {
 
-      lastTimestamp = resultsTimeStamp;
+      previousPipelineTimestamp = resultsTimeStamp;
 
       var target = pipelineResult.getBestTarget();
       var fiducialID = target.getFiducialId();
@@ -84,7 +93,7 @@ public class PoseEstimator extends SubsystemBase {
         Transform3d camToTarget = target.getBestCameraToTarget();
         Pose3d camPose = tagPose.transformBy(camToTarget);
 
-        Pose3d visionMeasurement = camPose.transformBy(null); // neet to put offsets
+        Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobotOffsets);
         poseEstimator.addVisionMeasurement(
             visionMeasurement.toPose2d(), Timer.getFPGATimestamp(), visionMeasurementStandardDevs);
       } else {
