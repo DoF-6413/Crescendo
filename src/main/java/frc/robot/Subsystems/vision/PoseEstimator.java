@@ -28,31 +28,30 @@ import org.photonvision.targeting.PhotonPipelineResult;
 /** Add your docs here. */
 public class PoseEstimator extends SubsystemBase {
 
-  public static Vector<N3> StatesStandarDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+  public static Vector<N3> stateStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
 
-  public static Vector<N3> visionMesumentsStandarDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
 
   private SwerveDrivePoseEstimator poseEstimator;
-
   private Field2d field2d;
   private Drive drive;
   private Vision vision;
   private Gyro gyro;
   public PhotonPipelineResult pipelineResult;
   public double resultsTimeStamp;
-  public double lastTimeStamp;
+  public double lastTimestamp;
 
-  public PoseEstimator(SwerveDriveKinematics kinematics, Drive Drive, Vision Vision, Gyro Gyro) {
+  public PoseEstimator(SwerveDriveKinematics kinematics, Drive drive, Vision vision, Gyro gyro) {
 
     field2d = new Field2d();
-    this.drive = Drive;
-    this.vision = Vision;
+    this.drive = drive;
+    this.vision = vision;
 
     poseEstimator =
         new SwerveDrivePoseEstimator(
             kinematics,
-            Gyro.getYaw(),
-            Drive.getSwerveModulePositions(),
+            gyro.getYaw(),
+            drive.getSwerveModulePositions(),
             new Pose2d(new Translation2d(), new Rotation2d()));
   }
 
@@ -65,9 +64,9 @@ public class PoseEstimator extends SubsystemBase {
     pipelineResult = vision.getResult();
     resultsTimeStamp = pipelineResult.getTimestampSeconds();
 
-    if (resultsTimeStamp != lastTimeStamp && vision.hasTargets()) {
+    if (resultsTimeStamp != lastTimestamp && vision.hasTargets()) {
 
-      lastTimeStamp = resultsTimeStamp;
+      lastTimestamp = resultsTimeStamp;
 
       var target = pipelineResult.getBestTarget();
       var fiducialID = target.getFiducialId();
@@ -81,13 +80,13 @@ public class PoseEstimator extends SubsystemBase {
                 AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldLength(),
                 AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldWidth());
 
-        Pose3d TagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
+        Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
         Transform3d camToTarget = target.getBestCameraToTarget();
-        Pose3d camPose = TagPose.transformBy(camToTarget);
+        Pose3d camPose = tagPose.transformBy(camToTarget);
 
         Pose3d visionMeasurement = camPose.transformBy(null); // neet to put offsets
         poseEstimator.addVisionMeasurement(
-            visionMeasurement.toPose2d(), Timer.getFPGATimestamp(), visionMesumentsStandarDevs);
+            visionMeasurement.toPose2d(), Timer.getFPGATimestamp(), visionMeasurementStandardDevs);
       } else {
         System.out.println(
             "best to alternate ratio is less than or equal to 0.2 and no apriltag detected");
