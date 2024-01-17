@@ -31,6 +31,8 @@ import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.shooter.ShooterIOSim;
 import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
 import frc.robot.Subsystems.vision.PoseEstimator;
+import frc.robot.Subsystems.utbintake.UTBIntake;
+import frc.robot.Subsystems.utbintake.UTBIntakeIOSparkMax;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -44,6 +46,7 @@ public class RobotContainer {
   private final Drive m_driveSubsystem;
   private final Shooter m_shooterSubsystem;
   private final PoseEstimator m_poseEstimator;
+  private final UTBIntake m_utbIntake;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -64,6 +67,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
+        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax(), 0);
         break;
 
       case SIM:
@@ -78,6 +82,8 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
+        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax(), 0);
+
         break;
 
       default:
@@ -92,6 +98,8 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
+        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax(), 0);
+
         break;
     }
 
@@ -126,6 +134,7 @@ public class RobotContainer {
             () ->
                 m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() * 0.5),
             m_shooterSubsystem));
+    m_utbIntake.setDefaultCommand(new InstantCommand(()-> m_utbIntake.setUTBIntakePercentSpeed(driverController.getLeftY()), m_utbIntake));
   }
 
   /**
