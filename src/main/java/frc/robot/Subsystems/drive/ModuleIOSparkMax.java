@@ -4,10 +4,12 @@
 
 package frc.robot.Subsystems.drive;
 
+import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.MathUtil;
