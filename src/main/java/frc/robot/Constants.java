@@ -206,6 +206,8 @@ public final class Constants {
       };
     }
 
+    public static final double DRIVE_AFTER_ENCODER_REDUCTION = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0); //TODO: what are these numbers
+
     public enum DRIVE_MOTOR {
       FRONT_RIGHT(4),
       FRONT_LEFT(7),
@@ -214,12 +216,22 @@ public final class Constants {
 
       public final int CAN_ID;
 
-      
-
       DRIVE_MOTOR(int value) {
         CAN_ID = value;
       }
+    }
 
+    //TODO: update values
+    public static enum ABSOLUTE_ENCODER_OFFSET_RAD {
+      FRONT_LEFT(0),  //Module 0
+      FRONT_RIGHT(0),  //Module 1
+      BACK_LEFT(0),  //Module 2
+      BACK_RIGHT(0);   //Module 3
+     
+      public final double offset;
+      ABSOLUTE_ENCODER_OFFSET_RAD(double value){
+        offset = value;
+      }
     }
 
     public enum TURN_MOTOR {
