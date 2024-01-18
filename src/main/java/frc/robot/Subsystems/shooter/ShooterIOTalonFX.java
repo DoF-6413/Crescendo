@@ -16,42 +16,45 @@ import edu.wpi.first.math.util.Units;
  */
 public class ShooterIOTalonFX implements ShooterIO {
 
-    private final TalonFX leftElevatorMotor;
-private final Follower rightElevatorMotor;
+  private final TalonFX leftShooterMotor;
+  // private final Follower rightShooterMotor;
+  private final TalonFX rightShooterMotor;
 
   public ShooterIOTalonFX() {
     System.out.println("[Init] Creating ShooterIOTalonFX");
-    leftElevatorMotor = new TalonFX(0);
-
+    leftShooterMotor = new TalonFX(0);
+    // rightShooterMotor = new Follower(leftShooterMotor.getDeviceID(), true);
+    rightShooterMotor = new TalonFX(1);
+  }
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
-        // All the Inputs for the Left Shooter Motor (Should be nearly identical to the Right Shooter
+    // All the Inputs for the Left Shooter Motor (Should be nearly identical to the Right Shooter
     // Motor)
-    inputs.leftShooterMotorRPM = Units.radiansPerSecondToRotationsPerMinute(leftElevatorMotor.getDifferentialAverageVelocity().getValueAsDouble());
-    inputs.leftShooterAppliedVolts = leftElevatorMotor.getMotorVoltage().getValueAsDouble();
-    inputs.leftShooterCurrentAmps = new double[] {leftElevatorMotor.getStatorCurrent().getValueAsDouble()};
-    inputs.leftShooterTempCelcius = new double[] {leftElevatorMotor.getDeviceTemp().getValueAsDouble()};
+    inputs.leftShooterMotorRPM = Units.radiansPerSecondToRotationsPerMinute(leftShooterMotor.getDifferentialAverageVelocity().getValueAsDouble());
+    inputs.leftShooterAppliedVolts = leftShooterMotor.getMotorVoltage().getValueAsDouble();
+    inputs.leftShooterCurrentAmps = new double[] {leftShooterMotor.getStatorCurrent().getValueAsDouble()};
+    inputs.leftShooterTempCelcius = new double[] {leftShooterMotor.getDeviceTemp().getValueAsDouble()};
 
     // All the Inputs for the Right Shooter Motor (Should be nearly identical to the Left Shooter
     // Motor)
-    inputs.rightShooterMotorRPM = Units.radiansPerSecondToRotationsPerMinute(rightElevatorMotor.getDifferentialAverageVelocity().getValueAsDouble());
-    inputs.rightShooterAppliedVolts = rightElevatorMotor.getMotorVoltage().getValueAsDouble();
-    inputs.rightShooterCurrentAmps = new double[] {rightElevatorMotor.getStatorCurrent().getValueAsDouble()};
-    inputs.rightShooterTempCelcius = new double[] {rightElevatorMotor.getDeviceTemp().getValueAsDouble()};
+    inputs.rightShooterMotorRPM = Units.radiansPerSecondToRotationsPerMinute(rightShooterMotor.getDifferentialAverageVelocity().getValueAsDouble());
+    inputs.rightShooterAppliedVolts = rightShooterMotor.getMotorVoltage().getValueAsDouble();
+    inputs.rightShooterCurrentAmps = new double[] {rightShooterMotor.getStatorCurrent().getValueAsDouble()};
+    inputs.rightShooterTempCelcius = new double[] {rightShooterMotor.getDeviceTemp().getValueAsDouble()};
   }
 
     @Override
     public void setShooterMotorsVoltage(double volts) {
-        leftElevatorMotor.setVoltage(volts);
+        leftShooterMotor.setVoltage(volts);
     }
 
   
     @Override
     public void setShooterBreakMode(boolean enable) {
         if(enable){
-        leftElevatorMotor.setNeutralMode(NeutralModeValue.Brake);
+        leftShooterMotor.setNeutralMode(NeutralModeValue.Brake);
         }else{
-        rightElevatorMotor.setNeutralMode(NeutralModeValue.Brake);
+        rightShooterMotor.setNeutralMode(NeutralModeValue.Brake);
         }
     }
 }
