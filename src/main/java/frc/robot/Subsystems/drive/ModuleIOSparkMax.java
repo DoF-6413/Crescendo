@@ -4,26 +4,22 @@
 
 package frc.robot.Subsystems.drive;
 
-import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.hardware.Pigeon2;
-import com.ctre.phoenix6.hardware.core.CoreCANcoder;
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.CANSensor;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkMaxAbsoluteEncoder;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.DriveConstants.ABSOLUTE_ENCODER_OFFSET_RAD;
+import frc.robot.Constants.DriveConstants.DRIVE_MOTOR;
+import frc.robot.Constants.DriveConstants.TURN_MOTOR;
 import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Constants.DriveConstants.*;
 
 /** Runs an Individual Real Module with all Motors as Neos */
 public class ModuleIOSparkMax implements ModuleIO {
@@ -74,12 +70,17 @@ public class ModuleIOSparkMax implements ModuleIO {
     driveSparkMax.burnFlash();
     turnSparkMax.burnFlash();
 
+    //set can timeouts from constants
     driveSparkMax.setCANTimeout(RobotStateConstants.CAN_CONFIG_TIMEOUT_SEC);
     turnSparkMax.setCANTimeout(RobotStateConstants.CAN_CONFIG_TIMEOUT_SEC);
-
+    
+    //set drive encoders to match the sparkmax motor controllers
     driveEncoder = driveSparkMax.getEncoder();
     turnRelativeEncoder = turnSparkMax.getEncoder();
 
+    /** instead of CANCoder (getAbsolutePosition method doesnt work anymore), turnAbsoluteEncoder is now an AbsoluteEncoder object
+    which requires a SparkMax Type parameter, currently the only type is "kDutyCycle" though*/
+    //Duty cycle is the ratio of time a load or circuit is ON compared to the time the load or circuit is OFF, expressed as a percentage of ON time
     turnAbsoluteEncoder = turnSparkMax.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
     /** For each drive motor, update values */
@@ -92,7 +93,7 @@ public class ModuleIOSparkMax implements ModuleIO {
 
       driveEncoder.setPosition(0.0); // resets position
       driveEncoder.setMeasurementPeriod(10); // sensor reads every 10ms
-      driveEncoder.setAverageDepth(2); // Sets velocity calculation process's sampling depth
+      driveEncoder.setAverageDepth(2); // sets velocity calculation process's sampling depth (??)
 
       // Same for but turn motors
       turnRelativeEncoder.setPosition(0.0);
@@ -116,7 +117,7 @@ public class ModuleIOSparkMax implements ModuleIO {
       / DriveConstants.GEAR_RATIO_L3);
 
     inputs.driveVelocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(driveEncoder.getVelocity())
-      / DriveConstants.DRIVE_AFTER_ENCODER_REDUCTION; //converts  
+      / DriveConstants.DRIVE_AFTER_ENCODER_REDUCTION;   
 
     inputs.driveAppliedVolts = driveSparkMax.getAppliedOutput() * driveSparkMax.getBusVoltage();
 
