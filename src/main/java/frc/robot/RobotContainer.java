@@ -16,9 +16,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,6 +31,7 @@ import frc.robot.Constants.RobotStateConstants;
  */
 public class RobotContainer {
   // Subsystems
+  private final Shooter shooter;
 
   // Controllers
   private final CommandXboxController controller =
@@ -38,14 +42,17 @@ public class RobotContainer {
     switch (RobotStateConstants.getMode()) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
+        shooter = new Shooter(new ShooterIOTalonFX(), 0);
         break;
 
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
+        shooter = new Shooter(new ShooterIOTalonFX(), 0);
         break;
 
       default:
         // Replayed robot, disable IO implementations
+        shooter = new Shooter(new ShooterIOTalonFX(), 0);
         break;
     }
 
@@ -59,7 +66,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    shooter.setDefaultCommand(
+        new InstantCommand(
+            () -> shooter.setShooterMotorPercentSpeed(controller.getRightY()), shooter));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

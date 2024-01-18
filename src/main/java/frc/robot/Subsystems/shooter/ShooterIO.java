@@ -32,4 +32,6 @@ public interface ShooterIO {
 
   /** Break Mode for BOTH Shooter Motors */
   public default void setShooterBreakMode(boolean enable) {}
+
+  public default void setShooterMotorPercentSpeed(double percent) {}
 }

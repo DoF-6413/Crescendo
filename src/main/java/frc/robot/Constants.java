@@ -205,7 +205,5 @@ public final class Constants {
     }
   }
 
-  public static class ShooterConstants {
-    
-  }
+  public static class ShooterConstants {}
 }

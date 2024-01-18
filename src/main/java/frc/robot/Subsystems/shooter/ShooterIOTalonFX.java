@@ -4,11 +4,8 @@
 
 package frc.robot.Subsystems.shooter;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -26,35 +23,50 @@ public class ShooterIOTalonFX implements ShooterIO {
     // rightShooterMotor = new Follower(leftShooterMotor.getDeviceID(), true);
     rightShooterMotor = new TalonFX(1);
   }
+
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
     // All the Inputs for the Left Shooter Motor (Should be nearly identical to the Right Shooter
     // Motor)
-    inputs.leftShooterMotorRPM = Units.radiansPerSecondToRotationsPerMinute(leftShooterMotor.getDifferentialAverageVelocity().getValueAsDouble());
+    inputs.leftShooterMotorRPM =
+        Units.radiansPerSecondToRotationsPerMinute(
+            leftShooterMotor.getDifferentialAverageVelocity().getValueAsDouble());
     inputs.leftShooterAppliedVolts = leftShooterMotor.getMotorVoltage().getValueAsDouble();
-    inputs.leftShooterCurrentAmps = new double[] {leftShooterMotor.getStatorCurrent().getValueAsDouble()};
-    inputs.leftShooterTempCelcius = new double[] {leftShooterMotor.getDeviceTemp().getValueAsDouble()};
+    inputs.leftShooterCurrentAmps =
+        new double[] {leftShooterMotor.getStatorCurrent().getValueAsDouble()};
+    inputs.leftShooterTempCelcius =
+        new double[] {leftShooterMotor.getDeviceTemp().getValueAsDouble()};
 
     // All the Inputs for the Right Shooter Motor (Should be nearly identical to the Left Shooter
     // Motor)
-    inputs.rightShooterMotorRPM = Units.radiansPerSecondToRotationsPerMinute(rightShooterMotor.getDifferentialAverageVelocity().getValueAsDouble());
+    inputs.rightShooterMotorRPM =
+        Units.radiansPerSecondToRotationsPerMinute(
+            rightShooterMotor.getDifferentialAverageVelocity().getValueAsDouble());
     inputs.rightShooterAppliedVolts = rightShooterMotor.getMotorVoltage().getValueAsDouble();
-    inputs.rightShooterCurrentAmps = new double[] {rightShooterMotor.getStatorCurrent().getValueAsDouble()};
-    inputs.rightShooterTempCelcius = new double[] {rightShooterMotor.getDeviceTemp().getValueAsDouble()};
+    inputs.rightShooterCurrentAmps =
+        new double[] {rightShooterMotor.getStatorCurrent().getValueAsDouble()};
+    inputs.rightShooterTempCelcius =
+        new double[] {rightShooterMotor.getDeviceTemp().getValueAsDouble()};
   }
 
-    @Override
-    public void setShooterMotorsVoltage(double volts) {
-        leftShooterMotor.setVoltage(volts);
-    }
+  @Override
+  public void setShooterMotorsVoltage(double volts) {
+    leftShooterMotor.setVoltage(volts);
+    rightShooterMotor.setVoltage(volts);
+  }
 
-  
-    @Override
-    public void setShooterBreakMode(boolean enable) {
-        if(enable){
-        leftShooterMotor.setNeutralMode(NeutralModeValue.Brake);
-        }else{
-        rightShooterMotor.setNeutralMode(NeutralModeValue.Brake);
-        }
+  @Override
+  public void setShooterBreakMode(boolean enable) {
+    if (enable) {
+      leftShooterMotor.setNeutralMode(NeutralModeValue.Brake);
+    } else {
+      rightShooterMotor.setNeutralMode(NeutralModeValue.Brake);
     }
+  }
+
+  // @Override
+  public void setShooterMotorPercentSpeed(double percent) {
+    leftShooterMotor.setVoltage(12 * percent);
+    rightShooterMotor.setVoltage(12 * percent);
+  }
 }
