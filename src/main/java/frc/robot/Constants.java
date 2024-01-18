@@ -205,5 +205,9 @@ public final class Constants {
     }
   }
 
-  public static class ShooterConstants {}
+  public static class ShooterConstants {
+    public static final int LEFT_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
+    public static final int RIGHT_SHOOTER_MOTOR_ID = 15; // TalonFX currently set to 15 and is named "Climb motor"
+    public static final boolean RIGHT_SHOOTER_MOTOR_INVERTED = true; 
+  }
 }

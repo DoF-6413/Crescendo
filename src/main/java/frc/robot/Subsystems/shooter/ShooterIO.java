@@ -33,5 +33,10 @@ public interface ShooterIO {
   /** Break Mode for BOTH Shooter Motors */
   public default void setShooterBreakMode(boolean enable) {}
 
+  /**
+   * Sets ALL Shooter Motors at a percentage of its max speed
+   *
+   * @param percent -1 to 1
+   */
   public default void setShooterMotorPercentSpeed(double percent) {}
 }

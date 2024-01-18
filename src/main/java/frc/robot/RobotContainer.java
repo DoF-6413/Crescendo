@@ -42,17 +42,17 @@ public class RobotContainer {
     switch (RobotStateConstants.getMode()) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
-        shooter = new Shooter(new ShooterIOTalonFX(), 0);
+        shooter = new Shooter(new ShooterIOTalonFX());
         break;
 
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
-        shooter = new Shooter(new ShooterIOTalonFX(), 0);
+        shooter = new Shooter(new ShooterIOTalonFX());
         break;
 
       default:
         // Replayed robot, disable IO implementations
-        shooter = new Shooter(new ShooterIOTalonFX(), 0);
+        shooter = new Shooter(new ShooterIOTalonFX());
         break;
     }
 
@@ -70,6 +70,15 @@ public class RobotContainer {
     shooter.setDefaultCommand(
         new InstantCommand(
             () -> shooter.setShooterMotorPercentSpeed(controller.getRightY()), shooter));
+
+    controller
+        .leftBumper()
+        .whileTrue(new InstantCommand(() -> shooter.setShooterMotorPercentSpeed(-0.5), shooter))
+        .onFalse(new InstantCommand(() -> shooter.setShooterMotorPercentSpeed(0), shooter));
+    controller
+        .rightBumper()
+        .whileTrue(new InstantCommand(() -> shooter.setShooterMotorPercentSpeed(0.5), shooter))
+        .onFalse(new InstantCommand(() -> shooter.setShooterMotorPercentSpeed(0), shooter));
   }
 
   /**

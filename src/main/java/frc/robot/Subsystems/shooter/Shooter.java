@@ -11,18 +11,16 @@ import org.littletonrobotics.junction.Logger;
 public class Shooter extends SubsystemBase {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
-  private final int index;
 
-  public Shooter(ShooterIO io, int index) {
+  public Shooter(ShooterIO io) {
     System.out.println("[Init] Creating Shooter");
     this.io = io;
-    this.index = index;
   }
 
   @Override
   public void periodic() {
     this.updateInputs();
-    Logger.processInputs("Shooter" + Integer.toString(index), inputs);
+    Logger.processInputs("Shooter", inputs);
   }
 
   public void updateInputs() {
@@ -38,6 +36,6 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setShooterMotorPercentSpeed(double percent) {
-    io.setShooterMotorPercentSpeed(12 * percent);
+    io.setShooterMotorPercentSpeed(percent);
   }
 }

@@ -7,6 +7,7 @@ package frc.robot.Subsystems.shooter;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.util.Units;
+import frc.robot.Constants.ShooterConstants;
 
 /**
  * Runs the Real Life (non-simulation) Shooter with TalonFX Speed Controllers and Falcon500 Motors
@@ -19,9 +20,18 @@ public class ShooterIOTalonFX implements ShooterIO {
 
   public ShooterIOTalonFX() {
     System.out.println("[Init] Creating ShooterIOTalonFX");
-    leftShooterMotor = new TalonFX(0);
+    leftShooterMotor =
+        new TalonFX(ShooterConstants.LEFT_SHOOTER_MOTOR_ID); 
     // rightShooterMotor = new Follower(leftShooterMotor.getDeviceID(), true);
-    rightShooterMotor = new TalonFX(1);
+    rightShooterMotor =
+        new TalonFX(
+            ShooterConstants
+                .RIGHT_SHOOTER_MOTOR_ID);
+
+    rightShooterMotor.setInverted(
+        ShooterConstants
+            .RIGHT_SHOOTER_MOTOR_INVERTED); // Sets the right motor to spin in the opposite
+    // direction of the left motor
   }
 
   @Override
@@ -64,9 +74,11 @@ public class ShooterIOTalonFX implements ShooterIO {
     }
   }
 
-  // @Override
+  @Override
   public void setShooterMotorPercentSpeed(double percent) {
-    leftShooterMotor.setVoltage(12 * percent);
-    rightShooterMotor.setVoltage(12 * percent);
+    // leftShooterMotor.setVoltage(12 * percent);
+    // rightShooterMotor.setVoltage(12 * percent);
+    leftShooterMotor.set(percent);
+    rightShooterMotor.set(percent);
   }
 }
