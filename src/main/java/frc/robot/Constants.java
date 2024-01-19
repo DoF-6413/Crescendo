@@ -212,11 +212,16 @@ public final class Constants {
     public static final boolean RIGHT_SHOOTER_MOTOR_INVERTED =
         true; // Sets the right motor to spin in the opposite direction of the left motor
    
+    // Profiled PID Shooter Constants
     /** PID "P" Value for the Shooter */
-    public static final double kP = 0;
+    public static final double kP = 0;  //TODO: Test and Update
     /** PID "I" Value for the Shooter */
-    public static final double kI = 0;
+    public static final double kI = 0;  //TODO: Test and Update
     /** PID "D" Value for the Shooter */
-    public static final double kD = 0;
+    public static final double kD = 0;  //TODO: Test and Update
+    /** Max velocity that the Shooter motors can spin at */
+    public static final double MAX_VELOCITY = 0;  //TODO: Test and Update
+    /** Max acceleration that the Shooter motors  */
+    public static final double MAX_ACCELERATION = 0; //TODO: Test and Update
   }
 }

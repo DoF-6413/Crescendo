@@ -5,24 +5,29 @@
 package frc.robot.Subsystems.shooter;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
 import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
-// public class Shooter extends PIDSubsystem{
-public class Shooter extends SubsystemBase{
+public class Shooter extends PIDSubsystem{
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
+  public ProfiledPIDController shooterProfiledPIDController;
 
   public Shooter(ShooterIO io) {
-    // super(new PIDController(
-    //   ShooterConstants.kP,
-    //   ShooterConstants.kI,
-    //   ShooterConstants.kD)
-    //   );
+    shooterProfiledPIDController = 
+    new ProfiledPIDController(
+      ShooterConstants.kP,
+      ShooterConstants.kI,
+      ShooterConstants.kD,
+        new TrapezoidProfile.Constraints(
+          ShooterConstants.MAX_VELOCITY,
+          ShooterConstants.MAX_ACCELERATION));
+          
       System.out.println("[Init] Creating Shooter");
       this.io = io;
   }
@@ -49,15 +54,15 @@ public class Shooter extends SubsystemBase{
     io.setShooterMotorPercentSpeed(percent);
   }
 
-  // @Override
-  // protected void useOutput(double output, double setpoint) {
-  //   // TODO Auto-generated method stub
-  //   throw new UnsupportedOperationException("Unimplemented method 'useOutput'");
-  // }
+  @Override
+  protected void useOutput(double output, double setpoint) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'useOutput'");
+  }
 
-  // @Override
-  // protected double getMeasurement() {
-  //   // TODO Auto-generated method stub
-  //   throw new UnsupportedOperationException("Unimplemented method 'getMeasurement'");
-  // }
+  @Override
+  protected double getMeasurement() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getMeasurement'");
+  }
 }
