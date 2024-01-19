@@ -61,6 +61,7 @@ public class RobotContainer {
   private final CommandXboxController auxController =
       new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
 
+  // Autos
   private final LoggedDashboardChooser<Command> autoChooser =
       new LoggedDashboardChooser<>("Auto Choices");
 
@@ -71,11 +72,11 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
-        new Drive(
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
+            new Drive(
+                new ModuleIOSparkMax(0),
+                new ModuleIOSparkMax(1),
+                new ModuleIOSparkMax(2),
+                new ModuleIOSparkMax(3),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_visionSubsystem = new Vision(new VisionIOArduCam());
@@ -107,8 +108,8 @@ public class RobotContainer {
         m_wristSubsystem = new Wrist(new WristIOSim());
 
         break;
-
-      default:
+        
+        default:
         // Replayed robot, disable IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
@@ -128,13 +129,13 @@ public class RobotContainer {
         m_wristSubsystem = new Wrist(new WristIO() {});
         break;
     }
-
+    
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
-
+    
     // Configure the button bindings
     configureButtonBindings();
   }
