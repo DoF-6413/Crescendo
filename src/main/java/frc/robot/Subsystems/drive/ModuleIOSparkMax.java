@@ -133,7 +133,7 @@ public class ModuleIOSparkMax implements ModuleIO {
         Units.rotationsToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble()) + absoluteEncoderOffset //getPosition returns rotations of motor not degrees
       ).getRadians());
 
-      SmartDashboard.putNumber("absolute encoder" + swerveModuleNumber , Units.rotationsToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble())
+      SmartDashboard.putNumber("absolute encoder" + swerveModuleNumber , Units.rotationsToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble()));
       SmartDashboard.putNumber("absolute encoder" + swerveModuleNumber + "with offset", Units.rotationsToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble()) + absoluteEncoderOffset);
     
     inputs.turnAppliedVolts = turnSparkMax.getAppliedOutput() * turnSparkMax.getBusVoltage();
