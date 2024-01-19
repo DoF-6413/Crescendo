@@ -200,10 +200,14 @@ public final class Constants {
 
     public static final Translation2d[] getModuleTranslations() {
       return new Translation2d[] {
-        new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
-        new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0),
-        new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
-        new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
+        new Translation2d(
+            DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(
+            DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(
+            -DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(
+            -DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
       };
     }
 
@@ -223,14 +227,27 @@ public final class Constants {
     }
 
     //TODO: update values
-    public static enum ABSOLUTE_ENCODER_OFFSET_RAD {
+    public static enum L2_ABSOLUTE_ENCODER_OFFSET_RAD {
       FRONT_LEFT(0),  //Module 0
       FRONT_RIGHT(0),  //Module 1
       BACK_LEFT(0),  //Module 2
       BACK_RIGHT(0);   //Module 3
      
       public final double OFFSET;
-      ABSOLUTE_ENCODER_OFFSET_RAD(double value){
+      L2_ABSOLUTE_ENCODER_OFFSET_RAD(double value){
+        OFFSET = value;
+      }
+    }
+
+    //TODO: update values
+    public static enum L3_ABSOLUTE_ENCODER_OFFSET_RAD {
+      FRONT_LEFT(0),  //Module 0
+      FRONT_RIGHT(0),  //Module 1
+      BACK_LEFT(0),  //Module 2
+      BACK_RIGHT(0);   //Module 3
+     
+      public final double OFFSET;
+      L3_ABSOLUTE_ENCODER_OFFSET_RAD(double value){
         OFFSET = value;
       }
     }
@@ -259,6 +276,9 @@ public final class Constants {
        ENCODER_ID = ID;
       }
     }
+
+    public static final int SMART_CURRENT_LIMIT = 40;
+    public static final int MEASUREMENT_PERIOD_MS = 10;
   }
 
   public static class ShooterConstants {
