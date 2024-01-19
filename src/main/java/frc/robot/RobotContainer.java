@@ -65,10 +65,13 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
   private final CommandXboxController auxController =
       new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
+<<<<<<< HEAD
 
   // Autos
   private final LoggedDashboardChooser<Command> autoChooser =
       new LoggedDashboardChooser<>("Auto Choices");
+=======
+>>>>>>> 9b5558d (added drive to robot container)
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -78,10 +81,17 @@ public class RobotContainer {
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
             new Drive(
+<<<<<<< HEAD
                 new ModuleIOSparkMaxTalonFX(0),
                 new ModuleIOSparkMaxTalonFX(1),
                 new ModuleIOSparkMaxTalonFX(2),
                 new ModuleIOSparkMaxTalonFX(3),
+=======
+                new ModuleIOSparkMax(0),
+                new ModuleIOSparkMax(1),
+                new ModuleIOSparkMax(2),
+                new ModuleIOSparkMax(3),
+>>>>>>> 9b5558d (added drive to robot container)
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_visionSubsystem = new Vision(new VisionIOArduCam());
@@ -113,8 +123,8 @@ public class RobotContainer {
         m_wristSubsystem = new Wrist(new WristIOSim());
 
         break;
-
-      default:
+        
+        default:
         // Replayed robot, disable IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
@@ -133,6 +143,10 @@ public class RobotContainer {
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
         break;
+      }
+      
+      // Configure the button bindings
+      configureButtonBindings();
     }
     
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
@@ -145,10 +159,13 @@ public class RobotContainer {
     m_linearRamping = new SlewRateLimiter(0.5);
     m_angularRamping = new SlewRateLimiter(0.2);
 
+<<<<<<< HEAD
     // Configure the button bindings
     configureButtonBindings();
   }
   
+=======
+>>>>>>> 9b5558d (added drive to robot container)
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link

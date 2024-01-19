@@ -179,7 +179,7 @@ public class ModuleIOSparkMax implements ModuleIO {
 
   // returns absolute position from turn absolute encoders
   public double getAbsolutePositionRadians() {
-    return Units.degreesToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble());
+    return Units.degreesToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble());    
   }
 
   @Override
