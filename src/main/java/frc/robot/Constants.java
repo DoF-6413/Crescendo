@@ -207,7 +207,16 @@ public final class Constants {
 
   public static class ShooterConstants {
     public static final int LEFT_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
-    public static final int RIGHT_SHOOTER_MOTOR_ID = 15; // TalonFX currently set to 15 and is named "Climb motor"
-    public static final boolean RIGHT_SHOOTER_MOTOR_INVERTED = true; 
+    public static final int RIGHT_SHOOTER_MOTOR_ID =
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Pheonix tuner
+    public static final boolean RIGHT_SHOOTER_MOTOR_INVERTED =
+        true; // Sets the right motor to spin in the opposite direction of the left motor
+   
+    /** PID "P" Value for the Shooter */
+    public static final double kP = 0;
+    /** PID "I" Value for the Shooter */
+    public static final double kI = 0;
+    /** PID "D" Value for the Shooter */
+    public static final double kD = 0;
   }
 }

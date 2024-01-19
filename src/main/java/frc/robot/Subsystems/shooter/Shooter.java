@@ -4,17 +4,27 @@
 
 package frc.robot.Subsystems.shooter;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ShooterConstants;
+
 import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
-public class Shooter extends SubsystemBase {
+// public class Shooter extends PIDSubsystem{
+public class Shooter extends SubsystemBase{
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
 
   public Shooter(ShooterIO io) {
-    System.out.println("[Init] Creating Shooter");
-    this.io = io;
+    // super(new PIDController(
+    //   ShooterConstants.kP,
+    //   ShooterConstants.kI,
+    //   ShooterConstants.kD)
+    //   );
+      System.out.println("[Init] Creating Shooter");
+      this.io = io;
   }
 
   @Override
@@ -38,4 +48,16 @@ public class Shooter extends SubsystemBase {
   public void setShooterMotorPercentSpeed(double percent) {
     io.setShooterMotorPercentSpeed(percent);
   }
+
+  // @Override
+  // protected void useOutput(double output, double setpoint) {
+  //   // TODO Auto-generated method stub
+  //   throw new UnsupportedOperationException("Unimplemented method 'useOutput'");
+  // }
+
+  // @Override
+  // protected double getMeasurement() {
+  //   // TODO Auto-generated method stub
+  //   throw new UnsupportedOperationException("Unimplemented method 'getMeasurement'");
+  // }
 }

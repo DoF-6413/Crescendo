@@ -12,15 +12,15 @@ public interface ShooterIO {
   public static class ShooterIOInputs {
     // All the Inputs for the Left Shooter Motor (Should be nearly identical to the Right Shooter
     // Motor)
-    public double leftShooterMotorRPM = 0.0;
     public double leftShooterAppliedVolts = 0.0;
+    public double leftShooterMotorRPM = 0.0;
     public double[] leftShooterCurrentAmps = new double[] {};
     public double[] leftShooterTempCelcius = new double[] {};
 
     // All the Inputs for the Right Shooter Motor (Should be nearly identical to the Left Shooter
     // Motor)
-    public double rightShooterMotorRPM = 0.0;
     public double rightShooterAppliedVolts = 0.0;
+    public double rightShooterMotorRPM = 0.0;
     public double[] rightShooterCurrentAmps = new double[] {};
     public double[] rightShooterTempCelcius = new double[] {};
   }

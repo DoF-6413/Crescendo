@@ -6,7 +6,6 @@ package frc.robot.Subsystems.shooter;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.ShooterConstants;
 
 /**
@@ -20,27 +19,18 @@ public class ShooterIOTalonFX implements ShooterIO {
 
   public ShooterIOTalonFX() {
     System.out.println("[Init] Creating ShooterIOTalonFX");
-    leftShooterMotor =
-        new TalonFX(ShooterConstants.LEFT_SHOOTER_MOTOR_ID); 
+    leftShooterMotor = new TalonFX(ShooterConstants.LEFT_SHOOTER_MOTOR_ID);
     // rightShooterMotor = new Follower(leftShooterMotor.getDeviceID(), true);
-    rightShooterMotor =
-        new TalonFX(
-            ShooterConstants
-                .RIGHT_SHOOTER_MOTOR_ID);
+    rightShooterMotor = new TalonFX(ShooterConstants.RIGHT_SHOOTER_MOTOR_ID);
 
-    rightShooterMotor.setInverted(
-        ShooterConstants
-            .RIGHT_SHOOTER_MOTOR_INVERTED); // Sets the right motor to spin in the opposite
-    // direction of the left motor
+    rightShooterMotor.setInverted(ShooterConstants.RIGHT_SHOOTER_MOTOR_INVERTED);
   }
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
     // All the Inputs for the Left Shooter Motor (Should be nearly identical to the Right Shooter
     // Motor)
-    inputs.leftShooterMotorRPM =
-        Units.radiansPerSecondToRotationsPerMinute(
-            leftShooterMotor.getDifferentialAverageVelocity().getValueAsDouble());
+    inputs.leftShooterMotorRPM = leftShooterMotor.getVelocity().getValueAsDouble() / 60;
     inputs.leftShooterAppliedVolts = leftShooterMotor.getMotorVoltage().getValueAsDouble();
     inputs.leftShooterCurrentAmps =
         new double[] {leftShooterMotor.getStatorCurrent().getValueAsDouble()};
@@ -49,9 +39,7 @@ public class ShooterIOTalonFX implements ShooterIO {
 
     // All the Inputs for the Right Shooter Motor (Should be nearly identical to the Left Shooter
     // Motor)
-    inputs.rightShooterMotorRPM =
-        Units.radiansPerSecondToRotationsPerMinute(
-            rightShooterMotor.getDifferentialAverageVelocity().getValueAsDouble());
+    inputs.rightShooterMotorRPM = rightShooterMotor.getVelocity().getValueAsDouble() / 60;
     inputs.rightShooterAppliedVolts = rightShooterMotor.getMotorVoltage().getValueAsDouble();
     inputs.rightShooterCurrentAmps =
         new double[] {rightShooterMotor.getStatorCurrent().getValueAsDouble()};
@@ -76,8 +64,6 @@ public class ShooterIOTalonFX implements ShooterIO {
 
   @Override
   public void setShooterMotorPercentSpeed(double percent) {
-    // leftShooterMotor.setVoltage(12 * percent);
-    // rightShooterMotor.setVoltage(12 * percent);
     leftShooterMotor.set(percent);
     rightShooterMotor.set(percent);
   }
