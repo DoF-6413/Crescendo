@@ -161,8 +161,8 @@ public class ModuleIOSparkMax implements ModuleIO {
     turnSparkMax.setIdleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
   }
 
-  //returns absolute postition
+  //returns absolute position from turn absolute encoders
   public double getAbsolutePositionRadians() {
-    return Units.degreesToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble());
+    return Units.degreesToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble());    
   }
 }

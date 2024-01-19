@@ -45,6 +45,8 @@ public class RobotContainer {
   // Controllers
   private final CommandXboxController driverController =
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
+  private final CommandXboxController auxController =
+      new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -54,10 +56,10 @@ public class RobotContainer {
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
             new Drive(
-                new ModuleIOSparkMax(),
-                new ModuleIOSparkMax(),
-                new ModuleIOSparkMax(),
-                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(0),
+                new ModuleIOSparkMax(1),
+                new ModuleIOSparkMax(2),
+                new ModuleIOSparkMax(3),
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         break;
@@ -74,8 +76,8 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         break;
-
-      default:
+        
+        default:
         // Replayed robot, disable IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
@@ -87,11 +89,11 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         break;
+      }
+      
+      // Configure the button bindings
+      configureButtonBindings();
     }
-
-    // Configure the button bindings
-    configureButtonBindings();
-  }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
