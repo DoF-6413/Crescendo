@@ -134,7 +134,7 @@ public final class Constants {
 
     // ** Gives the Gear Ratio for the Module depending on whether the Module is an
     // L3 or L2 */
-    public static final double gearRatio(boolean isL3) {
+    public static final double getGearRatio(boolean isL3) {
       if (isL3) {
         return GEAR_RATIO_L3;
       } else {
@@ -231,9 +231,9 @@ public final class Constants {
       BACK_LEFT(0),  //Module 2
       BACK_RIGHT(0);   //Module 3
      
-      public final double offset;
+      public final double OFFSET;
       ABSOLUTE_ENCODER_OFFSET_RAD(double value){
-        offset = value;
+        OFFSET = value;
       }
     }
 
