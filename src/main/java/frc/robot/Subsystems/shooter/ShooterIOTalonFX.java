@@ -55,8 +55,10 @@ public class ShooterIOTalonFX implements ShooterIO {
   public void setShooterBreakMode(boolean enable) {
     if (enable) {
       leftShooterMotor.setNeutralMode(NeutralModeValue.Brake);
-    } else {
       rightShooterMotor.setNeutralMode(NeutralModeValue.Brake);
+    } else {
+      leftShooterMotor.setNeutralMode(NeutralModeValue.Coast);
+      rightShooterMotor.setNeutralMode(NeutralModeValue.Coast);
     }
   }
 
