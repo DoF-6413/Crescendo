@@ -34,8 +34,9 @@ public interface ShooterIO {
   public default void setShooterBreakMode(boolean enable) {}
 
   /**
-   * Sets ALL Shooter Motors at a percentage of its max speed
-   *
+   * Sets ALL Shooter Motors at a percentage of its max speed.
+   * A positve number spins the left motor CW and the right motor CCW and vice versa for a negative number
+   * 
    * @param percent -1 to 1
    */
   public default void setShooterMotorPercentSpeed(double percent) {}

@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.shooter.Shooter;
-import frc.robot.Subsystems.shooter.ShooterIOSim;
 import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
 
 /**
@@ -48,7 +47,7 @@ public class RobotContainer {
 
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
-        shooterSubsystem = new Shooter(new ShooterIOSim());
+        shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         break;
 
       default:
@@ -68,18 +67,38 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    /*
+     * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
+     * Up will launch a NOTE outward
+     * Down will retract a NOTE inward
+     */
     shooterSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> shooterSubsystem.setShooterMotorPercentSpeed(controller.getRightY() * 0.5), shooterSubsystem));
-
+            () -> shooterSubsystem.setShooterMotorPercentSpeed(-controller.getRightY()),
+            shooterSubsystem));
+    
+    /*
+     * Spins the Shooter motors at 50% speed
+     * Left bumper will retract a NOTE inward
+     * Right bumper launch a NOTE outward
+     * Speeds have not been tested with a NOTE and are therefore subject to change
+     */
     controller
         .leftBumper()
-        .whileTrue(new InstantCommand(() -> shooterSubsystem.setShooterMotorPercentSpeed(-0.5), shooterSubsystem))
-        .onFalse(new InstantCommand(() -> shooterSubsystem.setShooterMotorPercentSpeed(0), shooterSubsystem));
+        .whileTrue(
+            new InstantCommand(
+                () -> shooterSubsystem.setShooterMotorPercentSpeed(0.5), shooterSubsystem))
+        .onFalse(
+            new InstantCommand(
+                () -> shooterSubsystem.setShooterMotorPercentSpeed(0), shooterSubsystem));
     controller
         .rightBumper()
-        .whileTrue(new InstantCommand(() -> shooterSubsystem.setShooterMotorPercentSpeed(0.5), shooterSubsystem))
-        .onFalse(new InstantCommand(() -> shooterSubsystem.setShooterMotorPercentSpeed(0), shooterSubsystem));
+        .whileTrue(
+            new InstantCommand(
+                () -> shooterSubsystem.setShooterMotorPercentSpeed(-0.5), shooterSubsystem))
+        .onFalse(
+            new InstantCommand(
+                () -> shooterSubsystem.setShooterMotorPercentSpeed(0), shooterSubsystem));
   }
 
   /**

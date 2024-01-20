@@ -14,13 +14,11 @@ import frc.robot.Constants.ShooterConstants;
 public class ShooterIOTalonFX implements ShooterIO {
 
   private final TalonFX leftShooterMotor;
-  // private final Follower rightShooterMotor;
   private final TalonFX rightShooterMotor;
 
   public ShooterIOTalonFX() {
     System.out.println("[Init] Creating ShooterIOTalonFX");
     leftShooterMotor = new TalonFX(ShooterConstants.LEFT_SHOOTER_MOTOR_ID);
-    // rightShooterMotor = new Follower(leftShooterMotor.getDeviceID(), true);
     rightShooterMotor = new TalonFX(ShooterConstants.RIGHT_SHOOTER_MOTOR_ID);
 
     rightShooterMotor.setInverted(ShooterConstants.RIGHT_SHOOTER_MOTOR_INVERTED);
