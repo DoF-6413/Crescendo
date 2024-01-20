@@ -6,12 +6,14 @@ import org.littletonrobotics.junction.AutoLog;
 public interface UTBIntakeIO {
   @AutoLog
   public static class UTBIntakeIOInputs {
-    public double UTBIntakeVelocityRadPerSec = 0.0;
-    public double UTBIntakeAppliedVolts = 0.0;
-    public double[] UTBIntakeCurrentAmps = new double[] {};
+    public double utbIntakeVelocityRadPerSec = 0.0;
+    public double utbIntakeAppliedVolts = 0.0;
+    public double[] utbIntakeCurrentAmps = new double[] {};
   }
 
   public default void updateInputs(UTBIntakeIOInputs inputs) {}
 
   public default void setUTBIntakeVoltage(double volts) {}
+
+  public default void setUTBIntakePercentSpeed(double percent) {}
 }
