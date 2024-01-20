@@ -96,6 +96,6 @@ public class ModuleIOSimNeoKraken implements ModuleIO {
 
   @Override
   public <Optional> Boolean isL3() {
-    return false;
+    return true;
   }
 }
