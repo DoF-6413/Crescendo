@@ -40,7 +40,7 @@ public class RobotContainer {
   // Subsystems
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
-  private final Shooter shooterSubsystem;
+  private final Shooter m_shooterSubsystem;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -59,7 +59,7 @@ public class RobotContainer {
                 new ModuleIOSparkMax(),
                 new ModuleIOSparkMax(),
                 m_gyroSubsystem);
-        shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         break;
 
       case SIM:
@@ -72,7 +72,7 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
-        shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         break;
 
       default:
@@ -85,7 +85,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
-        shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         break;
     }
 
@@ -115,10 +115,11 @@ public class RobotContainer {
      * Up will launch a NOTE outward
      * Down will retract a NOTE inward
      */
-    shooterSubsystem.setDefaultCommand(
+    m_shooterSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> shooterSubsystem.setShooterMotorPercentSpeed(-driverController.getRightY() * 0.5),
-            shooterSubsystem));
+            () ->
+                m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() * 0.5),
+            m_shooterSubsystem));
   }
 
   /**

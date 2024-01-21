@@ -18,26 +18,34 @@ public class ShooterIOTalonFX implements ShooterIO {
 
   public ShooterIOTalonFX() {
     System.out.println("[Init] Creating ShooterIOTalonFX");
+    // Shooter motor IDs
     topShooterMotor = new TalonFX(ShooterConstants.TOP_SHOOTER_MOTOR_ID);
     bottomShooterMotor = new TalonFX(ShooterConstants.BOTTOM_SHOOTER_MOTOR_ID);
 
-    bottomShooterMotor.setInverted(ShooterConstants.BOTTOM_SHOOTER_MOTOR_INVERTED);
+    // Inverts top shooter motor to spin CCW
+    bottomShooterMotor.setInverted(ShooterConstants.TOP_SHOOTER_MOTOR_INVERTED);
   }
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
-    // All the Inputs for the Left Shooter Motor (Should be nearly identical to the Right Shooter
+    // All the Inputs for the Top Shooter Motor (Should be nearly identical to the Bottom Shooter
     // Motor)
-    inputs.topShooterMotorRPM = topShooterMotor.getVelocity().getValueAsDouble() * 60;
+    inputs.topShooterMotorRPM =
+        topShooterMotor.getVelocity().getValueAsDouble()
+            * 60; // getVelocity gets rotations per second, by multiplying it by 60 turns it into
+    // rotations per minute (RPM)
     inputs.topShooterAppliedVolts = topShooterMotor.getMotorVoltage().getValueAsDouble();
     inputs.topShooterCurrentAmps =
         new double[] {topShooterMotor.getStatorCurrent().getValueAsDouble()};
     inputs.topShooterTempCelcius =
         new double[] {topShooterMotor.getDeviceTemp().getValueAsDouble()};
 
-    // All the Inputs for the Right Shooter Motor (Should be nearly identical to the Left Shooter
+    // All the Inputs for the Bottom Shooter Motor (Should be nearly identical to the Top Shooter
     // Motor)
-    inputs.bottomShooterMotorRPM = bottomShooterMotor.getVelocity().getValueAsDouble() * 60;
+    inputs.bottomShooterMotorRPM =
+        bottomShooterMotor.getVelocity().getValueAsDouble()
+            * 60; // getVelocity gets rotations per second, by multiplying it by 60 turns it into
+    // rotations per minute (RPM)
     inputs.bottomShooterAppliedVolts = bottomShooterMotor.getMotorVoltage().getValueAsDouble();
     inputs.bottomShooterCurrentAmps =
         new double[] {bottomShooterMotor.getStatorCurrent().getValueAsDouble()};

@@ -10,17 +10,17 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ShooterIO {
   @AutoLog
   public static class ShooterIOInputs {
-    // All the Inputs for the Left Shooter Motor (Should be nearly identical to the Right Shooter
+    // All the Inputs for the Top Shooter Motor (Should be nearly identical to the Bottom Shooter
     // Motor)
-    public double topShooterAppliedVolts = 0.0;
     public double topShooterMotorRPM = 0.0;
+    public double topShooterAppliedVolts = 0.0;
     public double[] topShooterCurrentAmps = new double[] {};
     public double[] topShooterTempCelcius = new double[] {};
 
-    // All the Inputs for the Right Shooter Motor (Should be nearly identical to the Left Shooter
+    // All the Inputs for the Bottom Shooter Motor (Should be nearly identical to the Top Shooter
     // Motor)
-    public double bottomShooterAppliedVolts = 0.0;
     public double bottomShooterMotorRPM = 0.0;
+    public double bottomShooterAppliedVolts = 0.0;
     public double[] bottomShooterCurrentAmps = new double[] {};
     public double[] bottomShooterTempCelcius = new double[] {};
   }
@@ -34,8 +34,8 @@ public interface ShooterIO {
   public default void setShooterBreakMode(boolean enable) {}
 
   /**
-   * Sets ALL Shooter Motors at a percentage of its max speed. A positve number spins the left motor
-   * CW and the right motor CCW and vice versa for a negative number
+   * Sets ALL Shooter Motors at a percentage of its max speed. A positve number spins the Top
+   * Shooter Motor CCW and the Bottom Shooter Motor CW and vice versa for a negative number
    *
    * @param percent -1 to 1
    */
