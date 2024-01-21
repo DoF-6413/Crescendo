@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Subsystems.vision;
+package frc.robot.Subsystems.pose;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -26,6 +26,8 @@ import frc.robot.Constants.RobotStateConstants.Mode;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.gyro.Gyro;
+import frc.robot.Subsystems.vision.Vision;
+
 import org.photonvision.targeting.PhotonPipelineResult;
 
 /** Add your docs here. */
@@ -35,11 +37,7 @@ public class PoseEstimator extends SubsystemBase {
    * theta] or meters, meters, radians
    */
   public static Vector<N3> stateStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
-  /**
-   * increase the numbers to trust the vision measurements less also in form [x, y, theta] or
-   * meters, meters, radians
-   */
-  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+
 
   private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;
