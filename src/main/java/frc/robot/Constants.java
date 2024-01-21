@@ -185,26 +185,38 @@ public final class Constants {
     public static final double STEER_KD_NEO = 0; // TODO: Update
 
     /** Gear Ratio for MK4I L3 */
-    public static final double GEAR_RATIO_L3 = 0; // TODO: Update
+    public static final double GEAR_RATIO_L3 = 6.12;
 
     /** Gear Ratio for MK4I L2 */
-    public static final double GEAR_RATIO_L2 = 0; // TODO: Update
+    public static final double GEAR_RATIO_L2 = 6.75;
 
     public static final boolean IS_BRAKE_MODE = true;
 
     /** Used in Robot Characterization Tool to Help Determine Drive Values like PID */
     public static final boolean IS_CHARACTERIZING = false;
 
+    public static final double DRIVE_J_KG_METERS_SQUARED = 0.0003125;
+
+    public static final double STEER_J_KG_METERS_SQUARED = 0.0003125; // TODO: Update
+
     public static final Translation2d[] getModuleTranslations() {
       return new Translation2d[] {
         new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
-        new Translation2d(
-            DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0),
-        new Translation2d(
-            -DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
-        new Translation2d(
-            -DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
+        new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
       };
     }
+  }
+
+  public static class ShooterConstants {
+    // Motor IDs
+    public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
+    public static final int BOTTOM_SHOOTER_MOTOR_ID =
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Pheonix tuner
+
+    // Inverted motors
+    public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
+        true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
   }
 }
