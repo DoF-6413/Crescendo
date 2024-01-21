@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.gyro;
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.Subsystems.gyro.GyroIO.GyroIOInputs;
@@ -22,10 +23,10 @@ public class GyroIONavX implements GyroIO {
   @Override
   public void updateInputs(GyroIOInputs inputs) {
     inputs.connected = gyro.isConnected();
-    inputs.rollPositionRad = Units.degreesToRadians(gyro.getRoll());
-    inputs.pitchPositionRad = Units.degreesToRadians(gyro.getPitch());
-    inputs.yawPositionRad = Units.degreesToRadians(gyro.getYaw());
-    inputs.anglePositionRad = Units.degreesToRadians(gyro.getAngle());
+    inputs.rollPositionRad = new Rotation2d(Units.degreesToRadians(gyro.getRoll()));
+    inputs.pitchPositionRad = new Rotation2d(Units.degreesToRadians(gyro.getPitch()));
+    inputs.yawPositionRad = new Rotation2d(Units.degreesToRadians(gyro.getYaw()));
+    inputs.anglePositionRad = new Rotation2d(Units.degreesToRadians(gyro.getAngle()));
     inputs.rate = gyro.getRate();
     inputs.rollVelocityDegPerSec = gyro.getRawGyroY();
     inputs.pitchVelocityDegPerSec = gyro.getRawGyroX();

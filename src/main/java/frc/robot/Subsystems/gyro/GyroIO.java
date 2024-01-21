@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystems.gyro;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Subsystems.gyro.GyroIO.GyroIOInputs;
 import org.littletonrobotics.junction.AutoLog;
 
@@ -13,10 +14,10 @@ public interface GyroIO {
   @AutoLog
   public static class GyroIOInputs {
     public boolean connected = false;
-    public double rollPositionRad = 0.0;
-    public double pitchPositionRad = 0.0;
-    public double yawPositionRad = 0.0;
-    public double anglePositionRad = 0.0;
+    public Rotation2d rollPositionRad = new Rotation2d();
+    public Rotation2d pitchPositionRad = new Rotation2d();
+    public Rotation2d yawPositionRad = new Rotation2d();
+    public Rotation2d anglePositionRad = new Rotation2d();
     public double rate = 0.0;
     public double rollVelocityDegPerSec = 0.0;
     public double pitchVelocityDegPerSec = 0.0;
