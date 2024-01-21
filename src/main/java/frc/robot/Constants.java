@@ -176,14 +176,13 @@ public final class Constants {
     public static final double DRIVE_KV_KRAKEN = 0; // TODO: Update
 
     // Feed Forward Constants for Neo Drive
-    public static final double DRIVE_KS_NEO = 0; // TODO: Update
-    public static final double DRIVE_KV_NEO = 0; // TODO: Update
+    public static final double DRIVE_KS_NEO = 0.4; 
+    public static final double DRIVE_KV_NEO = 0.4; 
 
     // PID Constants for Neo Steer PID
-    public static final double STEER_KP_NEO = 0; // TODO: Update
-    public static final double STEER_KI_NEO = 0; // TODO: Update
-    public static final double STEER_KD_NEO = 0; // TODO: Update
-
+    public static final double STEER_KP_NEO = 7.0; 
+    public static final double STEER_KI_NEO = 0.1; 
+    public static final double STEER_KD_NEO = 0; 
     /** Gear Ratio for MK4I L3 */
     public static final double GEAR_RATIO_L3 = 6.12;
     /** Gear Ratio for MK4I L2 */
