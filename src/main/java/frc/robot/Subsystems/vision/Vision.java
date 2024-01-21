@@ -25,7 +25,8 @@ public class Vision extends SubsystemBase {
 
   public PhotonPipelineResult getResult() {
 
-    return inputs.PhotonPipelineResult;
+    return new PhotonPipelineResult(
+        inputs.latencyMillis, VisionIOArduCam.camera.getLatestResult().targets);
   }
 
   public double getTargetX() {

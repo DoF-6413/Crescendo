@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.RobotStateConstants.Mode;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.gyro.Gyro;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -30,13 +30,13 @@ import org.photonvision.targeting.PhotonPipelineResult;
 /** Add your docs here. */
 public class PoseEstimator extends SubsystemBase {
   /**
-   * increase the numbers to trust the model's state estimate less
-   * it is a matrix in form of [x, y, theta] or meters, meters, radians
+   * increase the numbers to trust the model's state estimate less it is a matrix in form of [x, y,
+   * theta] or meters, meters, radians
    */
   public static Vector<N3> stateStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
   /**
-   * increase the numbers to trust the vision measurements less
-   * also in form [x, y, theta] or meters, meters, radians
+   * increase the numbers to trust the vision measurements less also in form [x, y, theta] or
+   * meters, meters, radians
    */
   public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
 
@@ -57,11 +57,12 @@ public class PoseEstimator extends SubsystemBase {
     this.vision = vision;
     this.gyro = gyro;
 
-    poseEstimator = new SwerveDrivePoseEstimator(
-        kinematics,
-        gyro.getYaw(),
-        drive.getSwerveModulePositions(),
-        new Pose2d(new Translation2d(), new Rotation2d()));
+    poseEstimator =
+        new SwerveDrivePoseEstimator(
+            kinematics,
+            gyro.getYaw(),
+            drive.getSwerveModulePositions(),
+            new Pose2d(new Translation2d(), new Rotation2d()));
   }
 
   @Override
@@ -83,10 +84,11 @@ public class PoseEstimator extends SubsystemBase {
           && fiducialID >= 1
           && fiducialID >= 16) { // 0.2 is considered ambiguos
 
-        AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(
-            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getTags(),
-            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldLength(),
-            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldWidth());
+        AprilTagFieldLayout aprilTagFieldLayout =
+            new AprilTagFieldLayout(
+                AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getTags(),
+                AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldLength(),
+                AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldWidth());
 
         Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
         Transform3d camToTarget = target.getBestCameraToTarget();
@@ -106,14 +108,11 @@ public class PoseEstimator extends SubsystemBase {
         SmartDashboard.putNumber("TagZ", tagPose.getZ());
         SmartDashboard.putNumber("TagRotation", tagPose.getRotation().getAngle());
 
-        
       } else {
         System.out.println(
             "best to alternate ratio is less than or equal to 0.2 and no apriltag detected");
       }
-
     }
-
   }
 
   public Pose2d getCurrentPose2d() {

@@ -208,10 +208,11 @@ public final class Constants {
     }
   }
 
-  public class VisionConstants{
+  public class VisionConstants {
 
-    public static final Transform3d cameraOnRobotOffsets = new Transform3d(
-      new Translation3d(0,0,0),  // update this value 
-      new Rotation3d(0,0,0));    // update this offset value 
+    public static final Transform3d cameraOnRobotOffsets =
+        new Transform3d(
+            new Translation3d(0, 0, 0), // update this value
+            new Rotation3d(0, 0, 0)); // update this offset value
   }
 }

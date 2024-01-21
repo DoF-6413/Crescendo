@@ -6,16 +6,17 @@ package frc.robot.Subsystems.vision;
 import edu.wpi.first.math.geometry.Transform3d;
 import org.littletonrobotics.junction.AutoLog;
 import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
 
 /** Add your docs here. */
 public class VisionIO {
 
   @AutoLog
   public static class VisionIOInputs {
-    public PhotonPipelineResult PhotonPipelineResult = new PhotonPipelineResult();
+    public String PhotonPipelineResult = new PhotonPipelineResult().toString();
+    public double latencyMillis = 0.0;
+
     public boolean HasTargets = false; // checks for targets
-    public PhotonTrackedTarget Target = null;
+    // public PhotonTrackedTarget Target = null;
     public int BestFiducialID = 0;
     public Transform3d BestCamToTarget = new Transform3d();
     public double TargetX = 0.0;
