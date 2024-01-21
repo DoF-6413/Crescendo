@@ -218,5 +218,15 @@ public final class Constants {
     // Inverted motors
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
         true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
+
+    // PID Constants
+    public static final double kP = 0; // The "P" value of the PID
+    public static final double kI = 0; // The "I" value of the PID
+    public static final double kD = 0; // The "D" value of the PID
+    public static final double MAX_VELOCITY =
+        0; // The maximum velocity that the shooter motors can run at
+    public static final double MAX_ACCELERATION =
+        0; // The maximum acceleration that the shooter motors can run at
+    
   }
 }

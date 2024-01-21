@@ -4,15 +4,30 @@
 
 package frc.robot.Subsystems.shooter;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import frc.robot.Constants.ShooterConstants;
 import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
-public class Shooter extends SubsystemBase {
+public class Shooter extends ProfiledPIDSubsystem {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
+  private static ProfiledPIDController shooterProfiledPIDController;
 
   public Shooter(ShooterIO io) {
+    super(
+        shooterProfiledPIDController =
+            new ProfiledPIDController(
+                ShooterConstants.kP,
+                ShooterConstants.kI,
+                ShooterConstants.kD,
+                new TrapezoidProfile.Constraints(
+                    ShooterConstants.MAX_VELOCITY, ShooterConstants.MAX_ACCELERATION)),
+                       0);
+    // setGoal();
     System.out.println("[Init] Creating Shooter");
     this.io = io;
   }
@@ -37,5 +52,17 @@ public class Shooter extends SubsystemBase {
 
   public void setShooterMotorPercentSpeed(double percent) {
     io.setShooterMotorPercentSpeed(percent);
+  }
+
+  @Override
+  protected void useOutput(double output, State setpoint) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'useOutput'");
+  }
+
+  @Override
+  protected double getMeasurement() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getMeasurement'");
   }
 }
