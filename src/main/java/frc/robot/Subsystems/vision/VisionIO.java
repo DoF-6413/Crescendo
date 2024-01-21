@@ -19,6 +19,11 @@ public class VisionIO {
     // public PhotonTrackedTarget Target = null;
     public int BestFiducialID = 0;
     public Transform3d BestCamToTarget = new Transform3d();
+
+    public Transform3d AltCamToTag = new Transform3d();//alternative cam to target 
+    public double TargetSkew = 0.0;
+    public double PoseAmbiguity = 0.0;
+
     public double TargetX = 0.0;
     public double TargetY = 0.0;
     public double TargetZ = 0.0;

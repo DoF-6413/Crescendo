@@ -22,7 +22,10 @@ public class VisionIOArduCam extends VisionIO {
 
       inputs.latencyMillis = camera.getLatestResult().getLatencyMillis();
 
-      // inputs.Target = camera.getLatestResult().getBestTarget();
+      inputs.AltCamToTag = camera.getLatestResult().getBestTarget().getAlternateCameraToTarget();
+      inputs.TargetSkew = camera.getLatestResult().getBestTarget().getSkew();
+      inputs.PoseAmbiguity = camera.getLatestResult().getBestTarget().getPoseAmbiguity();
+
       inputs.BestFiducialID = camera.getLatestResult().getBestTarget().getFiducialId();
       inputs.BestCamToTarget = camera.getLatestResult().getBestTarget().getBestCameraToTarget();
       inputs.TargetX = inputs.BestCamToTarget.getX();

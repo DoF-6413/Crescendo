@@ -24,6 +24,11 @@ public class VisionIOSim extends VisionIO {
       // inputs.Target = camera.getLatestResult().getBestTarget();
       inputs.BestFiducialID = camera.getLatestResult().getBestTarget().getFiducialId();
       inputs.BestCamToTarget = camera.getLatestResult().getBestTarget().getBestCameraToTarget();
+
+      inputs.AltCamToTag = camera.getLatestResult().getBestTarget().getAlternateCameraToTarget();
+      inputs.TargetSkew = camera.getLatestResult().getBestTarget().getSkew();
+      inputs.PoseAmbiguity = camera.getLatestResult().getBestTarget().getPoseAmbiguity();
+
       inputs.TargetX = camera.getLatestResult().getBestTarget().getBestCameraToTarget().getX();
       inputs.TargetY = camera.getLatestResult().getBestTarget().getBestCameraToTarget().getY();
       inputs.TargetZ = camera.getLatestResult().getBestTarget().getBestCameraToTarget().getZ();
