@@ -4,8 +4,6 @@
 
 package frc.robot.Subsystems.pose;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -37,7 +35,6 @@ public class PoseEstimator extends SubsystemBase {
    * theta] or meters, meters, radians
    */
   public static Vector<N3> stateStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
-
 
   private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;
