@@ -195,8 +195,7 @@ public final class Constants {
     /** Used in Robot Characterization Tool to Help Determine Drive Values like PID */
     public static final boolean IS_CHARACTERIZING = false;
 
-    public static final double DRIVE_J_KG_METERS_SQUARED = 0.0003125;
-
+    public static final double DRIVE_J_KG_METERS_SQUARED = 0.0003125; // moment of inertia for sim
     public static final double STEER_J_KG_METERS_SQUARED = 0.0003125; // TODO: Update
 
     public static final Translation2d[] getModuleTranslations() {
@@ -213,10 +212,15 @@ public final class Constants {
     // Motor IDs
     public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
     public static final int BOTTOM_SHOOTER_MOTOR_ID =
-        15; // TalonFX currently set to 15 and is named "Climb motor" on the Pheonix tuner
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner
 
     // Inverted motors
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
         true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
+
+    // Flywheel simulation constants
+    public static final double GEAR_RATIO = 1;
+    public static final double SHOOTER_J_KG_METERS_SQUARED = 0.0; // TODO: update
+    public static final double APPLIED_VOLTS = 12.0;
   }
 }
