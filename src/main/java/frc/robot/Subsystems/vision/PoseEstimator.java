@@ -42,11 +42,11 @@ public class PoseEstimator extends SubsystemBase {
 
   private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;
-  private Vision vision;
+  // private Vision vision;
   private Gyro gyro;
   private Field2d field2d;
-  public PhotonPipelineResult pipelineResult;
-  public double resultsTimeStamp;
+  // public PhotonPipelineResult pipelineResult;
+  // public double resultsTimeStamp;
 
   private double previousPipelineTimestamp = 0;
 
@@ -54,7 +54,7 @@ public class PoseEstimator extends SubsystemBase {
 
     field2d = new Field2d();
     this.drive = drive;
-    this.vision = vision;
+    // this.vision = vision;
     this.gyro = gyro;
 
     poseEstimator =
@@ -71,18 +71,18 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.updateWithTime(
         Timer.getFPGATimestamp(), gyro.getYaw(), drive.getSwerveModulePositions());
 
-    pipelineResult = vision.getResult();
-    resultsTimeStamp = pipelineResult.getTimestampSeconds();
+    // pipelineResult = vision.getResult();
+    // resultsTimeStamp = pipelineResult.getTimestampSeconds();
 
-    if (resultsTimeStamp != previousPipelineTimestamp && vision.hasTargets()) {
+    // if (resultsTimeStamp != previousPipelineTimestamp && vision.hasTargets()) {
 
-      previousPipelineTimestamp = resultsTimeStamp;
+    //   previousPipelineTimestamp = resultsTimeStamp;
 
-      var target = pipelineResult.getBestTarget();
-      var fiducialID = target.getFiducialId();
-      if (target.getPoseAmbiguity() > 0.2
-          && fiducialID >= 1
-          && fiducialID >= 16) { // 0.2 is considered ambiguos
+    //   var target = pipelineResult.getBestTarget();
+    //   var fiducialID = target.getFiducialId();
+    //   if (target.getPoseAmbiguity() > 0.2
+    //       && fiducialID >= 1
+    //       && fiducialID >= 16) { // 0.2 is considered ambiguos
 
         AprilTagFieldLayout aprilTagFieldLayout =
             new AprilTagFieldLayout(
@@ -90,28 +90,28 @@ public class PoseEstimator extends SubsystemBase {
                 AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldLength(),
                 AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldWidth());
 
-        Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
-        Transform3d camToTarget = target.getBestCameraToTarget();
-        Pose3d camPose = tagPose.transformBy(camToTarget);
+        // Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
+        // Transform3d camToTarget = target.getBestCameraToTarget();
+        // Pose3d camPose = tagPose.transformBy(camToTarget);
 
-        Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobotOffsets);
-        poseEstimator.addVisionMeasurement(
-            visionMeasurement.toPose2d(), Timer.getFPGATimestamp(), visionMeasurementStandardDevs);
+        // Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobotOffsets);
+        // poseEstimator.addVisionMeasurement(
+        //     visionMeasurement.toPose2d(), Timer.getFPGATimestamp(), visionMeasurementStandardDevs);
 
         // logging values
 
-        SmartDashboard.putBoolean("hasTarget?", vision.hasTargets());
-        SmartDashboard.putNumber("pipelineTimestamp", resultsTimeStamp);
-        SmartDashboard.putNumber("TargetID", target.getFiducialId());
-        SmartDashboard.putNumber("TagX", tagPose.getX());
-        SmartDashboard.putNumber("TagY", tagPose.getY());
-        SmartDashboard.putNumber("TagZ", tagPose.getZ());
-        SmartDashboard.putNumber("TagRotation", tagPose.getRotation().getAngle());
+        // SmartDashboard.putBoolean("hasTarget?", vision.hasTargets());
+        // SmartDashboard.putNumber("pipelineTimestamp", resultsTimeStamp);
+        // SmartDashboard.putNumber("TargetID", target.getFiducialId());
+        // SmartDashboard.putNumber("TagX", tagPose.getX());
+        // SmartDashboard.putNumber("TagY", tagPose.getY());
+        // SmartDashboard.putNumber("TagZ", tagPose.getZ());
+        // SmartDashboard.putNumber("TagRotation", tagPose.getRotation().getAngle());
 
-      } else {
-        System.out.println(
-            "best to alternate ratio is less than or equal to 0.2 and no apriltag detected");
-      }
+      // } else {
+      //   System.out.println(
+      //       "best to alternate ratio is less than or equal to 0.2 and no apriltag detected");
+      // }
     }
   }
 
