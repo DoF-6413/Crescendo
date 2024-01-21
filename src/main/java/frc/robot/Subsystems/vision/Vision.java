@@ -9,7 +9,6 @@ import java.util.List;
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
-import org.photonvision.targeting.TargetCorner;
 
 /** Add your docs here. */
 public class Vision extends SubsystemBase {
@@ -43,8 +42,7 @@ public class Vision extends SubsystemBase {
 
   public PhotonPipelineResult getResult() {
 
-    return new PhotonPipelineResult(
-        inputs.latencyMillis, this.targeT);
+    return new PhotonPipelineResult(inputs.latencyMillis, this.targeT);
   }
 
   public double getTargetX() {

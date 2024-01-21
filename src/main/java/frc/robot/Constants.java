@@ -219,6 +219,7 @@ public final class Constants {
             new Translation3d(0, 0, 0), // update this value
             new Rotation3d(0, 0, 0)); // update this offset value
   }
+
   public static class ShooterConstants {
     // Motor IDs
     public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14

@@ -20,7 +20,7 @@ public class VisionIO {
     public int BestFiducialID = 0;
     public Transform3d BestCamToTarget = new Transform3d();
 
-    public Transform3d AltCamToTag = new Transform3d();//alternative cam to target 
+    public Transform3d AltCamToTag = new Transform3d(); // alternative cam to target
     public double TargetSkew = 0.0;
     public double PoseAmbiguity = 0.0;
 
