@@ -208,4 +208,15 @@ public final class Constants {
       };
     }
   }
+
+  public static class ShooterConstants {
+    // Motor IDs
+    public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
+    public static final int BOTTOM_SHOOTER_MOTOR_ID =
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Pheonix tuner
+
+    // Inverted motors
+    public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
+        true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
+  }
 }
