@@ -6,29 +6,21 @@ package frc.robot.Subsystems.vision;
 
 import edu.wpi.first.apriltag.AprilTagFields;
 import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonPipelineResult;
 
 /** Add your docs here. */
-public class VisionIOSim extends VisionIO {
+public class VisionIOSim implements VisionIO {
 
   private static PhotonCamera camera =
       new PhotonCamera("Arducam_IMX298_Camera_2_Top"); // TODO: update name
   private final AprilTagFields apriltags = AprilTagFields.k2024Crescendo;
 
+  @Override
   public void updateInputs(VisionIOInputs inputs) {
-    inputs.PhotonPipelineResult = camera.getLatestResult().toString();
-    inputs.HasTargets = camera.getLatestResult().hasTargets();
+    inputs.HasTargets = getPhotonPipelineResult().hasTargets();
     if (inputs.HasTargets == true) {
-
-      inputs.latencyMillis = camera.getLatestResult().getLatencyMillis();
-
-      // inputs.Target = camera.getLatestResult().getBestTarget();
       inputs.BestFiducialID = camera.getLatestResult().getBestTarget().getFiducialId();
       inputs.BestCamToTarget = camera.getLatestResult().getBestTarget().getBestCameraToTarget();
-
-      inputs.AltCamToTag = camera.getLatestResult().getBestTarget().getAlternateCameraToTarget();
-      inputs.TargetSkew = camera.getLatestResult().getBestTarget().getSkew();
-      inputs.PoseAmbiguity = camera.getLatestResult().getBestTarget().getPoseAmbiguity();
-
       inputs.TargetX = camera.getLatestResult().getBestTarget().getBestCameraToTarget().getX();
       inputs.TargetY = camera.getLatestResult().getBestTarget().getBestCameraToTarget().getY();
       inputs.TargetZ = camera.getLatestResult().getBestTarget().getBestCameraToTarget().getZ();
@@ -36,5 +28,10 @@ public class VisionIOSim extends VisionIO {
       inputs.TargetPitch = camera.getLatestResult().getBestTarget().getPitch();
       inputs.TargetArea = camera.getLatestResult().getBestTarget().getArea();
     }
+  }
+
+  @Override
+  public PhotonPipelineResult getPhotonPipelineResult() {
+    return camera.getLatestResult();
   }
 }
