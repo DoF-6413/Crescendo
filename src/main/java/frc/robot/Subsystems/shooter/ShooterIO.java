@@ -12,17 +12,17 @@ public interface ShooterIO {
   public static class ShooterIOInputs {
     // All the Inputs for the Left Shooter Motor (Should be nearly identical to the Right Shooter
     // Motor)
-    public double leftShooterAppliedVolts = 0.0;
-    public double leftShooterMotorRPM = 0.0;
-    public double[] leftShooterCurrentAmps = new double[] {};
-    public double[] leftShooterTempCelcius = new double[] {};
+    public double topShooterAppliedVolts = 0.0;
+    public double topShooterMotorRPM = 0.0;
+    public double[] topShooterCurrentAmps = new double[] {};
+    public double[] topShooterTempCelcius = new double[] {};
 
     // All the Inputs for the Right Shooter Motor (Should be nearly identical to the Left Shooter
     // Motor)
-    public double rightShooterAppliedVolts = 0.0;
-    public double rightShooterMotorRPM = 0.0;
-    public double[] rightShooterCurrentAmps = new double[] {};
-    public double[] rightShooterTempCelcius = new double[] {};
+    public double bottomShooterAppliedVolts = 0.0;
+    public double bottomShooterMotorRPM = 0.0;
+    public double[] bottomShooterCurrentAmps = new double[] {};
+    public double[] bottomShooterTempCelcius = new double[] {};
   }
   /** Updates the set of loggable inputs. */
   public default void updateInputs(ShooterIOInputs inputs) {}
@@ -34,9 +34,9 @@ public interface ShooterIO {
   public default void setShooterBreakMode(boolean enable) {}
 
   /**
-   * Sets ALL Shooter Motors at a percentage of its max speed.
-   * A positve number spins the left motor CW and the right motor CCW and vice versa for a negative number
-   * 
+   * Sets ALL Shooter Motors at a percentage of its max speed. A positve number spins the left motor
+   * CW and the right motor CCW and vice versa for a negative number
+   *
    * @param percent -1 to 1
    */
   public default void setShooterMotorPercentSpeed(double percent) {}

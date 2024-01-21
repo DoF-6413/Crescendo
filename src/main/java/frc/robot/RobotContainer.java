@@ -20,8 +20,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Subsystems.shooter.Shooter;
-import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.ModuleIO;
 import frc.robot.Subsystems.drive.ModuleIOSimNeo;
@@ -29,6 +27,8 @@ import frc.robot.Subsystems.drive.ModuleIOSparkMax;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.gyro.GyroIO;
 import frc.robot.Subsystems.gyro.GyroIONavX;
+import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -53,12 +53,12 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
-        new Drive(
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
-          m_gyroSubsystem);
+            new Drive(
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
+                m_gyroSubsystem);
         shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         break;
 
@@ -66,12 +66,12 @@ public class RobotContainer {
         // Sim robot, instantiate physics sim IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
-        new Drive(
-          new ModuleIOSimNeo(),
-          new ModuleIOSimNeo(),
-          new ModuleIOSimNeo(),
-          new ModuleIOSimNeo(),
-          m_gyroSubsystem);
+            new Drive(
+                new ModuleIOSimNeo(),
+                new ModuleIOSimNeo(),
+                new ModuleIOSimNeo(),
+                new ModuleIOSimNeo(),
+                m_gyroSubsystem);
         shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         break;
 
@@ -79,12 +79,12 @@ public class RobotContainer {
         // Replayed robot, disable IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
-        new Drive(
-          new ModuleIO() {},
-          new ModuleIO() {},
-          new ModuleIO() {},
-          new ModuleIO() {},
-          m_gyroSubsystem);
+            new Drive(
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                m_gyroSubsystem);
         shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         break;
     }
@@ -108,7 +108,7 @@ public class RobotContainer {
                     driverController.getLeftX(),
                     driverController.getLeftY(),
                     driverController.getRightX()),
-                    m_driveSubsystem));
+            m_driveSubsystem));
 
     /*
      * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
@@ -117,32 +117,8 @@ public class RobotContainer {
      */
     shooterSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> shooterSubsystem.setShooterMotorPercentSpeed(-driverController.getRightY()),
+            () -> shooterSubsystem.setShooterMotorPercentSpeed(-driverController.getRightY() * 0.5),
             shooterSubsystem));
-    
-    /*
-     * Spins the Shooter motors at 50% speed
-     * Left bumper will retract a NOTE inward
-     * Right bumper launch a NOTE outward
-     * Speeds have not been tested with a NOTE and are therefore subject to change
-     */
-    driverController
-        .leftBumper()
-        .whileTrue(
-            new InstantCommand(
-                () -> shooterSubsystem.setShooterMotorPercentSpeed(0.5), shooterSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> shooterSubsystem.setShooterMotorPercentSpeed(0), shooterSubsystem));
-    driverController
-        .rightBumper()
-        .whileTrue(
-            new InstantCommand(
-                () -> shooterSubsystem.setShooterMotorPercentSpeed(-0.5), shooterSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> shooterSubsystem.setShooterMotorPercentSpeed(0), shooterSubsystem));
-
   }
 
   /**
