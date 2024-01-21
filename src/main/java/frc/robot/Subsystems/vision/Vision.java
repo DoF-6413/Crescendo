@@ -5,64 +5,81 @@
 package frc.robot.Subsystems.vision;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.List;
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 /** Add your docs here. */
 public class Vision extends SubsystemBase {
 
-    private final VisionIOInputsAutoLogged inputs = new VisionIOInputsAutoLogged();
-    private final VisionIO VisionIO;
+  private final VisionIOInputsAutoLogged inputs = new VisionIOInputsAutoLogged();
+  private final VisionIO VisionIO;
+  private List<PhotonTrackedTarget> targeT =
+      (List<PhotonTrackedTarget>) new PhotonTrackedTarget(0, 0, 0, 0, 0, null, null, 0, null, null);
 
-    public Vision(VisionIO io) {
-        VisionIO = io;
-    }
+  public Vision(VisionIO io) {
+    VisionIO = io;
+  }
 
-    public void periodic() {
-        VisionIO.updateInputs(inputs);
-        Logger.processInputs("Vision", inputs);
-    }
+  public void periodic() {
+    VisionIO.updateInputs(inputs);
+    Logger.processInputs("Vision", inputs);
+    targeT =
+        (List<PhotonTrackedTarget>)
+            new PhotonTrackedTarget(
+                inputs.TargetYaw,
+                inputs.TargetPitch,
+                inputs.TargetArea,
+                inputs.TargetSkew,
+                inputs.BestFiducialID,
+                inputs.BestCamToTarget,
+                inputs.AltCamToTag,
+                inputs.PoseAmbiguity,
+                null,
+                null);
+  }
 
-    public PhotonPipelineResult getResult() {
+  public PhotonPipelineResult getResult() {
 
-        return inputs.PhotonPipelineResult;
-    }
+    return new PhotonPipelineResult(inputs.latencyMillis, this.targeT);
+  }
 
-    public double getTargetX() {
+  public double getTargetX() {
 
-        return inputs.TargetX;
-    }
+    return inputs.TargetX;
+  }
 
-    public double getTargetY() {
+  public double getTargetY() {
 
-        return inputs.TargetY;
-    }
+    return inputs.TargetY;
+  }
 
-    public double getTargetZ() {
+  public double getTargetZ() {
 
-        return inputs.TargetZ;
-    }
+    return inputs.TargetZ;
+  }
 
-    public double getTargetPitch() {
+  public double getTargetPitch() {
 
-        return inputs.TargetX;
-    }
+    return inputs.TargetX;
+  }
 
-    public double getTargetYaw() {
+  public double getTargetYaw() {
 
-        return inputs.TargetX;
-    }
+    return inputs.TargetX;
+  }
 
-    public double getTargetArea() {
+  public double getTargetArea() {
 
-        return inputs.TargetArea;
-    }
+    return inputs.TargetArea;
+  }
 
-    public boolean hasTargets() {
-        return inputs.HasTargets;
-    }
+  public boolean hasTargets() {
+    return inputs.HasTargets;
+  }
 
-    public int getBestFiducialID() {
-        return inputs.BestFiducialID;
-    }
+  public int getBestFiducialID() {
+    return inputs.BestFiducialID;
+  }
 }
