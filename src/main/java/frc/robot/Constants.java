@@ -210,6 +210,11 @@ public final class Constants {
   }
 
   public static class ShooterConstants {
+
+    /** Gear ratio of (2:1?) for the prototype Horizontal-Rollers/Top-Bottom Shooter */
+    public static final double GEAR_RATIO =
+        2.0; // TODO: Verify, if so then update math for obtaining RPM
+
     // Motor IDs
     public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
     public static final int BOTTOM_SHOOTER_MOTOR_ID =
@@ -218,6 +223,8 @@ public final class Constants {
     // Inverted motors
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
         true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
+    public static final boolean BOTTOM_SHOOTER_MOTOR_INVERTED =
+        false; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
 
     // PID Constants
     public static final double kP = 0; // The "P" value of the PID
@@ -227,6 +234,5 @@ public final class Constants {
         0; // The maximum velocity that the shooter motors can run at
     public static final double MAX_ACCELERATION =
         0; // The maximum acceleration that the shooter motors can run at
-    
   }
 }

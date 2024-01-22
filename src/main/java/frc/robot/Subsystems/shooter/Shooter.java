@@ -16,7 +16,7 @@ public class Shooter extends ProfiledPIDSubsystem {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
   private static ProfiledPIDController shooterProfiledPIDController;
-
+  
   public Shooter(ShooterIO io) {
     super(
         shooterProfiledPIDController =
@@ -26,8 +26,8 @@ public class Shooter extends ProfiledPIDSubsystem {
                 ShooterConstants.kD,
                 new TrapezoidProfile.Constraints(
                     ShooterConstants.MAX_VELOCITY, ShooterConstants.MAX_ACCELERATION)),
-                       0);
-    // setGoal();
+        0);
+    setGoal(1250);
     System.out.println("[Init] Creating Shooter");
     this.io = io;
   }
@@ -55,13 +55,13 @@ public class Shooter extends ProfiledPIDSubsystem {
   }
 
   @Override
-  protected void useOutput(double output, State setpoint) {
+  public void useOutput(double output, State setpoint) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'useOutput'");
   }
 
   @Override
-  protected double getMeasurement() {
+  public double getMeasurement() {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'getMeasurement'");
   }
