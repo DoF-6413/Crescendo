@@ -13,23 +13,10 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Subsystems.drive.Drive;
-import frc.robot.Subsystems.drive.ModuleIO;
-import frc.robot.Subsystems.drive.ModuleIOSimNeo;
-import frc.robot.Subsystems.drive.ModuleIOSparkMax;
-import frc.robot.Subsystems.gyro.Gyro;
-import frc.robot.Subsystems.gyro.GyroIO;
-import frc.robot.Subsystems.gyro.GyroIONavX;
-import frc.robot.Subsystems.shooter.Shooter;
-import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
-import frc.robot.Subsystems.vision.PoseEstimator;
+import edu.wpi.first.wpilibj.*; //GenericHID, XboxController
+import edu.wpi.first.wpilibj2.command.*; //Command, InstantCommand, CommandXboxController
+import frc.robot.Constants.*;
+import frc.robot.Subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -43,6 +30,7 @@ public class RobotContainer {
   private final Drive m_driveSubsystem;
   private final Shooter m_shooterSubsystem;
   private final PoseEstimator m_poseEstimator;
+  private final Mechanisms2d m_mechanisms;
 
   // Controllers
   private final CommandXboxController driverController =
