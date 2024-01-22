@@ -209,6 +209,10 @@ public final class Constants {
   }
 
   public static class ShooterConstants {
+
+    /** Gear ratio of (2:1?) for the prototype Horizontal-Rollers/Top-Bottom Shooter */
+    public static final double GEAR_RATIO = 2.0; // TODO: Verify, if so then update math for obtaining RPM
+    
     // Motor IDs
     public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
     public static final int BOTTOM_SHOOTER_MOTOR_ID =
@@ -216,11 +220,11 @@ public final class Constants {
 
     // Inverted motors
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
-        true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
+        true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor (CCW)
+    public static final boolean BOTTOM_SHOOTER_MOTOR_INVERTED = false; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
 
     // Flywheel simulation constants
-    public static final double GEAR_RATIO = 2.0; // TODO: verify?
-    public static final double SHOOTER_J_KG_METERS_SQUARED = 1.0; // TODO: update | Must be greater than one to run sim
+    public static final double SHOOTER_J_KG_METERS_SQUARED = 1.0; // TODO: update | Must be greater than zero to run sim
     public static final double APPLIED_VOLTS = 12.0;
   }
 }
