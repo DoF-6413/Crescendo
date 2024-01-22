@@ -5,12 +5,13 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants.*;
 
 public class ShooterIOSim implements ShooterIO {
-  // new flywheel simulation
+  // creating flywheels
   private FlywheelSim topShooterFlywheel =
       new FlywheelSim(
           DCMotor.getFalcon500(1),
           ShooterConstants.GEAR_RATIO,
           ShooterConstants.SHOOTER_J_KG_METERS_SQUARED);
+  
   private FlywheelSim bottomShooterFlywheel =
       new FlywheelSim(
           DCMotor.getFalcon500(1),
@@ -28,31 +29,17 @@ public class ShooterIOSim implements ShooterIO {
     topShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
     bottomShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
-    // updates inputs
+    // updates inputs (shooter rpm and current). Voltage and temp aren't updated because ideally (like in a simulation), they would be constant
     inputs.topShooterMotorRPM = topShooterFlywheel.getAngularVelocityRPM();
-    inputs.topShooterAppliedVolts = 0;
     inputs.topShooterCurrentAmps = new double[] {Math.abs(topShooterFlywheel.getCurrentDrawAmps())};
-    inputs.topShooterTempCelcius = new double[] {};
 
     inputs.bottomShooterMotorRPM = bottomShooterFlywheel.getAngularVelocityRPM();
-    inputs.bottomShooterAppliedVolts = 0;
-    inputs.bottomShooterCurrentAmps =
-        new double[] {Math.abs(bottomShooterFlywheel.getCurrentDrawAmps())};
-    inputs.bottomShooterTempCelcius = new double[] {};
+    inputs.bottomShooterCurrentAmps = new double[] {Math.abs(bottomShooterFlywheel.getCurrentDrawAmps())};
   }
 
-  // Updates the Shooter Motor RPM, caps out at around 3208 RPM
+  // sets the shooter speed by setting the voltage
   public void setShooterMotorPercentSpeed(double percent) {
     topShooterFlywheel.setInputVoltage(ShooterConstants.APPLIED_VOLTS * percent);
     bottomShooterFlywheel.setInputVoltage(ShooterConstants.APPLIED_VOLTS * percent);
-    topShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
-    bottomShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
-  }
-
-  // Doesnt work :(
-  public void setShooterMotorsVoltage() {
-    topShooterFlywheel.setInputVoltage(ShooterConstants.APPLIED_VOLTS);
-    bottomShooterFlywheel.setInputVoltage(ShooterConstants.APPLIED_VOLTS);
-
   }
 }

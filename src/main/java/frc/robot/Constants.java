@@ -219,9 +219,8 @@ public final class Constants {
         true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
 
     // Flywheel simulation constants
-    public static final double GEAR_RATIO = 1.0; // TODO: Might be 2:1 have to double check
-    public static final double SHOOTER_J_KG_METERS_SQUARED =
-        1.0; // TODO: update | Must be greater than one to run sim
+    public static final double GEAR_RATIO = 2.0; // TODO: verify?
+    public static final double SHOOTER_J_KG_METERS_SQUARED = 1.0; // TODO: update | Must be greater than one to run sim
     public static final double APPLIED_VOLTS = 12.0;
   }
 }
