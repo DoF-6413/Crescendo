@@ -1,20 +1,25 @@
 package frc.robot.Subsystems.mechanism2d;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
-import frc.robot.Subsystems.Constants.*;
-
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Subsystems.shooter.Shooter;
 
 public class Mechanisms2d extends SubsystemBase {
-    // lots of different objects to choose from
-    // private final Mechanism 2d m_swerveModules;
-    // private final MechanismLigament2d m_elevator;
-    // private final Elevator m_elevator; 
-    // private final Wrist m_wrist;
+  private final Mechanism2d m_shooterFlywheel;
+  private final MechanismRoot2d root;
+  private final Shooter m_shooterSub;
 
-    public Mechanisms2d() {
-    }
+  public Mechanisms2d(Shooter shooterSub) {
+    m_shooterSub = shooterSub;
+    m_shooterFlywheel = new Mechanism2d(3, 3); // only displays rectangular objects?
+    root =
+        m_shooterFlywheel.getRoot(
+            "flywheelRoot", 0, 0); // "root" can only be defined after the mechanism is
+  }
 
-    @Override
-    public void periodic() {
-    }
+  @Override
+  public void periodic() {
+    // updates values which in this case is just rollers I guess, is sim even necessary for the
+    // shooter (not including wrist)?
+  }
 }

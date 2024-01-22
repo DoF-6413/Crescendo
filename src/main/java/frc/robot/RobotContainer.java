@@ -13,10 +13,22 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.*; //GenericHID, XboxController
-import edu.wpi.first.wpilibj2.command.*; //Command, InstantCommand, CommandXboxController
-import frc.robot.Constants.*;
-import frc.robot.Subsystems.*;
+import edu.wpi.first.wpilibj.*; // GenericHID, XboxController
+import edu.wpi.first.wpilibj2.command.*; // Command, InstantCommand
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Subsystems.drive.Drive;
+import frc.robot.Subsystems.drive.ModuleIO;
+import frc.robot.Subsystems.drive.ModuleIOSimNeo;
+import frc.robot.Subsystems.drive.ModuleIOSparkMax;
+import frc.robot.Subsystems.gyro.Gyro;
+import frc.robot.Subsystems.gyro.GyroIO;
+import frc.robot.Subsystems.gyro.GyroIONavX;
+import frc.robot.Subsystems.mechanism2d.Mechanisms2d;
+import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
+import frc.robot.Subsystems.vision.PoseEstimator;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -51,6 +63,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
+        m_mechanisms = new Mechanisms2d(m_shooterSubsystem);
         break;
 
       case SIM:
@@ -65,6 +78,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
+        m_mechanisms = new Mechanisms2d(m_shooterSubsystem);
         break;
 
       default:
@@ -79,6 +93,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
+        m_mechanisms = new Mechanisms2d(m_shooterSubsystem);
         break;
     }
 
