@@ -210,8 +210,8 @@ public final class Constants {
 
   public static class ShooterConstants {
 
-    /** Gear ratio of (2:1?) for the prototype Horizontal-Rollers/Top-Bottom Shooter */
-    public static final double GEAR_RATIO = 2.0; // TODO: Verify, if so then update math for obtaining RPM
+    /** Gear ratio of 1:1 for the prototype Horizontal-Rollers/Top-Bottom Shooter */
+    public static final double GEAR_RATIO = 1.0;
     
     // Motor IDs
     public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
