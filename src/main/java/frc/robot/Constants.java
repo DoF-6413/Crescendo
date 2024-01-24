@@ -202,18 +202,15 @@ public final class Constants {
 
     public static final Translation2d[] getModuleTranslations() {
       return new Translation2d[] {
-        new Translation2d(
-            DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
-        new Translation2d(
-            DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0),
-        new Translation2d(
-            -DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
-        new Translation2d(
-            -DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
+        new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
       };
     }
 
-    public static final double DRIVE_AFTER_ENCODER_REDUCTION = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0); //TODO: what are these numbers
+    public static final double DRIVE_AFTER_ENCODER_REDUCTION =
+        (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0); // TODO: what are these numbers
 
     public enum DRIVE_MOTOR {
       FRONT_RIGHT(4),
@@ -228,28 +225,30 @@ public final class Constants {
       }
     }
 
-    //TODO: update values
+    // TODO: update values
     public static enum L2_ABSOLUTE_ENCODER_OFFSET_RAD {
-      FRONT_LEFT(0),  //Module 0
-      FRONT_RIGHT(0),  //Module 1
-      BACK_LEFT(0),  //Module 2
-      BACK_RIGHT(0);   //Module 3
-     
+      FRONT_LEFT(0), // Module 0
+      FRONT_RIGHT(0), // Module 1
+      BACK_LEFT(0), // Module 2
+      BACK_RIGHT(0); // Module 3
+
       public final double OFFSET;
-      L2_ABSOLUTE_ENCODER_OFFSET_RAD(double value){
+
+      L2_ABSOLUTE_ENCODER_OFFSET_RAD(double value) {
         OFFSET = value;
       }
     }
 
-    //TODO: update values
+    // TODO: update values
     public static enum L3_ABSOLUTE_ENCODER_OFFSET_RAD {
-      FRONT_LEFT(0),  //Module 0
-      FRONT_RIGHT(0),  //Module 1
-      BACK_LEFT(0),  //Module 2
-      BACK_RIGHT(0);   //Module 3
-     
+      FRONT_LEFT(0), // Module 0
+      FRONT_RIGHT(0), // Module 1
+      BACK_LEFT(0), // Module 2
+      BACK_RIGHT(0); // Module 3
+
       public final double OFFSET;
-      L3_ABSOLUTE_ENCODER_OFFSET_RAD(double value){
+
+      L3_ABSOLUTE_ENCODER_OFFSET_RAD(double value) {
         OFFSET = value;
       }
     }
@@ -274,8 +273,9 @@ public final class Constants {
       BACK_RIGHT(11);
 
       public final int ENCODER_ID;
-      ABSOLUTE_ENCODER(int ID){
-       ENCODER_ID = ID;
+
+      ABSOLUTE_ENCODER(int ID) {
+        ENCODER_ID = ID;
       }
     }
 
