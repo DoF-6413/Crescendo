@@ -183,10 +183,9 @@ public final class Constants {
     public static final double DRIVE_KV_NEO = 0.4; // TODO: Update
 
     // PID Constants for Neo Steer PID
-    public static final double STEER_KP_NEO = 7.0; // TODO: Update
-    public static final double STEER_KI_NEO = 0.0; // TODO: Update
-    public static final double STEER_KD_NEO = 0.0; // TODO: Update
-
+    public static final double STEER_KP_NEO = 7.0;
+    public static final double STEER_KI_NEO = 0.1;
+    public static final double STEER_KD_NEO = 0.0;
     /** Gear Ratio for MK4I L3 */
     public static final double GEAR_RATIO_L3 = 6.12;
     /** Gear Ratio for MK4I L2 */
@@ -241,8 +240,8 @@ public final class Constants {
 
     // TODO: update values
     public static enum L3_ABSOLUTE_ENCODER_OFFSET_RAD {
-      FRONT_LEFT(0), // Module 0
-      FRONT_RIGHT(0), // Module 1
+      FRONT_RIGHT(0), // Module 0
+      FRONT_LEFT(0), // Module 1
       BACK_LEFT(0), // Module 2
       BACK_RIGHT(0); // Module 3
 

@@ -143,14 +143,12 @@ public class RobotContainer {
      * Up will launch a NOTE outward
      * Down will retract a NOTE inward
      */
-    m_shooterSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () ->
-                m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() * 0.5),
-            m_shooterSubsystem));
-    m_utbIntake.setDefaultCommand(
-        new InstantCommand(
-            () -> m_utbIntake.setUTBIntakePercentSpeed(driverController.getLeftY()), m_utbIntake));
+    // m_shooterSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () ->
+    //             m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() *
+    // 0.5),
+    //         m_shooterSubsystem));
   }
 
   /**

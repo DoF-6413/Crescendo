@@ -39,8 +39,8 @@ public interface ModuleIO {
   /** Enable or disable brake mode on the turn motor. */
   public default void setTurnBrakeMode(boolean enable) {}
 
-  /** Determines Wether Krakens are being Used for the Propulsion or Not */
+  /** Determines whether Krakens are being Used for the Propulsion or Not */
   public default <Optional> Boolean isL3() {
-    return null;
+    return false; // error
   }
 }
