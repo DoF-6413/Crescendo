@@ -76,8 +76,8 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         break;
-        
-        default:
+
+      default:
         // Replayed robot, disable IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
@@ -89,11 +89,11 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         break;
-      }
-      
-      // Configure the button bindings
-      configureButtonBindings();
     }
+
+    // Configure the button bindings
+    configureButtonBindings();
+  }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
