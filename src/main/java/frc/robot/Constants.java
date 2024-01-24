@@ -228,14 +228,14 @@ public final class Constants {
         false; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
 
     // PID Constants
-    public static final double kP = 0.0; // The "P" value of the PID
-    public static final double kI = 0.0; // The "I" value of the PID
-    public static final double kD = 0.0; // The "D" value of the PID
-    public static final double kV = 0.0;
-    public static final double kS = 0.0;
-    public static final double kA = 0.0;
-    public static final double FEEDFOWARD = 0.0;
-    public static final double SHOOTER_TOLERANCE_RPM = 50.0;
+    public static final double SHOOTER_KP = 0.0; // The "P" value of the PID
+    public static final double SHOOTER_KI = 0.0; // The "I" value of the PID
+    public static final double SHOOTER_KD = 0.0; // The "D" value of the PID
+    public static final double SHOOTER_KS = 0.0;  
+    public static final double SHOOTER_KV = 0.0;
+    public static final double SHOOTER_KA = 0.0;
+    public static final double SHOOTER_FEEDFOWARD = 0.0;
+    public static final double SHOOTER_TOLERANCE_RPM = 50.0; // The range that the RPM can be within the desired RPM
     
   }
 }

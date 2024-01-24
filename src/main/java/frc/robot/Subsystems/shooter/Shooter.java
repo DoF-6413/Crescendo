@@ -15,15 +15,15 @@ public class Shooter extends PIDSubsystem {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
   private static PIDController shooterPIDController;
-  private SimpleMotorFeedforward m_Feedforward = new SimpleMotorFeedforward(ShooterConstants.kS, ShooterConstants.kV, ShooterConstants.kA);
+  private SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(0, 0, 0);
   
   public Shooter(ShooterIO io) {
     super(
         shooterPIDController =
             new PIDController(
-                ShooterConstants.kP,
-                ShooterConstants.kI,
-                ShooterConstants.kD));
+                ShooterConstants.SHOOTER_KP,
+                ShooterConstants.SHOOTER_KI,
+                ShooterConstants.SHOOTER_KD));
     System.out.println("[Init] Creating Shooter");
     this.io = io;
   }
