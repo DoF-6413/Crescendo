@@ -139,11 +139,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
   }
-
-    // Configure the button bindings
-    configureButtonBindings();
-  }
-
+  
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -163,30 +159,17 @@ public class RobotContainer {
 
     driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
-    // TODO: update controls
-    // m_utbIntakeSubsystem.setDefaultCommand(
+    /*
+     * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
+     * Up will launch a NOTE outward
+     * Down will retract a NOTE inward
+     */
+    // m_shooterSubsystem.setDefaultCommand(
     //     new InstantCommand(
-    //         () -> m_utbIntakeSubsystem.setutbIntakePercentSpeed(auxController.getLeftY()),
-    //         m_utbIntakeSubsystem));
-
-    // m_climberSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
-    //         m_climberSubsystem));
-
-    // m_armSubsystem.setDefaultCommand(
-    //       new InstantCommand(
-    //           () > m_armSubsystem.setArmMotorSpeed(auxController.getLeftY()), m_armSubsystem));
-
-    // m_otbIntakeSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(auxController.getRightY()),
-    //         m_otbIntakeSubsystem));
-
-    // m_actuatorSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
-    //         m_actuatorSubsystem));
+    //         () ->
+    //             m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() *
+    // 0.5),
+    //         m_shooterSubsystem));
   }
 
   /**
