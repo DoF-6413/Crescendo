@@ -15,6 +15,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.PubSub;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -227,12 +228,14 @@ public final class Constants {
         false; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
 
     // PID Constants
-    public static final double kP = 0; // The "P" value of the PID
-    public static final double kI = 0; // The "I" value of the PID
-    public static final double kD = 0; // The "D" value of the PID
-    public static final double MAX_VELOCITY =
-        0; // The maximum velocity that the shooter motors can run at
-    public static final double MAX_ACCELERATION =
-        0; // The maximum acceleration that the shooter motors can run at
+    public static final double kP = 0.0; // The "P" value of the PID
+    public static final double kI = 0.0; // The "I" value of the PID
+    public static final double kD = 0.0; // The "D" value of the PID
+    public static final double kV = 0.0;
+    public static final double kS = 0.0;
+    public static final double kA = 0.0;
+    public static final double FEEDFOWARD = 0.0;
+    public static final double SHOOTER_TOLERANCE_RPM = 50.0;
+    
   }
 }

@@ -4,30 +4,26 @@
 
 package frc.robot.Subsystems.shooter;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants.ShooterConstants;
 import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
-public class Shooter extends ProfiledPIDSubsystem {
+public class Shooter extends PIDSubsystem {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
-  private static ProfiledPIDController shooterProfiledPIDController;
+  private static PIDController shooterPIDController;
+  private SimpleMotorFeedforward m_Feedforward = new SimpleMotorFeedforward(ShooterConstants.kS, ShooterConstants.kV, ShooterConstants.kA);
   
   public Shooter(ShooterIO io) {
     super(
-        shooterProfiledPIDController =
-            new ProfiledPIDController(
+        shooterPIDController =
+            new PIDController(
                 ShooterConstants.kP,
                 ShooterConstants.kI,
-                ShooterConstants.kD,
-                new TrapezoidProfile.Constraints(
-                    ShooterConstants.MAX_VELOCITY, ShooterConstants.MAX_ACCELERATION)),
-        0);
-    setGoal(1250);
+                ShooterConstants.kD));
     System.out.println("[Init] Creating Shooter");
     this.io = io;
   }
@@ -55,14 +51,14 @@ public class Shooter extends ProfiledPIDSubsystem {
   }
 
   @Override
-  public void useOutput(double output, State setpoint) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'useOutput'");
-  }
-
-  @Override
   public double getMeasurement() {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'getMeasurement'");
+  }
+
+  @Override
+  protected void useOutput(double output, double setpoint) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'useOutput'");
   }
 }
