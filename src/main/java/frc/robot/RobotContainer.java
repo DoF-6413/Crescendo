@@ -108,8 +108,8 @@ public class RobotContainer {
         m_wristSubsystem = new Wrist(new WristIOSim());
 
         break;
-        
-        default:
+
+      default:
         // Replayed robot, disable IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
@@ -136,6 +136,10 @@ public class RobotContainer {
     autoChooser.addOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
     
+    // Configure the button bindings
+    configureButtonBindings();
+  }
+
     // Configure the button bindings
     configureButtonBindings();
   }
