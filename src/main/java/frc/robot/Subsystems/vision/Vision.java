@@ -5,10 +5,8 @@
 package frc.robot.Subsystems.vision;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import java.util.List;
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
 
 /** Add your docs here. */
 public class Vision extends SubsystemBase {
