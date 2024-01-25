@@ -30,6 +30,7 @@ import frc.robot.Subsystems.gyro.GyroIONavX;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.shooter.ShooterIOSim;
 import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
+import frc.robot.Subsystems.vision.PoseEstimator;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -42,6 +43,7 @@ public class RobotContainer {
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
   private final Shooter m_shooterSubsystem;
+  private final PoseEstimator m_poseEstimator;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -61,6 +63,7 @@ public class RobotContainer {
                 new ModuleIOSparkMax(),
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
         break;
 
       case SIM:
@@ -74,6 +77,7 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
         break;
 
       default:
@@ -87,6 +91,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
         break;
     }
 

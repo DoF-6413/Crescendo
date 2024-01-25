@@ -13,7 +13,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -206,6 +209,14 @@ public final class Constants {
         new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
       };
     }
+  }
+
+  public class VisionConstants {
+
+    public static final Transform3d cameraOnRobotOffsets =
+        new Transform3d(
+            new Translation3d(0, 0, 0), // update this value
+            new Rotation3d(0, 0, 0)); // update this offset value
   }
 
   public static class ShooterConstants {
