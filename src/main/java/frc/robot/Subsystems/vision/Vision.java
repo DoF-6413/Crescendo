@@ -19,8 +19,10 @@ public class Vision extends SubsystemBase {
   }
 
   public void periodic() {
-    VisionIO.updateInputs(inputs);
-    Logger.processInputs("Vision", inputs);
+    if (VisionIO.getPhotonPipelineResult() != null) {
+      VisionIO.updateInputs(inputs);
+      Logger.processInputs("Vision", inputs);
+    }
   }
 
   public PhotonPipelineResult getResult() {
