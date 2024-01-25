@@ -9,6 +9,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.RobotStateConstants;
+import java.util.Optional;
 
 /** Runs Simulation for an Individual Swerve Module with both Motors as Neos */
 public class ModuleIOSimNeo implements ModuleIO {
@@ -90,7 +91,7 @@ public class ModuleIOSimNeo implements ModuleIO {
   }
 
   @Override
-  public <Optional> Boolean isL3() {
-    return false;
+  public Optional<Boolean> isL3() {
+    return Optional.of(false);
   }
 }

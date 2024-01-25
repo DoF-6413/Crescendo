@@ -79,8 +79,8 @@ public final class Constants {
     /**
      * Gives the PID Constant P for the Drive Motors depending on whether the Module is an L3 or L2
      */
-    public static final double driveKP(boolean isL3) {
-      if (isL3) {
+    public static final double driveKP(Optional<Boolean> isL3) {
+      if (isL3 == Optional.of(true)) {
         return DRIVE_KP_KRAKEN;
       } else {
         return DRIVE_KP_NEO;
@@ -88,8 +88,8 @@ public final class Constants {
     }
 
     /** Gives the PID Constant I for the Drive Motors depending on whether the Module is an L3 or */
-    public static final double driveKI(boolean isL3) {
-      if (isL3) {
+    public static final double driveKI(Optional<Boolean> isL3) {
+      if (isL3 == Optional.of(true)) {
         return DRIVE_KI_KRAKEN;
       } else {
         return DRIVE_KI_NEO;
@@ -99,20 +99,27 @@ public final class Constants {
     /**
      * Gives the PID Constant D for the Drive Motors depending on whether the Module is an L3 or L2
      */
-    public static final double driveKD(boolean isL3) {
-      if (isL3) {
+    public static final double driveKD(Optional<Boolean> isL3) {
+      if (isL3 == Optional.of(true)) {
         return DRIVE_KD_KRAKEN;
       } else {
         return DRIVE_KD_NEO;
       }
     }
+    // public static final double driveKD(boolean isL3) {
+    //   if (isL3) {
+    //     return DRIVE_KD_KRAKEN;
+    //   } else {
+    //     return DRIVE_KD_NEO;
+    //   }
+    // }
 
     /**
      * Gives the FeedFoward Constant S for the Drive Motors depending on whether the Module is an
      * L3or L2
      */
-    public static final double driveKS(boolean isL3) {
-      if (isL3) {
+    public static final double driveKS(Optional<Boolean> isL3) {
+      if (isL3 == Optional.of(true)) {
         return DRIVE_KS_KRAKEN;
       } else {
         return DRIVE_KS_NEO;
@@ -121,8 +128,8 @@ public final class Constants {
 
     // ** Gives the Feed Forward V for the Drive Motors depending on whether the
     // Module is an L3 or L2 */
-    public static final double driveKV(boolean isL3) {
-      if (isL3) {
+    public static final double driveKV(Optional<Boolean> isL3) {
+      if (isL3 == Optional.of(true)) {
         return DRIVE_KV_KRAKEN;
       } else {
         return DRIVE_KV_NEO;
