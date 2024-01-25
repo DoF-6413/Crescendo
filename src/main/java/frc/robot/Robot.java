@@ -14,11 +14,19 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.Constants.*;
-import org.littletonrobotics.junction.*;
-import org.littletonrobotics.junction.networktables.*;
-import org.littletonrobotics.junction.wpilog.*;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Subsystems.drive.Drive;
+import frc.robot.Subsystems.gyro.Gyro;
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -130,6 +138,13 @@ public class Robot extends LoggedRobot {
   public void autonomousPeriodic() {}
 
   /** This function is called once when teleop is enabled. */
+  private Gyro m_gyroSubsystem;
+
+  private Drive m_driveSubsystem;
+
+  private CommandXboxController driverController =
+      new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
+
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when

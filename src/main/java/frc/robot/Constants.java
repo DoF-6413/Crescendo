@@ -81,8 +81,10 @@ public final class Constants {
      */
     public static final double driveKP(Optional<Boolean> isL3) {
       if (isL3 == Optional.of(true)) {
+        System.out.println("kraken true kp");
         return DRIVE_KP_KRAKEN;
       } else {
+        System.out.println("neo true kp");
         return DRIVE_KP_NEO;
       }
     }
@@ -90,8 +92,10 @@ public final class Constants {
     /** Gives the PID Constant I for the Drive Motors depending on whether the Module is an L3 or */
     public static final double driveKI(Optional<Boolean> isL3) {
       if (isL3 == Optional.of(true)) {
+        System.out.println("kraken true kp");
         return DRIVE_KI_KRAKEN;
       } else {
+        System.out.println("neo true ki");
         return DRIVE_KI_NEO;
       }
     }
