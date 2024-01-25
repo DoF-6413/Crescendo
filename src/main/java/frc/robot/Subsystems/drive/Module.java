@@ -20,25 +20,32 @@ public class Module {
   private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
   private final int index;
 
+  // initialize PID controllers
   private PIDController drivePID = new PIDController(0, 0, 0);
   private PIDController steerPID = new PIDController(0, 0, 0);
+
+  // initialize feedforward
   private SimpleMotorFeedforward driveFeedforward = new SimpleMotorFeedforward(0, 0);
 
+  // construct module
   public Module(ModuleIO io, int index) {
     System.out.println("[Init] Creating Module");
     this.io = io;
     this.index = index;
 
+    // update drive pid values depending on neo or kraken
     drivePID =
         new PIDController(
             DriveConstants.driveKP(io.isL3()),
             DriveConstants.driveKI(io.isL3()),
             DriveConstants.driveKD(io.isL3()));
 
+    // update drive ff values depending on neo or kraken
     driveFeedforward =
         new SimpleMotorFeedforward(
             DriveConstants.driveKS(io.isL3()), DriveConstants.driveKV(io.isL3()));
 
+    // fill steer pid values
     steerPID =
         new PIDController(
             DriveConstants.STEER_KP_NEO, DriveConstants.STEER_KI_NEO, DriveConstants.STEER_KD_NEO);
@@ -66,7 +73,7 @@ public class Module {
   }
 
   /** Manually Sets Voltage of the Turn Motor in Individual Module (Max is 12 Volts) */
-  public void seTurnVoltage(double volts) {
+  public void setTurnVoltage(double volts) {
     io.setTurnVoltage(volts);
   }
 
@@ -125,6 +132,12 @@ public class Module {
   public void periodic() {
     this.updateInputs();
     Logger.processInputs("Drive/Module" + Integer.toString(index), inputs);
+    drivePID.setPID(
+        DriveConstants.DRIVE_KP_NEO, DriveConstants.DRIVE_KI_NEO, DriveConstants.DRIVE_KD_NEO);
+    steerPID.setPID(
+        DriveConstants.STEER_KP_NEO, DriveConstants.STEER_KI_NEO, DriveConstants.STEER_KD_NEO);
+
+    System.out.println(io.isL3());
   }
 
   /**

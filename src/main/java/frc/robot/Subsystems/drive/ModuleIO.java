@@ -42,6 +42,6 @@ public interface ModuleIO {
 
   /** Determines whether Krakens are being Used for the Propulsion or Not */
   public default Optional<Boolean> isL3() {
-    return null; // error
+    return null;
   }
 }
