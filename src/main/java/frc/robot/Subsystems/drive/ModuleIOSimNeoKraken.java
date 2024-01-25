@@ -8,6 +8,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.RobotStateConstants;
+import java.util.Optional;
 
 /**
  * Runs Simulation for an Individual Swerve Module with the Turn Motor as a Neo and the Drive Motor
@@ -95,7 +96,7 @@ public class ModuleIOSimNeoKraken implements ModuleIO {
   }
 
   @Override
-  public <Optional> Boolean isL3() {
-    return true;
+  public Optional<Boolean> isL3() {
+    return Optional.of(true);
   }
 }
