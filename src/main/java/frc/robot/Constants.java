@@ -18,7 +18,6 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.PubSub;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -222,11 +221,13 @@ public final class Constants {
 
   public static class ShooterConstants {
 
-    public static final double GEAR_RATIO = 1.0; // Gear ratio of 1:1 for the prototype Horizontal-Rollers/Top-Bottom Shooter
-    
+    public static final double GEAR_RATIO =
+        1.0; // Gear ratio of 1:1 for the prototype Horizontal-Rollers/Top-Bottom Shooter
+
     // Motor IDs
     public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
-    public static final int BOTTOM_SHOOTER_MOTOR_ID = 15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner
+    public static final int BOTTOM_SHOOTER_MOTOR_ID =
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner
 
     // Inverted motors
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
@@ -238,14 +239,15 @@ public final class Constants {
     public static final double SHOOTER_KP = 0.0; // The "P" value of the PID
     public static final double SHOOTER_KI = 0.0; // The "I" value of the PID
     public static final double SHOOTER_KD = 0.0; // The "D" value of the PID
-    public static final double SHOOTER_KS = 0.0;  
-    public static final double SHOOTER_KV = 0.0;
-    public static final double SHOOTER_KA = 0.0;
-    public static final double SHOOTER_FEEDFOWARD = 0.0;
-    public static final double SHOOTER_TOLERANCE_RPM = 50.0; // The range that the RPM can be within the desired RPM
+    public static final double SHOOTER_KS =
+        0.0; // Static gain, Voltage increase to overcome friction
+    public static final double SHOOTER_KV = 0.0; // Velocity gain, volts * seconds / distance
+    public static final double SHOOTER_KA = 0.0; // Acceleration gain, volts * seconds^2 / distance
+    public static final double SHOOTER_TOLERANCE_RPM =
+        50.0; // The range that the RPM can be within the desired RPM
 
     // Flywheel simulation constants
-    public static final double SHOOTER_J_KG_METERS_SQUARED = 0.0016007389; 
+    public static final double SHOOTER_J_KG_METERS_SQUARED = 0.0016007389;
     public static final double APPLIED_VOLTS = 12.0;
   }
 }

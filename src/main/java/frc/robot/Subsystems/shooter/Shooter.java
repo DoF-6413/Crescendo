@@ -15,8 +15,10 @@ public class Shooter extends PIDSubsystem {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
   private static PIDController shooterPIDController;
-  private SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(0, 0, 0);
-  
+  private SimpleMotorFeedforward shooterFF =
+      new SimpleMotorFeedforward(
+          ShooterConstants.SHOOTER_KS, ShooterConstants.SHOOTER_KV, ShooterConstants.SHOOTER_KA);
+
   public Shooter(ShooterIO io) {
     super(
         shooterPIDController =
@@ -26,6 +28,8 @@ public class Shooter extends PIDSubsystem {
                 ShooterConstants.SHOOTER_KD));
     System.out.println("[Init] Creating Shooter");
     this.io = io;
+    getController().setTolerance(ShooterConstants.SHOOTER_TOLERANCE_RPM);
+    setSetpoint(3000);
   }
 
   @Override
@@ -52,13 +56,18 @@ public class Shooter extends PIDSubsystem {
 
   @Override
   public double getMeasurement() {
+    return (inputs.topShooterMotorRPM + inputs.bottomShooterMotorRPM) / 2;
     // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getMeasurement'");
+    // throw new UnsupportedOperationException("Unimplemented method 'getMeasurement'");
   }
 
   @Override
-  protected void useOutput(double output, double setpoint) {
+  public void useOutput(double output, double setpoint) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'useOutput'");
+  }
+
+  public boolean atSetpoint() {
+    return shooterPIDController.atSetpoint();
   }
 }
