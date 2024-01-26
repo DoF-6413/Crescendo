@@ -32,13 +32,9 @@ public class UTBIntake extends SubsystemBase {
   /** Sets intake speed for the UTB Intake :) */
   public void setUTBIntakePercentSpeed(double percent) {
     io.setUTBIntakePercentSpeed(percent);
-    // io.setUTBIntakeVoltage(percent * 12);
   }
 
   /**
    * Returns the speed of the wheels for the intake found under the bumpers in Radians per second
    */
-  public double getUTBIntakeVelocityRadPerSecond() {
-    return inputs.utbIntakeVelocityRadPerSec;
-  }
 }
