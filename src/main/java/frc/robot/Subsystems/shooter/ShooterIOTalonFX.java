@@ -23,7 +23,8 @@ public class ShooterIOTalonFX implements ShooterIO {
     bottomShooterMotor = new TalonFX(ShooterConstants.BOTTOM_SHOOTER_MOTOR_ID);
 
     // Inverts top shooter motor to spin CCW
-    bottomShooterMotor.setInverted(ShooterConstants.TOP_SHOOTER_MOTOR_INVERTED);
+    topShooterMotor.setInverted(ShooterConstants.TOP_SHOOTER_MOTOR_INVERTED);
+    bottomShooterMotor.setInverted(ShooterConstants.BOTTOM_SHOOTER_MOTOR_INVERTED);
   }
 
   @Override
