@@ -138,13 +138,6 @@ public class Robot extends LoggedRobot {
   public void autonomousPeriodic() {}
 
   /** This function is called once when teleop is enabled. */
-  private Gyro m_gyroSubsystem;
-
-  private Drive m_driveSubsystem;
-
-  private CommandXboxController driverController =
-      new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
-
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
@@ -158,7 +151,9 @@ public class Robot extends LoggedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    
+  }
 
   /** This function is called once when test mode is enabled. */
   @Override
