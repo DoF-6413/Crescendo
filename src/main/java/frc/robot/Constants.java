@@ -220,10 +220,10 @@ public final class Constants {
         (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0); // TODO: what are these numbers
 
     public enum DRIVE_MOTOR {
-      FRONT_RIGHT(4),
-      FRONT_LEFT(7),
-      BACK_LEFT(10),
-      BACK_RIGHT(13);
+      FRONT_RIGHT(4), // Module 0
+      FRONT_LEFT(7), // Module 1
+      BACK_LEFT(10), // Module 2
+      BACK_RIGHT(13); // Module 3
 
       public final int CAN_ID;
 
@@ -232,12 +232,11 @@ public final class Constants {
       }
     }
 
-    // TODO: update values
     public static enum L2_ABSOLUTE_ENCODER_OFFSET_RAD {
-      FRONT_LEFT(0), // Module 0
-      FRONT_RIGHT(0), // Module 1
-      BACK_LEFT(0), // Module 2
-      BACK_RIGHT(0); // Module 3
+      FRONT_RIGHT(0.04), // Module 0
+      FRONT_LEFT(-3.166252847), // Module 1
+      BACK_LEFT(-2.69), // Module 2 oscillates btwn 0 and 2.6972541089???
+      BACK_RIGHT(0); // Module 3 oscillates btwn 0 and 3.181476
 
       public final double OFFSET;
 
@@ -261,10 +260,10 @@ public final class Constants {
     }
 
     public enum TURN_MOTOR {
-      FRONT_RIGHT(3),
-      FRONT_LEFT(6),
-      BACK_LEFT(9),
-      BACK_RIGHT(12);
+      FRONT_RIGHT(3), // Module 0
+      FRONT_LEFT(6), // Module 1
+      BACK_LEFT(9), // Module 2
+      BACK_RIGHT(12); // Module 3
 
       public final int CAN_ID;
 
@@ -274,10 +273,10 @@ public final class Constants {
     }
 
     public static enum ABSOLUTE_ENCODER {
-      FRONT_RIGHT(2),
-      FRONT_LEFT(5),
-      BACK_LEFT(8),
-      BACK_RIGHT(11);
+      FRONT_RIGHT(2), // Module 0
+      FRONT_LEFT(5), // Module 1
+      BACK_LEFT(8), // Module 2
+      BACK_RIGHT(11); // Module 3
 
       public final int ENCODER_ID;
 
