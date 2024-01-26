@@ -28,6 +28,7 @@ import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.gyro.GyroIO;
 import frc.robot.Subsystems.gyro.GyroIONavX;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterIOSim;
 import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
 import frc.robot.Subsystems.vision.PoseEstimator;
 import frc.robot.Subsystems.vision.Vision;
