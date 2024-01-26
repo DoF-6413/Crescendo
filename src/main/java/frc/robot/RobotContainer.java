@@ -28,6 +28,7 @@ import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.gyro.GyroIO;
 import frc.robot.Subsystems.gyro.GyroIONavX;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterIOSim;
 import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
 import frc.robot.Subsystems.vision.PoseEstimator;
 
@@ -75,7 +76,7 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
-        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
         break;
 
