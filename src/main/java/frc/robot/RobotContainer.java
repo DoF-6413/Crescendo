@@ -55,6 +55,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     switch (RobotStateConstants.getMode()) {
+        case REAL:
         // Real robot, instantiate hardware IO implementations
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
@@ -66,9 +67,10 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
-        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax(), 0);
+        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
         break;
 
+        case SIM:
         // Sim robot, instantiate physics sim IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
@@ -80,10 +82,11 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
-        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax(), 0);
+        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
 
         break;
 
+        default:
         // Replayed robot, disable IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
@@ -95,8 +98,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
-        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax(), 0);
-
+        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
         break;
     }
 
