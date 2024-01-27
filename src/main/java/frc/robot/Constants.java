@@ -81,10 +81,10 @@ public final class Constants {
      */
     public static final double driveKP(Optional<Boolean> isL3) {
       if (isL3 == Optional.of(true)) {
-        System.out.println("kraken true kp");
+        // System.out.println("kraken true kp");
         return DRIVE_KP_KRAKEN;
       } else {
-        System.out.println("neo true kp");
+        // System.out.println("neo true kp");
         return DRIVE_KP_NEO;
       }
     }
@@ -92,10 +92,10 @@ public final class Constants {
     /** Gives the PID Constant I for the Drive Motors depending on whether the Module is an L3 or */
     public static final double driveKI(Optional<Boolean> isL3) {
       if (isL3 == Optional.of(true)) {
-        System.out.println("kraken true kp");
+        // System.out.println("kraken true kp");
         return DRIVE_KI_KRAKEN;
       } else {
-        System.out.println("neo true ki");
+        // System.out.println("neo true ki");
         return DRIVE_KI_NEO;
       }
     }
@@ -173,9 +173,10 @@ public final class Constants {
         MAX_LINEAR_SPEED_M_PER_SEC / (Math.sqrt(2 * (TRACK_WIDTH_M * TRACK_WIDTH_M)) / 2);
 
     // PID Constants for Neo Drive PID
-    public static final double DRIVE_KP_NEO = 0.05; // TODO: Update
-    public static final double DRIVE_KI_NEO = 0; // TODO: Update
-    public static final double DRIVE_KD_NEO = 0; // TODO: Update
+    public static final double DRIVE_KP_NEO =
+        0; // TODO: turns now without violently combusting but still doesn't drive forward
+    public static final double DRIVE_KI_NEO = 0.0; // TODO: Update
+    public static final double DRIVE_KD_NEO = 0.0; // TODO: Update
 
     // PID Constants for Kraken Drive PID
     public static final double DRIVE_KP_KRAKEN = 0; // TODO: Update
@@ -192,7 +193,7 @@ public final class Constants {
 
     // PID Constants for Neo Steer PID
     public static final double STEER_KP_NEO = 7.0;
-    public static final double STEER_KI_NEO = 0.1;
+    public static final double STEER_KI_NEO = 0.0;
     public static final double STEER_KD_NEO = 0.0;
     /** Gear Ratio for MK4I L3 */
     public static final double GEAR_RATIO_L3 = 6.12;
