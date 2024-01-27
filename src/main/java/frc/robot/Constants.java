@@ -236,4 +236,11 @@ public final class Constants {
     public static final double SHOOTER_J_KG_METERS_SQUARED = 0.0016007389; 
     public static final double APPLIED_VOLTS = 12.0;
   }
+
+    /** Unchanging Values for the Under the Bumper Intake */
+  public static class UTBIntakeConstants {
+    public static final int UTB_INTAKE_CANID = 0; // TODO: Update later
+    public static final int GEAR_RATIO = 2; // 2:1 Gear Ratio
+  }
 }
+
