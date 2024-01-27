@@ -40,12 +40,12 @@ public class Drive extends SubsystemBase {
       Gyro gyro) {
 
     System.out.println("[Init] Creating Drive");
+    this.gyro = gyro;
     modules[0] = new Module(FRModuleIO, 0);
     modules[1] = new Module(FLModuleIO, 1);
     modules[2] = new Module(BLModuleIO, 2);
     modules[3] = new Module(BRModuleIO, 3);
 
-    this.gyro = gyro;
 
     for (var module : modules) {
       module.setBrakeModeAll(true); // set brake mode to be true by default

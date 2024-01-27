@@ -134,10 +134,11 @@ public class Module {
     Logger.processInputs("Drive/Module" + Integer.toString(index), inputs);
     drivePID.setPID(
         DriveConstants.DRIVE_KP_NEO, DriveConstants.DRIVE_KI_NEO, DriveConstants.DRIVE_KD_NEO);
+    // System.out.println(drivePID.getP() + " " + drivePID.getI() + " " + drivePID.getD());
     steerPID.setPID(
         DriveConstants.STEER_KP_NEO, DriveConstants.STEER_KI_NEO, DriveConstants.STEER_KD_NEO);
-
-    System.out.println(io.isL3());
+    // System.out.println(steerPID.getP() + " " + steerPID.getI() + " " + steerPID.getD());
+    // System.out.println(io.isL3());
   }
 
   /**
