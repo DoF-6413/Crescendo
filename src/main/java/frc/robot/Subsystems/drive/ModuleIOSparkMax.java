@@ -13,4 +13,9 @@ public class ModuleIOSparkMax implements ModuleIO {
 
   @Override
   public void updateInputs(ModuleIOInputs inputs) {}
+
+  @Override
+  public <Optional> Boolean isL3() {
+    return true;
+  }
 }
