@@ -290,6 +290,10 @@ public final class Constants {
     public static final int MEASUREMENT_PERIOD_MS = 10;
   }
 
+  public class GyroConstants {
+    public static final double GYRO_HEADING_OFFSET_DEGREES = 90;
+  }
+
   public class VisionConstants {
 
     public static final Transform3d cameraOnRobotOffsets =

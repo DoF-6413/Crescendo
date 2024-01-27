@@ -8,6 +8,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
+import frc.robot.Constants.GyroConstants;
 import frc.robot.Subsystems.gyro.GyroIO.GyroIOInputs;
 
 /** Runs Real NavX Gyroscope */
@@ -18,6 +19,7 @@ public class GyroIONavX implements GyroIO {
   public GyroIONavX() {
     System.out.println("[Init] Creating GyroIONavX");
     gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
+    gyro.setAngleAdjustment(GyroConstants.GYRO_HEADING_OFFSET_DEGREES);
   }
 
   @Override

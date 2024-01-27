@@ -136,7 +136,7 @@ public class RobotContainer {
                     driverController.getRightX()),
             m_driveSubsystem));
 
-    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
+    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
     /*
      * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick

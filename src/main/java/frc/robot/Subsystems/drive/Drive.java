@@ -67,6 +67,13 @@ public class Drive extends SubsystemBase {
       }
     }
 
+    if (DriverStation.isEnabled()) {
+      // Stops driving when disabled
+      for (var module : modules) {
+        module.setBrakeModeAll(true);
+      }
+    }
+
     // Creates Swerve Dimensions in a 2D plan
     swerveKinematics = new SwerveDriveKinematics(DriveConstants.getModuleTranslations());
 
