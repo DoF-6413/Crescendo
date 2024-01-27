@@ -29,9 +29,9 @@ import frc.robot.Subsystems.mechanism2d.Mechanisms2d;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.shooter.ShooterIOSim;
 import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
-import frc.robot.Subsystems.vision.PoseEstimator;
 import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Subsystems.utbintake.UTBIntakeIOSparkMax;
+import frc.robot.Subsystems.vision.PoseEstimator;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -55,7 +55,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     switch (RobotStateConstants.getMode()) {
-        case REAL:
+      case REAL:
         // Real robot, instantiate hardware IO implementations
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
@@ -71,7 +71,7 @@ public class RobotContainer {
         m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
         break;
 
-        case SIM:
+      case SIM:
         // Sim robot, instantiate physics sim IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
@@ -88,7 +88,7 @@ public class RobotContainer {
 
         break;
 
-        default:
+      default:
         // Replayed robot, disable IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
@@ -136,7 +136,9 @@ public class RobotContainer {
             () ->
                 m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() * 0.5),
             m_shooterSubsystem));
-    m_utbIntake.setDefaultCommand(new InstantCommand(()-> m_utbIntake.setUTBIntakePercentSpeed(driverController.getLeftY()), m_utbIntake));
+    m_utbIntake.setDefaultCommand(
+        new InstantCommand(
+            () -> m_utbIntake.setUTBIntakePercentSpeed(driverController.getLeftY()), m_utbIntake));
   }
 
   /**
