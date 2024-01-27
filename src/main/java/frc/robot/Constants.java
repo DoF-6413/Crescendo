@@ -223,17 +223,20 @@ public final class Constants {
 
     // Gear ratio of 1:1 for the prototype Horizontal-Rollers/Top-Bottom Shooter
     public static final double GEAR_RATIO = 1.0;
-    
+
     // Motor IDs
     public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
-    public static final int BOTTOM_SHOOTER_MOTOR_ID = 15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner
+    public static final int BOTTOM_SHOOTER_MOTOR_ID =
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner
 
     // Direction of motors; inverted = ccw
-    public static final boolean TOP_SHOOTER_MOTOR_INVERTED = true; // Top motor spins opposite of the bottom motor (CCW)
-    public static final boolean BOTTOM_SHOOTER_MOTOR_INVERTED = false; // Bottom motor is NOT inverted (CW)
+    public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
+        true; // Top motor spins opposite of the bottom motor (CCW)
+    public static final boolean BOTTOM_SHOOTER_MOTOR_INVERTED =
+        false; // Bottom motor is NOT inverted (CW)
 
     // Flywheel simulation constants
-    public static final double SHOOTER_J_KG_METERS_SQUARED = 0.0016007389; 
+    public static final double SHOOTER_J_KG_METERS_SQUARED = 0.0016007389;
     public static final double APPLIED_VOLTS = 12.0;
   }
 }

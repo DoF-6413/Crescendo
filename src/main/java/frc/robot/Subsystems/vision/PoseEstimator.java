@@ -77,15 +77,15 @@ public class PoseEstimator extends SubsystemBase {
       pipelineResult = vision.getResult();
       resultsTimeStamp = pipelineResult.getTimestampSeconds();
 
-      if (resultsTimeStamp != previousPipelineTimestamp && vision.hasTargets()) {
+      if (resultsTimeStamp != previousPipelineTimestamp) {
 
         previousPipelineTimestamp = resultsTimeStamp;
 
         var target = pipelineResult.getBestTarget();
         var fiducialID = target.getFiducialId();
-        if (target.getPoseAmbiguity() > 0.1
+        if (target.getPoseAmbiguity() < 0.2
             && fiducialID >= 1
-            && fiducialID >= 16) { // 0.2 is considered ambiguous
+            && fiducialID <= 16) { // 0.2 is considered ambiguous
 
           AprilTagFieldLayout aprilTagFieldLayout =
               new AprilTagFieldLayout(
@@ -106,17 +106,21 @@ public class PoseEstimator extends SubsystemBase {
           // logging values
 
           SmartDashboard.putBoolean("hasTarget?", vision.hasTargets());
-          SmartDashboard.putNumber("pipelineTimestamp", resultsTimeStamp);
-          SmartDashboard.putNumber("TargetID", target.getFiducialId());
-          SmartDashboard.putNumber("TagX", tagPose.getX());
-          SmartDashboard.putNumber("TagY", tagPose.getY());
-          SmartDashboard.putNumber("TagZ", tagPose.getZ());
-          SmartDashboard.putNumber("TagRotation", tagPose.getRotation().getAngle());
 
-        } else {
-          System.out.println(
-              "best to alternate ratio is less than or equal to 0.2 and no apriltag detected");
-        }
+          SmartDashboard.putNumber("pipelineTimestamp", resultsTimeStamp);
+
+          SmartDashboard.putNumber("TargetID", target.getFiducialId());
+
+          SmartDashboard.putNumber("TagX", target.getBestCameraToTarget().getX());
+
+          SmartDashboard.putNumber("TagY", target.getBestCameraToTarget().getY());
+
+          SmartDashboard.putNumber("TagZ", target.getBestCameraToTarget().getZ());
+
+          SmartDashboard.putNumber(
+              "TagRotation", target.getBestCameraToTarget().getRotation().getAngle());
+
+        } 
       }
     }
   }
