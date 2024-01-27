@@ -50,7 +50,7 @@ public class RobotContainer {
   private final Drive m_driveSubsystem;
   private final Shooter m_shooterSubsystem;
   private final PoseEstimator m_poseEstimator;
-  private final Vision m_Vision;
+  private final Vision m_vision;
   private final UTBIntake m_utbIntake;
 
   // Controllers
@@ -71,8 +71,8 @@ public class RobotContainer {
                 new ModuleIOSparkMax(),
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_Vision = new Vision(new VisionIOArduCam());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_Vision);
+        m_vision = new Vision(new VisionIOArduCam());
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
         break;
 
@@ -86,8 +86,8 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
-        m_Vision = new Vision(new VisionIOSim());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_Vision);
+        m_vision = new Vision(new VisionIOSim());
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
 
@@ -104,8 +104,8 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_Vision = new Vision(new VisionIO() {});
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_Vision);
+        m_vision = new Vision(new VisionIO() {});
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
         break;
     }
