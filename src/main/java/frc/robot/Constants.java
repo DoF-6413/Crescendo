@@ -231,10 +231,10 @@ public final class Constants {
     }
 
     public static enum L2_ABSOLUTE_ENCODER_OFFSET_RAD {
-      FRONT_RIGHT(0.04), // Module 0
-      FRONT_LEFT(-3.166252847), // Module 1
-      BACK_LEFT(-2.69), // Module 2 oscillates btwn 0 and 2.6972541089???
-      BACK_RIGHT(0); // Module 3 oscillates btwn 0 and 3.181476
+      FRONT_RIGHT(-0.371), // Module 0
+      FRONT_LEFT(-2.023), // Module 1
+      BACK_LEFT(-0.626), // Module 2 oscillates btwn 0 and 2.6972541089???
+      BACK_RIGHT(0.373); // Module 3 oscillates btwn 0 and 3.181476
 
       public final double OFFSET;
 

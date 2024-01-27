@@ -62,9 +62,10 @@ public class Robot extends LoggedRobot {
     switch (RobotStateConstants.getMode()) {
       case REAL:
         // Running on a real robot, log to a USB stick ("/U/logs")
-        Logger.addDataReceiver(
-            new WPILOGWriter(
-                "/Crescendo/Logs")); // The name looks like "Logs_Year-Month-Day_Hour-Minute-Second"
+        // Logger.addDataReceiver(
+        //     new WPILOGWriter(
+        //         "/Crescendo/Logs")); // The name looks like
+        // "Logs_Year-Month-Day_Hour-Minute-Second"
         Logger.addDataReceiver(new NT4Publisher());
         break;
 
