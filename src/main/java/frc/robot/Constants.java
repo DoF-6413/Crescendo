@@ -192,7 +192,7 @@ public final class Constants {
     public static final double DRIVE_KV_NEO = 0.4; // TODO: Update
 
     // PID Constants for Neo Steer PID
-    public static final double STEER_KP_NEO = 7.0;
+    public static final double STEER_KP_NEO = 7;
     public static final double STEER_KI_NEO = 0.0;
     public static final double STEER_KD_NEO = 0.0;
     /** Gear Ratio for MK4I L3 */
