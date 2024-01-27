@@ -63,6 +63,7 @@ public class Drive extends SubsystemBase {
       // Stops driving when disabled
       for (var module : modules) {
         module.stop();
+        module.setBrakeModeAll(false);
       }
     }
 
