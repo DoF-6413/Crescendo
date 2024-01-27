@@ -217,9 +217,6 @@ public final class Constants {
       };
     }
 
-    public static final double DRIVE_AFTER_ENCODER_REDUCTION =
-        (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0); // TODO: what are these numbers
-
     public enum DRIVE_MOTOR {
       FRONT_RIGHT(4), // Module 0
       FRONT_LEFT(7), // Module 1
