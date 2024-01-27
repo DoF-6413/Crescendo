@@ -152,7 +152,7 @@ public final class Constants {
     public static final double TRACK_WIDTH_M = Units.inchesToMeters(32.173359);
 
     /** Max Speed the Robot Can Travel in One Linear Direction (m/s) */
-    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 0; // TODO: Update
+    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 4.5; // TODO: Update
 
     /**
      * Max Speed the Robot Can Rotate (rads/s) Angular Speed can be Calulated by Dividing Max Linear

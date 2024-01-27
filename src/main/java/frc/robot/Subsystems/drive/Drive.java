@@ -24,8 +24,13 @@ public class Drive extends SubsystemBase {
 
   // chassis & swerve modules
   private ChassisSpeeds setpoint = new ChassisSpeeds();
-  private SwerveModuleState[] lastSetpointStates = new SwerveModuleState[4];
-
+  private SwerveModuleState[] lastSetpointStates =
+      new SwerveModuleState[] {
+        new SwerveModuleState(),
+        new SwerveModuleState(),
+        new SwerveModuleState(),
+        new SwerveModuleState()
+      };
   /** Measures Movement Time to Determine Brake Mode or Coast Mode */
   private Timer lastMovementTimer = new Timer();
 
