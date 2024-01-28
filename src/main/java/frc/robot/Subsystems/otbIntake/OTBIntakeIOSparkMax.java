@@ -53,3 +53,4 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
     OTBIntakeMotor.set(percent);
   }
 }
+
