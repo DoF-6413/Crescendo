@@ -5,44 +5,29 @@
 package frc.robot.Subsystems.vision;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import java.util.List;
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
 
 /** Add your docs here. */
 public class Vision extends SubsystemBase {
 
   private final VisionIOInputsAutoLogged inputs = new VisionIOInputsAutoLogged();
   private final VisionIO VisionIO;
-  private List<PhotonTrackedTarget> targeT =
-      (List<PhotonTrackedTarget>) new PhotonTrackedTarget(0, 0, 0, 0, 0, null, null, 0, null, null);
 
   public Vision(VisionIO io) {
     VisionIO = io;
   }
 
   public void periodic() {
-    VisionIO.updateInputs(inputs);
-    Logger.processInputs("Vision", inputs);
-    targeT =
-        (List<PhotonTrackedTarget>)
-            new PhotonTrackedTarget(
-                inputs.TargetYaw,
-                inputs.TargetPitch,
-                inputs.TargetArea,
-                inputs.TargetSkew,
-                inputs.BestFiducialID,
-                inputs.BestCamToTarget,
-                inputs.AltCamToTag,
-                inputs.PoseAmbiguity,
-                null,
-                null);
+    if (VisionIO.getPhotonPipelineResult() != null) {
+      VisionIO.updateInputs(inputs);
+      Logger.processInputs("Vision", inputs);
+    }
   }
 
   public PhotonPipelineResult getResult() {
 
-    return new PhotonPipelineResult(inputs.latencyMillis, this.targeT);
+    return VisionIO.getPhotonPipelineResult();
   }
 
   public double getTargetX() {
