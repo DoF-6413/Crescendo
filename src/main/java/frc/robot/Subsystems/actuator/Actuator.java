@@ -11,6 +11,7 @@ import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
 
 
+
 public class Actuator extends SubsystemBase {
   /** Creates a new Actuator. */
   public static ActuatorIO actuatorIO;
@@ -99,4 +100,3 @@ public class Actuator extends SubsystemBase {
     actuatorSetpoint = SmartDashboard.getNumber("actuatorSetpoint", 0.0);
     actuatorPID.setSetpoint(actuatorSetpoint);
   }
-}
