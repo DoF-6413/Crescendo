@@ -119,8 +119,7 @@ public class PoseEstimator extends SubsystemBase {
 
           SmartDashboard.putNumber(
               "TagRotation", target.getBestCameraToTarget().getRotation().getAngle());
-
-        } 
+        }
       }
     }
   }

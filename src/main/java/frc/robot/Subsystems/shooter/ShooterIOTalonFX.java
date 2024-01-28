@@ -4,6 +4,9 @@
 
 package frc.robot.Subsystems.shooter;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.Slot1Configs;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import frc.robot.Constants.ShooterConstants;
@@ -15,6 +18,9 @@ public class ShooterIOTalonFX implements ShooterIO {
 
   private final TalonFX topShooterMotor;
   private final TalonFX bottomShooterMotor;
+  private final Slot0Configs slot0Configs = new Slot0Configs();
+  private final Slot1Configs slot1Configs = new Slot1Configs();
+  private final PositionVoltage positionVoltage = new PositionVoltage(0).withSlot(0);
 
   public ShooterIOTalonFX() {
     System.out.println("[Init] Creating ShooterIOTalonFX");
@@ -25,6 +31,15 @@ public class ShooterIOTalonFX implements ShooterIO {
     // Inverts top shooter motor to spin CCW
     topShooterMotor.setInverted(ShooterConstants.TOP_SHOOTER_MOTOR_INVERTED);
     bottomShooterMotor.setInverted(ShooterConstants.BOTTOM_SHOOTER_MOTOR_INVERTED);
+
+    topShooterMotor.getConfigurator().apply(slot0Configs);
+    bottomShooterMotor.getConfigurator().apply(slot1Configs);
+    slot0Configs.kP = ShooterConstants.SHOOTER_KP;
+    slot0Configs.kI = ShooterConstants.SHOOTER_KI;
+    slot0Configs.kD = ShooterConstants.SHOOTER_KD;
+    slot1Configs.kP = ShooterConstants.SHOOTER_KP;
+    slot1Configs.kI = ShooterConstants.SHOOTER_KI;
+    slot1Configs.kD = ShooterConstants.SHOOTER_KD;
   }
 
   @Override
@@ -83,5 +98,9 @@ public class ShooterIOTalonFX implements ShooterIO {
   public void setShooterMotorPercentSpeed(double percent) {
     topShooterMotor.set(percent);
     bottomShooterMotor.set(percent);
+  }
+
+  public double getPID() {
+    return slot0Configs.kP;
   }
 }
