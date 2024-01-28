@@ -18,7 +18,7 @@ public class Drive extends SubsystemBase {
   private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
   private static final Module[] modules = new Module[4];
   private final Gyro gyro;
-  private Twist2d twist;
+  private Twist2d twist = new Twist2d();
 
   // swerve kinematics library
   public SwerveDriveKinematics swerveKinematics;
