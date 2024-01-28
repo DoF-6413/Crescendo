@@ -30,7 +30,7 @@ import frc.robot.Subsystems.vision.Vision;
 
 import org.photonvision.targeting.PhotonPipelineResult;
 
-/** Add your docs here. */
+/** This class handels the odometry and locates the robots current position */
 public class PoseEstimator extends SubsystemBase {
   /**
    * increase the numbers to trust the model's state estimate less it is a matrix in form of [x, y,
@@ -38,6 +38,12 @@ public class PoseEstimator extends SubsystemBase {
    */
   public static Vector<N3> stateStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
 
+  /**
+   * increase the numbers to trust the vision measurements less also in form [x, y, theta] or
+   * meters, meters, radians
+   */
+
+  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
   private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;
   private Vision vision;
