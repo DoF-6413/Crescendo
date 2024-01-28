@@ -274,6 +274,7 @@ public final class Constants {
   }
 
   public static class OTBIntakeConstants {
+<<<<<<< HEAD
     public static final int OTB_INTAKE_CANID = 0; // TODO: update this Id value please !!!
     public static final double GEAR_RATIO = 2.0;
     public static double OTB_INTAKE_KP = 0.0;
@@ -297,5 +298,13 @@ public final class Constants {
     /**Length from pivot to roller */ 
     public static final double ACTUATOR_LENGTH_METERS = Units.inchesToMeters(30.354561);
     public static final boolean IS_SIMULATE_GRAVITY = true;
+=======
+    public static final int OTB_INTAKE_CANID = 0;   //TODO: update this Id value please !!!
+    public static final double GEAR_RATIO = 2;
+  }
+
+  public static class ActuatorConstants {
+
+>>>>>>> 6924a01 (made the motor and encoder for the OTB intake, updated the inputs in OTBIntakeIOSparkMax, added constants for actuator and Intake, and finish Actuator and ActuatorIO)
   }
 }
