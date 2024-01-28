@@ -236,12 +236,12 @@ public final class Constants {
         false; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
 
     // PID Constants
-    public static final double SHOOTER_KP = 0.0; // The "P" value of the PID
+    public static final double SHOOTER_KP = 0.01; // The "P" value of the PID
     public static final double SHOOTER_KI = 0.0; // The "I" value of the PID
-    public static final double SHOOTER_KD = 0.0; // The "D" value of the PID
+    public static final double SHOOTER_KD = 0.00032; // The "D" value of the PID
     public static final double SHOOTER_KS =
         0.0; // Static gain, Voltage increase to overcome friction
-    public static final double SHOOTER_KV = 0.0; // Velocity gain, volts * seconds / distance
+    public static final double SHOOTER_KV = 0.8; // Velocity gain, volts * seconds / distance
     public static final double SHOOTER_KA = 0.0; // Acceleration gain, volts * seconds^2 / distance
     public static final double SHOOTER_TOLERANCE_RPM =
         50.0; // The range that the RPM can be within the desired RPM

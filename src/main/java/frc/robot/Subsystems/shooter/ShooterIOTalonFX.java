@@ -34,12 +34,20 @@ public class ShooterIOTalonFX implements ShooterIO {
 
     topShooterMotor.getConfigurator().apply(slot0Configs);
     bottomShooterMotor.getConfigurator().apply(slot1Configs);
+    // Top Shooter PID
     slot0Configs.kP = ShooterConstants.SHOOTER_KP;
     slot0Configs.kI = ShooterConstants.SHOOTER_KI;
     slot0Configs.kD = ShooterConstants.SHOOTER_KD;
+    // Top Shooter Feedforward
+    slot0Configs.kS = ShooterConstants.SHOOTER_KS;
+    slot0Configs.kV = ShooterConstants.SHOOTER_KV;
+    // Bottom Shooter PID
     slot1Configs.kP = ShooterConstants.SHOOTER_KP;
     slot1Configs.kI = ShooterConstants.SHOOTER_KI;
     slot1Configs.kD = ShooterConstants.SHOOTER_KD;
+    // Bottom Shooter Feedforward
+    slot0Configs.kS = ShooterConstants.SHOOTER_KS;
+    slot0Configs.kV = ShooterConstants.SHOOTER_KV;
   }
 
   @Override
@@ -98,9 +106,5 @@ public class ShooterIOTalonFX implements ShooterIO {
   public void setShooterMotorPercentSpeed(double percent) {
     topShooterMotor.set(percent);
     bottomShooterMotor.set(percent);
-  }
-
-  public double getPID() {
-    return slot0Configs.kP;
   }
 }
