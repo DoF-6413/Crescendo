@@ -211,6 +211,9 @@ public final class Constants {
     }
   }
 
+  {
+  }
+
   public class VisionConstants {
 
     public static final Transform3d cameraOnRobotOffsets =
@@ -240,10 +243,13 @@ public final class Constants {
     public static final double APPLIED_VOLTS = 12.0;
   }
 
-    /** Unchanging Values for the Under the Bumper Intake */
+  /** Unchanging Values for the Under the Bumper Intake */
   public static class UTBIntakeConstants {
     public static final int UTB_INTAKE_CANID = 0; // TODO: Update later
     public static final int GEAR_RATIO = 2; // 2:1 Gear Ratio
+    public static final double UTB_KP = 1;
+    public static final double UTB_KI = 1;
+    public static final double UTB_KD = 1;
+    public static final double UTB_MOMENT_OF_INERTIA = 0.0001929765;
   }
 }
-

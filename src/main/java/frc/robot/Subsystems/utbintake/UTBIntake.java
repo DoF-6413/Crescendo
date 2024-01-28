@@ -1,6 +1,8 @@
 package frc.robot.Subsystems.utbintake;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.UTBIntakeConstants;
 import org.littletonrobotics.junction.Logger;
 
 /** Runs the motor for the Under the Bumper (UTB) Intake */
@@ -8,10 +10,14 @@ public class UTBIntake extends SubsystemBase {
 
   private final UTBIntakeIO io;
   private final UTBIntakeIOInputsAutoLogged inputs = new UTBIntakeIOInputsAutoLogged();
+  private static PIDController UTBintakePIDController;
 
   public UTBIntake(UTBIntakeIO io) {
     System.out.println("[Init] Creating UTB Intake");
     this.io = io;
+    UTBintakePIDController =
+        new PIDController(
+            UTBIntakeConstants.UTB_KP, UTBIntakeConstants.UTB_KI, UTBIntakeConstants.UTB_KD);
   }
 
   /** Periodically updates the inputs and outputs of the UTB Intake */
