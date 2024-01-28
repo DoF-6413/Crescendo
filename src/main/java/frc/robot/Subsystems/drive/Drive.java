@@ -46,7 +46,6 @@ public class Drive extends SubsystemBase {
     modules[2] = new Module(BLModuleIO, 2);
     modules[3] = new Module(BRModuleIO, 3);
 
-
     for (var module : modules) {
       module.setBrakeModeAll(true); // set brake mode to be true by default
     }
