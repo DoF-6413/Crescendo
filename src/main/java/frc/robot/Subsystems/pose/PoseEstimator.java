@@ -134,12 +134,6 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.resetPosition(gyro.getYaw(), drive.getSwerveModulePositions(), currentPose2d);
   }
 
-  public void setPose2d() {
-    if (RobotStateConstants.getMode() == Mode.SIM) {
-      field2d.setRobotPose(poseEstimator.getEstimatedPosition());
-    }
-  }
-
   public Pose2d getInitialPose2d() {
     return null;
   }

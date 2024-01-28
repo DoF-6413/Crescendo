@@ -25,15 +25,8 @@ public class Drive extends SubsystemBase {
 
   // chassis & swerve modules
   private ChassisSpeeds setpoint = new ChassisSpeeds();
-  private SwerveModuleState[] lastSetpointStates =
-      new SwerveModuleState[] {
-        new SwerveModuleState(),
-        new SwerveModuleState(),
-        new SwerveModuleState(),
-        new SwerveModuleState()
-      };
-  /** Measures Movement Time to Determine Brake Mode or Coast Mode */
-  private Timer lastMovementTimer = new Timer();
+
+  private double[] lastModulePositionsMeters = new double[] { 0.0, 0.0, 0.0, 0.0 };
 
   public Drive(
       ModuleIO FLModuleIO,
@@ -49,7 +42,6 @@ public class Drive extends SubsystemBase {
     modules[3] = new Module(BRModuleIO, 3);
 
     this.gyro = gyro;
-    lastMovementTimer.start(); // start timer
 
     for (var module : modules) {
       module.setBrakeModeAll(true); // set brake mode to be true by default
@@ -77,8 +69,22 @@ public class Drive extends SubsystemBase {
     Logger.recordOutput("SwerveStates/Setpoints", new double[] {});
     Logger.recordOutput("SwerveStates/SetpointsOptimized", new double[] {});
 
-    // Fills setpoints array
-    SwerveModuleState[] setpointStates = swerveKinematics.toSwerveModuleStates(setpoint);
+    // // Fills setpoints array
+    // SwerveModuleState[] setpointStates = swerveKinematics.toSwerveModuleStates(setpoint);
+    var setpointTwist =
+          new Pose2d()
+              .log(
+                  new Pose2d(
+                      setpoint.vxMetersPerSecond * RobotStateConstants.LOOP_PERIODIC_SEC,
+                      setpoint.vyMetersPerSecond * RobotStateConstants.LOOP_PERIODIC_SEC,
+                      new Rotation2d(setpoint.omegaRadiansPerSecond * RobotStateConstants.LOOP_PERIODIC_SEC)));
+      var adjustedSpeeds =
+          new ChassisSpeeds(
+              setpointTwist.dx / RobotStateConstants.LOOP_PERIODIC_SEC,
+              setpointTwist.dy / RobotStateConstants.LOOP_PERIODIC_SEC,
+              setpointTwist.dtheta / RobotStateConstants.LOOP_PERIODIC_SEC);
+      SwerveModuleState[] setpointStates = new SwerveModuleState[4];
+      setpointStates = swerveKinematics.toSwerveModuleStates(adjustedSpeeds);
 
     // Renormalizes all wheel speeds so the ratio of velocity remains the same but
     // they don't exceed
@@ -95,9 +101,8 @@ public class Drive extends SubsystemBase {
     }
 
     // Updates setpoint logs
-    Logger.recordOutput("SwerveStates/Setpoints", new double[] {});
+    Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
     Logger.recordOutput("SwerveStates/SetpointsOptimized", optimizedStates);
-
     // Tracks the state each module is in
     SwerveModuleState[] measuredStates = new SwerveModuleState[4];
     for (int i = 0; i < 4; i++) {
@@ -107,32 +112,6 @@ public class Drive extends SubsystemBase {
     // Updates what states each module is in (Current Velocity, Angular Velocity,
     // and Angle)
     Logger.recordOutput("SwerveStates/Measured", measuredStates);
-
-    var setpointTwist =
-        new Pose2d()
-            .log(
-                new Pose2d(
-                    setpoint.vxMetersPerSecond * RobotStateConstants.LOOP_PERIODIC_SEC,
-                    setpoint.vyMetersPerSecond * RobotStateConstants.LOOP_PERIODIC_SEC,
-                    new Rotation2d(
-                        setpoint.omegaRadiansPerSecond * RobotStateConstants.LOOP_PERIODIC_SEC)));
-    var adjustedSpeeds =
-        new ChassisSpeeds(
-            setpointTwist.dx / RobotStateConstants.LOOP_PERIODIC_SEC,
-            setpointTwist.dy / RobotStateConstants.LOOP_PERIODIC_SEC,
-            setpointTwist.dtheta / RobotStateConstants.LOOP_PERIODIC_SEC);
-
-    SwerveModulePosition[] wheelDeltas = new SwerveModulePosition[4];
-    for (int i = 0; i < 4; i++) {
-      wheelDeltas[i] =
-          new SwerveModulePosition((modules[i].getPositionMeters()), modules[i].getAngle());
-    }
-
-    twist = swerveKinematics.toTwist2d(wheelDeltas);
-    var gyroYaw = new Rotation2d(gyro.getYaw().getRadians());
-    if (gyro.isConnected()) {
-      twist = new Twist2d(twist.dx, twist.dy, gyroYaw.getRadians());
-    }
   }
 
   /**
@@ -140,7 +119,8 @@ public class Drive extends SubsystemBase {
    * OR Robot Orientated)
    */
   public void runVelocity(ChassisSpeeds speeds) {
-    setpoint = speeds;
+    ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
+    setpoint = discreteSpeeds;
   }
 
   /**
@@ -162,12 +142,7 @@ public class Drive extends SubsystemBase {
   /** stops the robot and sets wheels in the shape of an x */
   public void stopWithX() {
     stop();
-    for (int i = 0; i < 4; i++) {
-      lastSetpointStates[i] =
-          new SwerveModuleState(
-              lastSetpointStates[i].speedMetersPerSecond,
-              DriveConstants.getModuleTranslations()[i].getAngle());
-    }
+//TODO: Update
   }
 
   /**
@@ -183,6 +158,21 @@ public class Drive extends SubsystemBase {
   }
 
   public Twist2d getTwist() {
+    SwerveModulePosition[] wheelDeltas = new SwerveModulePosition[4];
+    for (int i = 0; i < 4; i++) {
+      wheelDeltas[i] =
+          new SwerveModulePosition((modules[i].getPositionMeters() - lastModulePositionsMeters[i]),
+          modules[i].getAngle());
+  lastModulePositionsMeters[i] = modules[i].getPositionMeters();
+    }
+
+    twist = swerveKinematics.toTwist2d(wheelDeltas);
+    var gyroYaw = new Rotation2d(gyro.getYaw().getRadians());
+    Rotation2d lastGyroYaw = new Rotation2d();
+    if (gyro.isConnected()) {
+      twist = new Twist2d(twist.dx, twist.dy, gyroYaw.minus(lastGyroYaw).getRadians());
+    }
+    lastGyroYaw = gyroYaw;
     return twist;
   }
 }
