@@ -9,18 +9,17 @@ import org.littletonrobotics.junction.AutoLog;
 /** These are all the input/output values that you can log for OTB Intake */
 public interface OTBIntakeIO {
 
-    @AutoLog
-    public static class OTBIntakeIOInputs {
-        // Rollers
-        public double rollerVelocityRadPerSec = 0.0;
-        public double rollerAppliedVolts = 0.0;
-        public double[] rollerCurrentAmps = new double[] {};
-    }
+  @AutoLog
+  public static class OTBIntakeIOInputs {
+    // Rollers
+    public double rollerVelocityRadPerSec = 0.0;
+    public double rollerAppliedVolts = 0.0;
+    public double[] rollerCurrentAmps = new double[] {};
+  }
 
-    public default void updateInputs(OTBIntakeIOInputs inputs){}
+  public default void updateInputs(OTBIntakeIOInputs inputs) {}
 
-    public default void setOTBIntakeVoltage(double volts) {}
+  public default void setOTBIntakeVoltage(double volts) {}
 
-    public default void setOTBIntakePercentSpeed(double percent){}
-
+  public default void setOTBIntakePercentSpeed(double percent) {}
 }

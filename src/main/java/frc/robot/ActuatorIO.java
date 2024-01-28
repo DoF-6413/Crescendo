@@ -4,17 +4,13 @@
 
 package frc.robot;
 
-
 import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.LogTable;
-import org.littletonrobotics.junction.inputs.LoggableInputs;
-
 
 public class ActuatorIO {
-  
+
   @AutoLog
-  public static class ActuatorIOInputs{
-  
+  public static class ActuatorIOInputs {
+
     public double turnAppliedVolts = 0.0;
     public double turnPositionRad = 0.0;
     public double turnVelocityRadPerSec = 0.0;
@@ -22,6 +18,5 @@ public class ActuatorIO {
     public double WristTempCelcius = 0.0;
   }
 
- 
   public void updateInputs(ActuatorIOInputs inputs) {}
 }

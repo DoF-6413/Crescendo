@@ -247,11 +247,12 @@ public final class Constants {
   }
 
   public static class OTBIntakeConstants {
-    public static final int OTB_INTAKE_CANID = 0;   //TODO: update this Id value please !!!
-    public static final double GEAR_RATIO = 2;
+    public static final int OTB_INTAKE_CANID = 0; // TODO: update this Id value please !!!
+    public static final double GEAR_RATIO = 2.0;
   }
 
   public static class ActuatorConstants {
-
+    public static final int ACTUATOR_CANID = 0; // TODO: update this id
+    public static final double GEAR_RATIO = 155.0;
   }
 }

@@ -5,17 +5,12 @@
 package frc.robot.Subsystems.actuator;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.LogTable;
-import org.littletonrobotics.junction.inputs.LoggableInputs;
-
 
 public class ActuatorIO extends SubsystemBase {
   /** Creates a new ActuatorIO. */
-    @AutoLog
-    public static class ActuatorIOInputs{
-    
+  @AutoLog
+  public static class ActuatorIOInputs {
 
     public double turnAppliedVolts = 0.0;
     public double turnPositionRad = 0.0;
@@ -24,10 +19,9 @@ public class ActuatorIO extends SubsystemBase {
     public double WristTempCelcius = 0.0;
   }
 
-  
   public void updateInputs(ActuatorIOInputs inputs) {
     // This method will be called once per scheduler run
   }
 
-  public static void setActuatorSpeed(double speed){}
+  public static void setActuatorSpeed(double speed) {}
 }
