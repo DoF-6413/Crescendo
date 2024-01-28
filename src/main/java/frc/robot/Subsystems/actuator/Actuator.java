@@ -28,17 +28,17 @@ public class Actuator extends SubsystemBase {
     actuatorIO.updateInputs(actuatorInputs);// update the inputs 
     Logger.processInputs("Actuator", actuatorInputs);// logg the inputs 
   }
-  public double getaActuatorPosition(){ //return the position in meters 
+  public double getActuatorPosition(){ //return the position in meters 
     return actuatorInputs.turnPositionRad * 2 * Math.PI;
   }
   public  void  setActuatorSpeed(double voltage){
     ActuatorIO.setActuatorSpeed(voltage);
   }
 
-  public double getaActuatorPositionRad(){
+  public double getActuatorPositionRad(){
     return actuatorInputs.turnPositionRad;
   }
-  public void setActuatorPErcentSpeed(double percent){
+  public void setActuatorPercentSpeed(double percent){
     ActuatorIO.setActuatorSpeed(percent * 12);
   }
   }
