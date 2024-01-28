@@ -230,4 +230,13 @@ public final class Constants {
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
         true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
   }
+
+  public static class OTBIntakeConstants {
+    public static final int OTB_INTAKE_CANID = 0;   //TODO: update this Id value please !!!
+    public static final double GEAR_RATIO = 2;
+  }
+
+  public static class ActuatorConstants {
+
+  }
 }

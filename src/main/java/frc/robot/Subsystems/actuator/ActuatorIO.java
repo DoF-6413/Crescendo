@@ -24,8 +24,10 @@ public class ActuatorIO extends SubsystemBase {
     public double WristTempCelcius = 0.0;
   }
 
-  @Override
-  public void periodic() {
+  
+  public void updateInputs(ActuatorIOInputs inputs) {
     // This method will be called once per scheduler run
   }
+
+  public static void setActuatorSpeed(double speed){}
 }

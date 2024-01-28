@@ -4,5 +4,32 @@
 
 package frc.robot.Subsystems.otbIntake;
 
-/** Add your docs here. */
-public class OTBIntakeIOSparkMax {}
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.math.util.Units;
+import frc.robot.Constants.OTBIntakeConstants;
+
+/** Runs the real life OTBIntake with CANSpark Speed Controllers and NEO motor */
+public class OTBIntakeIOSparkMax implements OTBIntakeIO{
+    private CANSparkMax OTBIntakeMotor;
+    private RelativeEncoder OTBIntakeEncoder;
+
+    /** Creates the motor and encoder for the OTB Intake */
+    public OTBIntakeIOSparkMax(){
+        System.out.println("[Init] Creating UTBIntakeIO");
+        OTBIntakeMotor = new CANSparkMax(OTBIntakeConstants.OTB_INTAKE_CANID, MotorType.kBrushless);
+        OTBIntakeEncoder = OTBIntakeMotor.getEncoder();
+    }
+
+    /** Updates the values for the OTB Intake */
+    public void updateInputs(OTBIntakeIOInputs inputs) {
+        inputs.rollerVelocityRadPerSec = 
+            Units.rotationsToRadians(OTBIntakeEncoder.getPosition()) / OTBIntakeConstants.GEAR_RATIO; // Converts rotaions to Radians and then divides it by the gear ratio
+        inputs.rollerAppliedVolts = 
+            OTBIntakeMotor.getAppliedOutput()*OTBIntakeMotor.getBusVoltage();  // Applied voltage of the OTBIntake
+        inputs.rollerCurrentAmps = 
+            new double[] {OTBIntakeMotor.getOutputCurrent()};  // Amps used by intake
+    }
+}
