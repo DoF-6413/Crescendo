@@ -152,7 +152,7 @@ public final class Constants {
     public static final double TRACK_WIDTH_M = Units.inchesToMeters(32.173359);
 
     /** Max Speed the Robot Can Travel in One Linear Direction (m/s) */
-    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 0; // TODO: Update
+    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 4.5; // TODO: Update
 
     /**
      * Max Speed the Robot Can Rotate (rads/s) Angular Speed can be Calulated by Dividing Max Linear
@@ -165,7 +165,7 @@ public final class Constants {
         MAX_LINEAR_SPEED_M_PER_SEC / (Math.sqrt(2 * (TRACK_WIDTH_M * TRACK_WIDTH_M)) / 2);
 
     // PID Constants for Neo Drive PID
-    public static final double DRIVE_KP_NEO = 0; // TODO: Update
+    public static final double DRIVE_KP_NEO = 0.05; // TODO: Update
     public static final double DRIVE_KI_NEO = 0; // TODO: Update
     public static final double DRIVE_KD_NEO = 0; // TODO: Update
 
@@ -179,13 +179,13 @@ public final class Constants {
     public static final double DRIVE_KV_KRAKEN = 0; // TODO: Update
 
     // Feed Forward Constants for Neo Drive
-    public static final double DRIVE_KS_NEO = 0; // TODO: Update
-    public static final double DRIVE_KV_NEO = 0; // TODO: Update
+    public static final double DRIVE_KS_NEO = 0.4; // TODO: Update
+    public static final double DRIVE_KV_NEO = 0.4; // TODO: Update
 
     // PID Constants for Neo Steer PID
-    public static final double STEER_KP_NEO = 0; // TODO: Update
-    public static final double STEER_KI_NEO = 0; // TODO: Update
-    public static final double STEER_KD_NEO = 0; // TODO: Update
+    public static final double STEER_KP_NEO = 7.0; // TODO: Update
+    public static final double STEER_KI_NEO = 0.0; // TODO: Update
+    public static final double STEER_KD_NEO = 0.0; // TODO: Update
 
     /** Gear Ratio for MK4I L3 */
     public static final double GEAR_RATIO_L3 = 6.12;
@@ -198,8 +198,7 @@ public final class Constants {
     /** Used in Robot Characterization Tool to Help Determine Drive Values like PID */
     public static final boolean IS_CHARACTERIZING = false;
 
-    public static final double DRIVE_J_KG_METERS_SQUARED = 0.0003125;
-
+    public static final double DRIVE_J_KG_METERS_SQUARED = 0.0003125; // moment of inertia for sim
     public static final double STEER_J_KG_METERS_SQUARED = 0.0003125; // TODO: Update
 
     public static final Translation2d[] getModuleTranslations() {
@@ -221,14 +220,30 @@ public final class Constants {
   }
 
   public static class ShooterConstants {
+
+    // Gear ratio of 1:1 for the prototype Horizontal-Rollers/Top-Bottom Shooter
+    public static final double GEAR_RATIO = 1.0;
+
     // Motor IDs
     public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
     public static final int BOTTOM_SHOOTER_MOTOR_ID =
-        15; // TalonFX currently set to 15 and is named "Climb motor" on the Pheonix tuner
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner
 
-    // Inverted motors
+    // Direction of motors; inverted = ccw
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
-        true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
+        true; // Top motor spins opposite of the bottom motor (CCW)
+    public static final boolean BOTTOM_SHOOTER_MOTOR_INVERTED =
+        false; // Bottom motor is NOT inverted (CW)
+
+    // Flywheel simulation constants
+    public static final double SHOOTER_J_KG_METERS_SQUARED = 0.0016007389;
+    public static final double APPLIED_VOLTS = 12.0;
+  }
+
+  /** Unchanging Values for the Under the Bumper Intake */
+  public static class UTBIntakeConstants {
+    public static final int UTB_INTAKE_CANID = 0; // TODO: Update later
+    public static final int GEAR_RATIO = 2; // 2:1 Gear Ratio
   }
 
   public static class OTBIntakeConstants {

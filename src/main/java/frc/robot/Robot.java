@@ -91,7 +91,11 @@ public class Robot extends LoggedRobot {
     // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
     // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
     // Build)
+<<<<<<< HEAD
     SmartDashboard.putString("Beta Number", "1.9.18.16.0");
+=======
+    SmartDashboard.putString("Beta Number", "1.14.0.29.1");
+>>>>>>> 80b911b2525cbb207c5e44d2ea5a5f8881979e2e
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.

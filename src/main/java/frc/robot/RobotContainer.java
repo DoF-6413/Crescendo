@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotStateConstants;
@@ -27,9 +28,18 @@ import frc.robot.Subsystems.drive.ModuleIOSparkMax;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.gyro.GyroIO;
 import frc.robot.Subsystems.gyro.GyroIONavX;
+import frc.robot.Subsystems.pose.PoseEstimator;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterIO;
+import frc.robot.Subsystems.shooter.ShooterIOSim;
 import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
-import frc.robot.Subsystems.vision.PoseEstimator;
+import frc.robot.Subsystems.utbintake.UTBIntake;
+import frc.robot.Subsystems.utbintake.UTBIntakeIO;
+import frc.robot.Subsystems.utbintake.UTBIntakeIOSparkMax;
+import frc.robot.Subsystems.vision.Vision;
+import frc.robot.Subsystems.vision.VisionIO;
+import frc.robot.Subsystems.vision.VisionIOArduCam;
+import frc.robot.Subsystems.vision.VisionIOSim;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -43,6 +53,8 @@ public class RobotContainer {
   private final Drive m_driveSubsystem;
   private final Shooter m_shooterSubsystem;
   private final PoseEstimator m_poseEstimator;
+  private final Vision m_vision;
+  private final UTBIntake m_utbIntake;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -61,8 +73,10 @@ public class RobotContainer {
                 new ModuleIOSparkMax(),
                 new ModuleIOSparkMax(),
                 m_gyroSubsystem);
+        m_vision = new Vision(new VisionIOArduCam());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
+        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
         break;
 
       case SIM:
@@ -75,8 +89,11 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
-        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
+        m_vision = new Vision(new VisionIOSim());
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
+        m_shooterSubsystem = new Shooter(new ShooterIOSim());
+        m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
+
         break;
 
       default:
@@ -89,8 +106,10 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
-        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
+        m_shooterSubsystem = new Shooter(new ShooterIO() {});
+        m_vision = new Vision(new VisionIO() {});
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
+        m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
         break;
     }
 
@@ -107,13 +126,15 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
     m_driveSubsystem.setDefaultCommand(
-        new InstantCommand(
+        new RunCommand(
             () ->
                 m_driveSubsystem.setRaw(
                     driverController.getLeftX(),
-                    driverController.getLeftY(),
+                    -driverController.getLeftY(),
                     driverController.getRightX()),
             m_driveSubsystem));
+
+    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     /*
      * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
@@ -125,6 +146,9 @@ public class RobotContainer {
             () ->
                 m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() * 0.5),
             m_shooterSubsystem));
+    m_utbIntake.setDefaultCommand(
+        new InstantCommand(
+            () -> m_utbIntake.setUTBIntakePercentSpeed(driverController.getLeftY()), m_utbIntake));
   }
 
   /**
