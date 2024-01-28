@@ -9,6 +9,7 @@ import edu.wpi.first.math.kinematics.*; // ChassisSpeeds, SwerveDriveKinematics,
 import edu.wpi.first.wpilibj.*; // Timer
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.gyro.Gyro;
 import org.littletonrobotics.junction.Logger; // Logger
 
@@ -16,8 +17,8 @@ import org.littletonrobotics.junction.Logger; // Logger
 public class Drive extends SubsystemBase {
   private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
   private static final Module[] modules = new Module[4];
-
   private final Gyro gyro;
+  private Twist2d twist;
 
   // swerve kinematics library
   public SwerveDriveKinematics swerveKinematics;
@@ -79,12 +80,19 @@ public class Drive extends SubsystemBase {
     // Fills setpoints array
     SwerveModuleState[] setpointStates = swerveKinematics.toSwerveModuleStates(setpoint);
 
+<<<<<<< Updated upstream
     // Renormalizes all wheel speeds so the ratio of velocity remains the same, but no more attempts
     // to exceed maximum speed
+=======
+    // Renormalizes all wheel speeds so the ratio of velocity remains the same but
+    // they don't exceed
+    // the maximum speed anymore
+>>>>>>> Stashed changes
     SwerveDriveKinematics.desaturateWheelSpeeds(
         setpointStates, DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC);
 
-    // Runs Modules to Run at Specific Setpoints (Linear and Angular Velocity) that is Quick and
+    // Runs Modules to Run at Specific Setpoints (Linear and Angular Velocity) that
+    // is Quick and
     // Optimized for smoothest movement
     SwerveModuleState[] optimizedStates = new SwerveModuleState[4];
     for (int i = 0; i < 4; i++) {
@@ -101,8 +109,35 @@ public class Drive extends SubsystemBase {
       measuredStates[i] = modules[i].getState();
     }
 
-    // Updates what states each module is in (Current Velocity, Angular Velocity, and Angle)
+    // Updates what states each module is in (Current Velocity, Angular Velocity,
+    // and Angle)
     Logger.recordOutput("SwerveStates/Measured", measuredStates);
+
+    var setpointTwist =
+        new Pose2d()
+            .log(
+                new Pose2d(
+                    setpoint.vxMetersPerSecond * RobotStateConstants.LOOP_PERIODIC_SEC,
+                    setpoint.vyMetersPerSecond * RobotStateConstants.LOOP_PERIODIC_SEC,
+                    new Rotation2d(
+                        setpoint.omegaRadiansPerSecond * RobotStateConstants.LOOP_PERIODIC_SEC)));
+    var adjustedSpeeds =
+        new ChassisSpeeds(
+            setpointTwist.dx / RobotStateConstants.LOOP_PERIODIC_SEC,
+            setpointTwist.dy / RobotStateConstants.LOOP_PERIODIC_SEC,
+            setpointTwist.dtheta / RobotStateConstants.LOOP_PERIODIC_SEC);
+
+    SwerveModulePosition[] wheelDeltas = new SwerveModulePosition[4];
+    for (int i = 0; i < 4; i++) {
+      wheelDeltas[i] =
+          new SwerveModulePosition((modules[i].getPositionMeters()), modules[i].getAngle());
+    }
+
+    twist = swerveKinematics.toTwist2d(wheelDeltas);
+    var gyroYaw = new Rotation2d(gyro.getYaw().getRadians());
+    if (gyro.isConnected()) {
+      twist = new Twist2d(twist.dx, twist.dy, gyroYaw.getRadians());
+    }
   }
 
   /**
@@ -150,5 +185,9 @@ public class Drive extends SubsystemBase {
       modules[2].getPosition(),
       modules[3].getPosition()
     };
+  }
+
+  public Twist2d getTwist() {
+    return twist;
   }
 }

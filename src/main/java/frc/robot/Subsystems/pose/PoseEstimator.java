@@ -4,6 +4,8 @@
 
 package frc.robot.Subsystems.pose;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -53,20 +55,23 @@ public class PoseEstimator extends SubsystemBase {
     this.drive = drive;
     this.vision = Vision;
     this.gyro = gyro;
-
+    
     poseEstimator =
-        new SwerveDrivePoseEstimator(
-            new SwerveDriveKinematics(DriveConstants.getModuleTranslations()),
-            gyro.getYaw(),
-            drive.getSwerveModulePositions(),
-            new Pose2d(new Translation2d(), new Rotation2d()));
-  }
+    new SwerveDrivePoseEstimator(
+      new SwerveDriveKinematics(DriveConstants.getModuleTranslations()),
+      gyro.getYaw(),
+      drive.getSwerveModulePositions(),
+      new Pose2d(new Translation2d(), new Rotation2d()));
+    }
+    
+    @Override
+    public void periodic() {
+      field2d.setRobotPose(getCurrentPose2d());
+      poseEstimator.updateWithTime(
+      Timer.getFPGATimestamp(),
+      new Rotation2d(getRotation().getRadians() + drive.getTwist().dtheta),
+      drive.getSwerveModulePositions());
 
-  @Override
-  public void periodic() {
-    field2d.setRobotPose(getCurrentPose2d());
-    poseEstimator.updateWithTime(
-        Timer.getFPGATimestamp(), gyro.getYaw(), drive.getSwerveModulePositions());
     if (vision.getResult().hasTargets()) {
 
       pipelineResult = vision.getResult();
@@ -120,6 +125,7 @@ public class PoseEstimator extends SubsystemBase {
     }
   }
 
+
   public Pose2d getCurrentPose2d() {
     return poseEstimator.getEstimatedPosition();
   }
@@ -136,5 +142,9 @@ public class PoseEstimator extends SubsystemBase {
 
   public Pose2d getInitialPose2d() {
     return null;
+  }
+
+  public Rotation2d getRotation() {
+    return poseEstimator.getEstimatedPosition().getRotation();
   }
 }

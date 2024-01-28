@@ -29,6 +29,7 @@ import frc.robot.Subsystems.gyro.GyroIO;
 import frc.robot.Subsystems.gyro.GyroIONavX;
 import frc.robot.Subsystems.pose.PoseEstimator;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterIO;
 import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
 import frc.robot.Subsystems.shooter.ShooterIOSim;
 import frc.robot.Subsystems.vision.Vision;
@@ -36,6 +37,7 @@ import frc.robot.Subsystems.vision.VisionIO;
 import frc.robot.Subsystems.vision.VisionIOArduCam;
 import frc.robot.Subsystems.vision.VisionIOSim;
 import frc.robot.Subsystems.utbintake.UTBIntake;
+import frc.robot.Subsystems.utbintake.UTBIntakeIO;
 import frc.robot.Subsystems.utbintake.UTBIntakeIOSparkMax;
 
 /**
@@ -48,6 +50,7 @@ public class RobotContainer {
   // Subsystems
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
+
   private final Shooter m_shooterSubsystem;
   private final PoseEstimator m_poseEstimator;
   private final Vision m_vision;
@@ -70,8 +73,8 @@ public class RobotContainer {
                 new ModuleIOSparkMax(),
                 new ModuleIOSparkMax(),
                 m_gyroSubsystem);
+                m_vision = new Vision(new VisionIOArduCam());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_vision = new Vision(new VisionIOArduCam());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
         break;
@@ -89,7 +92,7 @@ public class RobotContainer {
         m_vision = new Vision(new VisionIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
+        m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
 
         break;
 
@@ -103,10 +106,10 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
-        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_vision = new Vision(new VisionIO() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
-        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
+        m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
         break;
     }
 
