@@ -7,7 +7,6 @@ package frc.robot.Subsystems.drive;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.RobotStateConstants;
 
@@ -33,11 +32,7 @@ public class ModuleIOSimNeo implements ModuleIO {
             DriveConstants.DRIVE_J_KG_METERS_SQUARED);
 
     // Builds Turn Wheel for the Neo Motor in the L2 Module
-    turnSim =
-        new DCMotorSim(
-            DCMotor.getNEO(1),
-            DriveConstants.GEAR_RATIO_L2,
-            0.004);
+    turnSim = new DCMotorSim(DCMotor.getNEO(1), DriveConstants.GEAR_RATIO_L2, 0.004);
   }
 
   @Override
@@ -84,7 +79,7 @@ public class ModuleIOSimNeo implements ModuleIO {
     inputs.turnTempCelcius = new double[] {};
   }
 
-   @Override
+  @Override
   public void setDriveVoltage(double volts) {
     driveAppliedVolts = MathUtil.clamp(volts, -12.0, 12.0);
     driveSim.setInputVoltage(driveAppliedVolts);

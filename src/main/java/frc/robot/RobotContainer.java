@@ -130,8 +130,11 @@ public class RobotContainer {
             () ->
                 m_driveSubsystem.setRaw(
                     driverController.getLeftX(),
-                    driverController.getLeftY(), driverController.getRightX()),
+                    -driverController.getLeftY(),
+                    driverController.getRightX()),
             m_driveSubsystem));
+
+    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     /*
      * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
