@@ -32,4 +32,19 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO{
         inputs.rollerCurrentAmps = 
             new double[] {OTBIntakeMotor.getOutputCurrent()};  // Amps used by intake
     }
+
+    /** Sets the voltage of the OTB Intake motor
+     * @param voltage 
+     */
+    public void setOTBIntakeVoltage(double voltage){
+        OTBIntakeMotor.setVoltage(voltage);
+    }
+
+    /** Sets the OTB Intake to a percent of its max speed
+     * @param percent
+     */
+    public void setOTBIntakePercentSpeed(double percent){
+        OTBIntakeMotor.set(percent);
+    }
 }
+
