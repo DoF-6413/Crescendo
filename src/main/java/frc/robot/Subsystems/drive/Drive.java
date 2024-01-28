@@ -80,14 +80,9 @@ public class Drive extends SubsystemBase {
     // Fills setpoints array
     SwerveModuleState[] setpointStates = swerveKinematics.toSwerveModuleStates(setpoint);
 
-<<<<<<< Updated upstream
-    // Renormalizes all wheel speeds so the ratio of velocity remains the same, but no more attempts
-    // to exceed maximum speed
-=======
     // Renormalizes all wheel speeds so the ratio of velocity remains the same but
     // they don't exceed
     // the maximum speed anymore
->>>>>>> Stashed changes
     SwerveDriveKinematics.desaturateWheelSpeeds(
         setpointStates, DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC);
 

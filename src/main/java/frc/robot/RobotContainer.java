@@ -50,7 +50,6 @@ public class RobotContainer {
   // Subsystems
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
-
   private final Shooter m_shooterSubsystem;
   private final PoseEstimator m_poseEstimator;
   private final Vision m_vision;
