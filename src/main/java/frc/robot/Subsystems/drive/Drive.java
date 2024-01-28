@@ -207,6 +207,11 @@ public class Drive extends SubsystemBase {
   }
 
   public void updateHeading() {
-    gyro.zeroYaw();
+    if (gyro.isConnected()) {
+      gyro.zeroYaw();
+    } else {
+      //TODO: ADD HEADING FOR SIM/NO GYRO
+    }
+    
   }
 }
