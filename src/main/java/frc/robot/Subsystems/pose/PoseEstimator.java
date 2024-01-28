@@ -21,13 +21,10 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Constants.RobotStateConstants.Mode;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.vision.Vision;
-
 import org.photonvision.targeting.PhotonPipelineResult;
 
 /** This class handels the odometry and locates the robots current position */
@@ -42,8 +39,8 @@ public class PoseEstimator extends SubsystemBase {
    * increase the numbers to trust the vision measurements less also in form [x, y, theta] or
    * meters, meters, radians
    */
-
   public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+
   private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;
   private Vision vision;
@@ -61,22 +58,20 @@ public class PoseEstimator extends SubsystemBase {
     this.drive = drive;
     this.vision = Vision;
     this.gyro = gyro;
-    
+
     poseEstimator =
-    new SwerveDrivePoseEstimator(
-      new SwerveDriveKinematics(DriveConstants.getModuleTranslations()),
-      gyro.getYaw(),
-      drive.getSwerveModulePositions(),
-      new Pose2d(new Translation2d(), new Rotation2d()));
-    }
-    
-    @Override
-    public void periodic() {
-      field2d.setRobotPose(getCurrentPose2d());
-      poseEstimator.updateWithTime(
-      Timer.getFPGATimestamp(),
-      drive.getRotation(),
-      drive.getSwerveModulePositions());
+        new SwerveDrivePoseEstimator(
+            new SwerveDriveKinematics(DriveConstants.getModuleTranslations()),
+            gyro.getYaw(),
+            drive.getSwerveModulePositions(),
+            new Pose2d(new Translation2d(), new Rotation2d()));
+  }
+
+  @Override
+  public void periodic() {
+    field2d.setRobotPose(getCurrentPose2d());
+    poseEstimator.updateWithTime(
+        Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
 
     if (vision.getResult().hasTargets()) {
 
@@ -125,12 +120,10 @@ public class PoseEstimator extends SubsystemBase {
 
           SmartDashboard.putNumber(
               "TagRotation", target.getBestCameraToTarget().getRotation().getAngle());
-
-        } 
+        }
       }
     }
   }
-
 
   public Pose2d getCurrentPose2d() {
     return poseEstimator.getEstimatedPosition();
