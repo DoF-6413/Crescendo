@@ -69,7 +69,7 @@ public class PoseEstimator extends SubsystemBase {
       field2d.setRobotPose(getCurrentPose2d());
       poseEstimator.updateWithTime(
       Timer.getFPGATimestamp(),
-      new Rotation2d(getRotation().getRadians() + drive.getTwist().dtheta),
+      drive.getRotation(),
       drive.getSwerveModulePositions());
 
     if (vision.getResult().hasTargets()) {

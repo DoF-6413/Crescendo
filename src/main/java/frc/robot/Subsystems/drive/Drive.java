@@ -19,12 +19,14 @@ public class Drive extends SubsystemBase {
   private static final Module[] modules = new Module[4];
   private final Gyro gyro;
   private Twist2d twist;
-
+  
   // swerve kinematics library
   public SwerveDriveKinematics swerveKinematics;
-
+  
   // chassis & swerve modules
   private ChassisSpeeds setpoint = new ChassisSpeeds();
+  Rotation2d lastGyroYaw = new Rotation2d();
+
 
   private double[] lastModulePositionsMeters = new double[] { 0.0, 0.0, 0.0, 0.0 };
 
@@ -157,7 +159,7 @@ public class Drive extends SubsystemBase {
     };
   }
 
-  public Twist2d getTwist() {
+  public Rotation2d getRotation() {
     SwerveModulePosition[] wheelDeltas = new SwerveModulePosition[4];
     for (int i = 0; i < 4; i++) {
       wheelDeltas[i] =
@@ -166,13 +168,14 @@ public class Drive extends SubsystemBase {
   lastModulePositionsMeters[i] = modules[i].getPositionMeters();
     }
 
-    twist = swerveKinematics.toTwist2d(wheelDeltas);
     var gyroYaw = new Rotation2d(gyro.getYaw().getRadians());
-    Rotation2d lastGyroYaw = new Rotation2d();
     if (gyro.isConnected()) {
       twist = new Twist2d(twist.dx, twist.dy, gyroYaw.minus(lastGyroYaw).getRadians());
+    } else {
+      twist = swerveKinematics.toTwist2d(wheelDeltas);
+      gyroYaw = lastGyroYaw.plus(new Rotation2d(twist.dtheta));
     }
     lastGyroYaw = gyroYaw;
-    return twist;
+    return lastGyroYaw;
   }
 }
