@@ -48,4 +48,8 @@ public class Gyro extends SubsystemBase {
   public void zeroYaw() {
     io.zeroHeading();
   }
+
+  public boolean isConnected() {
+    return inputs.connected;
+  }
 }

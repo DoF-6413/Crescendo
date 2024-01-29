@@ -1,7 +1,5 @@
 package frc.robot.Subsystems.shooter;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants.RobotStateConstants;
@@ -65,17 +63,16 @@ public class ShooterIOSim implements ShooterIO {
     //       topController.calculate(topShooterFlywheel.getAngularVelocityRPM(), topSetpointRPM);
     //   topShooterFlywheel.setInputVoltage(
     //       MathUtil.clamp(ShooterConstants.APPLIED_VOLTS, -12.0, 12.0));
-    }
+  }
 
-    // if (bottomSetpointRPM >= Math.abs(bottomShooterFlywheel.getAngularVelocityRPM())) {
-    //   ShooterConstants.APPLIED_VOLTS =
-    //       bottomController.calculate(
-    //           bottomShooterFlywheel.getAngularVelocityRPM(),
-    //           bottomSetpointRPM + bottomFF.calculate(bottomSetpointRPM));
-    //   bottomShooterFlywheel.setInputVoltage(
-    //       MathUtil.clamp(ShooterConstants.APPLIED_VOLTS, -12.0, 12.0));
-    // }
-  
+  // if (bottomSetpointRPM >= Math.abs(bottomShooterFlywheel.getAngularVelocityRPM())) {
+  //   ShooterConstants.APPLIED_VOLTS =
+  //       bottomController.calculate(
+  //           bottomShooterFlywheel.getAngularVelocityRPM(),
+  //           bottomSetpointRPM + bottomFF.calculate(bottomSetpointRPM));
+  //   bottomShooterFlywheel.setInputVoltage(
+  //       MathUtil.clamp(ShooterConstants.APPLIED_VOLTS, -12.0, 12.0));
+  // }
 
   @Override
   public void setShooterMotorPercentSpeed(double percent) {
@@ -84,4 +81,3 @@ public class ShooterIOSim implements ShooterIO {
     // bottomShooterFlywheel.setInputVoltage(ShooterConstants.APPLIED_VOLTS * percent);
   }
 }
- 
