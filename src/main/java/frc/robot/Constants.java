@@ -152,7 +152,7 @@ public final class Constants {
     public static final double TRACK_WIDTH_M = Units.inchesToMeters(32.173359);
 
     /** Max Speed the Robot Can Travel in One Linear Direction (m/s) */
-    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 4.5; // TODO: Update
+    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 0; // TODO: Update
 
     /**
      * Max Speed the Robot Can Rotate (rads/s) Angular Speed can be Calulated by Dividing Max Linear
@@ -165,7 +165,7 @@ public final class Constants {
         MAX_LINEAR_SPEED_M_PER_SEC / (Math.sqrt(2 * (TRACK_WIDTH_M * TRACK_WIDTH_M)) / 2);
 
     // PID Constants for Neo Drive PID
-    public static final double DRIVE_KP_NEO = 0.05; // TODO: Update
+    public static final double DRIVE_KP_NEO = 0; // TODO: Update
     public static final double DRIVE_KI_NEO = 0; // TODO: Update
     public static final double DRIVE_KD_NEO = 0; // TODO: Update
 
@@ -179,13 +179,13 @@ public final class Constants {
     public static final double DRIVE_KV_KRAKEN = 0; // TODO: Update
 
     // Feed Forward Constants for Neo Drive
-    public static final double DRIVE_KS_NEO = 0.4; // TODO: Update
-    public static final double DRIVE_KV_NEO = 0.4; // TODO: Update
+    public static final double DRIVE_KS_NEO = 0; // TODO: Update
+    public static final double DRIVE_KV_NEO = 0; // TODO: Update
 
     // PID Constants for Neo Steer PID
-    public static final double STEER_KP_NEO = 7.0; // TODO: Update
-    public static final double STEER_KI_NEO = 0.0; // TODO: Update
-    public static final double STEER_KD_NEO = 0.0; // TODO: Update
+    public static final double STEER_KP_NEO = 0; // TODO: Update
+    public static final double STEER_KI_NEO = 0; // TODO: Update
+    public static final double STEER_KD_NEO = 0; // TODO: Update
 
     /** Gear Ratio for MK4I L3 */
     public static final double GEAR_RATIO_L3 = 6.12;
@@ -236,18 +236,18 @@ public final class Constants {
         false; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
 
     // PID Constants
-    public static final double SHOOTER_KP = 0.01; // The "P" value of the PID
+    public static final double SHOOTER_KP = 0.0; // The "P" value of the PID
     public static final double SHOOTER_KI = 0.0; // The "I" value of the PID
-    public static final double SHOOTER_KD = 0.00032; // The "D" value of the PID
+    public static final double SHOOTER_KD = 0.0; // The "D" value of the PID
     public static final double SHOOTER_KS =
         0.0; // Static gain, Voltage increase to overcome friction
-    public static final double SHOOTER_KV = 0.8; // Velocity gain, volts * seconds / distance
+    public static final double SHOOTER_KV = 0.0; // Velocity gain, volts * seconds / distance
     public static final double SHOOTER_KA = 0.0; // Acceleration gain, volts * seconds^2 / distance
     public static final double SHOOTER_TOLERANCE_RPM =
         50.0; // The range that the RPM can be within the desired RPM
 
     // Flywheel simulation constants
-    public static final double SHOOTER_J_KG_METERS_SQUARED = 0.0016007389;
+    public static final double SHOOTER_J_KG_METERS_SQUARED = 0.0016007389; // Moment of Inertia for the shooter motors
     public static final double APPLIED_VOLTS = 12.0;
   }
 

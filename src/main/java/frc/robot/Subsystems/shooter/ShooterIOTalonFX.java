@@ -32,6 +32,7 @@ public class ShooterIOTalonFX implements ShooterIO {
     topShooterMotor.setInverted(ShooterConstants.TOP_SHOOTER_MOTOR_INVERTED);
     bottomShooterMotor.setInverted(ShooterConstants.BOTTOM_SHOOTER_MOTOR_INVERTED);
 
+    // Applies the PID and FF configuration to the Shooter motors
     topShooterMotor.getConfigurator().apply(slot0Configs);
     bottomShooterMotor.getConfigurator().apply(slot1Configs);
     // Top Shooter PID
@@ -84,13 +85,7 @@ public class ShooterIOTalonFX implements ShooterIO {
     inputs.bottomShooterTempCelcius =
         new double[] {bottomShooterMotor.getDeviceTemp().getValueAsDouble()};
   }
-
-  @Override
-  public void setShooterMotorsVoltage(double volts) {
-    topShooterMotor.setVoltage(volts);
-    bottomShooterMotor.setVoltage(volts);
-  }
-
+  
   @Override
   public void setShooterBreakMode(boolean enable) {
     if (enable) {
@@ -101,6 +96,13 @@ public class ShooterIOTalonFX implements ShooterIO {
       bottomShooterMotor.setNeutralMode(NeutralModeValue.Coast);
     }
   }
+
+  @Override
+  public void setShooterMotorsVoltage(double volts) {
+    topShooterMotor.setVoltage(volts);
+    bottomShooterMotor.setVoltage(volts);
+  }
+
 
   @Override
   public void setShooterMotorPercentSpeed(double percent) {

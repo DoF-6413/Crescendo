@@ -28,8 +28,8 @@ public class Shooter extends PIDSubsystem {
                 ShooterConstants.SHOOTER_KD));
     System.out.println("[Init] Creating Shooter");
     this.io = io;
-    getController().setTolerance(ShooterConstants.SHOOTER_TOLERANCE_RPM);
-    setSetpoint(3000);
+    getController().setTolerance(ShooterConstants.SHOOTER_TOLERANCE_RPM); // The RPM of the motors can be within 50 RPM of the goal
+    setSetpoint(4000); // Goal of 4000 RPM
   }
 
   @Override
@@ -57,14 +57,11 @@ public class Shooter extends PIDSubsystem {
   @Override
   public double getMeasurement() {
     return (inputs.topShooterMotorRPM + inputs.bottomShooterMotorRPM) / 2;
-    // TODO Auto-generated method stub
-    // throw new UnsupportedOperationException("Unimplemented method 'getMeasurement'");
   }
 
   @Override
   public void useOutput(double output, double setpoint) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'useOutput'");
+    setShooterMotorsVoltage(setpoint + shooterFF.calculate(setpoint));
   }
 
   public boolean atSetpoint() {
