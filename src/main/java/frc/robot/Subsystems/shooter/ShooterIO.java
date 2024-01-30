@@ -30,7 +30,7 @@ public interface ShooterIO {
   public default void updateInputs(ShooterIOInputs inputs) {}
 
   /** Sets ALL Shooter Motors at the specified Voltage */
-  public default void setShooterMotorsVoltage(double volts) {}
+  public default void setBothShooterMotorsVoltage(double volts) {}
 
   /** Break Mode for BOTH Shooter Motors */
   public default void setShooterBreakMode(boolean enable) {}
@@ -41,5 +41,9 @@ public interface ShooterIO {
    *
    * @param percent -1 to 1
    */
-  public default void setShooterMotorPercentSpeed(double percent) {}
+  public default void setBothShooterMotorPercentSpeed(double percent) {}
+
+  public default void setBottomShooterMotorVoltage(double volts) {}
+
+  public default void setTopShooterMotorVoltage(double volts) {}
 }

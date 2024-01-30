@@ -39,15 +39,24 @@ public class ShooterIOSim implements ShooterIO {
   }
 
   @Override
-  public void setShooterMotorPercentSpeed(double percent) {
+  public void setBothShooterMotorPercentSpeed(double percent) {
     // Sets the speed based on a percentage of the voltage
     topShooterFlywheel.setInputVoltage(ShooterConstants.APPLIED_VOLTS * percent);
     bottomShooterFlywheel.setInputVoltage(ShooterConstants.APPLIED_VOLTS * percent);
   }
 
-  public void setShooterMotorsVoltage() {
+  @Override
+  public void setBothShooterMotorsVoltage(double volts) {
     // Sets voltage
-    topShooterFlywheel.setInputVoltage(ShooterConstants.APPLIED_VOLTS);
-    bottomShooterFlywheel.setInputVoltage(ShooterConstants.APPLIED_VOLTS);
+    topShooterFlywheel.setInputVoltage(volts);
+    bottomShooterFlywheel.setInputVoltage(volts);
   }
+
+  // TODO:Update Bellow Functions
+
+  @Override
+  public void setBottomShooterMotorVoltage(double volts) {}
+
+  @Override
+  public void setTopShooterMotorVoltage(double volts) {}
 }

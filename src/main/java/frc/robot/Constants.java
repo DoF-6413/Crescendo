@@ -247,7 +247,8 @@ public final class Constants {
         50.0; // The range that the RPM can be within the desired RPM
 
     // Flywheel simulation constants
-    public static final double SHOOTER_J_KG_METERS_SQUARED = 0.0016007389; // Moment of Inertia for the shooter motors
+    public static final double SHOOTER_J_KG_METERS_SQUARED =
+        0.0016007389; // Moment of Inertia for the shooter motors
     public static final double APPLIED_VOLTS = 12.0;
   }
 

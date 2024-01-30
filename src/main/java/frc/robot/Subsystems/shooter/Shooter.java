@@ -5,37 +5,76 @@
 package frc.robot.Subsystems.shooter;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
-public class Shooter extends PIDSubsystem {
+public class Shooter extends SubsystemBase {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
-  private static PIDController shooterPIDController;
-  private SimpleMotorFeedforward shooterFF =
-      new SimpleMotorFeedforward(
-          ShooterConstants.SHOOTER_KS, ShooterConstants.SHOOTER_KV, ShooterConstants.SHOOTER_KA);
+  private static PIDController topShooterPID;
+  private static PIDController bottomShooterPID;
+  // private SimpleMotorFeedforward shooterFF =
+  // new SimpleMotorFeedforward(
+  // ShooterConstants.SHOOTER_KS, ShooterConstants.SHOOTER_KV,
+  // ShooterConstants.SHOOTER_KA);
+  private double setpointRPM = 0;
+
+  // TODO: delete
+  private double shooterkp = 0;
+  private double shooterki = 0;
+  private double shooterkd = 0;
 
   public Shooter(ShooterIO io) {
-    super(
-        shooterPIDController =
-            new PIDController(
-                ShooterConstants.SHOOTER_KP,
-                ShooterConstants.SHOOTER_KI,
-                ShooterConstants.SHOOTER_KD));
+
+    topShooterPID =
+        new PIDController(
+            ShooterConstants.SHOOTER_KP, ShooterConstants.SHOOTER_KI, ShooterConstants.SHOOTER_KD);
+
+    bottomShooterPID =
+        new PIDController(
+            ShooterConstants.SHOOTER_KP, ShooterConstants.SHOOTER_KI, ShooterConstants.SHOOTER_KD);
+
     System.out.println("[Init] Creating Shooter");
     this.io = io;
-    getController().setTolerance(ShooterConstants.SHOOTER_TOLERANCE_RPM); // The RPM of the motors can be within 50 RPM of the goal
-    setSetpoint(4000); // Goal of 4000 RPM
+    topShooterPID.setTolerance(
+        setpointRPM * 0.05); // The RPM of the motors can be within 50 RPM of the goal
+    bottomShooterPID.setTolerance(
+        setpointRPM * 0.05); // The RPM of the motors can be within 50 RPM of the goal
+    SmartDashboard.putNumber("shooterkp", 0);
+    SmartDashboard.putNumber("shooterki", 0);
+    SmartDashboard.putNumber("shooterkd", 0);
+    SmartDashboard.putNumber("setpoint", 0);
   }
 
   @Override
   public void periodic() {
     this.updateInputs();
     Logger.processInputs("Shooter", inputs);
+    io.setTopShooterMotorVoltage(topShooterPID.calculate(getTopRPM(), setpointRPM));
+    io.setBottomShooterMotorVoltage(bottomShooterPID.calculate(getBottomRPM(), setpointRPM));
+    if (shooterkp != SmartDashboard.getNumber("shooterkp", 0)
+        || shooterki != SmartDashboard.getNumber("shooterki", 0)
+        || shooterkd != SmartDashboard.getNumber("shooterkd", 0)) {
+      updatePIDController();
+    }
+
+    updateSetpoint(SmartDashboard.getNumber("setpoint", 0));
+
+    SmartDashboard.putNumber("Setpoint Put Number", setpointRPM);
+
+    SmartDashboard.putNumber("TopMotorError", setpointRPM - getTopRPM());
+    SmartDashboard.putNumber("TopBottomError", setpointRPM - getBottomRPM());
+  }
+
+  public void updatePIDController() {
+    shooterkp = SmartDashboard.getNumber("shooterkp", 0);
+    shooterki = SmartDashboard.getNumber("shooterki", 0);
+    shooterkd = SmartDashboard.getNumber("shooterkd", 0);
+    topShooterPID = new PIDController(shooterkp, shooterki, shooterkd);
+    bottomShooterPID = new PIDController(shooterkp, shooterki, shooterkd);
   }
 
   public void updateInputs() {
@@ -43,7 +82,7 @@ public class Shooter extends PIDSubsystem {
   }
 
   public void setShooterMotorsVoltage(double volts) {
-    io.setShooterMotorsVoltage(volts);
+    io.setBothShooterMotorsVoltage(volts);
   }
 
   public void setShooterBreakMode(boolean enable) {
@@ -51,20 +90,23 @@ public class Shooter extends PIDSubsystem {
   }
 
   public void setShooterMotorPercentSpeed(double percent) {
-    io.setShooterMotorPercentSpeed(percent);
+    io.setBothShooterMotorPercentSpeed(percent);
   }
 
-  @Override
-  public double getMeasurement() {
-    return (inputs.topShooterMotorRPM + inputs.bottomShooterMotorRPM) / 2;
+  public double getTopRPM() {
+    return inputs.topShooterMotorRPM;
   }
 
-  @Override
-  public void useOutput(double output, double setpoint) {
-    setShooterMotorsVoltage(setpoint + shooterFF.calculate(setpoint));
+  public double getBottomRPM() {
+    return inputs.bottomShooterMotorRPM;
   }
 
-  public boolean atSetpoint() {
-    return shooterPIDController.atSetpoint();
+  public void updateSetpoint(double newSetpoint) {
+    setpointRPM = newSetpoint;
   }
+
+  // TODO: One function for Top and Bottom
+  // public boolean atSetpoint() {
+  //   return shooterPIDController.atSetpoint();
+  // }
 }
