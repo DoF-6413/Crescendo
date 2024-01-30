@@ -153,7 +153,7 @@ public class RobotContainer {
             () ->
                 m_driveSubsystem.setRaw(
                     driverController.getLeftX(),
-                    -driverController.getLeftY(),
+                    driverController.getLeftY() * (-1), //Joystick on Xbox Controll is Inverted
                     driverController.getRightX()),
             m_driveSubsystem));
 
