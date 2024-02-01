@@ -39,6 +39,6 @@ public class Actuator extends SubsystemBase {
   }
 
   public void setActuatorPercentSpeed(double percent) {
-    ActuatorIO.setActuatorSpeed(percent * 12);
+    ActuatorIO.setActuatorSpeed(percent * 12);  // sets the speed based on a percentage not just voltge 
   }
 }

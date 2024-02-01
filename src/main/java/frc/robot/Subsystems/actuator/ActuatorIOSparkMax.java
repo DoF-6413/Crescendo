@@ -22,15 +22,19 @@ public class ActuatorIOSparkMax implements ActuatorIO {
   public ActuatorIOSparkMax() {
     System.out.println("[Init] Creating Actuator");
     actuatorMotor = new CANSparkMax(ActuatorConstants.ACTUATOR_CANID, MotorType.kBrushless);
-    actuatorEncoder = actuatorMotor.getEncoder();
+    actuatorEncoder = actuatorMotor.getEncoder();                                                 
   }
 
 
   public void updateInputs(ActuatorIOInputs inputs) {
     inputs.turnVelocityRadPerSec = 
       Units.rotationsToRadians(actuatorEncoder.getPosition()) / ActuatorConstants.GEAR_RATIO;   // Converts rotaions to Radians and then divides it by the gear ratio
-    inputs.tur
+    inputs.turn
 
+  }
+
+  public void setActuatorSpeed(double speed){
+    actuatorMotor.setVoltage(speed);
   }
   
 }

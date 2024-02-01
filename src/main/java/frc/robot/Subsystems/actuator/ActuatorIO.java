@@ -16,7 +16,6 @@ public class ActuatorIO extends SubsystemBase {
     public double turnPositionRad = 0.0;
     public double turnVelocityRadPerSec = 0.0;
     public double turnCurrentAmps = 0.0;
-    public double WristTempCelcius = 0.0;
   }
 
   public void updateInputs(ActuatorIOInputs inputs) {
