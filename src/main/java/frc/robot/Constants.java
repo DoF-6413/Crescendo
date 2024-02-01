@@ -239,12 +239,6 @@ public final class Constants {
     public static final double SHOOTER_KP = 0.0; // The "P" value of the PID
     public static final double SHOOTER_KI = 0.0; // The "I" value of the PID
     public static final double SHOOTER_KD = 0.0; // The "D" value of the PID
-    public static final double SHOOTER_KS =
-        0.0; // Static gain, Voltage increase to overcome friction
-    public static final double SHOOTER_KV = 0.0; // Velocity gain, volts * seconds / distance
-    public static final double SHOOTER_KA = 0.0; // Acceleration gain, volts * seconds^2 / distance
-    public static final double SHOOTER_TOLERANCE_RPM =
-        50.0; // The range that the RPM can be within the desired RPM
 
     // Flywheel simulation constants
     public static final double SHOOTER_J_KG_METERS_SQUARED =

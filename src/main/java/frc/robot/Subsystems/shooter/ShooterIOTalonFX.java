@@ -4,7 +4,6 @@
 
 package frc.robot.Subsystems.shooter;
 
-
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import frc.robot.Constants.ShooterConstants;
@@ -17,10 +16,9 @@ public class ShooterIOTalonFX implements ShooterIO {
   private final TalonFX topShooterMotor;
   private final TalonFX bottomShooterMotor;
 
-
   public ShooterIOTalonFX() {
     System.out.println("[Init] Creating ShooterIOTalonFX");
-    
+
     // Shooter motor IDs
     topShooterMotor = new TalonFX(ShooterConstants.TOP_SHOOTER_MOTOR_ID);
     bottomShooterMotor = new TalonFX(ShooterConstants.BOTTOM_SHOOTER_MOTOR_ID);
@@ -28,8 +26,6 @@ public class ShooterIOTalonFX implements ShooterIO {
     // Inverts top shooter motor to spin CCW
     topShooterMotor.setInverted(ShooterConstants.TOP_SHOOTER_MOTOR_INVERTED);
     bottomShooterMotor.setInverted(ShooterConstants.BOTTOM_SHOOTER_MOTOR_INVERTED);
-
-    
   }
 
   @Override
@@ -70,8 +66,10 @@ public class ShooterIOTalonFX implements ShooterIO {
   @Override
   public void setShooterBreakMode(boolean enable) {
     if (enable) {
-      topShooterMotor.setNeutralMode(NeutralModeValue.Brake);
-      bottomShooterMotor.setNeutralMode(NeutralModeValue.Brake);
+      // topShooterMotor.setNeutralMode(NeutralModeValue.Brake);
+      // bottomShooterMotor.setNeutralMode(NeutralModeValue.Brake);
+      topShooterMotor.setNeutralMode(NeutralModeValue.Coast);
+      bottomShooterMotor.setNeutralMode(NeutralModeValue.Coast);
     } else {
       topShooterMotor.setNeutralMode(NeutralModeValue.Coast);
       bottomShooterMotor.setNeutralMode(NeutralModeValue.Coast);

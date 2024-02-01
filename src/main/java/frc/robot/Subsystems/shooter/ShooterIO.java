@@ -43,7 +43,9 @@ public interface ShooterIO {
    */
   public default void setBothShooterMotorPercentSpeed(double percent) {}
 
-  public default void setBottomShooterMotorVoltage(double volts) {}
-
+  /** Sets the voltage of the Top Shooter Motor */
   public default void setTopShooterMotorVoltage(double volts) {}
+
+  /** Sets the voltage of the Bottom Shooter Motor */
+  public default void setBottomShooterMotorVoltage(double volts) {}
 }
