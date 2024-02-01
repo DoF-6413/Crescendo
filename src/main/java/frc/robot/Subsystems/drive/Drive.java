@@ -132,6 +132,9 @@ public class Drive extends SubsystemBase {
     Logger.recordOutput("SwerveStates/Measured", measuredStates);
   }
 
+
+
+
   /**
    * Sets the Velocity of the Swerve Drive through Passing in a ChassisSpeeds (Can be Field Relative
    * OR Robot Orientated)
@@ -175,11 +178,8 @@ public class Drive extends SubsystemBase {
     };
   }
 
-  /**
-   * Combines the Rotation of the Modules AND the rotation of the gyroscope to determine how we have
-   * rotated
-   */
-  public Rotation2d getRotation() {
+
+  public SwerveModulePosition[] getWheelDeltas(){
     SwerveModulePosition[] wheelDeltas = new SwerveModulePosition[4];
     /* Wheel Deltas or Wheel Positions */
     for (int i = 0; i < 4; i++) {
@@ -190,6 +190,13 @@ public class Drive extends SubsystemBase {
               modules[i].getAngle()); // Gets individual MODULE rotation
       lastModulePositionsMeters[i] = modules[i].getPositionMeters();
     }
+    return wheelDeltas;
+  }
+  /**
+   * Combines the Rotation of the Modules AND the rotation of the gyroscope to determine how we have
+   * rotated
+   */
+  public Rotation2d getRotation() {
 
     var gyroYaw = new Rotation2d(gyro.getYaw().getRadians());
 
@@ -204,7 +211,7 @@ public class Drive extends SubsystemBase {
               twist.dy,
               gyroYaw.minus(lastGyroYaw).getRadians()); // Updates twist based on GYRO
     } else {
-      twist = swerveKinematics.toTwist2d(wheelDeltas); // Updates Twist Based on MODULE position
+      twist = swerveKinematics.toTwist2d(getWheelDeltas()); // Updates Twist Based on MODULE position
       gyroYaw =
           lastGyroYaw.minus(
               new Rotation2d(twist.dtheta)); // Updates rotation 2d based on robot module position
