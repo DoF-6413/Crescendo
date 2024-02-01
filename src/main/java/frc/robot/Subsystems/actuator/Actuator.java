@@ -77,14 +77,9 @@ public class Actuator extends SubsystemBase {
             ActuatorConstants.ACTUATOR_KD);
   }
 
-<<<<<<< HEAD
   /** return the position in meters (just for human understanding bc we use rad) */
   public double getActuatorPosition() {
     return actuatorInputs.actuatorPositionRad * 2 * Math.PI;
-=======
-  public void setActuatorSpeed(double voltage) {
-    actuatorIO.setActuatorSpeed(voltage);
->>>>>>> 9f72554 (finished physical actuator motor subsystem)
   }
 
   public void setActuatorVoltage(double voltage) {
@@ -97,15 +92,10 @@ public class Actuator extends SubsystemBase {
 
   /** Sets the speed based on a percentage not just voltge */
   public void setActuatorPercentSpeed(double percent) {
-<<<<<<< HEAD
     actuatorIO.setActuatorPercentSpeed(percent);
   }
 
   private void updateSetpoint() {
     actuatorSetpoint = SmartDashboard.getNumber("actuatorSetpoint", 0.0);
     actuatorPID.setSetpoint(actuatorSetpoint);
-=======
-    actuatorIO.setActuatorSpeed(percent * 12);  // sets the speed based on a percentage not just voltge 
->>>>>>> 9f72554 (finished physical actuator motor subsystem)
   }
-}

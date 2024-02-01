@@ -19,7 +19,7 @@ public class ActuatorIOSparkMax implements ActuatorIO {
   public ActuatorIOSparkMax() {
     System.out.println("[Init] Creating ActuatorIOSparkMax");
     actuatorMotor = new CANSparkMax(ActuatorConstants.ACTUATOR_CANID, MotorType.kBrushless);
-    actuatorEncoder = actuatorMotor.getEncoder();                                                 
+    actuatorEncoder = actuatorMotor.getEncoder();
   }
 
   @Override
