@@ -16,7 +16,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotStateConstants;
@@ -124,11 +123,11 @@ public class RobotContainer {
      * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
      * Up will launch a NOTE outward
      * Down will retract a NOTE inward
-     */
-    m_shooterSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_shooterSubsystem.setShooterMotorPercentSpeed(-driverController.getRightY()),
-            m_shooterSubsystem));
+    //  */
+    // m_shooterSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_shooterSubsystem.setShooterMotorPercentSpeed(-driverController.getRightY()),
+    //         m_shooterSubsystem));
 
     /*
      * Spins the motor that will be running the UTB Intake
