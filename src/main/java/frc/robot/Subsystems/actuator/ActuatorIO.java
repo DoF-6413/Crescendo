@@ -7,7 +7,7 @@ package frc.robot.Subsystems.actuator;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.AutoLog;
 
-public class ActuatorIO extends SubsystemBase {
+public interface ActuatorIO {
   /** Creates a new ActuatorIO. */
   @AutoLog
   public static class ActuatorIOInputs {
@@ -18,9 +18,9 @@ public class ActuatorIO extends SubsystemBase {
     public double turnCurrentAmps = 0.0;
   }
 
-  public void updateInputs(ActuatorIOInputs inputs) {
+  public default void updateInputs(ActuatorIOInputs inputs) {
     // This method will be called once per scheduler run
   }
 
-  public static void setActuatorSpeed(double speed) {}
+  public default void setActuatorSpeed(double speed) {}
 }

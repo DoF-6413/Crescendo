@@ -31,7 +31,7 @@ public class Actuator extends SubsystemBase {
   }
 
   public void setActuatorSpeed(double voltage) {
-    ActuatorIO.setActuatorSpeed(voltage);
+    actuatorIO.setActuatorSpeed(voltage);
   }
 
   public double getActuatorPositionRad() {
@@ -39,6 +39,6 @@ public class Actuator extends SubsystemBase {
   }
 
   public void setActuatorPercentSpeed(double percent) {
-    ActuatorIO.setActuatorSpeed(percent * 12);  // sets the speed based on a percentage not just voltge 
+    actuatorIO.setActuatorSpeed(percent * 12);  // sets the speed based on a percentage not just voltge 
   }
 }
