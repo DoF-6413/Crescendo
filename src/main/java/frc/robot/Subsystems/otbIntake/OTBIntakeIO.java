@@ -11,7 +11,7 @@ public interface OTBIntakeIO {
 
   @AutoLog
   public static class OTBIntakeIOInputs {
-    // Rollers
+    public double otbIntakeMotorRPM = 0.0;
     public double rollerVelocityRadPerSec = 0.0;
     public double rollerAppliedVolts = 0.0;
     public double[] rollerCurrentAmps = new double[] {};

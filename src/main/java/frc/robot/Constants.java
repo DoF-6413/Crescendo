@@ -249,6 +249,9 @@ public final class Constants {
   public static class OTBIntakeConstants {
     public static final int OTB_INTAKE_CANID = 0; // TODO: update this Id value please !!!
     public static final double GEAR_RATIO = 2.0;
+    public static double OTB_INTAKE_KP = 0.0;
+    public static double OTB_INTAKE_KI = 0.0;
+    public static double OTB_INTAKE_KD = 0.0;
   }
 
   public static class ActuatorConstants {
