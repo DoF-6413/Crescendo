@@ -257,5 +257,8 @@ public final class Constants {
   public static class ActuatorConstants {
     public static final int ACTUATOR_CANID = 0; // TODO: update this id
     public static final double GEAR_RATIO = 155.0;
+    public static double ACTUATOR_KP = 0.0;
+    public static double ACTUATOR_KI = 0.0;
+    public static double ACTUATOR_KD = 0.0;
   }
 }

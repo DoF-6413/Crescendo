@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.Subsystems.actuator;
+
 import org.littletonrobotics.junction.AutoLog;
 
 public interface ActuatorIO {
@@ -21,4 +22,6 @@ public interface ActuatorIO {
   }
 
   public default void setActuatorSpeed(double speed) {}
+
+  public default void setActuatorVoltage(double actuator) {}
 }

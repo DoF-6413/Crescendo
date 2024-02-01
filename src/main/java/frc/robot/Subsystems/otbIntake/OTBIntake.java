@@ -8,7 +8,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OTBIntakeConstants;
-
 import org.littletonrobotics.junction.Logger;
 
 /** Runs the motor for the Over the Bumper (OTB) Intake */
@@ -16,16 +15,18 @@ public class OTBIntake extends SubsystemBase {
   private final OTBIntakeIO io;
   private final OTBIntakeIOInputsAutoLogged inputs = new OTBIntakeIOInputsAutoLogged();
   private static PIDController otbIntakePID;
-  private double setpointRPM = 0;  // TODO: does this have to stay like that bc you multiply it ? 
+  private double setpointRPM = 0; // TODO: does this have to stay like that bc you multiply it ?
 
   public OTBIntake(OTBIntakeIO io) {
     System.out.println("[Init] Creating OTB Intake");
     this.io = io;
-    otbIntakePID = 
-      new PIDController(OTBIntakeConstants.OTB_INTAKE_KP, 
-      OTBIntakeConstants.OTB_INTAKE_KI, 
-      OTBIntakeConstants.OTB_INTAKE_KD);
-    otbIntakePID.setTolerance(setpointRPM*0.05); // TODO: ask what this value means and what it shoud be 
+    otbIntakePID =
+        new PIDController(
+            OTBIntakeConstants.OTB_INTAKE_KP,
+            OTBIntakeConstants.OTB_INTAKE_KI,
+            OTBIntakeConstants.OTB_INTAKE_KD);
+    otbIntakePID.setTolerance(
+        setpointRPM * 0.05); // TODO: ask what this value means and what it shoud be
   }
 
   /** Periodically updates the inputs and outputs of the OTB Intake */
@@ -33,7 +34,9 @@ public class OTBIntake extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("OTBIntake", inputs);
     io.setOTBIntakeVoltage(otbIntakePID.calculate(getOTBIntakeRPM(), setpointRPM));
-    if (OTBIntakeConstants.OTB_INTAKE_KP != SmartDashboard.getNumber("OTBIntakekp", 0) || OTBIntakeConstants.OTB_INTAKE_KI != SmartDashboard.getNumber("otbIntakeki", 0) || OTBIntakeConstants.OTB_INTAKE_KD != SmartDashboard.getNumber("otbIntakekd", 0)) {
+    if (OTBIntakeConstants.OTB_INTAKE_KP != SmartDashboard.getNumber("OTBIntakekp", 0)
+        || OTBIntakeConstants.OTB_INTAKE_KI != SmartDashboard.getNumber("otbIntakeki", 0)
+        || OTBIntakeConstants.OTB_INTAKE_KD != SmartDashboard.getNumber("otbIntakekd", 0)) {
       updatePIDController();
     }
 
@@ -46,7 +49,11 @@ public class OTBIntake extends SubsystemBase {
     OTBIntakeConstants.OTB_INTAKE_KP = SmartDashboard.getNumber("OTBIntakekp", 0);
     OTBIntakeConstants.OTB_INTAKE_KI = SmartDashboard.getNumber("OTBIntakeki", 0);
     OTBIntakeConstants.OTB_INTAKE_KD = SmartDashboard.getNumber("OTBIntakekd", 0);
-    otbIntakePID = new PIDController(OTBIntakeConstants.OTB_INTAKE_KP, OTBIntakeConstants.OTB_INTAKE_KI, OTBIntakeConstants.OTB_INTAKE_KD);
+    otbIntakePID =
+        new PIDController(
+            OTBIntakeConstants.OTB_INTAKE_KP,
+            OTBIntakeConstants.OTB_INTAKE_KI,
+            OTBIntakeConstants.OTB_INTAKE_KD);
   }
 
   /** Updates inputs for the OTB Intake */
@@ -68,7 +75,7 @@ public class OTBIntake extends SubsystemBase {
     return inputs.otbIntakeMotorRPM;
   }
 
-  public void updateSetpoint(double newSetpoint){
+  public void updateSetpoint(double newSetpoint) {
     setpointRPM = newSetpoint;
   }
 }

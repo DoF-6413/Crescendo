@@ -4,7 +4,10 @@
 
 package frc.robot.Subsystems.actuator;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ActuatorConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class Actuator extends SubsystemBase {
@@ -12,11 +15,18 @@ public class Actuator extends SubsystemBase {
   public static ActuatorIO actuatorIO;
 
   public static ActuatorIOInputsAutoLogged actuatorInputs;
+  public static PIDController actuatorPID;
+  private double setpointRPM;
 
   public Actuator(ActuatorIO io) {
-
     System.out.println("[init] creating Actuator");
     actuatorIO = io;
+    actuatorPID =
+        new PIDController(
+            ActuatorConstants.ACTUATOR_KP,
+            ActuatorConstants.ACTUATOR_KI,
+            ActuatorConstants.ACTUATOR_KD);
+    actuatorPID.setTolerance(setpointRPM * 0.05);
   }
 
   @Override
@@ -24,6 +34,29 @@ public class Actuator extends SubsystemBase {
     // This method will be called once per scheduler run
     actuatorIO.updateInputs(actuatorInputs); // update the inputs
     Logger.processInputs("Actuator", actuatorInputs); // logg the inputs
+    actuatorIO.setActuatorSpeed(setpointRPM);
+    actuatorIO.setActuatorVoltage(actuatorPID.calculate(getActuatorPositionRad(), setpointRPM));
+    if (ActuatorConstants.ACTUATOR_KP != SmartDashboard.getNumber("actuatorkp", 0)
+        || ActuatorConstants.ACTUATOR_KI != SmartDashboard.getNumber("actuatorki", 0)
+        || ActuatorConstants.ACTUATOR_KD != SmartDashboard.getNumber("actuatorkd", 0)) {
+      updatePIDController();
+    }
+
+    updateSetpoint(SmartDashboard.getNumber("setpoint", 0));
+
+    SmartDashboard.putNumber("Actuator setpoint", setpointRPM);
+    SmartDashboard.putNumber("ActuatorError", setpointRPM - getActuatorPosition());
+  }
+
+  private void updatePIDController() {
+    ActuatorConstants.ACTUATOR_KP = SmartDashboard.getNumber("actuatorkp", 0);
+    ActuatorConstants.ACTUATOR_KI = SmartDashboard.getNumber("actuatorki", 0);
+    ActuatorConstants.ACTUATOR_KD = SmartDashboard.getNumber("actuatorkd", 0);
+    actuatorPID =
+        new PIDController(
+            ActuatorConstants.ACTUATOR_KP,
+            ActuatorConstants.ACTUATOR_KI,
+            ActuatorConstants.ACTUATOR_KD);
   }
 
   public double getActuatorPosition() { // return the position in meters
@@ -39,6 +72,11 @@ public class Actuator extends SubsystemBase {
   }
 
   public void setActuatorPercentSpeed(double percent) {
-    actuatorIO.setActuatorSpeed(percent * 12);  // sets the speed based on a percentage not just voltge 
+    actuatorIO.setActuatorSpeed(
+        percent * 12); // sets the speed based on a percentage not just voltge
+  }
+
+  private void updateSetpoint(double newSetpoint) {
+    setpointRPM = newSetpoint;
   }
 }
