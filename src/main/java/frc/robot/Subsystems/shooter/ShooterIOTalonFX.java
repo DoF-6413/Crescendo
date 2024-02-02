@@ -33,7 +33,7 @@ public class ShooterIOTalonFX implements ShooterIO {
     // All the Inputs for the Top Shooter Motor (Should be nearly identical to the Bottom Shooter
     // Motor)
     inputs.topShooterMotorRPM =
-        topShooterMotor.getVelocity().getValueAsDouble()
+        topShooterMotor.getRotorVelocity().getValueAsDouble()
             * 60; // getVelocity gets rotations per second, by multiplying it by 60 turns it into
     // rotations per minute (RPM)
     inputs.topShooterMotorAccelerationRPM =
@@ -49,7 +49,7 @@ public class ShooterIOTalonFX implements ShooterIO {
     // All the Inputs for the Bottom Shooter Motor (Should be nearly identical to the Top Shooter
     // Motor)
     inputs.bottomShooterMotorRPM =
-        bottomShooterMotor.getVelocity().getValueAsDouble()
+        bottomShooterMotor.getRotorVelocity().getValueAsDouble()
             * 60; // getVelocity gets rotations per second, by multiplying it by 60 turns it into
     // rotations per minute (RPM)
     inputs.bottomShooterMotorAccelerationRPM =
