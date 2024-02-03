@@ -14,6 +14,8 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
+
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -54,6 +56,9 @@ public class RobotContainer {
   
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
+  
+  private final SlewRateLimiter m_linearRamping;
+  private final SlewRateLimiter m_angularRamping;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -136,6 +141,10 @@ public class RobotContainer {
     autoChooser.addOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
     
+
+    m_linearRamping = new SlewRateLimiter(0.5);
+    m_angularRamping = new SlewRateLimiter(0.2);
+
     // Configure the button bindings
     configureButtonBindings();
   }
