@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystems.drive;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*; // Rotation2d and Translation2d
 import edu.wpi.first.math.kinematics.*; // ChassisSpeeds, SwerveDriveKinematics, SwerveModuleStates
 import edu.wpi.first.wpilibj.*; // Timer
@@ -163,6 +164,31 @@ public class Drive extends SubsystemBase {
    */
   public void setRaw(double x, double y, double rot) {
     runVelocity(ChassisSpeeds.fromFieldRelativeSpeeds(x, y, rot, this.getRotation()));
+  }
+
+  public void driveWithDeadband(double x, double y, double rot){
+        // Apply deadband
+    double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), DriveConstants.DEADBAND);
+    Rotation2d linearDirection = new Rotation2d(x, y);
+    double omega = MathUtil.applyDeadband(rot, DriveConstants.DEADBAND);
+
+    // Square values
+    linearMagnitude = linearMagnitude * linearMagnitude;
+    omega = Math.copySign(omega * omega, omega);
+
+    // Calcaulate new linear velocity
+    Translation2d linearVelocity =
+        new Pose2d(new Translation2d(), linearDirection)
+            .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
+            .getTranslation();
+
+            //The actual run command itself
+    this.runVelocity(
+        ChassisSpeeds.fromFieldRelativeSpeeds(
+            linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            linearVelocity.getY() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            omega * DriveConstants.MAX_ANGULAR_SPEED_RAD_PER_SEC,
+            this.getRotation()));
   }
 
   /** stops the robot (sets velocity to 0 bu inputing empty Chassis Speeds which Default to 0) */
