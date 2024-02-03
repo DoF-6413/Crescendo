@@ -30,7 +30,7 @@ public class Drive extends SubsystemBase {
   Rotation2d lastGyroYaw = new Rotation2d();
 
   // Gets previous module positions
-  private double[] lastModulePositionsMeters = new double[] { 0.0, 0.0, 0.0, 0.0 };
+  private double[] lastModulePositionsMeters = new double[] {0.0, 0.0, 0.0, 0.0};
 
   public Drive(
       ModuleIO FRModuleIO,
@@ -69,7 +69,6 @@ public class Drive extends SubsystemBase {
     runSwerveModules(getAdjustedSpeeds());
 
     getMeasuredStates();
-
   }
 
   /** Puts robot to coast mode on disable */
@@ -85,27 +84,29 @@ public class Drive extends SubsystemBase {
     }
   }
 
-  
   /** */
   public SwerveModuleState[] getAdjustedSpeeds() {
     // Updates Setpoints to be Cleaner
-    var setpointTwist = new Pose2d()
-    .log(
-            new Pose2d(
-                setpoint.vxMetersPerSecond
-                    * RobotStateConstants.LOOP_PERIODIC_SEC, // gets meters from velocity
-                setpoint.vyMetersPerSecond
-                    * RobotStateConstants.LOOP_PERIODIC_SEC, // gets meters from velocity
+    var setpointTwist =
+        new Pose2d()
+            .log(
+                new Pose2d(
+                    setpoint.vxMetersPerSecond
+                        * RobotStateConstants.LOOP_PERIODIC_SEC, // gets meters from velocity
+                    setpoint.vyMetersPerSecond
+                        * RobotStateConstants.LOOP_PERIODIC_SEC, // gets meters from velocity
                     new Rotation2d(
-                      setpoint.omegaRadiansPerSecond
-                    * RobotStateConstants.LOOP_PERIODIC_SEC))); // gets radians from velocity
-    var adjustedSpeeds = new ChassisSpeeds(
-        setpointTwist.dx
-            / RobotStateConstants.LOOP_PERIODIC_SEC, // turns meters travled into velocity
-        setpointTwist.dy
-            / RobotStateConstants.LOOP_PERIODIC_SEC, // turns meters travled into velocity
-        setpointTwist.dtheta
-            / RobotStateConstants.LOOP_PERIODIC_SEC); // turns radians travled into velocity
+                        setpoint.omegaRadiansPerSecond
+                            * RobotStateConstants
+                                .LOOP_PERIODIC_SEC))); // gets radians from velocity
+    var adjustedSpeeds =
+        new ChassisSpeeds(
+            setpointTwist.dx
+                / RobotStateConstants.LOOP_PERIODIC_SEC, // turns meters travled into velocity
+            setpointTwist.dy
+                / RobotStateConstants.LOOP_PERIODIC_SEC, // turns meters travled into velocity
+            setpointTwist.dtheta
+                / RobotStateConstants.LOOP_PERIODIC_SEC); // turns radians travled into velocity
     SwerveModuleState[] setpointStates = new SwerveModuleState[4];
     setpointStates = swerveKinematics.toSwerveModuleStates(adjustedSpeeds);
 
@@ -113,19 +114,19 @@ public class Drive extends SubsystemBase {
     // they don't exceed
     // the maximum speed anymore
     SwerveDriveKinematics.desaturateWheelSpeeds(
-        this.getAdjustedSpeeds(), DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC);
+        setpointStates, DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC);
     return setpointStates;
   }
 
-  public void runSwerveModules(SwerveModuleState[] setpointStates){
-// Runs Modules to Run at Specific Setpoints (Linear and Angular Velocity) that
-// is Quick and
+  public void runSwerveModules(SwerveModuleState[] setpointStates) {
+    // Runs Modules to Run at Specific Setpoints (Linear and Angular Velocity) that
+    // is Quick and
     // Optimized for smoothest movement
     SwerveModuleState[] optimizedStates = new SwerveModuleState[4];
     for (int i = 0; i < 4; i++) {
       optimizedStates[i] = modules[i].runSetpoint(setpointStates[i]);
     }
-    
+
     // Updates setpoint logs
     Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
     Logger.recordOutput("SwerveStates/SetpointsOptimized", optimizedStates);
@@ -137,16 +138,15 @@ public class Drive extends SubsystemBase {
     for (int i = 0; i < 4; i++) {
       measuredStates[i] = modules[i].getState();
     }
-  
+
     // Updates what states each module is in (Current Velocity, Angular Velocity,
     // and Angle)
     Logger.recordOutput("SwerveStates/Measured", measuredStates);
     return measuredStates;
   }
-  
+
   /**
-   * Sets the Velocity of the Swerve Drive through Passing in a ChassisSpeeds (Can
-   * be Field Relative
+   * Sets the Velocity of the Swerve Drive through Passing in a ChassisSpeeds (Can be Field Relative
    * OR Robot Orientated)
    */
   public void runVelocity(ChassisSpeeds speeds) {
@@ -157,18 +157,15 @@ public class Drive extends SubsystemBase {
   /**
    * Runs the drivetrain with raw values on a scale of (-1, 1)
    *
-   * @param x   velociy in x direction of Entire Swerve Drive
-   * @param y   velocity in y direction of Entire Swerve Drive
+   * @param x velociy in x direction of Entire Swerve Drive
+   * @param y velocity in y direction of Entire Swerve Drive
    * @param rot Angular Velocity of Entire Swerve Drive
    */
   public void setRaw(double x, double y, double rot) {
     runVelocity(ChassisSpeeds.fromFieldRelativeSpeeds(x, y, rot, this.getRotation()));
   }
 
-  /**
-   * stops the robot (sets velocity to 0 bu inputing empty Chassis Speeds which
-   * Default to 0)
-   */
+  /** stops the robot (sets velocity to 0 bu inputing empty Chassis Speeds which Default to 0) */
   public void stop() {
     runVelocity(new ChassisSpeeds());
   }
@@ -180,15 +177,14 @@ public class Drive extends SubsystemBase {
   }
 
   /**
-   * @return array of all 4 swerve module positions (turn angle and drive
-   *         position)
+   * @return array of all 4 swerve module positions (turn angle and drive position)
    */
   public SwerveModulePosition[] getSwerveModulePositions() {
     return new SwerveModulePosition[] {
-        modules[0].getPosition(),
-        modules[1].getPosition(),
-        modules[2].getPosition(),
-        modules[3].getPosition()
+      modules[0].getPosition(),
+      modules[1].getPosition(),
+      modules[2].getPosition(),
+      modules[3].getPosition()
     };
   }
 
@@ -196,18 +192,18 @@ public class Drive extends SubsystemBase {
     SwerveModulePosition[] wheelDeltas = new SwerveModulePosition[4];
     /* Wheel Deltas or Wheel Positions */
     for (int i = 0; i < 4; i++) {
-      wheelDeltas[i] = new SwerveModulePosition(
-          (modules[i].getPositionMeters()
-              - lastModulePositionsMeters[i]), // This calculates the CHANGE in angle
-          modules[i].getAngle()); // Gets individual MODULE rotation
+      wheelDeltas[i] =
+          new SwerveModulePosition(
+              (modules[i].getPositionMeters()
+                  - lastModulePositionsMeters[i]), // This calculates the CHANGE in angle
+              modules[i].getAngle()); // Gets individual MODULE rotation
       lastModulePositionsMeters[i] = modules[i].getPositionMeters();
     }
     return wheelDeltas;
   }
 
   /**
-   * Combines the Rotation of the Modules AND the rotation of the gyroscope to
-   * determine how we have
+   * Combines the Rotation of the Modules AND the rotation of the gyroscope to determine how we have
    * rotated
    */
   public Rotation2d getRotation() {
@@ -221,14 +217,17 @@ public class Drive extends SubsystemBase {
      * // (left positive), and the component is the change in heading.
      */
     if (gyro.isConnected()) {
-      twist = new Twist2d(
-          twist.dx,
-          twist.dy,
-          gyroYaw.minus(lastGyroYaw).getRadians()); // Updates twist based on GYRO
+      twist =
+          new Twist2d(
+              twist.dx,
+              twist.dy,
+              gyroYaw.minus(lastGyroYaw).getRadians()); // Updates twist based on GYRO
     } else {
-      twist = swerveKinematics.toTwist2d(getWheelDeltas()); // Updates Twist Based on MODULE position
-      gyroYaw = lastGyroYaw.minus(
-          new Rotation2d(twist.dtheta)); // Updates rotation 2d based on robot module position
+      twist =
+          swerveKinematics.toTwist2d(getWheelDeltas()); // Updates Twist Based on MODULE position
+      gyroYaw =
+          lastGyroYaw.minus(
+              new Rotation2d(twist.dtheta)); // Updates rotation 2d based on robot module position
     }
     lastGyroYaw = gyroYaw;
     return lastGyroYaw;

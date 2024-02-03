@@ -290,6 +290,8 @@ public final class Constants {
 
     public static final int SMART_CURRENT_LIMIT = 40;
     public static final int MEASUREMENT_PERIOD_MS = 10;
+
+    public static final double DEADBAND = 0.1;
   }
 
   public class GyroConstants {
