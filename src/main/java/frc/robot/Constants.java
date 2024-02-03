@@ -252,7 +252,7 @@ public final class Constants {
     public static double OTB_INTAKE_KP = 0.0;
     public static double OTB_INTAKE_KI = 0.0;
     public static double OTB_INTAKE_KD = 0.0;
-    public static final double OTB_INTAKE_TOLERANCE = 0.05;  //in percent
+    public static final double OTB_INTAKE_TOLERANCE = 0.05;
   }
 
   public static class ActuatorConstants {
@@ -261,5 +261,6 @@ public final class Constants {
     public static double ACTUATOR_KP = 0.0;
     public static double ACTUATOR_KI = 0.0;
     public static double ACTUATOR_KD = 0.0;
+    public static final double ACTUATOR_TOLERANCE = 0.05; 
   }
 }

@@ -16,7 +16,7 @@ public class Actuator extends SubsystemBase {
 
   public static ActuatorIOInputsAutoLogged actuatorInputs;
   public static PIDController actuatorPID;
-  private double setpointRPM;
+  private double actuatorSetpoint;
 
   public Actuator(ActuatorIO io) {
     System.out.println("[init] creating Actuator");
@@ -26,7 +26,7 @@ public class Actuator extends SubsystemBase {
             ActuatorConstants.ACTUATOR_KP,
             ActuatorConstants.ACTUATOR_KI,
             ActuatorConstants.ACTUATOR_KD);
-    actuatorPID.setTolerance(setpointRPM * 0.05);
+    actuatorPID.setTolerance(actuatorSetpoint * ActuatorConstants.ACTUATOR_TOLERANCE);
   }
 
   @Override
@@ -35,7 +35,7 @@ public class Actuator extends SubsystemBase {
     actuatorIO.updateInputs(actuatorInputs); // update the inputs
     Logger.processInputs("Actuator", actuatorInputs); // logg the inputs
     actuatorIO.setActuatorSpeed(setpointRPM);
-    actuatorIO.setActuatorVoltage(actuatorPID.calculate(getActuatorPositionRad(), setpointRPM));
+    actuatorIO.setActuatorVoltage(actuatorPID.calculate(getActuatorPositionRad(), ));   //TODO: fix this to match actuator position instead of RPM 
     if (ActuatorConstants.ACTUATOR_KP != SmartDashboard.getNumber("actuatorkp", 0)
         || ActuatorConstants.ACTUATOR_KI != SmartDashboard.getNumber("actuatorki", 0)
         || ActuatorConstants.ACTUATOR_KD != SmartDashboard.getNumber("actuatorkd", 0)) {
@@ -44,8 +44,8 @@ public class Actuator extends SubsystemBase {
 
     updateSetpoint(SmartDashboard.getNumber("setpoint", 0));
 
-    SmartDashboard.putNumber("Actuator setpoint", setpointRPM);
-    SmartDashboard.putNumber("ActuatorError", setpointRPM - getActuatorPosition());
+    SmartDashboard.putNumber("Actuator setpoint", actuatorSetpoint);
+    SmartDashboard.putNumber("ActuatorError", actuatorSetpoint - getActuatorPosition());
   }
 
   private void updatePIDController() {
@@ -77,6 +77,6 @@ public class Actuator extends SubsystemBase {
   }
 
   private void updateSetpoint(double newSetpoint) {
-    setpointRPM = newSetpoint;
+    actuatorSetpoint = newSetpoint;
   }
 }
