@@ -15,7 +15,7 @@ public class OTBIntake extends SubsystemBase {
   private final OTBIntakeIO io;
   private final OTBIntakeIOInputsAutoLogged inputs = new OTBIntakeIOInputsAutoLogged();
   private static PIDController otbIntakePID;
-  private double setpointRPM = 0; // TODO: does this have to stay like that bc you multiply it ?
+  private double setpointRPM = 0;
 
   public OTBIntake(OTBIntakeIO io) {
     System.out.println("[Init] Creating OTB Intake");
@@ -26,7 +26,7 @@ public class OTBIntake extends SubsystemBase {
             OTBIntakeConstants.OTB_INTAKE_KI,
             OTBIntakeConstants.OTB_INTAKE_KD);
     otbIntakePID.setTolerance(
-        setpointRPM * 0.05); // TODO: ask what this value means and what it shoud be
+        setpointRPM * OTBIntakeConstants.OTB_INTAKE_TOLERANCE); 
   }
 
   /** Periodically updates the inputs and outputs of the OTB Intake */
