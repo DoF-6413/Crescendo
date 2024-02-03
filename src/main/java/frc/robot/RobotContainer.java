@@ -13,6 +13,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -55,6 +56,8 @@ public class RobotContainer {
   private final PoseEstimator m_poseEstimator;
   private final Vision m_vision;
   private final UTBIntake m_utbIntake;
+  private final SlewRateLimiter m_linearRamping;
+  private final SlewRateLimiter m_angularRamping;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -114,6 +117,9 @@ public class RobotContainer {
         m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
         break;
     }
+
+    m_linearRamping = new SlewRateLimiter(0.5);
+    m_angularRamping = new SlewRateLimiter(0.2);
 
     // Configure the button bindings
     configureButtonBindings();
