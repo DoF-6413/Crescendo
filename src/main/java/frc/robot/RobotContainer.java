@@ -78,10 +78,10 @@ public class RobotContainer {
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
             new Drive(
-                new ModuleIOSparkMax(0),
-                new ModuleIOSparkMax(1),
-                new ModuleIOSparkMax(2),
-                new ModuleIOSparkMax(3),
+                new ModuleIOSparkMaxTalonFX(0),
+                new ModuleIOSparkMaxTalonFX(1),
+                new ModuleIOSparkMaxTalonFX(2),
+                new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_visionSubsystem = new Vision(new VisionIOArduCam());
@@ -98,10 +98,10 @@ public class RobotContainer {
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
             new Drive(
-                new ModuleIOSimNeo(),
-                new ModuleIOSimNeo(),
-                new ModuleIOSimNeo(),
-                new ModuleIOSimNeo(),
+                new ModuleIOSimNeoKraken(),
+                new ModuleIOSimNeoKraken(),
+                new ModuleIOSimNeoKraken(),
+                new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
         m_visionSubsystem = new Vision(new VisionIOSim());
