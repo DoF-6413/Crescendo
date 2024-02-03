@@ -10,7 +10,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Subsystems.drive.Drive;
@@ -39,7 +38,7 @@ public class FieldRelativeDrive extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //Sets to not move on start up
+    // Sets to not move on start up
     m_drive.runVelocity(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, 0, m_drive.getRotation()));
   }
 
@@ -48,8 +47,8 @@ public class FieldRelativeDrive extends Command {
   public void execute() {
     // Apply deadband
     double linearMagnitude = MathUtil.applyDeadband(Math.hypot(m_x, m_y), DriveConstants.DEADBAND);
-    Rotation2d linearDirection = new Rotation2d(m_x,  m_y);
-    double omega = MathUtil.applyDeadband( m_rot, DriveConstants.DEADBAND);
+    Rotation2d linearDirection = new Rotation2d(m_x, m_y);
+    double omega = MathUtil.applyDeadband(m_rot, DriveConstants.DEADBAND);
 
     // Square values
     linearMagnitude = linearMagnitude * linearMagnitude;
@@ -61,7 +60,7 @@ public class FieldRelativeDrive extends Command {
             .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
             .getTranslation();
 
-            //The actual run command itself
+    // The actual run command itself
     m_drive.runVelocity(
         ChassisSpeeds.fromFieldRelativeSpeeds(
             linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
@@ -73,7 +72,7 @@ public class FieldRelativeDrive extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //Sets to not move on end
+    // Sets to not move on end
     m_drive.runVelocity(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, 0, m_drive.getRotation()));
   }
 

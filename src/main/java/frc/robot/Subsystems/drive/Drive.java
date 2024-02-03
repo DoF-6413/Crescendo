@@ -166,8 +166,8 @@ public class Drive extends SubsystemBase {
     runVelocity(ChassisSpeeds.fromFieldRelativeSpeeds(x, y, rot, this.getRotation()));
   }
 
-  public void driveWithDeadband(double x, double y, double rot){
-        // Apply deadband
+  public void driveWithDeadband(double x, double y, double rot) {
+    // Apply deadband
     double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), DriveConstants.DEADBAND);
     Rotation2d linearDirection = new Rotation2d(x, y);
     double omega = MathUtil.applyDeadband(rot, DriveConstants.DEADBAND);
@@ -182,7 +182,7 @@ public class Drive extends SubsystemBase {
             .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
             .getTranslation();
 
-            //The actual run command itself
+    // The actual run command itself
     this.runVelocity(
         ChassisSpeeds.fromFieldRelativeSpeeds(
             linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,

@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Commands.TeleopCommand.FieldRelativeDrive;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.drive.Drive;
@@ -129,13 +128,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
     m_driveSubsystem.setDefaultCommand(
-        new RunCommand(()-> m_driveSubsystem.driveWithDeadband(
-            driverController.getLeftX(),
-            driverController.getLeftY() * (-1), // Joystick on Xbox Controll is Inverted
-            driverController.getRightX()),
+        new RunCommand(
+            () ->
+                m_driveSubsystem.driveWithDeadband(
+                    driverController.getLeftX(),
+                    driverController.getLeftY() * (-1), // Joystick on Xbox Controll is Inverted
+                    driverController.getRightX()),
             m_driveSubsystem));
 
-            
     driverController
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
