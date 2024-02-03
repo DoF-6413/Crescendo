@@ -149,14 +149,13 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
     m_driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_driveSubsystem.setRaw(
-                    driverController.getLeftX(),
-                    driverController.getLeftY() * (-1), //Joystick on Xbox Controll is Inverted
-                    driverController.getRightX()),
+        new FieldRelativeDrive(
+            driverController.getLeftX(),
+            driverController.getLeftY() * (-1), // Joystick on Xbox Controll is Inverted
+            driverController.getRightX(),
             m_driveSubsystem));
 
+            
     driverController
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
