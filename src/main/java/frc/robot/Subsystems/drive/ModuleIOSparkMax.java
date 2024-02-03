@@ -4,6 +4,8 @@
 
 package frc.robot.Subsystems.drive;
 
+import java.util.Optional;
+
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -68,10 +70,6 @@ public class ModuleIOSparkMax implements ModuleIO {
         throw new RuntimeException("Invalid module index for ModuleIOSparkMax");
     }
 
-    // ensure configs remain after power cycles
-    driveSparkMax.burnFlash();
-    turnSparkMax.burnFlash();
-
     // set can timeouts from constants
     driveSparkMax.setCANTimeout(RobotStateConstants.CAN_CONFIG_TIMEOUT_SEC);
     turnSparkMax.setCANTimeout(RobotStateConstants.CAN_CONFIG_TIMEOUT_SEC);
@@ -101,9 +99,7 @@ public class ModuleIOSparkMax implements ModuleIO {
       turnRelativeEncoder.setAverageDepth(2);
     }
 
-    driveSparkMax.setCANTimeout(0);
-    turnSparkMax.setCANTimeout(0);
-
+    // ensure configs remain after power cycles
     driveSparkMax.burnFlash();
     turnSparkMax.burnFlash();
   }
@@ -173,5 +169,10 @@ public class ModuleIOSparkMax implements ModuleIO {
   // returns absolute position from turn absolute encoders
   public double getAbsolutePositionRadians() {
     return Units.degreesToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble());
+  }
+
+    @Override
+  public Optional<Boolean> isL3() {
+    return Optional.of(false);
   }
 }

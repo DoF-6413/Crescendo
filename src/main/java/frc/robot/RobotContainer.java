@@ -25,7 +25,8 @@ import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.ModuleIO;
 import frc.robot.Subsystems.drive.ModuleIOSimNeo;
-import frc.robot.Subsystems.drive.ModuleIOSparkMax;
+import frc.robot.Subsystems.drive.ModuleIOSimNeoKraken;
+import frc.robot.Subsystems.drive.ModuleIOSparkMaxTalonFX;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.gyro.GyroIO;
 import frc.robot.Subsystems.gyro.GyroIONavX;
@@ -73,10 +74,10 @@ public class RobotContainer {
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
             new Drive(
-                new ModuleIOSparkMax(0),
-                new ModuleIOSparkMax(1),
-                new ModuleIOSparkMax(2),
-                new ModuleIOSparkMax(3),
+                new ModuleIOSparkMaxTalonFX(0),
+                new ModuleIOSparkMaxTalonFX(1),
+                new ModuleIOSparkMaxTalonFX(2),
+                new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
         m_vision = new Vision(new VisionIOArduCam());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
@@ -89,10 +90,10 @@ public class RobotContainer {
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
             new Drive(
-                new ModuleIOSimNeo(),
-                new ModuleIOSimNeo(),
-                new ModuleIOSimNeo(),
-                new ModuleIOSimNeo(),
+                new ModuleIOSimNeoKraken(),
+                new ModuleIOSimNeoKraken(),
+                new ModuleIOSimNeoKraken(),
+                new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
         m_vision = new Vision(new VisionIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
