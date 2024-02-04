@@ -24,4 +24,6 @@ public interface ActuatorIO {
   public default void setActuatorSpeed(double speed) {}
 
   public default void setActuatorVoltage(double actuator) {}
+
+  public default void setActuatorPosition(double position) {}
 }
