@@ -87,12 +87,19 @@ public class Shooter extends SubsystemBase {
         bottomShooterPID
             .getPositionError()); // The difference between the setpoint and RPM as calculated by
     // the PID controller
-    topShooterPID.setSetpoint(setpointRPM);
+
+    bottomShooterPID.setSetpoint(setpointRPM);
+
     // Sets the voltage of the Shooter Motors using the PID controller
-    if (getTopRPM() < 0.0) {
+    if (getBottomRPM() < 0.0) {
       setShooterMotorsVoltage(0.0);
     } else {
-      io.setTopShooterMotorVoltage((topShooterPID.calculate(getTopRPM())));
+      io.setBottomShooterMotorVoltage(
+          (setpointRPM * 12) / 6800
+              + bottomShooterkp * (setpointRPM - inputs.bottomShooterMotorRPM));
+      io.setTopShooterMotorVoltage(
+          (setpointRPM * 12) / 6800 + topShooterkp * (setpointRPM - inputs.topShooterMotorRPM));
+
       // , setpointRPM)) * 12.0 /
       // 6800.0);
     }
@@ -120,8 +127,8 @@ public class Shooter extends SubsystemBase {
     bottomShooterkp = SmartDashboard.getNumber("bottomShooterkp", 0.0);
     bottomShooterki = SmartDashboard.getNumber("bottomShooterki", 0.0);
     bottomShooterkd = SmartDashboard.getNumber("bottomShooterkd", 0.0);
-    topShooterPID = new PIDController(topShooterkp, topShooterki, topShooterkd);
-    bottomShooterPID = new PIDController(bottomShooterkp, bottomShooterki, bottomShooterkd);
+    topShooterPID.setPID(topShooterkp, topShooterki, topShooterkd);
+    bottomShooterPID.setPID(bottomShooterkp, bottomShooterki, bottomShooterkd);
   }
 
   public void updateInputs() {
