@@ -20,7 +20,7 @@ public class Shooter extends SubsystemBase {
 
   // The desired RPM for the Shooter Motors
   private double setpointRPM = 0.0; // The RPM when the motors run at 75% speed
-  
+
   // TODO: delete
   private double topShooterkp = 0.0;
   private double topShooterki = 0.0;
@@ -28,17 +28,17 @@ public class Shooter extends SubsystemBase {
   private double bottomShooterkp = 0.0;
   private double bottomShooterki = 0.0;
   private double bottomShooterkd = 0.0;
-  
+
   public Shooter(ShooterIO io) {
     System.out.println("[Init] Creating Shooter");
     this.io = io;
-    
+
     topShooterPID = new PIDController(topShooterkp, topShooterki, topShooterkd);
     bottomShooterPID = new PIDController(bottomShooterkp, bottomShooterki, bottomShooterkd);
-    
+
     topShooterPID.setSetpoint(setpointRPM);
     topShooterPID.disableContinuousInput();
-    
+
     // Sets the tolerence of the setpoint
     topShooterPID.setTolerance(
         200); // Allows the RPM of the motors can be within 200 RPM of the goal
@@ -52,7 +52,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("bottomShooterkp", 0.0);
     SmartDashboard.putNumber("bottomShooterki", 0.0);
     SmartDashboard.putNumber("bottomShooterkd", 0.0);
-    
+
     SmartDashboard.putNumber("setpoint", 0.0);
   }
 
@@ -87,14 +87,13 @@ public class Shooter extends SubsystemBase {
         bottomShooterPID
             .getPositionError()); // The difference between the setpoint and RPM as calculated by
     // the PID controller
-    topShooterPID.setSetpoint(setpointRPM);
+    bottomShooterPID.setSetpoint(setpointRPM);
     // Sets the voltage of the Shooter Motors using the PID controller
     if (getTopRPM() < 0.0) {
       setShooterMotorsVoltage(0.0);
     } else {
-      io.setTopShooterMotorVoltage(
-        (topShooterPID.calculate(getTopRPM())));
-        // , setpointRPM)) * 12.0 /
+      io.setBottomShooterMotorVoltage((bottomShooterPID.calculate(getBottomRPM())));
+      // , setpointRPM)) * 12.0 /
       // 6800.0);
     }
 
@@ -153,6 +152,7 @@ public class Shooter extends SubsystemBase {
   public void updateSetpoint() {
     setpointRPM = SmartDashboard.getNumber("setpoint", 0.0);
     topShooterPID.setSetpoint(setpointRPM);
+    bottomShooterPID.setSetpoint(setpointRPM);
   }
 
   public boolean topAtSetpoint() {

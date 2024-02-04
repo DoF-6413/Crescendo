@@ -233,7 +233,7 @@ public final class Constants {
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
         true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
     public static final boolean BOTTOM_SHOOTER_MOTOR_INVERTED =
-        false; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
+        true; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
 
     // PID Constants
     public static final double SHOOTER_KP = 0.0; // The "P" value of the PID
@@ -244,6 +244,9 @@ public final class Constants {
     public static final double SHOOTER_J_KG_METERS_SQUARED =
         0.0016007389; // Moment of Inertia for the shooter motors
     public static final double APPLIED_VOLTS = 12.0;
+
+    // Current limit
+    public static final double SMART_CURRENT_LIMIT = 60;
   }
 
   /** Unchanging Values for the Under the Bumper Intake */

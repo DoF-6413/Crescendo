@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystems.shooter;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import frc.robot.Constants.ShooterConstants;
@@ -26,6 +27,11 @@ public class ShooterIOTalonFX implements ShooterIO {
     // Inverts top shooter motor to spin CCW
     topShooterMotor.setInverted(ShooterConstants.TOP_SHOOTER_MOTOR_INVERTED);
     bottomShooterMotor.setInverted(ShooterConstants.BOTTOM_SHOOTER_MOTOR_INVERTED);
+
+    CurrentLimitsConfigs currentLimitsConfig =
+        new CurrentLimitsConfigs().withStatorCurrentLimit(ShooterConstants.SMART_CURRENT_LIMIT);
+    topShooterMotor.getConfigurator().apply(currentLimitsConfig);
+    bottomShooterMotor.getConfigurator().apply(currentLimitsConfig);
   }
 
   @Override

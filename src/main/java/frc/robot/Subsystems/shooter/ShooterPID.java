@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ShooterPID extends SubsystemBase {
   /** Creates a new ShooterPID. */
   private final PIDController bottomPIDController;
+
   private final PIDController topPIDController;
+
   public ShooterPID() {
     bottomPIDController = new PIDController(0, 0, 0);
     topPIDController = new PIDController(0, 0, 0);
