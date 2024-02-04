@@ -13,7 +13,6 @@ public interface ShooterIO {
     // All the Inputs for the Top Shooter Motor (Should be nearly identical to the Bottom Shooter
     // Motor)
     public double topShooterMotorRPM = 0.0;
-    public double topShooterMotorAccelerationRPM = 0.0;
     public double topShooterAppliedVolts = 0.0;
     public double[] topShooterCurrentAmps = new double[] {};
     public double[] topShooterTempCelcius = new double[] {};
@@ -21,7 +20,6 @@ public interface ShooterIO {
     // All the Inputs for the Bottom Shooter Motor (Should be nearly identical to the Top Shooter
     // Motor)
     public double bottomShooterMotorRPM = 0.0;
-    public double bottomShooterMotorAccelerationRPM = 0.0;
     public double bottomShooterAppliedVolts = 0.0;
     public double[] bottomShooterCurrentAmps = new double[] {};
     public double[] bottomShooterTempCelcius = new double[] {};

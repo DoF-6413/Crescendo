@@ -36,10 +36,6 @@ public class ShooterIOTalonFX implements ShooterIO {
         topShooterMotor.getRotorVelocity().getValueAsDouble()
             * 60; // getVelocity gets rotations per second, by multiplying it by 60 turns it into
     // rotations per minute (RPM)
-    inputs.topShooterMotorAccelerationRPM =
-        topShooterMotor.getAcceleration().getValueAsDouble()
-            * 60; // Gets the acceleration in rotations per second^2 and converts ito to rotations
-    // per minute^2
     inputs.topShooterAppliedVolts = topShooterMotor.getMotorVoltage().getValueAsDouble();
     inputs.topShooterCurrentAmps =
         new double[] {topShooterMotor.getStatorCurrent().getValueAsDouble()};
@@ -52,10 +48,6 @@ public class ShooterIOTalonFX implements ShooterIO {
         bottomShooterMotor.getRotorVelocity().getValueAsDouble()
             * 60; // getVelocity gets rotations per second, by multiplying it by 60 turns it into
     // rotations per minute (RPM)
-    inputs.bottomShooterMotorAccelerationRPM =
-        bottomShooterMotor.getAcceleration().getValueAsDouble()
-            * 60; // Gets the acceleration in rotations per second^2 and converts ito to rotations
-    // per minute^2
     inputs.bottomShooterAppliedVolts = bottomShooterMotor.getMotorVoltage().getValueAsDouble();
     inputs.bottomShooterCurrentAmps =
         new double[] {bottomShooterMotor.getStatorCurrent().getValueAsDouble()};
@@ -83,12 +75,6 @@ public class ShooterIOTalonFX implements ShooterIO {
   }
 
   @Override
-  public void setBothShooterMotorPercentSpeed(double percent) {
-    topShooterMotor.set(percent);
-    bottomShooterMotor.set(percent);
-  }
-
-  @Override
   public void setBottomShooterMotorVoltage(double volts) {
     bottomShooterMotor.setVoltage(volts);
   }
@@ -97,4 +83,12 @@ public class ShooterIOTalonFX implements ShooterIO {
   public void setTopShooterMotorVoltage(double volts) {
     topShooterMotor.setVoltage(volts);
   }
+
+  @Override
+  public void setBothShooterMotorPercentSpeed(double percent) {
+    topShooterMotor.set(percent);
+    bottomShooterMotor.set(percent);
+  }
+
+  // TODO: Create a tempature shutoff / Warning
 }
