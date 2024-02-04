@@ -87,13 +87,15 @@ public class Shooter extends SubsystemBase {
         bottomShooterPID
             .getPositionError()); // The difference between the setpoint and RPM as calculated by
     // the PID controller
-
+    topShooterPID.setSetpoint(setpointRPM);
     // Sets the voltage of the Shooter Motors using the PID controller
     if (getTopRPM() < 0.0) {
       setShooterMotorsVoltage(0.0);
     } else {
-      io.setTopShooterMotorVoltage((topShooterPID.calculate(getTopRPM(), setpointRPM)) * 12.0 /
-      6800.0);
+      io.setTopShooterMotorVoltage(
+        (topShooterPID.calculate(getTopRPM())));
+        // , setpointRPM)) * 12.0 /
+      // 6800.0);
     }
 
     // Returns whether or not the Motors have reached the setpoint
