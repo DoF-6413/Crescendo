@@ -261,6 +261,10 @@ public final class Constants {
     public static double ACTUATOR_KP = 0.0;
     public static double ACTUATOR_KI = 0.0;
     public static double ACTUATOR_KD = 0.0;
-    public static final double ACTUATOR_TOLERANCE = 0.05; 
+    public static final double ACTUATOR_TOLERANCE = 0.05;
+    public static final double ACTUATOR_MAX_SETPOINT =
+        0.0; // TODO: update this max setpoint which is the top contraint
+    public static final double ACTUATOR_MIN_SETPOINT =
+        0.0; // TODO: update this min setpoint which is the bottom contraint
   }
 }
