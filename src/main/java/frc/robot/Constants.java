@@ -210,6 +210,11 @@ public final class Constants {
       };
     }
   }
+  public class wristNeoConstants {
+    public static final  double FIRST_MOTOR_GEAR_RATIO = 123; // TODO: uptade 
+        public static final  double SECOND_MOTOR_GEAR_RATIO = 123; // TODO: uptade 
+
+  }
 
   public class VisionConstants {
 
