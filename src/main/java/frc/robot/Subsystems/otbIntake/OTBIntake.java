@@ -15,7 +15,7 @@ public class OTBIntake extends SubsystemBase {
   private final OTBIntakeIO io;
   private final OTBIntakeIOInputsAutoLogged inputs = new OTBIntakeIOInputsAutoLogged();
   private static PIDController otbIntakePID;
-  private double setpointRPM = 0;
+  private double setpointRPM = 0.0;
 
   public OTBIntake(OTBIntakeIO io) {
     System.out.println("[Init] Creating OTB Intake");
@@ -27,22 +27,33 @@ public class OTBIntake extends SubsystemBase {
             OTBIntakeConstants.OTB_INTAKE_KD);
     otbIntakePID.setTolerance(
         setpointRPM * OTBIntakeConstants.OTB_INTAKE_TOLERANCE); 
+
+    SmartDashboard.putNumber("OTBIntakekp", 0.0);
+    SmartDashboard.putNumber("OTBIntakeki", 0.0);
+    SmartDashboard.putNumber("OTBIntakekd", 0.0);
+
+    SmartDashboard.putNumber("OTBIntakeSetpoint", 0.0);
   }
 
   /** Periodically updates the inputs and outputs of the OTB Intake */
   public void periodic() {
     this.updateInputs();
     Logger.processInputs("OTBIntake", inputs);
-    io.setOTBIntakeVoltage(otbIntakePID.calculate(getOTBIntakeRPM(), setpointRPM));
+
     if (OTBIntakeConstants.OTB_INTAKE_KP != SmartDashboard.getNumber("OTBIntakekp", 0)
         || OTBIntakeConstants.OTB_INTAKE_KI != SmartDashboard.getNumber("otbIntakeki", 0)
         || OTBIntakeConstants.OTB_INTAKE_KD != SmartDashboard.getNumber("otbIntakekd", 0)) {
       updatePIDController();
     }
 
-    updateSetpoint(SmartDashboard.getNumber("setpoint", 0));
+    if (setpointRPM != SmartDashboard.getNumber("OTBIntakeSetpoint", 0.0)) {
+      updateSetpoint();
+    }
+
     SmartDashboard.putNumber("Setpoint OTB Intake", setpointRPM);
     SmartDashboard.putNumber("OTBIntakeError", setpointRPM - getOTBIntakeRPM());
+
+    io.setOTBIntakeVoltage(otbIntakePID.calculate(getOTBIntakeRPM(), setpointRPM));
   }
 
   public void updatePIDController() {
@@ -75,7 +86,8 @@ public class OTBIntake extends SubsystemBase {
     return inputs.otbIntakeMotorRPM;
   }
 
-  public void updateSetpoint(double newSetpoint) {
-    setpointRPM = newSetpoint;
+  public void updateSetpoint() {
+    setpointRPM = SmartDashboard.getNumber("OTBIntakeSetpoint", 0.0);
+    otbIntakePID.setSetpoint(setpointRPM);
   }
 }
