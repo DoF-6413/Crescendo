@@ -25,8 +25,7 @@ public class OTBIntake extends SubsystemBase {
             OTBIntakeConstants.OTB_INTAKE_KP,
             OTBIntakeConstants.OTB_INTAKE_KI,
             OTBIntakeConstants.OTB_INTAKE_KD);
-    otbIntakePID.setTolerance(
-        setpointRPM * OTBIntakeConstants.OTB_INTAKE_TOLERANCE); 
+    otbIntakePID.setTolerance(setpointRPM * OTBIntakeConstants.OTB_INTAKE_TOLERANCE);
 
     SmartDashboard.putNumber("OTBIntakekp", 0.0);
     SmartDashboard.putNumber("OTBIntakeki", 0.0);
