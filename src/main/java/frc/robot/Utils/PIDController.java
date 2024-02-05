@@ -12,11 +12,13 @@ public class PIDController {
     private double kP;
     private double kI;
     private double kD;
-    private double tolerance = 0.05;
+    private double tolerance = 0.05; //percentage
     private double positionError = 0;
     private double totalError = 0;
     private double velocityError = 0;
     private double prevError = 0;
+    private double setpoint = 0;
+    private boolean atSetpoint = false;
 
     /**Sets PID Controller without kI or kD */
     public PIDController(double kP) {
@@ -39,7 +41,7 @@ public class PIDController {
         this.kD = kD;
     }
 
-    /**Updates Position Tolerance Value */
+    /**Updates Tolerance As A Decimal Percentage */
     public void setTolerance(double tolerance){
         this.tolerance = tolerance;
     }
@@ -62,9 +64,11 @@ public class PIDController {
     /**Updates all PID Values */
     public void setPID(double kP, double kI, double kD){
         this.kP = kP;
+        this.kI = kI;
+        this.kD = kD;
     }
 
-    /**Gets Tolerance Value */
+    /**Gets Tolerance As A Decimal Percentage */
     public double getTolerance(){
         return tolerance;
     }
@@ -84,25 +88,55 @@ public class PIDController {
         return kD;
     }
 
-    /** Calculates Voltage Needed from Measurement, Setpoint, and Max Setpoint Value
+    /**Gets all PID values in an array [kP, kI, kD] */
+    public double[] getPID(){
+        double[] pid = {kP, kI, kD};
+        return pid;
+    }
+
+    /** Calculates voltage from measurement, setpoint, and max setpoint value,
      * PARAMETERS NEED THE SAME UNITS
      * @param measurement Current Measurement (Behavior or Location) of System 
      * @param setpoint The Ideal Behavior or Location of the System
      * @param maxValue The Max Value the Setpoint Could Ever Achieve
      * @return Returns Voltage*/ 
     public double calculateForVoltage(double measurement, double setpoint, double maxValue){
+        //updates setpoint so accessible within class
+        this.setpoint = setpoint;
+
+        //PROPORTIONAL: Current error
         positionError = setpoint - measurement;
-        velocityError = (positionError -  prevError) / RobotStateConstants.LOOP_PERIODIC_SEC; //Velocity Error = Slope = Change in X/ Change in Y = (Where we are - Where we were)/Time Passed -> Derivative
+
+        //DERIVATIVE: Velocity error = change in position / time 
+        velocityError = (positionError -  prevError) / RobotStateConstants.LOOP_PERIODIC_SEC; 
+
+        //update previous error
         prevError = positionError;
-        totalError = totalError + (positionError * RobotStateConstants.LOOP_PERIODIC_SEC); //Total Error = Area OVER Graph (Under Error Graph, Hence Intergral) = Total Error + (New Error * How Long we had that New Error)
-        return 
-        ((setpoint * 12) / maxValue) //raw movement value/voltage output
+
+        //INTEGRAL: Total Error = Area Under Graph = position error * time, accumulated for each periodic loop 
+        totalError = totalError + (positionError * RobotStateConstants.LOOP_PERIODIC_SEC); 
+
+        // raw voltage output + PID tuning = calculated voltage
+        double desiredVoltage =  ((setpoint * RobotStateConstants.BATTERY_VOLTAGE) / maxValue) 
+        + (kP * positionError)
+        + (kI * totalError)
+        + (kD * velocityError); 
+        
         //  + (Math.abs(setpoint - measurement) < tolerance ? TODO:Is this how we implement tolerance control? If not, how so?
-         + (kP * positionError) //Calculates for Position Error 
-         + (kI * totalError) //Calculates for Total Error
-         + (kD * velocityError) //Calculates for Velocity Error
         //   : 0) TODO:Is this how we implement tolerance control? If not, how so? Idea: Keep Current/Working kP + kI + kD values until tolerance drops again
-         ; 
+
+        //updates atSetpoint
+        atSetpoint = atSetpoint(desiredVoltage); 
+
+        return desiredVoltage;
     }
 
+    /** TODO: my attempt at tolerance. To my understanding as long as the calculated output is within "tolerance" value of 
+     * the setpoint, they should return a boolean, and then use the boolean to test other stuff*/
+    public boolean atSetpoint(double voltage) {
+        if ((voltage >= setpoint - tolerance) && (voltage <= setpoint + tolerance)) {
+            return true;
+        }
+        return false;
+    }
 }
