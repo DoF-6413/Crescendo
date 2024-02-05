@@ -28,23 +28,36 @@ public interface ShooterIO {
   /** Updates the set of loggable inputs. */
   public default void updateInputs(ShooterIOInputs inputs) {}
 
-  /** Sets ALL Shooter Motors at the specified Voltage */
-  public default void setBothShooterMotorsVoltage(double volts) {}
-
   /** Break Mode for BOTH Shooter Motors */
   public default void setShooterBreakMode(boolean enable) {}
 
   /**
-   * Sets ALL Shooter Motors at a percentage of its max speed. A positve number spins the Top
+   * Sets ALL Shooter Motors at a percentage of its max speed. 
+   * <p>A positve number spins the Top
    * Shooter Motor CCW and the Bottom Shooter Motor CW and vice versa for a negative number
    *
    * @param percent -1 to 1
    */
   public default void setBothShooterMotorPercentSpeed(double percent) {}
 
-  /** Sets the voltage of the Top Shooter Motor */
+  /**
+   * Sets BOTH Shooter Motors at the specified Voltage
+   *
+   * @param volts -12 to 12
+   */
+  public default void setBothShooterMotorsVoltage(double volts) {}
+
+  /**
+   * Sets the voltage of the Top Shooter Motor
+   *
+   * @param volts -12 to 12
+   */
   public default void setTopShooterMotorVoltage(double volts) {}
 
-  /** Sets the voltage of the Bottom Shooter Motor */
+  /**
+   * Sets the voltage of the Bottom Shooter Motor
+   *
+   * @param volts -12 to 12
+   */
   public default void setBottomShooterMotorVoltage(double volts) {}
 }

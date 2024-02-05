@@ -21,7 +21,8 @@ public class Shooter extends SubsystemBase {
   // The desired RPM for the Shooter Motors
   private double setpointRPM = 0.0; // The RPM when the motors run at 75% speed
 
-  // TODO: delete
+  // TODO: delete once the proper PID values have been determined along with the smartdashboard put
+  // numbers
   private double topShooterkp = 0.0;
   private double topShooterki = 0.0;
   private double topShooterkd = 0.0;
@@ -36,14 +37,13 @@ public class Shooter extends SubsystemBase {
     topShooterPID = new PIDController(topShooterkp, topShooterki, topShooterkd);
     bottomShooterPID = new PIDController(bottomShooterkp, bottomShooterki, bottomShooterkd);
 
-    topShooterPID.setSetpoint(setpointRPM);
     topShooterPID.disableContinuousInput();
+    bottomShooterPID.disableContinuousInput();
 
-    // Sets the tolerence of the setpoint
-    topShooterPID.setTolerance(
-        200); // Allows the RPM of the motors can be within 200 RPM of the goal
-    bottomShooterPID.setTolerance(
-        200); // Allows the RPM of the motors can be within 200 RPM of the goal
+    // Sets the tolerence of the setpoint, allowing the RPM of the motors to be within 200 RPM of
+    // the setpoint
+    topShooterPID.setTolerance(200);
+    bottomShooterPID.setTolerance(200);
 
     // Creates adjustable PID values and Setpoint on the Shuffleboard
     SmartDashboard.putNumber("topShooterkp", 0.0);
@@ -52,7 +52,6 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("bottomShooterkp", 0.0);
     SmartDashboard.putNumber("bottomShooterki", 0.0);
     SmartDashboard.putNumber("bottomShooterkd", 0.0);
-
     SmartDashboard.putNumber("setpoint", 0.0);
   }
 
@@ -76,39 +75,37 @@ public class Shooter extends SubsystemBase {
       updateSetpoint();
     }
 
-    // Puts the difference between the setpoint and current RPM on the Shuffleboard
-    SmartDashboard.putNumber(
-        "TopError",
-        topShooterPID
-            .getPositionError()); // The difference between the setpoint and RPM as calculated by
-    // the PID controller
-    SmartDashboard.putNumber(
-        "BottomError",
-        bottomShooterPID
-            .getPositionError()); // The difference between the setpoint and RPM as calculated by
-    // the PID controller
+    // Puts the difference between the setpoint and current RPM on the Shuffleboard as calculated by
+    // the WPI PID Controller
+    SmartDashboard.putNumber("TopError", topShooterPID.getPositionError());
+    SmartDashboard.putNumber("BottomError", bottomShooterPID.getPositionError());
 
+    // Sets the desired RPM that the motors should run at
+    topShooterPID.setSetpoint(setpointRPM);
     bottomShooterPID.setSetpoint(setpointRPM);
 
-    // Sets the voltage of the Shooter Motors using the PID controller
-    if (getBottomRPM() < 0.0) {
-      setShooterMotorsVoltage(0.0);
+    // Sets the voltage of the Shooter Motors using PID
+    if (inputs.topShooterMotorRPM < 0.0) {
+      setTopShooterMotorVoltage(0.0);
     } else {
-      io.setBottomShooterMotorVoltage(
-          (setpointRPM * 12) / 6800
-              + bottomShooterkp * (setpointRPM - inputs.bottomShooterMotorRPM));
-      io.setTopShooterMotorVoltage(
+      setTopShooterMotorVoltage(
           (setpointRPM * 12) / 6800 + topShooterkp * (setpointRPM - inputs.topShooterMotorRPM));
-
-      // , setpointRPM)) * 12.0 /
-      // 6800.0);
+    }
+    if (inputs.bottomShooterMotorRPM < 0) {
+      setBottomShooterMotorVoltage(0.0);
+    } else {
+      setBottomShooterMotorVoltage(
+          ((setpointRPM * 12) / 6800)
+              + (bottomShooterkp * (setpointRPM - inputs.bottomShooterMotorRPM)));
+      setTopShooterMotorVoltage(
+          (setpointRPM * 12) / 6800 + topShooterkp * (setpointRPM - inputs.topShooterMotorRPM));
     }
 
     // Returns whether or not the Motors have reached the setpoint
     SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
     SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
 
-    // Gets the current PID values
+    // Gets the current PID values that the PID contoller is set to
     SmartDashboard.putNumber("topCurrentkP", topShooterPID.getP());
     SmartDashboard.putNumber("topCurrentkI", topShooterPID.getI());
     SmartDashboard.putNumber("topCurrentkD", topShooterPID.getD());
@@ -116,7 +113,8 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("bottomCurrentkI", bottomShooterPID.getI());
     SmartDashboard.putNumber("bottomCurrentkD", bottomShooterPID.getD());
 
-    SmartDashboard.putNumber("PID controller setpoint", topShooterPID.getSetpoint());
+    // Gets the current setpoint that the PID contoller is set to
+    SmartDashboard.putNumber("PID Controller Setpoint", topShooterPID.getSetpoint());
   }
 
   /** Updates the PID values based on what they are set to on the Shuffleboard */
@@ -131,12 +129,15 @@ public class Shooter extends SubsystemBase {
     bottomShooterPID.setPID(bottomShooterkp, bottomShooterki, bottomShooterkd);
   }
 
-  public void updateInputs() {
-    io.updateInputs(inputs);
+  /** Updates the setpoint based on what it is set to on the Shuffleboard */
+  public void updateSetpoint() {
+    setpointRPM = SmartDashboard.getNumber("setpoint", 0.0);
+    topShooterPID.setSetpoint(setpointRPM);
+    bottomShooterPID.setSetpoint(setpointRPM);
   }
 
-  public void setShooterMotorsVoltage(double volts) {
-    io.setBothShooterMotorsVoltage(volts);
+  public void updateInputs() {
+    io.updateInputs(inputs);
   }
 
   public void setShooterBreakMode(boolean enable) {
@@ -147,19 +148,16 @@ public class Shooter extends SubsystemBase {
     io.setBothShooterMotorPercentSpeed(percent);
   }
 
-  public double getTopRPM() {
-    return inputs.topShooterMotorRPM;
+  public void setBothShooterMotorsVoltage(double volts) {
+    io.setBothShooterMotorsVoltage(volts);
   }
 
-  public double getBottomRPM() {
-    return inputs.bottomShooterMotorRPM;
+  public void setTopShooterMotorVoltage(double volts) {
+    io.setTopShooterMotorVoltage(volts);
   }
 
-  /** Updates the setpoint based on what it is set to on the Shuffleboard */
-  public void updateSetpoint() {
-    setpointRPM = SmartDashboard.getNumber("setpoint", 0.0);
-    topShooterPID.setSetpoint(setpointRPM);
-    bottomShooterPID.setSetpoint(setpointRPM);
+  public void setBottomShooterMotorVoltage(double volts) {
+    io.setTopShooterMotorVoltage(volts);
   }
 
   public boolean topAtSetpoint() {
