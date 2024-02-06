@@ -93,7 +93,7 @@ public class ShooterIOTalonFX implements ShooterIO {
   @Override
   public void setBothShooterMotorPercentSpeed(double percent) {
     topShooterMotor.set(percent);
-    bottomShooterMotor.set(percent);
+    // bottomShooterMotor.set(percent);
   }
 
   // TODO: Create a tempature shutoff / Warning
