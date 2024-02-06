@@ -18,11 +18,11 @@ public class Shooter extends SubsystemBase {
   private static PIDController bottomShooterPID;
 
   // The desired RPM for the Shooter Motors
-  private double setpointRPM = 3000.0; // The RPM when the motors run at 75% speed
+  private double setpointRPM = 1000.0; // The RPM when the motors run at 75% speed
 
   // TODO: delete once the proper PID values have been determined along with the smartdashboard put
   // numbers
-  private double topShooterkp = 0.005;
+  private double topShooterkp = 0.50;
   private double topShooterki = 0.0;
   private double topShooterkd = 0.0;
   private double bottomShooterkp = 0.0;
@@ -35,6 +35,8 @@ public class Shooter extends SubsystemBase {
 
     topShooterPID = new PIDController(topShooterkp, topShooterki, topShooterkd);
     bottomShooterPID = new PIDController(bottomShooterkp, bottomShooterki, bottomShooterkd);
+
+    topShooterPID.setSetpoint(setpointRPM);
 
     // Sets the tolerence of the setpoint, allowing the RPM of the motors to be within 200 RPM of
     // the setpoint
@@ -86,9 +88,11 @@ public class Shooter extends SubsystemBase {
     //   setTopShooterMotorVoltage(0.0);
     // } else {
     // topShooterPID.setSetpoint(3000);
-    setTopShooterMotorVoltage(
-        // topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, 6800));
-        (setpointRPM * 12) / 6800 + topShooterkp * (setpointRPM - inputs.topShooterMotorRPM));
+    setTopShooterMotorVoltage(topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, 6800));
+    System.out.println(
+        "MOTOR VOLTAGE PID CALCULATION: "
+            + topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, 6800));
+    // (setpointRPM * 12) / 6800 + topShooterkp * (setpointRPM - inputs.topShooterMotorRPM));
     // }
     // if (inputs.bottomShooterMotorRPM < 0) {
     //   setBottomShooterMotorVoltage(0.0);

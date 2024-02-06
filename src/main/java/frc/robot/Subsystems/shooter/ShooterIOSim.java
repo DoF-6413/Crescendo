@@ -55,8 +55,8 @@ public class ShooterIOSim implements ShooterIO {
   // TODO:Update Bellow Functions
 
   @Override
-  public void setBottomShooterMotorVoltage(double volts) {}
+  public void setTopShooterMotorVoltage(double volts) {}
 
   @Override
-  public void setTopShooterMotorVoltage(double volts) {}
+  public void setBottomShooterMotorVoltage(double volts) {}
 }
