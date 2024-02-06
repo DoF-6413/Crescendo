@@ -38,10 +38,10 @@ public class wristIONeo implements WristIO{
         secondWristEncoder = secondWristMotor.getEncoder();
 
         firstWristMotor.setIdleMode(IdleMode.kBrake);
-        firstWristMotor.setSmartCurrentLimit(21321);//TODO:update the limit 
+        firstWristMotor.setSmartCurrentLimit(30);
        
         secondWristMotor.setIdleMode(IdleMode.kBrake);
-        secondWristMotor.setSmartCurrentLimit(123213);//TODO:update the limit 
+        secondWristMotor.setSmartCurrentLimit(30);
     
 
     }
