@@ -135,14 +135,14 @@ public class PIDController {
     // raw voltage output + PID tuning = calculated voltage
     double desiredVoltage =
         ((setpoint * RobotStateConstants.BATTERY_VOLTAGE) / maxValue)
-            + ((kP * positionError) + (kI * totalError) + (kD * velocityError));
+            + (((kP * positionError) + (kI * totalError) + (kD * velocityError)) / maxValue);
     //  + (Math.abs(setpoint - measurement) < tolerance ? TODO:Is this how we implement tolerance
     // control? If not, how so?
     //   : 0) TODO:Is this how we implement tolerance control? If not, how so? Idea: Keep
     // Current/Working kP + kI + kD values until tolerance drops again
 
     // updates atSetpoint
-    atSetpoint = atSetpoint(desiredVoltage);
+    // atSetpoint = atSetpoint(desiredVoltage);
 
     return desiredVoltage;
   }
