@@ -19,7 +19,7 @@ public class Shooter extends SubsystemBase {
   private static PIDController bottomShooterPID;
 
   // The desired RPM for the Shooter Motors
-  private double setpointRPM = 2000.0; // The RPM when the motors run at 75% speed is 4850
+  private double setpointRPM = 6000.0; // The RPM when the motors run at 75% speed is 4850
 
   // TODO: delete once the proper PID values have been determined along with the smartdashboard put
   // numbers
@@ -74,7 +74,7 @@ public class Shooter extends SubsystemBase {
     // Updates the setpoint if it is changed on the Shuffleboard
     // if (setpointRPM != SmartDashboard.getNumber("setpoint", 0.0)) {
     //   updateSetpoint();
-    //   // System.out.println("setpoint: " + setpointRPM);
+    //   System.out.println("setpoint: " + setpointRPM);
     // }
 
     // Puts the difference between the setpoint and current RPM on the Shuffleboard as calculated by
@@ -91,11 +91,12 @@ public class Shooter extends SubsystemBase {
       setTopShooterMotorVoltage(0.0);
     } else {
       setTopShooterMotorVoltage(
+          // TODO: fix through pid
           topShooterPID.calculateForVoltage(
               inputs.topShooterMotorRPM,
               6350)); // Max Value: 2-6-24 with a 12.3V battery, max RPM was ~6350
-      System.out.println(
-          "top pid: " + topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, 6350));
+      // System.out.println(
+      //     "top pid: " + topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, 6350));
     }
 
     if (inputs.bottomShooterMotorRPM > 0.0) {
@@ -103,10 +104,10 @@ public class Shooter extends SubsystemBase {
     } else {
       setBottomShooterMotorVoltage(
           -bottomShooterPID.calculateForVoltage(inputs.bottomShooterMotorRPM, 6350));
-      System.out.println(
-          "bottom shooter pid: "
-              + bottomShooterPID.calculateForVoltage(inputs.bottomShooterMotorRPM, 6350));
-      // ((setpointRPM * 12) / 6800)
+      // System.out.println(
+      //     "bottom shooter pid: "
+      //         + bottomShooterPID.calculateForVoltage(inputs.bottomShooterMotorRPM, 6350));
+      // // ((setpointRPM * 12) / 6800)
       //     + (bottomShooterkp * (setpointRPM - inputs.bottomShooterMotorRPM)));
       //   setTopShooterMotorVoltage(
       //       (setpointRPM * 12) / 6800 + topShooterkp * (setpointRPM -

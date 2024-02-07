@@ -140,7 +140,7 @@ public class PIDController {
                 + kP * positionError
                 + kI * totalError
                 + kD * velocityError)
-            / maxValue;
+            / setpoint;
     //  + (Math.abs(setpoint - measurement) < tolerance ? TODO:Is this how we implement tolerance
     // control? If not, how so?
     //   : 0) TODO:Is this how we implement tolerance control? If not, how so? Idea: Keep
