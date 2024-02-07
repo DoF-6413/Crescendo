@@ -19,16 +19,16 @@ public class Shooter extends SubsystemBase {
   private static PIDController bottomShooterPID;
 
   // The desired RPM for the Shooter Motors
-  private double setpointRPM = 4850.0; // The RPM when the motors run at 75% speed
+  private double setpointRPM = 2000.0; // The RPM when the motors run at 75% speed is 4850
 
   // TODO: delete once the proper PID values have been determined along with the smartdashboard put
   // numbers
-  private double topShooterkp = 3.0;
+  private double topShooterkp = 5.0;
   private double topShooterki = 0.0;
   private double topShooterkd = 0.0;
-  private double bottomShooterkp = 5.0;
+  private double bottomShooterkp = 1.5;
   private double bottomShooterki = 0.0;
-  private double bottomShooterkd = 1.0;
+  private double bottomShooterkd = 0.0;
 
   public Shooter(ShooterIO io) {
 
@@ -80,7 +80,7 @@ public class Shooter extends SubsystemBase {
     // Puts the difference between the setpoint and current RPM on the Shuffleboard as calculated by
     // the WPI PID Controller
     SmartDashboard.putNumber("TopError", setpointRPM - inputs.topShooterMotorRPM);
-    SmartDashboard.putNumber("BottomError", setpointRPM - inputs.bottomShooterMotorRPM);
+    SmartDashboard.putNumber("BottomError", setpointRPM - Math.abs(inputs.bottomShooterMotorRPM));
 
     // Sets the desired RPM that the motors should run at
     // topShooterPID.setSetpoint(setpointRPM);

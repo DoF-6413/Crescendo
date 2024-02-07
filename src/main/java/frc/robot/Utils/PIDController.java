@@ -133,9 +133,14 @@ public class PIDController {
     totalError = totalError + (positionError * RobotStateConstants.LOOP_PERIODIC_SEC);
 
     // raw voltage output + PID tuning = calculated voltage
+    // * MATH BEHIND HOW IT WORKS: error is of voltage, so add it to the RPM before scaling back
+    // down */
     double desiredVoltage =
-        ((setpoint * RobotStateConstants.BATTERY_VOLTAGE) / maxValue)
-            + (((kP * positionError) + (kI * totalError) + (kD * velocityError)) / maxValue);
+        (setpoint * RobotStateConstants.BATTERY_VOLTAGE
+                + kP * positionError
+                + kI * totalError
+                + kD * velocityError)
+            / maxValue;
     //  + (Math.abs(setpoint - measurement) < tolerance ? TODO:Is this how we implement tolerance
     // control? If not, how so?
     //   : 0) TODO:Is this how we implement tolerance control? If not, how so? Idea: Keep
