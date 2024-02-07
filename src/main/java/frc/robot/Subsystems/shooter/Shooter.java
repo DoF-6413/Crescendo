@@ -81,11 +81,11 @@ public class Shooter extends SubsystemBase {
     // the WPI PID Controller
     SmartDashboard.putNumber("TopError", setpointRPM - inputs.topShooterMotorRPM);
     SmartDashboard.putNumber("BottomError", setpointRPM - Math.abs(inputs.bottomShooterMotorRPM));
+    SmartDashboard.putNumber("MotorRPMDifference", inputs.topShooterMotorRPM - Math.abs(inputs.bottomShooterMotorRPM));
 
     // Sets the desired RPM that the motors should run at
     // topShooterPID.setSetpoint(setpointRPM);
     // bottomShooterPID.setSetpoint(setpointRPM);
-
     // Sets the voltage of the Shooter Motors using PID
     if (inputs.topShooterMotorRPM < 0.0) {
       setTopShooterMotorVoltage(0.0);
