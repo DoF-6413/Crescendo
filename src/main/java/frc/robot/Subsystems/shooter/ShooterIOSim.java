@@ -11,13 +11,13 @@ public class ShooterIOSim implements ShooterIO {
   private FlywheelSim topShooterFlywheel =
       new FlywheelSim(
           DCMotor.getFalcon500(1),
-          ShooterConstants.GEAR_RATIO,
+          ShooterConstants.SHOOTER_GEAR_RATIO,
           ShooterConstants.SHOOTER_J_KG_METERS_SQUARED);
 
   private FlywheelSim bottomShooterFlywheel =
       new FlywheelSim(
           DCMotor.getFalcon500(1),
-          ShooterConstants.GEAR_RATIO,
+          ShooterConstants.SHOOTER_GEAR_RATIO,
           ShooterConstants.SHOOTER_J_KG_METERS_SQUARED);
 
   private PIDController topShooterPID;

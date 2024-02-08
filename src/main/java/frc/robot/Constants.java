@@ -222,20 +222,20 @@ public final class Constants {
   public static class ShooterConstants {
 
     // Gear ratio of 1:1 for the prototype Horizontal-Rollers/Top-Bottom Shooter
-    public static final double GEAR_RATIO = 1.0;
+    public static final double SHOOTER_GEAR_RATIO = 1.0;
 
     // Motor IDs
-    public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
+    public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14 TODO: Update?
     public static final int BOTTOM_SHOOTER_MOTOR_ID =
-        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner TODO: Update?
 
     // Inverted motors
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
         true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
     public static final boolean BOTTOM_SHOOTER_MOTOR_INVERTED =
-        true; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
+        false; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
 
-    // PID Constants
+    // PID Constants  TODO: Tune and update
     public static final double TOP_SHOOTER_KP =
         0.75; // The "P" value of the PID for the top shooter motor
     public static final double TOP_SHOOTER_KI =
@@ -249,13 +249,13 @@ public final class Constants {
     public static final double BOTTOM_SHOOTER_KD =
         0.0; // The "D" value of the PID for the bottom shooter motor
 
+    // Current limit
+    public static final double SMART_CURRENT_LIMIT = 60;
+
     // Flywheel simulation constants
     public static final double SHOOTER_J_KG_METERS_SQUARED =
         0.0016007389; // Moment of Inertia for the shooter motors
     public static final double APPLIED_VOLTS = 12.0;
-
-    // Current limit
-    public static final double SMART_CURRENT_LIMIT = 60;
   }
 
   /** Unchanging Values for the Under the Bumper Intake */

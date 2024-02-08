@@ -11,7 +11,7 @@ public class PIDController {
   private double kP;
   private double kI;
   private double kD;
-  private double tolerance = 0.0; // percentage
+  private double tolerance = 0.0;
   private double positionError = 0.0;
   private double velocityError = 0.0;
   private double totalError = 0.0;
@@ -137,7 +137,7 @@ public class PIDController {
     // down */
     double desiredVoltage =
         // The setpoint * volts / maxValue  runs the motor at the speed it should theoretically run
-        // at and the PID part gets it closer to the setpoint and accounts for error/disturbances
+        // at and the PID part gets it closer to the setpoint by adding error error
         (setpoint + (kP * positionError) + (kI * totalError) + (kD * velocityError))
             * RobotStateConstants.BATTERY_VOLTAGE
             / maxValue;

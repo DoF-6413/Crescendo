@@ -93,6 +93,4 @@ public class ShooterIOTalonFX implements ShooterIO {
     topShooterMotor.set(percent);
     bottomShooterMotor.set(percent);
   }
-
-  // TODO: Create a tempature shutoff / Warning
 }

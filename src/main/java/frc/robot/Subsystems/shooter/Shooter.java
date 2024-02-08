@@ -21,6 +21,7 @@ public class Shooter extends SubsystemBase {
   // The desired RPM for the Shooter Motors
   private double setpointRPM = 0.0;
 
+  // TODO: Delete once proper PID values are determined along with all SmartDashboard putNumbers and updates
   private double topShooterkp = 0.0;
   private double topShooterki = 0.0;
   private double topShooterkd = 0.0;
@@ -43,7 +44,6 @@ public class Shooter extends SubsystemBase {
     bottomShooterPID =
         new PIDController(
             bottomShooterkp, bottomShooterki, bottomShooterkd
-
             // ShooterConstants.BOTTOM_SHOOTER_KP,
             // ShooterConstants.BOTTOM_SHOOTER_KI,
             // ShooterConstants.BOTTOM_SHOOTER_KD
@@ -57,6 +57,7 @@ public class Shooter extends SubsystemBase {
     // topShooterPID.setTolerance(200);
     // bottomShooterPID.setTolerance(200);
 
+    // Puts adjustable PID values and setpoints onto the SmartDashboard
     SmartDashboard.putNumber("topShooterkp", 0.0);
     SmartDashboard.putNumber("topShooterki", 0.0);
     SmartDashboard.putNumber("topShooterkd", 0.0);
@@ -70,6 +71,7 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     this.updateInputs();
     Logger.processInputs("Shooter", inputs);
+
     if (topShooterkp != SmartDashboard.getNumber("topShooterkp", 0.0)
         || topShooterki != SmartDashboard.getNumber("topShooterki", 0.0)
         || topShooterkd != SmartDashboard.getNumber("topShooterkd", 0.0)
@@ -87,7 +89,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("TopError", setpointRPM - inputs.topShooterMotorRPM);
     SmartDashboard.putNumber("BottomError", setpointRPM - Math.abs(inputs.bottomShooterMotorRPM));
     SmartDashboard.putNumber(
-        "MotorRPMDifference", inputs.topShooterMotorRPM - Math.abs(inputs.bottomShooterMotorRPM));
+        "Top Bottom Motor RPM Difference", inputs.topShooterMotorRPM - Math.abs(inputs.bottomShooterMotorRPM));
 
     // Sets the voltage of the Shooter Motors using PID
     if (inputs.topShooterMotorRPM < 0.0) {
@@ -95,7 +97,6 @@ public class Shooter extends SubsystemBase {
     } else {
       setTopShooterMotorVoltage(topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, 6350));
     }
-
     if (inputs.bottomShooterMotorRPM > 0.0) {
       setBottomShooterMotorVoltage(0.0);
     } else {
@@ -107,7 +108,7 @@ public class Shooter extends SubsystemBase {
     // SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
     // SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
 
-    // Gets the current PID values that the PID contoller is set to
+    // Gets the current PID values that the PID contollers are set to
     SmartDashboard.putNumber("topCurrentkP", topShooterPID.getP());
     SmartDashboard.putNumber("topCurrentkI", topShooterPID.getI());
     SmartDashboard.putNumber("topCurrentkD", topShooterPID.getD());
@@ -115,11 +116,12 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("bottomCurrentkI", bottomShooterPID.getI());
     SmartDashboard.putNumber("bottomCurrentkD", bottomShooterPID.getD());
 
-    // Gets the current setpoint that the PID contoller is set to
+    // Gets the current setpoint that the PID contollers are set to
     SmartDashboard.putNumber("Top PID Controller Setpoint", topShooterPID.getSetpoint());
     SmartDashboard.putNumber("Bottom PID Controller Setpoint", -bottomShooterPID.getSetpoint());
   }
 
+  // Updates the PID values to what they are set to on the SmartDashboard
   public void updatePIDController() {
     topShooterkp = SmartDashboard.getNumber("topShooterkp", 0.0);
     topShooterki = SmartDashboard.getNumber("topShooterki", 0.0);
@@ -128,8 +130,10 @@ public class Shooter extends SubsystemBase {
     bottomShooterki = SmartDashboard.getNumber("bottomShooterki", 0.0);
     bottomShooterkd = SmartDashboard.getNumber("bottomShooterkd", 0.0);
     topShooterPID.setPID(topShooterkp, topShooterki, topShooterkd);
+    bottomShooterPID.setPID(bottomShooterkp, bottomShooterki, bottomShooterkd);
   }
 
+  // Updates the setpoint to what is typed on the SmartDashboard
   public void updateSetpoint() {
     setpointRPM = SmartDashboard.getNumber("setpoint", 0.0);
     topShooterPID.setSetpoint(setpointRPM);
@@ -167,4 +171,6 @@ public class Shooter extends SubsystemBase {
   // public boolean bottomAtSetpoint() {
   //   return bottomShooterPID.atSetpoint();
   // }
+
+  // TODO: Create a tempature shutoff / Warning
 }
