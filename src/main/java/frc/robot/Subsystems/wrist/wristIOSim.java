@@ -7,6 +7,7 @@ package frc.robot.Subsystems.wrist;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants;
+import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Constants.wristNeoConstants;
 
 /** Add your docs here. */
@@ -20,8 +21,8 @@ public class wristIOSim implements WristIO {
           16.245309,
           22.360160,
           107,
-          true,
-          22.245309); // TODO: update moment of inertia
+          false,
+          22.360160); // TODO: update moment of inertia change degrees to rad
   private SingleJointedArmSim secondWristMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
@@ -30,17 +31,16 @@ public class wristIOSim implements WristIO {
           10.40410,
           5.715446,
           99.284554,
-          true,
-          5.715446); // TODO: update moment of inertia
+          false,
+          5.715446); // TODO: update moment of inertia change degrees to rad
 
   @Override
   public void updateInputs(WristIOInputs inputs) {
-    firstWristMotor.update(Constants.RobotStateConstants.LOOP_PERIODIC_SEC);
 
     // update inputs of the first (the farthest to the shooter)
 
     inputs.firstWristTurnPositionRad +=
-        firstWristMotor.getVelocityRadPerSec() * Constants.RobotStateConstants.LOOP_PERIODIC_SEC;
+        firstWristMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
     inputs.firstWristTurnVelocityRadPerSec = firstWristMotor.getVelocityRadPerSec();
     inputs.firstWristTurnAppliedVolts = 0.0;
     inputs.firstWristTurnCurrentAmps = Math.abs(firstWristMotor.getCurrentDrawAmps());
@@ -49,14 +49,14 @@ public class wristIOSim implements WristIO {
     // update inputs of the second motor (closest to the shooter)
 
     inputs.secondWristTurnPositionRad +=
-        secondWristMotor.getVelocityRadPerSec() * Constants.RobotStateConstants.LOOP_PERIODIC_SEC;
+        secondWristMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
     inputs.secondWristTurnVelocityRadPerSec = secondWristMotor.getVelocityRadPerSec();
     inputs.secondWristTurnAppliedVolts = 0.0;
     inputs.secondWristTurnCurrentAmps = Math.abs(secondWristMotor.getCurrentDrawAmps());
     inputs.secondWristTempCelcius = 0.0;
   }
 
-  public void setFirstWristMotorSpeed(Double speed) {
+  public void setFirstWristSpeed(double speed) {
     firstWristMotor.setInputVoltage(speed * wristNeoConstants.WRIST_APPLIED_VOLTS);
 
     firstWristMotor.update(Constants.RobotStateConstants.LOOP_PERIODIC_SEC);

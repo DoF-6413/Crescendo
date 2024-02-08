@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotStateConstants;
@@ -40,6 +39,10 @@ import frc.robot.Subsystems.vision.Vision;
 import frc.robot.Subsystems.vision.VisionIO;
 import frc.robot.Subsystems.vision.VisionIOArduCam;
 import frc.robot.Subsystems.vision.VisionIOSim;
+import frc.robot.Subsystems.wrist.Wrist;
+import frc.robot.Subsystems.wrist.WristIO;
+import frc.robot.Subsystems.wrist.wristIONeo;
+import frc.robot.Subsystems.wrist.wristIOSim;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -55,6 +58,7 @@ public class RobotContainer {
   private final PoseEstimator m_poseEstimator;
   private final Vision m_vision;
   private final UTBIntake m_utbIntake;
+  private final Wrist m_wrist;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -77,6 +81,7 @@ public class RobotContainer {
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
+        m_wrist = new Wrist(new wristIONeo());
         break;
 
       case SIM:
@@ -93,6 +98,7 @@ public class RobotContainer {
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
+        m_wrist = new Wrist(new wristIOSim());
 
         break;
 
@@ -110,6 +116,7 @@ public class RobotContainer {
         m_vision = new Vision(new VisionIO() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
+        m_wrist = new Wrist(new WristIO() {});
         break;
     }
 
@@ -125,30 +132,40 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
-    m_driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_driveSubsystem.setRaw(
-                    driverController.getLeftX(),
-                    -driverController.getLeftY(),
-                    driverController.getRightX()),
-            m_driveSubsystem));
+    // m_driveSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () ->
+    //             m_driveSubsystem.setRaw(
+    //                 driverController.getLeftX(),
+    //                 -driverController.getLeftY(),
+    //                 driverController.getRightX()),
+    //         m_driveSubsystem));
 
-    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
+    // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     /*
      * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
      * Up will launch a NOTE outward
      * Down will retract a NOTE inward
      */
-    m_shooterSubsystem.setDefaultCommand(
+
+    m_wrist.setDefaultCommand(
+        new InstantCommand(() -> m_wrist.setFirstWristSpeed(driverController.getLeftY()), m_wrist));
+
+    m_wrist.setDefaultCommand(
         new InstantCommand(
-            () ->
-                m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() * 0.5),
-            m_shooterSubsystem));
-    m_utbIntake.setDefaultCommand(
-        new InstantCommand(
-            () -> m_utbIntake.setUTBIntakePercentSpeed(driverController.getLeftY()), m_utbIntake));
+            () -> m_wrist.setSecondWristMotorSpeed(driverController.getLeftY()), m_wrist));
+
+    // m_shooterSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () ->
+    //             m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() *
+    // 0.5),
+    //         m_shooterSubsystem));
+    // m_utbIntake.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_utbIntake.setUTBIntakePercentSpeed(driverController.getLeftY()),
+    // m_utbIntake));
   }
 
   /**
