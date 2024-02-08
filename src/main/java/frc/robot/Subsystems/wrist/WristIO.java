@@ -1,16 +1,13 @@
 package frc.robot.Subsystems.wrist;
 
 import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.LogTable;
-import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 /** Add your docs here. */
-
 public interface WristIO {
-    @AutoLog
-    public static class WristIOInputs  {
+  @AutoLog
+  public static class WristIOInputs {
 
-        //the first root of the wrist 
+    // the first root of the wrist
 
     public double firstWristTurnAppliedVolts = 0.0;
     public double firstWristTurnPositionRad = 0.0;
@@ -18,20 +15,21 @@ public interface WristIO {
     public double firstWristTurnCurrentAmps = 0.0;
     public double firstWristTempCelcius = 0.0;
 
-        //the second root of the wrist (the closest to the shooter)
+    // the second root of the wrist (the closest to the shooter)
     public double secondWristTurnAppliedVolts = 0.0;
     public double secondWristTurnPositionRad = 0.0;
     public double secondWristTurnVelocityRadPerSec = 0.0;
     public double secondWristTurnCurrentAmps = 0.0;
     public double secondWristTempCelcius = 0.0;
+  }
 
-    }
+  public default void updateInputs(WristIOInputs inputs) {}
 
-   
-    public default void updateInputs(WristIOInputs inputs){
-    }
-    public default void setFirstWristSpeed(Double speed) {/* Sets speed for the first motor of the wrist */
-    }
-    public default void setSecondWristSpeed(double speed){/** Sets speed for the second motor(the farest of the shooter) of the wrist */
-    }
+  public default void setFirstWristSpeed(double speed) {
+    /* Sets speed for the first motor of the wrist */
+  }
+
+  public default void setSecondWristMotorSpeed(double speed) {
+    /** Sets speed for the second motor(the farest of the shooter) of the wrist */
+  }
 }
