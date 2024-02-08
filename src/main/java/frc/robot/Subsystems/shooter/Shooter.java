@@ -14,14 +14,14 @@ public class Shooter extends SubsystemBase {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
 
-  // Creates the PID Contollers for both Shooter Motors
+  // Creates the PID Contollers for both shooter motors
   private static PIDController topShooterPID;
   private static PIDController bottomShooterPID;
 
-  // The desired RPM for the Shooter Motors
+  // The desired RPM for the shooter
   private double setpointRPM = 0.0;
 
-  // TODO: Delete once proper PID values are determined along with all SmartDashboard putNumbers and updates
+  // TODO: Delete once proper PID values are determined, along with all SmartDashboard putNumbers and updates
   private double topShooterkp = 0.0;
   private double topShooterki = 0.0;
   private double topShooterkd = 0.0;
@@ -172,5 +172,12 @@ public class Shooter extends SubsystemBase {
   //   return bottomShooterPID.atSetpoint();
   // }
 
-  // TODO: Create a tempature shutoff / Warning
+  // TODO: Create a tempature shutoff/warning
+  // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is arbitrary
+  // public boolean exceedsTemperature() {
+  //   if (inputs.topShooterTempCelcius[inputs.topShooterTempCelcius.length - 1] > 100) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 }

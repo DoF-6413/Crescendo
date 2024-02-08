@@ -31,30 +31,32 @@ public class ShooterIOSim implements ShooterIO {
   public void updateInputs(ShooterIOInputs inputs) {
     topShooterPID = new PIDController(1, 0, 0);
     topShooterPID.setSetpoint(1000);
-
+    
     // Updates the Shooter motors periodically
     topShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
     bottomShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
-
+    
     // Updates logged inputs, RPM and current. Voltage and temp aren't updated because ideally (like
     // in a simulation), they would be constant
     inputs.topShooterMotorRPM = topShooterFlywheel.getAngularVelocityRPM();
     inputs.topShooterCurrentAmps = new double[] {Math.abs(topShooterFlywheel.getCurrentDrawAmps())};
     inputs.bottomShooterMotorRPM = bottomShooterFlywheel.getAngularVelocityRPM();
     inputs.bottomShooterCurrentAmps =
-        new double[] {Math.abs(bottomShooterFlywheel.getCurrentDrawAmps())};
-
+    new double[] {Math.abs(bottomShooterFlywheel.getCurrentDrawAmps())};
+    
     topShooterFlywheel.setInputVoltage(
-        topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, 6350));
-  }
-
+      topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, 6350));
+    }
+    
+  
+    // TODO: Update below methods to implement PID
   @Override
   public void setBothShooterMotorPercentSpeed(double percent) {
     // Sets the speed based on a percentage of the voltage
     topShooterFlywheel.setInputVoltage(ShooterConstants.APPLIED_VOLTS * percent);
     bottomShooterFlywheel.setInputVoltage(ShooterConstants.APPLIED_VOLTS * percent);
   }
-
+  
   @Override
   public void setBothShooterMotorsVoltage(double volts) {
     // Sets voltage
@@ -62,7 +64,6 @@ public class ShooterIOSim implements ShooterIO {
     bottomShooterFlywheel.setInputVoltage(volts);
   }
 
-  // TODO:Update Bellow Functions
 
   @Override
   public void setTopShooterMotorVoltage(double volts) {}

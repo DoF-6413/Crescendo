@@ -15,10 +15,6 @@ public class PIDController {
   private double positionError = 0.0;
   private double velocityError = 0.0;
   private double totalError = 0.0;
-  private double error = 0.0;
-  private double p = 0.0;
-  private double i = 0.0;
-  private double d = 0.0;
   private double prevError = 0.0;
   private double setpoint = 0.0;
   private boolean atSetpoint = false;
@@ -110,13 +106,10 @@ public class PIDController {
    * UNITS
    *
    * @param measurement Current Measurement (Behavior or Location) of System
-   * @param setpoint The Ideal Behavior or Location of the System
    * @param maxValue The Max Value the Setpoint Could Ever Achieve
    * @return Returns Voltage [-12 to 12]
    */
   public double calculateForVoltage(double measurement, double maxValue) {
-    // updates setpoint so accessible within class
-    // this.setpoint = setpoint;
 
     // PROPORTIONAL: Current error
     positionError = setpoint - measurement;
@@ -130,29 +123,26 @@ public class PIDController {
 
     // INTEGRAL: Total Error = Area Under Graph = position error * time, accumulated for each
     // periodic loop
-    totalError = totalError + (positionError * RobotStateConstants.LOOP_PERIODIC_SEC);
+    totalError += (positionError * RobotStateConstants.LOOP_PERIODIC_SEC);
 
     // raw voltage output + PID tuning = calculated voltage
-    // * MATH BEHIND HOW IT WORKS: error is of voltage, so add it to the RPM before scaling back
-    // down */
+    // * MATH BEHIND HOW IT WORKS: error is in volts, so add it to the RPM before scaling back down */
     double desiredVoltage =
         // The setpoint * volts / maxValue  runs the motor at the speed it should theoretically run
-        // at and the PID part gets it closer to the setpoint by adding error error
+        // at and the PID part gets it closer to the setpoint by adding
         (setpoint + (kP * positionError) + (kI * totalError) + (kD * velocityError))
-            * RobotStateConstants.BATTERY_VOLTAGE
-            / maxValue;
+            * RobotStateConstants.BATTERY_VOLTAGE / maxValue;
 
     // TODO: Implement tolerence
 
     // updates atSetpoint
     atSetpoint = atSetpoint(desiredVoltage);
-
+    
     return desiredVoltage;
   }
 
   /**
    * Calculates motor percent speed from measurement
-   *
    * @param measurement Current Measurement (Behavior or Location) of System
    * @return Returns motor percent speed [-1 to 1]
    */
