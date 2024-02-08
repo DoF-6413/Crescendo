@@ -236,9 +236,18 @@ public final class Constants {
         true; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
 
     // PID Constants
-    public static final double SHOOTER_KP = 0.0; // The "P" value of the PID
-    public static final double SHOOTER_KI = 0.0; // The "I" value of the PID
-    public static final double SHOOTER_KD = 0.0; // The "D" value of the PID
+    public static final double TOP_SHOOTER_KP =
+        0.75; // The "P" value of the PID for the top shooter motor
+    public static final double TOP_SHOOTER_KI =
+        2.0; // The "I" value of the PID for the top shooter motor
+    public static final double TOP_SHOOTER_KD =
+        0.04; // The "D" value of the PID for the top shooter motor
+    public static final double BOTTOM_SHOOTER_KP =
+        0.1; // The "P" value of the PID for the bottom shooter motor
+    public static final double BOTTOM_SHOOTER_KI =
+        0.0; // The "I" value of the PID for the bottom shooter motor
+    public static final double BOTTOM_SHOOTER_KD =
+        0.0; // The "D" value of the PID for the bottom shooter motor
 
     // Flywheel simulation constants
     public static final double SHOOTER_J_KG_METERS_SQUARED =

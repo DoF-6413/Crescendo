@@ -136,32 +136,17 @@ public class PIDController {
     // * MATH BEHIND HOW IT WORKS: error is of voltage, so add it to the RPM before scaling back
     // down */
     double desiredVoltage =
-        // Code made by Josue at 11 pm that should also theoretically works and makes more sense to
-        // me than what was ran previously, and will be tested next meeting
+        // The setpoint * volts / maxValue  runs the motor at the speed it should theoretically run
+        // at and the PID part gets it closer to the setpoint and accounts for error/disturbances
         (setpoint + (kP * positionError) + (kI * totalError) + (kD * velocityError))
             * RobotStateConstants.BATTERY_VOLTAGE
             / maxValue;
 
-    // PID code that worked on 2/6/24 when testing the shooter and shooting out NOTES
-    // (setpoint * RobotStateConstants.BATTERY_VOLTAGE
-    //         + kP * positionError
-    //         + kI * totalError
-    //         + kD * velocityError)
-    //     / setpoint;
-
-    //  + (Math.abs(setpoint - measurement) < tolerance ? TODO:Is this how we implement tolerance
-    // control? If not, how so?
-    //   : 0) TODO:Is this how we implement tolerance control? If not, how so? Idea: Keep
-    // Current/Working kP + kI + kD values until tolerance drops again
+    // TODO: Implement tolerence
 
     // updates atSetpoint
-    // atSetpoint = atSetpoint(desiredVoltage);
-    // System.out.println(
-    //     "PID OUTPUT: "
-    //         + ((kP * 1000)
-    //         // + (kI * totalError) + (kD * velocityError)
-    //         ));
-    // System.out.println("DESIRED VOLTAGE: " + desiredVoltage);
+    atSetpoint = atSetpoint(desiredVoltage);
+
     return desiredVoltage;
   }
 

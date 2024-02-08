@@ -64,10 +64,8 @@ public class ShooterIOTalonFX implements ShooterIO {
   @Override
   public void setShooterBreakMode(boolean enable) {
     if (enable) {
-      // topShooterMotor.setNeutralMode(NeutralModeValue.Brake);
-      // bottomShooterMotor.setNeutralMode(NeutralModeValue.Brake);
-      topShooterMotor.setNeutralMode(NeutralModeValue.Coast);
-      bottomShooterMotor.setNeutralMode(NeutralModeValue.Coast);
+      topShooterMotor.setNeutralMode(NeutralModeValue.Brake);
+      bottomShooterMotor.setNeutralMode(NeutralModeValue.Brake);
     } else {
       topShooterMotor.setNeutralMode(NeutralModeValue.Coast);
       bottomShooterMotor.setNeutralMode(NeutralModeValue.Coast);
@@ -92,8 +90,8 @@ public class ShooterIOTalonFX implements ShooterIO {
 
   @Override
   public void setBothShooterMotorPercentSpeed(double percent) {
-    // topShooterMotor.set(percent);
-    // bottomShooterMotor.set(percent);
+    topShooterMotor.set(percent);
+    bottomShooterMotor.set(percent);
   }
 
   // TODO: Create a tempature shutoff / Warning
