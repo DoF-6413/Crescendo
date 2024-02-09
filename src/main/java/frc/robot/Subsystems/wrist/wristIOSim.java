@@ -18,21 +18,22 @@ public class wristIOSim implements WristIO {
           DCMotor.getNEO(1),
           wristNeoConstants.FIRST_MOTOR_GEAR_RATIO,
           1,
-          16.245309,
-          22.360160,
-          107,
+          wristNeoConstants.FIRST_MOTOR_LENGTH,
+          wristNeoConstants.FIRST_MOTOR_MIN_ANGLE,
+          wristNeoConstants.FIRST_MOTOR_MAX_ANGLE,
           false,
-          22.360160); // TODO: update moment of inertia change degrees to rad
+          wristNeoConstants.FIRST_MOTOR_STARTING_ANGLE);
+  // TODO: update moment of inertia
   private SingleJointedArmSim secondWristMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
           wristNeoConstants.SECOND_MOTOR_GEAR_RATIO,
           1,
-          10.40410,
-          5.715446,
-          99.284554,
+          wristNeoConstants.SECOND_MOTOR_LENGTH,
+          wristNeoConstants.SECOND_MOTOR_MIN_ANGLE,
+          wristNeoConstants.SECOND_MOTOR_MAX_ANGLE,
           false,
-          5.715446); // TODO: update moment of inertia change degrees to rad
+          wristNeoConstants.SECOND_MOTOR_STARTING_ANGLE); // TODO: update moment of inertia
 
   @Override
   public void updateInputs(WristIOInputs inputs) {
@@ -56,15 +57,13 @@ public class wristIOSim implements WristIO {
     inputs.secondWristTempCelcius = 0.0;
   }
 
-  public void setFirstWristSpeed(double speed) {
-    firstWristMotor.setInputVoltage(speed * wristNeoConstants.WRIST_APPLIED_VOLTS);
-
-    firstWristMotor.update(Constants.RobotStateConstants.LOOP_PERIODIC_SEC);
-  }
-
-  public void setSecondWristMotorSpeed(double speed) {
-    secondWristMotor.setInputVoltage(speed * wristNeoConstants.WRIST_APPLIED_VOLTS);
+  public void setWristMotorsSpeed(double firstSpeed, double secondSpeed) {
+    secondWristMotor.setInputVoltage(secondSpeed * wristNeoConstants.WRIST_APPLIED_VOLTS);
 
     secondWristMotor.update(Constants.RobotStateConstants.LOOP_PERIODIC_SEC);
+
+    firstWristMotor.setInputVoltage(firstSpeed * wristNeoConstants.WRIST_APPLIED_VOLTS);
+
+    firstWristMotor.update(Constants.RobotStateConstants.LOOP_PERIODIC_SEC);
   }
 }
