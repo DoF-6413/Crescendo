@@ -25,11 +25,7 @@ public interface WristIO {
 
   public default void updateInputs(WristIOInputs inputs) {}
 
-  public default void setFirstWristSpeed(double speed) {
-    /* Sets speed for the first motor of the wrist */
-  }
-
-  public default void setSecondWristMotorSpeed(double speed) {
-    /** Sets speed for the second motor(the farest of the shooter) of the wrist */
+  public default void setWristMotorsSpeed(double firstSpeed, double secondSpeed) {
+    /** Sets speed for the first motor(the farest of the shooter) of the wrist */
   }
 }

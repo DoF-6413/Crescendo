@@ -150,11 +150,11 @@ public class RobotContainer {
      */
 
     m_wrist.setDefaultCommand(
-        new InstantCommand(() -> m_wrist.setFirstWristSpeed(driverController.getLeftY()), m_wrist));
-
-    m_wrist.setDefaultCommand(
         new InstantCommand(
-            () -> m_wrist.setSecondWristMotorSpeed(driverController.getLeftY()), m_wrist));
+            () ->
+                m_wrist.setWristMotorsSpeed(
+                    driverController.getLeftY(), driverController.getRightY()),
+            m_wrist));
 
     // m_shooterSubsystem.setDefaultCommand(
     //     new InstantCommand(

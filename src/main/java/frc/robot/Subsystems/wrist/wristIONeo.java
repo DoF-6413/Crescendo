@@ -28,7 +28,7 @@ public class wristIONeo implements WristIO {
   private final RelativeEncoder secondWristEncoder;
 
   public wristIONeo() {
-    firstWristMotor = new CANSparkMax(0, MotorType.kBrushless);
+    firstWristMotor = new CANSparkMax(1, MotorType.kBrushless);
     firstWristEncoder = firstWristMotor.getEncoder();
 
     secondWristMotor = new CANSparkMax(1, MotorType.kBrushless);
@@ -41,12 +41,10 @@ public class wristIONeo implements WristIO {
     secondWristMotor.setSmartCurrentLimit(30);
   }
 
-  public void setFirstWristSpeed(double speed) {
-    firstWristMotor.setVoltage(speed);
-  }
+  public void setWristMotorsSpeed(double firstSpeed, double secondSpeed) {
+    firstWristMotor.setVoltage(firstSpeed);
 
-  public void setSecondWristMotorSpeed(double speed) {
-    secondWristMotor.setVoltage(speed);
+    secondWristMotor.setVoltage(secondSpeed);
   }
 
   public void updateInputs(WristIOInputs inputs) {
@@ -55,7 +53,7 @@ public class wristIONeo implements WristIO {
     inputs.firstWristTurnAppliedVolts = firstWristMotor.getBusVoltage();
     inputs.firstWristTurnPositionRad =
         Units.rotationsToRadians(firstWristEncoder.getPosition())
-            / wristNeoConstants.FIRST_MOTOR_GEAR_RATIO; // TODO: update gear ratio
+            / wristNeoConstants.FIRST_MOTOR_GEAR_RATIO;
     inputs.firstWristTempCelcius = firstWristMotor.getMotorTemperature();
     inputs.firstWristTurnVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(firstWristEncoder.getVelocity());
@@ -66,7 +64,7 @@ public class wristIONeo implements WristIO {
     inputs.secondWristTurnAppliedVolts = secondWristMotor.getBusVoltage();
     inputs.secondWristTurnPositionRad =
         Units.rotationsToRadians(secondWristEncoder.getPosition())
-            / wristNeoConstants.SECOND_MOTOR_GEAR_RATIO; // TODO: update gear ratio
+            / wristNeoConstants.SECOND_MOTOR_GEAR_RATIO;
     inputs.secondWristTempCelcius = secondWristMotor.getMotorTemperature();
     inputs.secondWristTurnVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(secondWristEncoder.getVelocity());
