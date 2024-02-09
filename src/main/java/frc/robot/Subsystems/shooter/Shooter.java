@@ -7,7 +7,6 @@ package frc.robot.Subsystems.shooter;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
@@ -31,6 +30,14 @@ public class Shooter extends SubsystemBase {
 
   // The desired RPM for the shooter
   private double setpointRPM = 0.0;
+
+  // TODO: Delete once proper PID values are determined, along with all SmartDashboard putNumbers and updates
+  private double topShooterkp = 0.0;
+  private double topShooterki = 0.0;
+  private double topShooterkd = 0.0;
+  private double bottomShooterkp = 0.0;
+  private double bottomShooterki = 0.0;
+  private double bottomShooterkd = 0.0;
 
   public Shooter(ShooterIO io) {
 
@@ -88,8 +95,8 @@ public class Shooter extends SubsystemBase {
     }
 
     // Returns whether or not motors have reached setpoint
-    SmartDashboard.putBoolean("shooterTopAtSetpoint", topAtSetpoint());
-    SmartDashboard.putBoolean("shooterBottomAtSetpoint", bottomAtSetpoint());
+    // SmartDashboard.putBoolean("shooterTopAtSetpoint", topAtSetpoint());
+    // SmartDashboard.putBoolean("shooterBottomAtSetpoint", bottomAtSetpoint());
 
     // SmartDashboard.putboolean("!!Tempature Warning!!", exceedsTemperature());
   }
@@ -171,22 +178,18 @@ public class Shooter extends SubsystemBase {
     io.setBottomShooterMotorVoltage(volts);
   }
 
-  /** Returns where the Top Shooter RPM is within the setpoint, including tolerance */
-  public boolean topAtSetpoint() {
-    return topShooterPIDController.atSetpoint(inputs.topShooterMotorRPM);
-  }
+  // public boolean topAtSetpoint() {
+  //   return topShooterPID.atSetpoint();
+  // }
 
-  /** Returns where the Bottom Shooter RPM is within the setpoint, including tolerance */
-  public boolean bottomAtSetpoint() {
-    return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
-  }
+  // public boolean bottomAtSetpoint() {
+  //   return bottomShooterPID.atSetpoint();
+  // }
 
   // TODO: Create a tempature shutoff/warning
-  // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is
-  // arbitrary
-  // 2.12.24: crashes in Sim, not tested on real hardware
+  // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is arbitrary
   // public boolean exceedsTemperature() {
-  //   if (inputs.topShooterTempCelsius[inputs.topShooterTempCelsius.length - 1] > 100) {
+  //   if (inputs.topShooterTempCelcius[inputs.topShooterTempCelcius.length - 1] > 100) {
   //     return true;
   //   }
   //   return false;

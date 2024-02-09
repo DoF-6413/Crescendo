@@ -61,9 +61,10 @@ public class ShooterIOTalonFX implements ShooterIO {
         new double[] {bottomShooterMotor.getDeviceTemp().getValueAsDouble()};
   }
 
+  /** Sets motors to Coast on disable  */
   @Override
-  public void setShooterBrakeMode(boolean enable) {
-    if (enable) {
+  public void setShooterBreakMode(boolean isEnabled) {
+    if (isEnabled) {
       topShooterMotor.setNeutralMode(NeutralModeValue.Brake);
       bottomShooterMotor.setNeutralMode(NeutralModeValue.Brake);
     } else {

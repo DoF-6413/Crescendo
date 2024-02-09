@@ -179,9 +179,17 @@ public class RobotContainer {
     // m_shooterSubsystem.setDefaultCommand(
     //     new InstantCommand(
     //         () ->
-    //             m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() *
-    // 0.5),
+    //             m_shooterSubsystem.setShooterMotorPercentSpeed(
+    //                 -driverController.getRightY() * 0.75),
     //         m_shooterSubsystem));
+
+    /*
+     * Spins the motor that will be running the UTB Intake
+     */
+    // m_utbIntake.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()),
+    //         m_utbIntake)); // TODO: Update controls
   }
 
   /**

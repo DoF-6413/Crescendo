@@ -33,17 +33,12 @@ public interface ShooterIO {
     /** Tempature, in Celsius, of the Bottom Shooter Motor */
     public double[] bottomShooterTempCelsius = new double[] {};
   }
-
-  /** Updates the set of loggable inputs for both Shooter Motors */
+  
+  /** Updates the set of loggable inputs. */
   public default void updateInputs(ShooterIOInputs inputs) {}
 
-  /**
-   * Sets the Brake Mode for the Shooter (Brake means motor holds position, Coast means easy to
-   * move)
-   *
-   * @param enable if enable, it sets brake mode, else it sets coast mode
-   */
-  public default void setShooterBrakeMode(boolean isEnabled) {}
+  /** Break Mode for BOTH Shooter Motors */
+  public default void setShooterBreakMode(boolean enable) {}
 
   /**
    * Sets BOTH Shooter Motors at a percentage of its max speed.
@@ -57,9 +52,6 @@ public interface ShooterIO {
 
   /**
    * Sets BOTH Shooter Motors at the specified Voltage
-   *
-   * <p>A positve number spins the Top Shooter Motor CCW and the Bottom Shooter Motor CW and vice
-   * versa for a negative number
    *
    * @param volts -12 to 12
    */

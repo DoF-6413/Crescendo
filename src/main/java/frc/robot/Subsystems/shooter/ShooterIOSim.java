@@ -3,6 +3,7 @@ package frc.robot.Subsystems.shooter;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Utils.PIDController;
 
 public class ShooterIOSim implements ShooterIO {
   // Creating flywheels
@@ -14,12 +15,18 @@ public class ShooterIOSim implements ShooterIO {
       new FlywheelSim(
           DCMotor.getFalcon500(1), ShooterConstants.GEAR_RATIO, ShooterConstants.MOI_KG_M2);
 
+  private PIDController topShooterPID;
+  private PIDController bottomShooterPID;
+
   public ShooterIOSim() {
     System.out.println("[Init] Creating ShooterIOSim");
   }
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
+    topShooterPID = new PIDController(1, 0, 0);
+    topShooterPID.setSetpoint(1000);
+    
     // Updates the Shooter motors periodically
     topShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
     bottomShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
@@ -28,13 +35,17 @@ public class ShooterIOSim implements ShooterIO {
     inputs.topShooterMotorRPM = topShooterFlywheel.getAngularVelocityRPM();
     inputs.topShooterAppliedVolts = 0.0;
     inputs.topShooterCurrentAmps = new double[] {Math.abs(topShooterFlywheel.getCurrentDrawAmps())};
-
     inputs.bottomShooterMotorRPM = bottomShooterFlywheel.getAngularVelocityRPM();
     inputs.bottomShooterAppliedVolts = 0.0;
     inputs.bottomShooterCurrentAmps =
-        new double[] {Math.abs(bottomShooterFlywheel.getCurrentDrawAmps())};
-  }
-
+    new double[] {Math.abs(bottomShooterFlywheel.getCurrentDrawAmps())};
+    
+    topShooterFlywheel.setInputVoltage(
+      topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, 6350));
+    }
+    
+  
+    // TODO: Update below methods to implement PID
   @Override
   public void setBothShooterMotorPercentSpeed(double percent) {
     topShooterFlywheel.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
