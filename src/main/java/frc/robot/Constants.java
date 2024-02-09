@@ -152,7 +152,7 @@ public final class Constants {
     public static final double TRACK_WIDTH_M = Units.inchesToMeters(32.173359);
 
     /** Max Speed the Robot Can Travel in One Linear Direction (m/s) */
-    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 4.5; // TODO: Update
+    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 0; // TODO: Update
 
     /**
      * Max Speed the Robot Can Rotate (rads/s) Angular Speed can be Calulated by Dividing Max Linear
@@ -165,7 +165,7 @@ public final class Constants {
         MAX_LINEAR_SPEED_M_PER_SEC / (Math.sqrt(2 * (TRACK_WIDTH_M * TRACK_WIDTH_M)) / 2);
 
     // PID Constants for Neo Drive PID
-    public static final double DRIVE_KP_NEO = 0.05; // TODO: Update
+    public static final double DRIVE_KP_NEO = 0; // TODO: Update
     public static final double DRIVE_KI_NEO = 0; // TODO: Update
     public static final double DRIVE_KD_NEO = 0; // TODO: Update
 
@@ -179,13 +179,13 @@ public final class Constants {
     public static final double DRIVE_KV_KRAKEN = 0; // TODO: Update
 
     // Feed Forward Constants for Neo Drive
-    public static final double DRIVE_KS_NEO = 0.4; // TODO: Update
-    public static final double DRIVE_KV_NEO = 0.4; // TODO: Update
+    public static final double DRIVE_KS_NEO = 0; // TODO: Update
+    public static final double DRIVE_KV_NEO = 0; // TODO: Update
 
     // PID Constants for Neo Steer PID
-    public static final double STEER_KP_NEO = 7.0; // TODO: Update
-    public static final double STEER_KI_NEO = 0.0; // TODO: Update
-    public static final double STEER_KD_NEO = 0.0; // TODO: Update
+    public static final double STEER_KP_NEO = 0; // TODO: Update
+    public static final double STEER_KI_NEO = 0; // TODO: Update
+    public static final double STEER_KD_NEO = 0; // TODO: Update
 
     /** Gear Ratio for MK4I L3 */
     public static final double GEAR_RATIO_L3 = 6.12;
@@ -237,21 +237,39 @@ public final class Constants {
   public static class ShooterConstants {
 
     // Gear ratio of 1:1 for the prototype Horizontal-Rollers/Top-Bottom Shooter
-    public static final double GEAR_RATIO = 1.0;
+    public static final double SHOOTER_GEAR_RATIO = 1.0;
 
     // Motor IDs
-    public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
+    public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14 TODO: Update?
     public static final int BOTTOM_SHOOTER_MOTOR_ID =
-        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner TODO: Update?
 
-    // Direction of motors; inverted = ccw
+    // Inverted motors
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
-        true; // Top motor spins opposite of the bottom motor (CCW)
+        true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
     public static final boolean BOTTOM_SHOOTER_MOTOR_INVERTED =
-        false; // Bottom motor is NOT inverted (CW)
+        false; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
+
+    // PID Constants  TODO: Tune and update
+    public static final double TOP_SHOOTER_KP =
+        0.75; // The "P" value of the PID for the top shooter motor
+    public static final double TOP_SHOOTER_KI =
+        2.0; // The "I" value of the PID for the top shooter motor
+    public static final double TOP_SHOOTER_KD =
+        0.04; // The "D" value of the PID for the top shooter motor
+    public static final double BOTTOM_SHOOTER_KP =
+        0.1; // The "P" value of the PID for the bottom shooter motor
+    public static final double BOTTOM_SHOOTER_KI =
+        0.0; // The "I" value of the PID for the bottom shooter motor
+    public static final double BOTTOM_SHOOTER_KD =
+        0.0; // The "D" value of the PID for the bottom shooter motor
+
+    // Current limit
+    public static final double SMART_CURRENT_LIMIT = 60;
 
     // Flywheel simulation constants
-    public static final double SHOOTER_J_KG_METERS_SQUARED = 0.0016007389;
+    public static final double SHOOTER_J_KG_METERS_SQUARED =
+        0.0016007389; // Moment of Inertia for the shooter motors
     public static final double APPLIED_VOLTS = 12.0;
   }
 
