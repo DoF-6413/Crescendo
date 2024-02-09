@@ -215,6 +215,15 @@ public final class Constants {
     public static final double FIRST_MOTOR_GEAR_RATIO = 123; // TODO: update
     public static final double SECOND_MOTOR_GEAR_RATIO = 123; // TODO: update
     public static final double WRIST_APPLIED_VOLTS = 12;
+
+    public static final double FIRST_MOTOR_LENGTH = 0.4126308486;
+    public static final double FIRST_MOTOR_MIN_ANGLE = 0.390258413271767;
+    public static final double FIRST_MOTOR_MAX_ANGLE = 1.8675;
+    public static final double FIRST_MOTOR_STARTING_ANGLE = 0.39025841327;
+    public static final double SECOND_MOTOR_LENGTH = 0.26426414;
+    public static final double SECOND_MOTOR_MIN_ANGLE = 0.09975335092;
+    public static final double SECOND_MOTOR_MAX_ANGLE = 1.73284236367;
+    public static final double SECOND_MOTOR_STARTING_ANGLE = 0.09975335092;
   }
 
   public class VisionConstants {
