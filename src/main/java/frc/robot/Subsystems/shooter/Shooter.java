@@ -84,12 +84,11 @@ public class Shooter extends SubsystemBase {
     if (setpointRPM != SmartDashboard.getNumber("setpoint", 0.0)) {
       updateSetpoint();
     }
-    // Puts the difference between the setpoint and current RPM on the Shuffleboard as calculated by
-    // the WPI PID Controller
+    // Puts the difference between the setpoint and current RPM on the SmartDashboard
     SmartDashboard.putNumber("TopError", setpointRPM - inputs.topShooterMotorRPM);
     SmartDashboard.putNumber("BottomError", setpointRPM - Math.abs(inputs.bottomShooterMotorRPM));
     SmartDashboard.putNumber(
-        "Top Bottom Motor RPM Difference", inputs.topShooterMotorRPM - Math.abs(inputs.bottomShooterMotorRPM));
+        "RPM Difference", inputs.topShooterMotorRPM - Math.abs(inputs.bottomShooterMotorRPM));
 
     // Sets the voltage of the Shooter Motors using PID
     if (inputs.topShooterMotorRPM < 0.0) {
@@ -104,7 +103,7 @@ public class Shooter extends SubsystemBase {
           -bottomShooterPID.calculateForVoltage(Math.abs(inputs.bottomShooterMotorRPM), 6350));
     }
 
-    // Returns whether or not the Motors have reached the setpoint
+    // Returns whether or not motors have reached setpoint
     // SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
     // SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
 
