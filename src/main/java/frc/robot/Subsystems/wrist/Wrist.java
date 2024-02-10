@@ -31,7 +31,7 @@ public class Wrist extends SubsystemBase {
   }
 
   /** Sets speed for the first motor of the wrist */
-  public void setWristMotorsSpeed(double firstSpeed, double secondSpeed) {
-    io.setWristMotorsSpeed(firstSpeed, secondSpeed);
+  public void setWristMotorSpeed(double Speed) {
+    io.setWristMotorSpeed(Speed);
   }
 }

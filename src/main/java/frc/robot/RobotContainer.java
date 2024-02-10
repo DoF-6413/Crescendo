@@ -151,12 +151,6 @@ public class RobotContainer {
      * Down will retract a NOTE inward
      */
 
-    m_wrist.setDefaultCommand(
-        new InstantCommand(
-            () ->
-                m_wrist.setWristMotorsSpeed(
-                    driverController.getLeftY(), driverController.getRightY()),
-            m_wrist));
 
     // m_shooterSubsystem.setDefaultCommand(
     //     new InstantCommand(
