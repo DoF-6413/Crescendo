@@ -13,7 +13,6 @@ public interface ClimberIO {
     public double leftClimberAppliedVolts = 0.0;
     public double[] leftClimberCurrentAmps = new double[] {};
     public double[] leftClimberTempCelcius = new double[] {};
-
     // All the Inputs for the Left Climber Motor (Should be nearly identical to the Left Climber
     // Motor)
     public double rightClimberPositionRad = 0.0;
