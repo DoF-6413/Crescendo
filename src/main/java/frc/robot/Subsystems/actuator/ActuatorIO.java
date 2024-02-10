@@ -21,9 +21,12 @@ public interface ActuatorIO {
     // This method will be called once per scheduler run
   }
 
-  public default void setActuatorSpeed(double speed) {}
+  
+  public default void setActuatorVoltage(double volts) {}
 
-  public default void setActuatorVoltage(double actuator) {}
 
-  public default void setActuatorPosition(double position) {}
+public void setActuatorPosition(double calculate);
+
+
+public void setActuatorSpeed(double voltage);
 }
