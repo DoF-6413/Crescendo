@@ -36,12 +36,13 @@ public interface ClimberIO {
    * Sets the voltage of the Left Climber Motor
    *
    * @param volts [-12 to 12]
+   * 
    */
   public default void setLeftClimberMotorVoltage(double volts) {}
 
   /**
+    * 
    * Sets the voltage of the Right Climber Motor
-   *
    * @param volts [-12 to 12]
    */
   public default void setRightClimberMotorVoltage(double volts) {}
