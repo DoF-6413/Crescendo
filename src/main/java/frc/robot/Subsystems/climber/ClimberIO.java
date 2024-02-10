@@ -2,6 +2,8 @@ package frc.robot.Subsystems.climber;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
+
 public interface ClimberIO {
   @AutoLog
   public static class ClimberIOInputs {
@@ -22,4 +24,46 @@ public interface ClimberIO {
     public double[] rightClimberCurrentAmps = new double[] {};
     public double[] rightClimberTempCelcius = new double[] {};
   }
+
+  /**
+   * Sets the voltage of BOTH Climber Motors
+   * 
+   * @param volts [-12 to 12]
+   */
+  public default void setBothClimberMotorsVoltage(double volts) {}
+
+  /**
+   * Sets the voltage of the Left Climber Motor
+   * 
+   * @param volts [-12 to 12]
+   */
+  public default void setLeftClimberMotorVoltage(double volts) {}
+
+  /**
+   * Sets the voltage of the Right Climber Motor
+   * 
+   * @param volts [-12 to 12]
+   */
+  public default void setRightClimberMotorVoltage(double volts) {}
+
+  /**
+   * Sets BOTH Climber Motors to a percent of their maximum speed
+   * 
+   * @param percent [-1 to 1]
+   */
+  public default void setBothClimberMotorsPercentSpeed(double percent) {}
+
+  /**
+   * Sets the Left Climber Motor to a percent of their maximum speed
+   * 
+   * @param percent [-1 to 1]
+   */
+  public default void setLeftClimberMotorPercentSpeed(double percent) {}
+  
+  /**
+   * Sets Right Climber Motor to a percent of their maximum speed
+   * 
+   * @param percent [-1 to 1]
+   */
+  public default void setRightClimberMotorPercentSpeed(double percent) {}
 }
