@@ -17,57 +17,33 @@ import frc.robot.Constants.wristNeoConstants;
 /** Add your docs here. */
 public class wristIONeo implements WristIO {
 
-  // first wrist motor
-
-  private final CANSparkMax firstWristMotor;
-  private final RelativeEncoder firstWristEncoder;
-
-  // second wrist motor(the closest to the shooter)
-
-  private final CANSparkMax secondWristMotor;
-  private final RelativeEncoder secondWristEncoder;
+  private final CANSparkMax wristMotor;
+  private final RelativeEncoder wristEncoder;
 
   public wristIONeo() {
-    firstWristMotor = new CANSparkMax(1, MotorType.kBrushless);
-    firstWristEncoder = firstWristMotor.getEncoder();
+    wristMotor = new CANSparkMax(1, MotorType.kBrushless);
+    wristEncoder = wristMotor.getEncoder();
 
-    secondWristMotor = new CANSparkMax(1, MotorType.kBrushless);
-    secondWristEncoder = secondWristMotor.getEncoder();
+    wristMotor.setIdleMode(IdleMode.kBrake);
+    wristMotor.setSmartCurrentLimit(30);
 
-    firstWristMotor.setIdleMode(IdleMode.kBrake);
-    firstWristMotor.setSmartCurrentLimit(30);
-
-    secondWristMotor.setIdleMode(IdleMode.kBrake);
-    secondWristMotor.setSmartCurrentLimit(30);
   }
 
-  public void setWristMotorsSpeed(double firstSpeed, double secondSpeed) {
-    firstWristMotor.setVoltage(firstSpeed);
-
-    secondWristMotor.setVoltage(secondSpeed);
+  public void setWristMotorsSpeed(double Speed) {
+    wristMotor.setVoltage(Speed);
   }
 
   public void updateInputs(WristIOInputs inputs) {
     // first wrist motor
 
-    inputs.firstWristTurnAppliedVolts = firstWristMotor.getBusVoltage();
-    inputs.firstWristTurnPositionRad =
-        Units.rotationsToRadians(firstWristEncoder.getPosition())
+    inputs.wristTurnAppliedVolts = wristMotor.getBusVoltage();
+    inputs.wristTurnPositionRad =
+        Units.rotationsToRadians(wristEncoder.getPosition())
             / wristNeoConstants.FIRST_MOTOR_GEAR_RATIO;
-    inputs.firstWristTempCelcius = firstWristMotor.getMotorTemperature();
-    inputs.firstWristTurnVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(firstWristEncoder.getVelocity());
-    inputs.firstWristTurnCurrentAmps = firstWristMotor.getOutputCurrent();
+    inputs.wristTempCelcius = wristMotor.getMotorTemperature();
+    inputs.wristTurnVelocityRadPerSec =
+        Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity());
+    inputs.wristTurnCurrentAmps = wristMotor.getOutputCurrent();
 
-    // second wrist motor(the closest to the shooter)
-
-    inputs.secondWristTurnAppliedVolts = secondWristMotor.getBusVoltage();
-    inputs.secondWristTurnPositionRad =
-        Units.rotationsToRadians(secondWristEncoder.getPosition())
-            / wristNeoConstants.SECOND_MOTOR_GEAR_RATIO;
-    inputs.secondWristTempCelcius = secondWristMotor.getMotorTemperature();
-    inputs.secondWristTurnVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(secondWristEncoder.getVelocity());
-    inputs.secondWristTurnCurrentAmps = secondWristMotor.getOutputCurrent();
   }
 }
