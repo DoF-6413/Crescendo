@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Subsystems.vision;
+package frc.robot.Subsystems.pose;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -21,20 +21,20 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Constants.RobotStateConstants.Mode;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.gyro.Gyro;
+import frc.robot.Subsystems.vision.Vision;
 import org.photonvision.targeting.PhotonPipelineResult;
 
-/** Add your docs here. */
+/** This class handels the odometry and locates the robots current position */
 public class PoseEstimator extends SubsystemBase {
   /**
    * increase the numbers to trust the model's state estimate less it is a matrix in form of [x, y,
    * theta] or meters, meters, radians
    */
   public static Vector<N3> stateStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+
   /**
    * increase the numbers to trust the vision measurements less also in form [x, y, theta] or
    * meters, meters, radians
@@ -71,7 +71,8 @@ public class PoseEstimator extends SubsystemBase {
   public void periodic() {
     field2d.setRobotPose(getCurrentPose2d());
     poseEstimator.updateWithTime(
-        Timer.getFPGATimestamp(), gyro.getYaw(), drive.getSwerveModulePositions());
+        Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
+
     if (vision.getResult().hasTargets()) {
 
       pipelineResult = vision.getResult();
@@ -119,8 +120,7 @@ public class PoseEstimator extends SubsystemBase {
 
           SmartDashboard.putNumber(
               "TagRotation", target.getBestCameraToTarget().getRotation().getAngle());
-
-        } 
+        }
       }
     }
   }
@@ -133,13 +133,11 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.resetPosition(gyro.getYaw(), drive.getSwerveModulePositions(), currentPose2d);
   }
 
-  public void setPose2d() {
-    if (RobotStateConstants.getMode() == Mode.SIM) {
-      field2d.setRobotPose(poseEstimator.getEstimatedPosition());
-    }
-  }
-
   public Pose2d getInitialPose2d() {
     return null;
+  }
+
+  public Rotation2d getRotation() {
+    return poseEstimator.getEstimatedPosition().getRotation();
   }
 }
