@@ -59,6 +59,7 @@ public class RobotContainer {
   private final Vision m_vision;
   private final UTBIntake m_utbIntake;
   private final Wrist m_wrist;
+  
 
   // Controllers
   private final CommandXboxController driverController =
@@ -151,6 +152,11 @@ public class RobotContainer {
      * Down will retract a NOTE inward
      */
 
+    m_wrist.setDefaultCommand(
+        new InstantCommand(
+            () ->
+                m_wrist.setWristMotorSpeed(
+                    driverController.getLeftY()),m_wrist));
 
     // m_shooterSubsystem.setDefaultCommand(
     //     new InstantCommand(
