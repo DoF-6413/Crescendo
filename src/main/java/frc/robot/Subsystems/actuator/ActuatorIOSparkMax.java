@@ -17,11 +17,12 @@ public class ActuatorIOSparkMax implements ActuatorIO {
 
   /** Creates the motor and encoder for the actuator */
   public ActuatorIOSparkMax() {
-    System.out.println("[Init] Creating Actuator");
+    System.out.println("[Init] Creating ActuatorIOSparkMax");
     actuatorMotor = new CANSparkMax(ActuatorConstants.ACTUATOR_CANID, MotorType.kBrushless);
     actuatorEncoder = actuatorMotor.getEncoder();
   }
 
+  @Override
   public void updateInputs(ActuatorIOInputs inputs) {
     inputs.turnAppliedVolts = actuatorMotor.getBusVoltage();
     inputs.turnPositionRad =
@@ -33,7 +34,8 @@ public class ActuatorIOSparkMax implements ActuatorIO {
     inputs.turnCurrentAmps = actuatorMotor.getOutputCurrent();
   }
 
-  public void setActuatorSpeed(double speed) {
-    actuatorMotor.setVoltage(speed);
+  @Override
+  public void setActuatorVoltage(double volts) {
+    actuatorMotor.setVoltage(volts);
   }
 }
