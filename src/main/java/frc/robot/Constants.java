@@ -227,7 +227,8 @@ public final class Constants {
     // Motor IDs
     public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14 TODO: Update?
     public static final int BOTTOM_SHOOTER_MOTOR_ID =
-        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner TODO: Update?
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner TODO:
+    // Update?
 
     // Inverted motors
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
@@ -271,7 +272,7 @@ public final class Constants {
     public static double OTB_INTAKE_KI = 0.0;
     public static double OTB_INTAKE_KD = 0.0;
     public static final double OTB_INTAKE_TOLERANCE = 0.05;
-    public static final double OTB_MOMENT_OF_INERTIA_KGMETERSSQUARED = 0.0; //TODO: Update
+    public static final double OTB_MOMENT_OF_INERTIA_KGMETERSSQUARED = 0.0005; // TODO: Update
   }
 
   public static class ActuatorConstants {
@@ -281,13 +282,11 @@ public final class Constants {
     public static double ACTUATOR_KI = 0.0;
     public static double ACTUATOR_KD = 0.0;
     public static final double ACTUATOR_TOLERANCE = 0.05;
-    public static final double ACTUATOR_MAX_ANGLE_RADS =
-    Math.atan(-7.432 / 8.253); 
-    public static final double ACTUATOR_MIN_ANGLE_RADS =
-    Math.atan(11.105 / .096);
+    public static final double ACTUATOR_MAX_ANGLE_RADS = Math.atan(-7.432 / 8.253);
+    public static final double ACTUATOR_MIN_ANGLE_RADS = Math.atan(11.105 / .096);
     public static final double ACTUATOR_START_ANGLE_RADS = ACTUATOR_MIN_ANGLE_RADS;
-    public static final double ACTUATOR_JKG_METERS_SQUARED =  0.0; //TODO: UPDATE
-    //Length from pivot to roller
+    public static final double ACTUATOR_JKG_METERS_SQUARED = 0.0005; // TODO: UPDATE
+    // Length from pivot to roller
     public static final double ACTUATOR_LENGTH_METERS = Units.inchesToMeters(30.354561);
     public static final boolean IS_SIMULATE_GRAVITY = true;
   }

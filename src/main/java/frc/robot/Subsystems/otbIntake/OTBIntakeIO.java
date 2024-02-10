@@ -16,7 +16,7 @@ public interface OTBIntakeIO {
     public double rollerAppliedVolts = 0.0;
     public double[] rollerCurrentAmps = new double[] {};
     public double OTBIntakepositionrad = 0.0;
-    public double otbIntakeVelocityRadPerSec = 0.0; 
+    public double otbIntakeVelocityRadPerSec = 0.0;
     public double otbIntakeAppliedVolts = 0.0;
     public double[] otbIntakeCurrentAmps = new double[] {};
   }

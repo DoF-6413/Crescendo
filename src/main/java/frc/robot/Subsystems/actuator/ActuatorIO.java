@@ -11,21 +11,17 @@ public interface ActuatorIO {
   @AutoLog
   public static class ActuatorIOInputs {
 
-    public double turnAppliedVolts = 0.0;
-    public double turnPositionRad = 0.0;
-    public double turnVelocityRadPerSec = 0.0;
-    public double turnCurrentAmps = 0.0;
+    public double actuatorAppliedVolts = 0.0;
+    public double actuatorPositionRad = 0.0;
+    public double actuatorVelocityRadPerSec = 0.0;
+    public double actuatorCurrentAmps = 0.0;
   }
 
   public default void updateInputs(ActuatorIOInputs inputs) {
     // This method will be called once per scheduler run
   }
 
-  
   public default void setActuatorVoltage(double volts) {}
 
-
-public default void setActuatorPercentSpeed(double percent){
-
-}
+  public default void setActuatorPercentSpeed(double percent) {}
 }

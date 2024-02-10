@@ -17,10 +17,13 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Subsystems.actuator.Actuator;
+import frc.robot.Subsystems.actuator.ActuatorIO;
+import frc.robot.Subsystems.actuator.ActuatorIOSim;
+import frc.robot.Subsystems.actuator.ActuatorIOSparkMax;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.ModuleIO;
 import frc.robot.Subsystems.drive.ModuleIOSimNeo;
@@ -28,6 +31,10 @@ import frc.robot.Subsystems.drive.ModuleIOSparkMax;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.gyro.GyroIO;
 import frc.robot.Subsystems.gyro.GyroIONavX;
+import frc.robot.Subsystems.otbIntake.OTBIntake;
+import frc.robot.Subsystems.otbIntake.OTBIntakeIO;
+import frc.robot.Subsystems.otbIntake.OTBIntakeIOSim;
+import frc.robot.Subsystems.otbIntake.OTBIntakeIOSparkMax;
 import frc.robot.Subsystems.pose.PoseEstimator;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.shooter.ShooterIO;
@@ -53,8 +60,10 @@ public class RobotContainer {
   private final Drive m_driveSubsystem;
   private final Shooter m_shooterSubsystem;
   private final PoseEstimator m_poseEstimator;
-  private final Vision m_vision;
-  private final UTBIntake m_utbIntake;
+  private final Vision m_visionSubsystem;
+  private final UTBIntake m_utbIntakeSubsystem;
+  private final OTBIntake m_otbIntakeSubsystem;
+  private final Actuator m_actuatorSubsystem;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -75,10 +84,12 @@ public class RobotContainer {
                 new ModuleIOSparkMax(),
                 new ModuleIOSparkMax(),
                 m_gyroSubsystem);
-        m_vision = new Vision(new VisionIOArduCam());
+        m_visionSubsystem = new Vision(new VisionIOArduCam());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
-        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
+        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
+        m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
         break;
 
       case SIM:
@@ -91,10 +102,12 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
-        m_vision = new Vision(new VisionIOSim());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
+        m_visionSubsystem = new Vision(new VisionIOSim());
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
+        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
+        m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
 
         break;
 
@@ -109,9 +122,11 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
-        m_vision = new Vision(new VisionIO() {});
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
-        m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
+        m_visionSubsystem = new Vision(new VisionIO() {});
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
+        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
+        m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         break;
     }
 
@@ -127,16 +142,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
-    m_driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_driveSubsystem.setRaw(
-                    driverController.getLeftX(),
-                    -driverController.getLeftY(),
-                    driverController.getRightX()),
-            m_driveSubsystem));
+    // m_driveSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () ->
+    //             m_driveSubsystem.setRaw(
+    //                 driverController.getLeftX(),
+    //                 -driverController.getLeftY(),
+    //                 driverController.getRightX()),
+    //         m_driveSubsystem));
 
-    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
+    // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     /*
      * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
@@ -150,13 +165,10 @@ public class RobotContainer {
     //                 -driverController.getRightY() * 0.75),
     //         m_shooterSubsystem));
 
-    /*
-     * Spins the motor that will be running the UTB Intake
-     */
-    m_utbIntake.setDefaultCommand(
+    m_actuatorSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()),
-            m_utbIntake)); // TODO: Update controls
+            () -> m_actuatorSubsystem.setActuatorPercentSpeed(driverController.getLeftY()),
+            m_actuatorSubsystem));
   }
 
   /**

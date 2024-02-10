@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OTBIntakeConstants;
 import frc.robot.Utils.PIDController;
-
 import org.littletonrobotics.junction.Logger;
 
 /** Runs the motor for the Over the Bumper (OTB) Intake */

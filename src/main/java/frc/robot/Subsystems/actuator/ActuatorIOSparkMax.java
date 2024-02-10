@@ -24,14 +24,14 @@ public class ActuatorIOSparkMax implements ActuatorIO {
 
   @Override
   public void updateInputs(ActuatorIOInputs inputs) {
-    inputs.turnAppliedVolts = actuatorMotor.getBusVoltage();
-    inputs.turnPositionRad =
+    inputs.actuatorAppliedVolts = actuatorMotor.getBusVoltage();
+    inputs.actuatorPositionRad =
         Units.rotationsToRadians(actuatorEncoder.getPosition()) / ActuatorConstants.GEAR_RATIO;
-    inputs.turnVelocityRadPerSec =
+    inputs.actuatorVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(actuatorEncoder.getVelocity())
             / ActuatorConstants
                 .GEAR_RATIO; // Converts rotaions to Radians and then divides it by the gear ratio
-    inputs.turnCurrentAmps = actuatorMotor.getOutputCurrent();
+    inputs.actuatorCurrentAmps = actuatorMotor.getOutputCurrent();
   }
 
   @Override
