@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.ClimberConstants;
 
+/** Climber Motor Control */
 public class ClimberIOSparkMax implements ClimberIO {
 
     private CANSparkMax leftClimberMotor;
@@ -15,6 +16,7 @@ public class ClimberIOSparkMax implements ClimberIO {
     private CANSparkMax rightClimberMotor;
     private RelativeEncoder rightClimberEncoder;
 
+    /** Creates the Motor and Encoder for the Climber */
     public ClimberIOSparkMax() {
         System.out.println("[Init] Creating ClimberIOSparkMax");
 
@@ -25,18 +27,20 @@ public class ClimberIOSparkMax implements ClimberIO {
         rightClimberEncoder = rightClimberMotor.getEncoder();
     }
 
+    /** Updates the printed values for the Climber */
     public void updateInputs(ClimberIOInputs inputs) {
         // Updates the Left Climber Motor inputs
         inputs.leftClimberPositionRad = Units.rotationsToRadians(leftClimberEncoder.getPosition()) / ClimberConstants.CLIMBER_GEAR_RATIO; // Converts rotaions to Radians and then divides it by the gear ratio
         inputs.leftClimberVelocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(leftClimberEncoder.getVelocity()) / ClimberConstants.CLIMBER_GEAR_RATIO; // Converts RPM to Radians per Second and then divides it by the gear ratio
-        inputs.leftClimberAppliedVolts = leftClimberMotor.getBusVoltage();
-        inputs.leftClimberCurrentAmps = leftClimberMotor.getOutputCurrent();
-        inputs.leftClimberTempCelcius = leftClimberMotor.getMotorTemperature();
-
+        inputs.leftClimberAppliedVolts = leftClimberMotor.getAppliedOutput() * leftClimberMotor.getBusVoltage(); 
+        inputs.leftClimberCurrentAmps = new double[] {leftClimberMotor.getOutputCurrent()};
+        inputs.leftClimberTempCelcius = new double[] {leftClimberMotor.getMotorTemperature()};
+        
+        // Updates the Right Climber Motor inputs
         inputs.rightClimberPositionRad = Units.rotationsToRadians(rightClimberEncoder.getPosition()) / ClimberConstants.CLIMBER_GEAR_RATIO; // Converts rotaions to Radians and then divides it by the gear ratio
         inputs.rightClimberVelocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(rightClimberEncoder.getVelocity()) / ClimberConstants.CLIMBER_GEAR_RATIO; // Converts RPM to Radians per Second and then divides it by the gear ratio
         inputs.rightClimberAppliedVolts = rightClimberMotor.getBusVoltage();
-        inputs.rightClimberCurrentAmps = rightClimberMotor.getOutputCurrent();
-        inputs.rightClimberTempCelcius = rightClimberMotor.getMotorTemperature();
+        inputs.rightClimberCurrentAmps = new double[] {rightClimberMotor.getOutputCurrent()};
+        inputs.rightClimberTempCelcius = new double[] {rightClimberMotor.getMotorTemperature()};
     }
 }
