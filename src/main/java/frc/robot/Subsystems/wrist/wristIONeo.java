@@ -15,12 +15,12 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.wristNeoConstants;
 
 /** Add your docs here. */
-public class wristIONeo implements WristIO {
+public class WristIONeo implements WristIO {
 
   private final CANSparkMax wristMotor;
   private final RelativeEncoder wristEncoder;
 
-  public wristIONeo() {
+  public WristIONeo() {
     wristMotor = new CANSparkMax(1, MotorType.kBrushless);
     wristEncoder = wristMotor.getEncoder();
 

@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystems.wrist;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -13,15 +14,23 @@ public class Wrist extends SubsystemBase {
   private final WristIO io;
   private final WristIOInputsAutoLogged wristInputs = new WristIOInputsAutoLogged();
 
-  public Wrist(WristIO wrist) {
-    System.out.println("[Init] Creating wrist");
+  private static PIDController wristPID;
 
-    this.io = wrist;
+  //temp, move to constants
+  private double wristkp = 0.0;
+  private double wristki = 0.0;
+  private double wristkd = 0.0;
+
+
+  public Wrist(WristIO io) {
+    System.out.println("[Init] Creating wrist");
+    this.io = io;
+
+    wristPID = new PIDController(wristkp, wristki, wristkd);
   }
 
   @Override
   public void periodic() {
-
     this.updateInputs();
     Logger.processInputs("wrist", wristInputs);
   }

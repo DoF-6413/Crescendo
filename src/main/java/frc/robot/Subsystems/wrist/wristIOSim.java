@@ -6,12 +6,10 @@ package frc.robot.Subsystems.wrist;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-import frc.robot.Constants;
-import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Constants.wristNeoConstants;
+import frc.robot.Constants.*;
 
 /** Add your docs here. */
-public class wristIOSim implements WristIO {
+public class WristIOSim implements WristIO {
 
   private SingleJointedArmSim wristMotor =
       new SingleJointedArmSim(

@@ -41,8 +41,8 @@ import frc.robot.Subsystems.vision.VisionIOArduCam;
 import frc.robot.Subsystems.vision.VisionIOSim;
 import frc.robot.Subsystems.wrist.Wrist;
 import frc.robot.Subsystems.wrist.WristIO;
-import frc.robot.Subsystems.wrist.wristIONeo;
-import frc.robot.Subsystems.wrist.wristIOSim;
+import frc.robot.Subsystems.wrist.WristIONeo;
+import frc.robot.Subsystems.wrist.WristIOSim;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -84,7 +84,7 @@ public class RobotContainer {
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
-        m_wrist = new Wrist(new wristIONeo());
+        m_wrist = new Wrist(new WristIONeo());
         break;
 
       case SIM:
@@ -101,7 +101,7 @@ public class RobotContainer {
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
-        m_wrist = new Wrist(new wristIOSim());
+        m_wrist = new Wrist(new WristIOSim());
 
         break;
 
