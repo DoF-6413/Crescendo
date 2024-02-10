@@ -266,13 +266,15 @@ public final class Constants {
   }
 
   public static class ClimberConstants {
-    public static final int LEFT_CLIMBER_CANID = 0; //TODO: Update later
-    public static final int RIGHT_CLIMBER_CANID = 0; //TODO: Update later
+    public static final int LEFT_CLIMBER_CANID = 0; // TODO: Update later
+    public static final int RIGHT_CLIMBER_CANID = 0; // TODO: Update later
 
     public static final double CLIMBER_GEAR_RATIO = 40; // 40:1 Gear Ratio
 
     // TODO: Confirm that one of the motors will need to be inverted
-    public static final boolean LEFT_CLIMBER_INVERTED = false; // Ensures that the Left Climber Motor will not be inverted upon start up
-    public static final boolean RIGHT_CLIMBER_INVERTED = true; // Ensures that the Right Climber Motor will be inverted upon start up
+    public static final boolean LEFT_CLIMBER_INVERTED =
+        false; // Ensures that the Left Climber Motor will not be inverted upon start up
+    public static final boolean RIGHT_CLIMBER_INVERTED =
+        true; // Ensures that the Right Climber Motor will be inverted upon start up
   }
 }

@@ -21,6 +21,9 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Subsystems.climber.Climber;
+import frc.robot.Subsystems.climber.ClimberIO;
+import frc.robot.Subsystems.climber.ClimberIOSparkMax;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.ModuleIO;
 import frc.robot.Subsystems.drive.ModuleIOSimNeo;
@@ -55,6 +58,7 @@ public class RobotContainer {
   private final PoseEstimator m_poseEstimator;
   private final Vision m_vision;
   private final UTBIntake m_utbIntake;
+  private final Climber m_Climber;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -79,6 +83,7 @@ public class RobotContainer {
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
+        m_Climber = new Climber(new ClimberIOSparkMax() {});
         break;
 
       case SIM:
@@ -95,6 +100,7 @@ public class RobotContainer {
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
+        m_Climber = new Climber(new ClimberIO() {});
 
         break;
 
@@ -112,6 +118,7 @@ public class RobotContainer {
         m_vision = new Vision(new VisionIO() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
+        m_Climber = new Climber(new ClimberIO() {});
         break;
     }
 
@@ -157,6 +164,11 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()),
             m_utbIntake)); // TODO: Update controls
+
+    m_Climber.setDefaultCommand(
+        new InstantCommand(
+            () -> m_Climber.setBothClimberPercentSpeed(auxController.getRightY()),
+            m_Climber)); // TODO: Update controls
   }
 
   /**
