@@ -2,8 +2,6 @@ package frc.robot.Subsystems.climber;
 
 import org.littletonrobotics.junction.AutoLog;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
-
 public interface ClimberIO {
   @AutoLog
   public static class ClimberIOInputs {
