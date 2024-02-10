@@ -21,7 +21,8 @@ public class Shooter extends SubsystemBase {
   // The desired RPM for the shooter
   private double setpointRPM = 0.0;
 
-  // TODO: Delete once proper PID values are determined, along with all SmartDashboard putNumbers and updates
+  // TODO: Delete once proper PID values are determined, along with all SmartDashboard putNumbers
+  // and updates
   private double topShooterkp = 0.0;
   private double topShooterki = 0.0;
   private double topShooterkd = 0.0;
@@ -172,7 +173,8 @@ public class Shooter extends SubsystemBase {
   // }
 
   // TODO: Create a tempature shutoff/warning
-  // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is arbitrary
+  // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is
+  // arbitrary
   // public boolean exceedsTemperature() {
   //   if (inputs.topShooterTempCelcius[inputs.topShooterTempCelcius.length - 1] > 100) {
   //     return true;

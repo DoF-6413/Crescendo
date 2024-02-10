@@ -126,23 +126,26 @@ public class PIDController {
     totalError += (positionError * RobotStateConstants.LOOP_PERIODIC_SEC);
 
     // raw voltage output + PID tuning = calculated voltage
-    // * MATH BEHIND HOW IT WORKS: error is in volts, so add it to the RPM before scaling back down */
+    // * MATH BEHIND HOW IT WORKS: error is in volts, so add it to the RPM before scaling back down
+    // */
     double desiredVoltage =
         // The setpoint * volts / maxValue  runs the motor at the speed it should theoretically run
         // at and the PID part gets it closer to the setpoint by adding
         (setpoint + (kP * positionError) + (kI * totalError) + (kD * velocityError))
-            * RobotStateConstants.BATTERY_VOLTAGE / maxValue;
+            * RobotStateConstants.BATTERY_VOLTAGE
+            / maxValue;
 
     // TODO: Implement tolerence
 
     // updates atSetpoint
     atSetpoint = atSetpoint(desiredVoltage);
-    
+
     return desiredVoltage;
   }
 
   /**
    * Calculates motor percent speed from measurement
+   *
    * @param measurement Current Measurement (Behavior or Location) of System
    * @return Returns motor percent speed [-1 to 1]
    */

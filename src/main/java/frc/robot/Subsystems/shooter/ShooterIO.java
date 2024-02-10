@@ -25,7 +25,7 @@ public interface ShooterIO {
     public double[] bottomShooterCurrentAmps = new double[] {};
     public double[] bottomShooterTempCelcius = new double[] {};
   }
-  
+
   /** Updates the set of loggable inputs. */
   public default void updateInputs(ShooterIOInputs inputs) {}
 
