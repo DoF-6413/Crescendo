@@ -211,7 +211,7 @@ public final class Constants {
     }
   }
 
-  public class wristNeoConstants {
+  public class ArmConstants {
     public static final double MOTOR_GEAR_RATIO = 123; // TODO: update
     public static final double WRIST_APPLIED_VOLTS = 12;
 
