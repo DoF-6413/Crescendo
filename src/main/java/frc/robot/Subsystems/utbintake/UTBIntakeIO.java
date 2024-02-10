@@ -10,6 +10,7 @@ public interface UTBIntakeIO {
     public double utbIntakeAppliedVolts = 0.0;
     public double[] utbIntakeCurrentAmps = new double[] {};
     public double UTBIntakepositionrad = 0.0;
+    public double UTBintakeRPM = 0.0;
   }
 
   public default void updateInputs(UTBIntakeIOInputs inputs) {}
