@@ -253,6 +253,7 @@ public final class Constants {
     public static double OTB_INTAKE_KI = 0.0;
     public static double OTB_INTAKE_KD = 0.0;
     public static final double OTB_INTAKE_TOLERANCE = 0.05;
+    public static final double OTB_MOMENT_OF_INERTIA_KGMETERSSQUARED = 0.0; //TODO: Update
   }
 
   public static class ActuatorConstants {
