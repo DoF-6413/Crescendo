@@ -25,8 +25,7 @@ public interface ActuatorIO {
   public default void setActuatorVoltage(double volts) {}
 
 
-public void setActuatorPosition(double calculate);
+public default void setActuatorPercentSpeed(double percent){
 
-
-public void setActuatorSpeed(double voltage);
+}
 }

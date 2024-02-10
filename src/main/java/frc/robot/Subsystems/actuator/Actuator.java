@@ -4,10 +4,11 @@
 
 package frc.robot.Subsystems.actuator;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ActuatorConstants;
+import frc.robot.Utils.PIDController;
+
 import org.littletonrobotics.junction.Logger;
 
 public class Actuator extends SubsystemBase {
@@ -28,11 +29,6 @@ public class Actuator extends SubsystemBase {
             ActuatorConstants.ACTUATOR_KD);
 
     actuatorPID.setSetpoint(actuatorSetpoint);
-
-    // This sets constraints on the rot of the actuator (takes shortest path between setpoints so it
-    // doesn't go all the way around)
-    actuatorPID.enableContinuousInput(
-        ActuatorConstants.ACTUATOR_MIN_SETPOINT, ActuatorConstants.ACTUATOR_MIN_SETPOINT);
 
     actuatorPID.setTolerance(actuatorSetpoint * ActuatorConstants.ACTUATOR_TOLERANCE);
 
@@ -65,7 +61,7 @@ public class Actuator extends SubsystemBase {
     SmartDashboard.putNumber("Actuator setpoint", actuatorSetpoint);
     SmartDashboard.putNumber("ActuatorError", actuatorSetpoint - getActuatorPosition());
 
-    actuatorIO.setActuatorPosition(actuatorPID.calculate(getActuatorPositionRad()));
+    actuatorIO.setActuatorVoltage(actuatorPID.calculateForVoltage(getActuatorPositionRad(), Math.atan(-7.432 / 8.253))); 
   }
 
   private void updatePIDController() {
@@ -79,23 +75,23 @@ public class Actuator extends SubsystemBase {
             ActuatorConstants.ACTUATOR_KD);
   }
 
+  /** return the position in meters (just for human understanding bc we use rad) */
   public double
-      getActuatorPosition() { // return the position in meters (just for human understanding bc we
-    // use rad)
+      getActuatorPosition() { 
     return actuatorInputs.turnPositionRad * 2 * Math.PI;
   }
 
-  public void setActuatorSpeed(double voltage) {
-    actuatorIO.setActuatorSpeed(voltage);
+  public void setActuatorVoltage(double voltage) {
+    actuatorIO.setActuatorVoltage(voltage);
   }
 
   public double getActuatorPositionRad() { // same as position but in radians
     return actuatorInputs.turnPositionRad;
   }
 
+  /** Sets the speed based on a percentage not just voltge */
   public void setActuatorPercentSpeed(double percent) {
-    actuatorIO.setActuatorSpeed(
-        percent * 12); // sets the speed based on a percentage not just voltge
+    actuatorIO.setActuatorPercentSpeed(percent); 
   }
 
   private void updateSetpoint() {
