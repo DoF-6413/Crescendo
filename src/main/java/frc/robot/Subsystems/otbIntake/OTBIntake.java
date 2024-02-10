@@ -4,10 +4,11 @@
 
 package frc.robot.Subsystems.otbIntake;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OTBIntakeConstants;
+import frc.robot.Utils.PIDController;
+
 import org.littletonrobotics.junction.Logger;
 
 /** Runs the motor for the Over the Bumper (OTB) Intake */
@@ -52,7 +53,7 @@ public class OTBIntake extends SubsystemBase {
     SmartDashboard.putNumber("Setpoint OTB Intake", setpointRPM);
     SmartDashboard.putNumber("OTBIntakeError", setpointRPM - getOTBIntakeRPM());
 
-    io.setOTBIntakeVoltage(otbIntakePID.calculate(getOTBIntakeRPM(), setpointRPM));
+    io.setOTBIntakeVoltage(otbIntakePID.calculateForVoltage(getOTBIntakeRPM(), setpointRPM));
   }
 
   public void updatePIDController() {
