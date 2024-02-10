@@ -38,7 +38,7 @@ public class wristIONeo implements WristIO {
     inputs.wristTurnAppliedVolts = wristMotor.getBusVoltage();
     inputs.wristTurnPositionRad =
         Units.rotationsToRadians(wristEncoder.getPosition())
-            / wristNeoConstants.FIRST_MOTOR_GEAR_RATIO;
+            / wristNeoConstants.MOTOR_GEAR_RATIO;
     inputs.wristTempCelcius = wristMotor.getMotorTemperature();
     inputs.wristTurnVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity());
