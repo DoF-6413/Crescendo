@@ -59,6 +59,8 @@ public class RobotContainer {
   // Controllers
   private final CommandXboxController driverController =
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
+  private final CommandXboxController auxController =
+      new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -141,14 +143,20 @@ public class RobotContainer {
      * Up will launch a NOTE outward
      * Down will retract a NOTE inward
      */
-    m_shooterSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () ->
-                m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() * 0.5),
-            m_shooterSubsystem));
+    // m_shooterSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () ->
+    //             m_shooterSubsystem.setShooterMotorPercentSpeed(
+    //                 -driverController.getRightY() * 0.75),
+    //         m_shooterSubsystem));
+
+    /*
+     * Spins the motor that will be running the UTB Intake
+     */
     m_utbIntake.setDefaultCommand(
         new InstantCommand(
-            () -> m_utbIntake.setUTBIntakePercentSpeed(driverController.getLeftY()), m_utbIntake));
+            () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()),
+            m_utbIntake)); // TODO: Update controls
   }
 
   /**
