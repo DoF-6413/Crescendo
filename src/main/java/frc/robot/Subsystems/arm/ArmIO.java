@@ -3,12 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.Subsystems.arm;
+
 import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
 public interface ArmIO {
   @AutoLog
-  public static class WristIOInputs {
+  public static class ArmIOInputs {
 
     public double armTurnAppliedVolts = 0.0;
     public double armTurnPositionRad = 0.0;
@@ -16,9 +17,9 @@ public interface ArmIO {
     public double armTurnCurrentAmps = 0.0;
     public double armTempCelcius = 0.0;
   }
-  public default void updateInputs(WristIOInputs inputs) {}
+
+  public default void updateInputs(ArmIOInputs inputs) {}
 
   public default void setArmMotorSpeed(double Speed) {
-    /** Sets speed for the first motor(the farest of the shooter) of the wrist */
   }
 }

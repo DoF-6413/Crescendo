@@ -26,7 +26,6 @@ public class wristIONeo implements WristIO {
 
     wristMotor.setIdleMode(IdleMode.kBrake);
     wristMotor.setSmartCurrentLimit(30);
-
   }
 
   public void setWristMotorsSpeed(double Speed) {
@@ -44,6 +43,5 @@ public class wristIONeo implements WristIO {
     inputs.wristTurnVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity());
     inputs.wristTurnCurrentAmps = wristMotor.getOutputCurrent();
-
   }
 }

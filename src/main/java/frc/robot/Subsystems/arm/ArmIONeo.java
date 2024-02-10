@@ -25,11 +25,11 @@ public class ArmIONeo implements ArmIO {
     armMotor.setSmartCurrentLimit(30);
   }
 
-  public void setWristMotorsSpeed(double Speed) {
+  public void setArmMotorSpeed(double Speed) {
     armMotor.setVoltage(Speed);
   }
-  public void updateInputs(WristIOInputs inputs) {
-    // first wrist motor
+
+  public void updateInputs(ArmIOInputs inputs) {
 
     inputs.armTurnAppliedVolts = armMotor.getBusVoltage();
     inputs.armTurnPositionRad =
@@ -39,8 +39,5 @@ public class ArmIONeo implements ArmIO {
     inputs.armTurnVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(armEncoder.getVelocity());
     inputs.armTurnCurrentAmps = armMotor.getOutputCurrent();
-
-
-
-}
+  }
 }
