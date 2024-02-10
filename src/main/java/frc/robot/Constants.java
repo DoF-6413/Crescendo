@@ -250,6 +250,6 @@ public final class Constants {
     public static final double UTB_KP = 1;
     public static final double UTB_KI = 1;
     public static final double UTB_KD = 1;
-    public static final double UTB_MOMENT_OF_INERTIA = 0.0001929765;
+    public static final double UTB_MOMENT_OF_INERTIA_KGMETERSSQUARED = 0.0001929765;
   }
 }
