@@ -230,7 +230,8 @@ public final class Constants {
     // Motor IDs
     public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14 TODO: Update?
     public static final int BOTTOM_SHOOTER_MOTOR_ID =
-        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner TODO: Update?
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner TODO:
+    // Update?
 
     // Inverted motors
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
@@ -269,5 +270,9 @@ public final class Constants {
     public static final double UTB_KI = 1;
     public static final double UTB_KD = 1;
     public static final double UTB_MOMENT_OF_INERTIA_KGMETERSSQUARED = 0.0001929765;
+    public static final double UTB_INTAKE_TOLERANCE = 0.05;
+    public static final double UTB_INTAKE_KP = 0;
+    public static final double UTB_INTAKE_KI = 0;
+    public static final double UTB_INTAKE_KD = 0;
   }
 }
