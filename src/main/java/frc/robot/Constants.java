@@ -264,4 +264,11 @@ public final class Constants {
     public static final int UTB_INTAKE_CANID = 0; // TODO: Update later
     public static final int GEAR_RATIO = 2; // 2:1 Gear Ratio
   }
+
+  public static class ClimberConstants {
+    public static final int LEFT_CLIMBER_CANID = 0; //TODO: Update later
+    public static final int RIGHT_CLIMBER_CANID = 0; //TODO: Update later
+
+    public static final double CLIMBER_GEAR_RATIO = 40; // 40:1 Gear Ratio
+  }
 }
