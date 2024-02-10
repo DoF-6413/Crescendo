@@ -42,21 +42,24 @@ public class UTBIntake extends SubsystemBase {
     if (setpointRPM != SmartDashboard.getNumber("UTBIntakeSetpoint",0.0)) {
       updateSetpoint();
     }
-    public void updatePIDController() {
-      UTBIntakeConstants.UTB_INTAKE_KP = SmartDashboard.getNumber("UTBIntakekp",0.0);
-      UTBIntakeConstants.UTB_INTAKE_KI = SmartDashboard.getNumber("UTBIntakeki",0.0);
-      UTBIntakeConstants.UTB_INTAKE_KD = SmartDashboard.getNumber("UTBIntakekd",0.0);
-      UTBintakePIDController = new PIDController(UTBIntakeConstants.UTB_INTAKE_KP,
-      UTBIntakeConstants.UTB_INTAKE_KI,UTBIntakeConstants.UTB_INTAKE_KD);
-    }
 
+    
     public void updateSetpoint() {
-
+      
     }
-
+    
     io.setUTBIntakeVoltage(UTBintakePIDController.calculateForVoltage(getUTBintakeRPM(), 0));
   }
-
+  
+  public void updatePIDController() {
+    UTBIntakeConstants.UTB_INTAKE_KP = SmartDashboard.getNumber("UTBIntakekp",0.0);
+    UTBIntakeConstants.UTB_INTAKE_KI = SmartDashboard.getNumber("UTBIntakeki",0.0);
+    UTBIntakeConstants.UTB_INTAKE_KD = SmartDashboard.getNumber("UTBIntakekd",0.0);
+    UTBintakePIDController = new PIDController(
+      UTBIntakeConstants.UTB_INTAKE_KP,
+      UTBIntakeConstants.UTB_INTAKE_KI,
+      UTBIntakeConstants.UTB_INTAKE_KD);
+  }
 
 
   /** Updates the inputs for the UTB Intake */

@@ -271,8 +271,8 @@ public final class Constants {
     public static final double UTB_KD = 1;
     public static final double UTB_MOMENT_OF_INERTIA_KGMETERSSQUARED = 0.0001929765;
     public static final double UTB_INTAKE_TOLERANCE = 0.05;
-    public static final double UTB_INTAKE_KP = 0;
-    public static final double UTB_INTAKE_KI = 0;
-    public static final double UTB_INTAKE_KD = 0;
+    public static double UTB_INTAKE_KP = 0;
+    public static double UTB_INTAKE_KI = 0;
+    public static double UTB_INTAKE_KD = 0;
   }
 }
