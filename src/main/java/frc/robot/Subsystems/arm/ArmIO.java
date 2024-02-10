@@ -10,8 +10,6 @@ public interface ArmIO {
   @AutoLog
   public static class WristIOInputs {
 
-    // the first root of the wrist
-
     public double armTurnAppliedVolts = 0.0;
     public double armTurnPositionRad = 0.0;
     public double armTurnVelocityRadPerSec = 0.0;
