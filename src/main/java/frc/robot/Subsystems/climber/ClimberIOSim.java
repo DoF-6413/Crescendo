@@ -37,14 +37,14 @@ public class ClimberIOSim implements ClimberIO {
     inputs.leftClimberPositionRad =
         leftClimberSim.getPositionMeters()
             / ClimberConstants.CLIMBER_GEAR_RATIO; // TODO: Update math
-    inputs.leftClimberVelocityRadPerSec =
+    inputs.leftClimberVelocityRPM =
         leftClimberSim.getVelocityMetersPerSecond()
             / ClimberConstants.CLIMBER_GEAR_RATIO; // TODO: Update math
     inputs.leftClimberAppliedVolts = 0.0;
     inputs.leftClimberCurrentAmps = new double[] {leftClimberSim.getCurrentDrawAmps()};
 
     inputs.rightClimberPositionRad = rightClimberSim.getPositionMeters(); // TODO: Update math
-    inputs.rightClimberVelocityRadPerSec =
+    inputs.rightClimberVelocityRPM =
         rightClimberSim.getVelocityMetersPerSecond()
             / ClimberConstants.CLIMBER_GEAR_RATIO; // TODO: Update math
     inputs.rightClimberAppliedVolts = 0.0;
