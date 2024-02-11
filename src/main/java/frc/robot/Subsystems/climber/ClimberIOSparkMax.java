@@ -37,8 +37,8 @@ public class ClimberIOSparkMax implements ClimberIO {
             / ClimberConstants
                 .CLIMBER_GEAR_RATIO; // Converts rotaions to Radians and then divides it by the gear
     // ratio
-    inputs.leftClimberVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(leftClimberEncoder.getVelocity())
+    inputs.leftClimberVelocityRPM =
+        leftClimberEncoder.getVelocity()
             / ClimberConstants
                 .CLIMBER_GEAR_RATIO; // Converts RPM to Radians per Second and then divides it by
     // the gear ratio
@@ -58,8 +58,8 @@ public class ClimberIOSparkMax implements ClimberIO {
             / ClimberConstants
                 .CLIMBER_GEAR_RATIO; // Converts rotaions to Radians and then divides it by the gear
     // ratio
-    inputs.rightClimberVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(rightClimberEncoder.getVelocity())
+    inputs.rightClimberVelocityRPM =
+        rightClimberEncoder.getVelocity()
             / ClimberConstants
                 .CLIMBER_GEAR_RATIO; // Converts RPM to Radians per Second and then divides it by
     // the gear ratio
