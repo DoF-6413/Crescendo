@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.actuator;
 
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.ActuatorConstants;
 import frc.robot.Constants.RobotStateConstants;
@@ -38,15 +39,17 @@ public class ActuatorIOSim implements ActuatorIO {
         actuatorMotor.getVelocityRadPerSec(); // Converts rotaions to Radians and then
     // divides it by the gear ratio
     inputs.actuatorCurrentAmps = actuatorMotor.getCurrentDrawAmps();
+    actuatorMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
   }
 
   @Override
   public void setActuatorVoltage(double volts) {
-    actuatorMotor.setInput(volts);
+    actuatorMotor.setInputVoltage(volts);;
   }
 
   @Override
   public void setActuatorPercentSpeed(double percent) {
-    actuatorMotor.setInput(percent * RobotStateConstants.BATTERY_VOLTAGE);
+    actuatorMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
+    
   }
 }

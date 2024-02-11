@@ -165,10 +165,7 @@ public class RobotContainer {
     //                 -driverController.getRightY() * 0.75),
     //         m_shooterSubsystem));
 
-    m_actuatorSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_actuatorSubsystem.setActuatorPercentSpeed(driverController.getLeftY()),
-            m_actuatorSubsystem));
+
   }
 
   /**

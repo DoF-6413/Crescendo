@@ -282,11 +282,11 @@ public final class Constants {
     public static double ACTUATOR_KI = 0.0;
     public static double ACTUATOR_KD = 0.0;
     public static final double ACTUATOR_TOLERANCE = 0.05;
-    public static final double ACTUATOR_MAX_ANGLE_RADS = Math.atan(-7.432 / 8.253);
+    public static final double ACTUATOR_MAX_ANGLE_RADS = Math.atan(-7.432 / 8.253) + (2* Math.PI);
     public static final double ACTUATOR_MIN_ANGLE_RADS = Math.atan(11.105 / .096);
     public static final double ACTUATOR_START_ANGLE_RADS = ACTUATOR_MIN_ANGLE_RADS;
     public static final double ACTUATOR_JKG_METERS_SQUARED = 0.0005; // TODO: UPDATE
-    // Length from pivot to roller
+    /**Length from pivot to roller */ 
     public static final double ACTUATOR_LENGTH_METERS = Units.inchesToMeters(30.354561);
     public static final boolean IS_SIMULATE_GRAVITY = true;
   }

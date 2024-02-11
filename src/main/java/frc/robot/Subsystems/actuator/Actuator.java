@@ -61,7 +61,8 @@ public class Actuator extends SubsystemBase {
     SmartDashboard.putNumber("ActuatorError", actuatorSetpoint - getActuatorPosition());
 
     actuatorIO.setActuatorVoltage(
-        actuatorPID.calculateForVoltage(getActuatorPositionRad(), Math.atan(-7.432 / 8.253)));
+        actuatorPID.calculateForVoltage(getActuatorPositionRad(),
+    ActuatorConstants.ACTUATOR_MAX_ANGLE_RADS));
   }
 
   private void updatePIDController() {
