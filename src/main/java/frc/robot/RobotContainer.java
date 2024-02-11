@@ -23,6 +23,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.climber.Climber;
 import frc.robot.Subsystems.climber.ClimberIO;
+import frc.robot.Subsystems.climber.ClimberIOSim;
 import frc.robot.Subsystems.climber.ClimberIOSparkMax;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.ModuleIO;
@@ -100,7 +101,7 @@ public class RobotContainer {
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
-        m_Climber = new Climber(new ClimberIO() {});
+        m_Climber = new Climber(new ClimberIOSim() {});
 
         break;
 
