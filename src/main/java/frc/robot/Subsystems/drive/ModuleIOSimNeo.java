@@ -27,9 +27,7 @@ public class ModuleIOSimNeo implements ModuleIO {
     // Builds Drive Wheel for the Neo Motor in the L2 Module
     driveSim =
         new DCMotorSim(
-            DCMotor.getNEO(1),
-            DriveConstants.GEAR_RATIO_L2,
-            DriveConstants.DRIVE_J_KG_METERS_SQUARED);
+            DCMotor.getNEO(1), DriveConstants.GEAR_RATIO_L2, DriveConstants.DRIVE_MOI_KG_M_2);
 
     // Builds Turn Wheel for the Neo Motor in the L2 Module
     turnSim = new DCMotorSim(DCMotor.getNEO(1), DriveConstants.GEAR_RATIO_L2, 0.004);

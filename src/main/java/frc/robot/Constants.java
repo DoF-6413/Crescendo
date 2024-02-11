@@ -198,8 +198,8 @@ public final class Constants {
     /** Used in Robot Characterization Tool to Help Determine Drive Values like PID */
     public static final boolean IS_CHARACTERIZING = false;
 
-    public static final double DRIVE_J_KG_METERS_SQUARED = 0.0003125; // moment of inertia for sim
-    public static final double STEER_J_KG_METERS_SQUARED = 0.0003125; // TODO: Update
+    public static final double DRIVE_MOI_KG_M_2 = 0.0003125; // moment of inertia for sim
+    public static final double STEER_MOI_KG_M_2 = 0.0003125; // TODO: Update
 
     public static final Translation2d[] getModuleTranslations() {
       return new Translation2d[] {
@@ -257,7 +257,7 @@ public final class Constants {
     public static final double SMART_CURRENT_LIMIT = 60;
 
     // Flywheel simulation constants
-    public static final double SHOOTER_J_KG_METERS_SQUARED =
+    public static final double SHOOTER_MOI_KG_M_2 =
         0.0016007389; // Moment of Inertia for the shooter motors
     public static final double APPLIED_VOLTS = 12.0;
   }
@@ -269,7 +269,7 @@ public final class Constants {
     public static final double UTB_KP = 1;
     public static final double UTB_KI = 1;
     public static final double UTB_KD = 1;
-    public static final double UTB_MOMENT_OF_INERTIA_KGMETERSSQUARED = 0.0001929765;
+    public static final double UTB_MOI_KG_M_2 = 0.0001929765;
     public static final double UTB_INTAKE_TOLERANCE = 0.05;
     public static double UTB_INTAKE_KP = 0;
     public static double UTB_INTAKE_KI = 0;
