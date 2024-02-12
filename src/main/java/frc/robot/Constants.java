@@ -278,11 +278,11 @@ public final class Constants {
     public static final double CLIMBER_GEAR_RATIO = 40; // 40:1 Gear Ratio
 
     // Sim Constants
-    public static final double CLIMBER_CARRIAGE_MASS_KG = 0.0; // TODO: Update
-    public static final double CLIMBER_DRUM_RADIUS_M = 0.0; // TODO: Update
-    public static final double CLIMBER_MIN_HEIGHT_M = 0.0; // TODO: Update
-    public static final double CLIMBER_MAX_HEIGHT_M = 0.0; // TODO: Update
-    public static final double CLIMBER_STARTING_HEIGHT_M = 0.0; // TODO: Update
+    public static final double CLIMBER_CARRIAGE_MASS_KG = 5.0; // TODO: Update
+    public static final double CLIMBER_DRUM_RADIUS_M = 0.25; // TODO: Update
+    public static final double CLIMBER_MIN_HEIGHT_M = 0.2; // TODO: Update
+    public static final double CLIMBER_MAX_HEIGHT_M = 2.0; // TODO: Update
+    public static final double CLIMBER_STARTING_HEIGHT_M = 0.4; // TODO: Update
     public static final boolean CLIMBER_SIMULATE_GRAVITY = false; // TODO: Update
   }
 }

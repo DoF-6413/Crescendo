@@ -30,10 +30,12 @@ public class ClimberIOSim implements ClimberIO {
 
   public ClimberIOSim() {
     System.out.println("[Init] Creating ClimberIOSim");
-    leftClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
   }
-
+  
   public void updateInputs(ClimberIOInputs inputs) {
+    leftClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
+    rightClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
+
     inputs.leftClimberPositionRad =
         leftClimberSim.getPositionMeters()
             / ClimberConstants.CLIMBER_GEAR_RATIO; // TODO: Update math
@@ -43,7 +45,9 @@ public class ClimberIOSim implements ClimberIO {
     inputs.leftClimberAppliedVolts = 0.0;
     inputs.leftClimberCurrentAmps = new double[] {leftClimberSim.getCurrentDrawAmps()};
 
-    inputs.rightClimberPositionRad = rightClimberSim.getPositionMeters(); // TODO: Update math
+    inputs.rightClimberPositionRad =
+        rightClimberSim.getPositionMeters()
+            / ClimberConstants.CLIMBER_GEAR_RATIO; // TODO: Update math
     inputs.rightClimberVelocityRPM =
         rightClimberSim.getVelocityMetersPerSecond()
             / ClimberConstants.CLIMBER_GEAR_RATIO; // TODO: Update math
@@ -59,7 +63,7 @@ public class ClimberIOSim implements ClimberIO {
 
   @Override
   public void setBothClimberMotorsPercentSpeed(double percent) {
-    leftClimberSim.setInputVoltage(percent);
-    rightClimberSim.setInputVoltage(percent);
+    leftClimberSim.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
+    rightClimberSim.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
   }
 }
