@@ -126,6 +126,8 @@ public class PIDController {
     totalError += (positionError * RobotStateConstants.LOOP_PERIODIC_SEC);
 
     // raw voltage output + PID tuning = calculated voltage
+    // * MATH BEHIND HOW IT WORKS: error is in volts, so add it to the RPM before scaling back down
+    // */
     double desiredVoltage =
         // The setpoint * volts / maxValue  runs the motor at the speed it should theoretically run
         // at and the PID part gets it closer to the setpoint by adding
@@ -134,9 +136,6 @@ public class PIDController {
             / maxValue;
 
     // TODO: Implement tolerence
-
-    // updates atSetpoint
-    atSetpoint = atSetpoint(desiredVoltage);
 
     return desiredVoltage;
   }
@@ -179,12 +178,10 @@ public class PIDController {
   //   }
 
   /**
-   * TODO: my attempt at tolerance. To my understanding as long as the calculated output is within
-   * "tolerance" value of the setpoint, they should return a boolean, and then use the boolean to
-   * test other stuff
+   * Returns whether or not the measurment is at the setpoint, including with the tolerance
    */
-  public boolean atSetpoint(double voltage) {
-    if ((voltage >= setpoint - tolerance) && (voltage <= setpoint + tolerance)) {
+  public boolean atSetpoint(double measurement) {
+    if ((measurement >= setpoint - tolerance) && (measurement <= setpoint + tolerance)) {
       return true;
     }
     return false;
