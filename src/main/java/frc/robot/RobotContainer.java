@@ -154,9 +154,9 @@ public class RobotContainer {
     /*
      * Spins the motor that will be running the UTB Intake
      */
-    m_utbIntake.setDefaultCommand(
-        new InstantCommand(
-            () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()), m_utbIntake));
+    // m_utbIntake.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()), m_utbIntake));
   }
 
   /**

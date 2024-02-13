@@ -4,7 +4,6 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Utils.PIDController;
 
 public class UTBIntakeIOSim implements UTBIntakeIO {
   private FlywheelSim utbFlywheelSim =
@@ -19,6 +18,8 @@ public class UTBIntakeIOSim implements UTBIntakeIO {
 
   @Override
   public void updateInputs(UTBIntakeIOInputs inputs) {
+    utbFlywheelSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
+
     inputs.utbIntakeRPM = utbFlywheelSim.getAngularVelocityRPM();
     inputs.utbIntakeAppliedVolts = 0.0;
     inputs.utbIntakeCurrentAmps = new double[] {Math.abs(utbFlywheelSim.getCurrentDrawAmps())};
