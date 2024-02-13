@@ -55,8 +55,8 @@ public class Shooter extends SubsystemBase {
 
     // Sets the tolerence of the setpoint, allowing the RPM of the motors to be within 200 RPM of
     // the setpoint
-    // topShooterPID.setTolerance(200);
-    // bottomShooterPID.setTolerance(200);
+    topShooterPID.setTolerance(100);
+    bottomShooterPID.setTolerance(100);
 
     // Puts adjustable PID values and setpoints onto the SmartDashboard
     SmartDashboard.putNumber("topShooterkp", 0.0);
@@ -105,8 +105,8 @@ public class Shooter extends SubsystemBase {
     }
 
     // Returns whether or not motors have reached setpoint
-    // SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
-    // SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
+    SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
+    SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
 
     // Gets the current PID values that the PID contollers are set to
     SmartDashboard.putNumber("topCurrentkP", topShooterPID.getP());
@@ -119,6 +119,8 @@ public class Shooter extends SubsystemBase {
     // Gets the current setpoint that the PID contollers are set to
     SmartDashboard.putNumber("Top PID Controller Setpoint", topShooterPID.getSetpoint());
     SmartDashboard.putNumber("Bottom PID Controller Setpoint", -bottomShooterPID.getSetpoint());
+
+    // SmartDashboard.putBoolean("!!Tempature Warning!!", exceedsTemperature());
   }
 
   // Updates the PID values to what they are set to on the SmartDashboard
@@ -164,17 +166,18 @@ public class Shooter extends SubsystemBase {
     io.setBottomShooterMotorVoltage(volts);
   }
 
-  // public boolean topAtSetpoint() {
-  //   return topShooterPID.atSetpoint();
-  // }
+  public boolean topAtSetpoint() {
+    return topShooterPID.atSetpoint(setpointRPM, inputs.topShooterMotorRPM);
+  }
 
-  // public boolean bottomAtSetpoint() {
-  //   return bottomShooterPID.atSetpoint();
-  // }
+  public boolean bottomAtSetpoint() {
+    return bottomShooterPID.atSetpoint(setpointRPM, inputs.bottomShooterMotorRPM);
+  }
 
   // TODO: Create a tempature shutoff/warning
   // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is
   // arbitrary
+  // 2.12.24: crashes in Sim, not tested on real hardware
   // public boolean exceedsTemperature() {
   //   if (inputs.topShooterTempCelcius[inputs.topShooterTempCelcius.length - 1] > 100) {
   //     return true;

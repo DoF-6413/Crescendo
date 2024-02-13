@@ -30,14 +30,14 @@ public class ModuleIOSimNeoKraken implements ModuleIO {
         new FlywheelSim(
             DCMotor.getKrakenX60(1),
             DriveConstants.GEAR_RATIO_L3,
-            DriveConstants.DRIVE_J_KG_METERS_SQUARED);
+            DriveConstants.DRIVE_MOI_KG_M2);
 
     // Builds Turn Wheel for the Neo Motor in the L3 Module
     turnSim =
         new FlywheelSim(
             DCMotor.getNEO(1),
             DriveConstants.GEAR_RATIO_L3,
-            DriveConstants.STEER_J_KG_METERS_SQUARED);
+            DriveConstants.STEER_MOI_KG_M2);
   }
 
   @Override
