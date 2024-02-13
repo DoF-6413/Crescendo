@@ -128,7 +128,7 @@ public class PIDController {
     // raw voltage output + PID tuning = calculated voltage
     double desiredVoltage =
         // The setpoint * volts / maxValue  runs the motor at the speed it should theoretically run
-        // at and the PID part gets it closer to the setpoint by adding
+        // at and the PID gets it closer to the setpoint by adding
         (setpoint + (kP * positionError) + (kI * totalError) + (kD * velocityError))
             * RobotStateConstants.BATTERY_VOLTAGE
             / maxValue;
