@@ -4,14 +4,10 @@
 
 package frc.robot.Utils;
 
-import java.util.function.Consumer;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
-
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
@@ -21,23 +17,31 @@ import frc.robot.Subsystems.pose.PoseEstimator;
 /** Add your docs here. */
 public class PathPlanner extends SubsystemBase {
 
-    private Drive drive;
-    private PoseEstimator pose;
+  private Drive drive;
+  private PoseEstimator pose;
 
-    public PathPlanner(Drive drive,PoseEstimator pose){
+  public PathPlanner(Drive drive, PoseEstimator pose) {
 
     AutoBuilder.configureHolonomic(
         pose::getCurrentPose2d,
         pose::resetPose,
-        null,
-        null,
-          new HolonomicPathFollowerConfig(
-             new PIDConstants(0.0, 0.0, 0.0), // Translation PID constants
-             new PIDConstants(0.0, 0.0, 0.0), // Rotation PID constants
-             0.0, // Max module speed, in m/s
-             DriveConstants.TRACK_WIDTH_M, // Drive base radius in meters. Distance from robot center to furthest module.
-             new ReplanningConfig()),
-         () -> {
+        drive::getChassiSpeed,
+        drive::runVelocity,
+        new HolonomicPathFollowerConfig(
+            new PIDConstants( // Translation PID constants
+                DriveConstants.DRIVE_KP_KRAKEN,
+                DriveConstants.DRIVE_KI_KRAKEN,
+                DriveConstants.DRIVE_KD_KRAKEN),
+            new PIDConstants( // Rotation PID constants
+                DriveConstants.STEER_KP_NEO,
+                DriveConstants.STEER_KI_NEO,
+                DriveConstants.STEER_KD_NEO),
+            27.462, // Max module speed, in m/s
+            DriveConstants
+                .TRACK_WIDTH_M, // Drive base radius in meters. Distance from robot center to
+            // furthest module.
+            new ReplanningConfig()),
+        () -> {
           // Boolean supplier that controls when the path will be mirrored for the red
           // alliance
           // This will flip the path being followed to the red side of the field.
@@ -49,8 +53,6 @@ public class PathPlanner extends SubsystemBase {
           }
           return false;
         },
-        drive
-
-    );
-}
+        drive);
+  }
 }
