@@ -11,7 +11,6 @@ public class UTBIntake extends SubsystemBase {
 
   private final UTBIntakeIO io;
   private final UTBIntakeIOInputsAutoLogged inputs = new UTBIntakeIOInputsAutoLogged();
-
   private static PIDController UTBintakePIDController;
   private double setpointRPM = 0.0;
 
