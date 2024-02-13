@@ -7,6 +7,7 @@ package frc.robot.Subsystems.shooter;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
@@ -31,7 +32,8 @@ public class Shooter extends SubsystemBase {
   // The desired RPM for the shooter
   private double setpointRPM = 0.0;
 
-  // TODO: Delete once proper PID values are determined, along with all SmartDashboard putNumbers and updates
+  // TODO: Delete once proper PID values are determined, along with all SmartDashboard putNumbers
+  // and updates
   private double topShooterkp = 0.0;
   private double topShooterki = 0.0;
   private double topShooterkd = 0.0;
@@ -98,7 +100,23 @@ public class Shooter extends SubsystemBase {
     // SmartDashboard.putBoolean("shooterTopAtSetpoint", topAtSetpoint());
     // SmartDashboard.putBoolean("shooterBottomAtSetpoint", bottomAtSetpoint());
 
-    // SmartDashboard.putboolean("!!Tempature Warning!!", exceedsTemperature());
+    // Returns whether or not motors have reached setpoint
+    SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
+    SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
+
+    // Gets the current PID values that the PID contollers are set to
+    SmartDashboard.putNumber("topCurrentkP", topShooterPIDController.getP());
+    SmartDashboard.putNumber("topCurrentkI", topShooterPIDController.getI());
+    SmartDashboard.putNumber("topCurrentkD", topShooterPIDController.getD());
+    SmartDashboard.putNumber("bottomCurrentkP", bottomShooterPIDController.getP());
+    SmartDashboard.putNumber("bottomCurrentkI", bottomShooterPIDController.getI());
+    SmartDashboard.putNumber("bottomCurrentkD", bottomShooterPIDController.getD());
+
+    // Gets the current setpoint that the PID contollers are set to
+    SmartDashboard.putNumber("Top PID Controller Setpoint", topShooterPIDController.getSetpoint());
+    SmartDashboard.putNumber("Bottom PID Controller Setpoint", -bottomShooterPIDController.getSetpoint());
+
+    // SmartDashboard.putBoolean("!!Tempature Warning!!", exceedsTemperature());
   }
 
   // Updates the PID values to what they are set to on the SmartDashboard
@@ -133,7 +151,7 @@ public class Shooter extends SubsystemBase {
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
   public void setShooterBrakeMode(boolean enable) {
-    io.setShooterBrakeMode(enable);
+    io.setShooterBreakMode(enable);
   }
 
   /**
@@ -178,16 +196,18 @@ public class Shooter extends SubsystemBase {
     io.setBottomShooterMotorVoltage(volts);
   }
 
-  // public boolean topAtSetpoint() {
-  //   return topShooterPID.atSetpoint();
-  // }
+  public boolean topAtSetpoint() {
+    return topShooterPIDController.atSetpoint(inputs.topShooterMotorRPM);
+  }
 
-  // public boolean bottomAtSetpoint() {
-  //   return bottomShooterPID.atSetpoint();
-  // }
+  public boolean bottomAtSetpoint() {
+    return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
+  }
 
   // TODO: Create a tempature shutoff/warning
-  // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is arbitrary
+  // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is
+  // arbitrary
+  // 2.12.24: crashes in Sim, not tested on real hardware
   // public boolean exceedsTemperature() {
   //   if (inputs.topShooterTempCelcius[inputs.topShooterTempCelcius.length - 1] > 100) {
   //     return true;

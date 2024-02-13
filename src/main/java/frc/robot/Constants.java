@@ -104,23 +104,23 @@ public final class Constants {
 
     // PID Constants  TODO: Tune and update
     public static final double TOP_SHOOTER_KP =
-        0.75; // The "P" value of the PID for the top shooter motor
+        0.0; // The "P" value of the PID for the top shooter motor
     public static final double TOP_SHOOTER_KI =
-        2.0; // The "I" value of the PID for the top shooter motor
+        0.0; // The "I" value of the PID for the top shooter motor
     public static final double TOP_SHOOTER_KD =
-        0.04; // The "D" value of the PID for the top shooter motor
+        0.0; // The "D" value of the PID for the top shooter motor
     public static final double BOTTOM_SHOOTER_KP =
-        0.1; // The "P" value of the PID for the bottom shooter motor
+        0.0; // The "P" value of the PID for the bottom shooter motor
     public static final double BOTTOM_SHOOTER_KI =
         0.0; // The "I" value of the PID for the bottom shooter motor
     public static final double BOTTOM_SHOOTER_KD =
         0.0; // The "D" value of the PID for the bottom shooter motor
 
-    // Current limit
-    public static final double SMART_CURRENT_LIMIT = 60;
+    // Current limit Amps
+    public static final double SMART_CURRENT_LIMIT_AMPS = 60;
 
     // Flywheel simulation constants
-    public static final double SHOOTER_J_KG_METERS_SQUARED =
+    public static final double SHOOTER_MOI_KG_M2 =
         0.0016007389; // Moment of Inertia for the shooter motors
     public static final double APPLIED_VOLTS = 12.0;
   }

@@ -33,7 +33,7 @@ public interface ShooterIO {
     /** Tempature, in Celsius, of the Bottom Shooter Motor */
     public double[] bottomShooterTempCelsius = new double[] {};
   }
-  
+
   /** Updates the set of loggable inputs. */
   public default void updateInputs(ShooterIOInputs inputs) {}
 

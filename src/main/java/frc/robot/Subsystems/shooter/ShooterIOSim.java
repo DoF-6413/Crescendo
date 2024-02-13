@@ -24,9 +24,7 @@ public class ShooterIOSim implements ShooterIO {
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
-    topShooterPID = new PIDController(1, 0, 0);
-    topShooterPID.setSetpoint(1000);
-    
+
     // Updates the Shooter motors periodically
     topShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
     bottomShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
@@ -38,14 +36,9 @@ public class ShooterIOSim implements ShooterIO {
     inputs.bottomShooterMotorRPM = bottomShooterFlywheel.getAngularVelocityRPM();
     inputs.bottomShooterAppliedVolts = 0.0;
     inputs.bottomShooterCurrentAmps =
-    new double[] {Math.abs(bottomShooterFlywheel.getCurrentDrawAmps())};
-    
-    topShooterFlywheel.setInputVoltage(
-      topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, 6350));
-    }
-    
-  
-    // TODO: Update below methods to implement PID
+        new double[] {Math.abs(bottomShooterFlywheel.getCurrentDrawAmps())};
+  }
+
   @Override
   public void setBothShooterMotorPercentSpeed(double percent) {
     topShooterFlywheel.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
