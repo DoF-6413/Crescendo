@@ -137,9 +137,6 @@ public class PIDController {
 
     // TODO: Implement tolerence
 
-    // updates atSetpoint
-    atSetpoint = atSetpoint(desiredVoltage);
-
     return desiredVoltage;
   }
 
@@ -181,12 +178,10 @@ public class PIDController {
   //   }
 
   /**
-   * TODO: my attempt at tolerance. To my understanding as long as the calculated output is within
-   * "tolerance" value of the setpoint, they should return a boolean, and then use the boolean to
-   * test other stuff
+   * Returns whether or not the measurment is at the setpoint, including with the tolerance
    */
-  public boolean atSetpoint(double voltage) {
-    if ((voltage >= setpoint - tolerance) && (voltage <= setpoint + tolerance)) {
+  public boolean atSetpoint(double measurement) {
+    if ((measurement >= setpoint - tolerance) && (measurement <= setpoint + tolerance)) {
       return true;
     }
     return false;
