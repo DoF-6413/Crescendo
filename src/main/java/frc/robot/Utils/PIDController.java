@@ -180,7 +180,7 @@ public class PIDController {
   /**
    * Returns whether or not the measurment is at the setpoint, including with the tolerance
    */
-  public boolean atSetpoint(double voltage, double measurement) {
+  public boolean atSetpoint(double measurement) {
     if ((measurement >= setpoint - tolerance) && (measurement <= setpoint + tolerance)) {
       return true;
     }

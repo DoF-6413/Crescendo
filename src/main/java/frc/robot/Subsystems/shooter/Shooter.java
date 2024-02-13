@@ -167,11 +167,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean topAtSetpoint() {
-    return topShooterPID.atSetpoint(setpointRPM, inputs.topShooterMotorRPM);
+    return topShooterPID.atSetpoint(inputs.topShooterMotorRPM);
   }
 
   public boolean bottomAtSetpoint() {
-    return bottomShooterPID.atSetpoint(setpointRPM, inputs.bottomShooterMotorRPM);
+    return bottomShooterPID.atSetpoint(inputs.bottomShooterMotorRPM);
   }
 
   // TODO: Create a tempature shutoff/warning

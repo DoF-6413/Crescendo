@@ -227,8 +227,7 @@ public final class Constants {
     // Motor IDs
     public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14 TODO: Update?
     public static final int BOTTOM_SHOOTER_MOTOR_ID =
-        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner TODO:
-    // Update?
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner TODO: Update?
 
     // Inverted motors
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
@@ -250,8 +249,8 @@ public final class Constants {
     public static final double BOTTOM_SHOOTER_KD =
         0.0; // The "D" value of the PID for the bottom shooter motor
 
-    // Current limit
-    public static final double SMART_CURRENT_LIMIT = 60;
+    // Current limit Amps
+    public static final double SMART_CURRENT_LIMIT_AMPS = 60;
 
     // Flywheel simulation constants
     public static final double SHOOTER_MOI_KG_M2 =
