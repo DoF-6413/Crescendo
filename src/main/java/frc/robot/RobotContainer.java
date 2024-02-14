@@ -42,6 +42,7 @@ import frc.robot.Subsystems.shooter.ShooterIOSim;
 import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
 import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Subsystems.utbintake.UTBIntakeIO;
+import frc.robot.Subsystems.utbintake.UTBIntakeIOSim;
 import frc.robot.Subsystems.utbintake.UTBIntakeIOSparkMax;
 import frc.robot.Subsystems.vision.Vision;
 import frc.robot.Subsystems.vision.VisionIO;
@@ -164,7 +165,6 @@ public class RobotContainer {
     //             m_shooterSubsystem.setShooterMotorPercentSpeed(
     //                 -driverController.getRightY() * 0.75),
     //         m_shooterSubsystem));
-
 
   }
 
