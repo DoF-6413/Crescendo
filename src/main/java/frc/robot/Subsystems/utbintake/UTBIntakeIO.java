@@ -6,7 +6,7 @@ import org.littletonrobotics.junction.AutoLog;
 public interface UTBIntakeIO {
   @AutoLog
   public static class UTBIntakeIOInputs {
-    public double utbIntakeVelocityRadPerSec = 0.0;
+    public double utbIntakeRPM = 0.0;
     public double utbIntakeAppliedVolts = 0.0;
     public double[] utbIntakeCurrentAmps = new double[] {};
   }
