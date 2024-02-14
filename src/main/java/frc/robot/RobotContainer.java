@@ -42,6 +42,7 @@ import frc.robot.Subsystems.shooter.ShooterIOSim;
 import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
 import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Subsystems.utbintake.UTBIntakeIO;
+import frc.robot.Subsystems.utbintake.UTBIntakeIOSim;
 import frc.robot.Subsystems.utbintake.UTBIntakeIOSparkMax;
 import frc.robot.Subsystems.vision.Vision;
 import frc.robot.Subsystems.vision.VisionIO;
@@ -105,9 +106,13 @@ public class RobotContainer {
         m_visionSubsystem = new Vision(new VisionIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
+<<<<<<< HEAD
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
+=======
+        m_utbIntake = new UTBIntake(new UTBIntakeIOSim() {});
+>>>>>>> c5a6368 (UTB Intake with PID and sim (#43))
 
         break;
 
@@ -165,7 +170,12 @@ public class RobotContainer {
     //                 -driverController.getRightY() * 0.75),
     //         m_shooterSubsystem));
 
-
+    /*
+     * Spins the motor that will be running the UTB Intake
+     */
+    // m_utbIntake.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()), m_utbIntake));
   }
 
   /**
