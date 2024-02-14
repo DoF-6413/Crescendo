@@ -101,7 +101,7 @@ public class RobotContainer {
         m_vision = new Vision(new VisionIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
+        m_utbIntake = new UTBIntake(new UTBIntakeIOSim() {});
         m_Climber = new Climber(new ClimberIOSim() {});
 
         break;
