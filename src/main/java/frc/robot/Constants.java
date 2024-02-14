@@ -211,9 +211,6 @@ public final class Constants {
     }
   }
 
-  {
-  }
-
   public class VisionConstants {
 
     public static final Transform3d cameraOnRobotOffsets =
