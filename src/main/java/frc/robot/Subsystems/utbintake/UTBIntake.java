@@ -62,8 +62,7 @@ public class UTBIntake extends SubsystemBase {
     if (inputs.utbIntakeRPM < 0) {
       setUTBIntakeVoltage(0);
     } else {
-      setUTBIntakeVoltage(UTBintakePIDController.calculateForVoltage(inputs.utbIntakeRPM, 2800));
-    }
+    setUTBIntakeVoltage(UTBintakePIDController.calculateForVoltage(inputs.utbIntakeRPM, 2800)); }
     System.out.println(UTBintakePIDController.calculateForVoltage(inputs.utbIntakeRPM, 2800));
   }
 
@@ -88,6 +87,8 @@ public class UTBIntake extends SubsystemBase {
     setpointRPM = SmartDashboard.getNumber("UTBIntakeSetpoint", 0.0);
     UTBintakePIDController.setSetpoint(setpointRPM);
   }
+
+
 
   /** Updates the inputs for the UTB Intake */
   public void updateInputs() {

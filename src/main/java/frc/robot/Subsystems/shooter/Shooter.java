@@ -89,7 +89,8 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("TopError", setpointRPM - inputs.topShooterMotorRPM);
     SmartDashboard.putNumber("BottomError", setpointRPM - Math.abs(inputs.bottomShooterMotorRPM));
     SmartDashboard.putNumber(
-        "RPM Difference", inputs.topShooterMotorRPM - Math.abs(inputs.bottomShooterMotorRPM));
+        "Top Bottom Motor RPM Difference",
+        inputs.topShooterMotorRPM - Math.abs(inputs.bottomShooterMotorRPM));
 
     // Sets the voltage of the Shooter Motors using PID
     if (inputs.topShooterMotorRPM < 0.0) {
