@@ -106,7 +106,7 @@ public class RobotContainer {
         m_visionSubsystem = new Vision(new VisionIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
 
