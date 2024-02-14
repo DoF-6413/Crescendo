@@ -21,7 +21,8 @@ public class Shooter extends SubsystemBase {
   // The desired RPM for the shooter
   private double setpointRPM = 0.0;
 
-  // TODO: Delete once proper PID values are determined, along with all SmartDashboard putNumbers and updates
+  // TODO: Delete once proper PID values are determined, along with all SmartDashboard putNumbers
+  // and updates
   private double topShooterkp = 0.0;
   private double topShooterki = 0.0;
   private double topShooterkd = 0.0;
@@ -54,8 +55,8 @@ public class Shooter extends SubsystemBase {
 
     // Sets the tolerence of the setpoint, allowing the RPM of the motors to be within 200 RPM of
     // the setpoint
-    // topShooterPID.setTolerance(200);
-    // bottomShooterPID.setTolerance(200);
+    topShooterPID.setTolerance(100);
+    bottomShooterPID.setTolerance(100);
 
     // Puts adjustable PID values and setpoints onto the SmartDashboard
     SmartDashboard.putNumber("topShooterkp", 0.0);
@@ -84,12 +85,11 @@ public class Shooter extends SubsystemBase {
     if (setpointRPM != SmartDashboard.getNumber("setpoint", 0.0)) {
       updateSetpoint();
     }
-    // Puts the difference between the setpoint and current RPM on the Shuffleboard as calculated by
-    // the WPI PID Controller
+    // Puts the difference between the setpoint and current RPM on the SmartDashboard
     SmartDashboard.putNumber("TopError", setpointRPM - inputs.topShooterMotorRPM);
     SmartDashboard.putNumber("BottomError", setpointRPM - Math.abs(inputs.bottomShooterMotorRPM));
     SmartDashboard.putNumber(
-        "Top Bottom Motor RPM Difference", inputs.topShooterMotorRPM - Math.abs(inputs.bottomShooterMotorRPM));
+        "RPM Difference", inputs.topShooterMotorRPM - Math.abs(inputs.bottomShooterMotorRPM));
 
     // Sets the voltage of the Shooter Motors using PID
     if (inputs.topShooterMotorRPM < 0.0) {
@@ -104,9 +104,9 @@ public class Shooter extends SubsystemBase {
           -bottomShooterPID.calculateForVoltage(Math.abs(inputs.bottomShooterMotorRPM), 6350));
     }
 
-    // Returns whether or not the Motors have reached the setpoint
-    // SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
-    // SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
+    // Returns whether or not motors have reached setpoint
+    SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
+    SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
 
     // Gets the current PID values that the PID contollers are set to
     SmartDashboard.putNumber("topCurrentkP", topShooterPID.getP());
@@ -119,6 +119,8 @@ public class Shooter extends SubsystemBase {
     // Gets the current setpoint that the PID contollers are set to
     SmartDashboard.putNumber("Top PID Controller Setpoint", topShooterPID.getSetpoint());
     SmartDashboard.putNumber("Bottom PID Controller Setpoint", -bottomShooterPID.getSetpoint());
+
+    // SmartDashboard.putBoolean("!!Tempature Warning!!", exceedsTemperature());
   }
 
   // Updates the PID values to what they are set to on the SmartDashboard
@@ -164,16 +166,18 @@ public class Shooter extends SubsystemBase {
     io.setBottomShooterMotorVoltage(volts);
   }
 
-  // public boolean topAtSetpoint() {
-  //   return topShooterPID.atSetpoint();
-  // }
+  public boolean topAtSetpoint() {
+    return topShooterPID.atSetpoint(inputs.topShooterMotorRPM);
+  }
 
-  // public boolean bottomAtSetpoint() {
-  //   return bottomShooterPID.atSetpoint();
-  // }
+  public boolean bottomAtSetpoint() {
+    return bottomShooterPID.atSetpoint(inputs.bottomShooterMotorRPM);
+  }
 
   // TODO: Create a tempature shutoff/warning
-  // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is arbitrary
+  // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is
+  // arbitrary
+  // 2.12.24: crashes in Sim, not tested on real hardware
   // public boolean exceedsTemperature() {
   //   if (inputs.topShooterTempCelcius[inputs.topShooterTempCelcius.length - 1] > 100) {
   //     return true;
