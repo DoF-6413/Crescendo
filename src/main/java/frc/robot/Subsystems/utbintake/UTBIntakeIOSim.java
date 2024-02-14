@@ -10,7 +10,7 @@ public class UTBIntakeIOSim implements UTBIntakeIO {
       new FlywheelSim(
           DCMotor.getNEO(1),
           Constants.UTBIntakeConstants.GEAR_RATIO,
-          Constants.UTBIntakeConstants.UTB_MOI_KG_M_2);
+          Constants.UTBIntakeConstants.UTB_MOI_KG_M2);
 
   public UTBIntakeIOSim() {
     System.out.println("[Init] Creating UTBIntakeIOSim");
