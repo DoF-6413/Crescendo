@@ -13,41 +13,18 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Subsystems.actuator.Actuator;
-import frc.robot.Subsystems.actuator.ActuatorIO;
-import frc.robot.Subsystems.actuator.ActuatorIOSim;
-import frc.robot.Subsystems.actuator.ActuatorIOSparkMax;
-import frc.robot.Subsystems.drive.Drive;
-import frc.robot.Subsystems.drive.ModuleIO;
-import frc.robot.Subsystems.drive.ModuleIOSimNeo;
-import frc.robot.Subsystems.drive.ModuleIOSparkMax;
-import frc.robot.Subsystems.gyro.Gyro;
-import frc.robot.Subsystems.gyro.GyroIO;
-import frc.robot.Subsystems.gyro.GyroIONavX;
-import frc.robot.Subsystems.otbIntake.OTBIntake;
-import frc.robot.Subsystems.otbIntake.OTBIntakeIO;
-import frc.robot.Subsystems.otbIntake.OTBIntakeIOSim;
-import frc.robot.Subsystems.otbIntake.OTBIntakeIOSparkMax;
-import frc.robot.Subsystems.pose.PoseEstimator;
-import frc.robot.Subsystems.shooter.Shooter;
-import frc.robot.Subsystems.shooter.ShooterIO;
-import frc.robot.Subsystems.shooter.ShooterIOSim;
-import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
-import frc.robot.Subsystems.utbintake.UTBIntake;
-import frc.robot.Subsystems.utbintake.UTBIntakeIO;
-import frc.robot.Subsystems.utbintake.UTBIntakeIOSim;
-import frc.robot.Subsystems.utbintake.UTBIntakeIOSparkMax;
-import frc.robot.Subsystems.vision.Vision;
-import frc.robot.Subsystems.vision.VisionIO;
-import frc.robot.Subsystems.vision.VisionIOArduCam;
-import frc.robot.Subsystems.vision.VisionIOSim;
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Constants.*;
+import frc.robot.Subsystems.actuator.*;
+import frc.robot.Subsystems.drive.*;
+import frc.robot.Subsystems.gyro.*;
+import frc.robot.Subsystems.otbIntake.*;
+import frc.robot.Subsystems.pose.*;
+import frc.robot.Subsystems.shooter.*;
+import frc.robot.Subsystems.utbintake.*;
+import frc.robot.Subsystems.vision.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -106,7 +83,7 @@ public class RobotContainer {
         m_visionSubsystem = new Vision(new VisionIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim() {});
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
 
