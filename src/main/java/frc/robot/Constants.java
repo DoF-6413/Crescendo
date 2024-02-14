@@ -94,7 +94,8 @@ public final class Constants {
     // Motor IDs
     public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14 TODO: Update?
     public static final int BOTTOM_SHOOTER_MOTOR_ID =
-        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner TODO: Update?
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner TODO:
+    // Update?
 
     // Inverted motors
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =

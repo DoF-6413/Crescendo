@@ -188,8 +188,7 @@ public class RobotContainer {
      */
     // m_utbIntake.setDefaultCommand(
     //     new InstantCommand(
-    //         () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()),
-    //         m_utbIntake)); // TODO: Update controls
+    //         () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()), m_utbIntake));
   }
 
   /**

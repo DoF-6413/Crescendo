@@ -28,6 +28,7 @@ public class UTBIntake extends SubsystemBase {
    * bumper
    */
   public UTBIntake(UTBIntakeIO io) {
+
     System.out.println("[Init] Creating UTB Intake");
     this.io = io;
 
