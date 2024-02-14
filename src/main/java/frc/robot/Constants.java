@@ -254,7 +254,7 @@ public final class Constants {
     public static final double SMART_CURRENT_LIMIT = 60;
 
     // Flywheel simulation constants
-    public static final double SHOOTER_J_KG_METERS_SQUARED =
+    public static final double SHOOTER_MOI_KG_M2 =
         0.0016007389; // Moment of Inertia for the shooter motors
     public static final double APPLIED_VOLTS = 12.0;
   }
