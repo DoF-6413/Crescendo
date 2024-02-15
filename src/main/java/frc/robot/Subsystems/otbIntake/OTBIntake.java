@@ -38,7 +38,6 @@ public class OTBIntake extends SubsystemBase {
   public void periodic() {
     this.updateInputs();
     Logger.processInputs("OTBIntake", inputs);
-
     if (OTBIntakeConstants.OTB_INTAKE_KP != SmartDashboard.getNumber("OTBIntakekp", 0)
         || OTBIntakeConstants.OTB_INTAKE_KI != SmartDashboard.getNumber("otbIntakeki", 0)
         || OTBIntakeConstants.OTB_INTAKE_KD != SmartDashboard.getNumber("otbIntakekd", 0)) {

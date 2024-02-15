@@ -207,16 +207,6 @@ public final class Constants {
     }
   }
 
-  public class ArmConstants {
-    public static final double MOTOR_GEAR_RATIO = 123; // TODO: update
-    public static final double WRIST_APPLIED_VOLTS = 12;
-
-    public static final double MOTOR_LENGTH = 0.4126308486;
-    public static final double MOTOR_MIN_ANGLE = 0.390258413271767;
-    public static final double MOTOR_MAX_ANGLE = 1.8675;
-    public static final double MOTOR_STARTING_ANGLE = 0.39025841327;
-  }
-
   public class VisionConstants {
 
     public static final Transform3d cameraOnRobotOffsets =
@@ -262,6 +252,7 @@ public final class Constants {
     // Flywheel simulation constants
     public static final double SHOOTER_MOI_KG_M2 =
         0.0016007389; // Moment of Inertia for the shooter motors
+    public static final double APPLIED_VOLTS = 12.0;
   }
 
   /** Unchanging Values for the Under the Bumper Intake */
@@ -276,6 +267,42 @@ public final class Constants {
     public static double UTB_INTAKE_KP = 0;
     public static double UTB_INTAKE_KI = 0;
     public static double UTB_INTAKE_KD = 0;
+  }
+
+  public static class OTBIntakeConstants {
+    public static final int OTB_INTAKE_CANID = 0; // TODO: update this Id value please !!!
+    public static final double GEAR_RATIO = 2.0;
+    public static double OTB_INTAKE_KP = 0.0;
+    public static double OTB_INTAKE_KI = 0.0;
+    public static double OTB_INTAKE_KD = 0.0;
+    public static final double OTB_INTAKE_TOLERANCE = 0.05;
+    public static final double OTB_MOI_KG_M2 = 0.0005; // TODO: Update
+  }
+
+  public static class ActuatorConstants {
+    public static final int ACTUATOR_CANID = 0; // TODO: update this id
+    public static final double GEAR_RATIO = 155.0;
+    public static double ACTUATOR_KP = 0.0;
+    public static double ACTUATOR_KI = 0.0;
+    public static double ACTUATOR_KD = 0.0;
+    public static final double ACTUATOR_TOLERANCE = 0.05;
+    public static final double ACTUATOR_MAX_ANGLE_RADS = Math.atan(-7.432 / 8.253) + (2* Math.PI);
+    public static final double ACTUATOR_MIN_ANGLE_RADS = Math.atan(11.105 / .096);
+    public static final double ACTUATOR_START_ANGLE_RADS = ACTUATOR_MIN_ANGLE_RADS;
+    public static final double ACTUATOR_JKG_METERS_SQUARED = 0.0005; // TODO: UPDATE
+    /**Length from pivot to roller */ 
+    public static final double ACTUATOR_LENGTH_METERS = Units.inchesToMeters(30.354561);
+    public static final boolean IS_SIMULATE_GRAVITY = true;
+  }
+
+  public class ArmConstants {
+    public static final double MOTOR_GEAR_RATIO = 123; // TODO: update
+    public static final double WRIST_APPLIED_VOLTS = 12;
+
+    public static final double MOTOR_LENGTH = 0.4126308486;
+    public static final double MOTOR_MIN_ANGLE = 0.390258413271767;
+    public static final double MOTOR_MAX_ANGLE = 1.8675;
+    public static final double MOTOR_STARTING_ANGLE = 0.39025841327;
   }
 
   public static class ClimberConstants {
@@ -297,31 +324,5 @@ public final class Constants {
     public static final double CLIMBER_MAX_HEIGHT_M = 2.0; // TODO: Update
     public static final double CLIMBER_STARTING_HEIGHT_M = 0.4; // TODO: Update
     public static final boolean CLIMBER_SIMULATE_GRAVITY = false; // TODO: Update
-  }
-
-  public static class OTBIntakeConstants {
-    public static final int OTB_INTAKE_CANID = 0; // TODO: update this Id value please !!!
-    public static final double GEAR_RATIO = 2.0;
-    public static double OTB_INTAKE_KP = 0.0;
-    public static double OTB_INTAKE_KI = 0.0;
-    public static double OTB_INTAKE_KD = 0.0;
-    public static final double OTB_INTAKE_TOLERANCE = 0.05;
-    public static final double OTB_MOMENT_OF_INERTIA_KGMETERSSQUARED = 0.0005; // TODO: Update
-  }
-
-  public static class ActuatorConstants {
-    public static final int ACTUATOR_CANID = 0; // TODO: update this id
-    public static final double GEAR_RATIO = 155.0;
-    public static double ACTUATOR_KP = 0.0;
-    public static double ACTUATOR_KI = 0.0;
-    public static double ACTUATOR_KD = 0.0;
-    public static final double ACTUATOR_TOLERANCE = 0.05;
-    public static final double ACTUATOR_MAX_ANGLE_RADS = Math.atan(-7.432 / 8.253) + (2* Math.PI);
-    public static final double ACTUATOR_MIN_ANGLE_RADS = Math.atan(11.105 / .096);
-    public static final double ACTUATOR_START_ANGLE_RADS = ACTUATOR_MIN_ANGLE_RADS;
-    public static final double ACTUATOR_JKG_METERS_SQUARED = 0.0005; // TODO: UPDATE
-    /**Length from pivot to roller */ 
-    public static final double ACTUATOR_LENGTH_METERS = Units.inchesToMeters(30.354561);
-    public static final boolean IS_SIMULATE_GRAVITY = true;
   }
 }

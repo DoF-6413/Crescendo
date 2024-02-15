@@ -5,7 +5,6 @@
 package frc.robot.Subsystems.actuator;
 
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.ActuatorConstants;
 import frc.robot.Constants.RobotStateConstants;
@@ -44,12 +43,11 @@ public class ActuatorIOSim implements ActuatorIO {
 
   @Override
   public void setActuatorVoltage(double volts) {
-    actuatorMotor.setInputVoltage(volts);;
+    actuatorMotor.setInputVoltage(volts);
   }
 
   @Override
   public void setActuatorPercentSpeed(double percent) {
     actuatorMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
-    
   }
 }

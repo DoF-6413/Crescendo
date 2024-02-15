@@ -19,7 +19,7 @@ public class OTBIntakeIOSim implements OTBIntakeIO {
         new FlywheelSim(
             DCMotor.getNEO(1),
             Constants.OTBIntakeConstants.GEAR_RATIO,
-            Constants.OTBIntakeConstants.OTB_MOMENT_OF_INERTIA_KGMETERSSQUARED);
+            Constants.OTBIntakeConstants.OTB_MOI_KG_M2);
   }
 
   @Override
