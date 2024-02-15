@@ -13,36 +13,22 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Subsystems.drive.Drive;
-import frc.robot.Subsystems.drive.ModuleIO;
-import frc.robot.Subsystems.drive.ModuleIOSimNeo;
-import frc.robot.Subsystems.drive.ModuleIOSparkMax;
-import frc.robot.Subsystems.gyro.Gyro;
-import frc.robot.Subsystems.gyro.GyroIO;
-import frc.robot.Subsystems.gyro.GyroIONavX;
-import frc.robot.Subsystems.pose.PoseEstimator;
-import frc.robot.Subsystems.shooter.Shooter;
-import frc.robot.Subsystems.shooter.ShooterIO;
-import frc.robot.Subsystems.shooter.ShooterIOSim;
-import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
-import frc.robot.Subsystems.utbintake.UTBIntake;
-import frc.robot.Subsystems.utbintake.UTBIntakeIO;
-import frc.robot.Subsystems.utbintake.UTBIntakeIOSparkMax;
-import frc.robot.Subsystems.vision.Vision;
-import frc.robot.Subsystems.vision.VisionIO;
-import frc.robot.Subsystems.vision.VisionIOArduCam;
-import frc.robot.Subsystems.vision.VisionIOSim;
-import frc.robot.Subsystems.wrist.Wrist;
-import frc.robot.Subsystems.wrist.WristIO;
-import frc.robot.Subsystems.wrist.WristIONeo;
-import frc.robot.Subsystems.wrist.WristIOSim;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Constants.*;
+import frc.robot.Subsystems.arm.*;
+import frc.robot.Subsystems.climber.*;
+import frc.robot.Subsystems.drive.*;
+import frc.robot.Subsystems.gyro.*;
+import frc.robot.Subsystems.shooter.*;
+import frc.robot.Subsystems.utbintake.*;
+import frc.robot.Subsystems.vision.*;
+import frc.robot.Subsystems.wrist.*;
+import frc.robot.Utils.*;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -52,20 +38,26 @@ import frc.robot.Subsystems.wrist.WristIOSim;
  */
 public class RobotContainer {
   // Subsystems
-  private final Gyro m_gyroSubsystem;
+  private final Arm m_armSubsystem;
   private final Drive m_driveSubsystem;
+  private final Gyro m_gyroSubsystem;
   private final Shooter m_shooterSubsystem;
+  private final Vision m_visionSubsystem;
+  private final UTBIntake m_utbIntakeSubsystem;
+  private final Climber m_climberSubsystem;
   private final PoseEstimator m_poseEstimator;
-  private final Vision m_vision;
-  private final UTBIntake m_utbIntake;
-  private final Wrist m_wrist;
+  private final Wrist m_wristSubsystem;
   
+  private final PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
   private final CommandXboxController auxController =
       new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
+
+  private final LoggedDashboardChooser<Command> autoChooser =
+      new LoggedDashboardChooser<>("Auto Choices");
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -80,11 +72,14 @@ public class RobotContainer {
                 new ModuleIOSparkMax(),
                 new ModuleIOSparkMax(),
                 m_gyroSubsystem);
-        m_vision = new Vision(new VisionIOArduCam());
+        m_visionSubsystem = new Vision(new VisionIOArduCam());
+        m_armSubsystem = new Arm(new ArmIONeo());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
-        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
-        m_wrist = new Wrist(new WristIONeo());
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
+        m_wristSubsystem = new Wrist(new WristIONeo());
+        m_climberSubsystem = new Climber(new ClimberIOSparkMax() {});
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         break;
 
       case SIM:
@@ -97,11 +92,14 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
-        m_vision = new Vision(new VisionIOSim());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
+        m_armSubsystem = new Arm(new ArmIOSim());
+        m_visionSubsystem = new Vision(new VisionIOSim());
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
-        m_wrist = new Wrist(new WristIOSim());
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim() {});
+        m_wristSubsystem = new Wrist(new WristIOSim() {});
+        m_climberSubsystem = new Climber(new ClimberIOSim() {});
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
         break;
 
@@ -115,13 +113,20 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
+        m_armSubsystem = new Arm(new ArmIO() {});
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
-        m_vision = new Vision(new VisionIO() {});
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
-        m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
-        m_wrist = new Wrist(new WristIO() {});
+        m_visionSubsystem = new Vision(new VisionIO() {});
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
+        m_wristSubsystem = new Wrist(new WristIO() {});
+        m_climberSubsystem = new Climber(new ClimberIO() {});
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         break;
     }
+
+    autoChooser.addOption("Do Nothing", new InstantCommand());
+    autoChooser.addOption("Default Path", new PathPlannerAuto("ROCK"));
+    Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
     // Configure the button bindings
     configureButtonBindings();
@@ -152,11 +157,11 @@ public class RobotContainer {
      * Down will retract a NOTE inward
      */
 
-    m_wrist.setDefaultCommand(
+    m_wristSubsystem.setDefaultCommand(
         new InstantCommand(
             () ->
-                m_wrist.setWristMotorSpeed(
-                    driverController.getLeftY()),m_wrist));
+                m_wristSubsystem.setWristMotorSpeed(
+                    driverController.getLeftY()),m_wristSubsystem));
 
     // m_shooterSubsystem.setDefaultCommand(
     //     new InstantCommand(
@@ -168,6 +173,18 @@ public class RobotContainer {
     //     new InstantCommand(
     //         () -> m_utbIntake.setUTBIntakePercentSpeed(driverController.getLeftY()),
     // m_utbIntake));
+    /**
+     * Spins the motor that will be running the UTB Intake
+     */
+    m_utbIntakeSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
+            m_utbIntakeSubsystem)); // TODO: Update controls
+
+    m_climberSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
+            m_climberSubsystem)); // TODO: Update controls
   }
 
   /**
@@ -176,6 +193,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return autoChooser.get();
   }
 }
