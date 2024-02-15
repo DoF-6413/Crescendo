@@ -168,6 +168,12 @@ public class Drive extends SubsystemBase {
     };
   }
 
+  public ChassisSpeeds getChassisSpeed() {
+    return swerveKinematics.toChassisSpeeds(
+        new SwerveModuleState[] {
+          modules[0].getState(), modules[1].getState(), modules[2].getState(), modules[3].getState()
+        });
+  }
   /**
    * Combines the Rotation of the Modules AND the rotation of the gyroscope to determine how we have
    * rotated
