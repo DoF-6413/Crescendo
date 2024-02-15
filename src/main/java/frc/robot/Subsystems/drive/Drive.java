@@ -213,7 +213,17 @@ public class Drive extends SubsystemBase {
     };
   }
 
-  public SwerveModulePosition[] getWheelDeltas() {
+  public ChassisSpeeds getChassisSpeed() {
+    return swerveKinematics.toChassisSpeeds(
+        new SwerveModuleState[] {
+          modules[0].getState(), modules[1].getState(), modules[2].getState(), modules[3].getState()
+        });
+  }
+  /**
+   * Combines the Rotation of the Modules AND the rotation of the gyroscope to determine how we have
+   * rotated
+   */
+  public Rotation2d getRotation() {
     SwerveModulePosition[] wheelDeltas = new SwerveModulePosition[4];
     /* Wheel Deltas or Wheel Positions */
     for (int i = 0; i < 4; i++) {

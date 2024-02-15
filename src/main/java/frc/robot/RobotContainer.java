@@ -148,7 +148,6 @@ public class RobotContainer {
 
     m_linearRamping = new SlewRateLimiter(0.5);
     m_angularRamping = new SlewRateLimiter(0.2); 
-
   }
 
   /**

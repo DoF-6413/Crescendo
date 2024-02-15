@@ -10,8 +10,8 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Subsystems.drive.Drive;
+import frc.robot.Subsystems.drive.DriveConstants;
 
 /** Add your docs here. */
 public class PathPlanner extends SubsystemBase {
