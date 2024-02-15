@@ -256,7 +256,6 @@ public final class Constants {
     // Flywheel simulation constants
     public static final double SHOOTER_MOI_KG_M2 =
         0.0016007389; // Moment of Inertia for the shooter motors
-    public static final double APPLIED_VOLTS = 12.0;
   }
 
   /** Unchanging Values for the Under the Bumper Intake */
@@ -271,5 +270,26 @@ public final class Constants {
     public static double UTB_INTAKE_KP = 0;
     public static double UTB_INTAKE_KI = 0;
     public static double UTB_INTAKE_KD = 0;
+  }
+
+  public static class ClimberConstants {
+    public static final int LEFT_CLIMBER_CANID = 0; // TODO: Update
+    public static final int RIGHT_CLIMBER_CANID = 0; // TODO: Update
+
+    // TODO: Confirm that one of the motors will need to be inverted
+    public static final boolean LEFT_CLIMBER_INVERTED =
+        false; // Ensures that the Left Climber Motor will not be inverted upon start up
+    public static final boolean RIGHT_CLIMBER_INVERTED =
+        true; // Ensures that the Right Climber Motor will be inverted upon start up
+
+    public static final double CLIMBER_GEAR_RATIO = 40; // 40:1 Gear Ratio
+
+    // Sim Constants
+    public static final double CLIMBER_CARRIAGE_MASS_KG = 5.0; // TODO: Update
+    public static final double CLIMBER_DRUM_RADIUS_M = 0.25; // TODO: Update
+    public static final double CLIMBER_MIN_HEIGHT_M = 0.2; // TODO: Update
+    public static final double CLIMBER_MAX_HEIGHT_M = 2.0; // TODO: Update
+    public static final double CLIMBER_STARTING_HEIGHT_M = 0.4; // TODO: Update
+    public static final boolean CLIMBER_SIMULATE_GRAVITY = false; // TODO: Update
   }
 }
