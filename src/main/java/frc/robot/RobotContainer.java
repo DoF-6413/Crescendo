@@ -13,40 +13,21 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Subsystems.actuator.Actuator;
-import frc.robot.Subsystems.actuator.ActuatorIO;
-import frc.robot.Subsystems.actuator.ActuatorIOSim;
-import frc.robot.Subsystems.actuator.ActuatorIOSparkMax;
-import frc.robot.Subsystems.drive.Drive;
-import frc.robot.Subsystems.drive.ModuleIO;
-import frc.robot.Subsystems.drive.ModuleIOSimNeo;
-import frc.robot.Subsystems.drive.ModuleIOSparkMax;
-import frc.robot.Subsystems.gyro.Gyro;
-import frc.robot.Subsystems.gyro.GyroIO;
-import frc.robot.Subsystems.gyro.GyroIONavX;
-import frc.robot.Subsystems.otbIntake.OTBIntake;
-import frc.robot.Subsystems.otbIntake.OTBIntakeIO;
-import frc.robot.Subsystems.otbIntake.OTBIntakeIOSim;
-import frc.robot.Subsystems.otbIntake.OTBIntakeIOSparkMax;
-import frc.robot.Subsystems.pose.PoseEstimator;
-import frc.robot.Subsystems.shooter.Shooter;
-import frc.robot.Subsystems.shooter.ShooterIO;
-import frc.robot.Subsystems.shooter.ShooterIOSim;
-import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
-import frc.robot.Subsystems.utbintake.UTBIntake;
-import frc.robot.Subsystems.utbintake.UTBIntakeIO;
-import frc.robot.Subsystems.utbintake.UTBIntakeIOSparkMax;
-import frc.robot.Subsystems.vision.Vision;
-import frc.robot.Subsystems.vision.VisionIO;
-import frc.robot.Subsystems.vision.VisionIOArduCam;
-import frc.robot.Subsystems.vision.VisionIOSim;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Constants.*;
+import frc.robot.Subsystems.arm.*;
+import frc.robot.Subsystems.climber.*;
+import frc.robot.Subsystems.drive.*;
+import frc.robot.Subsystems.gyro.*;
+import frc.robot.Subsystems.shooter.*;
+import frc.robot.Subsystems.utbintake.*;
+import frc.robot.Subsystems.vision.*;
+import frc.robot.Utils.*;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -56,20 +37,24 @@ import frc.robot.Subsystems.vision.VisionIOSim;
  */
 public class RobotContainer {
   // Subsystems
-  private final Gyro m_gyroSubsystem;
+  private final Arm m_armSubsystem;
   private final Drive m_driveSubsystem;
+  private final Gyro m_gyroSubsystem;
   private final Shooter m_shooterSubsystem;
-  private final PoseEstimator m_poseEstimator;
   private final Vision m_visionSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
-  private final OTBIntake m_otbIntakeSubsystem;
-  private final Actuator m_actuatorSubsystem;
+  private final Climber m_climberSubsystem;
+  private final PoseEstimator m_poseEstimator;
+  private final PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
   private final CommandXboxController auxController =
       new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
+
+  private final LoggedDashboardChooser<Command> autoChooser =
+      new LoggedDashboardChooser<>("Auto Choices");
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -85,11 +70,12 @@ public class RobotContainer {
                 new ModuleIOSparkMax(),
                 m_gyroSubsystem);
         m_visionSubsystem = new Vision(new VisionIOArduCam());
+        m_armSubsystem = new Arm(new ArmIONeo());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
-        m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
+        m_climberSubsystem = new Climber(new ClimberIOSparkMax() {});
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         break;
 
       case SIM:
@@ -102,12 +88,13 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
+        m_armSubsystem = new Arm(new ArmIOSim());
         m_visionSubsystem = new Vision(new VisionIOSim());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
-        m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim() {});
+        m_climberSubsystem = new Climber(new ClimberIOSim() {});
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
         break;
 
@@ -121,14 +108,19 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
+        m_armSubsystem = new Arm(new ArmIO() {});
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_visionSubsystem = new Vision(new VisionIO() {});
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
-        m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
+        m_climberSubsystem = new Climber(new ClimberIO() {});
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         break;
     }
+
+    autoChooser.addOption("Do Nothing", new InstantCommand());
+    autoChooser.addOption("Default Path", new PathPlannerAuto("ROCK"));
+    Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
     // Configure the button bindings
     configureButtonBindings();
@@ -154,18 +146,17 @@ public class RobotContainer {
     // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     /*
-     * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
-     * Up will launch a NOTE outward
-     * Down will retract a NOTE inward
+     * Spins the motor that will be running the UTB Intake
      */
-    // m_shooterSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () ->
-    //             m_shooterSubsystem.setShooterMotorPercentSpeed(
-    //                 -driverController.getRightY() * 0.75),
-    //         m_shooterSubsystem));
+    m_utbIntakeSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
+            m_utbIntakeSubsystem)); // TODO: Update controls
 
-
+    m_climberSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
+            m_climberSubsystem)); // TODO: Update controls
   }
 
   /**
@@ -174,6 +165,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return autoChooser.get();
   }
 }
