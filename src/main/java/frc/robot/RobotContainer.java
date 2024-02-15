@@ -185,9 +185,15 @@ public class RobotContainer {
     /*
      * Spins the motor that will be running the UTB Intake
      */
-    // m_utbIntake.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()), m_utbIntake));
+    m_utbIntakeSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
+            m_utbIntakeSubsystem)); // TODO: Update controls
+
+    m_climberSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
+            m_climberSubsystem)); // TODO: Update controls
   }
 
   /**
