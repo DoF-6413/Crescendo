@@ -25,7 +25,7 @@ public class PathPlanner extends SubsystemBase {
     AutoBuilder.configureHolonomic(
         pose::getCurrentPose2d,
         pose::resetPose,
-        drive::getChassiSpeed,
+        drive::getChassisSpeed,
         drive::runVelocity,
         new HolonomicPathFollowerConfig(
             new PIDConstants( // Translation PID constants
