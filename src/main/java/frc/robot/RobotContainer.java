@@ -120,16 +120,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
-    // m_driveSubsystem.setDefaultCommand(
-    //     new RunCommand(
-    //         () ->
-    //             m_driveSubsystem.setRaw(
-    //                 driverController.getLeftX(),
-    //                 -driverController.getLeftY(),
-    //                 driverController.getRightX()),
-    //         m_driveSubsystem));
+    m_driveSubsystem.setDefaultCommand(
+        new RunCommand(
+            () ->
+                m_driveSubsystem.setRaw(
+                    driverController.getLeftX(),
+                    -driverController.getLeftY(),
+                    driverController.getRightX()),
+            m_driveSubsystem));
 
-    // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
+    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     /*
      * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
@@ -149,6 +149,16 @@ public class RobotContainer {
     // m_utbIntake.setDefaultCommand(
     //     new InstantCommand(
     //         () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()), m_utbIntake));
+
+    m_otbIntakeSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(auxController.getRightY()),
+            m_otbIntakeSubsystem));
+
+    m_actuatorSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
+            m_actuatorSubsystem));
   }
 
   /**

@@ -10,8 +10,6 @@ import frc.robot.Constants.ActuatorConstants;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
 
-
-
 public class Actuator extends SubsystemBase {
   /** Creates a new Actuator. */
   public static ActuatorIO actuatorIO;
@@ -63,8 +61,8 @@ public class Actuator extends SubsystemBase {
     SmartDashboard.putNumber("ActuatorError", actuatorSetpoint - getActuatorPosition());
 
     actuatorIO.setActuatorVoltage(
-        actuatorPID.calculateForVoltage(getActuatorPositionRad(),
-    ActuatorConstants.ACTUATOR_MAX_ANGLE_RADS));
+        actuatorPID.calculateForVoltage(
+            getActuatorPositionRad(), ActuatorConstants.ACTUATOR_MAX_ANGLE_RADS));
   }
 
   private void updatePIDController() {
