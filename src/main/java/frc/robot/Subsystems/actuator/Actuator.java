@@ -10,6 +10,7 @@ import frc.robot.Constants.ActuatorConstants;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
 
+
 public class Actuator extends SubsystemBase {
   /** Creates a new Actuator. */
   public static ActuatorIO actuatorIO;
