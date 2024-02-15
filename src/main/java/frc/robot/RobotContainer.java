@@ -37,6 +37,7 @@ import frc.robot.Subsystems.shooter.ShooterIOSim;
 import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
 import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Subsystems.utbintake.UTBIntakeIO;
+import frc.robot.Subsystems.utbintake.UTBIntakeIOSim;
 import frc.robot.Subsystems.utbintake.UTBIntakeIOSparkMax;
 import frc.robot.Subsystems.vision.Vision;
 import frc.robot.Subsystems.vision.VisionIO;
@@ -103,7 +104,7 @@ public class RobotContainer {
         m_vision = new Vision(new VisionIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
+        m_utbIntake = new UTBIntake(new UTBIntakeIOSim());
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
         break;
