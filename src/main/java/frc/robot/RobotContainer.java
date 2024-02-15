@@ -60,7 +60,7 @@ public class RobotContainer {
   private final PoseEstimator m_poseEstimator;
   private final Vision m_vision;
   private final UTBIntake m_utbIntake;
-  private final Climber m_Climber;
+  private final Climber m_climber;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -85,7 +85,7 @@ public class RobotContainer {
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
-        m_Climber = new Climber(new ClimberIOSparkMax() {});
+        m_climber = new Climber(new ClimberIOSparkMax() {});
         break;
 
       case SIM:
@@ -102,7 +102,7 @@ public class RobotContainer {
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_utbIntake = new UTBIntake(new UTBIntakeIOSim() {});
-        m_Climber = new Climber(new ClimberIOSim() {});
+        m_climber = new Climber(new ClimberIOSim() {});
 
         break;
 
@@ -120,7 +120,7 @@ public class RobotContainer {
         m_vision = new Vision(new VisionIO() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
-        m_Climber = new Climber(new ClimberIO() {});
+        m_climber = new Climber(new ClimberIO() {});
         break;
     }
 
@@ -167,10 +167,10 @@ public class RobotContainer {
             () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()),
             m_utbIntake)); // TODO: Update controls
 
-    m_Climber.setDefaultCommand(
+    m_climber.setDefaultCommand(
         new InstantCommand(
-            () -> m_Climber.setBothClimberPercentSpeed(auxController.getRightY()),
-            m_Climber)); // TODO: Update controls
+            () -> m_climber.setBothClimberPercentSpeed(auxController.getRightY()),
+            m_climber)); // TODO: Update controls
   }
 
   /**

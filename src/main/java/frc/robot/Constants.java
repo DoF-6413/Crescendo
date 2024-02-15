@@ -256,7 +256,6 @@ public final class Constants {
     // Flywheel simulation constants
     public static final double SHOOTER_MOI_KG_M2 =
         0.0016007389; // Moment of Inertia for the shooter motors
-    public static final double APPLIED_VOLTS = 12.0;
   }
 
   /** Unchanging Values for the Under the Bumper Intake */
@@ -274,8 +273,8 @@ public final class Constants {
   }
 
   public static class ClimberConstants {
-    public static final int LEFT_CLIMBER_CANID = 0; // TODO: Update later
-    public static final int RIGHT_CLIMBER_CANID = 0; // TODO: Update later
+    public static final int LEFT_CLIMBER_CANID = 0; // TODO: Update
+    public static final int RIGHT_CLIMBER_CANID = 0; // TODO: Update
 
     // TODO: Confirm that one of the motors will need to be inverted
     public static final boolean LEFT_CLIMBER_INVERTED =

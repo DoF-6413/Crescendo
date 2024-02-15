@@ -31,7 +31,7 @@ public class ClimberIOSim implements ClimberIO {
   public ClimberIOSim() {
     System.out.println("[Init] Creating ClimberIOSim");
   }
-  
+
   public void updateInputs(ClimberIOInputs inputs) {
     leftClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
     rightClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
