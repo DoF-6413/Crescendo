@@ -147,18 +147,6 @@ public class RobotContainer {
     // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     /*
-     * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
-     * Up will launch a NOTE outward
-     * Down will retract a NOTE inward
-     */
-    // m_shooterSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () ->
-    //             m_shooterSubsystem.setShooterMotorPercentSpeed(
-    //                 -driverController.getRightY() * 0.75),
-    //         m_shooterSubsystem));
-
-    /*
      * Spins the motor that will be running the UTB Intake
      */
     m_utbIntake.setDefaultCommand(
