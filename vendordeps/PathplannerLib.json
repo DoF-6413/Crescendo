@@ -22,9 +22,6 @@
       "artifactId": "PathplannerLib-cpp",
       "version": "2024.2.3",
       "libName": "PathplannerLib",
-      "headerClassifier": "headers",
-      "sharedLibrary": false,
-      "skipInvalidPlatforms": true,
       "binaryPlatforms": [
         "windowsx86-64",
         "linuxx86-64",

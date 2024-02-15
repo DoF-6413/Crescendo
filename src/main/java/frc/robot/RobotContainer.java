@@ -13,41 +13,21 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Subsystems.climber.Climber;
-import frc.robot.Subsystems.climber.ClimberIO;
-import frc.robot.Subsystems.climber.ClimberIOSim;
-import frc.robot.Subsystems.climber.ClimberIOSparkMax;
-import frc.robot.Subsystems.drive.Drive;
-import frc.robot.Subsystems.drive.ModuleIO;
-import frc.robot.Subsystems.drive.ModuleIOSimNeo;
-import frc.robot.Subsystems.drive.ModuleIOSparkMax;
-import frc.robot.Subsystems.gyro.Gyro;
-import frc.robot.Subsystems.gyro.GyroIO;
-import frc.robot.Subsystems.gyro.GyroIONavX;
+import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Constants.*;
+import frc.robot.Subsystems.arm.*;
+import frc.robot.Subsystems.drive.*;
+import frc.robot.Subsystems.gyro.*;
 import frc.robot.Subsystems.pose.PoseEstimator;
-import frc.robot.Subsystems.shooter.Shooter;
-import frc.robot.Subsystems.shooter.ShooterIO;
-import frc.robot.Subsystems.shooter.ShooterIOSim;
-import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
-import frc.robot.Subsystems.utbintake.UTBIntake;
-import frc.robot.Subsystems.utbintake.UTBIntakeIO;
-import frc.robot.Subsystems.utbintake.UTBIntakeIOSim;
-import frc.robot.Subsystems.utbintake.UTBIntakeIOSparkMax;
-import frc.robot.Subsystems.vision.Vision;
-import frc.robot.Subsystems.vision.VisionIO;
-import frc.robot.Subsystems.vision.VisionIOArduCam;
-import frc.robot.Subsystems.vision.VisionIOSim;
-import frc.robot.Utils.PathPlanner;
+import frc.robot.Subsystems.shooter.*;
+import frc.robot.Subsystems.utbintake.*;
+import frc.robot.Subsystems.vision.*;
+import frc.robot.Subsystems.climber.*;
+import frc.robot.Utils.*;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -58,8 +38,9 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  */
 public class RobotContainer {
   // Subsystems
-  private final Gyro m_gyroSubsystem;
+  private final Arm m_arm;
   private final Drive m_driveSubsystem;
+  private final Gyro m_gyroSubsystem;
   private final Shooter m_shooterSubsystem;
   private final PoseEstimator m_poseEstimator;
   private final Vision m_vision;
@@ -89,7 +70,8 @@ public class RobotContainer {
                 new ModuleIOSparkMax(),
                 new ModuleIOSparkMax(),
                 m_gyroSubsystem);
-        m_vision = new Vision(new VisionIOArduCam());
+                m_vision = new Vision(new VisionIOArduCam());
+        m_arm = new Arm(new ArmIONeo());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
@@ -107,6 +89,7 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
+        m_arm = new Arm(new ArmIOSim());        
         m_vision = new Vision(new VisionIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
@@ -126,6 +109,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
+        m_arm = new Arm(new ArmIO() {});        
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_vision = new Vision(new VisionIO() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
@@ -151,16 +135,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
-    m_driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_driveSubsystem.setRaw(
-                    driverController.getLeftX(),
-                    -driverController.getLeftY(),
-                    driverController.getRightX()),
-            m_driveSubsystem));
+    // m_driveSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () ->
+    //             m_driveSubsystem.setRaw(
+    //                 driverController.getLeftX(),
+    //                 -driverController.getLeftY(),
+    //                 driverController.getRightX()),
+    //         m_driveSubsystem));
 
-    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
+    // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     /*
      * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
