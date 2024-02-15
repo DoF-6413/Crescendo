@@ -198,8 +198,8 @@ public final class Constants {
     /** Used in Robot Characterization Tool to Help Determine Drive Values like PID */
     public static final boolean IS_CHARACTERIZING = false;
 
-    public static final double DRIVE_J_KG_METERS_SQUARED = 0.0003125; // moment of inertia for sim
-    public static final double STEER_J_KG_METERS_SQUARED = 0.0003125; // TODO: Update
+    public static final double DRIVE_MOI_KG_M2 = 0.0003125; // moment of inertia for sim
+    public static final double STEER_MOI_KG_M2 = 0.0003125; // TODO: Update
 
     public static final Translation2d[] getModuleTranslations() {
       return new Translation2d[] {

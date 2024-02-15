@@ -100,3 +100,4 @@ public class Actuator extends SubsystemBase {
     actuatorSetpoint = SmartDashboard.getNumber("actuatorSetpoint", 0.0);
     actuatorPID.setSetpoint(actuatorSetpoint);
   }
+}
