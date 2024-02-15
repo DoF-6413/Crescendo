@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.*;
 
 /** Add your docs here. */
-public class ArmIOSim implements ArmIO{
+public class ArmIOSim implements ArmIO {
 
   private SingleJointedArmSim armMotor =
       new SingleJointedArmSim(
@@ -31,14 +31,12 @@ public class ArmIOSim implements ArmIO{
     inputs.armTurnAppliedVolts = 0.0;
     inputs.armTurnCurrentAmps = Math.abs(armMotor.getCurrentDrawAmps());
     inputs.armTempCelcius = 0.0;
-
   }
 
   public void setArmMotorSpeed(double Speed) {
-   
+
     armMotor.setInputVoltage(Speed * ArmConstants.WRIST_APPLIED_VOLTS);
 
     armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
   }
-  
 }

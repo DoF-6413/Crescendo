@@ -13,21 +13,20 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.arm.*;
+import frc.robot.Subsystems.climber.*;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.gyro.*;
-import frc.robot.Subsystems.pose.*;
 import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.vision.*;
-import frc.robot.Subsystems.climber.*;
 import frc.robot.Utils.*;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -70,7 +69,7 @@ public class RobotContainer {
                 new ModuleIOSparkMax(),
                 new ModuleIOSparkMax(),
                 m_gyroSubsystem);
-                m_visionSubsystem = new Vision(new VisionIOArduCam());
+        m_visionSubsystem = new Vision(new VisionIOArduCam());
         m_armSubsystem = new Arm(new ArmIONeo());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
@@ -89,7 +88,7 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIOSim());        
+        m_armSubsystem = new Arm(new ArmIOSim());
         m_visionSubsystem = new Vision(new VisionIOSim());
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim() {});
@@ -109,7 +108,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIO() {});        
+        m_armSubsystem = new Arm(new ArmIO() {});
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_visionSubsystem = new Vision(new VisionIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
