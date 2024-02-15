@@ -64,7 +64,6 @@ public class UTBIntake extends SubsystemBase {
     } else {
       setUTBIntakeVoltage(UTBintakePIDController.calculateForVoltage(inputs.utbIntakeRPM, 2800));
     }
-    System.out.println(UTBintakePIDController.calculateForVoltage(inputs.utbIntakeRPM, 2800));
   }
 
   public void updatePIDController() {
