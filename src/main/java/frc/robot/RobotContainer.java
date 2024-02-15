@@ -13,21 +13,20 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.arm.*;
+import frc.robot.Subsystems.climber.*;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.gyro.*;
-import frc.robot.Subsystems.pose.PoseEstimator;
 import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.vision.*;
-import frc.robot.Subsystems.climber.*;
 import frc.robot.Utils.*;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -38,14 +37,14 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  */
 public class RobotContainer {
   // Subsystems
-  private final Arm m_arm;
+  private final Arm m_armSubsystem;
   private final Drive m_driveSubsystem;
   private final Gyro m_gyroSubsystem;
   private final Shooter m_shooterSubsystem;
-  private final PoseEstimator m_poseEstimator;
-  private final Vision m_vision;
-  private final UTBIntake m_utbIntake;
+  private final Vision m_visionSubsystem;
+  private final UTBIntake m_utbIntakeSubsystem;
   private final Climber m_climberSubsystem;
+  private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
 
   // Controllers
@@ -70,12 +69,12 @@ public class RobotContainer {
                 new ModuleIOSparkMax(),
                 new ModuleIOSparkMax(),
                 m_gyroSubsystem);
-                m_vision = new Vision(new VisionIOArduCam());
-        m_arm = new Arm(new ArmIONeo());
+        m_visionSubsystem = new Vision(new VisionIOArduCam());
+        m_armSubsystem = new Arm(new ArmIONeo());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
-        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_climberSubsystem = new Climber(new ClimberIOSparkMax() {});
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         break;
 
@@ -89,12 +88,12 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
-        m_arm = new Arm(new ArmIOSim());        
-        m_vision = new Vision(new VisionIOSim());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
+        m_armSubsystem = new Arm(new ArmIOSim());
+        m_visionSubsystem = new Vision(new VisionIOSim());
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_utbIntake = new UTBIntake(new UTBIntakeIOSim() {});
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim() {});
         m_climberSubsystem = new Climber(new ClimberIOSim() {});
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
         break;
@@ -109,12 +108,12 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
-        m_arm = new Arm(new ArmIO() {});        
+        m_armSubsystem = new Arm(new ArmIO() {});
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
-        m_vision = new Vision(new VisionIO() {});
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
-        m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
+        m_visionSubsystem = new Vision(new VisionIO() {});
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_climberSubsystem = new Climber(new ClimberIO() {});
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         break;
     }
@@ -135,36 +134,24 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
-    // m_driveSubsystem.setDefaultCommand(
-    //     new RunCommand(
-    //         () ->
-    //             m_driveSubsystem.setRaw(
-    //                 driverController.getLeftX(),
-    //                 -driverController.getLeftY(),
-    //                 driverController.getRightX()),
-    //         m_driveSubsystem));
+    m_driveSubsystem.setDefaultCommand(
+        new RunCommand(
+            () ->
+                m_driveSubsystem.setRaw(
+                    driverController.getLeftX(),
+                    -driverController.getLeftY(),
+                    driverController.getRightX()),
+            m_driveSubsystem));
 
-    // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
-
-    /*
-     * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
-     * Up will launch a NOTE outward
-     * Down will retract a NOTE inward
-     */
-    // m_shooterSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () ->
-    //             m_shooterSubsystem.setShooterMotorPercentSpeed(
-    //                 -driverController.getRightY() * 0.75),
-    //         m_shooterSubsystem));
+    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     /*
      * Spins the motor that will be running the UTB Intake
      */
-    m_utbIntake.setDefaultCommand(
+    m_utbIntakeSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()),
-            m_utbIntake)); // TODO: Update controls
+            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
+            m_utbIntakeSubsystem)); // TODO: Update controls
 
     m_climberSubsystem.setDefaultCommand(
         new InstantCommand(

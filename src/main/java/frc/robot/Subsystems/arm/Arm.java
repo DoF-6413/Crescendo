@@ -4,9 +4,8 @@
 
 package frc.robot.Subsystems.arm;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
 public class Arm extends SubsystemBase {
@@ -14,12 +13,13 @@ public class Arm extends SubsystemBase {
   private final ArmIO io;
   private final ArmIOInputsAutoLogged armInputs = new ArmIOInputsAutoLogged();
 
-   public Arm(ArmIO arm) {
+  public Arm(ArmIO arm) {
     System.out.println("[Init] Creating arm");
 
     this.io = arm;
   }
-   @Override
+
+  @Override
   public void periodic() {
 
     this.updateInputs();
