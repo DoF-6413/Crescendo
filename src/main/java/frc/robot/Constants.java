@@ -238,20 +238,20 @@ public final class Constants {
 
     // PID Constants  TODO: Tune and update
     public static final double TOP_SHOOTER_KP =
-        0.75; // The "P" value of the PID for the top shooter motor
+        0.0; // The "P" value of the PID for the top shooter motor
     public static final double TOP_SHOOTER_KI =
-        2.0; // The "I" value of the PID for the top shooter motor
+        0.0; // The "I" value of the PID for the top shooter motor
     public static final double TOP_SHOOTER_KD =
-        0.04; // The "D" value of the PID for the top shooter motor
+        0.0; // The "D" value of the PID for the top shooter motor
     public static final double BOTTOM_SHOOTER_KP =
-        0.1; // The "P" value of the PID for the bottom shooter motor
+        0.0; // The "P" value of the PID for the bottom shooter motor
     public static final double BOTTOM_SHOOTER_KI =
         0.0; // The "I" value of the PID for the bottom shooter motor
     public static final double BOTTOM_SHOOTER_KD =
         0.0; // The "D" value of the PID for the bottom shooter motor
 
-    // Current limit
-    public static final double SMART_CURRENT_LIMIT = 60;
+    // Current limit Amps
+    public static final double SMART_CURRENT_LIMIT_AMPS = 60;
 
     // Flywheel simulation constants
     public static final double SHOOTER_MOI_KG_M2 =
@@ -271,6 +271,7 @@ public final class Constants {
     public static double UTB_INTAKE_KP = 0;
     public static double UTB_INTAKE_KI = 0;
     public static double UTB_INTAKE_KD = 0;
+<<<<<<< HEAD
   }
 
   public static class OTBIntakeConstants {
@@ -290,13 +291,14 @@ public final class Constants {
     public static double ACTUATOR_KI = 0.0;
     public static double ACTUATOR_KD = 0.0;
     public static final double ACTUATOR_TOLERANCE = 0.05;
-    public static final double ACTUATOR_MAX_ANGLE_RADS = Math.atan(-7.432 / 8.253) + (2 * Math.PI);
+    public static final double ACTUATOR_MAX_ANGLE_RADS = Math.atan(-7.432 / 8.253) + (2* Math.PI);
     public static final double ACTUATOR_MIN_ANGLE_RADS = Math.atan(11.105 / .096);
     public static final double ACTUATOR_START_ANGLE_RADS = ACTUATOR_MIN_ANGLE_RADS;
     public static final double ACTUATOR_JKG_METERS_SQUARED = 0.0005; // TODO: UPDATE
-    /** Length from pivot to roller */
+    /**Length from pivot to roller */ 
     public static final double ACTUATOR_LENGTH_METERS = Units.inchesToMeters(30.354561);
-
     public static final boolean IS_SIMULATE_GRAVITY = true;
+=======
+>>>>>>> 02b243b281bdcc24061df33e6c1344e027c7343c
   }
 }
