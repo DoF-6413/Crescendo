@@ -13,8 +13,10 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -45,6 +47,8 @@ import frc.robot.Subsystems.vision.Vision;
 import frc.robot.Subsystems.vision.VisionIO;
 import frc.robot.Subsystems.vision.VisionIOArduCam;
 import frc.robot.Subsystems.vision.VisionIOSim;
+import frc.robot.Utils.PathPlanner;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -61,12 +65,16 @@ public class RobotContainer {
   private final Vision m_vision;
   private final UTBIntake m_utbIntake;
   private final Climber m_climberSubsystem;
+  private final PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
   private final CommandXboxController auxController =
       new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
+
+  private final LoggedDashboardChooser<Command> autoChooser =
+      new LoggedDashboardChooser<>("Auto Choices");
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -86,6 +94,7 @@ public class RobotContainer {
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
         m_climberSubsystem = new Climber(new ClimberIOSparkMax() {});
+        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         break;
 
       case SIM:
@@ -103,6 +112,7 @@ public class RobotContainer {
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_utbIntake = new UTBIntake(new UTBIntakeIOSim() {});
         m_climberSubsystem = new Climber(new ClimberIOSim() {});
+=        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
         break;
 
@@ -121,8 +131,13 @@ public class RobotContainer {
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
         m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
         m_climberSubsystem = new Climber(new ClimberIO() {});
+        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         break;
     }
+
+    autoChooser.addOption("Do Nothing", new InstantCommand());
+    autoChooser.addOption("Default Path", new PathPlannerAuto("ROCK"));
+    Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
     // Configure the button bindings
     configureButtonBindings();
@@ -179,6 +194,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return autoChooser.get();
   }
 }
