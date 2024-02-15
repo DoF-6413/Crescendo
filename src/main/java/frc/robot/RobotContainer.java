@@ -112,7 +112,7 @@ public class RobotContainer {
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_utbIntake = new UTBIntake(new UTBIntakeIOSim() {});
         m_climberSubsystem = new Climber(new ClimberIOSim() {});
-=        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
         break;
 
