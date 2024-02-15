@@ -4,7 +4,6 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Utils.PIDController;
 
 public class ShooterIOSim implements ShooterIO {
   // Creating flywheels
@@ -12,16 +11,13 @@ public class ShooterIOSim implements ShooterIO {
       new FlywheelSim(
           DCMotor.getFalcon500(1),
           ShooterConstants.SHOOTER_GEAR_RATIO,
-          ShooterConstants.SHOOTER_J_KG_METERS_SQUARED);
+          ShooterConstants.SHOOTER_MOI_KG_M2);
 
   private FlywheelSim bottomShooterFlywheel =
       new FlywheelSim(
           DCMotor.getFalcon500(1),
           ShooterConstants.SHOOTER_GEAR_RATIO,
-          ShooterConstants.SHOOTER_J_KG_METERS_SQUARED);
-
-  private PIDController topShooterPID;
-  private PIDController bottomShooterPID;
+          ShooterConstants.SHOOTER_MOI_KG_M2);
 
   public ShooterIOSim() {
     System.out.println("[Init] Creating ShooterIOSim");
@@ -64,8 +60,8 @@ public class ShooterIOSim implements ShooterIO {
   }
 
   @Override
-  public void setTopShooterMotorVoltage(double volts) {}
-
-  @Override
-  public void setBottomShooterMotorVoltage(double volts) {}
+  public void setBottomShooterMotorVoltage(double volts) {
+    // Sets voltage based on PID
+    bottomShooterFlywheel.setInputVoltage(volts);
+  }
 }

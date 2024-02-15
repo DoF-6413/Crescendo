@@ -130,7 +130,7 @@ public class PIDController {
     // */
     double desiredVoltage =
         // The setpoint * volts / maxValue  runs the motor at the speed it should theoretically run
-        // at and the PID part gets it closer to the setpoint by adding
+        // at and the PID gets it closer to the setpoint by adding
         (setpoint + (kP * positionError) + (kI * totalError) + (kD * velocityError))
             * RobotStateConstants.BATTERY_VOLTAGE
             / maxValue;
@@ -180,13 +180,9 @@ public class PIDController {
   //     return motorPercentSpeed;
   //   }
 
-  /**
-   * TODO: my attempt at tolerance. To my understanding as long as the calculated output is within
-   * "tolerance" value of the setpoint, they should return a boolean, and then use the boolean to
-   * test other stuff
-   */
-  public boolean atSetpoint(double voltage) {
-    if ((voltage >= setpoint - tolerance) && (voltage <= setpoint + tolerance)) {
+  /** Returns whether or not the measurment is at the setpoint, including with the tolerance */
+  public boolean atSetpoint(double measurement) {
+    if ((measurement >= setpoint - tolerance) && (measurement <= setpoint + tolerance)) {
       return true;
     }
     return false;

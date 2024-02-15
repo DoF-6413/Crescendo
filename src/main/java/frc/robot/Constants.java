@@ -152,10 +152,10 @@ public final class Constants {
     public static final double TRACK_WIDTH_M = Units.inchesToMeters(32.173359);
 
     /** Max Speed the Robot Can Travel in One Linear Direction (m/s) */
-    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 0; // TODO: Update
+    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 4.5; // TODO: Update
 
     /**
-     * Max Speed the Robot Can Rotate (rads/s) Angular Speed can be Calulated by Dividing Max Linear
+     * Max Speed the Robot Can Rotate (rad/s) Angular Speed can be Calulated by Dividing Max Linear
      * Speed by Radius of the Circle an Object is Moving Around (v/r = w) The Radius of the Swerve
      * Drive is Equivelant to Half of the Distance of one Corner to the Other Corner This Can be
      * Calculated by Using Pythagoreans Theorem on Two of the Sides of the Robot and taking Half of
@@ -165,7 +165,7 @@ public final class Constants {
         MAX_LINEAR_SPEED_M_PER_SEC / (Math.sqrt(2 * (TRACK_WIDTH_M * TRACK_WIDTH_M)) / 2);
 
     // PID Constants for Neo Drive PID
-    public static final double DRIVE_KP_NEO = 0; // TODO: Update
+    public static final double DRIVE_KP_NEO = 0.05; // TODO: Update
     public static final double DRIVE_KI_NEO = 0; // TODO: Update
     public static final double DRIVE_KD_NEO = 0; // TODO: Update
 
@@ -179,11 +179,11 @@ public final class Constants {
     public static final double DRIVE_KV_KRAKEN = 0; // TODO: Update
 
     // Feed Forward Constants for Neo Drive
-    public static final double DRIVE_KS_NEO = 0; // TODO: Update
-    public static final double DRIVE_KV_NEO = 0; // TODO: Update
+    public static final double DRIVE_KS_NEO = 0.4; // TODO: Update
+    public static final double DRIVE_KV_NEO = 0.4; // TODO: Update
 
     // PID Constants for Neo Steer PID
-    public static final double STEER_KP_NEO = 0; // TODO: Update
+    public static final double STEER_KP_NEO = 7.0; // TODO: Update
     public static final double STEER_KI_NEO = 0; // TODO: Update
     public static final double STEER_KD_NEO = 0; // TODO: Update
 
@@ -198,8 +198,8 @@ public final class Constants {
     /** Used in Robot Characterization Tool to Help Determine Drive Values like PID */
     public static final boolean IS_CHARACTERIZING = false;
 
-    public static final double DRIVE_J_KG_METERS_SQUARED = 0.0003125; // moment of inertia for sim
-    public static final double STEER_J_KG_METERS_SQUARED = 0.0003125; // TODO: Update
+    public static final double DRIVE_MOI_KG_M2 = 0.0003125; // moment of inertia for sim
+    public static final double STEER_MOI_KG_M2 = 0.0003125; // TODO: Update
 
     public static final Translation2d[] getModuleTranslations() {
       return new Translation2d[] {
@@ -238,23 +238,23 @@ public final class Constants {
 
     // PID Constants  TODO: Tune and update
     public static final double TOP_SHOOTER_KP =
-        0.75; // The "P" value of the PID for the top shooter motor
+        0.0; // The "P" value of the PID for the top shooter motor
     public static final double TOP_SHOOTER_KI =
-        2.0; // The "I" value of the PID for the top shooter motor
+        0.0; // The "I" value of the PID for the top shooter motor
     public static final double TOP_SHOOTER_KD =
-        0.04; // The "D" value of the PID for the top shooter motor
+        0.0; // The "D" value of the PID for the top shooter motor
     public static final double BOTTOM_SHOOTER_KP =
-        0.1; // The "P" value of the PID for the bottom shooter motor
+        0.0; // The "P" value of the PID for the bottom shooter motor
     public static final double BOTTOM_SHOOTER_KI =
         0.0; // The "I" value of the PID for the bottom shooter motor
     public static final double BOTTOM_SHOOTER_KD =
         0.0; // The "D" value of the PID for the bottom shooter motor
 
-    // Current limit
-    public static final double SMART_CURRENT_LIMIT = 60;
+    // Current limit Amps
+    public static final double SMART_CURRENT_LIMIT_AMPS = 60;
 
     // Flywheel simulation constants
-    public static final double SHOOTER_J_KG_METERS_SQUARED =
+    public static final double SHOOTER_MOI_KG_M2 =
         0.0016007389; // Moment of Inertia for the shooter motors
     public static final double APPLIED_VOLTS = 12.0;
   }
@@ -263,6 +263,14 @@ public final class Constants {
   public static class UTBIntakeConstants {
     public static final int UTB_INTAKE_CANID = 0; // TODO: Update later
     public static final int GEAR_RATIO = 2; // 2:1 Gear Ratio
+    // public static final double UTB_KP = 1;
+    // public static final double UTB_KI = 1;
+    // public static final double UTB_KD = 1;
+    public static final double UTB_MOI_KG_M2 = 0.0001929765;
+    public static final double UTB_INTAKE_TOLERANCE = 0.05;
+    public static double UTB_INTAKE_KP = 0;
+    public static double UTB_INTAKE_KI = 0;
+    public static double UTB_INTAKE_KD = 0;
   }
 
   public static class OTBIntakeConstants {
