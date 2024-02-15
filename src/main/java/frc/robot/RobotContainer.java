@@ -14,17 +14,23 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
+import frc.robot.Subsystems.arm.*;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.gyro.*;
 import frc.robot.Subsystems.otbIntake.*;
-import frc.robot.Subsystems.pose.*;
+import frc.robot.Subsystems.pose.PoseEstimator;
 import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.vision.*;
+import frc.robot.Subsystems.climber.*;
+import frc.robot.Utils.*;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,20 +40,26 @@ import frc.robot.Subsystems.vision.*;
  */
 public class RobotContainer {
   // Subsystems
-  private final Gyro m_gyroSubsystem;
+  private final Arm m_armSubsystem;
   private final Drive m_driveSubsystem;
+  private final Gyro m_gyroSubsystem;
   private final Shooter m_shooterSubsystem;
   private final PoseEstimator m_poseEstimator;
   private final Vision m_visionSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
+  private final Climber m_climberSubsystem;
+  private final PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
   private final CommandXboxController auxController =
       new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
+
+  private final LoggedDashboardChooser<Command> autoChooser =
+      new LoggedDashboardChooser<>("Auto Choices");
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -86,6 +98,13 @@ public class RobotContainer {
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
+        m_armSubsystem = new Arm(new ArmIOSim());        
+        m_visionSubsystem = new Vision(new VisionIOSim());
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        m_shooterSubsystem = new Shooter(new ShooterIOSim());
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim() {});
+        m_climberSubsystem = new Climber(new ClimberIOSim() {});
+        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
         break;
 
@@ -99,14 +118,22 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
+        m_armSubsystem = new Arm(new ArmIO() {});        
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_visionSubsystem = new Vision(new VisionIO() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
+        m_climberSubsystem = new Climber(new ClimberIO() {});
+        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         break;
     }
+
+    autoChooser.addOption("Do Nothing", new InstantCommand());
+    autoChooser.addOption("Default Path", new PathPlannerAuto("ROCK"));
+    Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
     // Configure the button bindings
     configureButtonBindings();
@@ -120,16 +147,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
-    m_driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_driveSubsystem.setRaw(
-                    driverController.getLeftX(),
-                    -driverController.getLeftY(),
-                    driverController.getRightX()),
-            m_driveSubsystem));
+    // m_driveSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () ->
+    //             m_driveSubsystem.setRaw(
+    //                 driverController.getLeftX(),
+    //                 -driverController.getLeftY(),
+    //                 driverController.getRightX()),
+    //         m_driveSubsystem));
 
-    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
+    // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     /*
      * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
@@ -159,6 +186,15 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
             m_actuatorSubsystem));
+    m_utbIntakeSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
+            m_utbIntakeSubsystem)); // TODO: Update controls
+
+    m_climberSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
+            m_climberSubsystem)); // TODO: Update controls
   }
 
   /**
@@ -167,6 +203,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return autoChooser.get();
   }
 }
