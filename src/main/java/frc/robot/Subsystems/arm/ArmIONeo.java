@@ -33,8 +33,7 @@ public class ArmIONeo implements ArmIO {
 
     inputs.armTurnAppliedVolts = armMotor.getBusVoltage();
     inputs.armTurnPositionRad =
-        Units.rotationsToRadians(armEncoder.getPosition())
-            / ArmConstants.MOTOR_GEAR_RATIO;
+        Units.rotationsToRadians(armEncoder.getPosition()) / ArmConstants.MOTOR_GEAR_RATIO;
     inputs.armTempCelcius = armMotor.getMotorTemperature();
     inputs.armTurnVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(armEncoder.getVelocity());

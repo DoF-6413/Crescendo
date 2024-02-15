@@ -6,6 +6,7 @@ package frc.robot.Utils;
 
 import edu.wpi.first.apriltag.*;
 import edu.wpi.first.math.*;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;

@@ -158,28 +158,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
-    // m_driveSubsystem.setDefaultCommand(
-    //     new RunCommand(
-    //         () ->
-    //             m_driveSubsystem.setRaw(
-    //                 driverController.getLeftX(),
-    //                 -driverController.getLeftY(),
-    //                 driverController.getRightX()),
-    //         m_driveSubsystem));
+    m_driveSubsystem.setDefaultCommand(
+        new RunCommand(
+            () ->
+                m_driveSubsystem.setRaw(
+                    driverController.getLeftX(),
+                    -driverController.getLeftY(),
+                    driverController.getRightX()),
+            m_driveSubsystem));
 
-    // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
-
-    /*
-     * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
-     * Up will launch a NOTE outward
-     * Down will retract a NOTE inward
-     */
-    // m_shooterSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () ->
-    //             m_shooterSubsystem.setShooterMotorPercentSpeed(
-    //                 -driverController.getRightY() * 0.75),
-    //         m_shooterSubsystem));
+    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     /*
      * Spins the motor that will be running the UTB Intake
