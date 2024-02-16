@@ -15,12 +15,12 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.wristNeoConstants;
 
 /** Add your docs here. */
-public class WristIONeo implements WristIO {
+public class wristIONeo implements WristIO {
 
   private final CANSparkMax wristMotor;
   private final RelativeEncoder wristEncoder;
 
-  public WristIONeo() {
+  public wristIONeo() {
     wristMotor = new CANSparkMax(1, MotorType.kBrushless);
     wristEncoder = wristMotor.getEncoder();
 
@@ -37,8 +37,7 @@ public class WristIONeo implements WristIO {
 
     inputs.wristTurnAppliedVolts = wristMotor.getBusVoltage();
     inputs.wristTurnPositionRad =
-        Units.rotationsToRadians(wristEncoder.getPosition())
-            / wristNeoConstants.MOTOR_GEAR_RATIO;
+        Units.rotationsToRadians(wristEncoder.getPosition()) / wristNeoConstants.MOTOR_GEAR_RATIO;
     inputs.wristTempCelcius = wristMotor.getMotorTemperature();
     inputs.wristTurnVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity());

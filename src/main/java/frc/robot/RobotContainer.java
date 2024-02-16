@@ -47,7 +47,7 @@ public class RobotContainer {
   private final Climber m_climberSubsystem;
   private final PoseEstimator m_poseEstimator;
   private final Wrist m_wristSubsystem;
-  
+
   private final PathPlanner m_pathPlanner;
 
   // Controllers
@@ -76,7 +76,7 @@ public class RobotContainer {
         m_armSubsystem = new Arm(new ArmIONeo());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
-        m_wristSubsystem = new Wrist(new WristIONeo());
+        m_wristSubsystem = new Wrist(new wristIONeo());
         m_climberSubsystem = new Climber(new ClimberIOSparkMax() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
@@ -96,7 +96,7 @@ public class RobotContainer {
         m_visionSubsystem = new Vision(new VisionIOSim());
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim() {});
-        m_wristSubsystem = new Wrist(new WristIOSim() {});
+        m_wristSubsystem = new Wrist(new wristIOSim());
         m_climberSubsystem = new Climber(new ClimberIOSim() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
@@ -159,9 +159,8 @@ public class RobotContainer {
 
     m_wristSubsystem.setDefaultCommand(
         new InstantCommand(
-            () ->
-                m_wristSubsystem.setWristMotorSpeed(
-                    driverController.getLeftY()),m_wristSubsystem));
+            () -> m_wristSubsystem.setWristMotorSpeed(driverController.getLeftY()),
+            m_wristSubsystem));
 
     // m_shooterSubsystem.setDefaultCommand(
     //     new InstantCommand(
@@ -173,9 +172,7 @@ public class RobotContainer {
     //     new InstantCommand(
     //         () -> m_utbIntake.setUTBIntakePercentSpeed(driverController.getLeftY()),
     // m_utbIntake));
-    /**
-     * Spins the motor that will be running the UTB Intake
-     */
+    /** Spins the motor that will be running the UTB Intake */
     m_utbIntakeSubsystem.setDefaultCommand(
         new InstantCommand(
             () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),

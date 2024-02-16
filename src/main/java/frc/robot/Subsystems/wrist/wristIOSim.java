@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.*;
 
 /** Add your docs here. */
-public class WristIOSim implements WristIO {
+public class wristIOSim implements WristIO {
 
   private SingleJointedArmSim wristMotor =
       new SingleJointedArmSim(
@@ -25,18 +25,16 @@ public class WristIOSim implements WristIO {
   @Override
   public void updateInputs(WristIOInputs inputs) {
 
-   
     inputs.wristTurnPositionRad +=
         wristMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
     inputs.wristTurnVelocityRadPerSec = wristMotor.getVelocityRadPerSec();
     inputs.wristTurnAppliedVolts = 0.0;
     inputs.wristTurnCurrentAmps = Math.abs(wristMotor.getCurrentDrawAmps());
     inputs.wristTempCelcius = 0.0;
-
   }
 
   public void setWristMotorSpeed(double Speed) {
-   
+
     wristMotor.setInputVoltage(Speed * wristNeoConstants.WRIST_APPLIED_VOLTS);
 
     wristMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);

@@ -16,11 +16,10 @@ public class Wrist extends SubsystemBase {
 
   private static PIDController wristPID;
 
-  //temp, move to constants
+  // temp, move to constants
   private double wristkp = 0.0;
   private double wristki = 0.0;
   private double wristkd = 0.0;
-
 
   public Wrist(WristIO io) {
     System.out.println("[Init] Creating wrist");
