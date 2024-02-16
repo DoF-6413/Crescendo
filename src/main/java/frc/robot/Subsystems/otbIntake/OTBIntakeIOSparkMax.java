@@ -7,13 +7,12 @@ package frc.robot.Subsystems.otbIntake;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.OTBIntakeConstants;
 
 /** Runs the real life OTBIntake with CANSpark Speed Controllers and NEO motor */
 public class OTBIntakeIOSparkMax implements OTBIntakeIO {
-  private CANSparkMax OTBIntakeMotor;
-  private RelativeEncoder OTBIntakeEncoder;
+  private final CANSparkMax OTBIntakeMotor;
+  private final RelativeEncoder OTBIntakeEncoder;
 
   /** Creates the motor and encoder for the OTB Intake */
   public OTBIntakeIOSparkMax() {
@@ -24,30 +23,30 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
 
   /** Updates the values for the OTB Intake */
   public void updateInputs(OTBIntakeIOInputs inputs) {
-    inputs.rollerVelocityRadPerSec =
-        Units.rotationsToRadians(OTBIntakeEncoder.getPosition())
+    inputs.otbIntakeVelocityRPM =
+        OTBIntakeEncoder.getPosition()
             / OTBIntakeConstants
                 .GEAR_RATIO; // Converts rotaions to Radians and then divides it by the gear ratio
-    inputs.rollerAppliedVolts =
+    inputs.otbIntakeAppliedVolts =
         OTBIntakeMotor.getAppliedOutput()
             * OTBIntakeMotor.getBusVoltage(); // Applied voltage of the OTBIntake
-    inputs.rollerCurrentAmps =
+    inputs.otbIntakeCurrentAmps =
         new double[] {OTBIntakeMotor.getOutputCurrent()}; // Amps used by intake
   }
 
   /**
    * Sets the voltage of the OTB Intake motor
    *
-   * @param voltage
+   * @param voltage [-12 to 12]
    */
-  public void setOTBIntakeVoltage(double voltage) {
-    OTBIntakeMotor.setVoltage(voltage);
+  public void setOTBIntakeVoltage(double volts) {
+    OTBIntakeMotor.setVoltage(volts);
   }
 
   /**
    * Sets the OTB Intake to a percent of its max speed
    *
-   * @param percent
+   * @param percent [-1 to 1]
    */
   public void setOTBIntakePercentSpeed(double percent) {
     OTBIntakeMotor.set(percent);

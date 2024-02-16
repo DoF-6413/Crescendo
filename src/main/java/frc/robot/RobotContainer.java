@@ -13,6 +13,10 @@
 
 package frc.robot;
 
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -28,9 +32,6 @@ import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.vision.*;
 import frc.robot.Utils.*;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-
-import com.pathplanner.lib.commands.PathPlannerAuto;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -81,7 +82,8 @@ public class RobotContainer {
         m_climberSubsystem = new Climber(new ClimberIOSparkMax() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
+        m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         break;
 
@@ -96,13 +98,14 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
         m_visionSubsystem = new Vision(new VisionIOSim());
-        m_armSubsystem = new Arm(new ArmIOSim());        
+        m_armSubsystem = new Arm(new ArmIOSim());
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim() {});
         m_climberSubsystem = new Climber(new ClimberIOSim() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
+        m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
         break;
@@ -118,13 +121,14 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_visionSubsystem = new Vision(new VisionIO() {});
-        m_armSubsystem = new Arm(new ArmIO() {});        
+        m_armSubsystem = new Arm(new ArmIO() {});
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_climberSubsystem = new Climber(new ClimberIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
+        m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         break;
     }
@@ -145,54 +149,36 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
-    // m_driveSubsystem.setDefaultCommand(
-    //     new RunCommand(
-    //         () ->
-    //             m_driveSubsystem.setRaw(
-    //                 driverController.getLeftX(),
-    //                 -driverController.getLeftY(),
-    //                 driverController.getRightX()),
-    //         m_driveSubsystem));
+    m_driveSubsystem.setDefaultCommand(
+        new RunCommand(
+            () ->
+                m_driveSubsystem.setRaw(
+                    driverController.getLeftX(),
+                    -driverController.getLeftY(),
+                    driverController.getRightX()),
+            m_driveSubsystem));
 
-    // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
+    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
-    /*
-     * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
-     * Up will launch a NOTE outward
-     * Down will retract a NOTE inward
-     */
-    // m_shooterSubsystem.setDefaultCommand(
+    // m_otbIntakeSubsystem.setDefaultCommand(
     //     new InstantCommand(
-    //         () ->
-    //             m_shooterSubsystem.setShooterMotorPercentSpeed(
-    //                 -driverController.getRightY() * 0.75),
-    //         m_shooterSubsystem));
+    //         () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(auxController.getRightY()),
+    //         m_otbIntakeSubsystem)); // TODO: Update controls
 
-    /*
-     * Spins the motor that will be running the UTB Intake
-     */
-    // m_utbIntake.setDefaultCommand(
+    // m_actuatorSubsystem.setDefaultCommand(
     //     new InstantCommand(
-    //         () -> m_utbIntake.setUTBIntakePercentSpeed(auxController.getLeftY()), m_utbIntake));
+    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
+    //         m_actuatorSubsystem)); // TODO: Update controls
 
-    m_otbIntakeSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(auxController.getRightY()),
-            m_otbIntakeSubsystem));
+    // m_utbIntakeSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
+    //         m_utbIntakeSubsystem)); // TODO: Update controls
 
-    m_actuatorSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
-            m_actuatorSubsystem));
-    m_utbIntakeSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
-            m_utbIntakeSubsystem)); // TODO: Update controls
-
-    m_climberSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
-            m_climberSubsystem)); // TODO: Update controls
+    // m_climberSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
+    //         m_climberSubsystem)); // TODO: Update controls
   }
 
   /**

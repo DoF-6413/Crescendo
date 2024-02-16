@@ -35,7 +35,6 @@ public class Actuator extends SubsystemBase {
     SmartDashboard.putNumber("actuatorkp", 0.0);
     SmartDashboard.putNumber("actuatorki", 0.0);
     SmartDashboard.putNumber("actuatorkd", 0.0);
-
     SmartDashboard.putNumber("actuatorSetpoint", 0.0);
   }
 
@@ -69,11 +68,15 @@ public class Actuator extends SubsystemBase {
     ActuatorConstants.ACTUATOR_KP = SmartDashboard.getNumber("actuatorkp", 0);
     ActuatorConstants.ACTUATOR_KI = SmartDashboard.getNumber("actuatorki", 0);
     ActuatorConstants.ACTUATOR_KD = SmartDashboard.getNumber("actuatorkd", 0);
-    actuatorPID =
-        new PIDController(
-            ActuatorConstants.ACTUATOR_KP,
-            ActuatorConstants.ACTUATOR_KI,
-            ActuatorConstants.ACTUATOR_KD);
+    actuatorPID.setPID(
+        ActuatorConstants.ACTUATOR_KP,
+        ActuatorConstants.ACTUATOR_KI,
+        ActuatorConstants.ACTUATOR_KD);
+  }
+
+  private void updateSetpoint() {
+    actuatorSetpoint = SmartDashboard.getNumber("actuatorSetpoint", 0.0);
+    actuatorPID.setSetpoint(actuatorSetpoint);
   }
 
   /** return the position in meters (just for human understanding bc we use rad) */
@@ -92,10 +95,5 @@ public class Actuator extends SubsystemBase {
   /** Sets the speed based on a percentage not just voltge */
   public void setActuatorPercentSpeed(double percent) {
     actuatorIO.setActuatorPercentSpeed(percent);
-  }
-
-  private void updateSetpoint() {
-    actuatorSetpoint = SmartDashboard.getNumber("actuatorSetpoint", 0.0);
-    actuatorPID.setSetpoint(actuatorSetpoint);
   }
 }

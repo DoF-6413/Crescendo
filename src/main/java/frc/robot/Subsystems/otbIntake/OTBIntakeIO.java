@@ -11,19 +11,25 @@ public interface OTBIntakeIO {
 
   @AutoLog
   public static class OTBIntakeIOInputs {
-    public double otbIntakeMotorRPM = 0.0;
-    public double rollerVelocityRadPerSec = 0.0;
-    public double rollerAppliedVolts = 0.0;
-    public double[] rollerCurrentAmps = new double[] {};
-    public double OTBIntakepositionrad = 0.0;
-    public double otbIntakeVelocityRadPerSec = 0.0;
+    public double otbIntakeVelocityRPM = 0.0;
     public double otbIntakeAppliedVolts = 0.0;
     public double[] otbIntakeCurrentAmps = new double[] {};
   }
 
+  /** Updates inputs for the OTB Intake */
   public default void updateInputs(OTBIntakeIOInputs inputs) {}
 
+  /**
+   * Sets intake voltage for the OTB Intake
+   *
+   * @param volts [-12 to 12]
+   */
   public default void setOTBIntakeVoltage(double volts) {}
 
+  /**
+   * Sets intake speed for the OTB Intake
+   *
+   * @param percent [-1 to 1]
+   */
   public default void setOTBIntakePercentSpeed(double percent) {}
 }
