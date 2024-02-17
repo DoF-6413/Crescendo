@@ -207,6 +207,18 @@ public final class Constants {
     }
   }
 
+  public class WristConstants {
+    public static final double WRIST_GEAR_RATIO = 58.33;
+    public static final double WRIST_LENGTH = 0.4126308486;
+    public static final double WRIST_MIN_ANGLE = 0.390258413271767;
+    public static final double WRIST_MAX_ANGLE = 1.8675;
+    public static final double WRIST_STARTING_ANGLE = 0.39025841327;
+    public static final int WRIST_CANID = 0; // TODO: UPDATE
+    public static final int SMART_CURRENT_LIMIT_AMPS = 30;
+    public static final double WRIST_MOI_KG_M2 = 0.000271862238;
+    public static final boolean WRSIT_SIMULATE_GRAVITY = false; // TODO: UPDATE
+  }
+
   public class VisionConstants {
 
     public static final Transform3d cameraOnRobotOffsets =
@@ -295,7 +307,7 @@ public final class Constants {
     public static final double ACTUATOR_START_ANGLE_RADS = ACTUATOR_MIN_ANGLE_RADS;
     /** Length from pivot to roller */
     public static final double ACTUATOR_LENGTH_M = Units.inchesToMeters(30.354561);
-    
+
     public static final int ACTUATOR_SMART_CURRENT_LIMIT_AMPS = 40; // TODO: Update
 
     // PID Constants for the Actuator
