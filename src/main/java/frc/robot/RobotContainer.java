@@ -159,9 +159,9 @@ public class RobotContainer {
     //         () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
     //         m_climberSubsystem)); // TODO: Update controls
 
-    m_armSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_armSubsystem.setArmMotorSpeed(auxController.getLeftY()), m_armSubsystem));
+    //  - m_armSubsystem.setDefaultCommand(
+    //       new InstantCommand(
+    //           () > m_armSubsystem.setArmMotorSpeed(auxController.getLeftY()), m_armSubsystem));
   }
 
   /**

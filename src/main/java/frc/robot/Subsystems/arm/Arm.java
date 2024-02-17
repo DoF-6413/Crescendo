@@ -25,10 +25,10 @@ public class Arm extends SubsystemBase {
   public Arm(ArmIO arm) {
     System.out.println("[Init] Creating arm");
     this.io = arm;
-    // armPIDController = new PIDController(p, i, d);
-    // armPIDController.setSetpoint(setpoint);
-    // armPIDController.setTolerance(tolerance * setpoint);
-    // armPIDController.disableContinuousInput();
+    armPIDController = new PIDController(p, i, d);
+    armPIDController.setSetpoint(setpoint);
+    armPIDController.setTolerance(tolerance * setpoint);
+    armPIDController.disableContinuousInput();
 
     SmartDashboard.putNumber("armkp", 0.0);
     SmartDashboard.putNumber("armki", 0.0);
@@ -44,34 +44,34 @@ public class Arm extends SubsystemBase {
     if (p != SmartDashboard.getNumber("armkp", 0.0)
         || i != SmartDashboard.getNumber("armki", 0.0)
         || d != SmartDashboard.getNumber("armkd", 0.0)) {
-      // updatePIDController();
+      updatePIDController();
     }
 
     if (setpoint != SmartDashboard.getNumber("armSetpoint", 0.0)) {
-      // updateSetpoint();
+      updateSetpoint();
     }
 
     // Gets the current PID values that the PID contollers are set to
-    // SmartDashboard.putNumber("armError", setpoint - armInputs.armTurnPositionRad);
-    // SmartDashboard.putNumber("armCurrentkP", armPIDController.getP());
-    // SmartDashboard.putNumber("armCurrentkI", armPIDController.getI());
-    // SmartDashboard.putNumber("armCurrentkD", armPIDController.getD());
-    // SmartDashboard.putNumber("armCurrentSetpoint", armPIDController.getSetpoint());
+    SmartDashboard.putNumber("armError", setpoint - armInputs.armTurnPositionRad);
+    SmartDashboard.putNumber("armCurrentkP", armPIDController.getP());
+    SmartDashboard.putNumber("armCurrentkI", armPIDController.getI());
+    SmartDashboard.putNumber("armCurrentkD", armPIDController.getD());
+    SmartDashboard.putNumber("armCurrentSetpoint", armPIDController.getSetpoint());
 
-    // io.setArmMotorSpeed(armPIDController.calculate(armInputs.armTurnPositionRad));
+    io.setArmMotorSpeed(armPIDController.calculate(armInputs.armTurnPositionRad));
   }
 
-  // public void updatePIDController() {
-  //   p = SmartDashboard.getNumber("armkp", 0.0);
-  //   i = SmartDashboard.getNumber("armki", 0.0);
-  //   d = SmartDashboard.getNumber("armkd", 0.0);
-  //   armPIDController.setPID(p, i, d);
-  // }
+  public void updatePIDController() {
+    p = SmartDashboard.getNumber("armkp", 0.0);
+    i = SmartDashboard.getNumber("armki", 0.0);
+    d = SmartDashboard.getNumber("armkd", 0.0);
+    armPIDController.setPID(p, i, d);
+  }
 
-  // public void updateSetpoint() {
-  //   setpoint = SmartDashboard.getNumber("armSetpoint", 0.0);
-  //   armPIDController.setSetpoint(setpoint);
-  // }
+  public void updateSetpoint() {
+    setpoint = SmartDashboard.getNumber("armSetpoint", 0.0);
+    armPIDController.setSetpoint(setpoint);
+  }
 
   public void updateInputs() {
     io.updateInputs(armInputs);
