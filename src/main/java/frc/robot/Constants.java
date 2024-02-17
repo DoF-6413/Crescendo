@@ -280,7 +280,7 @@ public final class Constants {
     public static double OTB_INTAKE_KI = 0.0;
     public static double OTB_INTAKE_KD = 0.0;
     public static final double OTB_INTAKE_TOLERANCE =
-        0.01; // The RPM of the OTB Intake can be within 5% of the setpoint
+        0.01; // The RPM of the OTB Intake can be within 1% of the setpoint
 
     // Sim constants for the OTB Intake Rollers
     /** The moment of inertia for the OTB Intake Sim */
@@ -308,7 +308,6 @@ public final class Constants {
     // Sim constants for the Actuator
     /** The moment of inertia for the Actuator Sim */
     public static final double ACTUATOR_MOI_KG_M2 = 0.0000453591;
-
     public static final boolean ACTUATOR_IS_SIMULATE_GRAVITY = true;
   }
 
