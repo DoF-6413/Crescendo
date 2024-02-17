@@ -7,8 +7,8 @@ import frc.robot.Constants.UTBIntakeConstants;
 
 /** UTBIntake motor controller */
 public class UTBIntakeIOSparkMax implements UTBIntakeIO {
-  private CANSparkMax utbIntakeMotor;
-  private RelativeEncoder utbIntakeEncoder;
+  private final CANSparkMax utbIntakeMotor;
+  private final RelativeEncoder utbIntakeEncoder;
 
   /** Creates the Motor and Encoder for the UTB Intake */
   public UTBIntakeIOSparkMax() {

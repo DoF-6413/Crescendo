@@ -25,12 +25,12 @@ public class ShooterIOSim implements ShooterIO {
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
-
     // Updates the Shooter motors periodically
     topShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
     bottomShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
-    // Updates logged inputs
+    // Updates logged inputs, RPM and current. Voltage and temp aren't updated because ideally (like
+    // in a simulation), they would be constant
     inputs.topShooterMotorRPM = topShooterFlywheel.getAngularVelocityRPM();
     inputs.topShooterCurrentAmps = new double[] {Math.abs(topShooterFlywheel.getCurrentDrawAmps())};
     inputs.bottomShooterMotorRPM = bottomShooterFlywheel.getAngularVelocityRPM();
