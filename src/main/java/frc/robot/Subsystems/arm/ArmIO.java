@@ -10,15 +10,16 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ArmIO {
   @AutoLog
   public static class ArmIOInputs {
-
     public double armTurnAppliedVolts = 0.0;
     public double armTurnPositionRad = 0.0;
     public double armTurnVelocityRadPerSec = 0.0;
-    public double armTurnCurrentAmps = 0.0;
-    public double armTempCelcius = 0.0;
+    public double[] armTurnCurrentAmps = new double[] {};
+    public double[] armTempCelsius = new double[] {};
   }
 
   public default void updateInputs(ArmIOInputs inputs) {}
 
-  public default void setArmMotorSpeed(double Speed) {}
+  public default void setArmMotorSpeed(double speed) {}
+
+  public default void setArmMotorVoltage(double volts) {}
 }

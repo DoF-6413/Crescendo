@@ -19,7 +19,7 @@ public class ArmIOSim implements ArmIO {
           ArmConstants.ARM_LENGTH_M,
           ArmConstants.ARM_MIN_ANGLE_RAD,
           ArmConstants.ARM_MAX_ANGLE_RAD,
-          ArmConstants.ARM_SIMULATE_GRAVITY,
+          ArmConstants.ARM_IS_SIMULATING_GRAVITY,
           ArmConstants.ARM_STARTING_ANGLE_RAD);
 
   @Override
@@ -30,11 +30,14 @@ public class ArmIOSim implements ArmIO {
         armMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
     inputs.armTurnVelocityRadPerSec = armMotor.getVelocityRadPerSec();
     inputs.armTurnAppliedVolts = 0.0;
-    inputs.armTurnCurrentAmps = Math.abs(armMotor.getCurrentDrawAmps());
-    inputs.armTempCelcius = 0.0;
+    inputs.armTurnCurrentAmps = new double[] {Math.abs(armMotor.getCurrentDrawAmps())};
   }
 
-  public void setArmMotorSpeed(double Speed) {
-    armMotor.setInputVoltage(Speed * RobotStateConstants.BATTERY_VOLTAGE);
+  public void setArmMotorSpeed(double speed) {
+    armMotor.setInputVoltage(speed * RobotStateConstants.BATTERY_VOLTAGE);
+  }
+
+  public void setArmMotorVoltage(double volts) {
+    armMotor.setInputVoltage(volts);
   }
 }
