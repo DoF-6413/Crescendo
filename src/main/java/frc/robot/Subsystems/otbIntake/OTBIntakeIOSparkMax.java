@@ -19,20 +19,23 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
     System.out.println("[Init] Creating UTBIntakeIO");
     OTBIntakeMotor = new CANSparkMax(OTBIntakeConstants.OTB_INTAKE_CANID, MotorType.kBrushless);
     OTBIntakeEncoder = OTBIntakeMotor.getEncoder();
+    OTBIntakeMotor.setSmartCurrentLimit(OTBIntakeConstants.OTB_SMART_CURRENT_LIMIT_AMPS);
   }
 
   /** Updates the values for the OTB Intake */
   public void updateInputs(OTBIntakeIOInputs inputs) {
     inputs.otbIntakeVelocityRPM =
         OTBIntakeEncoder.getVelocity()
-            / OTBIntakeConstants
-                .GEAR_RATIO; // Returns the RPM of the OTB Intake Rollers
+            / OTBIntakeConstants.OTB_GEAR_RATIO; // Returns the RPM of the OTB Intake Rollers
     inputs.otbIntakeAppliedVolts =
         OTBIntakeMotor.getAppliedOutput()
             * OTBIntakeMotor.getBusVoltage(); // Applied voltage of the OTBIntake
     inputs.otbIntakeCurrentAmps =
         new double[] {OTBIntakeMotor.getOutputCurrent()}; // Amps used by intake
-    inputs.otbIntakeTempCelsius = new double[] {OTBIntakeMotor.getMotorTemperature()}; // The tempature of the OTBIntake motor in Celsius
+    inputs.otbIntakeTempCelsius =
+        new double[] {
+          OTBIntakeMotor.getMotorTemperature()
+        }; // The tempature of the OTBIntake motor in Celsius
   }
 
   /**

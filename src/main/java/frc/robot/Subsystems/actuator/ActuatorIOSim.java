@@ -17,7 +17,6 @@ public class ActuatorIOSim implements ActuatorIO {
   /** Creates the sim for the actuator */
   public ActuatorIOSim() {
     System.out.println("[Init] Creating ActuatorIOSim");
-    // TODO: Update jKgMetersSquared
     actuatorMotor =
         new SingleJointedArmSim(
             DCMotor.getNeo550(1),
@@ -36,10 +35,9 @@ public class ActuatorIOSim implements ActuatorIO {
 
     inputs.actuatorAppliedVolts = 0.0;
     inputs.actuatorPositionRad = actuatorMotor.getAngleRads();
-    inputs.actuatorPositionM =
-        actuatorMotor.getAngleRads() * (2 * Math.PI); // TODO: Double check math
-    inputs.actuatorVelocityRadPerSec =
-        actuatorMotor.getVelocityRadPerSec(); // Converts rotaions to Radians and then
+    inputs.actuatorPositionDeg =
+        inputs.actuatorVelocityRadPerSec =
+            actuatorMotor.getVelocityRadPerSec(); // Converts rotaions to Radians and then
     // divides it by the gear ratio
     inputs.actuatorCurrentAmps = new double[] {actuatorMotor.getCurrentDrawAmps()};
   }

@@ -20,19 +20,31 @@ public class ActuatorIOSparkMax implements ActuatorIO {
     System.out.println("[Init] Creating ActuatorIOSparkMax");
     actuatorMotor = new CANSparkMax(ActuatorConstants.ACTUATOR_CANID, MotorType.kBrushless);
     actuatorEncoder = actuatorMotor.getEncoder();
+    actuatorMotor.setSmartCurrentLimit(ActuatorConstants.ACTUATOR_SMART_CURRENT_LIMIT_AMPS);
   }
 
   @Override
   public void updateInputs(ActuatorIOInputs inputs) {
-    inputs.actuatorAppliedVolts = actuatorMotor.getAppliedOutput() * actuatorMotor.getBusVoltage();
     inputs.actuatorPositionRad =
-        Units.rotationsToRadians(actuatorEncoder.getPosition()) / ActuatorConstants.ACTUATOR_GEAR_RATIO; // Returns the position of the Actuator in Radians
+        Units.rotationsToRadians(actuatorEncoder.getPosition())
+            / ActuatorConstants
+                .ACTUATOR_GEAR_RATIO; // Returns the position of the Actuator in Radians
+    inputs.actuatorPositionDeg =
+        Units.rotationsToDegrees(actuatorEncoder.getPosition())
+            / ActuatorConstants
+                .ACTUATOR_GEAR_RATIO; // Returns the position of the Actuator in Degrees
     inputs.actuatorVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(actuatorEncoder.getVelocity())
-            / ActuatorConstants
-                .ACTUATOR_GEAR_RATIO; // Returns the velocity in Rad/s
-    inputs.actuatorCurrentAmps = new double[] {actuatorMotor.getOutputCurrent()}; // The number of amps used by the Actuator motor
-    inputs.actuatorTempCelsius = new double[] {actuatorMotor.getMotorTemperature()}; // Retuns the tempature of the Actuator motor in Celsius
+            / ActuatorConstants.ACTUATOR_GEAR_RATIO; // Returns the velocity in Rad/s
+    inputs.actuatorAppliedVolts = actuatorMotor.getAppliedOutput() * actuatorMotor.getBusVoltage();
+    inputs.actuatorCurrentAmps =
+        new double[] {
+          actuatorMotor.getOutputCurrent()
+        }; // The number of amps used by the Actuator motor
+    inputs.actuatorTempCelsius =
+        new double[] {
+          actuatorMotor.getMotorTemperature()
+        }; // Retuns the tempature of the Actuator motor in Celsius
   }
 
   @Override
