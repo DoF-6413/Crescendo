@@ -24,7 +24,6 @@ public class ShooterIOSim implements ShooterIO {
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
-
     // Updates the Shooter motors periodically
     topShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
     bottomShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);

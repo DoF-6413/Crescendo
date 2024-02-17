@@ -9,7 +9,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
-
 public class ActuatorIOSparkMax implements ActuatorIO {
   private final CANSparkMax actuatorMotor;
   private final RelativeEncoder actuatorEncoder;

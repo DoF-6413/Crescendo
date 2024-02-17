@@ -103,7 +103,7 @@ public class RobotContainer {
                 new ModuleIOSimNeoKraken(),
                 new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIOSim());
+        m_armSubsystem = new Arm(new ArmIOSim())
         m_visionSubsystem = new Vision(new VisionIOSim());
         m_climberSubsystem = new Climber(new ClimberIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
@@ -169,18 +169,25 @@ public class RobotContainer {
 
     driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
-    /*
-     * Spins the motor that will be running the UTB Intake
-     */
-    m_utbIntakeSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
-            m_utbIntakeSubsystem)); // TODO: Update controls
+    // m_otbIntakeSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(auxController.getRightY()),
+    //         m_otbIntakeSubsystem)); // TODO: Update controls
 
-    m_climberSubsystem.setDefaultCommand(
+    m_actuatorSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
-            m_climberSubsystem)); // TODO: Update controls
+            () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
+            m_actuatorSubsystem)); // TODO: Update controls
+
+    // m_utbIntakeSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
+    //         m_utbIntakeSubsystem)); // TODO: Update controls
+
+    // m_climberSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
+    //         m_climberSubsystem)); // TODO: Update controls
   }
 
   /**
