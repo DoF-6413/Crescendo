@@ -76,7 +76,7 @@ public class RobotContainer {
         m_armSubsystem = new Arm(new ArmIONeo());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
-        m_wristSubsystem = new Wrist(new wristIONeo());
+        m_wristSubsystem = new Wrist(new WristIONeo());
         m_climberSubsystem = new Climber(new ClimberIOSparkMax() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
@@ -96,7 +96,7 @@ public class RobotContainer {
         m_visionSubsystem = new Vision(new VisionIOSim());
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim() {});
-        m_wristSubsystem = new Wrist(new wristIOSim());
+        m_wristSubsystem = new Wrist(new WristIONeoSim());
         m_climberSubsystem = new Climber(new ClimberIOSim() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);

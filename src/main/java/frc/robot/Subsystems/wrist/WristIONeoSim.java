@@ -9,21 +9,22 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.*;
 
 /** Add your docs here. */
-public class wristIOSim implements WristIO {
+public class WristIONeoSim implements WristIO {
 
   private SingleJointedArmSim wristMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
-          wristNeoConstants.MOTOR_GEAR_RATIO,
+          WristConstants.WRIST_GEAR_RATIO,
           1,
-          wristNeoConstants.MOTOR_LENGTH,
-          wristNeoConstants.MOTOR_MIN_ANGLE,
-          wristNeoConstants.MOTOR_MAX_ANGLE,
+          WristConstants.WRIST_LENGTH,
+          WristConstants.WRIST_MIN_ANGLE,
+          WristConstants.WRIST_MAX_ANGLE,
           false,
-          wristNeoConstants.MOTOR_STARTING_ANGLE); // TODO: update moment of inertia
+          WristConstants.WRIST_STARTING_ANGLE); // TODO: update moment of inertia
 
   @Override
   public void updateInputs(WristIOInputs inputs) {
+    wristMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
     inputs.wristTurnPositionRad +=
         wristMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
@@ -33,10 +34,9 @@ public class wristIOSim implements WristIO {
     inputs.wristTempCelcius = 0.0;
   }
 
-  public void setWristMotorSpeed(double Speed) {
+  public void setWristMotorSpeed(double percent) {
 
-    wristMotor.setInputVoltage(Speed * wristNeoConstants.WRIST_APPLIED_VOLTS);
+    wristMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
 
-    wristMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
   }
 }

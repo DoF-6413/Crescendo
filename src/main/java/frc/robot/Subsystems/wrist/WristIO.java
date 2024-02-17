@@ -16,5 +16,5 @@ public interface WristIO {
 
   public default void updateInputs(WristIOInputs inputs) {}
 
-  public default void setWristMotorSpeed(double peed) {}
+  public default void setWristMotorSpeed(double percent) {}
 }

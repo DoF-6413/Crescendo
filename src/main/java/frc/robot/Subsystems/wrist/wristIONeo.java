@@ -12,15 +12,15 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.wristNeoConstants;
+import frc.robot.Constants.WristConstants;
 
 /** Add your docs here. */
-public class wristIONeo implements WristIO {
+public class WristIONeo implements WristIO {
 
   private final CANSparkMax wristMotor;
   private final RelativeEncoder wristEncoder;
 
-  public wristIONeo() {
+  public WristIONeo() {
     wristMotor = new CANSparkMax(1, MotorType.kBrushless);
     wristEncoder = wristMotor.getEncoder();
 
@@ -28,19 +28,19 @@ public class wristIONeo implements WristIO {
     wristMotor.setSmartCurrentLimit(30);
   }
 
-  public void setWristMotorsSpeed(double Speed) {
-    wristMotor.setVoltage(Speed);
-  }
 
+  
   public void updateInputs(WristIOInputs inputs) {
-    // first wrist motor
-
-    inputs.wristTurnAppliedVolts = wristMotor.getBusVoltage();
+    inputs.wristTurnAppliedVolts = wristMotor.getAppliedOutput() * wristMotor.getBusVoltage();
     inputs.wristTurnPositionRad =
-        Units.rotationsToRadians(wristEncoder.getPosition()) / wristNeoConstants.MOTOR_GEAR_RATIO;
+    Units.rotationsToRadians(wristEncoder.getPosition()) / WristConstants.WRIST_GEAR_RATIO;
     inputs.wristTempCelcius = wristMotor.getMotorTemperature();
     inputs.wristTurnVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity());
+    Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity());
     inputs.wristTurnCurrentAmps = wristMotor.getOutputCurrent();
+  }
+
+  public void setWristPercentSpeed(double percent) {
+    wristMotor.set(percent);
   }
 }
