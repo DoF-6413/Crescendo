@@ -64,7 +64,13 @@ public class OTBIntake extends SubsystemBase {
 
     SmartDashboard.putNumber("OTBIntakeError", setpointRPM - inputs.otbIntakeVelocityRPM);
 
-    setOTBIntakeVoltage(otbIntakePID.calculateForVoltage(inputs.otbIntakeVelocityRPM, 2000)); // TODO: Update maxValue
+    if (inputs.otbIntakeVelocityRPM < 0) {
+      setOTBIntakeVoltage(0.01);
+    } else {
+      setOTBIntakeVoltage(
+          otbIntakePID.calculateForVoltage(
+              inputs.otbIntakeVelocityRPM, 2000)); // TODO: Update maxValue
+    }
   }
 
   public void updatePIDController() {
@@ -98,8 +104,4 @@ public class OTBIntake extends SubsystemBase {
   public void setOTBIntakePercentSpeed(double percent) {
     io.setOTBIntakePercentSpeed(percent);
   }
-
-  // public double getOTBIntakeRPM() {
-  //   return inputs.otbIntakeVelocityRPM;
-  // }
 }

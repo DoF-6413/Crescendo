@@ -25,8 +25,6 @@ public class OTBIntakeIOSim implements OTBIntakeIO {
 
     inputs.otbIntakeVelocityRPM =
         intakeMotorSim.getAngularVelocityRPM() / OTBIntakeConstants.GEAR_RATIO;
-    System.out.println(
-        "OTB RPM: " + intakeMotorSim.getAngularVelocityRPM() / OTBIntakeConstants.GEAR_RATIO);
     inputs.otbIntakeAppliedVolts = 0.0;
     inputs.otbIntakeCurrentAmps = new double[] {Math.abs(intakeMotorSim.getCurrentDrawAmps())};
   }

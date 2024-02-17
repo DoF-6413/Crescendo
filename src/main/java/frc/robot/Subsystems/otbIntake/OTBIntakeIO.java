@@ -20,14 +20,14 @@ public interface OTBIntakeIO {
   public default void updateInputs(OTBIntakeIOInputs inputs) {}
 
   /**
-   * Sets intake voltage for the OTB Intake
+   * Sets the voltage for the OTB Intake
    *
    * @param volts [-12 to 12]
    */
   public default void setOTBIntakeVoltage(double volts) {}
 
   /**
-   * Sets intake speed for the OTB Intake
+   * Sets the speed for the OTB Intake
    *
    * @param percent [-1 to 1]
    */

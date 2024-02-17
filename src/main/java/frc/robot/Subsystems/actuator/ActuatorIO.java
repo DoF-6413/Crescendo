@@ -21,7 +21,17 @@ public interface ActuatorIO {
     // This method will be called once per scheduler run
   }
 
+  /**
+   * Sets the voltage for the Actuator
+   *
+   * @param volts [-12 to 12]
+   */
   public default void setActuatorVoltage(double volts) {}
 
+  /**
+   * Sets the speed for the Actuator
+   *
+   * @param percent [-1 to 1]
+   */
   public default void setActuatorPercentSpeed(double percent) {}
 }

@@ -13,10 +13,7 @@
 
 package frc.robot;
 
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -32,6 +29,7 @@ import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.vision.*;
 import frc.robot.Utils.*;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -82,8 +80,7 @@ public class RobotContainer {
         m_climberSubsystem = new Climber(new ClimberIOSparkMax() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
-        m_visionSubsystem);
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         break;
 
@@ -104,8 +101,7 @@ public class RobotContainer {
         m_climberSubsystem = new Climber(new ClimberIOSim() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
-        m_visionSubsystem);
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
         break;
@@ -127,8 +123,7 @@ public class RobotContainer {
         m_climberSubsystem = new Climber(new ClimberIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
-        m_visionSubsystem);
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         break;
     }
