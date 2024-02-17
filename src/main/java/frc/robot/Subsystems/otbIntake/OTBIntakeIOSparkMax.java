@@ -24,7 +24,7 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
   /** Updates the values for the OTB Intake */
   public void updateInputs(OTBIntakeIOInputs inputs) {
     inputs.otbIntakeVelocityRPM =
-        OTBIntakeEncoder.getPosition()
+        OTBIntakeEncoder.getVelocity()
             / OTBIntakeConstants
                 .GEAR_RATIO; // Converts rotaions to Radians and then divides it by the gear ratio
     inputs.otbIntakeAppliedVolts =
@@ -32,6 +32,7 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
             * OTBIntakeMotor.getBusVoltage(); // Applied voltage of the OTBIntake
     inputs.otbIntakeCurrentAmps =
         new double[] {OTBIntakeMotor.getOutputCurrent()}; // Amps used by intake
+    inputs.otbIntakeTempCelsius = new double[] {OTBIntakeMotor.getMotorTemperature()}; // The tempature of the OTBIntake motor in Celsius
   }
 
   /**

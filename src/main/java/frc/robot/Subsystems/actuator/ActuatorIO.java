@@ -13,13 +13,14 @@ public interface ActuatorIO {
 
     public double actuatorAppliedVolts = 0.0;
     public double actuatorPositionRad = 0.0;
+    public double actuatorPositionM = 0.0;
     public double actuatorVelocityRadPerSec = 0.0;
-    public double actuatorCurrentAmps = 0.0;
+    public double[] actuatorCurrentAmps = new double[] {};
+    public double[] actuatorTempCelsius = new double[] {};
   }
 
-  public default void updateInputs(ActuatorIOInputs inputs) {
-    // This method will be called once per scheduler run
-  }
+  /** Updates inputs for the Actuator */
+  public default void updateInputs(ActuatorIOInputs inputs) {}
 
   /**
    * Sets the voltage for the Actuator

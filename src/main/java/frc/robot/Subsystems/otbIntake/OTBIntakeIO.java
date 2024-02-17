@@ -14,6 +14,7 @@ public interface OTBIntakeIO {
     public double otbIntakeVelocityRPM = 0.0;
     public double otbIntakeAppliedVolts = 0.0;
     public double[] otbIntakeCurrentAmps = new double[] {};
+    public double[] otbIntakeTempCelsius = new double[] {};
   }
 
   /** Updates inputs for the OTB Intake */

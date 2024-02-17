@@ -160,10 +160,10 @@ public class RobotContainer {
     //         () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(auxController.getRightY()),
     //         m_otbIntakeSubsystem)); // TODO: Update controls
 
-    // m_actuatorSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
-    //         m_actuatorSubsystem)); // TODO: Update controls
+    m_actuatorSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
+            m_actuatorSubsystem)); // TODO: Update controls
 
     // m_utbIntakeSubsystem.setDefaultCommand(
     //     new InstantCommand(

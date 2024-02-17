@@ -34,10 +34,12 @@ public class ActuatorIOSim implements ActuatorIO {
   public void updateInputs(ActuatorIOInputs inputs) {
     inputs.actuatorAppliedVolts = 0.0;
     inputs.actuatorPositionRad = actuatorMotor.getAngleRads();
+    inputs.actuatorPositionM =
+        actuatorMotor.getAngleRads() * (2 * Math.PI); // TODO: Double check math
     inputs.actuatorVelocityRadPerSec =
         actuatorMotor.getVelocityRadPerSec(); // Converts rotaions to Radians and then
     // divides it by the gear ratio
-    inputs.actuatorCurrentAmps = actuatorMotor.getCurrentDrawAmps();
+    inputs.actuatorCurrentAmps = new double[] {actuatorMotor.getCurrentDrawAmps()};
     actuatorMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
   }
 

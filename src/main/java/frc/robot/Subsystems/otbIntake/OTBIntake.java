@@ -6,6 +6,7 @@ package frc.robot.Subsystems.otbIntake;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.OTBIntakeConstants;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
 
@@ -18,22 +19,16 @@ public class OTBIntake extends SubsystemBase {
 
   private double setpointRPM = 0.0;
 
-  private double otbkP = 0.0;
-  private double otbkI = 0.0;
-  private double otbkD = 0.0;
-
   public OTBIntake(OTBIntakeIO io) {
     System.out.println("[Init] Creating OTB Intake");
     this.io = io;
     otbIntakePID =
         new PIDController(
-            otbkP, otbkI, otbkD
-            // OTBIntakeConstants.OTB_INTAKE_KP,
-            // OTBIntakeConstants.OTB_INTAKE_KI,
-            // OTBIntakeConstants.OTB_INTAKE_KD
-            );
+            OTBIntakeConstants.OTB_INTAKE_KP,
+            OTBIntakeConstants.OTB_INTAKE_KI,
+            OTBIntakeConstants.OTB_INTAKE_KD);
     otbIntakePID.setSetpoint(setpointRPM);
-    // otbIntakePID.setTolerance(setpointRPM * OTBIntakeConstants.OTB_INTAKE_TOLERANCE);
+    otbIntakePID.setTolerance(setpointRPM * OTBIntakeConstants.OTB_INTAKE_TOLERANCE);
 
     SmartDashboard.putNumber("OTBIntakekP", 0.0);
     SmartDashboard.putNumber("OTBIntakekI", 0.0);
@@ -47,9 +42,9 @@ public class OTBIntake extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("OTBIntake", inputs);
 
-    if (otbkP != SmartDashboard.getNumber("OTBIntakekP", 0)
-        || otbkI != SmartDashboard.getNumber("otbIntakekI", 0)
-        || otbkD != SmartDashboard.getNumber("otbIntakekD", 0)) {
+    if (OTBIntakeConstants.OTB_INTAKE_KP != SmartDashboard.getNumber("OTBIntakekP", 0)
+        || OTBIntakeConstants.OTB_INTAKE_KI != SmartDashboard.getNumber("OTBIntakekI", 0)
+        || OTBIntakeConstants.OTB_INTAKE_KD != SmartDashboard.getNumber("OTBIntakekD", 0)) {
       updatePIDController();
     }
 
@@ -63,6 +58,7 @@ public class OTBIntake extends SubsystemBase {
     SmartDashboard.putNumber("Get OTB kD", otbIntakePID.getD());
 
     SmartDashboard.putNumber("OTBIntakeError", setpointRPM - inputs.otbIntakeVelocityRPM);
+    SmartDashboard.putBoolean("OTB At Setpoint", atSetpoint());
 
     if (inputs.otbIntakeVelocityRPM < 0) {
       setOTBIntakeVoltage(0.01);
@@ -74,18 +70,13 @@ public class OTBIntake extends SubsystemBase {
   }
 
   public void updatePIDController() {
-    // OTBIntakeConstants.OTB_INTAKE_KP = SmartDashboard.getNumber("OTBIntakekp", 0);
-    // OTBIntakeConstants.OTB_INTAKE_KI = SmartDashboard.getNumber("OTBIntakeki", 0);
-    // OTBIntakeConstants.OTB_INTAKE_KD = SmartDashboard.getNumber("OTBIntakekd", 0);
-    otbkP = SmartDashboard.getNumber("OTBIntakekP", 0);
-    otbkI = SmartDashboard.getNumber("OTBIntakekI", 0);
-    otbkD = SmartDashboard.getNumber("OTBIntakekD", 0);
+    OTBIntakeConstants.OTB_INTAKE_KP = SmartDashboard.getNumber("OTBIntakekP", 0);
+    OTBIntakeConstants.OTB_INTAKE_KI = SmartDashboard.getNumber("OTBIntakekI", 0);
+    OTBIntakeConstants.OTB_INTAKE_KD = SmartDashboard.getNumber("OTBIntakekD", 0);
     otbIntakePID.setPID(
-        otbkP, otbkI, otbkD
-        // OTBIntakeConstants.OTB_INTAKE_KP,
-        // OTBIntakeConstants.OTB_INTAKE_KI,
-        // OTBIntakeConstants.OTB_INTAKE_KD
-        );
+        OTBIntakeConstants.OTB_INTAKE_KP,
+        OTBIntakeConstants.OTB_INTAKE_KI,
+        OTBIntakeConstants.OTB_INTAKE_KD);
   }
 
   public void updateSetpoint() {
@@ -103,5 +94,9 @@ public class OTBIntake extends SubsystemBase {
 
   public void setOTBIntakePercentSpeed(double percent) {
     io.setOTBIntakePercentSpeed(percent);
+  }
+
+  public boolean atSetpoint() {
+    return otbIntakePID.atSetpoint(inputs.otbIntakeVelocityRPM);
   }
 }

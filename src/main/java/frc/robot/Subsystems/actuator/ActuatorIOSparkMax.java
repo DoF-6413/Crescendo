@@ -12,8 +12,8 @@ import frc.robot.Constants.ActuatorConstants;
 
 /** Runs the real life Actuator with CANSpark Speed Controllers and NEO 550 motor */
 public class ActuatorIOSparkMax implements ActuatorIO {
-  private CANSparkMax actuatorMotor;
-  private RelativeEncoder actuatorEncoder;
+  private final CANSparkMax actuatorMotor;
+  private final RelativeEncoder actuatorEncoder;
 
   /** Creates the motor and encoder for the actuator */
   public ActuatorIOSparkMax() {
@@ -24,14 +24,19 @@ public class ActuatorIOSparkMax implements ActuatorIO {
 
   @Override
   public void updateInputs(ActuatorIOInputs inputs) {
-    inputs.actuatorAppliedVolts = actuatorMotor.getBusVoltage();
+    inputs.actuatorAppliedVolts = actuatorMotor.getAppliedOutput() * actuatorMotor.getBusVoltage();
     inputs.actuatorPositionRad =
         Units.rotationsToRadians(actuatorEncoder.getPosition()) / ActuatorConstants.GEAR_RATIO;
+    inputs.actuatorPositionM =
+        Units.rotationsToRadians(actuatorEncoder.getPosition())
+            * (2 * Math.PI)
+            / ActuatorConstants.GEAR_RATIO; // TODO: Double check math
     inputs.actuatorVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(actuatorEncoder.getVelocity())
             / ActuatorConstants
                 .GEAR_RATIO; // Converts rotaions to Radians and then divides it by the gear ratio
-    inputs.actuatorCurrentAmps = actuatorMotor.getOutputCurrent();
+    inputs.actuatorCurrentAmps = new double[] {actuatorMotor.getOutputCurrent()}; // The amps used by the Actuator motor
+    inputs.actuatorTempCelsius = new double[] {actuatorMotor.getMotorTemperature()}; // The tempature of the Actuator motor in Celsius
   }
 
   @Override
