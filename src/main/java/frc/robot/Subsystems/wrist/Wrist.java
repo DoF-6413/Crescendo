@@ -12,7 +12,7 @@ import org.littletonrobotics.junction.Logger;
 public class Wrist extends SubsystemBase {
 
   private final WristIO io;
-  private final WristIOInputsAutoLogged wristInputs = new WristIOInputsAutoLogged();
+  private final WristIOInputsAutoLogged inputs = new WristIOInputsAutoLogged();
 
   private static PIDController wristPID;
 
@@ -31,15 +31,19 @@ public class Wrist extends SubsystemBase {
   @Override
   public void periodic() {
     this.updateInputs();
-    Logger.processInputs("wrist", wristInputs);
+    Logger.processInputs("Wrist", inputs);
   }
 
   public void updateInputs() {
-    io.updateInputs(wristInputs);
+    io.updateInputs(inputs);
   }
 
   /** Sets speed for the first motor of the wrist */
-  public void setWristMotorSpeed(double percent) {
-    io.setWristMotorSpeed(percent);
+  public void setWristMotorPercent(double percent) {
+    io.setWristMotorPercent(percent);
+  }
+
+  public void setWristMotorVoltage(double volts){
+    setWristMotorVoltage(volts);
   }
 }

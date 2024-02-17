@@ -34,9 +34,13 @@ public class WristIONeoSim implements WristIO {
     inputs.wristTempCelcius = 0.0;
   }
 
-  public void setWristMotorSpeed(double percent) {
-
+  @Override
+  public void setWristMotorPercent(double percent) {
     wristMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
+  }
 
+    @Override
+  public void setWristMotorVoltage(double volts) {
+    wristMotor.setInputVoltage(volts);
   }
 }

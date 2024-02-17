@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
+import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Constants.WristConstants;
 
 /** Add your docs here. */
@@ -29,7 +30,7 @@ public class WristIONeo implements WristIO {
   }
 
 
-  
+  @Override
   public void updateInputs(WristIOInputs inputs) {
     inputs.wristTurnAppliedVolts = wristMotor.getAppliedOutput() * wristMotor.getBusVoltage();
     inputs.wristTurnPositionRad =
@@ -40,7 +41,13 @@ public class WristIONeo implements WristIO {
     inputs.wristTurnCurrentAmps = wristMotor.getOutputCurrent();
   }
 
-  public void setWristPercentSpeed(double percent) {
+  @Override
+  public void setWristMotorPercent(double percent) {
     wristMotor.set(percent);
+  }
+
+  @Override
+  public void setWristMotorVoltage(double volts){
+    wristMotor.set(volts/RobotStateConstants.BATTERY_VOLTAGE);
   }
 }
