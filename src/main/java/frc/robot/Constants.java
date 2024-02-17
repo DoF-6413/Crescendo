@@ -237,9 +237,9 @@ public final class Constants {
     // Update?
 
     // Inverted motors
-    public static final boolean TOP_SHOOTER_ARM_INVERTED =
+    public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
         true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
-    public static final boolean BOTTOM_SHOOTER_ARM_INVERTED =
+    public static final boolean BOTTOM_SHOOTER_MOTOR_INVERTED =
         false; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
 
     // PID Constants  TODO: Tune and update
