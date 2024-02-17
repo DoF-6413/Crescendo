@@ -47,6 +47,6 @@ public class WristIONeo implements WristIO {
 
   @Override
   public void setWristMotorVoltage(double volts) {
-    wristMotor.set(volts / RobotStateConstants.BATTERY_VOLTAGE);
+    wristMotor.setVoltage(volts);
   }
 }
