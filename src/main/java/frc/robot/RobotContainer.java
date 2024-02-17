@@ -120,6 +120,8 @@ public class RobotContainer {
 
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Default Path", new PathPlannerAuto("ROCK"));
+    autoChooser.addOption("Default Path", new PathPlannerAuto("shootCloseNotes"));
+
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
     // Configure the button bindings

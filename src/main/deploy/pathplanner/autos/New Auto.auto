@@ -2,25 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4161765140632432,
-      "y": 6.990576641485824
+      "x": 1.382399573915957,
+      "y": 6.946327738809324
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Run Flywheel"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "shootFarNotes"
+            "pathName": "shootCloseNotes"
           }
         }
       ]
