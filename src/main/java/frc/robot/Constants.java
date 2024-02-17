@@ -311,7 +311,7 @@ public final class Constants {
     public static final double ACTUATOR_START_ANGLE_RADS = ACTUATOR_MIN_ANGLE_RADS;
     /** Length from pivot to roller */
     public static final double ACTUATOR_LENGTH_M = Units.inchesToMeters(30.354561);
-    
+
     public static final int ACTUATOR_SMART_CURRENT_LIMIT_AMPS = 40; // TODO: Update
 
     // PID Constants for the Actuator

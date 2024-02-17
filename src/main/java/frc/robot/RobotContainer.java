@@ -14,9 +14,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.*;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
 import frc.robot.Subsystems.climber.*;
@@ -26,6 +32,7 @@ import frc.robot.Subsystems.otbIntake.*;
 import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.vision.*;
+import frc.robot.Subsystems.wrist.*;
 import frc.robot.Utils.*;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -48,6 +55,7 @@ public class RobotContainer {
   private final Climber m_climberSubsystem;
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
+  private final Wrist m_wristSubsystem;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -80,6 +88,7 @@ public class RobotContainer {
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+        m_wristSubsystem = new Wrist(new WristIONeo());
         break;
 
       case SIM:
@@ -101,6 +110,7 @@ public class RobotContainer {
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+        m_wristSubsystem = new Wrist(new WristIONeoSim());
 
         break;
 
@@ -123,6 +133,7 @@ public class RobotContainer {
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+        m_wristSubsystem = new Wrist(new WristIO() {});
         break;
     }
 
@@ -142,16 +153,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
-    m_driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_driveSubsystem.setRaw(
-                    driverController.getLeftX(),
-                    -driverController.getLeftY(),
-                    driverController.getRightX()),
-            m_driveSubsystem));
+    // m_driveSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () ->
+    //             m_driveSubsystem.setRaw(
+    //                 driverController.getLeftX(),
+    //                 -driverController.getLeftY(),
+    //                 driverController.getRightX()),
+    //         m_driveSubsystem));
 
-    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
+    // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     //TODO: update controls
     // m_utbIntakeSubsystem.setDefaultCommand(
@@ -167,7 +178,7 @@ public class RobotContainer {
     // m_armSubsystem.setDefaultCommand(
     //       new InstantCommand(
     //           () > m_armSubsystem.setArmMotorSpeed(auxController.getLeftY()), m_armSubsystem));
-    
+
     // m_otbIntakeSubsystem.setDefaultCommand(
     //     new InstantCommand(
     //         () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(auxController.getRightY()),
