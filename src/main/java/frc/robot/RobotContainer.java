@@ -69,8 +69,8 @@ public class RobotContainer {
                 new ModuleIOSparkMax(),
                 new ModuleIOSparkMax(),
                 m_gyroSubsystem);
-        m_visionSubsystem = new Vision(new VisionIOArduCam());
         m_armSubsystem = new Arm(new ArmIONeo());
+        m_visionSubsystem = new Vision(new VisionIOArduCam());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_climberSubsystem = new Climber(new ClimberIOSparkMax() {});
@@ -109,8 +109,8 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
-        m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_visionSubsystem = new Vision(new VisionIO() {});
+        m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_climberSubsystem = new Climber(new ClimberIO() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
@@ -148,15 +148,20 @@ public class RobotContainer {
     /*
      * Spins the motor that will be running the UTB Intake
      */
-    m_utbIntakeSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
-            m_utbIntakeSubsystem)); // TODO: Update controls
+    // m_utbIntakeSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
+    //         m_utbIntakeSubsystem)); // TODO: Update controls
 
-    m_climberSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
-            m_climberSubsystem)); // TODO: Update controls
+    // m_climberSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
+    //         m_climberSubsystem)); // TODO: Update controls
+
+    // m_armSubsystem.setDefaultCommand(
+    //   new InstantCommand(
+    //     () -> m_armSubsystem.setArmMotorSpeed(auxController.getLeftY()),
+    //     m_armSubsystem));
   }
 
   /**

@@ -18,17 +18,19 @@ public class Arm extends SubsystemBase {
   private final ArmIOInputsAutoLogged armInputs = new ArmIOInputsAutoLogged();
   private static PIDController armPIDController;
   private double setpoint = 0.0;
+  private double tolerance = 0.05;
   private double p = 0.0;
   private double i = 0.0;
   private double d = 0.0;
-  
+
   public Arm(ArmIO arm) {
     System.out.println("[Init] Creating arm");
     this.io = arm;
     armPIDController = new PIDController(p, i, d, RobotStateConstants.LOOP_PERIODIC_SEC);
     armPIDController.setSetpoint(setpoint);
-    armPIDController.enableContinuousInput(ArmConstants.ARM_MIN_ANGLE_RAD, ArmConstants.ARM_MAX_ANGLE_RAD);
-    
+    armPIDController.setTolerance(tolerance * setpoint);
+    armPIDController.disableContinuousInput();
+
     SmartDashboard.putNumber("armkp", 0.0);
     SmartDashboard.putNumber("armki", 0.0);
     SmartDashboard.putNumber("armkd", 0.0);
@@ -38,7 +40,7 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     this.updateInputs();
-    Logger.processInputs("arm", armInputs);
+    Logger.processInputs("Arm", armInputs);
 
     if (p != SmartDashboard.getNumber("armkp", 0.0)
         || i != SmartDashboard.getNumber("armki", 0.0)
@@ -51,7 +53,7 @@ public class Arm extends SubsystemBase {
     }
 
     // Gets the current PID values that the PID contollers are set to
-    SmartDashboard.putNumber("Error", setpoint - armInputs.armTurnPositionRad);
+    SmartDashboard.putNumber("armError", setpoint - armInputs.armTurnPositionRad);
     SmartDashboard.putNumber("armCurrentkP", armPIDController.getP());
     SmartDashboard.putNumber("armCurrentkI", armPIDController.getI());
     SmartDashboard.putNumber("armCurrentkD", armPIDController.getD());

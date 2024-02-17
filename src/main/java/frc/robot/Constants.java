@@ -208,13 +208,13 @@ public final class Constants {
   }
 
   public class ArmConstants {
-    public static final double ARM_GEAR_RATIO = 123; // TODO: update    
+    public static final double ARM_GEAR_RATIO = 123; // TODO: update
     public static final double ARM_MOI_KG_M2 = 0.00005; // TODO: update
     public static final double ARM_LENGTH_M = 0.4126308486; // TODO: double check units
-    public static final double ARM_MIN_ANGLE_RAD = 0.390258413271767;
-    public static final double ARM_MAX_ANGLE_RAD = 1.8675;
-    public static final double ARM_STARTING_ANGLE_RAD = 0.39025841327;
-    public static final boolean ARM_SIMULATE_GRAVITY = false;
+    public static final double ARM_MIN_ANGLE_RAD = 0.390258413271767; // TODO: update
+    public static final double ARM_MAX_ANGLE_RAD = 1.8675; // TODO: update
+    public static final double ARM_STARTING_ANGLE_RAD = 0.39025841327; // TODO: update
+    public static final boolean ARM_SIMULATE_GRAVITY = false; 
   }
 
   public class VisionConstants {

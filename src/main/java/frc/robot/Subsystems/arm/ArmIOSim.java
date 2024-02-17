@@ -24,6 +24,7 @@ public class ArmIOSim implements ArmIO {
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
+    armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
     inputs.armTurnPositionRad +=
         armMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
@@ -34,9 +35,6 @@ public class ArmIOSim implements ArmIO {
   }
 
   public void setArmMotorSpeed(double Speed) {
-
     armMotor.setInputVoltage(Speed * RobotStateConstants.BATTERY_VOLTAGE);
-
-    armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
   }
 }
