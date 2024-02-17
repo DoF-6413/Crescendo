@@ -61,11 +61,11 @@ public class OTBIntake extends SubsystemBase {
     SmartDashboard.putBoolean("OTB At Setpoint", atSetpoint());
 
     if (inputs.otbIntakeVelocityRPM < 0) {
-      setOTBIntakeVoltage(0.01);
+      setOTBIntakeVoltage(0.0);
     } else {
       setOTBIntakeVoltage(
           otbIntakePID.calculateForVoltage(
-              inputs.otbIntakeVelocityRPM, 2000)); // TODO: Update maxValue
+              inputs.otbIntakeVelocityRPM, 1400)); // maxValue based on sim
     }
   }
 

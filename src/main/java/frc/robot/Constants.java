@@ -289,12 +289,13 @@ public final class Constants {
 
   public static class ActuatorConstants {
     public static final int ACTUATOR_CANID = 0; // TODO: update this id
-    public static final double ACTUATOR_GEAR_RATIO = 193.75; // TODO: Double check gear ratio
+    public static final double ACTUATOR_GEAR_RATIO = 193.75;
     public static final double ACTUATOR_MAX_ANGLE_RADS = Math.atan(-7.432 / 8.253) + (2 * Math.PI);
     public static final double ACTUATOR_MIN_ANGLE_RADS = Math.atan(11.105 / .096);
     public static final double ACTUATOR_START_ANGLE_RADS = ACTUATOR_MIN_ANGLE_RADS;
     /** Length from pivot to roller */
     public static final double ACTUATOR_LENGTH_METERS = Units.inchesToMeters(30.354561);
+    
     public static final int ACTUATOR_SMART_CURRENT_LIMIT_AMPS = 40; // TODO: Update
 
     // PID Constants for the Actuator
@@ -308,6 +309,7 @@ public final class Constants {
     // Sim constants for the Actuator
     /** The moment of inertia for the Actuator Sim */
     public static final double ACTUATOR_MOI_KG_M2 = 0.0000453591;
+
     public static final boolean ACTUATOR_IS_SIMULATE_GRAVITY = true;
   }
 

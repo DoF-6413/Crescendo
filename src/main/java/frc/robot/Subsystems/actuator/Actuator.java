@@ -10,7 +10,7 @@ import org.littletonrobotics.junction.Logger;
 public class Actuator extends SubsystemBase {
   public final ActuatorIO io;
   public final ActuatorIOInputsAutoLogged inputs = new ActuatorIOInputsAutoLogged();
-  
+
   /** Creates a new Actuator. */
   public Actuator(ActuatorIO io) {
     System.out.println("[init] Creating Actuator");
