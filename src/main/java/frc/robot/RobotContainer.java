@@ -17,10 +17,15 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.*;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
 import frc.robot.Subsystems.climber.*;
@@ -158,17 +163,39 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
-    m_driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_driveSubsystem.setRaw(
-                    driverController.getLeftX(),
-                    -driverController.getLeftY(),
-                    driverController.getRightX()),
-            m_driveSubsystem));
+    // m_driveSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () ->
+    //             m_driveSubsystem.setRaw(
+    //                 driverController.getLeftX(),
+    //                 -driverController.getLeftY(),
+    //                 driverController.getRightX()),
+    //         m_driveSubsystem));
 
-    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
+    // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
+    /*
+     * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
+     * Up will launch a NOTE outward
+     * Down will retract a NOTE inward
+     */
+
+    m_wristSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_wristSubsystem.setWristPercentSpeed(driverController.getLeftY()),
+            m_wristSubsystem));
+
+    // m_shooterSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () ->
+    //             m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() *
+    // 0.5),
+    //         m_shooterSubsystem));
+    // m_utbIntake.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_utbIntake.setUTBIntakePercentSpeed(driverController.getLeftY()),
+    // m_utbIntake));
+    /** Spins the motor that will be running the UTB Intake */
     // m_otbIntakeSubsystem.setDefaultCommand(
     //     new InstantCommand(
     //         () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(auxController.getRightY()),
