@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4259262722800992,
+      "x": 1.43,
       "y": 4.02665014356157
     },
     "rotation": 0
@@ -15,6 +15,12 @@
           "type": "path",
           "data": {
             "pathName": "5.5PieceAuto"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0
           }
         }
       ]
