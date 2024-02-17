@@ -119,8 +119,10 @@ public class RobotContainer {
     }
 
     autoChooser.addOption("Do Nothing", new InstantCommand());
-    autoChooser.addOption("Default Path", new PathPlannerAuto("ROCK"));
+    autoChooser.addOption("Default Path", new PathPlannerAuto("5.5PieceAuto"));
     autoChooser.addOption("Default Path", new PathPlannerAuto("shootCloseNotes"));
+    autoChooser.addOption("Default Path", new PathPlannerAuto("shootFarNotes"));
+    
 
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
