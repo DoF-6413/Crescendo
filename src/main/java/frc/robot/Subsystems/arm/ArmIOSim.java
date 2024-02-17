@@ -14,13 +14,13 @@ public class ArmIOSim implements ArmIO {
   private SingleJointedArmSim armMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
-          ArmConstants.MOTOR_GEAR_RATIO,
-          1,
-          ArmConstants.MOTOR_LENGTH,
-          ArmConstants.MOTOR_MIN_ANGLE,
-          ArmConstants.MOTOR_MAX_ANGLE,
-          false,
-          ArmConstants.MOTOR_STARTING_ANGLE);
+          ArmConstants.ARM_GEAR_RATIO,
+          ArmConstants.ARM_MOI_KG_M2,
+          ArmConstants.ARM_LENGTH_M,
+          ArmConstants.ARM_MIN_ANGLE_RAD,
+          ArmConstants.ARM_MAX_ANGLE_RAD,
+          ArmConstants.ARM_SIMULATE_GRAVITY,
+          ArmConstants.ARM_STARTING_ANGLE_RAD);
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
@@ -35,7 +35,7 @@ public class ArmIOSim implements ArmIO {
 
   public void setArmMotorSpeed(double Speed) {
 
-    armMotor.setInputVoltage(Speed * ArmConstants.WRIST_APPLIED_VOLTS);
+    armMotor.setInputVoltage(Speed * RobotStateConstants.BATTERY_VOLTAGE);
 
     armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
   }

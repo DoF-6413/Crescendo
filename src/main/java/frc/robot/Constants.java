@@ -155,7 +155,7 @@ public final class Constants {
      * Speed by Radius of the Circle an Object is Moving Around (v/r = w) The Radius of the Swerve
      * Drive is Equivelant to Half of the Distance of one Corner to the Other Corner This Can be
      * Calculated by Using Pythagoreans Theorem on Two of the Sides of the Robot and taking Half of
-     * the Hypotenuses
+     * the Hypotenus
      */
     public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC =
         MAX_LINEAR_SPEED_M_PER_SEC / (Math.sqrt(2 * (TRACK_WIDTH_M * TRACK_WIDTH_M)) / 2);
@@ -208,13 +208,13 @@ public final class Constants {
   }
 
   public class ArmConstants {
-    public static final double MOTOR_GEAR_RATIO = 123; // TODO: update
-    public static final double WRIST_APPLIED_VOLTS = 12;
-
-    public static final double MOTOR_LENGTH = 0.4126308486;
-    public static final double MOTOR_MIN_ANGLE = 0.390258413271767;
-    public static final double MOTOR_MAX_ANGLE = 1.8675;
-    public static final double MOTOR_STARTING_ANGLE = 0.39025841327;
+    public static final double ARM_GEAR_RATIO = 123; // TODO: update    
+    public static final double ARM_MOI_KG_M2 = 0.00005; // TODO: update
+    public static final double ARM_LENGTH_M = 0.4126308486; // TODO: double check units
+    public static final double ARM_MIN_ANGLE_RAD = 0.390258413271767;
+    public static final double ARM_MAX_ANGLE_RAD = 1.8675;
+    public static final double ARM_STARTING_ANGLE_RAD = 0.39025841327;
+    public static final boolean ARM_SIMULATE_GRAVITY = false;
   }
 
   public class VisionConstants {
@@ -231,15 +231,15 @@ public final class Constants {
     public static final double SHOOTER_GEAR_RATIO = 1.0;
 
     // Motor IDs
-    public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14 TODO: Update?
-    public static final int BOTTOM_SHOOTER_MOTOR_ID =
+    public static final int TOP_SHOOTER_ARM_ID = 14; // TalonFX currently set to 14 TODO: Update?
+    public static final int BOTTOM_SHOOTER_ARM_ID =
         15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner TODO:
     // Update?
 
     // Inverted motors
-    public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
+    public static final boolean TOP_SHOOTER_ARM_INVERTED =
         true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
-    public static final boolean BOTTOM_SHOOTER_MOTOR_INVERTED =
+    public static final boolean BOTTOM_SHOOTER_ARM_INVERTED =
         false; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
 
     // PID Constants  TODO: Tune and update
