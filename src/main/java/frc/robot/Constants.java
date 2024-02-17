@@ -231,8 +231,8 @@ public final class Constants {
     public static final double SHOOTER_GEAR_RATIO = 1.0;
 
     // Motor IDs
-    public static final int TOP_SHOOTER_ARM_ID = 14; // TalonFX currently set to 14 TODO: Update?
-    public static final int BOTTOM_SHOOTER_ARM_ID =
+    public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14 TODO: Update?
+    public static final int BOTTOM_SHOOTER_MOTOR_ID =
         15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner TODO:
     // Update?
 
