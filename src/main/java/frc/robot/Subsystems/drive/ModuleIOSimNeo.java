@@ -4,8 +4,9 @@
 
 package frc.robot.Subsystems.drive;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.RobotStateConstants;
 
@@ -13,11 +14,11 @@ import frc.robot.Constants.RobotStateConstants;
 public class ModuleIOSimNeo implements ModuleIO {
 
   // Declares Sim Wheels Representing Turning and Driving
-  private FlywheelSim driveSim;
-  private FlywheelSim turnSim;
+  private DCMotorSim driveSim;
+  private DCMotorSim turnSim;
 
   private double turnRelativePositionRad = 0.0;
-  private double turnAbsolutePositionRad = Math.random() * 2.0 * Math.PI;
+  private double turnAbsolutePositionRad = 0.0;
   private double driveAppliedVolts = 0.0;
   private double turnAppliedVolts = 0.0;
 
@@ -25,17 +26,11 @@ public class ModuleIOSimNeo implements ModuleIO {
     System.out.println("[Init] Creating ModuleIOSimNeo");
     // Builds Drive Wheel for the Neo Motor in the L2 Module
     driveSim =
-        new FlywheelSim(
-            DCMotor.getNEO(1),
-            DriveConstants.GEAR_RATIO_L2,
-            DriveConstants.DRIVE_J_KG_METERS_SQUARED);
+        new DCMotorSim(
+            DCMotor.getNEO(1), DriveConstants.GEAR_RATIO_L2, DriveConstants.DRIVE_MOI_KG_M2);
 
     // Builds Turn Wheel for the Neo Motor in the L2 Module
-    turnSim =
-        new FlywheelSim(
-            DCMotor.getNEO(1),
-            DriveConstants.GEAR_RATIO_L2,
-            DriveConstants.STEER_J_KG_METERS_SQUARED);
+    turnSim = new DCMotorSim(DCMotor.getNEO(1), DriveConstants.GEAR_RATIO_L2, 0.004);
   }
 
   @Override
@@ -84,12 +79,14 @@ public class ModuleIOSimNeo implements ModuleIO {
 
   @Override
   public void setDriveVoltage(double volts) {
-    driveSim.setInputVoltage(volts);
+    driveAppliedVolts = MathUtil.clamp(volts, -12.0, 12.0);
+    driveSim.setInputVoltage(driveAppliedVolts);
   }
 
   @Override
   public void setTurnVoltage(double volts) {
-    turnSim.setInputVoltage(volts);
+    turnAppliedVolts = MathUtil.clamp(volts, -12.0, 12.0);
+    turnSim.setInputVoltage(turnAppliedVolts);
   }
 
   @Override

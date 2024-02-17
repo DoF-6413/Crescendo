@@ -5,11 +5,9 @@
 package frc.robot.Subsystems.drive;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.controller.*;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.*;
 import frc.robot.Constants.DriveConstants;
 import org.littletonrobotics.junction.Logger;
 
@@ -89,7 +87,7 @@ public class Module {
   /** Returns the current turn angle of the module. */
   public Rotation2d getAngle() {
     // Angle Modulus sets the Value Returned to be on a -pi, pi scale
-    return new Rotation2d(MathUtil.angleModulus(inputs.turnAbsolutePositionRad));
+    return new Rotation2d(MathUtil.angleModulus(inputs.turnPositionRad));
   }
 
   /** Returns the current drive position of the module in meters. */
