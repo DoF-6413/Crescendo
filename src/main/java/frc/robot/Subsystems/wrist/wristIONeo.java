@@ -22,11 +22,11 @@ public class WristIONeo implements WristIO {
   private final RelativeEncoder wristEncoder;
 
   public WristIONeo() {
-    wristMotor = new CANSparkMax(1, MotorType.kBrushless);
+    wristMotor = new CANSparkMax(WristConstants.WRIST_CANID, MotorType.kBrushless);
     wristEncoder = wristMotor.getEncoder();
 
     wristMotor.setIdleMode(IdleMode.kBrake);
-    wristMotor.setSmartCurrentLimit(30);
+    wristMotor.setSmartCurrentLimit(WristConstants.SMART_CURRENT_LIMIT_AMPS);
   }
 
   @Override

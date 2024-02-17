@@ -15,11 +15,11 @@ public class WristIONeoSim implements WristIO {
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
           WristConstants.WRIST_GEAR_RATIO,
-          1,
+          WristConstants.WRIST_MOI_KG_M2,
           WristConstants.WRIST_LENGTH,
           WristConstants.WRIST_MIN_ANGLE,
           WristConstants.WRIST_MAX_ANGLE,
-          false,
+          WristConstants.WRSIT_SIMULATE_GRAVITY,
           WristConstants.WRIST_STARTING_ANGLE); // TODO: update moment of inertia
 
   @Override

@@ -213,6 +213,10 @@ public final class Constants {
     public static final double WRIST_MIN_ANGLE = 0.390258413271767;
     public static final double WRIST_MAX_ANGLE = 1.8675;
     public static final double WRIST_STARTING_ANGLE = 0.39025841327;
+    public static final int WRIST_CANID = 0; // TODO: UPDATE
+    public static final int SMART_CURRENT_LIMIT_AMPS = 30;
+    public static final double WRIST_MOI_KG_M2 = 0.000271862238;
+    public static final boolean WRSIT_SIMULATE_GRAVITY = false; // TODO: UPDATE
   }
 
   public class VisionConstants {
