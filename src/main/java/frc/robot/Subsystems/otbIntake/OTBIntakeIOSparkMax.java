@@ -26,7 +26,7 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
     inputs.otbIntakeVelocityRPM =
         OTBIntakeEncoder.getVelocity()
             / OTBIntakeConstants
-                .GEAR_RATIO; // Converts rotaions to Radians and then divides it by the gear ratio
+                .GEAR_RATIO; // Returns the RPM of the OTB Intake Rollers
     inputs.otbIntakeAppliedVolts =
         OTBIntakeMotor.getAppliedOutput()
             * OTBIntakeMotor.getBusVoltage(); // Applied voltage of the OTBIntake

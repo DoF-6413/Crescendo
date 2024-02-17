@@ -24,7 +24,7 @@ public class OTBIntakeIOSim implements OTBIntakeIO {
     intakeMotorSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
     inputs.otbIntakeVelocityRPM =
-        intakeMotorSim.getAngularVelocityRPM() / OTBIntakeConstants.GEAR_RATIO;
+        intakeMotorSim.getAngularVelocityRPM() / OTBIntakeConstants.GEAR_RATIO; 
     inputs.otbIntakeAppliedVolts = 0.0;
     inputs.otbIntakeCurrentAmps = new double[] {Math.abs(intakeMotorSim.getCurrentDrawAmps())};
   }

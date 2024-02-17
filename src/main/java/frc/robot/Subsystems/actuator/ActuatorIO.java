@@ -20,18 +20,19 @@ public interface ActuatorIO {
   }
 
   /** Updates inputs for the Actuator */
-  public default void updateInputs(ActuatorIOInputs inputs) {}
+  public default void updateInputs(ActuatorIOInputs inputs) {
+  }
 
   /**
-   * Sets the voltage for the Actuator
-   *
+   * Sets the voltage of the Actuator motor
+   * 
    * @param volts [-12 to 12]
    */
   public default void setActuatorVoltage(double volts) {}
 
   /**
-   * Sets the speed for the Actuator
-   *
+   * Sets the Actuator motor to a percentage of its max speed
+   * 
    * @param percent [-1 to 1]
    */
   public default void setActuatorPercentSpeed(double percent) {}
