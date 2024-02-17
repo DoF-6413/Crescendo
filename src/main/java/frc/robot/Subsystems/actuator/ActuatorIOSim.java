@@ -22,7 +22,7 @@ public class ActuatorIOSim implements ActuatorIO {
             DCMotor.getNeo550(1),
             ActuatorConstants.ACTUATOR_GEAR_RATIO,
             ActuatorConstants.ACTUATOR_MOI_KG_M2,
-            ActuatorConstants.ACTUATOR_LENGTH_METERS,
+            ActuatorConstants.ACTUATOR_LENGTH_M,
             ActuatorConstants.ACTUATOR_MIN_ANGLE_RADS,
             ActuatorConstants.ACTUATOR_MAX_ANGLE_RADS,
             ActuatorConstants.ACTUATOR_IS_SIMULATE_GRAVITY,
