@@ -43,7 +43,7 @@ public class Wrist extends SubsystemBase {
     io.setWristMotorPercent(percent);
   }
 
-  public void setWristMotorVoltage(double volts){
+  public void setWristMotorVoltage(double volts) {
     setWristMotorVoltage(volts);
   }
 }

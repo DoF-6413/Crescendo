@@ -18,5 +18,5 @@ public interface WristIO {
 
   public default void setWristMotorPercent(double percent) {}
 
-   public default void setWristMotorVoltage(double volts) {}
+  public default void setWristMotorVoltage(double volts) {}
 }

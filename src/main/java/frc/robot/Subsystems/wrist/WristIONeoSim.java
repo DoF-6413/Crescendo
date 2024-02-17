@@ -39,7 +39,7 @@ public class WristIONeoSim implements WristIO {
     wristMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 
-    @Override
+  @Override
   public void setWristMotorVoltage(double volts) {
     wristMotor.setInputVoltage(volts);
   }

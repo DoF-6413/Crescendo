@@ -29,15 +29,14 @@ public class WristIONeo implements WristIO {
     wristMotor.setSmartCurrentLimit(30);
   }
 
-
   @Override
   public void updateInputs(WristIOInputs inputs) {
     inputs.wristTurnAppliedVolts = wristMotor.getAppliedOutput() * wristMotor.getBusVoltage();
     inputs.wristTurnPositionRad =
-    Units.rotationsToRadians(wristEncoder.getPosition()) / WristConstants.WRIST_GEAR_RATIO;
+        Units.rotationsToRadians(wristEncoder.getPosition()) / WristConstants.WRIST_GEAR_RATIO;
     inputs.wristTempCelcius = wristMotor.getMotorTemperature();
     inputs.wristTurnVelocityRadPerSec =
-    Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity());
+        Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity());
     inputs.wristTurnCurrentAmps = wristMotor.getOutputCurrent();
   }
 
@@ -47,7 +46,7 @@ public class WristIONeo implements WristIO {
   }
 
   @Override
-  public void setWristMotorVoltage(double volts){
-    wristMotor.set(volts/RobotStateConstants.BATTERY_VOLTAGE);
+  public void setWristMotorVoltage(double volts) {
+    wristMotor.set(volts / RobotStateConstants.BATTERY_VOLTAGE);
   }
 }

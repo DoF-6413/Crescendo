@@ -208,8 +208,8 @@ public final class Constants {
   }
 
   public class WristConstants {
-    public static final double WRIST_GEAR_RATIO = 58.33; 
-    public static final double WRIST_LENGTH = 0.4126308486; 
+    public static final double WRIST_GEAR_RATIO = 58.33;
+    public static final double WRIST_LENGTH = 0.4126308486;
     public static final double WRIST_MIN_ANGLE = 0.390258413271767;
     public static final double WRIST_MAX_ANGLE = 1.8675;
     public static final double WRIST_STARTING_ANGLE = 0.39025841327;
