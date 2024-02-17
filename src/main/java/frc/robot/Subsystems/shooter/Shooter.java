@@ -94,7 +94,7 @@ public class Shooter extends SubsystemBase {
 
     // Sets the voltage of the Shooter Motors using PID
     if (inputs.topShooterMotorRPM < 0.0) {
-      setTopShooterMotorVoltage(0.0);
+      setTopShooterMotorVoltage(0.01);
     } else {
       setTopShooterMotorVoltage(topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, 6350));
     }

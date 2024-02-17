@@ -207,16 +207,6 @@ public final class Constants {
     }
   }
 
-  public class ArmConstants {
-    public static final double MOTOR_GEAR_RATIO = 123; // TODO: update
-    public static final double WRIST_APPLIED_VOLTS = 12;
-
-    public static final double MOTOR_LENGTH = 0.4126308486;
-    public static final double MOTOR_MIN_ANGLE = 0.390258413271767;
-    public static final double MOTOR_MAX_ANGLE = 1.8675;
-    public static final double MOTOR_STARTING_ANGLE = 0.39025841327;
-  }
-
   public class VisionConstants {
 
     public static final Transform3d cameraOnRobotOffsets =
@@ -262,6 +252,7 @@ public final class Constants {
     // Flywheel simulation constants
     public static final double SHOOTER_MOI_KG_M2 =
         0.0016007389; // Moment of Inertia for the shooter motors
+    public static final double APPLIED_VOLTS = 12.0;
   }
 
   /** Unchanging Values for the Under the Bumper Intake */
@@ -276,6 +267,60 @@ public final class Constants {
     public static double UTB_INTAKE_KP = 0;
     public static double UTB_INTAKE_KI = 0;
     public static double UTB_INTAKE_KD = 0;
+  }
+
+  public static class OTBIntakeConstants {
+    public static final int OTB_INTAKE_CANID = 0; // TODO: update this Id value please !!!
+    public static final double OTB_GEAR_RATIO = 2.0;
+    public static final int OTB_SMART_CURRENT_LIMIT_AMPS = 40; // TODO: Update
+
+    // PID Constants for the OTB Intake Rollers
+    // TODO: Finalize PID values once they are tuned/determined
+    public static double OTB_INTAKE_KP = 0.0;
+    public static double OTB_INTAKE_KI = 0.0;
+    public static double OTB_INTAKE_KD = 0.0;
+    public static final double OTB_INTAKE_TOLERANCE =
+        0.01; // The RPM of the OTB Intake can be within 1% of the setpoint
+
+    // Sim constants for the OTB Intake Rollers
+    /** The moment of inertia for the OTB Intake Sim */
+    public static final double OTB_MOI_KG_M2 = 0.0000023411;
+  }
+
+  public static class ActuatorConstants {
+    public static final int ACTUATOR_CANID = 0; // TODO: update this id
+    public static final double ACTUATOR_GEAR_RATIO = 193.75;
+    public static final double ACTUATOR_MAX_ANGLE_RADS = Math.atan(-7.432 / 8.253) + (2 * Math.PI);
+    public static final double ACTUATOR_MIN_ANGLE_RADS = Math.atan(11.105 / .096);
+    public static final double ACTUATOR_START_ANGLE_RADS = ACTUATOR_MIN_ANGLE_RADS;
+    /** Length from pivot to roller */
+    public static final double ACTUATOR_LENGTH_M = Units.inchesToMeters(30.354561);
+    
+    public static final int ACTUATOR_SMART_CURRENT_LIMIT_AMPS = 40; // TODO: Update
+
+    // PID Constants for the Actuator
+    public static double ACTUATOR_KP =
+        0.0; // TODO: Finalize PID values once they are tuned/determined
+    public static double ACTUATOR_KI = 0.0;
+    public static double ACTUATOR_KD = 0.0;
+    public static final double ACTUATOR_TOLERANCE =
+        0.05; // The position of the Actuator can be within 5% of the setpoint
+
+    // Sim constants for the Actuator
+    /** The moment of inertia for the Actuator Sim */
+    public static final double ACTUATOR_MOI_KG_M2 = 0.0000453591;
+
+    public static final boolean ACTUATOR_IS_SIMULATE_GRAVITY = true;
+  }
+
+  public class ArmConstants {
+    public static final double MOTOR_GEAR_RATIO = 123; // TODO: update
+    public static final double WRIST_APPLIED_VOLTS = 12;
+
+    public static final double MOTOR_LENGTH = 0.4126308486;
+    public static final double MOTOR_MIN_ANGLE = 0.390258413271767;
+    public static final double MOTOR_MAX_ANGLE = 1.8675;
+    public static final double MOTOR_STARTING_ANGLE = 0.39025841327;
   }
 
   public static class ClimberConstants {
