@@ -9,38 +9,37 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.*;
 
 /** Add your docs here. */
-public class WristIONeoSim implements WristIO {
+public class WristIOSim implements WristIO {
 
   private SingleJointedArmSim wristMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
           WristConstants.WRIST_GEAR_RATIO,
           WristConstants.WRIST_MOI_KG_M2,
-          WristConstants.WRIST_LENGTH,
-          WristConstants.WRIST_MIN_ANGLE,
-          WristConstants.WRIST_MAX_ANGLE,
+          WristConstants.WRIST_LENGTH_M,
+          WristConstants.WRIST_MIN_ANGLE_RAD,
+          WristConstants.WRIST_MAX_ANGLE_RAD,
           WristConstants.WRSIT_SIMULATE_GRAVITY,
-          WristConstants.WRIST_STARTING_ANGLE); // TODO: update moment of inertia
+          WristConstants.WRIST_STARTING_ANGLE_RAD);
 
   @Override
   public void updateInputs(WristIOInputs inputs) {
     wristMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
-    inputs.wristTurnPositionRad +=
+    inputs.wristPositionRad +=
         wristMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
-    inputs.wristTurnVelocityRadPerSec = wristMotor.getVelocityRadPerSec();
-    inputs.wristTurnAppliedVolts = 0.0;
-    inputs.wristTurnCurrentAmps = Math.abs(wristMotor.getCurrentDrawAmps());
-    inputs.wristTempCelcius = 0.0;
+    inputs.wristVelocityRadPerSec = wristMotor.getVelocityRadPerSec();
+    inputs.wristAppliedVolts = 0.0;
+    inputs.wristCurrentAmps = new double[] {Math.abs(wristMotor.getCurrentDrawAmps())};
   }
 
   @Override
-  public void setWristMotorPercent(double percent) {
+  public void setWristPercentSpeed(double percent) {
     wristMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 
   @Override
-  public void setWristMotorVoltage(double volts) {
+  public void setWristVoltage(double volts) {
     wristMotor.setInputVoltage(volts);
   }
 }

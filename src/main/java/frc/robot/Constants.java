@@ -13,10 +13,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.*; // Rotation3d, Transform3d, Translation2d, Transation3d;
+import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.*; // DriverStation and RobotBase
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotBase;
 import java.util.Optional;
 
 /**
@@ -155,7 +156,7 @@ public final class Constants {
      * Speed by Radius of the Circle an Object is Moving Around (v/r = w) The Radius of the Swerve
      * Drive is Equivelant to Half of the Distance of one Corner to the Other Corner This Can be
      * Calculated by Using Pythagoreans Theorem on Two of the Sides of the Robot and taking Half of
-     * the Hypotenuses
+     * the Hypotenus
      */
     public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC =
         MAX_LINEAR_SPEED_M_PER_SEC / (Math.sqrt(2 * (TRACK_WIDTH_M * TRACK_WIDTH_M)) / 2);
@@ -207,16 +208,21 @@ public final class Constants {
     }
   }
 
-  public class WristConstants {
-    public static final double WRIST_GEAR_RATIO = 58.33;
-    public static final double WRIST_LENGTH = 0.4126308486;
-    public static final double WRIST_MIN_ANGLE = 0.390258413271767;
-    public static final double WRIST_MAX_ANGLE = 1.8675;
-    public static final double WRIST_STARTING_ANGLE = 0.39025841327;
-    public static final int WRIST_CANID = 0; // TODO: UPDATE
-    public static final int SMART_CURRENT_LIMIT_AMPS = 30;
-    public static final double WRIST_MOI_KG_M2 = 0.000271862238;
-    public static final boolean WRSIT_SIMULATE_GRAVITY = false; // TODO: UPDATE
+  public class ArmConstants {
+    public static final int ARM_CANID = 0; // TODO: update
+    public static final double ARM_GEAR_RATIO = 99.1736;
+    public static final double ARM_MOI_KG_M2 = 0.00005; // TODO: update
+    public static final double ARM_LENGTH_M = 0.4126308486; // TODO: double check units
+    public static final double ARM_MIN_ANGLE_RAD = 0.390258413271767; // TODO: update
+    public static final double ARM_MAX_ANGLE_RAD = 1.8675; // TODO: update
+    public static final double ARM_STARTING_ANGLE_RAD = 0.39025841327; // TODO: update
+    public static final boolean ARM_IS_SIMULATING_GRAVITY = false;
+    public static final int ARM_SMART_CURRENT_LIMIT_A = 30;
+
+    public static double ARM_KP = 0.0;
+    public static double ARM_KI = 0.0;
+    public static double ARM_KD = 0.0;
+    public static final double ARM_TOLERANCE_PERCENT = 0.01;
   }
 
   public class VisionConstants {
@@ -325,17 +331,8 @@ public final class Constants {
     public static final boolean ACTUATOR_IS_SIMULATE_GRAVITY = true;
   }
 
-  public class ArmConstants {
-    public static final double MOTOR_GEAR_RATIO = 123; // TODO: update
-    public static final double WRIST_APPLIED_VOLTS = 12;
-
-    public static final double MOTOR_LENGTH = 0.4126308486;
-    public static final double MOTOR_MIN_ANGLE = 0.390258413271767;
-    public static final double MOTOR_MAX_ANGLE = 1.8675;
-    public static final double MOTOR_STARTING_ANGLE = 0.39025841327;
-  }
-
   public static class ClimberConstants {
+    public static final double CLIMBER_TOLERANCE = 0.01;
     public static final int LEFT_CLIMBER_CANID = 0; // TODO: Update
     public static final int RIGHT_CLIMBER_CANID = 0; // TODO: Update
 
@@ -345,14 +342,42 @@ public final class Constants {
     public static final boolean RIGHT_CLIMBER_INVERTED =
         true; // Ensures that the Right Climber Motor will be inverted upon start up
 
-    public static final double CLIMBER_GEAR_RATIO = 40; // 40:1 Gear Ratio
+    public static final double CLIMBER_GEAR_RATIO = 80; // 80:1 Gear Ratio
 
     // Sim Constants
-    public static final double CLIMBER_CARRIAGE_MASS_KG = 5.0; // TODO: Update
-    public static final double CLIMBER_DRUM_RADIUS_M = 0.25; // TODO: Update
-    public static final double CLIMBER_MIN_HEIGHT_M = 0.2; // TODO: Update
-    public static final double CLIMBER_MAX_HEIGHT_M = 2.0; // TODO: Update
-    public static final double CLIMBER_STARTING_HEIGHT_M = 0.4; // TODO: Update
-    public static final boolean CLIMBER_SIMULATE_GRAVITY = false; // TODO: Update
+    public static final double CLIMBER_CARRIAGE_MASS_KG = Units.lbsToKilograms(0.095);
+    public static final double CLIMBER_DRUM_RADIUS_M = Units.inchesToMeters(2);
+    public static final double CLIMBER_MIN_HEIGHT_M = Units.inchesToMeters(10.845);
+    public static final double CLIMBER_MAX_HEIGHT_M = Units.inchesToMeters(48);
+    public static final double CLIMBER_STARTING_HEIGHT_M = CLIMBER_MIN_HEIGHT_M;
+    public static final boolean CLIMBER_SIMULATE_GRAVITY = false;
+
+    public static double LEFT_CLIMBER_KP = 0.0;
+    public static double LEFT_CLIMBER_KI = 0.0;
+    public static double LEFT_CLIMBER_KD = 0.0;
+
+    public static double RIGHT_CLIMBER_KP = 0.0;
+    public static double RIGHT_CLIMBER_KI = 0.0;
+    public static double RIGHT_CLIMBER_KD = 0.0;
+  }
+
+  public class WristConstants {
+    public static final int WRIST_CANID = 0; // TODO: UPDATE
+    public static final double WRIST_GEAR_RATIO = 58.33;
+    public static final double WRIST_LENGTH_M = 0.4126308486;
+    public static final double WRIST_MIN_ANGLE_RAD = 0.390258413271767;
+    public static final double WRIST_MAX_ANGLE_RAD = 1.8675;
+    public static final double WRIST_STARTING_ANGLE_RAD = 0.39025841327;
+    public static final int WRIST_CUR_LIM_A = 30;
+
+    // PID Constants
+    public static double WRIST_KP = 0.0;
+    public static double WRIST_KI = 0.0;
+    public static double WRIST_KD = 0.0;
+    public static final double WRIST_TOLERANCE_PERCENT = 0.01;
+
+    // Sim Constants
+    public static final double WRIST_MOI_KG_M2 = 0.000271862238;
+    public static final boolean WRSIT_SIMULATE_GRAVITY = false; // TODO: UPDATE
   }
 }

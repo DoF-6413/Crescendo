@@ -14,29 +14,30 @@ public class ArmIOSim implements ArmIO {
   private SingleJointedArmSim armMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
-          ArmConstants.MOTOR_GEAR_RATIO,
-          1,
-          ArmConstants.MOTOR_LENGTH,
-          ArmConstants.MOTOR_MIN_ANGLE,
-          ArmConstants.MOTOR_MAX_ANGLE,
-          false,
-          ArmConstants.MOTOR_STARTING_ANGLE);
+          ArmConstants.ARM_GEAR_RATIO,
+          ArmConstants.ARM_MOI_KG_M2,
+          ArmConstants.ARM_LENGTH_M,
+          ArmConstants.ARM_MIN_ANGLE_RAD,
+          ArmConstants.ARM_MAX_ANGLE_RAD,
+          ArmConstants.ARM_IS_SIMULATING_GRAVITY,
+          ArmConstants.ARM_STARTING_ANGLE_RAD);
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
+    armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
     inputs.armTurnPositionRad +=
         armMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
     inputs.armTurnVelocityRadPerSec = armMotor.getVelocityRadPerSec();
     inputs.armTurnAppliedVolts = 0.0;
-    inputs.armTurnCurrentAmps = Math.abs(armMotor.getCurrentDrawAmps());
-    inputs.armTempCelcius = 0.0;
+    inputs.armTurnCurrentAmps = new double[] {Math.abs(armMotor.getCurrentDrawAmps())};
   }
 
-  public void setArmMotorSpeed(double Speed) {
+  public void setArmPercentSpeed(double percent) {
+    armMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
+  }
 
-    armMotor.setInputVoltage(Speed * ArmConstants.WRIST_APPLIED_VOLTS);
-
-    armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
+  public void setArmMotorVoltage(double volts) {
+    armMotor.setInputVoltage(volts);
   }
 }

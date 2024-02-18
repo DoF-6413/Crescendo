@@ -7,16 +7,27 @@ public interface WristIO {
   @AutoLog
   public static class WristIOInputs {
 
-    public double wristTurnAppliedVolts = 0.0;
-    public double wristTurnPositionRad = 0.0;
-    public double wristTurnVelocityRadPerSec = 0.0;
-    public double wristTurnCurrentAmps = 0.0;
-    public double wristTempCelcius = 0.0;
+    public double wristAppliedVolts = 0.0;
+    public double wristPositionRad = 0.0;
+    public double wristVelocityRadPerSec = 0.0;
+    public double[] wristCurrentAmps = new double[] {};
+    public double[] wristTempCelsius = new double[] {};
   }
 
+  /** Updates the set of loggable inputs for the Wrist */
   public default void updateInputs(WristIOInputs inputs) {}
 
-  public default void setWristMotorPercent(double percent) {}
+  /** 
+   * Sets Wrist Percent Speed
+   * 
+   * @param percent [-1 to 1]
+   */
+  public default void setWristPercentSpeed(double percent) {}
 
-  public default void setWristMotorVoltage(double volts) {}
+  /**
+   * Sets Wrist Voltage 
+   *
+   * @param volts [-12 to 12]
+   */
+  public default void setWristVoltage(double volts) {}
 }
