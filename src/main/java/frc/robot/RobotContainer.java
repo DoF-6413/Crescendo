@@ -91,7 +91,7 @@ public class RobotContainer {
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
-        m_mechanisms = new Mechanisms2d(m_wristSubsystem);
+        m_mechanisms = new Mechanisms2d(m_wristSubsystem, m_armSubsystem);
         break;
 
       case SIM:
@@ -114,7 +114,7 @@ public class RobotContainer {
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
         m_wristSubsystem = new Wrist(new WristIOSim());
-        m_mechanisms = new Mechanisms2d(m_wristSubsystem);
+        m_mechanisms = new Mechanisms2d(m_wristSubsystem, m_armSubsystem);
 
         break;
 
@@ -138,7 +138,7 @@ public class RobotContainer {
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
-        m_mechanisms = new Mechanisms2d(m_wristSubsystem);
+        m_mechanisms = new Mechanisms2d(m_wristSubsystem, m_armSubsystem);
 
         break;
     }
@@ -180,9 +180,9 @@ public class RobotContainer {
     //         () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
     //         m_climberSubsystem));
 
-    // m_armSubsystem.setDefaultCommand(
-    //       new InstantCommand(
-    //           () > m_armSubsystem.setArmMotorSpeed(auxController.getLeftY()), m_armSubsystem));
+    m_armSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_armSubsystem.setArmPercentSpeed(driverController.getRightY()), m_armSubsystem));
 
     // m_otbIntakeSubsystem.setDefaultCommand(
     //     new InstantCommand(
@@ -196,7 +196,7 @@ public class RobotContainer {
 
     m_wristSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> m_wristSubsystem.setWristPercentSpeed(driverController.getLeftX()),
+            () -> m_wristSubsystem.setWristPercentSpeed(driverController.getLeftY()),
             m_wristSubsystem));
   }
 

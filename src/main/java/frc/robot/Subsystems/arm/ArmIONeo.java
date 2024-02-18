@@ -44,8 +44,7 @@ public class ArmIONeo implements ArmIO {
     inputs.armTurnCurrentAmps = new double[] {armMotor.getOutputCurrent()};
   }
 
-
   public double getAngleRads() {
-    return  Units.rotationsToRadians(armEncoder.getPosition()) / ArmConstants.ARM_GEAR_RATIO;
+    return Units.rotationsToRadians(armEncoder.getPosition()) / ArmConstants.ARM_GEAR_RATIO;
   }
 }

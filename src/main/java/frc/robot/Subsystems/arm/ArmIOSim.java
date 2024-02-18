@@ -5,7 +5,6 @@
 package frc.robot.Subsystems.arm;
 
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.*;
 
@@ -43,6 +42,6 @@ public class ArmIOSim implements ArmIO {
   }
 
   public double getAngleRads() {
-    return armMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
+    return armMotor.getAngleRads();
   }
 }
