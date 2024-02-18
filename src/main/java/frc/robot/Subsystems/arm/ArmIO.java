@@ -19,7 +19,7 @@ public interface ArmIO {
 
   public default void updateInputs(ArmIOInputs inputs) {}
 
-  public default void setArmMotorSpeed(double speed) {}
+  public default void setArmPercentSpeed(double speed) {}
 
-  public default void setArmMotorVoltage(double volts) {}
+  public default void setArmVoltage(double volts) {}
 }

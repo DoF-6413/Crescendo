@@ -84,6 +84,6 @@ public class Arm extends SubsystemBase {
 
   /** Sets speed for the arm */
   public void setArmMotorVoltage(double volts) {
-    io.setArmMotorVoltage(volts);
+    io.setArmVoltage(volts);
   }
 }
