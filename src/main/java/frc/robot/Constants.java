@@ -220,10 +220,10 @@ public final class Constants {
     }
 
     public enum DRIVE_MOTOR {
-      FRONT_RIGHT(4), // Module 0
-      FRONT_LEFT(7), // Module 1
-      BACK_LEFT(10), // Module 2
-      BACK_RIGHT(13); // Module 3
+      FRONT_RIGHT(6), // Module 0
+      FRONT_LEFT(5), // Module 1
+      BACK_LEFT(8), // Module 2
+      BACK_RIGHT(7); // Module 3
 
       public final int CAN_ID;
 
@@ -260,10 +260,10 @@ public final class Constants {
     }
 
     public enum TURN_MOTOR {
-      FRONT_RIGHT(3), // Module 0
-      FRONT_LEFT(6), // Module 1
-      BACK_LEFT(9), // Module 2
-      BACK_RIGHT(12); // Module 3
+      FRONT_RIGHT(10), // Module 0
+      FRONT_LEFT(9), // Module 1
+      BACK_LEFT(12), // Module 2
+      BACK_RIGHT(11); // Module 3
 
       public final int CAN_ID;
 
@@ -274,9 +274,9 @@ public final class Constants {
 
     public static enum ABSOLUTE_ENCODER {
       FRONT_RIGHT(2), // Module 0
-      FRONT_LEFT(5), // Module 1
-      BACK_LEFT(8), // Module 2
-      BACK_RIGHT(11); // Module 3
+      FRONT_LEFT(1), // Module 1
+      BACK_LEFT(4), // Module 2
+      BACK_RIGHT(3); // Module 3
 
       public final int ENCODER_ID;
 
@@ -285,7 +285,7 @@ public final class Constants {
       }
     }
 
-    public static final int SMART_CURRENT_LIMIT = 40;
+    public static final int CUR_LIM_A = 40;
     public static final int MEASUREMENT_PERIOD_MS = 10;
 
     public static final double DEADBAND = 0.1;
@@ -326,7 +326,7 @@ public final class Constants {
 
   /** Unchanging Values for the Under the Bumper Intake */
   public static class UTBIntakeConstants {
-    public static final int UTB_INTAKE_CANID = 0; // TODO: Update later
-    public static final int GEAR_RATIO = 2; // 2:1 Gear Ratio
+    public static final int UTB_INTAKE_CANID = 13;
+    public static final int GEAR_RATIO = 2;
   }
 }

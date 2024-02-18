@@ -4,8 +4,6 @@
 
 package frc.robot.Subsystems.drive;
 
-import java.util.Optional;
-
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -22,6 +20,7 @@ import frc.robot.Constants.DriveConstants.DRIVE_MOTOR;
 import frc.robot.Constants.DriveConstants.L2_ABSOLUTE_ENCODER_OFFSET_RAD;
 import frc.robot.Constants.DriveConstants.TURN_MOTOR;
 import frc.robot.Constants.RobotStateConstants;
+import java.util.Optional;
 
 /** Runs an Individual Real Module with all Motors as Neos */
 public class ModuleIOSparkMax implements ModuleIO {
@@ -84,8 +83,8 @@ public class ModuleIOSparkMax implements ModuleIO {
           PeriodicFrame.kStatus2, DriveConstants.MEASUREMENT_PERIOD_MS);
       turnSparkMax.setInverted(isTurnMotorInverted);
 
-      driveSparkMax.setSmartCurrentLimit(DriveConstants.SMART_CURRENT_LIMIT);
-      turnSparkMax.setSmartCurrentLimit(DriveConstants.SMART_CURRENT_LIMIT);
+      driveSparkMax.setSmartCurrentLimit(DriveConstants.CUR_LIM_A);
+      turnSparkMax.setSmartCurrentLimit(DriveConstants.CUR_LIM_A);
 
       driveRelativeEncoder.setPosition(0.0); // resets position
       driveRelativeEncoder.setMeasurementPeriod(
@@ -171,7 +170,7 @@ public class ModuleIOSparkMax implements ModuleIO {
     return Units.degreesToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble());
   }
 
-    @Override
+  @Override
   public Optional<Boolean> isL3() {
     return Optional.of(false);
   }
