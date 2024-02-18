@@ -24,20 +24,12 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.ModuleIO;
-import frc.robot.Subsystems.drive.ModuleIOSimNeo;
 import frc.robot.Subsystems.drive.ModuleIOSimNeoKraken;
 import frc.robot.Subsystems.drive.ModuleIOSparkMaxTalonFX;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.gyro.GyroIO;
 import frc.robot.Subsystems.gyro.GyroIONavX;
 import frc.robot.Subsystems.pose.PoseEstimator;
-import frc.robot.Subsystems.shooter.Shooter;
-import frc.robot.Subsystems.shooter.ShooterIO;
-import frc.robot.Subsystems.shooter.ShooterIOSim;
-import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
-import frc.robot.Subsystems.utbintake.UTBIntake;
-import frc.robot.Subsystems.utbintake.UTBIntakeIO;
-import frc.robot.Subsystems.utbintake.UTBIntakeIOSparkMax;
 import frc.robot.Subsystems.vision.Vision;
 import frc.robot.Subsystems.vision.VisionIO;
 import frc.robot.Subsystems.vision.VisionIOArduCam;
@@ -53,10 +45,10 @@ public class RobotContainer {
   // Subsystems
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
-  private final Shooter m_shooterSubsystem;
+  // private final Shooter m_shooterSubsystem;
   private final PoseEstimator m_poseEstimator;
   private final Vision m_vision;
-  private final UTBIntake m_utbIntake;
+  // private final UTBIntake m_utbIntake;
   private final SlewRateLimiter m_linearRamping;
   private final SlewRateLimiter m_angularRamping;
 
@@ -80,9 +72,9 @@ public class RobotContainer {
                 new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
         m_vision = new Vision(new VisionIOArduCam());
-        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        // m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
-        m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
+        // m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
         break;
 
       case SIM:
@@ -97,8 +89,8 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_vision = new Vision(new VisionIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
-        m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
+        // m_shooterSubsystem = new Shooter(new ShooterIOSim());
+        // m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
 
         break;
 
@@ -112,10 +104,10 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
-        m_shooterSubsystem = new Shooter(new ShooterIO() {});
+        // m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_vision = new Vision(new VisionIO() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
-        m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
+        // m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
         break;
     }
 
