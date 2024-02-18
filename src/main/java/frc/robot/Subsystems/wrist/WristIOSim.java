@@ -20,7 +20,7 @@ public class WristIOSim implements WristIO {
           WristConstants.WRIST_MIN_ANGLE,
           WristConstants.WRIST_MAX_ANGLE,
           WristConstants.WRSIT_SIMULATE_GRAVITY,
-          WristConstants.WRIST_STARTING_ANGLE); // TODO: update moment of inertia
+          WristConstants.WRIST_STARTING_ANGLE);
 
   @Override
   public void updateInputs(WristIOInputs inputs) {
