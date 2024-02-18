@@ -17,9 +17,21 @@ public interface ArmIO {
     public double[] armTempCelsius = new double[] {};
   }
 
+  /** Updates the set of loggable inputs for the Arm */
   public default void updateInputs(ArmIOInputs inputs) {}
 
-  public default void setArmPercentSpeed(double speed) {}
+  /**
+   * Sets the Arm motor to a percent of its maximum speed
+   * 
+   * @param percent [-1 to 1]
+   */
+  public default void setArmPercentSpeed(double percent) {}
 
+
+  /**
+   * Sets the voltage of the Arm motor
+   * 
+   * @param volts
+   */
   public default void setArmVoltage(double volts) {}
 }

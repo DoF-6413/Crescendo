@@ -61,21 +61,21 @@ public class ClimberIOSim implements ClimberIO {
 
   @Override
   public void setLeftClimberPercentSpeed(double percent) {
-    leftClimberSim.setInputVoltage(-RobotStateConstants.BATTERY_VOLTAGE * percent);
+    leftClimberSim.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
   }
 
   @Override
   public void setLeftClimberVoltage(double volts) {
-    leftClimberSim.setInputVoltage(-volts);
+    leftClimberSim.setInputVoltage(volts);
   }
 
   @Override
   public void setRightClimberPercentSpeed(double percent) {
-    rightClimberSim.setInputVoltage(-RobotStateConstants.BATTERY_VOLTAGE * percent);
+    rightClimberSim.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
   }
 
   @Override
   public void setRightClimberVoltage(double volts) {
-    rightClimberSim.setInputVoltage(-volts);
+    rightClimberSim.setInputVoltage(volts);
   }
 }

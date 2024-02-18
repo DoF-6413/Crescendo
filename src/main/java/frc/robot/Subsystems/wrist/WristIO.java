@@ -14,9 +14,20 @@ public interface WristIO {
     public double[] wristTempCelsius = new double[] {};
   }
 
+  /** Updates the set of loggable inputs for the Wrist */
   public default void updateInputs(WristIOInputs inputs) {}
 
+  /** 
+   * Sets Wrist Percent Speed
+   * 
+   * @param percent [-1 to 1]
+   */
   public default void setWristPercentSpeed(double percent) {}
 
+  /**
+   * Sets Wrist Voltage 
+   *
+   * @param volts [-12 to 12]
+   */
   public default void setWristVoltage(double volts) {}
 }

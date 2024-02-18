@@ -78,11 +78,12 @@ public class Wrist extends SubsystemBase {
     io.updateInputs(inputs);
   }
 
-  /** Sets speed for the first CLIMBER of the wrist */
+  /** Sets speed for the wrist */
   public void setWristPercentSpeed(double percent) {
     io.setWristPercentSpeed(percent);
   }
 
+  /** Sets voltage for the wrist */
   public void setWristMotorVoltage(double volts) {
     setWristMotorVoltage(volts);
   }

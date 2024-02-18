@@ -26,8 +26,8 @@ public class ArmIONeo implements ArmIO {
     armMotor.setSmartCurrentLimit(ArmConstants.ARM_SMART_CURRENT_LIMIT_A);
   }
 
-  public void setArmMotorSpeed(double speed) {
-    armMotor.setVoltage(speed * RobotStateConstants.BATTERY_VOLTAGE);
+  public void setArmMotorSpeed(double percent) {
+    armMotor.setVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 
   public void setArmMotorVoltage(double volts) {
