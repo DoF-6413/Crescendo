@@ -12,7 +12,7 @@ import org.littletonrobotics.junction.Logger;
 public class Wrist extends SubsystemBase {
   private final WristIO io;
   private final WristIOInputsAutoLogged inputs = new WristIOInputsAutoLogged();
-  private static PIDController wristPIDController;
+  private final PIDController wristPIDController;
   private double wristSetpoint = 0.0;
 
   /** creates a new wrist, the second joint of the arm subsystem */
@@ -20,13 +20,15 @@ public class Wrist extends SubsystemBase {
     System.out.println("[Init] Creating wrist");
     this.io = io;
 
-    wristPIDController =
-        new PIDController(
-            WristConstants.KP, WristConstants.KI, WristConstants.KD);
+    /** creates a new PIDController for the wrist */
+    wristPIDController = new PIDController(WristConstants.KP, WristConstants.KI, WristConstants.KD);
     wristPIDController.setSetpoint(wristSetpoint);
     wristPIDController.setTolerance(WristConstants.TOLERANCE_PERCENT * wristSetpoint);
+
+    /** disables continuous input */
     wristPIDController.disableContinuousInput();
 
+    /** SmartDashboard values */
     SmartDashboard.putNumber("wristkp", 0.0);
     SmartDashboard.putNumber("wristki", 0.0);
     SmartDashboard.putNumber("wristkd", 0.0);
@@ -35,15 +37,21 @@ public class Wrist extends SubsystemBase {
 
   @Override
   public void periodic() {
+    /** periodically updates inputs and logs them */
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
 
+    setWristPercentSpeed(wristPIDController.calculate(inputs.wristPositionRad));
+
+    // TODO: delete once PID is finalized
+    /** updates PID values if SmartDashboard gets updated */
     if (WristConstants.KP != SmartDashboard.getNumber("wristkp", 0.0)
         || WristConstants.KI != SmartDashboard.getNumber("wristki", 0.0)
         || WristConstants.KD != SmartDashboard.getNumber("wristkd", 0.0)) {
       updatePIDController();
     }
 
+    /** updates setpoint if SmartDashboard gets updated */
     if (wristSetpoint != SmartDashboard.getNumber("wristSetpoint", 0.0)) {
       updateSetpoint();
     }
@@ -54,34 +62,50 @@ public class Wrist extends SubsystemBase {
     SmartDashboard.putNumber("wristCurrentkI", wristPIDController.getI());
     SmartDashboard.putNumber("wristCurrentkD", wristPIDController.getD());
     SmartDashboard.putNumber("wristCurrentSetpoint", wristPIDController.getSetpoint());
-
-    io.setWristPercentSpeed(wristPIDController.calculate(inputs.wristPositionRad));
   }
 
+  /** updates PID values if SmartDashboard gets updated */
   public void updatePIDController() {
     WristConstants.KP = SmartDashboard.getNumber("wristkp", 0.0);
     WristConstants.KI = SmartDashboard.getNumber("wristki", 0.0);
     WristConstants.KD = SmartDashboard.getNumber("wristkd", 0.0);
-    wristPIDController.setPID(
-        WristConstants.KP, WristConstants.KI, WristConstants.KD);
+    wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
   }
 
+  /** updates setpoint if SmartDashboard gets updated */
   public void updateSetpoint() {
     wristSetpoint = SmartDashboard.getNumber("wristSetpoint", 0.0);
     wristPIDController.setSetpoint(wristSetpoint);
   }
 
+  /** updates setpoint if SmartDashboard gets updated */
   public void updateInputs() {
     io.updateInputs(inputs);
   }
 
-  /** Sets speed for the wrist */
+  /**
+   * Sets Wrist Percent Speed
+   *
+   * @param percent [-1 to 1]
+   */
   public void setWristPercentSpeed(double percent) {
     io.setWristPercentSpeed(percent);
   }
 
-  /** Sets voltage for the wrist */
+  /**
+   * Sets Wrist Voltage
+   *
+   * @param volts [-12 to 12]
+   */
   public void setWristMotorVoltage(double volts) {
     setWristMotorVoltage(volts);
+  }
+
+  /**
+   * Sets brake mode
+   * @param isEnabled boolean for is brake mode true or false
+   */
+  public void setWristBrakeMode(boolean isEnabled) {
+    setWristBrakeMode(isEnabled);
   }
 }

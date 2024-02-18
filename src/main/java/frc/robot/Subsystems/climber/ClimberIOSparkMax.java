@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.ClimberConstants;
 
 /** Climber Motor Control */
 public class ClimberIOSparkMax implements ClimberIO {

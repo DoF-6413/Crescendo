@@ -26,9 +26,8 @@ public class ShooterIOTalonFX implements ShooterIO {
     bottomShooterMotor.setInverted(ShooterConstants.BOTTOM_MOTOR_IS_INVERTED);
 
     // Configures current limits
-    CurrentLimitsConfigs currentLimitsConfig =
-        new CurrentLimitsConfigs()
-            .withStatorCurrentLimit(ShooterConstants.CURR_LIM_A);
+    final CurrentLimitsConfigs currentLimitsConfig =
+        new CurrentLimitsConfigs().withStatorCurrentLimit(ShooterConstants.CURR_LIM_A);
     topShooterMotor.getConfigurator().apply(currentLimitsConfig);
     bottomShooterMotor.getConfigurator().apply(currentLimitsConfig);
   }
@@ -37,14 +36,18 @@ public class ShooterIOTalonFX implements ShooterIO {
   /** All the Inputs for the Shooter Motors */
   public void updateInputs(ShooterIOInputs inputs) {
     // Top Shooter Motor Inputs
-    inputs.topShooterMotorRPM = topShooterMotor.getRotorVelocity().getValueAsDouble() * 60; // Gets the velocity in Rotations per Sec and converts into Rotations Per Min
+    inputs.topShooterMotorRPM =
+        topShooterMotor.getRotorVelocity().getValueAsDouble()
+            * 60; // Gets the velocity in Rotations per Sec and converts into Rotations Per Min
     inputs.topShooterAppliedVolts = topShooterMotor.getMotorVoltage().getValueAsDouble();
     inputs.topShooterCurrentAmps =
         new double[] {topShooterMotor.getStatorCurrent().getValueAsDouble()};
     inputs.topShooterTempCelcius =
         new double[] {topShooterMotor.getDeviceTemp().getValueAsDouble()};
-    // Bottom Shooter Motor Inputs   
-    inputs.bottomShooterMotorRPM = bottomShooterMotor.getRotorVelocity().getValueAsDouble() * 60; // Gets the velocity in Rotations per Sec and converts into Rotations Per Min
+    // Bottom Shooter Motor Inputs
+    inputs.bottomShooterMotorRPM =
+        bottomShooterMotor.getRotorVelocity().getValueAsDouble()
+            * 60; // Gets the velocity in Rotations per Sec and converts into Rotations Per Min
     inputs.bottomShooterAppliedVolts = bottomShooterMotor.getMotorVoltage().getValueAsDouble();
     inputs.bottomShooterCurrentAmps =
         new double[] {bottomShooterMotor.getStatorCurrent().getValueAsDouble()};
@@ -53,7 +56,7 @@ public class ShooterIOTalonFX implements ShooterIO {
   }
 
   @Override
-  public void setShooterBreakMode(boolean isEnabled) {
+  public void setShooterBrakeMode(boolean isEnabled) {
     if (isEnabled) {
       topShooterMotor.setNeutralMode(NeutralModeValue.Brake);
       bottomShooterMotor.setNeutralMode(NeutralModeValue.Brake);

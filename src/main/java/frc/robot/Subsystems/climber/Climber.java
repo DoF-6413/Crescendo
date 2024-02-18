@@ -7,7 +7,6 @@ package frc.robot.Subsystems.climber;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ClimberConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class Climber extends SubsystemBase {

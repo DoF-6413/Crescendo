@@ -12,21 +12,22 @@ public class ActuatorIOSim implements ActuatorIO {
 
   private SingleJointedArmSim actuatorMotor;
 
-/**
- * This is a simulation for the actuator. It uses the arm simulation because it
- * rotates around a point
- */
+  /**
+   * This is a simulation for the actuator. It uses the arm simulation because it rotates around a
+   * point
+   */
   public ActuatorIOSim() {
     System.out.println("[Init] Creating ActuatorIOSim");
-    actuatorMotor = new SingleJointedArmSim(
-        DCMotor.getNeo550(1),
-        ActuatorConstants.GEAR_RATIO,
-        ActuatorConstants.MOI_KG_M2,
-        ActuatorConstants.LENGTH_M,
-        ActuatorConstants.MIN_ANGLE_RADS,
-        ActuatorConstants.MAX_ANGLE_RADS,
-        ActuatorConstants.IS_SIMULATING_GRAVITY,
-        ActuatorConstants.START_ANGLE_RADS);
+    actuatorMotor =
+        new SingleJointedArmSim(
+            DCMotor.getNeo550(1),
+            ActuatorConstants.GEAR_RATIO,
+            ActuatorConstants.MOI_KG_M2,
+            ActuatorConstants.LENGTH_M,
+            ActuatorConstants.MIN_ANGLE_RADS,
+            ActuatorConstants.MAX_ANGLE_RADS,
+            ActuatorConstants.IS_SIMULATING_GRAVITY,
+            ActuatorConstants.START_ANGLE_RADS);
   }
 
   @Override
@@ -35,8 +36,9 @@ public class ActuatorIOSim implements ActuatorIO {
 
     inputs.actuatorAppliedVolts = 0.0;
     inputs.actuatorPositionRad = actuatorMotor.getAngleRads();
-    inputs.actuatorPositionDeg = inputs.actuatorVelocityRadPerSec = actuatorMotor.getVelocityRadPerSec();
-    inputs.actuatorCurrentAmps = new double[] { actuatorMotor.getCurrentDrawAmps() };
+    inputs.actuatorPositionDeg =
+        inputs.actuatorVelocityRadPerSec = actuatorMotor.getVelocityRadPerSec();
+    inputs.actuatorCurrentAmps = new double[] {actuatorMotor.getCurrentDrawAmps()};
   }
 
   @Override

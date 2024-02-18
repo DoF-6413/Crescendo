@@ -13,21 +13,22 @@ public class Actuator extends SubsystemBase {
   public final ActuatorIO io;
   public final ActuatorIOInputsAutoLogged inputs = new ActuatorIOInputsAutoLogged();
   private final PIDController actuatorPIDController;
-  private double setpoint = 0.0;
+  private double actuatorSetpoint = 0.0;
 
   /**
-   * Creates a new Actuator, the Subsystem that moves the OTB Intake Rollers from
-   * inside the Robot Frame to Outside the Robot
+   * Creates a new Actuator, the Subsystem that moves the OTB Intake Rollers from inside the Robot
+   * Frame to Outside the Robot
    */
   public Actuator(ActuatorIO io) {
     System.out.println("[Init] Creating Actuator");
     this.io = io;
-    actuatorPIDController = new PIDController(ActuatorConstants.KP, ActuatorConstants.KI, ActuatorConstants.KD);
-    actuatorPIDController.setSetpoint(setpoint);
-    actuatorPIDController.setTolerance(ActuatorConstants.TOLERANCE_PERCENT * setpoint);
+    actuatorPIDController =
+        new PIDController(ActuatorConstants.KP, ActuatorConstants.KI, ActuatorConstants.KD);
+    actuatorPIDController.setSetpoint(actuatorSetpoint);
+    actuatorPIDController.setTolerance(ActuatorConstants.TOLERANCE_PERCENT * actuatorSetpoint);
     actuatorPIDController.disableContinuousInput();
 
-  //TODO: Delete once final PID Numbers are Decided
+    // TODO: Delete once final PID Numbers are Decided
     SmartDashboard.putNumber("actuatorkp", 0.0);
     SmartDashboard.putNumber("actuatorki", 0.0);
     SmartDashboard.putNumber("actuatorkd", 0.0);
@@ -36,32 +37,35 @@ public class Actuator extends SubsystemBase {
 
   @Override
   public void periodic() {
-    this.updateInputs(); // updates the inputs
-    Logger.processInputs("Actuator", inputs); // log the inputs
+    // updates the inputs
+    this.updateInputs();
+    // log the inputs
+    Logger.processInputs("Actuator", inputs);
 
-    io.setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
-//TODO: Delete once final PID Numbers are Decided
+    // Updates Actuator Speed based on PID Control
+    setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
+
+    // TODO: Delete once final PID Numbers are Decided
     if (ActuatorConstants.KP != SmartDashboard.getNumber("actuatorkp", 0.0)
         || ActuatorConstants.KI != SmartDashboard.getNumber("actuatorki", 0.0)
         || ActuatorConstants.KD != SmartDashboard.getNumber("actuatorkd", 0.0)) {
       updatePIDController();
     }
 
-    if (setpoint != SmartDashboard.getNumber("actuatorSetpoint", 0.0)) {
+    if (actuatorSetpoint != SmartDashboard.getNumber("actuatorSetpoint", 0.0)) {
       updateSetpoint();
     }
 
     // Gets the current PID values that the PID contollers are set to
-    SmartDashboard.putNumber("actuatorError", setpoint - inputs.actuatorPositionRad);
+    SmartDashboard.putNumber("actuatorError", actuatorSetpoint - inputs.actuatorPositionRad);
     SmartDashboard.putNumber("actuatorCurrentkP", actuatorPIDController.getP());
     SmartDashboard.putNumber("actuatorCurrentkI", actuatorPIDController.getI());
     SmartDashboard.putNumber("actuatorCurrentkD", actuatorPIDController.getD());
     SmartDashboard.putNumber("actuatorCurrentSetpoint", actuatorPIDController.getSetpoint());
-
   }
 
-//TODO: Make this appear only in "Test" when Final PID Numbers are Selected
-/**Updates the PID Contants for the PID Controller */
+  // TODO: Make this appear only in "Test" when Final PID Numbers are Selected
+  /** Updates the PID Contants for the PID Controller */
   public void updatePIDController() {
     ActuatorConstants.KP = SmartDashboard.getNumber("actuatorkp", 0.0);
     ActuatorConstants.KI = SmartDashboard.getNumber("actuatorki", 0.0);
@@ -69,14 +73,14 @@ public class Actuator extends SubsystemBase {
     actuatorPIDController.setPID(ActuatorConstants.KP, ActuatorConstants.KI, ActuatorConstants.KD);
   }
 
-//TODO: Make this have a setpoint as a parameter and delete smartdashboard getter
-/**Updates the Position the Actuator is Going To */
+  // TODO: Make this have a setpoint as a parameter and delete smartdashboard getter
+  /** Updates the Position the Actuator is Going To */
   public void updateSetpoint() {
-    setpoint = SmartDashboard.getNumber("actuatorSetpoint", 0.0);
-    actuatorPIDController.setSetpoint(setpoint);
+    actuatorSetpoint = SmartDashboard.getNumber("actuatorSetpoint", 0.0);
+    actuatorPIDController.setSetpoint(actuatorSetpoint);
   }
 
-/**Updates the Outputs of the Motors based on What Mode we are In */
+  /** Updates the Outputs of the Motors based on What Mode we are In */
   public void updateInputs() {
     io.updateInputs(inputs);
   }
@@ -97,5 +101,14 @@ public class Actuator extends SubsystemBase {
    */
   public void setActuatorVoltage(double volts) {
     io.setActuatorVoltage(volts);
+  }
+
+  /**
+   * Sets the Brake Mode for the Actuator (Brake means motor holds position, Coast means easy to move) 
+   * 
+   * @param enable if enable, it sets brake mode, else it sets coast mode
+  */
+  public void setBrakeMode(boolean enable){
+    io.setBrakeMode(enable);
   }
 }

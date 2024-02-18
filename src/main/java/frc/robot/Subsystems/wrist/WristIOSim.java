@@ -8,9 +8,9 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.*;
 
-/** Add your docs here. */
 public class WristIOSim implements WristIO {
 
+  /** creates a new arm simulation for the wrist of the double jointed arm */
   private SingleJointedArmSim wristMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),

@@ -8,15 +8,11 @@ public class ShooterIOSim implements ShooterIO {
   // Creating flywheels
   private FlywheelSim topShooterFlywheel =
       new FlywheelSim(
-          DCMotor.getFalcon500(1),
-          ShooterConstants.GEAR_RATIO,
-          ShooterConstants.MOI_KG_M2);
+          DCMotor.getFalcon500(1), ShooterConstants.GEAR_RATIO, ShooterConstants.MOI_KG_M2);
 
   private FlywheelSim bottomShooterFlywheel =
       new FlywheelSim(
-          DCMotor.getFalcon500(1),
-          ShooterConstants.GEAR_RATIO,
-          ShooterConstants.MOI_KG_M2);
+          DCMotor.getFalcon500(1), ShooterConstants.GEAR_RATIO, ShooterConstants.MOI_KG_M2);
 
   public ShooterIOSim() {
     System.out.println("[Init] Creating ShooterIOSim");
@@ -28,13 +24,17 @@ public class ShooterIOSim implements ShooterIO {
     topShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
     bottomShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
-    // Updates logged inputs, RPM and current. Voltage and temp aren't updated because ideally (like
-    // in a simulation), they would be constant
+    // Updates logged inputs of the simulated Shooter Flywheels
     inputs.topShooterMotorRPM = topShooterFlywheel.getAngularVelocityRPM();
+    inputs.topShooterAppliedVolts = 0.0;
     inputs.topShooterCurrentAmps = new double[] {Math.abs(topShooterFlywheel.getCurrentDrawAmps())};
+    inputs.topShooterTempCelcius = new double[] {};
+
     inputs.bottomShooterMotorRPM = bottomShooterFlywheel.getAngularVelocityRPM();
+    inputs.bottomShooterAppliedVolts = 0.0;
     inputs.bottomShooterCurrentAmps =
         new double[] {Math.abs(bottomShooterFlywheel.getCurrentDrawAmps())};
+    inputs.bottomShooterTempCelcius = new double[] {};
   }
 
   @Override

@@ -3,7 +3,6 @@ package frc.robot.Subsystems.utbintake;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import frc.robot.Constants.UTBIntakeConstants;
 
 /** UTBIntake motor controller */
 public class UTBIntakeIOSparkMax implements UTBIntakeIO {
@@ -13,7 +12,7 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
   /** Creates the Motor and Encoder for the UTB Intake */
   public UTBIntakeIOSparkMax() {
     System.out.println("[Init] Creating UTBIntakeIO");
-    utbIntakeMotor = new CANSparkMax(UTBIntakeConstants.UTB_INTAKE_CANID, MotorType.kBrushless);
+    utbIntakeMotor = new CANSparkMax(UTBIntakeConstants.CAN_ID, MotorType.kBrushless);
     utbIntakeEncoder = utbIntakeMotor.getEncoder();
   }
 

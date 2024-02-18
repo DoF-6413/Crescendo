@@ -7,23 +7,27 @@
 
 package frc.robot.Subsystems.wrist;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
 
-/** Add your docs here. */
 public class WristIONeo implements WristIO {
 
   private final CANSparkMax wristMotor;
   private final RelativeEncoder wristEncoder;
 
   public WristIONeo() {
+    /** creates a new wrist motor and encoder */
     wristMotor = new CANSparkMax(WristConstants.CAN_ID, MotorType.kBrushless);
     wristEncoder = wristMotor.getEncoder();
 
+    /** sets default to brake mode which locks the motor position */
     wristMotor.setIdleMode(IdleMode.kBrake);
+
+    /** sets current limit */
     wristMotor.setSmartCurrentLimit(WristConstants.CUR_LIM_A);
   }
 
@@ -47,5 +51,14 @@ public class WristIONeo implements WristIO {
   @Override
   public void setWristVoltage(double volts) {
     wristMotor.setVoltage(volts);
+  }
+
+  @Override
+  public void setWristBrakeMode(boolean isEnabled) {
+    if (isEnabled) {
+      wristMotor.setIdleMode(IdleMode.kBrake);
+    } else {
+      wristMotor.setIdleMode(IdleMode.kCoast);
+    }
   }
 }

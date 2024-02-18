@@ -7,6 +7,8 @@ package frc.robot.Subsystems.actuator;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
+
 import edu.wpi.first.math.util.Units;
 
 public class ActuatorIOSparkMax implements ActuatorIO {
@@ -46,5 +48,14 @@ public class ActuatorIOSparkMax implements ActuatorIO {
   @Override
   public void setActuatorPercentSpeed(double percent) {
     actuatorMotor.set(percent);
+  }
+
+  @Override
+  public void setBrakeMode(boolean enable){
+    if(enable){
+      actuatorMotor.setIdleMode(IdleMode.kBrake);
+    }else{
+      actuatorMotor.setIdleMode(IdleMode.kCoast);
+    }
   }
 }

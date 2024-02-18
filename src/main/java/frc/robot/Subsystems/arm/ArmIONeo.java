@@ -9,38 +9,51 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.RobotStateConstants;
 
-/** Add your docs here. */
+/** Runs the real life Arm with CANSpark Speed Controllers and NEO motor */
 public class ArmIONeo implements ArmIO {
 
   private final CANSparkMax armMotor;
   private final RelativeEncoder armEncoder;
 
   public ArmIONeo() {
-    armMotor = new CANSparkMax(ArmConstants.ARM_CANID, MotorType.kBrushless);
+    armMotor = new CANSparkMax(ArmConstants.CAN_ID, MotorType.kBrushless);
     armEncoder = armMotor.getEncoder();
 
     armMotor.setIdleMode(IdleMode.kBrake);
-    armMotor.setSmartCurrentLimit(ArmConstants.ARM_SMART_CURRENT_LIMIT_A);
+    armMotor.setSmartCurrentLimit(ArmConstants.CUR_LIM_A);
   }
 
-  public void setArmMotorSpeed(double percent) {
+  @Override
+
+  public void updateInputs(ArmIOInputs inputs) {
+    inputs.armAppliedVolts = armMotor.getBusVoltage() * armMotor.getAppliedOutput();
+    inputs.armPositionRad =
+        Units.rotationsToRadians(Units.rotationsToRadians(armEncoder.getPosition())) / ArmConstants.GEAR_RATIO;
+    
+    inputs.armVelocityRadPerSec =
+        Units.rotationsPerMinuteToRadiansPerSecond(armEncoder.getVelocity())/ ArmConstants.GEAR_RATIO;
+    inputs.armTempCelsius = new double[] {armMotor.getMotorTemperature()} ;
+    inputs.armCurrentAmps = new double[] {armMotor.getOutputCurrent()};
+  }
+  
+  @Override
+  public void setArmPercentSpeed(double percent) {
     armMotor.setVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 
-  public void setArmMotorVoltage(double volts) {
+  @Override
+  public void setArmVoltage(double volts) {
     armMotor.setVoltage(volts);
   }
 
-  public void updateInputs(ArmIOInputs inputs) {
-    inputs.armTurnAppliedVolts = armMotor.getBusVoltage() * armMotor.getAppliedOutput();
-    inputs.armTurnPositionRad =
-        Units.rotationsToRadians(armEncoder.getPosition()) / ArmConstants.ARM_GEAR_RATIO;
-    inputs.armTurnVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(armEncoder.getVelocity());
-    inputs.armTempCelsius = new double[] {armMotor.getMotorTemperature()};
-    inputs.armTurnCurrentAmps = new double[] {armMotor.getOutputCurrent()};
+  @Override
+  public void setBrakeMode(boolean enable){
+    if(enable){
+    armMotor.setIdleMode(IdleMode.kBrake);
+    }else{
+      armMotor.setIdleMode(IdleMode.kCoast);
+    }
   }
 }

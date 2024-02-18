@@ -2,7 +2,6 @@ package frc.robot.Subsystems.climber;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
-import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.RobotStateConstants;
 
 public class ClimberIOSim implements ClimberIO {

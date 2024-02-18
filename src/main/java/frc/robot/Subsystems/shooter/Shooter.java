@@ -15,8 +15,8 @@ public class Shooter extends SubsystemBase {
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
 
   // Creates the PID Contollers for both shooter motors
-  private static PIDController topShooterPID;
-  private static PIDController bottomShooterPID;
+  private final PIDController topShooterPID;
+  private final PIDController bottomShooterPID;
 
   // The desired RPM for the shooter
   private double setpointRPM = 0.0;
@@ -28,16 +28,10 @@ public class Shooter extends SubsystemBase {
 
     topShooterPID =
         new PIDController(
-            ShooterConstants.TOP_KP,
-            ShooterConstants.TOP_KI,
-            ShooterConstants.TOP_KD
-            );
+            ShooterConstants.TOP_KP, ShooterConstants.TOP_KI, ShooterConstants.TOP_KD);
     bottomShooterPID =
         new PIDController(
-            ShooterConstants.BOTTOM_KP,
-            ShooterConstants.BOTTOM_KI,
-            ShooterConstants.BOTTOM_KD
-            );
+            ShooterConstants.BOTTOM_KP, ShooterConstants.BOTTOM_KI, ShooterConstants.BOTTOM_KD);
 
     topShooterPID.setSetpoint(setpointRPM);
     bottomShooterPID.setSetpoint(setpointRPM);
@@ -62,6 +56,13 @@ public class Shooter extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("Shooter", inputs);
 
+    // Sets the voltage of the Shooter Motors using PID
+    setTopShooterMotorVoltage(
+        topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, ShooterConstants.MAX_RPM));
+    setBottomShooterMotorVoltage(
+        -bottomShooterPID.calculateForVoltage(
+            Math.abs(inputs.bottomShooterMotorRPM), ShooterConstants.MAX_RPM));
+
     if (ShooterConstants.TOP_KP != SmartDashboard.getNumber("shooterTopKP", 0.0)
         || ShooterConstants.TOP_KI != SmartDashboard.getNumber("shooterTopKI", 0.0)
         || ShooterConstants.TOP_KD != SmartDashboard.getNumber("shooterTopKD", 0.0)
@@ -75,32 +76,28 @@ public class Shooter extends SubsystemBase {
       updateSetpoint();
     }
     // Puts the difference between the setpoint and current RPM on the SmartDashboard
-    SmartDashboard.putNumber("TopError", setpointRPM - inputs.topShooterMotorRPM);
-    SmartDashboard.putNumber("BottomError", setpointRPM - Math.abs(inputs.bottomShooterMotorRPM));
+    SmartDashboard.putNumber("shooterTopError", setpointRPM - inputs.topShooterMotorRPM);
     SmartDashboard.putNumber(
-        "Top Bottom Motor RPM Difference",
+        "shooterBottomError", setpointRPM - Math.abs(inputs.bottomShooterMotorRPM));
+    SmartDashboard.putNumber(
+        "shooterMotorsRPMDifference",
         inputs.topShooterMotorRPM - Math.abs(inputs.bottomShooterMotorRPM));
 
-    // Sets the voltage of the Shooter Motors using PID
-      setTopShooterMotorVoltage(topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, 6350));
-      setBottomShooterMotorVoltage(
-          -bottomShooterPID.calculateForVoltage(Math.abs(inputs.bottomShooterMotorRPM), 6350));
-
     // Returns whether or not motors have reached setpoint
-    SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
-    SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
+    SmartDashboard.putBoolean("shooterTopAtSetpoint", topAtSetpoint());
+    SmartDashboard.putBoolean("shooterBottomAtSetpoint", bottomAtSetpoint());
 
     // Gets the current PID values that the PID contollers are set to
-    SmartDashboard.putNumber("topCurrentkP", topShooterPID.getP());
-    SmartDashboard.putNumber("topCurrentkI", topShooterPID.getI());
-    SmartDashboard.putNumber("topCurrentkD", topShooterPID.getD());
-    SmartDashboard.putNumber("bottomCurrentkP", bottomShooterPID.getP());
-    SmartDashboard.putNumber("bottomCurrentkI", bottomShooterPID.getI());
-    SmartDashboard.putNumber("bottomCurrentkD", bottomShooterPID.getD());
+    SmartDashboard.putNumber("shooterTopCurrentkP", topShooterPID.getP());
+    SmartDashboard.putNumber("shooterTopCurrentkI", topShooterPID.getI());
+    SmartDashboard.putNumber("shooterTopCurrentkD", topShooterPID.getD());
+    SmartDashboard.putNumber("shooterBottomCurrentkP", bottomShooterPID.getP());
+    SmartDashboard.putNumber("shooterBottomCurrentkI", bottomShooterPID.getI());
+    SmartDashboard.putNumber("shooterBottomCurrentkD", bottomShooterPID.getD());
 
     // Gets the current setpoint that the PID contollers are set to
-    SmartDashboard.putNumber("Top PID Controller Setpoint", topShooterPID.getSetpoint());
-    SmartDashboard.putNumber("Bottom PID Controller Setpoint", -bottomShooterPID.getSetpoint());
+    SmartDashboard.putNumber("shooterTopCurrentSetpoint", topShooterPID.getSetpoint());
+    SmartDashboard.putNumber("shooterBottomCurrentSetpoint", -bottomShooterPID.getSetpoint());
 
     // SmartDashboard.putBoolean("!!Tempature Warning!!", exceedsTemperature());
   }
@@ -114,7 +111,8 @@ public class Shooter extends SubsystemBase {
     ShooterConstants.BOTTOM_KI = SmartDashboard.getNumber("shooterBottomKI", 0.0);
     ShooterConstants.BOTTOM_KD = SmartDashboard.getNumber("shooterBottomKD", 0.0);
     topShooterPID.setPID(ShooterConstants.TOP_KP, ShooterConstants.TOP_KI, ShooterConstants.TOP_KD);
-    bottomShooterPID.setPID(ShooterConstants.BOTTOM_KP, ShooterConstants.BOTTOM_KI, ShooterConstants.BOTTOM_KD);
+    bottomShooterPID.setPID(
+        ShooterConstants.BOTTOM_KP, ShooterConstants.BOTTOM_KI, ShooterConstants.BOTTOM_KD);
   }
 
   // Updates the setpoint to what is typed on the SmartDashboard
@@ -128,30 +126,63 @@ public class Shooter extends SubsystemBase {
     io.updateInputs(inputs);
   }
 
-  public void setShooterBreakMode(boolean enable) {
-    io.setShooterBreakMode(enable);
+  /**
+   * Sets the Brake Mode for the Shooter (Brake means motor holds position, Coast means easy to move) 
+   * 
+   * @param enable if enable, it sets brake mode, else it sets coast mode
+   */
+  public void setShooterBrakeMode(boolean enable) {
+    io.setShooterBrakeMode(enable);
   }
 
+  /**
+   * Sets BOTH Shooter Motors at a percentage of its max speed.
+   *
+   * <p>A positve number spins the Top Shooter Motor CCW and the Bottom Shooter Motor CW and vice
+   * versa for a negative number
+   *
+   * @param percent -1 to 1
+   */
   public void setShooterMotorPercentSpeed(double percent) {
     io.setBothShooterMotorPercentSpeed(percent);
   }
 
+  /**
+   * Sets BOTH Shooter Motors at the specified Voltage
+   *
+   * <p>A positve number spins the Top Shooter Motor CCW and the Bottom Shooter Motor CW and vice
+   * versa for a negative number
+   *
+   * @param volts -12 to 12
+   */
   public void setBothShooterMotorsVoltage(double volts) {
     io.setBothShooterMotorsVoltage(volts);
   }
 
+  /**
+   * Sets the voltage of the Top Shooter Motor
+   *
+   * @param volts -12 to 12
+   */
   public void setTopShooterMotorVoltage(double volts) {
     io.setTopShooterMotorVoltage(volts);
   }
 
+  /**
+   * Sets the voltage of the Bottom Shooter Motor
+   *
+   * @param volts -12 to 12
+   */
   public void setBottomShooterMotorVoltage(double volts) {
     io.setBottomShooterMotorVoltage(volts);
   }
 
+  /** Returns where the Top Shooter RPM is within the setpoint, including tolerance */
   public boolean topAtSetpoint() {
     return topShooterPID.atSetpoint(inputs.topShooterMotorRPM);
   }
 
+  /** Returns where the Bottom Shooter RPM is within the setpoint, including tolerance */
   public boolean bottomAtSetpoint() {
     return bottomShooterPID.atSetpoint(inputs.bottomShooterMotorRPM);
   }

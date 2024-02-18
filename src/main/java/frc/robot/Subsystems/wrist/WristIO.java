@@ -6,7 +6,6 @@ import org.littletonrobotics.junction.AutoLog;
 public interface WristIO {
   @AutoLog
   public static class WristIOInputs {
-
     public double wristAppliedVolts = 0.0;
     public double wristPositionRad = 0.0;
     public double wristVelocityRadPerSec = 0.0;
@@ -28,4 +27,10 @@ public interface WristIO {
    * @param volts [-12 to 12]
    */
   public default void setWristVoltage(double volts) {}
+
+  /**
+   * Sets brake mode
+   * @param isEnabled boolean for is brake mode true or false
+   */
+  public default void setWristBrakeMode(boolean isEnabled) {}
 }
