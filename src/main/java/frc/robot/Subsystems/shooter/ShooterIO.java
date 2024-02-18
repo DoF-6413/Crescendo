@@ -30,8 +30,9 @@ public interface ShooterIO {
   public default void updateInputs(ShooterIOInputs inputs) {}
 
   /**
-   * Sets the Brake Mode for the Shooter (Brake means motor holds position, Coast means easy to move) 
-   * 
+   * Sets the Brake Mode for the Shooter (Brake means motor holds position, Coast means easy to
+   * move)
+   *
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
   public default void setShooterBrakeMode(boolean isEnabled) {}

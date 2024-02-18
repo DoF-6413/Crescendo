@@ -16,19 +16,16 @@ public class Arm extends SubsystemBase {
   private final PIDController armPIDController;
   private double armSetpoint = 0.0;
 
-  /**
-   * Creates a new Arm, the Subsystem that moves the Shooter from Up and Down
-   */
+  /** Creates a new Arm, the Subsystem that moves the Shooter from Up and Down */
   public Arm(ArmIO io) {
     System.out.println("[Init] Creating arm");
     this.io = io;
-    armPIDController =
-        new PIDController(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
+    armPIDController = new PIDController(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
     armPIDController.setSetpoint(armSetpoint);
     armPIDController.setTolerance(ArmConstants.TOLERANCE_PERCENT * armSetpoint);
     armPIDController.disableContinuousInput();
 
-  //TODO: Delete once final PID Numbers are Decided
+    // TODO: Delete once final PID Numbers are Decided
     SmartDashboard.putNumber("armkp", 0.0);
     SmartDashboard.putNumber("armki", 0.0);
     SmartDashboard.putNumber("armkd", 0.0);
@@ -42,10 +39,10 @@ public class Arm extends SubsystemBase {
     // log the inputs
     Logger.processInputs("Arm", armInputs);
 
-  //Updates Arm Speed based on PID Control
+    // Updates Arm Speed based on PID Control
     setArmPercentSpeed(armPIDController.calculate(armInputs.armPositionRad));
 
-    //TODO: Deleted Once Final PID are Decided
+    // TODO: Deleted Once Final PID are Decided
     if (ArmConstants.KP != SmartDashboard.getNumber("armkp", 0.0)
         || ArmConstants.KI != SmartDashboard.getNumber("armki", 0.0)
         || ArmConstants.KD != SmartDashboard.getNumber("armkd", 0.0)) {
@@ -62,11 +59,10 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("armCurrentkI", armPIDController.getI());
     SmartDashboard.putNumber("armCurrentkD", armPIDController.getD());
     SmartDashboard.putNumber("armCurrentSetpoint", armPIDController.getSetpoint());
-
   }
 
-//TODO: Make this appear only in "Test" when Final PID Numbers are Selected
-/**Updates the PID Contants for the PID Controller */
+  // TODO: Make this appear only in "Test" when Final PID Numbers are Selected
+  /** Updates the PID Contants for the PID Controller */
   public void updatePIDController() {
     ArmConstants.KP = SmartDashboard.getNumber("armkp", 0.0);
     ArmConstants.KI = SmartDashboard.getNumber("armki", 0.0);
@@ -74,21 +70,21 @@ public class Arm extends SubsystemBase {
     armPIDController.setPID(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
   }
 
-//TODO: Make this have a setpoint as a parameter and delete smartdashboard getter
-/**Updates the Position the Arm is Going To */
+  // TODO: Make this have a setpoint as a parameter and delete smartdashboard getter
+  /** Updates the Position the Arm is Going To */
   public void updateSetpoint() {
     armSetpoint = SmartDashboard.getNumber("armSetpoint", 0.0);
     armPIDController.setSetpoint(armSetpoint);
   }
 
-/**Updates the Outputs of the Motors based on What Mode we are In */
+  /** Updates the Outputs of the Motors based on What Mode we are In */
   public void updateInputs() {
     io.updateInputs(armInputs);
   }
 
   /**
    * Sets the Arm motor to a percent of its maximum speed
-   * 
+   *
    * @param percent [-1 to 1]
    */
   public void setArmPercentSpeed(double percent) {
@@ -96,19 +92,19 @@ public class Arm extends SubsystemBase {
   }
   /**
    * Sets the voltage of the Arm motor
-   * 
+   *
    * @param volts [-12 to 12]
    */
   public void setArmMotorVoltage(double volts) {
     io.setArmVoltage(volts);
   }
 
-    /**
-   * Sets the Brake Mode for the Arm (Brake means motor holds position, Coast means easy to move) 
-   * 
+  /**
+   * Sets the Brake Mode for the Arm (Brake means motor holds position, Coast means easy to move)
+   *
    * @param enable if enable, it sets brake mode, else it sets coast mode
-  */
-  public void setBrakeMode(boolean enable){
+   */
+  public void setBrakeMode(boolean enable) {
     io.setBrakeMode(enable);
   }
 }

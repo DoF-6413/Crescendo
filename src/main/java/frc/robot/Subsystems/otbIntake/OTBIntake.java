@@ -9,22 +9,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
 
-/** Runs the motor for the Over the Bumper (OTB) Intake */
 public class OTBIntake extends SubsystemBase {
   private final OTBIntakeIO io;
   private final OTBIntakeIOInputsAutoLogged inputs = new OTBIntakeIOInputsAutoLogged();
 
   private final PIDController otbIntakePID;
-
+  
   private double setpointRPM = 0.0;
-
+  
+  /** Runs the real life motor for the Over the Bumper (OTB) Intake with CAN SPARKMAX Speed*/
   public OTBIntake(OTBIntakeIO io) {
     System.out.println("[Init] Creating OTB Intake");
     this.io = io;
     otbIntakePID =
         new PIDController(OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
     otbIntakePID.setSetpoint(setpointRPM);
-    otbIntakePID.setTolerance(setpointRPM * OTBIntakeConstants.TOLERANCE);
+    otbIntakePID.setTolerance(setpointRPM * OTBIntakeConstants.TOLERANCE_PERCENT);
 
     SmartDashboard.putNumber("OTBIntakekP", 0.0);
     SmartDashboard.putNumber("OTBIntakekI", 0.0);
@@ -38,6 +38,8 @@ public class OTBIntake extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("OTBIntake", inputs);
 
+    otbIntakePID.calculateForVoltage(inputs.otbIntakeVelocityRPM, OTBIntakeConstants.MAX_VALUE);
+
     if (OTBIntakeConstants.KP != SmartDashboard.getNumber("OTBIntakekP", 0)
         || OTBIntakeConstants.KI != SmartDashboard.getNumber("OTBIntakekI", 0)
         || OTBIntakeConstants.KD != SmartDashboard.getNumber("OTBIntakekD", 0)) {
@@ -48,21 +50,13 @@ public class OTBIntake extends SubsystemBase {
       updateSetpoint();
     }
 
-    SmartDashboard.putNumber("Get Setpoint OTB Intake", otbIntakePID.getSetpoint());
-    SmartDashboard.putNumber("Get OTB kP", otbIntakePID.getP());
-    SmartDashboard.putNumber("Get OTB kI", otbIntakePID.getI());
-    SmartDashboard.putNumber("Get OTB kD", otbIntakePID.getD());
+    SmartDashboard.putNumber("OTBIntakeGetSetpoint", otbIntakePID.getSetpoint());
+    SmartDashboard.putNumber("OTBIntakeGetkP", otbIntakePID.getP());
+    SmartDashboard.putNumber("OTBIntakeGetkI", otbIntakePID.getI());
+    SmartDashboard.putNumber("OTBIntakeGetkD", otbIntakePID.getD());
 
     SmartDashboard.putNumber("OTBIntakeError", setpointRPM - inputs.otbIntakeVelocityRPM);
-    SmartDashboard.putBoolean("OTB At Setpoint", atSetpoint());
-
-    if (inputs.otbIntakeVelocityRPM < 0) {
-      setOTBIntakeVoltage(0.0);
-    } else {
-      setOTBIntakeVoltage(
-          otbIntakePID.calculateForVoltage(
-              inputs.otbIntakeVelocityRPM, 1400)); // maxValue based on sim
-    }
+    SmartDashboard.putBoolean("OTBIntakeAtSetpoint", atSetpoint());
   }
 
   public void updatePIDController() {
@@ -77,18 +71,34 @@ public class OTBIntake extends SubsystemBase {
     otbIntakePID.setSetpoint(setpointRPM);
   }
 
+  /** Updates inputs for the OTB Intake */
   public void updateInputs() {
     io.updateInputs(inputs);
   }
 
+  /**
+   * Sets the voltage for the OTB Intake
+   *
+   * @param volts [-12 to 12]
+   */
   public void setOTBIntakeVoltage(double volts) {
     io.setOTBIntakeVoltage(volts);
   }
 
+  /**
+   * Sets the speed for the OTB Intake
+   *
+   * @param percent [-1 to 1]
+   */
   public void setOTBIntakePercentSpeed(double percent) {
     io.setOTBIntakePercentSpeed(percent);
   }
 
+  public void setBrakeMode(boolean enabled) {
+    io.setBrakeMode(enabled);
+  }
+
+  /** Returns where the OTB Intake RPM is within the setpoint, including tolerance */
   public boolean atSetpoint() {
     return otbIntakePID.atSetpoint(inputs.otbIntakeVelocityRPM);
   }

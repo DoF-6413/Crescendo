@@ -48,11 +48,16 @@ public final class ActuatorConstants {
 
   /** The maximum angle the actuator can rotate to */
   public static final double MAX_ANGLE_RADS = Math.atan(-7.432 / 8.253) + (2 * Math.PI);
+
   /** The minimum angle the actuator can rotate to */
   public static final double MIN_ANGLE_RADS = Math.atan(11.105 / .096);
+
   /** The angle where the actuator starts */
   public static final double START_ANGLE_RADS = MIN_ANGLE_RADS;
 
   /** Length from pivot to roller */
   public static final double LENGTH_M = Units.inchesToMeters(30.354561);
+
+  /** Sets if Actuator Motor is Inverted */
+  public static final boolean IS_INVERTED = false;
 }

@@ -7,8 +7,8 @@ package frc.robot.Subsystems.actuator;
 import org.littletonrobotics.junction.AutoLog;
 
 /**
- * ActuatorIO controls the Values of the Outputs User Recieve (Reffered to as
- * Inputs because Inputs from Motors)
+ * ActuatorIO controls the Values of the Outputs User Recieve (Reffered to as Inputs because Inputs
+ * from Motors)
  */
 public interface ActuatorIO {
   @AutoLog
@@ -20,7 +20,7 @@ public interface ActuatorIO {
     public double actuatorPositionRad = 0.0;
     /** Returns the position of the Actuator in Degrees */
     public double actuatorPositionDeg = 0.0;
-    /** Returns the velocity in Rad/s */
+    /** Returns the velocity of the Actuator in Rad/s */
     public double actuatorVelocityRadPerSec = 0.0;
     /** The Current Drawn from the Actuator in Amps */
     public double[] actuatorCurrentAmps = new double[] {};
@@ -29,29 +29,27 @@ public interface ActuatorIO {
   }
 
   /** Updates inputs for the Actuator */
-  public default void updateInputs(ActuatorIOInputs inputs) {
-  }
+  public default void updateInputs(ActuatorIOInputs inputs) {}
 
   /**
    * Sets the voltage of the Actuator motor
    *
    * @param volts [-12 to 12]
    */
-  public default void setActuatorVoltage(double volts) {
-  }
+  public default void setActuatorVoltage(double volts) {}
 
   /**
    * Sets the Actuator motor to a percentage of its max speed
    *
    * @param percent [-1 to 1]
    */
-  public default void setActuatorPercentSpeed(double percent) {
-  }
+  public default void setActuatorPercentSpeed(double percent) {}
 
   /**
-   * Sets the Brake Mode for the Actuator (Brake means motor holds position, Coast means easy to move) 
-   * 
+   * Sets the Brake Mode for the Actuator (Brake means motor holds position, Coast means easy to
+   * move)
+   *
    * @param enable if enable, it sets brake mode, else it sets coast mode
-  */
-  public default void setBrakeMode(boolean enable){}
+   */
+  public default void setBrakeMode(boolean enable) {}
 }

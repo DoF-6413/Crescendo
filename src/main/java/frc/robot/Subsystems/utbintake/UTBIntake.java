@@ -5,89 +5,95 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
 
-/** Runs the motor for the Under the Bumper (UTB) Intake */
 public class UTBIntake extends SubsystemBase {
 
   private final UTBIntakeIO io;
   private final UTBIntakeIOInputsAutoLogged inputs = new UTBIntakeIOInputsAutoLogged();
-  private static PIDController UTBintakePIDController;
-  private double UTBIntakeSetpoint = 0.0;
+  private static PIDController utbIntakePIDController;
+  private double utbIntakeSetpoint = 0.0;
 
+  /**
+   * creates an Under the Bumper (UTB) Intake, the subsystem that intakes pieces from under the
+   * bumper
+   */
   public UTBIntake(UTBIntakeIO io) {
 
     System.out.println("[Init] Creating UTB Intake");
     this.io = io;
 
-    UTBintakePIDController =
+    /** creates a new PIDController for the UTBIntake */
+    utbIntakePIDController =
         new PIDController(
-            UTBIntakeConstants.KP,
-            UTBIntakeConstants.KI,
-            UTBIntakeConstants.KD
-            );
+          UTBIntakeConstants.KP,
+          UTBIntakeConstants.KI,
+          UTBIntakeConstants.KD);
 
-    UTBintakePIDController.setTolerance(UTBIntakeSetpoint * TOLERANCE_PERCENT);
-    UTBintakePIDController.setSetpoint(UTBIntakeSetpoint);
+    /** sets tolerance and setpoint for UTBIntake PIDController */
+    utbIntakePIDController.setTolerance(utbIntakeSetpoint * UTBIntakeConstants.TOLERANCE_PERCENT);
+    utbIntakePIDController.setSetpoint(utbIntakeSetpoint);
 
-    SmartDashboard.putNumber("UTBIntakekp", 0.0);
-    SmartDashboard.putNumber("UTBIntakeki", 0.0);
-    SmartDashboard.putNumber("UTBIntakekd", 0.0);
+    SmartDashboard.putNumber("utbIntakekp", 0.0);
+    SmartDashboard.putNumber("utbIntakeki", 0.0);
+    SmartDashboard.putNumber("utbIntakekd", 0.0);
 
-    SmartDashboard.putNumber("UTBIntakeSetpoint", 0.0);
+    SmartDashboard.putNumber("utbIntakeSetpoint", 0.0);
   }
 
   @Override
-  /** Periodically updates the inputs and outputs of the UTB Intake */
+  /** Periodically updates the inputs and outputs of the utb Intake */
   public void periodic() {
     this.updateInputs();
-    Logger.processInputs("UTBIntake", inputs);
+    Logger.processInputs("utbIntake", inputs);
 
-    if (UTBIntakeConstants.UTB_INTAKE_KP != SmartDashboard.getNumber("UTBIntakekp", 0.0)
-        || UTBIntakeConstants.UTB_INTAKE_KI != SmartDashboard.getNumber("UTBIntakeki", 0.0)
-        || UTBIntakeConstants.UTB_INTAKE_KD != SmartDashboard.getNumber("UTBIntakekd", 0.0)) {
+    //updates UTB Intake voltage from PID calculations
+    setUTBIntakeVoltage(
+        utbIntakePIDController.calculateForVoltage(
+            inputs.utbIntakeRPM, UTBIntakeConstants.MAX_RPM));
+
+    //TODO: delete once PID values are finalized
+    if (UTBIntakeConstants.KP != SmartDashboard.getNumber("utbIntakekp", 0.0)
+        || UTBIntakeConstants.KI != SmartDashboard.getNumber("utbIntakeki", 0.0)
+        || UTBIntakeConstants.KD != SmartDashboard.getNumber("utbIntakekd", 0.0)) {
       updatePIDController();
     }
 
-    if (UTBIntakeSetpoint != SmartDashboard.getNumber("UTBIntakeSetpoint", 0.0)) {
+    //TODO: delete once PID values are finalized
+
+    if (utbIntakeSetpoint != SmartDashboard.getNumber("utbIntakeSetpoint", 0.0)) {
       updateSetpoint();
     }
 
-    SmartDashboard.getNumber("UTBIntakeRealSetpoint", UTBintakePIDController.getSetpoint());
-
-    if (inputs.utbIntakeRPM < 0) {
-      setUTBIntakeVoltage(0.01);
-    } else {
-      setUTBIntakeVoltage(UTBintakePIDController.calculateForVoltage(inputs.utbIntakeRPM, 2800));
-    }
+    SmartDashboard.getNumber("utbIntakeRealSetpoint", utbIntakePIDController.getSetpoint());
+    
   }
 
   public void updatePIDController() {
-    UTBIntakeConstants.UTB_INTAKE_KP = SmartDashboard.getNumber("UTBIntakekp", 0.0);
-    UTBIntakeConstants.UTB_INTAKE_KI = SmartDashboard.getNumber("UTBIntakeki", 0.0);
-    UTBIntakeConstants.UTB_INTAKE_KD = SmartDashboard.getNumber("UTBIntakekd", 0.0);
+    UTBIntakeConstants.KP = SmartDashboard.getNumber("utbIntakekp", 0.0);
+    UTBIntakeConstants.KI = SmartDashboard.getNumber("utbIntakeki", 0.0);
+    UTBIntakeConstants.KD = SmartDashboard.getNumber("utbIntakekd", 0.0);
 
-    UTBintakePIDController.setPID(
-        UTBIntakeConstants.UTB_INTAKE_KP,
-        UTBIntakeConstants.UTB_INTAKE_KI,
-        UTBIntakeConstants.UTB_INTAKE_KD
-        );
+    utbIntakePIDController.setPID(
+        UTBIntakeConstants.KP,
+        UTBIntakeConstants.KI,
+        UTBIntakeConstants.KD);
   }
 
   public void updateSetpoint() {
-    UTBIntakeSetpoint = SmartDashboard.getNumber("UTBIntakeSetpoint", 0.0);
-    UTBintakePIDController.setSetpoint(UTBIntakeSetpoint);
+    utbIntakeSetpoint = SmartDashboard.getNumber("utbIntakeSetpoint", 0.0);
+    utbIntakePIDController.setSetpoint(utbIntakeSetpoint);
   }
 
-  /** Updates the inputs for the UTB Intake */
+  /** Updates the inputs for the utb Intake */
   public void updateInputs() {
     io.updateInputs(inputs);
   }
 
-  /** Sets intake voltage for the UTB Intake :) */
+  /** Sets intake voltage for the utb Intake :) */
   public void setUTBIntakeVoltage(double volts) {
     io.setUTBIntakeVoltage(volts);
   }
 
-  /** Sets intake speed for the UTB Intake :) */
+  /** Sets intake speed for the utb Intake :) */
   public void setUTBIntakePercentSpeed(double percent) {
     io.setUTBIntakePercentSpeed(percent);
   }

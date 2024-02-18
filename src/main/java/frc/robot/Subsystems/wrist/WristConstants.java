@@ -24,7 +24,7 @@ public final class WristConstants {
   public static final boolean IS_SIMULATING_GRAVITY = false; // TODO: UPDATE
 
   // Real constants
-  /** CAN_ID of the wrist motor */
+  /** CAN ID of the wrist motor */
   public static final int CAN_ID = 0; // TODO: UPDATE
 
   /** current limiting for wrist */

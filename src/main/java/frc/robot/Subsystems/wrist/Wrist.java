@@ -103,6 +103,7 @@ public class Wrist extends SubsystemBase {
 
   /**
    * Sets brake mode
+   *
    * @param isEnabled boolean for is brake mode true or false
    */
   public void setWristBrakeMode(boolean isEnabled) {

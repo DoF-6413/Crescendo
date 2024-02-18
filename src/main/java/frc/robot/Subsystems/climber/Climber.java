@@ -24,21 +24,17 @@ public class Climber extends SubsystemBase {
 
     climberLeftPIDController =
         new PIDController(
-            ClimberConstants.LEFT_CLIMBER_KP,
-            ClimberConstants.LEFT_CLIMBER_KI,
-            ClimberConstants.LEFT_CLIMBER_KD);
+            ClimberConstants.LEFT_KP, ClimberConstants.LEFT_KI, ClimberConstants.LEFT_KD);
     climberRightPIDController =
         new PIDController(
-            ClimberConstants.RIGHT_CLIMBER_KP,
-            ClimberConstants.RIGHT_CLIMBER_KI,
-            ClimberConstants.RIGHT_CLIMBER_KD);
+            ClimberConstants.RIGHT_KP, ClimberConstants.RIGHT_KI, ClimberConstants.RIGHT_KD);
 
     climberLeftPIDController.setSetpoint(climberSetpoint);
     climberRightPIDController.setSetpoint(climberSetpoint);
 
-    // Set Tolerence
-    climberLeftPIDController.setTolerance(ClimberConstants.CLIMBER_TOLERANCE * climberSetpoint);
-    climberRightPIDController.setTolerance(ClimberConstants.CLIMBER_TOLERANCE * climberSetpoint);
+    // Set Tolerance
+    climberLeftPIDController.setTolerance(ClimberConstants.TOLERANCE_PERCENT * climberSetpoint);
+    climberRightPIDController.setTolerance(ClimberConstants.TOLERANCE_PERCENT * climberSetpoint);
 
     SmartDashboard.putNumber("climberRightkp", 0.0);
     SmartDashboard.putNumber("climberRightki", 0.0);
@@ -54,12 +50,12 @@ public class Climber extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("Climber", inputs);
 
-    if (ClimberConstants.RIGHT_CLIMBER_KP != SmartDashboard.getNumber("climberRightkp", 0.0)
-        || ClimberConstants.RIGHT_CLIMBER_KI != SmartDashboard.getNumber("climberRightki", 0.0)
-        || ClimberConstants.RIGHT_CLIMBER_KD != SmartDashboard.getNumber("climberRightkd", 0.0)
-        || ClimberConstants.LEFT_CLIMBER_KP != SmartDashboard.getNumber("climberLeftkp", 0.0)
-        || ClimberConstants.LEFT_CLIMBER_KI != SmartDashboard.getNumber("climberLeftki", 0.0)
-        || ClimberConstants.LEFT_CLIMBER_KD != SmartDashboard.getNumber("climberLeftkd", 0.0)) {
+    if (ClimberConstants.RIGHT_KP != SmartDashboard.getNumber("climberRightkp", 0.0)
+        || ClimberConstants.RIGHT_KI != SmartDashboard.getNumber("climberRightki", 0.0)
+        || ClimberConstants.RIGHT_KD != SmartDashboard.getNumber("climberRightkd", 0.0)
+        || ClimberConstants.LEFT_KP != SmartDashboard.getNumber("climberLeftkp", 0.0)
+        || ClimberConstants.LEFT_KI != SmartDashboard.getNumber("climberLeftki", 0.0)
+        || ClimberConstants.LEFT_KD != SmartDashboard.getNumber("climberLeftkd", 0.0)) {
       updatePIDController();
     }
 
@@ -75,21 +71,17 @@ public class Climber extends SubsystemBase {
   }
 
   public void updatePIDController() {
-    ClimberConstants.LEFT_CLIMBER_KP = SmartDashboard.getNumber("climberLeftkp", 0.0);
-    ClimberConstants.LEFT_CLIMBER_KD = SmartDashboard.getNumber("climberLeftkd", 0.0);
-    ClimberConstants.LEFT_CLIMBER_KI = SmartDashboard.getNumber("climberLeftki", 0.0);
-    ClimberConstants.RIGHT_CLIMBER_KP = SmartDashboard.getNumber("climberRightkp", 0.0);
-    ClimberConstants.RIGHT_CLIMBER_KI = SmartDashboard.getNumber("climberRightki", 0.0);
-    ClimberConstants.RIGHT_CLIMBER_KD = SmartDashboard.getNumber("climberRightkd", 0.0);
+    ClimberConstants.LEFT_KP = SmartDashboard.getNumber("climberLeftkp", 0.0);
+    ClimberConstants.LEFT_KD = SmartDashboard.getNumber("climberLeftkd", 0.0);
+    ClimberConstants.LEFT_KI = SmartDashboard.getNumber("climberLeftki", 0.0);
+    ClimberConstants.RIGHT_KP = SmartDashboard.getNumber("climberRightkp", 0.0);
+    ClimberConstants.RIGHT_KI = SmartDashboard.getNumber("climberRightki", 0.0);
+    ClimberConstants.RIGHT_KD = SmartDashboard.getNumber("climberRightkd", 0.0);
 
     climberLeftPIDController.setPID(
-        ClimberConstants.LEFT_CLIMBER_KP,
-        ClimberConstants.LEFT_CLIMBER_KI,
-        ClimberConstants.LEFT_CLIMBER_KD);
+        ClimberConstants.LEFT_KP, ClimberConstants.LEFT_KI, ClimberConstants.LEFT_KD);
     climberRightPIDController.setPID(
-        ClimberConstants.RIGHT_CLIMBER_KP,
-        ClimberConstants.RIGHT_CLIMBER_KI,
-        ClimberConstants.RIGHT_CLIMBER_KD);
+        ClimberConstants.RIGHT_KP, ClimberConstants.RIGHT_KI, ClimberConstants.RIGHT_KD);
   }
 
   public void updateSetpoint() {

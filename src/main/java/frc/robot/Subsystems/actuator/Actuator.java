@@ -104,11 +104,12 @@ public class Actuator extends SubsystemBase {
   }
 
   /**
-   * Sets the Brake Mode for the Actuator (Brake means motor holds position, Coast means easy to move) 
-   * 
+   * Sets the Brake Mode for the Actuator (Brake means motor holds position, Coast means easy to
+   * move)
+   *
    * @param enable if enable, it sets brake mode, else it sets coast mode
-  */
-  public void setBrakeMode(boolean enable){
+   */
+  public void setBrakeMode(boolean enable) {
     io.setBrakeMode(enable);
   }
 }

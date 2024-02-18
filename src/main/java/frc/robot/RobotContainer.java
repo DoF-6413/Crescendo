@@ -13,6 +13,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -35,8 +36,6 @@ import frc.robot.Subsystems.vision.*;
 import frc.robot.Subsystems.wrist.*;
 import frc.robot.Utils.*;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-
-import com.pathplanner.lib.commands.PathPlannerAuto;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -81,17 +80,16 @@ public class RobotContainer {
                 new ModuleIOSparkMax(),
                 new ModuleIOSparkMax(),
                 m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIONeo());
+        m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_visionSubsystem = new Vision(new VisionIOArduCam());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_climberSubsystem = new Climber(new ClimberIOSparkMax() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
-        m_visionSubsystem);
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
-        m_wristSubsystem = new Wrist(new WristIONeo());
+        m_wristSubsystem = new Wrist(new WristIOSparkMax());
         break;
 
       case SIM:
@@ -111,8 +109,7 @@ public class RobotContainer {
         m_climberSubsystem = new Climber(new ClimberIOSim() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
-        m_visionSubsystem);
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         m_wristSubsystem = new Wrist(new WristIOSim());
 
@@ -135,8 +132,7 @@ public class RobotContainer {
         m_climberSubsystem = new Climber(new ClimberIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
-        m_visionSubsystem);
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         m_wristSubsystem = new Wrist(new WristIO() {});
         break;
@@ -172,7 +168,7 @@ public class RobotContainer {
     // TODO: update controls
     // m_utbIntakeSubsystem.setDefaultCommand(
     //     new InstantCommand(
-    //         () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
+    //         () -> m_utbIntakeSubsystem.setutbIntakePercentSpeed(auxController.getLeftY()),
     //         m_utbIntakeSubsystem));
 
     // m_climberSubsystem.setDefaultCommand(

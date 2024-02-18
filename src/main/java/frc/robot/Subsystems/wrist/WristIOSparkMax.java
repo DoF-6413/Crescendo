@@ -7,19 +7,18 @@
 
 package frc.robot.Subsystems.wrist;
 
-import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
 
-public class WristIONeo implements WristIO {
+public class WristIOSparkMax implements WristIO {
 
   private final CANSparkMax wristMotor;
   private final RelativeEncoder wristEncoder;
 
-  public WristIONeo() {
+  public WristIOSparkMax() {
     /** creates a new wrist motor and encoder */
     wristMotor = new CANSparkMax(WristConstants.CAN_ID, MotorType.kBrushless);
     wristEncoder = wristMotor.getEncoder();

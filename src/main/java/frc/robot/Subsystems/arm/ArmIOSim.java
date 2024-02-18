@@ -8,9 +8,9 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.*;
 
-/** This is a simulation for the arm */
 public class ArmIOSim implements ArmIO {
 
+/** This is a simulation for the arm */
   private SingleJointedArmSim armMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
@@ -33,12 +33,12 @@ public class ArmIOSim implements ArmIO {
     inputs.armCurrentAmps = new double[] {Math.abs(armMotor.getCurrentDrawAmps())};
   }
 
-@Override
+  @Override
   public void setArmPercentSpeed(double percent) {
     armMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 
-@Override
+  @Override
   public void setArmVoltage(double volts) {
     armMotor.setInputVoltage(volts);
   }

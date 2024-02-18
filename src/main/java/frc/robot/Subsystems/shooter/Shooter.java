@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
     topShooterPID.setSetpoint(setpointRPM);
     bottomShooterPID.setSetpoint(setpointRPM);
 
-    // Sets the tolerence of the setpoint, allowing the RPM of the motors to be within 200 RPM of
+    // Sets the tolerance of the setpoint, allowing the RPM of the motors to be within 200 RPM of
     // the setpoint
     topShooterPID.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
     bottomShooterPID.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
@@ -99,7 +99,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("shooterTopCurrentSetpoint", topShooterPID.getSetpoint());
     SmartDashboard.putNumber("shooterBottomCurrentSetpoint", -bottomShooterPID.getSetpoint());
 
-    // SmartDashboard.putBoolean("!!Tempature Warning!!", exceedsTemperature());
+    // SmartDashboard.putboolean("!!Tempature Warning!!", exceedsTemperature());
   }
 
   // Updates the PID values to what they are set to on the SmartDashboard
@@ -127,8 +127,9 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
-   * Sets the Brake Mode for the Shooter (Brake means motor holds position, Coast means easy to move) 
-   * 
+   * Sets the Brake Mode for the Shooter (Brake means motor holds position, Coast means easy to
+   * move)
+   *
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
   public void setShooterBrakeMode(boolean enable) {

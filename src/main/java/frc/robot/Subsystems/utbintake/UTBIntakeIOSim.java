@@ -5,9 +5,10 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants.RobotStateConstants;
 
 public class UTBIntakeIOSim implements UTBIntakeIO {
+  /** creates a flywheel simulation for the UTB intake motor */
   private FlywheelSim utbFlywheelSim =
       new FlywheelSim(
-          DCMotor.getNEO(1), UTBIntakeConstants.GEAR_RATIO, UTBIntakeConstants.UTB_MOI_KG_M2);
+          DCMotor.getNEO(1), UTBIntakeConstants.GEAR_RATIO, UTBIntakeConstants.MOI_KG_M2);
 
   public UTBIntakeIOSim() {
     System.out.println("[Init] Creating UTBIntakeIOSim");
@@ -16,7 +17,6 @@ public class UTBIntakeIOSim implements UTBIntakeIO {
   @Override
   public void updateInputs(UTBIntakeIOInputs inputs) {
     utbFlywheelSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
-
     inputs.utbIntakeRPM = utbFlywheelSim.getAngularVelocityRPM();
     inputs.utbIntakeAppliedVolts = 0.0;
     inputs.utbIntakeCurrentAmps = new double[] {Math.abs(utbFlywheelSim.getCurrentDrawAmps())};

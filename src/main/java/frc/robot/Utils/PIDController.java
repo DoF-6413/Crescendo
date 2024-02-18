@@ -133,7 +133,7 @@ public class PIDController {
             * RobotStateConstants.BATTERY_VOLTAGE
             / maxValue;
 
-    // TODO: Implement tolerence
+    // TODO: Implement tolerance
     return desiredVoltage;
   }
 

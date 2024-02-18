@@ -11,33 +11,34 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.RobotStateConstants;
 
-/** Runs the real life Arm with CANSpark Speed Controllers and NEO motor */
-public class ArmIONeo implements ArmIO {
+public class ArmIOSparkMax implements ArmIO {
 
   private final CANSparkMax armMotor;
   private final RelativeEncoder armEncoder;
 
-  public ArmIONeo() {
+/** Runs the real life Arm with CANSpark Speed Controllers and NEO motor */
+  public ArmIOSparkMax() {
     armMotor = new CANSparkMax(ArmConstants.CAN_ID, MotorType.kBrushless);
     armEncoder = armMotor.getEncoder();
-
     armMotor.setIdleMode(IdleMode.kBrake);
     armMotor.setSmartCurrentLimit(ArmConstants.CUR_LIM_A);
+    armMotor.setInverted(ArmConstants.IS_INVERTED);
   }
 
   @Override
-
   public void updateInputs(ArmIOInputs inputs) {
     inputs.armAppliedVolts = armMotor.getBusVoltage() * armMotor.getAppliedOutput();
     inputs.armPositionRad =
-        Units.rotationsToRadians(Units.rotationsToRadians(armEncoder.getPosition())) / ArmConstants.GEAR_RATIO;
-    
+        Units.rotationsToRadians(Units.rotationsToRadians(armEncoder.getPosition()))
+            / ArmConstants.GEAR_RATIO;
+
     inputs.armVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(armEncoder.getVelocity())/ ArmConstants.GEAR_RATIO;
-    inputs.armTempCelsius = new double[] {armMotor.getMotorTemperature()} ;
+        Units.rotationsPerMinuteToRadiansPerSecond(armEncoder.getVelocity())
+            / ArmConstants.GEAR_RATIO;
+    inputs.armTempCelsius = new double[] {armMotor.getMotorTemperature()};
     inputs.armCurrentAmps = new double[] {armMotor.getOutputCurrent()};
   }
-  
+
   @Override
   public void setArmPercentSpeed(double percent) {
     armMotor.setVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
@@ -49,10 +50,10 @@ public class ArmIONeo implements ArmIO {
   }
 
   @Override
-  public void setBrakeMode(boolean enable){
-    if(enable){
-    armMotor.setIdleMode(IdleMode.kBrake);
-    }else{
+  public void setBrakeMode(boolean enable) {
+    if (enable) {
+      armMotor.setIdleMode(IdleMode.kBrake);
+    } else {
       armMotor.setIdleMode(IdleMode.kCoast);
     }
   }

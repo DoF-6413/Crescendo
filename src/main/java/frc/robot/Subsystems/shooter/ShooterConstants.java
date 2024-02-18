@@ -36,7 +36,7 @@ public class ShooterConstants {
   public static final int BOTTOM_MOTOR_ID =
       15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner
   /** Current limit Amps */
-  public static final double CURR_LIM_A = 60;
+  public static final double CUR_LIM_A = 60;
 
   // Inverted motors
   /** Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor */

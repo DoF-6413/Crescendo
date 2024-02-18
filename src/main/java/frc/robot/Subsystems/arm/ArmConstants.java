@@ -26,6 +26,7 @@ public final class ArmConstants {
   // Sim Constants for the Arm
 
   public static final double MOI_KG_M2 = 0.00005; // TODO: update
+
   public static final boolean IS_SIMULATING_GRAVITY = false;
 
   // Real Constants
@@ -40,12 +41,19 @@ public final class ArmConstants {
    * Control)
    */
   public static final double GEAR_RATIO = 99.1736;
+
   /** Length from pivot to wrist */
   public static final double LENGTH_M = 0.4126308486; // TODO: update
+
   /** The minimum angle the arm can rotate to */
   public static final double MIN_ANGLE_RAD = 0.390258413271767; // TODO: update
+
   /** The maximum angle the arm can rotate to */
   public static final double MAX_ANGLE_RAD = 1.8675; // TODO: update
+
   /** The angle where the arm starts */
   public static final double STARTING_ANGLE_RAD = 0.39025841327; // TODO: update
+
+  /** Sets if Arm Motor is Inverted */
+  public static final boolean IS_INVERTED = false;
 }
