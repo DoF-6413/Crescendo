@@ -12,7 +12,12 @@ import frc.robot.Constants.*;
 public class ArmIOSim implements ArmIO {
 
   /** This is a simulation for the arm */
-  private SingleJointedArmSim armMotor =
+  private final SingleJointedArmSim armMotor;
+
+  /** Creates and initalizes the simulated arm */
+  public ArmIOSim() {
+      System.out.println("[Init] Creating ArmIOSim");
+      armMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
           ArmConstants.GEAR_RATIO,
@@ -22,9 +27,11 @@ public class ArmIOSim implements ArmIO {
           ArmConstants.MAX_ANGLE_RAD,
           ArmConstants.IS_SIMULATING_GRAVITY,
           ArmConstants.STARTING_ANGLE_RAD);
+    }
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
+    // Updates inputs periodically
     armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
     inputs.armPositionRad +=

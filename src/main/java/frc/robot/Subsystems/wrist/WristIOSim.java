@@ -12,7 +12,11 @@ import frc.robot.Constants.*;
 public class WristIOSim implements WristIO {
 
   /** creates a new arm simulation for the wrist of the double jointed arm */
-  private SingleJointedArmSim wristMotor =
+  private final SingleJointedArmSim wristMotor;
+
+  public WristIOSim() {
+    System.out.println("[Init] Creating WristIOSim");
+    wristMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
           WristConstants.GEAR_RATIO,
@@ -22,6 +26,7 @@ public class WristIOSim implements WristIO {
           WristConstants.MAX_ANGLE_RAD,
           WristConstants.IS_SIMULATING_GRAVITY,
           WristConstants.STARTING_ANGLE_RAD);
+  }
 
   @Override
   public void updateInputs(WristIOInputs inputs) {
@@ -29,9 +34,9 @@ public class WristIOSim implements WristIO {
 
     inputs.wristPositionRad +=
         wristMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
-    
-    inputs.wristPositionDeg +=    
-        Units.radiansToDegrees(wristMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC);
+    inputs.wristPositionDeg +=
+        Units.radiansToDegrees(
+            wristMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC);
     inputs.wristVelocityRadPerSec = wristMotor.getVelocityRadPerSec();
     inputs.wristAppliedVolts = 0.0;
     inputs.wristCurrentAmps = new double[] {Math.abs(wristMotor.getCurrentDrawAmps())};

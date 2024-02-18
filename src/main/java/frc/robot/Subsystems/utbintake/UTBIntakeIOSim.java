@@ -6,14 +6,13 @@ import frc.robot.Constants.RobotStateConstants;
 
 public class UTBIntakeIOSim implements UTBIntakeIO {
   /** creates a flywheel simulation for the UTB intake motor */
-  private FlywheelSim utbFlywheelSim =
-      new FlywheelSim(
-          DCMotor.getNEO(1),
-          UTBIntakeConstants.GEAR_RATIO,
-          UTBIntakeConstants.MOI_KG_M2);
+  private final FlywheelSim utbFlywheelSim;
 
   public UTBIntakeIOSim() {
     System.out.println("[Init] Creating UTBIntakeIOSim");
+    utbFlywheelSim =
+      new FlywheelSim(
+          DCMotor.getNEO(1), UTBIntakeConstants.GEAR_RATIO, UTBIntakeConstants.MOI_KG_M2);
   }
 
   @Override

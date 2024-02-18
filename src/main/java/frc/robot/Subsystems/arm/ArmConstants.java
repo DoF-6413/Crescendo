@@ -24,7 +24,7 @@ public final class ArmConstants {
   public static final double TOLERANCE_PERCENT = 0.01;
 
   // Sim Constants for the Arm
-
+  /** Moment of Inertia for the Arm sim */
   public static final double MOI_KG_M2 = 0.00005; // TODO: update
 
   public static final boolean IS_SIMULATING_GRAVITY = false;

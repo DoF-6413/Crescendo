@@ -13,16 +13,24 @@ public interface ShooterIO {
   public static class ShooterIOInputs {
     // All the Inputs for the Top Shooter Motor (Should be nearly identical to the Bottom Shooter
     // Motor)
+    /** Velocity of the Top Shooter Motor in Rotations per Minute */
     public double topShooterMotorRPM = 0.0;
+    /** Number of volts being sent to the Top Shooter Motor */
     public double topShooterAppliedVolts = 0.0;
+    /** Number of amps used by the Top Shooter Motor */
     public double[] topShooterCurrentAmps = new double[] {};
+    /** Tempature, in Celsius, of the Top Shooter Motor */
     public double[] topShooterTempCelsius = new double[] {};
 
     // All the Inputs for the Bottom Shooter Motor (Should be nearly identical to the Top Shooter
     // Motor)
+    /** Velocity of the Bottom Shooter Motor in Rotations per Minute */
     public double bottomShooterMotorRPM = 0.0;
+    /** Number of volts being sent to the Bottom Shooter Motor */
     public double bottomShooterAppliedVolts = 0.0;
+    /** Number of amps used by the Bottom Shooter Motor */
     public double[] bottomShooterCurrentAmps = new double[] {};
+    /** Tempature, in Celsius, of the Bottom Shooter Motor */
     public double[] bottomShooterTempCelsius = new double[] {};
   }
 

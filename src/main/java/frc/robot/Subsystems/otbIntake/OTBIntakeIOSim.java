@@ -11,7 +11,7 @@ import frc.robot.Constants.*;
 /** Add your docs here. */
 public class OTBIntakeIOSim implements OTBIntakeIO {
 
-  private FlywheelSim intakeMotorSim =
+  private final FlywheelSim intakeMotorSim =
       new FlywheelSim(
           DCMotor.getNEO(1), OTBIntakeConstants.GEAR_RATIO, OTBIntakeConstants.MOI_KG_M2);
 
@@ -21,6 +21,7 @@ public class OTBIntakeIOSim implements OTBIntakeIO {
 
   @Override
   public void updateInputs(OTBIntakeIOInputs inputs) {
+    // Updates inputs periodically
     intakeMotorSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
     inputs.otbIntakeVelocityRPM =

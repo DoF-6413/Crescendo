@@ -6,9 +6,14 @@ import org.littletonrobotics.junction.AutoLog;
 public interface UTBIntakeIO {
   @AutoLog
   public static class UTBIntakeIOInputs {
+    /** The velocity of the UTB Intake in Rotations per Minute */
     public double utbIntakeRPM = 0.0;
+    /** Number of volts being sent to the UTB Intake motor */
     public double utbIntakeAppliedVolts = 0.0;
+    /** Number of amps being used by the UTB Intake motor */
     public double[] utbIntakeCurrentAmps = new double[] {};
+    /** Tempature, in Celsius, of the UTB Intake motor */
+    public double[] utbIntakeTempCelsius = new double[] {};
   }
 
   /**

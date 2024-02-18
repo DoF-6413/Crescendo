@@ -110,11 +110,11 @@ public class ClimberIOSparkMax implements ClimberIO {
   @Override
   public void setBrakeMode(boolean enable) {
     if (enable) {
-      rightClimberMotor.setIdleMode(IdleMode.kBrake);
       leftClimberMotor.setIdleMode(IdleMode.kBrake);
+      rightClimberMotor.setIdleMode(IdleMode.kBrake);
     } else {
-      rightClimberMotor.setIdleMode(IdleMode.kCoast);
       leftClimberMotor.setIdleMode(IdleMode.kCoast);
+      rightClimberMotor.setIdleMode(IdleMode.kCoast);
     }
   }
 }

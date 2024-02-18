@@ -40,6 +40,7 @@ public class ClimberIOSim implements ClimberIO {
 
   @Override
   public void updateInputs(ClimberIOInputs inputs) {
+    // Updates inputs periodaclly
     leftClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
     rightClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 

@@ -21,8 +21,8 @@ public class ShooterConstants {
   public static double BOTTOM_KD = 0.0;
   /** Allows the RPM to be within 1% of the setpoint */
   public static final double TOLERANCE_PERCENT = 0.01;
-  /** */
-  public static final double MAX_RPM = 6350.0;
+  /** Max RPM achievable by the Shooter motors*/
+  public static final double MAX_VALUE = 6350.0;
 
   // Sim constants
   /** Moment of Inertia for the shooter motors */

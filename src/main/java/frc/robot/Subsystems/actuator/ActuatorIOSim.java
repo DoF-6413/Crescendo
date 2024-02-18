@@ -10,7 +10,7 @@ import frc.robot.Constants.RobotStateConstants;
 
 public class ActuatorIOSim implements ActuatorIO {
 
-  private SingleJointedArmSim actuatorMotor;
+  private final SingleJointedArmSim actuatorMotor;
 
   /**
    * This is a simulation for the actuator. It uses the arm simulation because it rotates around a

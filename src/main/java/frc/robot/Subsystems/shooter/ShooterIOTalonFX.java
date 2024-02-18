@@ -39,6 +39,7 @@ public class ShooterIOTalonFX implements ShooterIO {
     inputs.topShooterMotorRPM =
         topShooterMotor.getRotorVelocity().getValueAsDouble()
             * 60; // Gets the velocity in Rotations per Sec and converts into Rotations Per Min
+    // (Gear ratio is 1 so no need to divide the RPM by it)
     inputs.topShooterAppliedVolts = topShooterMotor.getMotorVoltage().getValueAsDouble();
     inputs.topShooterCurrentAmps =
         new double[] {topShooterMotor.getStatorCurrent().getValueAsDouble()};
@@ -48,6 +49,7 @@ public class ShooterIOTalonFX implements ShooterIO {
     inputs.bottomShooterMotorRPM =
         bottomShooterMotor.getRotorVelocity().getValueAsDouble()
             * 60; // Gets the velocity in Rotations per Sec and converts into Rotations Per Min
+    // (Gear ratio is 1 so no need to divide the RPM by it)
     inputs.bottomShooterAppliedVolts = bottomShooterMotor.getMotorVoltage().getValueAsDouble();
     inputs.bottomShooterCurrentAmps =
         new double[] {bottomShooterMotor.getStatorCurrent().getValueAsDouble()};
@@ -56,8 +58,8 @@ public class ShooterIOTalonFX implements ShooterIO {
   }
 
   @Override
-  public void setShooterBrakeMode(boolean isEnabled) {
-    if (isEnabled) {
+  public void setShooterBrakeMode(boolean enable) {
+    if (enable) {
       topShooterMotor.setNeutralMode(NeutralModeValue.Brake);
       bottomShooterMotor.setNeutralMode(NeutralModeValue.Brake);
     } else {

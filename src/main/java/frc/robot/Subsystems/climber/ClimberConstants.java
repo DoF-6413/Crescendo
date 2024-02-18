@@ -8,8 +8,7 @@ import edu.wpi.first.math.util.Units;
 
 public final class ClimberConstants {
   // PID Constants for the Actuator
-  // TODO: Finalize PID values once they are tuned/determined + add 'final'
-  // modifiers
+  // TODO: Finalize PID values once they are tuned/determined
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
@@ -41,7 +40,9 @@ public final class ClimberConstants {
   public static final boolean SIMULATE_GRAVITY = false;
 
   // Real Constants for the Climber
+  /** The CAN ID of the left Arm motor so it can be Identified on the CAN bus */
   public static final int LEFT_CAN_ID = 0; // TODO: Update
+  /** The CAN ID of the right Arm motor so it can be Identified on the CAN bus */
   public static final int RIGHT_CAN_ID = 0; // TODO: Update
 
   // TODO: Confirm that one of the motors will need to be inverted

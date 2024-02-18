@@ -6,11 +6,11 @@ import frc.robot.Constants.RobotStateConstants;
 
 public class ShooterIOSim implements ShooterIO {
   // Creating flywheels
-  private FlywheelSim topShooterFlywheel =
+  private final FlywheelSim topShooterFlywheel =
       new FlywheelSim(
           DCMotor.getFalcon500(1), ShooterConstants.GEAR_RATIO, ShooterConstants.MOI_KG_M2);
 
-  private FlywheelSim bottomShooterFlywheel =
+  private final FlywheelSim bottomShooterFlywheel =
       new FlywheelSim(
           DCMotor.getFalcon500(1), ShooterConstants.GEAR_RATIO, ShooterConstants.MOI_KG_M2);
 
