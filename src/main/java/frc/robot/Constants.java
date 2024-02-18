@@ -223,10 +223,10 @@ public final class Constants {
     }
 
     public enum DRIVE_MOTOR {
-      FRONT_RIGHT(6), // Module 0
-      FRONT_LEFT(5), // Module 1
-      BACK_LEFT(8), // Module 2
-      BACK_RIGHT(7); // Module 3
+      FRONT_RIGHT(7), // Module 0
+      FRONT_LEFT(6), // Module 1
+      BACK_LEFT(9), // Module 2
+      BACK_RIGHT(8); // Module 3
 
       public final int CAN_ID;
 
@@ -263,10 +263,10 @@ public final class Constants {
     }
 
     public enum TURN_MOTOR {
-      FRONT_RIGHT(10), // Module 0
-      FRONT_LEFT(9), // Module 1
-      BACK_LEFT(12), // Module 2
-      BACK_RIGHT(11); // Module 3
+      FRONT_RIGHT(11), // Module 0
+      FRONT_LEFT(10), // Module 1
+      BACK_LEFT(13), // Module 2
+      BACK_RIGHT(12); // Module 3
 
       public final int CAN_ID;
 
@@ -276,10 +276,10 @@ public final class Constants {
     }
 
     public static enum ABSOLUTE_ENCODER {
-      FRONT_RIGHT(2), // Module 0
-      FRONT_LEFT(1), // Module 1
-      BACK_LEFT(4), // Module 2
-      BACK_RIGHT(3); // Module 3
+      FRONT_RIGHT(3), // Module 0
+      FRONT_LEFT(2), // Module 1
+      BACK_LEFT(5), // Module 2
+      BACK_RIGHT(2); // Module 3
 
       public final int ENCODER_ID;
 
@@ -288,6 +288,7 @@ public final class Constants {
       }
     }
 
+    // CAN IDs:
     public static final int CUR_LIM_A = 40;
     public static final int MEASUREMENT_PERIOD_MS = 10;
 
