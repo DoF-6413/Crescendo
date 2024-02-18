@@ -16,11 +16,11 @@ public class WristIOSim implements WristIO {
           DCMotor.getNEO(1),
           WristConstants.WRIST_GEAR_RATIO,
           WristConstants.WRIST_MOI_KG_M2,
-          WristConstants.WRIST_LENGTH,
-          WristConstants.WRIST_MIN_ANGLE,
-          WristConstants.WRIST_MAX_ANGLE,
+          WristConstants.WRIST_LENGTH_M,
+          WristConstants.WRIST_MIN_ANGLE_RAD,
+          WristConstants.WRIST_MAX_ANGLE_RAD,
           WristConstants.WRSIT_SIMULATE_GRAVITY,
-          WristConstants.WRIST_STARTING_ANGLE);
+          WristConstants.WRIST_STARTING_ANGLE_RAD);
 
   @Override
   public void updateInputs(WristIOInputs inputs) {

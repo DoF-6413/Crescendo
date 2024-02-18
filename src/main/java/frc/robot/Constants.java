@@ -13,11 +13,18 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.*; // Rotation3d, Transform3d, Translation2d, Transation3d;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.*; // DriverStation and RobotBase
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import java.util.Optional;
+
+// Rotation3d, Transform3d, Translation2d, Transation3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
+// DriverStation and RobotBase
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotBase;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -221,6 +228,7 @@ public final class Constants {
     public static double ARM_KP = 0.0;
     public static double ARM_KI = 0.0;
     public static double ARM_KD = 0.0;
+    public static final double ARM_TOLERANCE_PERCENT = 0.01;
   }
 
   public class VisionConstants {
@@ -330,6 +338,7 @@ public final class Constants {
   }
 
   public static class ClimberConstants {
+    public static final double CLIMBER_TOLERANCE = 0.01;
     public static final int LEFT_CLIMBER_CANID = 0; // TODO: Update
     public static final int RIGHT_CLIMBER_CANID = 0; // TODO: Update
 
@@ -348,16 +357,33 @@ public final class Constants {
     public static final double CLIMBER_MAX_HEIGHT_M = 2.0; // TODO: Update
     public static final double CLIMBER_STARTING_HEIGHT_M = 0.4; // TODO: Update
     public static final boolean CLIMBER_SIMULATE_GRAVITY = false; // TODO: Update
+
+    public static double LEFT_CLIMBER_KP = 0.0;
+    public static double LEFT_CLIMBER_KI = 0.0;
+    public static double LEFT_CLIMBER_KD = 0.0;
+    
+    public static double RIGHT_CLIMBER_KP = 0.0;
+    public static double RIGHT_CLIMBER_KI = 0.0;
+    public static double RIGHT_CLIMBER_KD = 0.0;
+
   }
 
   public class WristConstants {
     public static final int WRIST_CANID = 0; // TODO: UPDATE
     public static final double WRIST_GEAR_RATIO = 58.33;
-    public static final double WRIST_LENGTH = 0.4126308486;
-    public static final double WRIST_MIN_ANGLE = 0.390258413271767;
-    public static final double WRIST_MAX_ANGLE = 1.8675;
-    public static final double WRIST_STARTING_ANGLE = 0.39025841327;
+    public static final double WRIST_LENGTH_M = 0.4126308486;
+    public static final double WRIST_MIN_ANGLE_RAD = 0.390258413271767;
+    public static final double WRIST_MAX_ANGLE_RAD = 1.8675; 
+    public static final double WRIST_STARTING_ANGLE_RAD = 0.39025841327;                         
     public static final int WRIST_CUR_LIM_A = 30;
+
+    // PID Constants
+    public static double WRIST_KP = 0.0;
+    public static double WRIST_KI = 0.0;
+    public static double WRIST_KD = 0.0;
+    public static final double WRIST_TOLERANCE_PERCENT = 0.01;
+
+    // Sim Constants
     public static final double WRIST_MOI_KG_M2 = 0.000271862238;
     public static final boolean WRSIT_SIMULATE_GRAVITY = false; // TODO: UPDATE
   }

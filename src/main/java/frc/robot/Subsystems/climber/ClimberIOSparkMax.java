@@ -9,10 +9,10 @@ import frc.robot.Constants.ClimberConstants;
 /** Climber Motor Control */
 public class ClimberIOSparkMax implements ClimberIO {
 
-  private CANSparkMax leftClimberMotor;
-  private RelativeEncoder leftClimberEncoder;
+  private final CANSparkMax leftClimberMotor;
+  private final RelativeEncoder leftClimberEncoder;
 
-  private CANSparkMax rightClimberMotor;
+  private final CANSparkMax rightClimberMotor;
   private RelativeEncoder rightClimberEncoder;
 
   /** Creates the Motor and Encoder for the Climber */
@@ -74,34 +74,34 @@ public class ClimberIOSparkMax implements ClimberIO {
   }
 
   @Override
-  public void setBothClimberMotorsVoltage(double volts) {
+  public void setBothClimberVoltage(double volts) {
     leftClimberMotor.setVoltage(volts);
     rightClimberMotor.setVoltage(volts);
   }
 
   @Override
-  public void setLeftClimberMotorVoltage(double volts) {
+  public void setLeftClimberVoltage(double volts) {
     leftClimberMotor.setVoltage(volts);
   }
 
   @Override
-  public void setRightClimberMotorVoltage(double volts) {
+  public void setRightClimberVoltage(double volts) {
     rightClimberMotor.setVoltage(volts);
   }
 
   @Override
-  public void setBothClimberMotorsPercentSpeed(double percent) {
+  public void setBothClimberPercentSpeed(double percent) {
     leftClimberMotor.set(percent);
     rightClimberMotor.set(percent);
   }
 
   @Override
-  public void setLeftClimberMotorPercentSpeed(double percent) {
+  public void setLeftClimberPercentSpeed(double percent) {
     leftClimberMotor.set(percent);
   }
 
   @Override
-  public void setRightClimberMotorPercentSpeed(double percent) {
+  public void setRightClimberPercentSpeed(double percent) {
     rightClimberMotor.set(percent);
   }
 }

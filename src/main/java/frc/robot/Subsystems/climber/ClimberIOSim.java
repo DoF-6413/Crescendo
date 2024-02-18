@@ -53,16 +53,19 @@ public class ClimberIOSim implements ClimberIO {
             / ClimberConstants.CLIMBER_GEAR_RATIO; // TODO: Update math
     inputs.rightClimberAppliedVolts = 0.0;
     inputs.rightClimberCurrentAmps = new double[] {rightClimberSim.getCurrentDrawAmps()};
+
+    rightClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
+    leftClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
   }
 
   @Override
-  public void setBothClimberMotorsVoltage(double volts) {
+  public void setBothClimberVoltage(double volts) {
     leftClimberSim.setInputVoltage(volts);
     rightClimberSim.setInputVoltage(volts);
   }
 
   @Override
-  public void setBothClimberMotorsPercentSpeed(double percent) {
+  public void setBothClimberPercentSpeed(double percent) {
     leftClimberSim.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
     rightClimberSim.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
   }

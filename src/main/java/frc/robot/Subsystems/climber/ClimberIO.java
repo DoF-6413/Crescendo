@@ -30,40 +30,40 @@ public interface ClimberIO {
    *
    * @param volts [-12 to 12]
    */
-  public default void setBothClimberMotorsVoltage(double volts) {}
+  public default void setBothClimberVoltage(double volts) {}
 
   /**
    * Sets the voltage of the Left Climber Motor
    *
    * @param volts [-12 to 12]
    */
-  public default void setLeftClimberMotorVoltage(double volts) {}
+  public default void setLeftClimberVoltage(double volts) {}
 
   /**
    * Sets the voltage of the Right Climber Motor
    *
    * @param volts [-12 to 12]
    */
-  public default void setRightClimberMotorVoltage(double volts) {}
+  public default void setRightClimberVoltage(double volts) {}
 
   /**
    * Sets BOTH Climber Motors to a percent of their maximum speed
    *
    * @param percent [-1 to 1]
    */
-  public default void setBothClimberMotorsPercentSpeed(double percent) {}
+  public default void setBothClimberPercentSpeed(double percent) {}
 
   /**
    * Sets the Left Climber Motor to a percent of their maximum speed
    *
    * @param percent [-1 to 1]
    */
-  public default void setLeftClimberMotorPercentSpeed(double percent) {}
+  public default void setLeftClimberPercentSpeed(double percent) {}
 
   /**
    * Sets Right Climber Motor to a percent of their maximum speed
    *
    * @param percent [-1 to 1]
    */
-  public default void setRightClimberMotorPercentSpeed(double percent) {}
+  public default void setRightClimberPercentSpeed(double percent) {}
 }

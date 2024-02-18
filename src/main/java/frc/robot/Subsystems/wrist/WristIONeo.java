@@ -38,7 +38,6 @@ public class WristIONeo implements WristIO {
 
     inputs.wristTempCelsius = new double[] {wristMotor.getMotorTemperature()};
     inputs.wristCurrentAmps = new double[] {wristMotor.getOutputCurrent()};
-
   }
 
   @Override
