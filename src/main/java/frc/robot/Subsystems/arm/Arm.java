@@ -58,7 +58,7 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("armCurrentkD", armPIDController.getD());
     SmartDashboard.putNumber("armCurrentSetpoint", armPIDController.getSetpoint());
 
-    io.setArmMotorSpeed(armPIDController.calculate(armInputs.armTurnPositionRad));
+    io.setArmPercentSpeed(armPIDController.calculate(armInputs.armTurnPositionRad));
   }
 
   public void updatePIDController() {

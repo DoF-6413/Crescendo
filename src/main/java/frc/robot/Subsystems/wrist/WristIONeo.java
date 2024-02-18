@@ -42,12 +42,12 @@ public class WristIONeo implements WristIO {
   }
 
   @Override
-  public void setWristMotorPercent(double percent) {
+  public void setWristPercentSpeed(double percent) {
     wristMotor.set(percent);
   }
 
   @Override
-  public void setWristMotorVoltage(double volts) {
+  public void setWristVoltage(double volts) {
     wristMotor.setVoltage(volts);
   }
 }

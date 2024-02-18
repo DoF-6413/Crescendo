@@ -53,13 +53,13 @@ public class Wrist extends SubsystemBase {
     }
 
      // Gets the current PID values that the PID contollers are set to
-     SmartDashboard.putNumber("wristError", setpoint - wristInputs.wristTurnPositionRad);
+     SmartDashboard.putNumber("wristError", setpoint - inputs.wristPositionRad);
      SmartDashboard.putNumber("wristCurrentkP", wristPIDController.getP());
      SmartDashboard.putNumber("wristCurrentkI", wristPIDController.getI());
      SmartDashboard.putNumber("wristCurrentkD", wristPIDController.getD());
      SmartDashboard.putNumber("wristCurrentSetpoint", wristPIDController.getSetpoint());
  
-     io.setArmMotorSpeed(wristPIDController.calculate(wristInputs.wristTurnPositionRad)); 
+     io.setWristPercentSpeed(wristPIDController.calculate(inputs.wristPositionRad)); 
   }
 
   
