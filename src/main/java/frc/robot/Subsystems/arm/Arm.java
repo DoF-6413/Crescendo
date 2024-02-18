@@ -78,8 +78,8 @@ public class Arm extends SubsystemBase {
   }
 
   /** Sets speed for the arm */
-  public void setArmMotorSpeed(double speed) {
-    io.setArmMotorSpeed(speed);
+  public void setArmPercentSpeed(double percent) {
+    io.setArmPercentSpeed(percent);
   }
 
   /** Sets speed for the arm */

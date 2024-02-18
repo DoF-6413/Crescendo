@@ -110,7 +110,7 @@ public class RobotContainer {
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
-        m_wristSubsystem = new Wrist(new WristIONeoSim());
+        m_wristSubsystem = new Wrist(new WristIOSim());
 
         break;
 

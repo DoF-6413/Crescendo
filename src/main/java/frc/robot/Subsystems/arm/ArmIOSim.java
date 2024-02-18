@@ -33,8 +33,8 @@ public class ArmIOSim implements ArmIO {
     inputs.armTurnCurrentAmps = new double[] {Math.abs(armMotor.getCurrentDrawAmps())};
   }
 
-  public void setArmMotorSpeed(double speed) {
-    armMotor.setInputVoltage(speed * RobotStateConstants.BATTERY_VOLTAGE);
+  public void setArmPercentSpeed(double percent) {
+    armMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 
   public void setArmMotorVoltage(double volts) {

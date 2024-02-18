@@ -349,4 +349,16 @@ public final class Constants {
     public static final double CLIMBER_STARTING_HEIGHT_M = 0.4; // TODO: Update
     public static final boolean CLIMBER_SIMULATE_GRAVITY = false; // TODO: Update
   }
+
+  public class WristConstants {
+    public static final int WRIST_CANID = 0; // TODO: UPDATE
+    public static final double WRIST_GEAR_RATIO = 58.33;
+    public static final double WRIST_LENGTH = 0.4126308486;
+    public static final double WRIST_MIN_ANGLE = 0.390258413271767;
+    public static final double WRIST_MAX_ANGLE = 1.8675;
+    public static final double WRIST_STARTING_ANGLE = 0.39025841327;
+    public static final int WRIST_CUR_LIM_A = 30;
+    public static final double WRIST_MOI_KG_M2 = 0.000271862238;
+    public static final boolean WRSIT_SIMULATE_GRAVITY = false; // TODO: UPDATE
+  }
 }
