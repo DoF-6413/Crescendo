@@ -14,13 +14,13 @@ public class WristIOSim implements WristIO {
   private SingleJointedArmSim wristMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
-          WristConstants.WRIST_GEAR_RATIO,
-          WristConstants.WRIST_MOI_KG_M2,
-          WristConstants.WRIST_LENGTH_M,
-          WristConstants.WRIST_MIN_ANGLE_RAD,
-          WristConstants.WRIST_MAX_ANGLE_RAD,
-          WristConstants.WRSIT_SIMULATE_GRAVITY,
-          WristConstants.WRIST_STARTING_ANGLE_RAD);
+          WristConstants.GEAR_RATIO,
+          WristConstants.MOI_KG_M2,
+          WristConstants.LENGTH_M,
+          WristConstants.MIN_ANGLE_RAD,
+          WristConstants.MAX_ANGLE_RAD,
+          WristConstants.IS_SIMULATING_GRAVITY,
+          WristConstants.STARTING_ANGLE_RAD);
 
   @Override
   public void updateInputs(WristIOInputs inputs) {

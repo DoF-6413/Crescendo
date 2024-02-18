@@ -19,14 +19,12 @@ public interface WristIO {
 
   /** 
    * Sets Wrist Percent Speed
-   * 
    * @param percent [-1 to 1]
    */
   public default void setWristPercentSpeed(double percent) {}
 
   /**
    * Sets Wrist Voltage 
-   *
    * @param volts [-12 to 12]
    */
   public default void setWristVoltage(double volts) {}

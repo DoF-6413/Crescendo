@@ -6,27 +6,27 @@ package frc.robot.Subsystems.actuator;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-import frc.robot.Constants.ActuatorConstants;
 import frc.robot.Constants.RobotStateConstants;
 
-/** Add your docs here. */
 public class ActuatorIOSim implements ActuatorIO {
 
   private SingleJointedArmSim actuatorMotor;
 
-  /** Creates the sim for the actuator */
+/**
+ * This is a simulation for the actuator. It uses the arm simulation because it
+ * rotates around a point
+ */
   public ActuatorIOSim() {
     System.out.println("[Init] Creating ActuatorIOSim");
-    actuatorMotor =
-        new SingleJointedArmSim(
-            DCMotor.getNeo550(1),
-            ActuatorConstants.ACTUATOR_GEAR_RATIO,
-            ActuatorConstants.ACTUATOR_MOI_KG_M2,
-            ActuatorConstants.ACTUATOR_LENGTH_M,
-            ActuatorConstants.ACTUATOR_MIN_ANGLE_RADS,
-            ActuatorConstants.ACTUATOR_MAX_ANGLE_RADS,
-            ActuatorConstants.ACTUATOR_IS_SIMULATE_GRAVITY,
-            ActuatorConstants.ACTUATOR_START_ANGLE_RADS);
+    actuatorMotor = new SingleJointedArmSim(
+        DCMotor.getNeo550(1),
+        ActuatorConstants.GEAR_RATIO,
+        ActuatorConstants.MOI_KG_M2,
+        ActuatorConstants.LENGTH_M,
+        ActuatorConstants.MIN_ANGLE_RADS,
+        ActuatorConstants.MAX_ANGLE_RADS,
+        ActuatorConstants.IS_SIMULATING_GRAVITY,
+        ActuatorConstants.START_ANGLE_RADS);
   }
 
   @Override
@@ -35,11 +35,8 @@ public class ActuatorIOSim implements ActuatorIO {
 
     inputs.actuatorAppliedVolts = 0.0;
     inputs.actuatorPositionRad = actuatorMotor.getAngleRads();
-    inputs.actuatorPositionDeg =
-        inputs.actuatorVelocityRadPerSec =
-            actuatorMotor.getVelocityRadPerSec(); // Converts rotaions to Radians and then
-    // divides it by the gear ratio
-    inputs.actuatorCurrentAmps = new double[] {actuatorMotor.getCurrentDrawAmps()};
+    inputs.actuatorPositionDeg = inputs.actuatorVelocityRadPerSec = actuatorMotor.getVelocityRadPerSec();
+    inputs.actuatorCurrentAmps = new double[] { actuatorMotor.getCurrentDrawAmps() };
   }
 
   @Override

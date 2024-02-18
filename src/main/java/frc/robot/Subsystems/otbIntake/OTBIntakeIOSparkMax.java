@@ -7,7 +7,6 @@ package frc.robot.Subsystems.otbIntake;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import frc.robot.Constants.OTBIntakeConstants;
 
 /** Runs the real life OTBIntake with CANSpark Speed Controllers and NEO motor */
 public class OTBIntakeIOSparkMax implements OTBIntakeIO {
@@ -17,16 +16,16 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
   /** Creates the motor and encoder for the OTB Intake */
   public OTBIntakeIOSparkMax() {
     System.out.println("[Init] Creating UTBIntakeIO");
-    OTBIntakeMotor = new CANSparkMax(OTBIntakeConstants.OTB_INTAKE_CANID, MotorType.kBrushless);
+    OTBIntakeMotor = new CANSparkMax(OTBIntakeConstants.CAN_ID, MotorType.kBrushless);
     OTBIntakeEncoder = OTBIntakeMotor.getEncoder();
-    OTBIntakeMotor.setSmartCurrentLimit(OTBIntakeConstants.OTB_SMART_CURRENT_LIMIT_AMPS);
+    OTBIntakeMotor.setSmartCurrentLimit(OTBIntakeConstants.SMART_CURRENT_LIMIT_AMPS);
   }
 
   /** Updates the values for the OTB Intake */
   public void updateInputs(OTBIntakeIOInputs inputs) {
     inputs.otbIntakeVelocityRPM =
         OTBIntakeEncoder.getVelocity()
-            / OTBIntakeConstants.OTB_GEAR_RATIO; // Returns the RPM of the OTB Intake Rollers
+            / OTBIntakeConstants.GEAR_RATIO; // Returns the RPM of the OTB Intake Rollers
     inputs.otbIntakeAppliedVolts =
         OTBIntakeMotor.getAppliedOutput()
             * OTBIntakeMotor.getBusVoltage(); // Applied voltage of the OTBIntake

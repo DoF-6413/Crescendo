@@ -26,11 +26,11 @@ public interface ShooterIO {
     public double[] bottomShooterTempCelcius = new double[] {};
   }
 
-  /** Updates the set of loggable inputs. */
+  /** Updates the set of loggable inputs for both Shooter Motors */
   public default void updateInputs(ShooterIOInputs inputs) {}
 
-  /** Break Mode for BOTH Shooter Motors */
-  public default void setShooterBreakMode(boolean enable) {}
+  /** Sets Break Mode for BOTH Shooter Motors */
+  public default void setShooterBreakMode(boolean isEnabled) {}
 
   /**
    * Sets BOTH Shooter Motors at a percentage of its max speed.
@@ -44,6 +44,9 @@ public interface ShooterIO {
 
   /**
    * Sets BOTH Shooter Motors at the specified Voltage
+   * 
+   * <p>A positve number spins the Top Shooter Motor CCW and the Bottom Shooter Motor CW and vice
+   * versa for a negative number
    *
    * @param volts -12 to 12
    */

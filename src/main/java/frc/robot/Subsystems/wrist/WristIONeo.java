@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.WristConstants;
 
 /** Add your docs here. */
 public class WristIONeo implements WristIO {
@@ -21,18 +20,18 @@ public class WristIONeo implements WristIO {
   private final RelativeEncoder wristEncoder;
 
   public WristIONeo() {
-    wristMotor = new CANSparkMax(WristConstants.WRIST_CANID, MotorType.kBrushless);
+    wristMotor = new CANSparkMax(WristConstants.CAN_ID, MotorType.kBrushless);
     wristEncoder = wristMotor.getEncoder();
 
     wristMotor.setIdleMode(IdleMode.kBrake);
-    wristMotor.setSmartCurrentLimit(WristConstants.WRIST_CUR_LIM_A);
+    wristMotor.setSmartCurrentLimit(WristConstants.CUR_LIM_A);
   }
 
   @Override
   public void updateInputs(WristIOInputs inputs) {
     inputs.wristAppliedVolts = wristMotor.getAppliedOutput() * wristMotor.getBusVoltage();
     inputs.wristPositionRad =
-        Units.rotationsToRadians(wristEncoder.getPosition()) / WristConstants.WRIST_GEAR_RATIO;
+        Units.rotationsToRadians(wristEncoder.getPosition()) / WristConstants.GEAR_RATIO;
     inputs.wristVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity());
 

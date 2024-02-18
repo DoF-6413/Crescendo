@@ -7,25 +7,27 @@ package frc.robot.Subsystems.actuator;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ArmConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class Actuator extends SubsystemBase {
   public final ActuatorIO io;
   public final ActuatorIOInputsAutoLogged inputs = new ActuatorIOInputsAutoLogged();
-  private static PIDController actuatorPIDController;
+  private final PIDController actuatorPIDController;
   private double setpoint = 0.0;
 
-  /** Creates a new Actuator. */
+  /**
+   * Creates a new Actuator, the Subsystem that moves the OTB Intake Rollers from
+   * inside the Robot Frame to Outside the Robot
+   */
   public Actuator(ActuatorIO io) {
     System.out.println("[Init] Creating Actuator");
     this.io = io;
-    actuatorPIDController =
-        new PIDController(ArmConstants.ARM_KP, ArmConstants.ARM_KI, ArmConstants.ARM_KD);
+    actuatorPIDController = new PIDController(ActuatorConstants.KP, ActuatorConstants.KI, ActuatorConstants.KD);
     actuatorPIDController.setSetpoint(setpoint);
-    actuatorPIDController.setTolerance(ArmConstants.ARM_TOLERANCE_PERCENT * setpoint);
+    actuatorPIDController.setTolerance(ActuatorConstants.TOLERANCE_PERCENT * setpoint);
     actuatorPIDController.disableContinuousInput();
 
+  //TODO: Delete once final PID Numbers are Decided
     SmartDashboard.putNumber("actuatorkp", 0.0);
     SmartDashboard.putNumber("actuatorki", 0.0);
     SmartDashboard.putNumber("actuatorkd", 0.0);
@@ -37,9 +39,11 @@ public class Actuator extends SubsystemBase {
     this.updateInputs(); // updates the inputs
     Logger.processInputs("Actuator", inputs); // log the inputs
 
-    if (ArmConstants.ARM_KP != SmartDashboard.getNumber("actuatorkp", 0.0)
-        || ArmConstants.ARM_KI != SmartDashboard.getNumber("actuatorki", 0.0)
-        || ArmConstants.ARM_KD != SmartDashboard.getNumber("actuatorkd", 0.0)) {
+    io.setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
+//TODO: Delete once final PID Numbers are Decided
+    if (ActuatorConstants.KP != SmartDashboard.getNumber("actuatorkp", 0.0)
+        || ActuatorConstants.KI != SmartDashboard.getNumber("actuatorki", 0.0)
+        || ActuatorConstants.KD != SmartDashboard.getNumber("actuatorkd", 0.0)) {
       updatePIDController();
     }
 
@@ -54,29 +58,43 @@ public class Actuator extends SubsystemBase {
     SmartDashboard.putNumber("actuatorCurrentkD", actuatorPIDController.getD());
     SmartDashboard.putNumber("actuatorCurrentSetpoint", actuatorPIDController.getSetpoint());
 
-    io.setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
   }
 
+//TODO: Make this appear only in "Test" when Final PID Numbers are Selected
+/**Updates the PID Contants for the PID Controller */
   public void updatePIDController() {
-    ArmConstants.ARM_KP = SmartDashboard.getNumber("actuatorkp", 0.0);
-    ArmConstants.ARM_KI = SmartDashboard.getNumber("actuatorki", 0.0);
-    ArmConstants.ARM_KD = SmartDashboard.getNumber("actuatorkd", 0.0);
-    actuatorPIDController.setPID(ArmConstants.ARM_KP, ArmConstants.ARM_KI, ArmConstants.ARM_KD);
+    ActuatorConstants.KP = SmartDashboard.getNumber("actuatorkp", 0.0);
+    ActuatorConstants.KI = SmartDashboard.getNumber("actuatorki", 0.0);
+    ActuatorConstants.KD = SmartDashboard.getNumber("actuatorkd", 0.0);
+    actuatorPIDController.setPID(ActuatorConstants.KP, ActuatorConstants.KI, ActuatorConstants.KD);
   }
 
+//TODO: Make this have a setpoint as a parameter and delete smartdashboard getter
+/**Updates the Position the Actuator is Going To */
   public void updateSetpoint() {
     setpoint = SmartDashboard.getNumber("actuatorSetpoint", 0.0);
     actuatorPIDController.setSetpoint(setpoint);
   }
 
+/**Updates the Outputs of the Motors based on What Mode we are In */
   public void updateInputs() {
     io.updateInputs(inputs);
   }
 
+  /**
+   * Sets the Actuator motor to a percentage of its max speed
+   *
+   * @param percent [-1 to 1]
+   */
   public void setActuatorPercentSpeed(double percent) {
     io.setActuatorPercentSpeed(percent);
   }
 
+  /**
+   * Sets the voltage of the Actuator motor
+   *
+   * @param volts [-12 to 12]
+   */
   public void setActuatorVoltage(double volts) {
     io.setActuatorVoltage(volts);
   }
