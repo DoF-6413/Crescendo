@@ -52,6 +52,6 @@ public class WristIONeo implements WristIO {
 
   @Override
   public double getAngleRads() {
-    return wristEncoder.getPosition() / WristConstants.WRIST_GEAR_RATIO;
+    return Units.rotationsToRadians(wristEncoder.getPosition() / WristConstants.WRIST_GEAR_RATIO);
   }
 }

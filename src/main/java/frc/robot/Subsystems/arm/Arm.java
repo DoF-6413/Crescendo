@@ -82,4 +82,8 @@ public class Arm extends SubsystemBase {
   public void setArmMotorVoltage(double volts) {
     io.setArmVoltage(volts);
   }
+
+  public double getAngleRads() {
+    return io.getAngleRads();
+  }
 }

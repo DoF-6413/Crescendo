@@ -43,4 +43,9 @@ public class ArmIONeo implements ArmIO {
     inputs.armTempCelsius = new double[] {armMotor.getMotorTemperature()};
     inputs.armTurnCurrentAmps = new double[] {armMotor.getOutputCurrent()};
   }
+
+
+  public double getAngleRads() {
+    return  Units.rotationsToRadians(armEncoder.getPosition()) / ArmConstants.ARM_GEAR_RATIO;
+  }
 }

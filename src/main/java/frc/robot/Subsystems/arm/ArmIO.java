@@ -34,4 +34,8 @@ public interface ArmIO {
    * @param volts
    */
   public default void setArmVoltage(double volts) {}
+
+  public default double getAngleRads() {
+    return 0;
+  }
 }
