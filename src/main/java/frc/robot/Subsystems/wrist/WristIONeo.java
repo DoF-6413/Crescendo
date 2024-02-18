@@ -49,4 +49,9 @@ public class WristIONeo implements WristIO {
   public void setWristVoltage(double volts) {
     wristMotor.setVoltage(volts);
   }
+
+  @Override
+  public double getAngleRads() {
+    return wristEncoder.getPosition() / WristConstants.WRIST_GEAR_RATIO;
+  }
 }

@@ -13,6 +13,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -35,8 +36,6 @@ import frc.robot.Subsystems.vision.*;
 import frc.robot.Subsystems.wrist.*;
 import frc.robot.Utils.*;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-
-import com.pathplanner.lib.commands.PathPlannerAuto;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -84,7 +83,6 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIONeo());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_mechanisms = new Mechanisms2d(m_shooterSubsystem);
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_climberSubsystem = new Climber(new ClimberIOSparkMax() {});
         m_visionSubsystem = new Vision(new VisionIOArduCam());
@@ -93,6 +91,7 @@ public class RobotContainer {
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
+        m_mechanisms = new Mechanisms2d(m_wristSubsystem);
         break;
 
       case SIM:
@@ -112,10 +111,10 @@ public class RobotContainer {
         m_climberSubsystem = new Climber(new ClimberIOSim() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
-        m_mechanisms = new Mechanisms2d(m_shooterSubsystem);
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
         m_wristSubsystem = new Wrist(new WristIOSim());
+        m_mechanisms = new Mechanisms2d(m_wristSubsystem);
 
         break;
 
@@ -136,10 +135,11 @@ public class RobotContainer {
         m_climberSubsystem = new Climber(new ClimberIO() {});
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
-        m_mechanisms = new Mechanisms2d(m_shooterSubsystem);
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
+        m_mechanisms = new Mechanisms2d(m_wristSubsystem);
+
         break;
     }
 
@@ -170,7 +170,6 @@ public class RobotContainer {
 
     // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
-    // TODO: update controls
     // m_utbIntakeSubsystem.setDefaultCommand(
     //     new InstantCommand(
     //         () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
@@ -194,6 +193,11 @@ public class RobotContainer {
     //     new InstantCommand(
     //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
     //         m_actuatorSubsystem));
+
+    m_wristSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_wristSubsystem.setWristPercentSpeed(driverController.getLeftX()),
+            m_wristSubsystem));
   }
 
   /**

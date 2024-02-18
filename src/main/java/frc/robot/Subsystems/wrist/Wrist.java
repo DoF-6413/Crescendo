@@ -87,4 +87,8 @@ public class Wrist extends SubsystemBase {
   public void setWristMotorVoltage(double volts) {
     setWristMotorVoltage(volts);
   }
+
+  public double getAngleRads() {
+    return io.getAngleRads();
+  }
 }

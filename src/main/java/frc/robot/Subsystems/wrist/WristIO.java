@@ -17,17 +17,21 @@ public interface WristIO {
   /** Updates the set of loggable inputs for the Wrist */
   public default void updateInputs(WristIOInputs inputs) {}
 
-  /** 
+  /**
    * Sets Wrist Percent Speed
-   * 
+   *
    * @param percent [-1 to 1]
    */
   public default void setWristPercentSpeed(double percent) {}
 
   /**
-   * Sets Wrist Voltage 
+   * Sets Wrist Voltage
    *
    * @param volts [-12 to 12]
    */
   public default void setWristVoltage(double volts) {}
+
+  public default double getAngleRads() {
+    return 0;
+  }
 }
