@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.RobotStateConstants;
 
 /** Add your docs here. */
 public class ArmIONeo implements ArmIO {
@@ -18,25 +19,28 @@ public class ArmIONeo implements ArmIO {
   private final RelativeEncoder armEncoder;
 
   public ArmIONeo() {
-    armMotor = new CANSparkMax(1, MotorType.kBrushless);
+    armMotor = new CANSparkMax(ArmConstants.ARM_CANID, MotorType.kBrushless);
     armEncoder = armMotor.getEncoder();
 
     armMotor.setIdleMode(IdleMode.kBrake);
-    armMotor.setSmartCurrentLimit(30);
+    armMotor.setSmartCurrentLimit(ArmConstants.ARM_SMART_CURRENT_LIMIT_A);
   }
 
-  public void setArmMotorSpeed(double Speed) {
-    armMotor.setVoltage(Speed);
+  public void setArmMotorSpeed(double percent) {
+    armMotor.setVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
+  }
+
+  public void setArmMotorVoltage(double volts) {
+    armMotor.setVoltage(volts);
   }
 
   public void updateInputs(ArmIOInputs inputs) {
-
-    inputs.armTurnAppliedVolts = armMotor.getBusVoltage();
+    inputs.armTurnAppliedVolts = armMotor.getBusVoltage() * armMotor.getAppliedOutput();
     inputs.armTurnPositionRad =
-        Units.rotationsToRadians(armEncoder.getPosition()) / ArmConstants.MOTOR_GEAR_RATIO;
-    inputs.armTempCelcius = armMotor.getMotorTemperature();
+        Units.rotationsToRadians(armEncoder.getPosition()) / ArmConstants.ARM_GEAR_RATIO;
     inputs.armTurnVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(armEncoder.getVelocity());
-    inputs.armTurnCurrentAmps = armMotor.getOutputCurrent();
+    inputs.armTempCelsius = new double[] {armMotor.getMotorTemperature()};
+    inputs.armTurnCurrentAmps = new double[] {armMotor.getOutputCurrent()};
   }
 }
