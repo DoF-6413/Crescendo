@@ -8,7 +8,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Actuator extends SubsystemBase {
@@ -21,7 +20,8 @@ public class Actuator extends SubsystemBase {
   public Actuator(ActuatorIO io) {
     System.out.println("[Init] Creating Actuator");
     this.io = io;
-    actuatorPIDController = new PIDController(ArmConstants.ARM_KP, ArmConstants.ARM_KI, ArmConstants.ARM_KD);
+    actuatorPIDController =
+        new PIDController(ArmConstants.ARM_KP, ArmConstants.ARM_KI, ArmConstants.ARM_KD);
     actuatorPIDController.setSetpoint(setpoint);
     actuatorPIDController.setTolerance(ArmConstants.ARM_TOLERANCE_PERCENT * setpoint);
     actuatorPIDController.disableContinuousInput();
@@ -36,7 +36,7 @@ public class Actuator extends SubsystemBase {
   public void periodic() {
     this.updateInputs(); // updates the inputs
     Logger.processInputs("Actuator", inputs); // log the inputs
-    
+
     if (ArmConstants.ARM_KP != SmartDashboard.getNumber("actuatorkp", 0.0)
         || ArmConstants.ARM_KI != SmartDashboard.getNumber("actuatorki", 0.0)
         || ArmConstants.ARM_KD != SmartDashboard.getNumber("actuatorkd", 0.0)) {
@@ -46,7 +46,7 @@ public class Actuator extends SubsystemBase {
     if (setpoint != SmartDashboard.getNumber("actuatorSetpoint", 0.0)) {
       updateSetpoint();
     }
-    
+
     // Gets the current PID values that the PID contollers are set to
     SmartDashboard.putNumber("actuatorError", setpoint - inputs.actuatorPositionRad);
     SmartDashboard.putNumber("actuatorCurrentkP", actuatorPIDController.getP());
@@ -58,9 +58,9 @@ public class Actuator extends SubsystemBase {
   }
 
   public void updatePIDController() {
-   ArmConstants.ARM_KP = SmartDashboard.getNumber("actuatorkp", 0.0);
-   ArmConstants.ARM_KI = SmartDashboard.getNumber("actuatorki", 0.0);
-   ArmConstants.ARM_KD = SmartDashboard.getNumber("actuatorkd", 0.0);
+    ArmConstants.ARM_KP = SmartDashboard.getNumber("actuatorkp", 0.0);
+    ArmConstants.ARM_KI = SmartDashboard.getNumber("actuatorki", 0.0);
+    ArmConstants.ARM_KD = SmartDashboard.getNumber("actuatorkd", 0.0);
     actuatorPIDController.setPID(ArmConstants.ARM_KP, ArmConstants.ARM_KI, ArmConstants.ARM_KD);
   }
 

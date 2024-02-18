@@ -13,18 +13,12 @@
 
 package frc.robot;
 
-import java.util.Optional;
-
-// Rotation3d, Transform3d, Translation2d, Transation3d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
-// DriverStation and RobotBase
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
+import java.util.Optional;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -348,24 +342,23 @@ public final class Constants {
     public static final boolean RIGHT_CLIMBER_INVERTED =
         true; // Ensures that the Right Climber Motor will be inverted upon start up
 
-    public static final double CLIMBER_GEAR_RATIO = 40; // 40:1 Gear Ratio
+    public static final double CLIMBER_GEAR_RATIO = 80; // 80:1 Gear Ratio
 
     // Sim Constants
-    public static final double CLIMBER_CARRIAGE_MASS_KG = 5.0; // TODO: Update
-    public static final double CLIMBER_DRUM_RADIUS_M = 0.25; // TODO: Update
-    public static final double CLIMBER_MIN_HEIGHT_M = 0.2; // TODO: Update
-    public static final double CLIMBER_MAX_HEIGHT_M = 2.0; // TODO: Update
-    public static final double CLIMBER_STARTING_HEIGHT_M = 0.4; // TODO: Update
-    public static final boolean CLIMBER_SIMULATE_GRAVITY = false; // TODO: Update
+    public static final double CLIMBER_CARRIAGE_MASS_KG = Units.lbsToKilograms(0.095);
+    public static final double CLIMBER_DRUM_RADIUS_M = Units.inchesToMeters(2);
+    public static final double CLIMBER_MIN_HEIGHT_M = Units.inchesToMeters(10.845);
+    public static final double CLIMBER_MAX_HEIGHT_M = Units.inchesToMeters(48);
+    public static final double CLIMBER_STARTING_HEIGHT_M = CLIMBER_MIN_HEIGHT_M;
+    public static final boolean CLIMBER_SIMULATE_GRAVITY = false;
 
     public static double LEFT_CLIMBER_KP = 0.0;
     public static double LEFT_CLIMBER_KI = 0.0;
     public static double LEFT_CLIMBER_KD = 0.0;
-    
+
     public static double RIGHT_CLIMBER_KP = 0.0;
     public static double RIGHT_CLIMBER_KI = 0.0;
     public static double RIGHT_CLIMBER_KD = 0.0;
-
   }
 
   public class WristConstants {
@@ -373,8 +366,8 @@ public final class Constants {
     public static final double WRIST_GEAR_RATIO = 58.33;
     public static final double WRIST_LENGTH_M = 0.4126308486;
     public static final double WRIST_MIN_ANGLE_RAD = 0.390258413271767;
-    public static final double WRIST_MAX_ANGLE_RAD = 1.8675; 
-    public static final double WRIST_STARTING_ANGLE_RAD = 0.39025841327;                         
+    public static final double WRIST_MAX_ANGLE_RAD = 1.8675;
+    public static final double WRIST_STARTING_ANGLE_RAD = 0.39025841327;
     public static final int WRIST_CUR_LIM_A = 30;
 
     // PID Constants

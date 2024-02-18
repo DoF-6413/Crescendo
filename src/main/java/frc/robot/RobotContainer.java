@@ -85,7 +85,8 @@ public class RobotContainer {
         m_climberSubsystem = new Climber(new ClimberIOSparkMax() {});
         // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
-        // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
+        // m_visionSubsystem);
         // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         m_wristSubsystem = new Wrist(new WristIONeo());
         break;
@@ -107,7 +108,8 @@ public class RobotContainer {
         m_climberSubsystem = new Climber(new ClimberIOSim() {});
         // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
-        // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
+        // m_visionSubsystem);
         // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         m_wristSubsystem = new Wrist(new WristIOSim());
 
@@ -130,7 +132,8 @@ public class RobotContainer {
         m_climberSubsystem = new Climber(new ClimberIO() {});
         // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
-        // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+        // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
+        // m_visionSubsystem);
         // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         m_wristSubsystem = new Wrist(new WristIO() {});
         break;

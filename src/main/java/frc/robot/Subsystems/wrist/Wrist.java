@@ -8,7 +8,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.WristConstants;
-
 import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
@@ -24,7 +23,9 @@ public class Wrist extends SubsystemBase {
     System.out.println("[Init] Creating wrist");
     this.io = io;
 
-    wristPIDController = new PIDController(WristConstants.WRIST_KP, WristConstants.WRIST_KI, WristConstants.WRIST_KD);
+    wristPIDController =
+        new PIDController(
+            WristConstants.WRIST_KP, WristConstants.WRIST_KI, WristConstants.WRIST_KD);
     wristPIDController.setSetpoint(wristSetpoint);
     wristPIDController.setTolerance(WristConstants.WRIST_TOLERANCE_PERCENT * wristSetpoint);
     wristPIDController.disableContinuousInput();
@@ -64,7 +65,8 @@ public class Wrist extends SubsystemBase {
     WristConstants.WRIST_KP = SmartDashboard.getNumber("wristkp", 0.0);
     WristConstants.WRIST_KI = SmartDashboard.getNumber("wristki", 0.0);
     WristConstants.WRIST_KD = SmartDashboard.getNumber("wristkd", 0.0);
-    wristPIDController.setPID(WristConstants.WRIST_KP, WristConstants.WRIST_KI, WristConstants.WRIST_KD);
+    wristPIDController.setPID(
+        WristConstants.WRIST_KP, WristConstants.WRIST_KI, WristConstants.WRIST_KD);
   }
 
   public void updateSetpoint() {

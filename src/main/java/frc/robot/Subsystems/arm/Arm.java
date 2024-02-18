@@ -8,11 +8,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
-
-// import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
 
-/** Add your docs here. */
 public class Arm extends SubsystemBase {
 
   private final ArmIO io;
@@ -23,7 +20,8 @@ public class Arm extends SubsystemBase {
   public Arm(ArmIO io) {
     System.out.println("[Init] Creating arm");
     this.io = io;
-    armPIDController = new PIDController(ArmConstants.ARM_KP, ArmConstants.ARM_KI, ArmConstants.ARM_KD);
+    armPIDController =
+        new PIDController(ArmConstants.ARM_KP, ArmConstants.ARM_KI, ArmConstants.ARM_KD);
     armPIDController.setSetpoint(armSetpoint);
     armPIDController.setTolerance(ArmConstants.ARM_TOLERANCE_PERCENT * armSetpoint);
     armPIDController.disableContinuousInput();

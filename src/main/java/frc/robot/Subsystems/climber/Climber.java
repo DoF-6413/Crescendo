@@ -8,7 +8,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Climber extends SubsystemBase {
@@ -17,7 +16,6 @@ public class Climber extends SubsystemBase {
   private final ClimberIOInputsAutoLogged inputs = new ClimberIOInputsAutoLogged();
   private static PIDController climberLeftPIDController;
   private static PIDController climberRightPIDController;
-
   private double climberSetpoint = 0.0;
 
   /** Creates a new Climber. */
@@ -25,10 +23,16 @@ public class Climber extends SubsystemBase {
     System.out.println("[Init] Creating Climber");
     this.io = io;
 
-    climberLeftPIDController = new PIDController(ClimberConstants.LEFT_CLIMBER_KP, ClimberConstants.LEFT_CLIMBER_KI,
-        ClimberConstants.LEFT_CLIMBER_KD);
-    climberRightPIDController = new PIDController(ClimberConstants.RIGHT_CLIMBER_KP, ClimberConstants.RIGHT_CLIMBER_KI,
-        ClimberConstants.RIGHT_CLIMBER_KD);
+    climberLeftPIDController =
+        new PIDController(
+            ClimberConstants.LEFT_CLIMBER_KP,
+            ClimberConstants.LEFT_CLIMBER_KI,
+            ClimberConstants.LEFT_CLIMBER_KD);
+    climberRightPIDController =
+        new PIDController(
+            ClimberConstants.RIGHT_CLIMBER_KP,
+            ClimberConstants.RIGHT_CLIMBER_KI,
+            ClimberConstants.RIGHT_CLIMBER_KD);
 
     climberLeftPIDController.setSetpoint(climberSetpoint);
     climberRightPIDController.setSetpoint(climberSetpoint);
@@ -64,11 +68,14 @@ public class Climber extends SubsystemBase {
       updateSetpoint();
     }
 
-    io.setRightClimberVoltage(
-        climberRightPIDController.calculate(inputs.rightClimberPositionRad, climberSetpoint));
+    io.setLeftClimberPercentSpeed(
+        climberLeftPIDController.calculate(inputs.leftClimberPositionMeters));
 
-    io.setLeftClimberVoltage(
-        climberLeftPIDController.calculate(inputs.leftClimberPositionRad, climberSetpoint));
+    io.setRightClimberPercentSpeed(
+        climberRightPIDController.calculate(inputs.rightClimberPositionMeters));
+    // System.out.println("RIGHT: " +
+    // climberRightPIDController.calculate(inputs.leftClimberPositionMeters) /
+    // ClimberConstants.CLIMBER_MAX_HEIGHT_M);
   }
 
   public void updatePIDController() {
@@ -79,14 +86,19 @@ public class Climber extends SubsystemBase {
     ClimberConstants.RIGHT_CLIMBER_KI = SmartDashboard.getNumber("climberRightki", 0.0);
     ClimberConstants.RIGHT_CLIMBER_KD = SmartDashboard.getNumber("climberRightkd", 0.0);
 
-    climberLeftPIDController.setPID(ClimberConstants.LEFT_CLIMBER_KP, ClimberConstants.LEFT_CLIMBER_KI,
+    climberLeftPIDController.setPID(
+        ClimberConstants.LEFT_CLIMBER_KP,
+        ClimberConstants.LEFT_CLIMBER_KI,
         ClimberConstants.LEFT_CLIMBER_KD);
-    climberRightPIDController.setPID(ClimberConstants.RIGHT_CLIMBER_KP, ClimberConstants.RIGHT_CLIMBER_KI,
+    climberRightPIDController.setPID(
+        ClimberConstants.RIGHT_CLIMBER_KP,
+        ClimberConstants.RIGHT_CLIMBER_KI,
         ClimberConstants.RIGHT_CLIMBER_KD);
   }
 
   public void updateSetpoint() {
-    climberSetpoint = SmartDashboard.getNumber("climberRightSetpoint", 0.0);
+    climberSetpoint = SmartDashboard.getNumber("climberSetpoint", 0.0);
+    climberLeftPIDController.setSetpoint(climberSetpoint);
     climberRightPIDController.setSetpoint(climberSetpoint);
   }
 

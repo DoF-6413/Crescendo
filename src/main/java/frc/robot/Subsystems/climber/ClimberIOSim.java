@@ -36,26 +36,15 @@ public class ClimberIOSim implements ClimberIO {
     leftClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
     rightClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
-    inputs.leftClimberPositionRad =
-        leftClimberSim.getPositionMeters()
-            / ClimberConstants.CLIMBER_GEAR_RATIO; // TODO: Update math
-    inputs.leftClimberVelocityRPM =
-        leftClimberSim.getVelocityMetersPerSecond()
-            / ClimberConstants.CLIMBER_GEAR_RATIO; // TODO: Update math
+    inputs.leftClimberPositionMeters = leftClimberSim.getPositionMeters();
+    inputs.leftClimberVelocityMetersPerSecond = leftClimberSim.getVelocityMetersPerSecond();
     inputs.leftClimberAppliedVolts = 0.0;
     inputs.leftClimberCurrentAmps = new double[] {leftClimberSim.getCurrentDrawAmps()};
 
-    inputs.rightClimberPositionRad =
-        rightClimberSim.getPositionMeters()
-            / ClimberConstants.CLIMBER_GEAR_RATIO; // TODO: Update math
-    inputs.rightClimberVelocityRPM =
-        rightClimberSim.getVelocityMetersPerSecond()
-            / ClimberConstants.CLIMBER_GEAR_RATIO; // TODO: Update math
+    inputs.rightClimberPositionMeters = rightClimberSim.getPositionMeters();
+    inputs.rightClimberVelocityMetersPerSecond = rightClimberSim.getVelocityMetersPerSecond();
     inputs.rightClimberAppliedVolts = 0.0;
     inputs.rightClimberCurrentAmps = new double[] {rightClimberSim.getCurrentDrawAmps()};
-
-    rightClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
-    leftClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
   }
 
   @Override
@@ -68,5 +57,25 @@ public class ClimberIOSim implements ClimberIO {
   public void setBothClimberPercentSpeed(double percent) {
     leftClimberSim.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
     rightClimberSim.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
+  }
+
+  @Override
+  public void setLeftClimberPercentSpeed(double percent) {
+    leftClimberSim.setInputVoltage(-RobotStateConstants.BATTERY_VOLTAGE * percent);
+  }
+
+  @Override
+  public void setLeftClimberVoltage(double volts) {
+    leftClimberSim.setInputVoltage(-volts);
+  }
+
+  @Override
+  public void setRightClimberPercentSpeed(double percent) {
+    rightClimberSim.setInputVoltage(-RobotStateConstants.BATTERY_VOLTAGE * percent);
+  }
+
+  @Override
+  public void setRightClimberVoltage(double volts) {
+    rightClimberSim.setInputVoltage(-volts);
   }
 }
