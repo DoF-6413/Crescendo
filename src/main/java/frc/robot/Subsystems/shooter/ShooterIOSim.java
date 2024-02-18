@@ -28,13 +28,13 @@ public class ShooterIOSim implements ShooterIO {
     inputs.topShooterMotorRPM = topShooterFlywheel.getAngularVelocityRPM();
     inputs.topShooterAppliedVolts = 0.0;
     inputs.topShooterCurrentAmps = new double[] {Math.abs(topShooterFlywheel.getCurrentDrawAmps())};
-    inputs.topShooterTempCelcius = new double[] {};
+    inputs.topShooterTempCelsius = new double[] {};
 
     inputs.bottomShooterMotorRPM = bottomShooterFlywheel.getAngularVelocityRPM();
     inputs.bottomShooterAppliedVolts = 0.0;
     inputs.bottomShooterCurrentAmps =
         new double[] {Math.abs(bottomShooterFlywheel.getCurrentDrawAmps())};
-    inputs.bottomShooterTempCelcius = new double[] {};
+    inputs.bottomShooterTempCelsius = new double[] {};
   }
 
   @Override

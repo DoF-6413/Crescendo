@@ -17,7 +17,7 @@ public interface ClimberIO {
     /** The Current Drawn from the Left Climber in Amps */
     public double[] leftClimberCurrentAmps = new double[] {};
     /** The Temperature from the Left Climber in Celsius */
-    public double[] leftClimberTempCelcius = new double[] {};
+    public double[] leftClimberTempCelsius = new double[] {};
 
     // All the Inputs for the Left Climber Motor (Should be nearly identical to the Left Climber
     // Motor)
@@ -30,7 +30,7 @@ public interface ClimberIO {
     /** The Current Drawn from the Right Climber in Amps */
     public double[] rightClimberCurrentAmps = new double[] {};
     /** The Temperature from the Right Climber in Celsius */
-    public double[] rightClimberTempCelcius = new double[] {};
+    public double[] rightClimberTempCelsius = new double[] {};
   }
 
   /** Updates the set of loggable inputs for the Climber */

@@ -17,7 +17,7 @@ public class OTBIntake extends SubsystemBase {
   
   private double setpointRPM = 0.0;
   
-  /** Runs the real life motor for the Over the Bumper (OTB) Intake with CAN SPARKMAX Speed*/
+  /** Runs the real life motor for the Over the Bumper (OTB) Intake with CAN SPARKMAX Speed Contollers and Neo motor*/
   public OTBIntake(OTBIntakeIO io) {
     System.out.println("[Init] Creating OTB Intake");
     this.io = io;
@@ -50,6 +50,7 @@ public class OTBIntake extends SubsystemBase {
       updateSetpoint();
     }
 
+    // Outputs the setpoint and PID values onto the SmartDashboard to ensure they get updated
     SmartDashboard.putNumber("OTBIntakeGetSetpoint", otbIntakePID.getSetpoint());
     SmartDashboard.putNumber("OTBIntakeGetkP", otbIntakePID.getP());
     SmartDashboard.putNumber("OTBIntakeGetkI", otbIntakePID.getI());
@@ -59,6 +60,7 @@ public class OTBIntake extends SubsystemBase {
     SmartDashboard.putBoolean("OTBIntakeAtSetpoint", atSetpoint());
   }
 
+  /** Updates the PID values based on what is put on Shuffleboard */
   public void updatePIDController() {
     OTBIntakeConstants.KP = SmartDashboard.getNumber("OTBIntakekP", 0);
     OTBIntakeConstants.KI = SmartDashboard.getNumber("OTBIntakekI", 0);
@@ -66,6 +68,7 @@ public class OTBIntake extends SubsystemBase {
     otbIntakePID.setPID(OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
   }
 
+  /** Updates the setpoint based on what is put on Shuffleboard */
   public void updateSetpoint() {
     setpointRPM = SmartDashboard.getNumber("OTBIntakeSetpoint", 0.0);
     otbIntakePID.setSetpoint(setpointRPM);
@@ -94,6 +97,12 @@ public class OTBIntake extends SubsystemBase {
     io.setOTBIntakePercentSpeed(percent);
   }
 
+  /**
+   * Sets the Brake Mode for the OTB Intake 
+   * <p>Brake means motor holds position, Coast means easy to move
+   *
+   * @param enable if enable, it sets brake mode, else it sets coast mode
+   */
   public void setBrakeMode(boolean enabled) {
     io.setBrakeMode(enabled);
   }

@@ -54,7 +54,7 @@ public class ClimberIOSparkMax implements ClimberIO {
 
     inputs.leftClimberCurrentAmps = new double[] { leftClimberMotor.getOutputCurrent() };
 
-    inputs.leftClimberTempCelcius = new double[] {
+    inputs.leftClimberTempCelsius = new double[] {
         leftClimberMotor.getMotorTemperature()
     };
 
@@ -72,7 +72,7 @@ public class ClimberIOSparkMax implements ClimberIO {
         rightClimberEncoder.getVelocity() / ClimberConstants.GEAR_RATIO)
         * ClimberConstants.DRUM_RADIUS_M;
     inputs.rightClimberCurrentAmps = new double[] { rightClimberMotor.getOutputCurrent() };
-    inputs.rightClimberTempCelcius = new double[] {
+    inputs.rightClimberTempCelsius = new double[] {
         rightClimberMotor.getMotorTemperature()
     };
   }

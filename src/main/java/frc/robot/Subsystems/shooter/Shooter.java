@@ -122,14 +122,14 @@ public class Shooter extends SubsystemBase {
     bottomShooterPID.setSetpoint(setpointRPM);
   }
 
+  /** Updates the set of loggable inputs for both Shooter Motors */
   public void updateInputs() {
     io.updateInputs(inputs);
   }
 
   /**
-   * Sets the Brake Mode for the Shooter (Brake means motor holds position, Coast means easy to
-   * move)
-   *
+   * Sets the Brake Mode for the Shooter (Brake means motor holds position, Coast means easy to move) 
+   * 
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
   public void setShooterBrakeMode(boolean enable) {
@@ -193,7 +193,7 @@ public class Shooter extends SubsystemBase {
   // arbitrary
   // 2.12.24: crashes in Sim, not tested on real hardware
   // public boolean exceedsTemperature() {
-  //   if (inputs.topShooterTempCelcius[inputs.topShooterTempCelcius.length - 1] > 100) {
+  //   if (inputs.topShooterTempCelsius[inputs.topShooterTempCelsius.length - 1] > 100) {
   //     return true;
   //   }
   //   return false;

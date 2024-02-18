@@ -58,15 +58,14 @@ public class UTBIntake extends SubsystemBase {
     }
 
     //TODO: delete once PID values are finalized
-
     if (utbIntakeSetpoint != SmartDashboard.getNumber("utbIntakeSetpoint", 0.0)) {
       updateSetpoint();
     }
 
     SmartDashboard.getNumber("utbIntakeRealSetpoint", utbIntakePIDController.getSetpoint());
-    
   }
 
+  /** updates PID values if SmartDashboard gets updated */
   public void updatePIDController() {
     UTBIntakeConstants.KP = SmartDashboard.getNumber("utbIntakekp", 0.0);
     UTBIntakeConstants.KI = SmartDashboard.getNumber("utbIntakeki", 0.0);
@@ -78,6 +77,7 @@ public class UTBIntake extends SubsystemBase {
         UTBIntakeConstants.KD);
   }
 
+  /** updates setpoint if SmartDashboard gets updated */
   public void updateSetpoint() {
     utbIntakeSetpoint = SmartDashboard.getNumber("utbIntakeSetpoint", 0.0);
     utbIntakePIDController.setSetpoint(utbIntakeSetpoint);
