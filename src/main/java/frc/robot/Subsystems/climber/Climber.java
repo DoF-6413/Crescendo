@@ -69,10 +69,10 @@ public class Climber extends SubsystemBase {
     }
 
     io.setLeftClimberPercentSpeed(
-        climberLeftPIDController.calculate(inputs.leftClimberPositionMeters));
+        -climberLeftPIDController.calculate(inputs.leftClimberPositionMeters));
 
     io.setRightClimberPercentSpeed(
-        climberRightPIDController.calculate(inputs.rightClimberPositionMeters));
+        -climberRightPIDController.calculate(inputs.rightClimberPositionMeters));
     // System.out.println("RIGHT: " +
     // climberRightPIDController.calculate(inputs.leftClimberPositionMeters) /
     // ClimberConstants.CLIMBER_MAX_HEIGHT_M);
