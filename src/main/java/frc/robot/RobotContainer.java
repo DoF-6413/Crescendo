@@ -91,7 +91,7 @@ public class RobotContainer {
         m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
         m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
-        m_mechanisms = new Mechanisms2d(m_wristSubsystem, m_armSubsystem);
+        m_mechanisms = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
         break;
 
       case SIM:
@@ -114,7 +114,7 @@ public class RobotContainer {
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
         m_wristSubsystem = new Wrist(new WristIOSim());
-        m_mechanisms = new Mechanisms2d(m_wristSubsystem, m_armSubsystem);
+        m_mechanisms = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
 
         break;
 
@@ -138,7 +138,7 @@ public class RobotContainer {
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
-        m_mechanisms = new Mechanisms2d(m_wristSubsystem, m_armSubsystem);
+        m_mechanisms = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
 
         break;
     }
@@ -189,10 +189,10 @@ public class RobotContainer {
     //         () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(auxController.getRightY()),
     //         m_otbIntakeSubsystem));
 
-    // m_actuatorSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
-    //         m_actuatorSubsystem));
+    m_actuatorSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_actuatorSubsystem.setActuatorPercentSpeed(driverController.getLeftX()),
+            m_actuatorSubsystem));
 
     m_wristSubsystem.setDefaultCommand(
         new InstantCommand(

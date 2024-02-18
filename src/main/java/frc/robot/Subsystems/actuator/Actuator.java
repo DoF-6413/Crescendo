@@ -80,4 +80,8 @@ public class Actuator extends SubsystemBase {
   public void setActuatorVoltage(double volts) {
     io.setActuatorVoltage(volts);
   }
+
+  public double getAngleRads() {
+    return io.getAngleRads();
+  }
 }

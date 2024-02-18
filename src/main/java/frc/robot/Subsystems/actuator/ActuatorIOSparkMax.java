@@ -56,4 +56,10 @@ public class ActuatorIOSparkMax implements ActuatorIO {
   public void setActuatorPercentSpeed(double percent) {
     actuatorMotor.set(percent);
   }
+
+  @Override
+  public double getAngleRads() {
+    return Units.rotationsToRadians(
+        actuatorEncoder.getPosition() / ActuatorConstants.ACTUATOR_GEAR_RATIO);
+  }
 }

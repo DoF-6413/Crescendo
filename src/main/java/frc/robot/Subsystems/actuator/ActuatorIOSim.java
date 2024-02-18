@@ -51,4 +51,9 @@ public class ActuatorIOSim implements ActuatorIO {
   public void setActuatorPercentSpeed(double percent) {
     actuatorMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
+
+  @Override
+  public double getAngleRads() {
+    return actuatorMotor.getAngleRads();
+  }
 }

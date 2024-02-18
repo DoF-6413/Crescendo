@@ -35,4 +35,8 @@ public interface ActuatorIO {
    * @param percent [-1 to 1]
    */
   public default void setActuatorPercentSpeed(double percent) {}
+
+  public default double getAngleRads() {
+    return 0;
+  }
 }
