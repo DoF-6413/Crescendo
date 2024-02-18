@@ -23,7 +23,7 @@ public interface ClimberIO {
     // Motor)
     /** This returns the voltage the Right Climber Recieves */
     public double rightClimberAppliedVolts = 0.0;
-     /** Returns the position of the Right Climber in Meters */
+    /** Returns the position of the Right Climber in Meters */
     public double rightClimberPositionMeters = 0.0;
     /** Returns the velocity of the Right Climber in m/s */
     public double rightClimberVelocityMetersPerSecond = 0.0;
@@ -79,11 +79,10 @@ public interface ClimberIO {
   public default void setRightClimberPercentSpeed(double percent) {}
 
   /**
-   * Sets the Brake Mode for the Actuator (Brake means motor holds position, Coast means easy to move) 
-   * 
+   * Sets the Brake Mode for the Actuator (Brake means motor holds position, Coast means easy to
+   * move)
+   *
    * @param enable if enable, it sets brake mode, else it sets coast mode
-  */
-  public default void setBrakeMode(boolean enable){}
+   */
+  public default void setBrakeMode(boolean enable) {}
 }
-
-

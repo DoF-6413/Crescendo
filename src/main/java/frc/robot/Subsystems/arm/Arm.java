@@ -5,7 +5,9 @@
 package frc.robot.Subsystems.arm;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -15,6 +17,11 @@ public class Arm extends SubsystemBase {
   private final ArmIOInputsAutoLogged armInputs = new ArmIOInputsAutoLogged();
   private final PIDController armPIDController;
   private double armSetpoint = 0.0;
+  private final ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
+  private GenericEntry armkp;
+  private GenericEntry armki;
+  private GenericEntry armkd;
+  private GenericEntry armSetpointSetter;
 
   /** Creates a new Arm, the Subsystem that moves the Shooter from Up and Down */
   public Arm(ArmIO io) {
@@ -26,10 +33,10 @@ public class Arm extends SubsystemBase {
     armPIDController.disableContinuousInput();
 
     // TODO: Delete once final PID Numbers are Decided
-    SmartDashboard.putNumber("armkp", 0.0);
-    SmartDashboard.putNumber("armki", 0.0);
-    SmartDashboard.putNumber("armkd", 0.0);
-    SmartDashboard.putNumber("armSetpoint", 0.0);
+    armkp = armTab.add("armkp", 0.0).getEntry();
+    armki = armTab.add("armki", 0.0).getEntry();
+    armkd = armTab.add("armkd", 0.0).getEntry();
+    armSetpointSetter = armTab.add("armSetpoint", 0.0).getEntry();
   }
 
   @Override
@@ -42,38 +49,31 @@ public class Arm extends SubsystemBase {
     // Updates Arm Speed based on PID Control
     setArmPercentSpeed(armPIDController.calculate(armInputs.armPositionRad));
 
-    // TODO: Deleted Once Final PID are Decided
-    if (ArmConstants.KP != SmartDashboard.getNumber("armkp", 0.0)
-        || ArmConstants.KI != SmartDashboard.getNumber("armki", 0.0)
-        || ArmConstants.KD != SmartDashboard.getNumber("armkd", 0.0)) {
+    // TODO: Delete once final PID Numbers are Decided
+    if (ArmConstants.KP != armkp.getDouble(0.0)
+        || ArmConstants.KI != armki.getDouble(0.0)
+        || ArmConstants.KD != armkd.getDouble(0.0)) {
       updatePIDController();
     }
 
-    if (armSetpoint != SmartDashboard.getNumber("armSetpoint", 0.0)) {
+    if (armSetpoint != armSetpointSetter.getDouble(0.0)) {
       updateSetpoint();
     }
-
-    // Gets the current PID values that the PID contollers are set to
-    SmartDashboard.putNumber("armError", armSetpoint - armInputs.armPositionRad);
-    SmartDashboard.putNumber("armCurrentkP", armPIDController.getP());
-    SmartDashboard.putNumber("armCurrentkI", armPIDController.getI());
-    SmartDashboard.putNumber("armCurrentkD", armPIDController.getD());
-    SmartDashboard.putNumber("armCurrentSetpoint", armPIDController.getSetpoint());
   }
 
   // TODO: Make this appear only in "Test" when Final PID Numbers are Selected
   /** Updates the PID Contants for the PID Controller */
   public void updatePIDController() {
-    ArmConstants.KP = SmartDashboard.getNumber("armkp", 0.0);
-    ArmConstants.KI = SmartDashboard.getNumber("armki", 0.0);
-    ArmConstants.KD = SmartDashboard.getNumber("armkd", 0.0);
+    ArmConstants.KP = armkp.getDouble(0.0);
+    ArmConstants.KI = armki.getDouble(0.0);
+    ArmConstants.KD = armkd.getDouble(0.0);
     armPIDController.setPID(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
   }
 
   // TODO: Make this have a setpoint as a parameter and delete smartdashboard getter
   /** Updates the Position the Arm is Going To */
   public void updateSetpoint() {
-    armSetpoint = SmartDashboard.getNumber("armSetpoint", 0.0);
+    armSetpoint = armSetpointSetter.getDouble(0.0);
     armPIDController.setSetpoint(armSetpoint);
   }
 

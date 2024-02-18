@@ -16,7 +16,7 @@ public class ArmIOSparkMax implements ArmIO {
   private final CANSparkMax armMotor;
   private final RelativeEncoder armEncoder;
 
-/** Runs the real life Arm with CANSpark Speed Controllers and NEO motor */
+  /** Runs the real life Arm with CANSpark Speed Controllers and NEO motor */
   public ArmIOSparkMax() {
     armMotor = new CANSparkMax(ArmConstants.CAN_ID, MotorType.kBrushless);
     armEncoder = armMotor.getEncoder();
@@ -31,7 +31,7 @@ public class ArmIOSparkMax implements ArmIO {
     inputs.armPositionRad =
         Units.rotationsToRadians(Units.rotationsToRadians(armEncoder.getPosition()))
             / ArmConstants.GEAR_RATIO;
-
+    inputs.armPositionDeg = Units.rotationsToDegrees(armEncoder.getPosition());
     inputs.armVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(armEncoder.getVelocity())
             / ArmConstants.GEAR_RATIO;

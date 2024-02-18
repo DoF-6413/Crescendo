@@ -8,6 +8,7 @@ public interface WristIO {
   public static class WristIOInputs {
     public double wristAppliedVolts = 0.0;
     public double wristPositionRad = 0.0;
+    public double wristPositionDeg = 0.0;
     public double wristVelocityRadPerSec = 0.0;
     public double[] wristCurrentAmps = new double[] {};
     public double[] wristTempCelsius = new double[] {};

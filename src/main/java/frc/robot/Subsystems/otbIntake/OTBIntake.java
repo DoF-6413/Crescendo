@@ -4,6 +4,9 @@
 
 package frc.robot.Subsystems.otbIntake;
 
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.PIDController;
@@ -14,10 +17,18 @@ public class OTBIntake extends SubsystemBase {
   private final OTBIntakeIOInputsAutoLogged inputs = new OTBIntakeIOInputsAutoLogged();
 
   private final PIDController otbIntakePID;
-  
+
   private double setpointRPM = 0.0;
-  
-  /** Runs the real life motor for the Over the Bumper (OTB) Intake with CAN SPARKMAX Speed Contollers and Neo motor*/
+  private final ShuffleboardTab OTBIntakeTab = Shuffleboard.getTab("OTB Intake");
+  private GenericEntry OTBIntakekp;
+  private GenericEntry OTBIntakeki;
+  private GenericEntry OTBIntakekd;
+  private GenericEntry OTBIntakeSetpointSetter;
+
+  /**
+   * Runs the real life motor for the Over the Bumper (OTB) Intake with CAN SPARKMAX Speed
+   * Contollers and Neo motor
+   */
   public OTBIntake(OTBIntakeIO io) {
     System.out.println("[Init] Creating OTB Intake");
     this.io = io;
@@ -26,10 +37,11 @@ public class OTBIntake extends SubsystemBase {
     otbIntakePID.setSetpoint(setpointRPM);
     otbIntakePID.setTolerance(setpointRPM * OTBIntakeConstants.TOLERANCE_PERCENT);
 
-    SmartDashboard.putNumber("OTBIntakekP", 0.0);
-    SmartDashboard.putNumber("OTBIntakekI", 0.0);
-    SmartDashboard.putNumber("OTBIntakekD", 0.0);
-    SmartDashboard.putNumber("OTBIntakeSetpoint", 0.0);
+    // TODO: Delete after PID is finalized
+    OTBIntakekp = OTBIntakeTab.add("OTBIntakekp", 0.0).getEntry();
+    OTBIntakeki = OTBIntakeTab.add("OTBIntakeki", 0.0).getEntry();
+    OTBIntakekd = OTBIntakeTab.add("OTBIntakekd", 0.0).getEntry();
+    OTBIntakeSetpointSetter = OTBIntakeTab.add("OTBIntakeSetpoint", 0.0).getEntry();
   }
 
   /** Periodically updates the inputs and outputs of the OTB Intake */
@@ -38,39 +50,35 @@ public class OTBIntake extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("OTBIntake", inputs);
 
-    otbIntakePID.calculateForVoltage(inputs.otbIntakeVelocityRPM, OTBIntakeConstants.MAX_VALUE);
+    setOTBIntakeVoltage(
+        otbIntakePID.calculateForVoltage(
+            inputs.otbIntakeVelocityRPM, OTBIntakeConstants.MAX_VALUE));
 
-    if (OTBIntakeConstants.KP != SmartDashboard.getNumber("OTBIntakekP", 0)
-        || OTBIntakeConstants.KI != SmartDashboard.getNumber("OTBIntakekI", 0)
-        || OTBIntakeConstants.KD != SmartDashboard.getNumber("OTBIntakekD", 0)) {
+    // TODO: Delete after PID is finalized
+    if (OTBIntakeConstants.KP != OTBIntakekp.getDouble(0.0)
+        || OTBIntakeConstants.KI != OTBIntakeki.getDouble(0.0)
+        || OTBIntakeConstants.KD != OTBIntakekd.getDouble(0.0)) {
       updatePIDController();
     }
 
-    if (setpointRPM != SmartDashboard.getNumber("OTBIntakeSetpoint", 0.0)) {
+    if (setpointRPM != OTBIntakeSetpointSetter.getDouble(0.0)) {
       updateSetpoint();
     }
 
-    // Outputs the setpoint and PID values onto the SmartDashboard to ensure they get updated
-    SmartDashboard.putNumber("OTBIntakeGetSetpoint", otbIntakePID.getSetpoint());
-    SmartDashboard.putNumber("OTBIntakeGetkP", otbIntakePID.getP());
-    SmartDashboard.putNumber("OTBIntakeGetkI", otbIntakePID.getI());
-    SmartDashboard.putNumber("OTBIntakeGetkD", otbIntakePID.getD());
-
-    SmartDashboard.putNumber("OTBIntakeError", setpointRPM - inputs.otbIntakeVelocityRPM);
     SmartDashboard.putBoolean("OTBIntakeAtSetpoint", atSetpoint());
   }
 
   /** Updates the PID values based on what is put on Shuffleboard */
   public void updatePIDController() {
-    OTBIntakeConstants.KP = SmartDashboard.getNumber("OTBIntakekP", 0);
-    OTBIntakeConstants.KI = SmartDashboard.getNumber("OTBIntakekI", 0);
-    OTBIntakeConstants.KD = SmartDashboard.getNumber("OTBIntakekD", 0);
+    OTBIntakeConstants.KP = OTBIntakekp.getDouble(0.0);
+    OTBIntakeConstants.KI = OTBIntakeki.getDouble(0.0);
+    OTBIntakeConstants.KD = OTBIntakekd.getDouble(0.0);
     otbIntakePID.setPID(OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
   }
 
   /** Updates the setpoint based on what is put on Shuffleboard */
   public void updateSetpoint() {
-    setpointRPM = SmartDashboard.getNumber("OTBIntakeSetpoint", 0.0);
+    setpointRPM = OTBIntakeSetpointSetter.getDouble(0.0);
     otbIntakePID.setSetpoint(setpointRPM);
   }
 
@@ -98,7 +106,8 @@ public class OTBIntake extends SubsystemBase {
   }
 
   /**
-   * Sets the Brake Mode for the OTB Intake 
+   * Sets the Brake Mode for the OTB Intake
+   *
    * <p>Brake means motor holds position, Coast means easy to move
    *
    * @param enable if enable, it sets brake mode, else it sets coast mode

@@ -4,6 +4,9 @@
 
 package frc.robot.Subsystems.shooter;
 
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.PIDController;
@@ -13,6 +16,14 @@ import org.littletonrobotics.junction.Logger;
 public class Shooter extends SubsystemBase {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
+  private final ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
+  private GenericEntry shooterTopkP;
+  private GenericEntry shooterTopkI;
+  private GenericEntry shooterTopkD;
+  private GenericEntry shooterBottomkP;
+  private GenericEntry shooterBottomkI;
+  private GenericEntry shooterBottomkD;
+  private GenericEntry shooterSetpointSetter;
 
   // Creates the PID Contollers for both shooter motors
   private final PIDController topShooterPID;
@@ -42,13 +53,13 @@ public class Shooter extends SubsystemBase {
     bottomShooterPID.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
 
     // Puts adjustable PID values and setpoints onto the SmartDashboard
-    SmartDashboard.putNumber("shooterTopKP", 0.0);
-    SmartDashboard.putNumber("shooterTopKI", 0.0);
-    SmartDashboard.putNumber("shooterTopKD", 0.0);
-    SmartDashboard.putNumber("shooterBottomKP", 0.0);
-    SmartDashboard.putNumber("shooterBottomKI", 0.0);
-    SmartDashboard.putNumber("shooterBottomKD", 0.0);
-    SmartDashboard.putNumber("shooterSetpoint", 0.0);
+    shooterTopkP = shooterTab.add("shooterTopkp", 0.0).getEntry();
+    shooterTopkI = shooterTab.add("shooterTopki", 0.0).getEntry();
+    shooterTopkD = shooterTab.add("shooterTopkd", 0.0).getEntry();
+    shooterBottomkP = shooterTab.add("shooterBottomkp", 0.0).getEntry();
+    shooterBottomkI = shooterTab.add("shooterBottomki", 0.0).getEntry();
+    shooterBottomkD = shooterTab.add("shooterBottomkd", 0.0).getEntry();
+    shooterSetpointSetter = shooterTab.add("shooterSetpoint", 0.0).getEntry();
   }
 
   @Override
@@ -63,53 +74,34 @@ public class Shooter extends SubsystemBase {
         -bottomShooterPID.calculateForVoltage(
             Math.abs(inputs.bottomShooterMotorRPM), ShooterConstants.MAX_RPM));
 
-    if (ShooterConstants.TOP_KP != SmartDashboard.getNumber("shooterTopKP", 0.0)
-        || ShooterConstants.TOP_KI != SmartDashboard.getNumber("shooterTopKI", 0.0)
-        || ShooterConstants.TOP_KD != SmartDashboard.getNumber("shooterTopKD", 0.0)
-        || ShooterConstants.BOTTOM_KP != SmartDashboard.getNumber("shooterBottomKP", 0.0)
-        || ShooterConstants.BOTTOM_KI != SmartDashboard.getNumber("shooterBottomKI", 0.0)
-        || ShooterConstants.BOTTOM_KD != SmartDashboard.getNumber("shooterBottomKD", 0.0)) {
+    if (ShooterConstants.TOP_KP != shooterTopkP.getDouble(0.0)
+        || ShooterConstants.TOP_KI != shooterTopkI.getDouble(0.0)
+        || ShooterConstants.TOP_KD != shooterTopkD.getDouble(0.0)
+        || ShooterConstants.BOTTOM_KP != shooterBottomkP.getDouble(0.0)
+        || ShooterConstants.BOTTOM_KI != shooterBottomkI.getDouble(0.0)
+        || ShooterConstants.BOTTOM_KD != shooterBottomkD.getDouble(0.0)) {
       updatePIDController();
     }
 
-    if (setpointRPM != SmartDashboard.getNumber("shooterSetpoint", 0.0)) {
+    if (setpointRPM != shooterSetpointSetter.getDouble(0.0)) {
       updateSetpoint();
     }
-    // Puts the difference between the setpoint and current RPM on the SmartDashboard
-    SmartDashboard.putNumber("shooterTopError", setpointRPM - inputs.topShooterMotorRPM);
-    SmartDashboard.putNumber(
-        "shooterBottomError", setpointRPM - Math.abs(inputs.bottomShooterMotorRPM));
-    SmartDashboard.putNumber(
-        "shooterMotorsRPMDifference",
-        inputs.topShooterMotorRPM - Math.abs(inputs.bottomShooterMotorRPM));
 
     // Returns whether or not motors have reached setpoint
     SmartDashboard.putBoolean("shooterTopAtSetpoint", topAtSetpoint());
     SmartDashboard.putBoolean("shooterBottomAtSetpoint", bottomAtSetpoint());
-
-    // Gets the current PID values that the PID contollers are set to
-    SmartDashboard.putNumber("shooterTopCurrentkP", topShooterPID.getP());
-    SmartDashboard.putNumber("shooterTopCurrentkI", topShooterPID.getI());
-    SmartDashboard.putNumber("shooterTopCurrentkD", topShooterPID.getD());
-    SmartDashboard.putNumber("shooterBottomCurrentkP", bottomShooterPID.getP());
-    SmartDashboard.putNumber("shooterBottomCurrentkI", bottomShooterPID.getI());
-    SmartDashboard.putNumber("shooterBottomCurrentkD", bottomShooterPID.getD());
-
-    // Gets the current setpoint that the PID contollers are set to
-    SmartDashboard.putNumber("shooterTopCurrentSetpoint", topShooterPID.getSetpoint());
-    SmartDashboard.putNumber("shooterBottomCurrentSetpoint", -bottomShooterPID.getSetpoint());
 
     // SmartDashboard.putboolean("!!Tempature Warning!!", exceedsTemperature());
   }
 
   // Updates the PID values to what they are set to on the SmartDashboard
   public void updatePIDController() {
-    ShooterConstants.TOP_KP = SmartDashboard.getNumber("shooterTopKP", 0.0);
-    ShooterConstants.TOP_KI = SmartDashboard.getNumber("shooterTopKI", 0.0);
-    ShooterConstants.TOP_KD = SmartDashboard.getNumber("shooterTopKD", 0.0);
-    ShooterConstants.BOTTOM_KP = SmartDashboard.getNumber("shooterBottomKP", 0.0);
-    ShooterConstants.BOTTOM_KI = SmartDashboard.getNumber("shooterBottomKI", 0.0);
-    ShooterConstants.BOTTOM_KD = SmartDashboard.getNumber("shooterBottomKD", 0.0);
+    ShooterConstants.TOP_KP = shooterTopkP.getDouble(0.0);
+    ShooterConstants.TOP_KI = shooterTopkI.getDouble(0.0);
+    ShooterConstants.TOP_KD = shooterTopkD.getDouble(0.0);
+    ShooterConstants.BOTTOM_KP = shooterBottomkP.getDouble(0.0);
+    ShooterConstants.BOTTOM_KI = shooterBottomkI.getDouble(0.0);
+    ShooterConstants.BOTTOM_KD = shooterBottomkD.getDouble(0.0);
     topShooterPID.setPID(ShooterConstants.TOP_KP, ShooterConstants.TOP_KI, ShooterConstants.TOP_KD);
     bottomShooterPID.setPID(
         ShooterConstants.BOTTOM_KP, ShooterConstants.BOTTOM_KI, ShooterConstants.BOTTOM_KD);
@@ -117,7 +109,7 @@ public class Shooter extends SubsystemBase {
 
   // Updates the setpoint to what is typed on the SmartDashboard
   public void updateSetpoint() {
-    setpointRPM = SmartDashboard.getNumber("shooterSetpoint", 0.0);
+    setpointRPM = shooterSetpointSetter.getDouble(0.0);
     topShooterPID.setSetpoint(setpointRPM);
     bottomShooterPID.setSetpoint(setpointRPM);
   }
@@ -128,8 +120,9 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
-   * Sets the Brake Mode for the Shooter (Brake means motor holds position, Coast means easy to move) 
-   * 
+   * Sets the Brake Mode for the Shooter (Brake means motor holds position, Coast means easy to
+   * move)
+   *
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
   public void setShooterBrakeMode(boolean enable) {

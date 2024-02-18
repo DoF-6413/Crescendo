@@ -9,36 +9,36 @@ public class ClimberIOSim implements ClimberIO {
   private final ElevatorSim leftClimberSim;
   private final ElevatorSim rightClimberSim;
 
-/**
- * This is a simulation for the climber. It uses the elavtor simulation because it
- * extends up and down
- */
+  /**
+   * This is a simulation for the climber. It uses the elavtor simulation because it extends up and
+   * down
+   */
   public ClimberIOSim() {
     System.out.println("[Init] Creating ClimberIOSim");
     leftClimberSim =
-      new ElevatorSim(
-          DCMotor.getNEO(1),
-          ClimberConstants.GEAR_RATIO,
-          ClimberConstants.CARRIAGE_MASS_KG,
-          ClimberConstants.DRUM_RADIUS_M,
-          ClimberConstants.MIN_HEIGHT_M,
-          ClimberConstants.MAX_HEIGHT_M,
-          ClimberConstants.SIMULATE_GRAVITY,
-          ClimberConstants.STARTING_HEIGHT_M);
-    
+        new ElevatorSim(
+            DCMotor.getNEO(1),
+            ClimberConstants.GEAR_RATIO,
+            ClimberConstants.CARRIAGE_MASS_KG,
+            ClimberConstants.DRUM_RADIUS_M,
+            ClimberConstants.MIN_HEIGHT_M,
+            ClimberConstants.MAX_HEIGHT_M,
+            ClimberConstants.SIMULATE_GRAVITY,
+            ClimberConstants.STARTING_HEIGHT_M);
+
     rightClimberSim =
-      new ElevatorSim(
-          DCMotor.getNEO(1),
-          ClimberConstants.GEAR_RATIO,
-          ClimberConstants.CARRIAGE_MASS_KG,
-          ClimberConstants.DRUM_RADIUS_M,
-          ClimberConstants.MIN_HEIGHT_M,
-          ClimberConstants.MAX_HEIGHT_M,
-          ClimberConstants.SIMULATE_GRAVITY,
-          ClimberConstants.STARTING_HEIGHT_M);
+        new ElevatorSim(
+            DCMotor.getNEO(1),
+            ClimberConstants.GEAR_RATIO,
+            ClimberConstants.CARRIAGE_MASS_KG,
+            ClimberConstants.DRUM_RADIUS_M,
+            ClimberConstants.MIN_HEIGHT_M,
+            ClimberConstants.MAX_HEIGHT_M,
+            ClimberConstants.SIMULATE_GRAVITY,
+            ClimberConstants.STARTING_HEIGHT_M);
   }
 
-@Override
+  @Override
   public void updateInputs(ClimberIOInputs inputs) {
     leftClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
     rightClimberSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);

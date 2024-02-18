@@ -1,5 +1,6 @@
 package frc.robot.Subsystems.utbintake;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -12,8 +13,13 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
   /** Creates the Motor and Encoder for the utb Intake */
   public UTBIntakeIOSparkMax() {
     System.out.println("[Init] Creating UTBIntakeIO");
+
+    /** Creates the Motor and Encoder for the utb Intake */
     utbIntakeMotor = new CANSparkMax(UTBIntakeConstants.CAN_ID, MotorType.kBrushless);
     utbIntakeEncoder = utbIntakeMotor.getEncoder();
+
+    /** defaults to brake mode on initialization */
+    utbIntakeMotor.setIdleMode(IdleMode.kBrake);
   }
 
   /** Updates the printed values for the utb Intake */
@@ -28,21 +34,22 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
         new double[] {utbIntakeMotor.getOutputCurrent()}; // amps used by intake
   }
 
-  /**
-   * Sets the voltage of the utb Intake motor
-   *
-   * @param voltage
-   */
-  public void setutbIntakeVoltage(double voltage) {
+  @Override
+  public void setUTBIntakeVoltage(double voltage) {
     utbIntakeMotor.setVoltage(voltage);
   }
 
-  /**
-   * Sets the utb Intake to a percentage of its maximum speed
-   *
-   * @param percent A value between -1 and 1
-   */
-  public void setutbIntakePercentSpeed(double percent) {
+  @Override
+  public void setUTBIntakePercentSpeed(double percent) {
     utbIntakeMotor.set(percent);
+  }
+
+  @Override
+  public void setUTBIntakeBrakeMode(boolean isEnabled) {
+    if (isEnabled) {
+      utbIntakeMotor.setIdleMode(IdleMode.kBrake);
+    } else {
+      utbIntakeMotor.setIdleMode(IdleMode.kCoast);
+    }
   }
 }

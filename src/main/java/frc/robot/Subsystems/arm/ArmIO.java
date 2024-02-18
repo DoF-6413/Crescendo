@@ -14,13 +14,15 @@ public interface ArmIO {
   @AutoLog
   public static class ArmIOInputs {
 
-    /** This returns the voltage the Actuator Recieves */
+    /** This returns the voltage the Arm Recieves */
     public double armAppliedVolts = 0.0;
-    /** Returns the position of the Actuator in Radians */
+    /** Returns the position of the Arm in Radians */
     public double armPositionRad = 0.0;
+    /** Returns the position of the Arm in Degrees */
+    public double armPositionDeg = 0.0;
     /** Returns the velocity of the Actuator in Rad/s */
     public double armVelocityRadPerSec = 0.0;
-    /** The Current Drawn from the Actuator in Amps */
+    /** The Current Drawn from the Atuator in Amps */
     public double[] armCurrentAmps = new double[] {};
     /** The Temperature from the Actuator in Celsius */
     public double[] armTempCelsius = new double[] {};

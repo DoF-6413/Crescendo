@@ -8,7 +8,9 @@ public class UTBIntakeIOSim implements UTBIntakeIO {
   /** creates a flywheel simulation for the UTB intake motor */
   private FlywheelSim utbFlywheelSim =
       new FlywheelSim(
-          DCMotor.getNEO(1), UTBIntakeConstants.GEAR_RATIO, UTBIntakeConstants.MOI_KG_M2);
+          DCMotor.getNEO(1),
+          UTBIntakeConstants.GEAR_RATIO,
+          UTBIntakeConstants.MOI_KG_M2);
 
   public UTBIntakeIOSim() {
     System.out.println("[Init] Creating UTBIntakeIOSim");

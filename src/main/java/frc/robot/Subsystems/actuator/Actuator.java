@@ -5,7 +5,9 @@
 package frc.robot.Subsystems.actuator;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -14,6 +16,11 @@ public class Actuator extends SubsystemBase {
   public final ActuatorIOInputsAutoLogged inputs = new ActuatorIOInputsAutoLogged();
   private final PIDController actuatorPIDController;
   private double actuatorSetpoint = 0.0;
+  private final ShuffleboardTab actuatorTab = Shuffleboard.getTab("Actuator");
+  private GenericEntry actuatorkp;
+  private GenericEntry actuatorki;
+  private GenericEntry actuatorkd;
+  private GenericEntry actuatorSetpointSetter;
 
   /**
    * Creates a new Actuator, the Subsystem that moves the OTB Intake Rollers from inside the Robot
@@ -29,10 +36,10 @@ public class Actuator extends SubsystemBase {
     actuatorPIDController.disableContinuousInput();
 
     // TODO: Delete once final PID Numbers are Decided
-    SmartDashboard.putNumber("actuatorkp", 0.0);
-    SmartDashboard.putNumber("actuatorki", 0.0);
-    SmartDashboard.putNumber("actuatorkd", 0.0);
-    SmartDashboard.putNumber("actuatorSetpoint", 0.0);
+    actuatorkp = actuatorTab.add("actuatorkp", 0.0).getEntry();
+    actuatorki = actuatorTab.add("actuatorki", 0.0).getEntry();
+    actuatorkd = actuatorTab.add("actuatorkd", 0.0).getEntry();
+    actuatorSetpointSetter = actuatorTab.add("actuatorSetpoint", 0.0).getEntry();
   }
 
   @Override
@@ -46,37 +53,30 @@ public class Actuator extends SubsystemBase {
     setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
 
     // TODO: Delete once final PID Numbers are Decided
-    if (ActuatorConstants.KP != SmartDashboard.getNumber("actuatorkp", 0.0)
-        || ActuatorConstants.KI != SmartDashboard.getNumber("actuatorki", 0.0)
-        || ActuatorConstants.KD != SmartDashboard.getNumber("actuatorkd", 0.0)) {
+    if (ActuatorConstants.KP != actuatorkp.getDouble(0.0)
+        || ActuatorConstants.KI != actuatorki.getDouble(0.0)
+        || ActuatorConstants.KD != actuatorkd.getDouble(0.0)) {
       updatePIDController();
     }
 
-    if (actuatorSetpoint != SmartDashboard.getNumber("actuatorSetpoint", 0.0)) {
+    if (actuatorSetpoint != actuatorSetpointSetter.getDouble(0.0)) {
       updateSetpoint();
     }
-
-    // Gets the current PID values that the PID contollers are set to
-    SmartDashboard.putNumber("actuatorError", actuatorSetpoint - inputs.actuatorPositionRad);
-    SmartDashboard.putNumber("actuatorCurrentkP", actuatorPIDController.getP());
-    SmartDashboard.putNumber("actuatorCurrentkI", actuatorPIDController.getI());
-    SmartDashboard.putNumber("actuatorCurrentkD", actuatorPIDController.getD());
-    SmartDashboard.putNumber("actuatorCurrentSetpoint", actuatorPIDController.getSetpoint());
   }
 
   // TODO: Make this appear only in "Test" when Final PID Numbers are Selected
   /** Updates the PID Contants for the PID Controller */
   public void updatePIDController() {
-    ActuatorConstants.KP = SmartDashboard.getNumber("actuatorkp", 0.0);
-    ActuatorConstants.KI = SmartDashboard.getNumber("actuatorki", 0.0);
-    ActuatorConstants.KD = SmartDashboard.getNumber("actuatorkd", 0.0);
+    ActuatorConstants.KP = actuatorkp.getDouble(0.0);
+    ActuatorConstants.KI = actuatorki.getDouble(0.0);
+    ActuatorConstants.KD = actuatorkd.getDouble(0.0);
     actuatorPIDController.setPID(ActuatorConstants.KP, ActuatorConstants.KI, ActuatorConstants.KD);
   }
 
   // TODO: Make this have a setpoint as a parameter and delete smartdashboard getter
   /** Updates the Position the Actuator is Going To */
   public void updateSetpoint() {
-    actuatorSetpoint = SmartDashboard.getNumber("actuatorSetpoint", 0.0);
+    actuatorSetpoint = actuatorSetpointSetter.getDouble(0.0);
     actuatorPIDController.setSetpoint(actuatorSetpoint);
   }
 

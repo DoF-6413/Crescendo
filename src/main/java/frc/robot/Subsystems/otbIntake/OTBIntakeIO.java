@@ -35,7 +35,8 @@ public interface OTBIntakeIO {
   public default void setOTBIntakePercentSpeed(double percent) {}
 
   /**
-   * Sets the Brake Mode for the OTB Intake 
+   * Sets the Brake Mode for the OTB Intake
+   *
    * <p>Brake means motor holds position, Coast means easy to move
    *
    * @param enable if enable, it sets brake mode, else it sets coast mode

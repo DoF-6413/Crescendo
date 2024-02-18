@@ -5,12 +5,13 @@
 package frc.robot.Subsystems.arm;
 
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.*;
 
 public class ArmIOSim implements ArmIO {
 
-/** This is a simulation for the arm */
+  /** This is a simulation for the arm */
   private SingleJointedArmSim armMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
@@ -28,6 +29,9 @@ public class ArmIOSim implements ArmIO {
 
     inputs.armPositionRad +=
         armMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
+    inputs.armPositionDeg +=
+        Units.radiansToDegrees(
+            armMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC);
     inputs.armVelocityRadPerSec = armMotor.getVelocityRadPerSec();
     inputs.armAppliedVolts = 0.0;
     inputs.armCurrentAmps = new double[] {Math.abs(armMotor.getCurrentDrawAmps())};

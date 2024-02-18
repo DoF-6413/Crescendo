@@ -10,7 +10,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 public interface VisionIO {
 
   @AutoLog
-/** creates a vision subsystem */
+  /** creates a vision subsystem */
   public static class VisionIOInputs {
     public boolean HasTargets = false; // checks for targets
     public int BestFiducialID = 0;

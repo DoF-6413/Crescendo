@@ -35,6 +35,8 @@ public class WristIOSparkMax implements WristIO {
     inputs.wristAppliedVolts = wristMotor.getAppliedOutput() * wristMotor.getBusVoltage();
     inputs.wristPositionRad =
         Units.rotationsToRadians(wristEncoder.getPosition()) / WristConstants.GEAR_RATIO;
+    inputs.wristPositionDeg =
+        Units.rotationsToDegrees(wristEncoder.getPosition()) / WristConstants.GEAR_RATIO;
     inputs.wristVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity());
 
