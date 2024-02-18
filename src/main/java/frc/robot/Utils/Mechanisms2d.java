@@ -1,29 +1,33 @@
 package frc.robot.Utils;
 
+import org.littletonrobotics.junction.Logger;
+
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.wrist.Wrist;
 
 public class Mechanisms2d extends SubsystemBase {
-  private final Mechanism2d m_shooterFlywheel;
-  private final MechanismRoot2d root;
-  private final Shooter m_shooterSub;
+  private final Mechanism2d swerveMech;
+  private final MechanismRoot2d Wristroot;
+  private final MechanismLigament2d wristMech;
+  private final Wrist m_wristSub;
   private final Color8Bit red = new Color8Bit(255, 0, 0);
 
-  public Mechanisms2d(Shooter shooterSub) {
-    m_shooterSub = shooterSub;
-    m_shooterFlywheel = new Mechanism2d(3, 3, red); // only displays rectangular objects?
-    root =
-        m_shooterFlywheel.getRoot(
-            "flywheelRoot", 2, 2); // "root" can only be defined after the mechanism is
+  public Mechanisms2d(Wrist wristSub) {
+    swerveMech = new Mechanism2d(5, 5);
+
+    m_wristSub = wristSub;
+    Wristroot = swerveMech.getRoot("MechanismRoot", 2, 2);
+
+    wristMech = Wristroot.append(new MechanismLigament2d("wristRoot", 2, 90, 1, red));
   }
 
   @Override
   public void periodic() {
-    // updates values which in this case is just rollers I guess, is sim even necessary for the
-    // shooter (not including wrist)?
 
-    SmartDashboard.putData("mechanism", m_shooterFlywheel);
+    wristMech.setAngle(Units.radiansToDegrees(m_wristSub.getAngleRads()));
+    Logger.recordOutput("mechanism", swerveMech);
   }
 }
