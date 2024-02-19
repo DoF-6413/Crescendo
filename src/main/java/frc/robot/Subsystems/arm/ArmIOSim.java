@@ -5,39 +5,52 @@
 package frc.robot.Subsystems.arm;
 
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.*;
 
-/** Add your docs here. */
 public class ArmIOSim implements ArmIO {
 
-  private SingleJointedArmSim armMotor =
+  /** This is a simulation for the arm */
+  private final SingleJointedArmSim armMotor;
+
+  /** Creates and initalizes the simulated arm */
+  public ArmIOSim() {
+      System.out.println("[Init] Creating ArmIOSim");
+      armMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
-          ArmConstants.ARM_GEAR_RATIO,
-          ArmConstants.ARM_MOI_KG_M2,
-          ArmConstants.ARM_LENGTH_M,
-          ArmConstants.ARM_MIN_ANGLE_RAD,
-          ArmConstants.ARM_MAX_ANGLE_RAD,
-          ArmConstants.ARM_IS_SIMULATING_GRAVITY,
-          ArmConstants.ARM_STARTING_ANGLE_RAD);
+          ArmConstants.GEAR_RATIO,
+          ArmConstants.MOI_KG_M2,
+          ArmConstants.LENGTH_M,
+          ArmConstants.MIN_ANGLE_RAD,
+          ArmConstants.MAX_ANGLE_RAD,
+          ArmConstants.IS_SIMULATING_GRAVITY,
+          ArmConstants.STARTING_ANGLE_RAD);
+    }
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
+    // Updates inputs periodically
     armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
-    inputs.armTurnPositionRad +=
+    inputs.armPositionRad +=
         armMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
-    inputs.armTurnVelocityRadPerSec = armMotor.getVelocityRadPerSec();
-    inputs.armTurnAppliedVolts = 0.0;
-    inputs.armTurnCurrentAmps = new double[] {Math.abs(armMotor.getCurrentDrawAmps())};
+    inputs.armPositionDeg +=
+        Units.radiansToDegrees(
+            armMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC);
+    inputs.armVelocityRadPerSec = armMotor.getVelocityRadPerSec();
+    inputs.armAppliedVolts = 0.0;
+    inputs.armCurrentAmps = new double[] {Math.abs(armMotor.getCurrentDrawAmps())};
   }
 
+  @Override
   public void setArmPercentSpeed(double percent) {
     armMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 
-  public void setArmMotorVoltage(double volts) {
+  @Override
+  public void setArmVoltage(double volts) {
     armMotor.setInputVoltage(volts);
   }
 }

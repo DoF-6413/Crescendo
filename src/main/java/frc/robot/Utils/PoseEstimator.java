@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
-import frc.robot.Subsystems.drive.Drive;
-import frc.robot.Subsystems.gyro.Gyro;
-import frc.robot.Subsystems.vision.Vision;
+import frc.robot.Subsystems.drive.*;
+import frc.robot.Subsystems.gyro.*;
+import frc.robot.Subsystems.vision.*;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 /** This class handels the odometry and locates the robots current position */

@@ -5,49 +5,67 @@
 package frc.robot.Subsystems.wrist;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.WristConstants;
 import org.littletonrobotics.junction.Logger;
 
-/** Add your docs here. */
 public class Wrist extends SubsystemBase {
-
   private final WristIO io;
   private final WristIOInputsAutoLogged inputs = new WristIOInputsAutoLogged();
 
-  private static PIDController wristPIDController;
+  /** shuffleboard tabs: wrist */
+  private final ShuffleboardTab wristTab = Shuffleboard.getTab("Wrist");
+
+  private GenericEntry wristkp;
+  private GenericEntry wristki;
+  private GenericEntry wristkd;
+  private GenericEntry wristSetpointSetter;
+
+  /** utb intake pid controller */
+  private final PIDController wristPIDController;
+
   private double wristSetpoint = 0.0;
 
+  /** creates a new wrist, the second joint of the arm subsystem */
   public Wrist(WristIO io) {
     System.out.println("[Init] Creating wrist");
     this.io = io;
 
-    wristPIDController =
-        new PIDController(
-            WristConstants.WRIST_KP, WristConstants.WRIST_KI, WristConstants.WRIST_KD);
+    /** creates a new PIDController for the wrist */
+    wristPIDController = new PIDController(WristConstants.KP, WristConstants.KI, WristConstants.KD);
     wristPIDController.setSetpoint(wristSetpoint);
-    wristPIDController.setTolerance(WristConstants.WRIST_TOLERANCE_PERCENT * wristSetpoint);
+    wristPIDController.setTolerance(WristConstants.TOLERANCE_PERCENT * wristSetpoint);
+
+    /** disables continuous input */
     wristPIDController.disableContinuousInput();
 
-    SmartDashboard.putNumber("wristkp", 0.0);
-    SmartDashboard.putNumber("wristki", 0.0);
-    SmartDashboard.putNumber("wristkd", 0.0);
-    SmartDashboard.putNumber("wristSetpoint", 0.0);
+    /** Shuffleboard values */
+    wristkp = wristTab.add("wristkp", 0.0).getEntry();
+    wristki = wristTab.add("wristki", 0.0).getEntry();
+    wristkd = wristTab.add("wristkd", 0.0).getEntry();
+    wristSetpointSetter = wristTab.add("wristSetpoint", 0.0).getEntry();
   }
 
   @Override
   public void periodic() {
+    /** periodically updates inputs and logs them */
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
 
-    if (WristConstants.WRIST_KP != SmartDashboard.getNumber("wristkp", 0.0)
-        || WristConstants.WRIST_KI != SmartDashboard.getNumber("wristki", 0.0)
-        || WristConstants.WRIST_KD != SmartDashboard.getNumber("wristkd", 0.0)) {
+    setWristPercentSpeed(wristPIDController.calculate(inputs.wristPositionRad));
+
+    // TODO: delete once PID is finalized
+    /** updates PID values if SmartDashboard gets updated */
+    if (WristConstants.KP != wristkp.getDouble(0.0)
+        || WristConstants.KI != wristki.getDouble(0.0)
+        || WristConstants.KD != wristkd.getDouble(0.0)) {
       updatePIDController();
     }
 
-    if (wristSetpoint != SmartDashboard.getNumber("wristSetpoint", 0.0)) {
+    if (wristSetpoint != wristSetpointSetter.getDouble(0.0)) {
       updateSetpoint();
     }
 
@@ -57,34 +75,52 @@ public class Wrist extends SubsystemBase {
     SmartDashboard.putNumber("wristCurrentkI", wristPIDController.getI());
     SmartDashboard.putNumber("wristCurrentkD", wristPIDController.getD());
     SmartDashboard.putNumber("wristCurrentSetpoint", wristPIDController.getSetpoint());
-
-    io.setWristPercentSpeed(wristPIDController.calculate(inputs.wristPositionRad));
   }
 
+  /** updates PID values if SmartDashboard gets updated */
   public void updatePIDController() {
-    WristConstants.WRIST_KP = SmartDashboard.getNumber("wristkp", 0.0);
-    WristConstants.WRIST_KI = SmartDashboard.getNumber("wristki", 0.0);
-    WristConstants.WRIST_KD = SmartDashboard.getNumber("wristkd", 0.0);
-    wristPIDController.setPID(
-        WristConstants.WRIST_KP, WristConstants.WRIST_KI, WristConstants.WRIST_KD);
+    WristConstants.KP = wristkp.getDouble(0.0);
+    WristConstants.KI = wristki.getDouble(0.0);
+    WristConstants.KD = wristkd.getDouble(0.0);
+
+    wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
   }
 
+  /** updates setpoint if SmartDashboard gets updated */
   public void updateSetpoint() {
-    wristSetpoint = SmartDashboard.getNumber("wristSetpoint", 0.0);
+    wristSetpoint = wristSetpointSetter.getDouble(0.0);
     wristPIDController.setSetpoint(wristSetpoint);
   }
 
+  /** updates setpoint if SmartDashboard gets updated */
   public void updateInputs() {
     io.updateInputs(inputs);
   }
 
-  /** Sets speed for the wrist */
+  /**
+   * Sets Wrist Percent Speed
+   *
+   * @param percent [-1 to 1]
+   */
   public void setWristPercentSpeed(double percent) {
     io.setWristPercentSpeed(percent);
   }
 
-  /** Sets voltage for the wrist */
+  /**
+   * Sets Wrist Voltage
+   *
+   * @param volts [-12 to 12]
+   */
   public void setWristMotorVoltage(double volts) {
     setWristMotorVoltage(volts);
+  }
+
+  /**
+   * Sets brake mode
+   *
+   * @param enable boolean for is brake mode true or false
+   */
+  public void setWristBrakeMode(boolean enable) {
+    setWristBrakeMode(enable);
   }
 }

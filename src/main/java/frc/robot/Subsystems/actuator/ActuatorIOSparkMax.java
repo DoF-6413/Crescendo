@@ -4,47 +4,38 @@
 
 package frc.robot.Subsystems.actuator;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.ActuatorConstants;
 
-/** Runs the real life Actuator with CANSpark Speed Controllers and NEO 550 motor */
 public class ActuatorIOSparkMax implements ActuatorIO {
   private final CANSparkMax actuatorMotor;
   private final RelativeEncoder actuatorEncoder;
 
-  /** Creates the motor and encoder for the actuator */
+  /** Runs the real life Actuator with CANSpark Speed Controllers and NEO 550 motor */
   public ActuatorIOSparkMax() {
     System.out.println("[Init] Creating ActuatorIOSparkMax");
-    actuatorMotor = new CANSparkMax(ActuatorConstants.ACTUATOR_CANID, MotorType.kBrushless);
+    actuatorMotor = new CANSparkMax(ActuatorConstants.CAN_ID, MotorType.kBrushless);
     actuatorEncoder = actuatorMotor.getEncoder();
-    actuatorMotor.setSmartCurrentLimit(ActuatorConstants.ACTUATOR_SMART_CURRENT_LIMIT_AMPS);
+    actuatorMotor.setSmartCurrentLimit(ActuatorConstants.CUR_LIM_A);
+    actuatorMotor.setInverted(ActuatorConstants.IS_INVERTED);
+    actuatorMotor.setIdleMode(IdleMode.kBrake);
   }
 
   @Override
   public void updateInputs(ActuatorIOInputs inputs) {
     inputs.actuatorPositionRad =
-        Units.rotationsToRadians(actuatorEncoder.getPosition())
-            / ActuatorConstants
-                .ACTUATOR_GEAR_RATIO; // Returns the position of the Actuator in Radians
+        Units.rotationsToRadians(actuatorEncoder.getPosition()) / ActuatorConstants.GEAR_RATIO;
     inputs.actuatorPositionDeg =
-        Units.rotationsToDegrees(actuatorEncoder.getPosition())
-            / ActuatorConstants
-                .ACTUATOR_GEAR_RATIO; // Returns the position of the Actuator in Degrees
+        Units.rotationsToDegrees(actuatorEncoder.getPosition()) / ActuatorConstants.GEAR_RATIO;
     inputs.actuatorVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(actuatorEncoder.getVelocity())
-            / ActuatorConstants.ACTUATOR_GEAR_RATIO; // Returns the velocity in Rad/s
+            / ActuatorConstants.GEAR_RATIO;
     inputs.actuatorAppliedVolts = actuatorMotor.getAppliedOutput() * actuatorMotor.getBusVoltage();
-    inputs.actuatorCurrentAmps =
-        new double[] {
-          actuatorMotor.getOutputCurrent()
-        }; // The number of amps used by the Actuator motor
-    inputs.actuatorTempCelsius =
-        new double[] {
-          actuatorMotor.getMotorTemperature()
-        }; // Retuns the tempature of the Actuator motor in Celsius
+    inputs.actuatorCurrentAmps = new double[] {actuatorMotor.getOutputCurrent()};
+    inputs.actuatorTempCelsius = new double[] {actuatorMotor.getMotorTemperature()};
   }
 
   @Override
@@ -55,5 +46,14 @@ public class ActuatorIOSparkMax implements ActuatorIO {
   @Override
   public void setActuatorPercentSpeed(double percent) {
     actuatorMotor.set(percent);
+  }
+
+  @Override
+  public void setBrakeMode(boolean enable) {
+    if (enable) {
+      actuatorMotor.setIdleMode(IdleMode.kBrake);
+    } else {
+      actuatorMotor.setIdleMode(IdleMode.kCoast);
+    }
   }
 }

@@ -12,30 +12,33 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.WristConstants;
 
-/** Add your docs here. */
-public class WristIONeo implements WristIO {
+public class WristIOSparkMax implements WristIO {
 
   private final CANSparkMax wristMotor;
   private final RelativeEncoder wristEncoder;
 
-  public WristIONeo() {
-    wristMotor = new CANSparkMax(WristConstants.WRIST_CANID, MotorType.kBrushless);
+  public WristIOSparkMax() {
+    /** creates a new wrist motor and encoder */
+    wristMotor = new CANSparkMax(WristConstants.CAN_ID, MotorType.kBrushless);
     wristEncoder = wristMotor.getEncoder();
 
+    /** sets default to brake mode, which locks the motor position */
     wristMotor.setIdleMode(IdleMode.kBrake);
-    wristMotor.setSmartCurrentLimit(WristConstants.WRIST_CUR_LIM_A);
+
+    /** sets current limit */
+    wristMotor.setSmartCurrentLimit(WristConstants.CUR_LIM_A);
   }
 
   @Override
   public void updateInputs(WristIOInputs inputs) {
     inputs.wristAppliedVolts = wristMotor.getAppliedOutput() * wristMotor.getBusVoltage();
     inputs.wristPositionRad =
-        Units.rotationsToRadians(wristEncoder.getPosition()) / WristConstants.WRIST_GEAR_RATIO;
+        Units.rotationsToRadians(wristEncoder.getPosition()) / WristConstants.GEAR_RATIO;
+    inputs.wristPositionDeg =
+        Units.rotationsToDegrees(wristEncoder.getPosition()) / WristConstants.GEAR_RATIO;
     inputs.wristVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity());
-
     inputs.wristTempCelsius = new double[] {wristMotor.getMotorTemperature()};
     inputs.wristCurrentAmps = new double[] {wristMotor.getOutputCurrent()};
   }
@@ -48,5 +51,14 @@ public class WristIONeo implements WristIO {
   @Override
   public void setWristVoltage(double volts) {
     wristMotor.setVoltage(volts);
+  }
+
+  @Override
+  public void setWristBrakeMode(boolean enable) {
+    if (enable) {
+      wristMotor.setIdleMode(IdleMode.kBrake);
+    } else {
+      wristMotor.setIdleMode(IdleMode.kCoast);
+    }
   }
 }
