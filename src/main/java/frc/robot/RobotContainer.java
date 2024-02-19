@@ -44,7 +44,7 @@ public class RobotContainer {
   // Subsystems
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
-  
+
   private final Arm m_armSubsystem;
   private final Vision m_visionSubsystem;
   private final Climber m_climberSubsystem;
@@ -53,7 +53,7 @@ public class RobotContainer {
   private final Actuator m_actuatorSubsystem;
   private final Shooter m_shooterSubsystem;
   private final Wrist m_wristSubsystem;
-  
+
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
   

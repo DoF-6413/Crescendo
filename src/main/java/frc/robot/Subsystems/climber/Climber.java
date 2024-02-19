@@ -45,7 +45,7 @@ public class Climber extends SubsystemBase {
     // Set Tolerance
     climberLeftPIDController.setTolerance(ClimberConstants.TOLERANCE_PERCENT * climberSetpoint);
     climberRightPIDController.setTolerance(ClimberConstants.TOLERANCE_PERCENT * climberSetpoint);
-    
+
     // TODO: Delete once final PID Numbers are Decided
     climberLeftkp = climberTab.add("climberLeftkp", 0.0).getEntry();
     climberLeftki = climberTab.add("climberLeftki", 0.0).getEntry();
@@ -55,7 +55,7 @@ public class Climber extends SubsystemBase {
     climberRightkd = climberTab.add("climberRightkd", 0.0).getEntry();
     climberSetpointSetter = climberTab.add("climberSetpoint", 0.0).getEntry();
   }
-  
+
   /** Periodically updates the inputs and outputs of the Climber */
   public void periodic() {
     this.updateInputs();
@@ -63,7 +63,7 @@ public class Climber extends SubsystemBase {
 
     io.setLeftClimberPercentSpeed(
         climberLeftPIDController.calculate(inputs.leftClimberPositionMeters));
-  
+
     io.setRightClimberPercentSpeed(
         climberRightPIDController.calculate(inputs.rightClimberPositionMeters));
 

@@ -165,6 +165,14 @@ public class Drive extends SubsystemBase {
     runVelocity(ChassisSpeeds.fromFieldRelativeSpeeds(x, y, rot, this.getRotation()));
   }
 
+  /** returns a swerveModuleState of chassis speeds */
+  public ChassisSpeeds getChassisSpeed() {
+    return swerveKinematics.toChassisSpeeds(
+        new SwerveModuleState[] {
+          modules[0].getState(), modules[1].getState(), modules[2].getState(), modules[3].getState()
+        });
+  }
+
   public void driveWithDeadband(double x, double y, double rot) {
     // Apply deadband
     double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), DriveConstants.DEADBAND);
@@ -213,17 +221,7 @@ public class Drive extends SubsystemBase {
     };
   }
 
-  public ChassisSpeeds getChassisSpeed() {
-    return swerveKinematics.toChassisSpeeds(
-        new SwerveModuleState[] {
-          modules[0].getState(), modules[1].getState(), modules[2].getState(), modules[3].getState()
-        });
-  }
-  /**
-   * Combines the Rotation of the Modules AND the rotation of the gyroscope to determine how we have
-   * rotated
-   */
-  public Rotation2d getRotation() {
+  public SwerveModulePosition[] getWheelDeltas() {
     SwerveModulePosition[] wheelDeltas = new SwerveModulePosition[4];
     /* Wheel Deltas or Wheel Positions */
     for (int i = 0; i < 4; i++) {

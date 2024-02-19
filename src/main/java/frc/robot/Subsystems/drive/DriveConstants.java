@@ -25,7 +25,7 @@ public final class DriveConstants {
   public static final double DRIVE_KI_NEO = 0.0; // TODO: Update
   public static final double DRIVE_KD_NEO = 0.0; // TODO: Update
 
-  // Feed Forward Constants for Neo Drive 
+  // Feed Forward Constants for Neo Drive
   public static final double DRIVE_KS_NEO = 0.4; // TODO: Update
   public static final double DRIVE_KV_NEO = 0.4; // TODO: Update
 
@@ -62,9 +62,9 @@ public final class DriveConstants {
 
   /** Sim Constants */
   /** Moment of inertia of wheel when driving */
-  public static final double DRIVE_MOI_KG_M2 = 0.0003125; 
+  public static final double DRIVE_MOI_KG_M2 = 0.0003125;
   /** Moment of inertia of wheel when turning */
-  public static final double STEER_MOI_KG_M2 = 0.0000158025413; 
+  public static final double STEER_MOI_KG_M2 = 0.0000158025413;
 
   public static final Translation2d[] getModuleTranslations() {
     // Translation 2d assumes that the robot front facing is in the positive x direction and the
@@ -104,11 +104,13 @@ public final class DriveConstants {
     }
   }
 
-  /** Current limiting in amps*/
+  /** Current limiting in amps */
   public static final int CUR_LIM_A = 40;
   /** Updates encoders every 10 milliseconds */
   public static final int MEASUREMENT_PERIOD_MS = 10;
-  /** Within 10% of the desired direction, the joystick is considered to be going in that direction */
+  /**
+   * Within 10% of the desired direction, the joystick is considered to be going in that direction
+   */
   public static final double DEADBAND = 0.1;
 
   /**
