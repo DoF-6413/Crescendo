@@ -26,8 +26,8 @@ public class Shooter extends SubsystemBase {
   private GenericEntry shooterSetpointSetter;
 
   // Creates the PID Contollers for both shooter motors
-  private final PIDController topShooterPID;
-  private final PIDController bottomShooterPID;
+  private final PIDController topShooterPIDController;
+  private final PIDController bottomShooterPIDController;
 
   // The desired RPM for the shooter
   private double setpointRPM = 0.0;
@@ -37,20 +37,20 @@ public class Shooter extends SubsystemBase {
     System.out.println("[Init] Creating Shooter");
     this.io = io;
 
-    topShooterPID =
+    topShooterPIDController =
         new PIDController(
             ShooterConstants.TOP_KP, ShooterConstants.TOP_KI, ShooterConstants.TOP_KD);
-    bottomShooterPID =
+    bottomShooterPIDController =
         new PIDController(
             ShooterConstants.BOTTOM_KP, ShooterConstants.BOTTOM_KI, ShooterConstants.BOTTOM_KD);
 
-    topShooterPID.setSetpoint(setpointRPM);
-    bottomShooterPID.setSetpoint(setpointRPM);
+    topShooterPIDController.setSetpoint(setpointRPM);
+    bottomShooterPIDController.setSetpoint(setpointRPM);
 
     // Sets the tolerance of the setpoint, allowing the RPM of the motors to be within 200 RPM of
     // the setpoint
-    topShooterPID.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
-    bottomShooterPID.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
+    topShooterPIDController.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
+    bottomShooterPIDController.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
 
     // Puts adjustable PID values and setpoints onto the SmartDashboard
     shooterTopkP = shooterTab.add("shooterTopkp", 0.0).getEntry();
@@ -69,9 +69,9 @@ public class Shooter extends SubsystemBase {
 
     // Sets the voltage of the Shooter Motors using PID
     setTopShooterMotorVoltage(
-        topShooterPID.calculateForVoltage(inputs.topShooterMotorRPM, ShooterConstants.MAX_VALUE));
+        topShooterPIDController.calculateForVoltage(inputs.topShooterMotorRPM, ShooterConstants.MAX_VALUE));
     setBottomShooterMotorVoltage(
-        -bottomShooterPID.calculateForVoltage(
+        -bottomShooterPIDController.calculateForVoltage(
             Math.abs(inputs.bottomShooterMotorRPM), ShooterConstants.MAX_VALUE));
 
     if (ShooterConstants.TOP_KP != shooterTopkP.getDouble(0.0)
@@ -102,16 +102,16 @@ public class Shooter extends SubsystemBase {
     ShooterConstants.BOTTOM_KP = shooterBottomkP.getDouble(0.0);
     ShooterConstants.BOTTOM_KI = shooterBottomkI.getDouble(0.0);
     ShooterConstants.BOTTOM_KD = shooterBottomkD.getDouble(0.0);
-    topShooterPID.setPID(ShooterConstants.TOP_KP, ShooterConstants.TOP_KI, ShooterConstants.TOP_KD);
-    bottomShooterPID.setPID(
+    topShooterPIDController.setPID(ShooterConstants.TOP_KP, ShooterConstants.TOP_KI, ShooterConstants.TOP_KD);
+    bottomShooterPIDController.setPID(
         ShooterConstants.BOTTOM_KP, ShooterConstants.BOTTOM_KI, ShooterConstants.BOTTOM_KD);
   }
 
   // Updates the setpoint to what is typed on the SmartDashboard
   public void updateSetpoint() {
     setpointRPM = shooterSetpointSetter.getDouble(0.0);
-    topShooterPID.setSetpoint(setpointRPM);
-    bottomShooterPID.setSetpoint(setpointRPM);
+    topShooterPIDController.setSetpoint(setpointRPM);
+    bottomShooterPIDController.setSetpoint(setpointRPM);
   }
 
   /** Updates the set of loggable inputs for both Shooter Motors */
@@ -173,12 +173,12 @@ public class Shooter extends SubsystemBase {
 
   /** Returns where the Top Shooter RPM is within the setpoint, including tolerance */
   public boolean topAtSetpoint() {
-    return topShooterPID.atSetpoint(inputs.topShooterMotorRPM);
+    return topShooterPIDController.atSetpoint(inputs.topShooterMotorRPM);
   }
 
   /** Returns where the Bottom Shooter RPM is within the setpoint, including tolerance */
   public boolean bottomAtSetpoint() {
-    return bottomShooterPID.atSetpoint(inputs.bottomShooterMotorRPM);
+    return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
   }
 
   // TODO: Create a tempature shutoff/warning

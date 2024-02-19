@@ -25,6 +25,10 @@ public class ShooterIOTalonFX implements ShooterIO {
     topShooterMotor.setInverted(ShooterConstants.TOP_MOTOR_IS_INVERTED);
     bottomShooterMotor.setInverted(ShooterConstants.BOTTOM_MOTOR_IS_INVERTED);
 
+    // sets shooter motors to brake on default
+    topShooterMotor.setNeutralMode(NeutralModeValue.Brake);
+    bottomShooterMotor.setNeutralMode(NeutralModeValue.Brake);
+
     // Configures current limits
     final CurrentLimitsConfigs currentLimitsConfig =
         new CurrentLimitsConfigs().withStatorCurrentLimit(ShooterConstants.CUR_LIM_A);
