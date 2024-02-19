@@ -11,9 +11,9 @@ import frc.robot.Constants.*;
 /** Add your docs here. */
 public class OTBIntakeIOSim implements OTBIntakeIO {
 
-  private FlywheelSim intakeMotorSim =
+  private final FlywheelSim intakeMotorSim =
       new FlywheelSim(
-          DCMotor.getNEO(1), OTBIntakeConstants.OTB_GEAR_RATIO, OTBIntakeConstants.OTB_MOI_KG_M2);
+          DCMotor.getNEO(1), OTBIntakeConstants.GEAR_RATIO, OTBIntakeConstants.MOI_KG_M2);
 
   public OTBIntakeIOSim() {
     System.out.println("[Init] Creating OTBIntakeIOSim");
@@ -21,10 +21,11 @@ public class OTBIntakeIOSim implements OTBIntakeIO {
 
   @Override
   public void updateInputs(OTBIntakeIOInputs inputs) {
+    // Updates inputs periodically
     intakeMotorSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
     inputs.otbIntakeVelocityRPM =
-        intakeMotorSim.getAngularVelocityRPM() / OTBIntakeConstants.OTB_GEAR_RATIO;
+        intakeMotorSim.getAngularVelocityRPM() / OTBIntakeConstants.GEAR_RATIO;
     inputs.otbIntakeAppliedVolts = 0.0;
     inputs.otbIntakeCurrentAmps = new double[] {Math.abs(intakeMotorSim.getCurrentDrawAmps())};
   }

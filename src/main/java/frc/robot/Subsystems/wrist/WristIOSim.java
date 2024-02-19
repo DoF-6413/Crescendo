@@ -5,22 +5,28 @@
 package frc.robot.Subsystems.wrist;
 
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.*;
 
-/** Add your docs here. */
 public class WristIOSim implements WristIO {
 
-  private SingleJointedArmSim wristMotor =
+  /** creates a new arm simulation for the wrist of the double jointed arm */
+  private final SingleJointedArmSim wristMotor;
+
+  public WristIOSim() {
+    System.out.println("[Init] Creating WristIOSim");
+    wristMotor =
       new SingleJointedArmSim(
           DCMotor.getNEO(1),
-          WristConstants.WRIST_GEAR_RATIO,
-          WristConstants.WRIST_MOI_KG_M2,
-          WristConstants.WRIST_LENGTH_M,
-          WristConstants.WRIST_MIN_ANGLE_RAD,
-          WristConstants.WRIST_MAX_ANGLE_RAD,
-          WristConstants.WRSIT_SIMULATE_GRAVITY,
-          WristConstants.WRIST_STARTING_ANGLE_RAD);
+          WristConstants.GEAR_RATIO,
+          WristConstants.MOI_KG_M2,
+          WristConstants.LENGTH_M,
+          WristConstants.MIN_ANGLE_RAD,
+          WristConstants.MAX_ANGLE_RAD,
+          WristConstants.IS_SIMULATING_GRAVITY,
+          WristConstants.STARTING_ANGLE_RAD);
+  }
 
   @Override
   public void updateInputs(WristIOInputs inputs) {
@@ -28,6 +34,9 @@ public class WristIOSim implements WristIO {
 
     inputs.wristPositionRad +=
         wristMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
+    inputs.wristPositionDeg +=
+        Units.radiansToDegrees(
+            wristMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC);
     inputs.wristVelocityRadPerSec = wristMotor.getVelocityRadPerSec();
     inputs.wristAppliedVolts = 0.0;
     inputs.wristCurrentAmps = new double[] {Math.abs(wristMotor.getCurrentDrawAmps())};

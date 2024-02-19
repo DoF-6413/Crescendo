@@ -8,18 +8,29 @@ public interface ClimberIO {
 
     // All the Inputs for the Right Climber Motor (Should be nearly identical to the Right Climber
     // Motor)
-    public double leftClimberPositionMeters = 0.0;
-    public double leftClimberVelocityMetersPerSecond = 0.0;
+    /** This returns the voltage the Left Climber Recieves */
     public double leftClimberAppliedVolts = 0.0;
+    /** Returns the position of the Left Climber in Meters */
+    public double leftClimberPositionMeters = 0.0;
+    /** Returns the velocity of the Left Climber in m/s */
+    public double leftClimberVelocityMetersPerSecond = 0.0;
+    /** The Current Drawn from the Left Climber in Amps */
     public double[] leftClimberCurrentAmps = new double[] {};
-    public double[] leftClimberTempCelcius = new double[] {};
+    /** The Temperature from the Left Climber in Celsius */
+    public double[] leftClimberTempCelsius = new double[] {};
+
     // All the Inputs for the Left Climber Motor (Should be nearly identical to the Left Climber
     // Motor)
-    public double rightClimberPositionMeters = 0.0;
-    public double rightClimberVelocityMetersPerSecond = 0.0;
+    /** This returns the voltage the Right Climber Recieves */
     public double rightClimberAppliedVolts = 0.0;
+    /** Returns the position of the Right Climber in Meters */
+    public double rightClimberPositionMeters = 0.0;
+    /** Returns the velocity of the Right Climber in m/s */
+    public double rightClimberVelocityMetersPerSecond = 0.0;
+    /** The Current Drawn from the Right Climber in Amps */
     public double[] rightClimberCurrentAmps = new double[] {};
-    public double[] rightClimberTempCelcius = new double[] {};
+    /** The Temperature from the Right Climber in Celsius */
+    public double[] rightClimberTempCelsius = new double[] {};
   }
 
   /** Updates the set of loggable inputs for the Climber */
@@ -66,4 +77,12 @@ public interface ClimberIO {
    * @param percent [-1 to 1]
    */
   public default void setRightClimberPercentSpeed(double percent) {}
+
+  /**
+   * Sets the Brake Mode for the Actuator (Brake means motor holds position, Coast means easy to
+   * move)
+   *
+   * @param enable if enable, it sets brake mode, else it sets coast mode
+   */
+  public default void setBrakeMode(boolean enable) {}
 }

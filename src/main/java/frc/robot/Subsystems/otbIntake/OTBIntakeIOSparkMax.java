@@ -4,55 +4,55 @@
 
 package frc.robot.Subsystems.otbIntake;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import frc.robot.Constants.OTBIntakeConstants;
 
 /** Runs the real life OTBIntake with CANSpark Speed Controllers and NEO motor */
 public class OTBIntakeIOSparkMax implements OTBIntakeIO {
-  private final CANSparkMax OTBIntakeMotor;
-  private final RelativeEncoder OTBIntakeEncoder;
+  private final CANSparkMax otbIntakeMotor;
+  private final RelativeEncoder otbIntakeEncoder;
 
   /** Creates the motor and encoder for the OTB Intake */
   public OTBIntakeIOSparkMax() {
-    System.out.println("[Init] Creating UTBIntakeIO");
-    OTBIntakeMotor = new CANSparkMax(OTBIntakeConstants.OTB_INTAKE_CANID, MotorType.kBrushless);
-    OTBIntakeEncoder = OTBIntakeMotor.getEncoder();
-    OTBIntakeMotor.setSmartCurrentLimit(OTBIntakeConstants.OTB_SMART_CURRENT_LIMIT_AMPS);
+    System.out.println("[Init] Creating utbIntakeIO");
+    otbIntakeMotor = new CANSparkMax(OTBIntakeConstants.CAN_ID, MotorType.kBrushless);
+    otbIntakeEncoder = otbIntakeMotor.getEncoder();
+    otbIntakeMotor.setIdleMode(IdleMode.kBrake);
+    otbIntakeMotor.setSmartCurrentLimit(OTBIntakeConstants.CURR_LIM_A);
+    otbIntakeMotor.setInverted(OTBIntakeConstants.IS_INVERTED);
   }
 
   /** Updates the values for the OTB Intake */
   public void updateInputs(OTBIntakeIOInputs inputs) {
     inputs.otbIntakeVelocityRPM =
-        OTBIntakeEncoder.getVelocity()
-            / OTBIntakeConstants.OTB_GEAR_RATIO; // Returns the RPM of the OTB Intake Rollers
+        otbIntakeEncoder.getVelocity()
+            / OTBIntakeConstants
+                .GEAR_RATIO; // Returns the RPM of the OTB Intake Rollers divided by the gear ratio
+    // to obtain the speed of the OTB Intake Rollers
     inputs.otbIntakeAppliedVolts =
-        OTBIntakeMotor.getAppliedOutput()
-            * OTBIntakeMotor.getBusVoltage(); // Applied voltage of the OTBIntake
-    inputs.otbIntakeCurrentAmps =
-        new double[] {OTBIntakeMotor.getOutputCurrent()}; // Amps used by intake
-    inputs.otbIntakeTempCelsius =
-        new double[] {
-          OTBIntakeMotor.getMotorTemperature()
-        }; // The tempature of the OTBIntake motor in Celsius
+        otbIntakeMotor.getAppliedOutput() * otbIntakeMotor.getBusVoltage();
+    inputs.otbIntakeCurrentAmps = new double[] {otbIntakeMotor.getOutputCurrent()};
+    inputs.otbIntakeTempCelsius = new double[] {otbIntakeMotor.getMotorTemperature()};
   }
 
-  /**
-   * Sets the voltage of the OTB Intake motor
-   *
-   * @param voltage [-12 to 12]
-   */
+  @Override
   public void setOTBIntakeVoltage(double volts) {
-    OTBIntakeMotor.setVoltage(volts);
+    otbIntakeMotor.setVoltage(volts);
   }
 
-  /**
-   * Sets the OTB Intake to a percent of its max speed
-   *
-   * @param percent [-1 to 1]
-   */
+  @Override
   public void setOTBIntakePercentSpeed(double percent) {
-    OTBIntakeMotor.set(percent);
+    otbIntakeMotor.set(percent);
+  }
+
+  @Override
+  public void setBrakeMode(boolean enable) {
+    if (enable) {
+      otbIntakeMotor.setIdleMode(IdleMode.kBrake);
+    } else {
+      otbIntakeMotor.setIdleMode(IdleMode.kCoast);
+    }
   }
 }

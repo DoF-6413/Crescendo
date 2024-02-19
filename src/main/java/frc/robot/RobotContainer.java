@@ -20,10 +20,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.*;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
 import frc.robot.Subsystems.climber.*;
@@ -45,19 +42,21 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  */
 public class RobotContainer {
   // Subsystems
-  private final Arm m_armSubsystem;
-  private final Drive m_driveSubsystem;
   private final Gyro m_gyroSubsystem;
-  private final Shooter m_shooterSubsystem;
+  private final Drive m_driveSubsystem;
+  
+  private final Arm m_armSubsystem;
   private final Vision m_visionSubsystem;
+  private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
-  private final Climber m_climberSubsystem;
-  private final PoseEstimator m_poseEstimator;
-  private final Mechanisms2d m_mechanisms;
-  private final PathPlanner m_pathPlanner;
+  private final Shooter m_shooterSubsystem;
   private final Wrist m_wristSubsystem;
+  
+  private final PoseEstimator m_poseEstimator;
+  private final PathPlanner m_pathPlanner;
+  private final Mechanisms2d m_mechanisms2d;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -75,23 +74,21 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
-            new Drive(
-                new ModuleIOSparkMax(),
-                new ModuleIOSparkMax(),
-                new ModuleIOSparkMax(),
-                new ModuleIOSparkMax(),
+        new Drive(
+          new ModuleIOSparkMax(),
+          new ModuleIOSparkMax(),
+          new ModuleIOSparkMax(),
+          new ModuleIOSparkMax(),
                 m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIONeo());
-        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
-        m_climberSubsystem = new Climber(new ClimberIOSparkMax() {});
+        m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_visionSubsystem = new Vision(new VisionIOArduCam());
-        m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
-        m_wristSubsystem = new Wrist(new WristIONeo());
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
-        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+        m_climberSubsystem = new Climber(new ClimberIOSparkMax());
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
-        m_mechanisms = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
+        m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
+        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_wristSubsystem = new Wrist(new WristIOSparkMax());
+        m_mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
         break;
 
       case SIM:
@@ -104,17 +101,15 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
-        m_visionSubsystem = new Vision(new VisionIOSim());
         m_armSubsystem = new Arm(new ArmIOSim());
-        m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim() {});
-        m_climberSubsystem = new Climber(new ClimberIOSim() {});
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
-        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+        m_visionSubsystem = new Vision(new VisionIOSim());
+        m_climberSubsystem = new Climber(new ClimberIOSim());
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
+        m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_wristSubsystem = new Wrist(new WristIOSim());
-        m_mechanisms = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
+        m_mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
 
         break;
 
@@ -128,21 +123,21 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
-        m_visionSubsystem = new Vision(new VisionIO() {});
         m_armSubsystem = new Arm(new ArmIO() {});
-        m_shooterSubsystem = new Shooter(new ShooterIO() {});
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
+        m_visionSubsystem = new Vision(new VisionIO() {});
         m_climberSubsystem = new Climber(new ClimberIO() {});
-        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
-        m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
+        m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
-        m_mechanisms = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
+        m_mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
 
         break;
     }
 
+    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
@@ -159,20 +154,20 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
-    // m_driveSubsystem.setDefaultCommand(
-    //     new RunCommand(
-    //         () ->
-    //             m_driveSubsystem.setRaw(
-    //                 driverController.getLeftX(),
-    //                 -driverController.getLeftY(),
-    //                 driverController.getRightX()),
-    //         m_driveSubsystem));
+    m_driveSubsystem.setDefaultCommand(
+        new RunCommand(
+            () ->
+                m_driveSubsystem.setRaw(
+                    driverController.getLeftX(),
+                    -driverController.getLeftY(),
+                    driverController.getRightX()),
+            m_driveSubsystem));
 
-    // driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
+    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     // m_utbIntakeSubsystem.setDefaultCommand(
     //     new InstantCommand(
-    //         () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getLeftY()),
+    //         () -> m_utbIntakeSubsystem.setutbIntakePercentSpeed(auxController.getLeftY()),
     //         m_utbIntakeSubsystem));
 
     // m_climberSubsystem.setDefaultCommand(

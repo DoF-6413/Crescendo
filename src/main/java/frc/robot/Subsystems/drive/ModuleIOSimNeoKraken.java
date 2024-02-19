@@ -70,14 +70,14 @@ public class ModuleIOSimNeoKraken implements ModuleIO {
     inputs.driveAppliedVolts = driveAppliedVolts;
     // Math.abs = absolute value, sim sometimes makes amps directional
     inputs.driveCurrentAmps = new double[] {Math.abs(driveSim.getCurrentDrawAmps())};
-    inputs.driveTempCelcius = new double[] {};
+    inputs.driveTempCelsius = new double[] {};
 
     inputs.turnAbsolutePositionRad = turnAbsolutePositionRad;
     inputs.turnPositionRad = turnRelativePositionRad;
     inputs.turnVelocityRadPerSec = turnSim.getAngularVelocityRadPerSec();
     inputs.turnAppliedVolts = turnAppliedVolts;
     inputs.turnCurrentAmps = new double[] {Math.abs(turnSim.getCurrentDrawAmps())};
-    inputs.turnTempCelcius = new double[] {};
+    inputs.turnTempCelsius = new double[] {};
   }
 
   @Override

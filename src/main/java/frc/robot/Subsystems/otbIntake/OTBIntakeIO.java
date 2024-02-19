@@ -11,9 +11,13 @@ public interface OTBIntakeIO {
 
   @AutoLog
   public static class OTBIntakeIOInputs {
+    /** Velocity of the OTB Intake Rollers in Rotations per Minute */
     public double otbIntakeVelocityRPM = 0.0;
+    /** Number of volts being sent to the OTB Intake motor */
     public double otbIntakeAppliedVolts = 0.0;
+    /** Number of Amps being used by the OTB Intake motor */
     public double[] otbIntakeCurrentAmps = new double[] {};
+    /** Tempature of the OTB Intake motor */
     public double[] otbIntakeTempCelsius = new double[] {};
   }
 
@@ -33,4 +37,13 @@ public interface OTBIntakeIO {
    * @param percent [-1 to 1]
    */
   public default void setOTBIntakePercentSpeed(double percent) {}
+
+  /**
+   * Sets the Brake Mode for the OTB Intake
+   *
+   * <p>Brake means motor holds position, Coast means easy to move
+   *
+   * @param enable if enable, it sets brake mode, else it sets coast mode
+   */
+  public default void setBrakeMode(boolean enable) {}
 }

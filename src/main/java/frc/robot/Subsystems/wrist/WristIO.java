@@ -6,11 +6,17 @@ import org.littletonrobotics.junction.AutoLog;
 public interface WristIO {
   @AutoLog
   public static class WristIOInputs {
-
+    /** Number of volts sent to the Wrist motor */
     public double wristAppliedVolts = 0.0;
+    /** The current angle of the Wrist in Radians */
     public double wristPositionRad = 0.0;
+    /** The current angle of the Wrist in Degrees */
+    public double wristPositionDeg = 0.0;
+    /** The velocity of the Wrist in Radians per Second */
     public double wristVelocityRadPerSec = 0.0;
+    /** Number of amps used by the Wrist motor */
     public double[] wristCurrentAmps = new double[] {};
+    /** Tempature of the Wrist motor */
     public double[] wristTempCelsius = new double[] {};
   }
 
@@ -34,4 +40,10 @@ public interface WristIO {
   public default double getAngleRads() {
     return 0;
   }
+  /**
+   * Sets brake mode
+   *
+   * @param enable boolean for is brake mode true or false
+   */
+  public default void setWristBrakeMode(boolean enable) {}
 }

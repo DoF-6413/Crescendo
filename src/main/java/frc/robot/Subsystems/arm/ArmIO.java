@@ -6,14 +6,25 @@ package frc.robot.Subsystems.arm;
 
 import org.littletonrobotics.junction.AutoLog;
 
-/** Add your docs here. */
+/**
+ * ArmIO controls the Values of the Outputs User Recieve (Reffered to as Inputs because Inputs from
+ * Motors)
+ */
 public interface ArmIO {
   @AutoLog
   public static class ArmIOInputs {
-    public double armTurnAppliedVolts = 0.0;
-    public double armTurnPositionRad = 0.0;
-    public double armTurnVelocityRadPerSec = 0.0;
-    public double[] armTurnCurrentAmps = new double[] {};
+
+    /** This returns the voltage the Arm Recieves */
+    public double armAppliedVolts = 0.0;
+    /** Returns the position of the Arm in Radians */
+    public double armPositionRad = 0.0;
+    /** Returns the position of the Arm in Degrees */
+    public double armPositionDeg = 0.0;
+    /** Returns the velocity of the Actuator in Rad/s */
+    public double armVelocityRadPerSec = 0.0;
+    /** The Current Drawn from the Atuator in Amps */
+    public double[] armCurrentAmps = new double[] {};
+    /** The Temperature from the Actuator in Celsius */
     public double[] armTempCelsius = new double[] {};
   }
 
@@ -34,7 +45,17 @@ public interface ArmIO {
    */
   public default void setArmVoltage(double volts) {}
 
+
+
   public default double getAngleRads() {
     return 0;
   }
+
+  
+  /**
+   * Sets the Brake Mode for the Arm (Brake means motor holds position, Coast means easy to move)
+   *
+   * @param enable if enable, it sets brake mode, else it sets coast mode
+   */
+  public default void setBrakeMode(boolean enable) {}
 }

@@ -13,24 +13,37 @@ public interface ShooterIO {
   public static class ShooterIOInputs {
     // All the Inputs for the Top Shooter Motor (Should be nearly identical to the Bottom Shooter
     // Motor)
+    /** Velocity of the Top Shooter Motor in Rotations per Minute */
     public double topShooterMotorRPM = 0.0;
+    /** Number of volts being sent to the Top Shooter Motor */
     public double topShooterAppliedVolts = 0.0;
+    /** Number of amps used by the Top Shooter Motor */
     public double[] topShooterCurrentAmps = new double[] {};
-    public double[] topShooterTempCelcius = new double[] {};
+    /** Tempature, in Celsius, of the Top Shooter Motor */
+    public double[] topShooterTempCelsius = new double[] {};
 
     // All the Inputs for the Bottom Shooter Motor (Should be nearly identical to the Top Shooter
     // Motor)
+    /** Velocity of the Bottom Shooter Motor in Rotations per Minute */
     public double bottomShooterMotorRPM = 0.0;
+    /** Number of volts being sent to the Bottom Shooter Motor */
     public double bottomShooterAppliedVolts = 0.0;
+    /** Number of amps used by the Bottom Shooter Motor */
     public double[] bottomShooterCurrentAmps = new double[] {};
-    public double[] bottomShooterTempCelcius = new double[] {};
+    /** Tempature, in Celsius, of the Bottom Shooter Motor */
+    public double[] bottomShooterTempCelsius = new double[] {};
   }
 
-  /** Updates the set of loggable inputs. */
+  /** Updates the set of loggable inputs for both Shooter Motors */
   public default void updateInputs(ShooterIOInputs inputs) {}
 
-  /** Break Mode for BOTH Shooter Motors */
-  public default void setShooterBreakMode(boolean enable) {}
+  /**
+   * Sets the Brake Mode for the Shooter (Brake means motor holds position, Coast means easy to
+   * move)
+   *
+   * @param enable if enable, it sets brake mode, else it sets coast mode
+   */
+  public default void setShooterBrakeMode(boolean isEnabled) {}
 
   /**
    * Sets BOTH Shooter Motors at a percentage of its max speed.
@@ -44,6 +57,9 @@ public interface ShooterIO {
 
   /**
    * Sets BOTH Shooter Motors at the specified Voltage
+   *
+   * <p>A positve number spins the Top Shooter Motor CCW and the Bottom Shooter Motor CW and vice
+   * versa for a negative number
    *
    * @param volts -12 to 12
    */

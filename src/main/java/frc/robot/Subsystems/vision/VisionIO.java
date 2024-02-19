@@ -7,10 +7,10 @@ import edu.wpi.first.math.geometry.Transform3d;
 import org.littletonrobotics.junction.AutoLog;
 import org.photonvision.targeting.PhotonPipelineResult;
 
-/** Add your docs here. */
 public interface VisionIO {
 
   @AutoLog
+  /** creates a vision subsystem */
   public static class VisionIOInputs {
     public boolean HasTargets = false; // checks for targets
     public int BestFiducialID = 0;
@@ -25,6 +25,7 @@ public interface VisionIO {
 
   public default void updateInputs(VisionIOInputs inputs) {}
 
+  /** returns pipeline from the camera */
   public default PhotonPipelineResult getPhotonPipelineResult() {
     return null;
   }

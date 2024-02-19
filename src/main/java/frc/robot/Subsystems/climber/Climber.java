@@ -5,18 +5,27 @@
 package frc.robot.Subsystems.climber;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ClimberConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class Climber extends SubsystemBase {
 
   private final ClimberIO io;
   private final ClimberIOInputsAutoLogged inputs = new ClimberIOInputsAutoLogged();
-  private static PIDController climberLeftPIDController;
-  private static PIDController climberRightPIDController;
+  private final PIDController climberLeftPIDController;
+  private final PIDController climberRightPIDController;
   private double climberSetpoint = 0.0;
+  private final ShuffleboardTab climberTab = Shuffleboard.getTab("Climber");
+  private GenericEntry climberLeftkp;
+  private GenericEntry climberLeftki;
+  private GenericEntry climberLeftkd;
+  private GenericEntry climberRightkp;
+  private GenericEntry climberRightki;
+  private GenericEntry climberRightkd;
+  private GenericEntry climberSetpointSetter;
 
   /** Creates a new Climber. */
   public Climber(ClimberIO io) {
@@ -25,76 +34,68 @@ public class Climber extends SubsystemBase {
 
     climberLeftPIDController =
         new PIDController(
-            ClimberConstants.LEFT_CLIMBER_KP,
-            ClimberConstants.LEFT_CLIMBER_KI,
-            ClimberConstants.LEFT_CLIMBER_KD);
+            ClimberConstants.LEFT_KP, ClimberConstants.LEFT_KI, ClimberConstants.LEFT_KD);
     climberRightPIDController =
         new PIDController(
-            ClimberConstants.RIGHT_CLIMBER_KP,
-            ClimberConstants.RIGHT_CLIMBER_KI,
-            ClimberConstants.RIGHT_CLIMBER_KD);
+            ClimberConstants.RIGHT_KP, ClimberConstants.RIGHT_KI, ClimberConstants.RIGHT_KD);
 
     climberLeftPIDController.setSetpoint(climberSetpoint);
     climberRightPIDController.setSetpoint(climberSetpoint);
 
-    // Set Tolerence
-    climberLeftPIDController.setTolerance(ClimberConstants.CLIMBER_TOLERANCE * climberSetpoint);
-    climberRightPIDController.setTolerance(ClimberConstants.CLIMBER_TOLERANCE * climberSetpoint);
-
-    SmartDashboard.putNumber("climberRightkp", 0.0);
-    SmartDashboard.putNumber("climberRightki", 0.0);
-    SmartDashboard.putNumber("climberRightkd", 0.0);
-    SmartDashboard.putNumber("climberLeftkp", 0.0);
-    SmartDashboard.putNumber("climberLeftki", 0.0);
-    SmartDashboard.putNumber("climberLeftkd", 0.0);
-    SmartDashboard.putNumber("climberSetpoint", 0.0);
+    // Set Tolerance
+    climberLeftPIDController.setTolerance(ClimberConstants.TOLERANCE_PERCENT * climberSetpoint);
+    climberRightPIDController.setTolerance(ClimberConstants.TOLERANCE_PERCENT * climberSetpoint);
+    
+    // TODO: Delete once final PID Numbers are Decided
+    climberLeftkp = climberTab.add("climberLeftkp", 0.0).getEntry();
+    climberLeftki = climberTab.add("climberLeftki", 0.0).getEntry();
+    climberLeftkd = climberTab.add("climberLeftkd", 0.0).getEntry();
+    climberRightkp = climberTab.add("climberRightkp", 0.0).getEntry();
+    climberRightki = climberTab.add("climberRightki", 0.0).getEntry();
+    climberRightkd = climberTab.add("climberRightkd", 0.0).getEntry();
+    climberSetpointSetter = climberTab.add("climberSetpoint", 0.0).getEntry();
   }
-
+  
   /** Periodically updates the inputs and outputs of the Climber */
   public void periodic() {
     this.updateInputs();
     Logger.processInputs("Climber", inputs);
 
-    if (ClimberConstants.RIGHT_CLIMBER_KP != SmartDashboard.getNumber("climberRightkp", 0.0)
-        || ClimberConstants.RIGHT_CLIMBER_KI != SmartDashboard.getNumber("climberRightki", 0.0)
-        || ClimberConstants.RIGHT_CLIMBER_KD != SmartDashboard.getNumber("climberRightkd", 0.0)
-        || ClimberConstants.LEFT_CLIMBER_KP != SmartDashboard.getNumber("climberLeftkp", 0.0)
-        || ClimberConstants.LEFT_CLIMBER_KI != SmartDashboard.getNumber("climberLeftki", 0.0)
-        || ClimberConstants.LEFT_CLIMBER_KD != SmartDashboard.getNumber("climberLeftkd", 0.0)) {
+    io.setLeftClimberPercentSpeed(
+        climberLeftPIDController.calculate(inputs.leftClimberPositionMeters));
+  
+    io.setRightClimberPercentSpeed(
+        climberRightPIDController.calculate(inputs.rightClimberPositionMeters));
+
+    if (ClimberConstants.RIGHT_KP != climberRightkp.getDouble(0.0)
+        || ClimberConstants.RIGHT_KI != climberRightki.getDouble(0.0)
+        || ClimberConstants.RIGHT_KD != climberRightkd.getDouble(0.0)
+        || ClimberConstants.LEFT_KP != climberLeftkp.getDouble(0.0)
+        || ClimberConstants.LEFT_KI != climberLeftki.getDouble(0.0)
+        || ClimberConstants.LEFT_KD != climberLeftkd.getDouble(0.0)) {
       updatePIDController();
     }
 
-    if (climberSetpoint != SmartDashboard.getNumber("climberSetpoint", 0.0)) {
+    if (climberSetpoint != climberSetpointSetter.getDouble(0.0)) {
       updateSetpoint();
     }
-
-    io.setLeftClimberPercentSpeed(
-        climberLeftPIDController.calculate(inputs.leftClimberPositionMeters));
-
-    io.setRightClimberPercentSpeed(
-        climberRightPIDController.calculate(inputs.rightClimberPositionMeters));
   }
 
   public void updatePIDController() {
-    ClimberConstants.LEFT_CLIMBER_KP = SmartDashboard.getNumber("climberLeftkp", 0.0);
-    ClimberConstants.LEFT_CLIMBER_KD = SmartDashboard.getNumber("climberLeftkd", 0.0);
-    ClimberConstants.LEFT_CLIMBER_KI = SmartDashboard.getNumber("climberLeftki", 0.0);
-    ClimberConstants.RIGHT_CLIMBER_KP = SmartDashboard.getNumber("climberRightkp", 0.0);
-    ClimberConstants.RIGHT_CLIMBER_KI = SmartDashboard.getNumber("climberRightki", 0.0);
-    ClimberConstants.RIGHT_CLIMBER_KD = SmartDashboard.getNumber("climberRightkd", 0.0);
-
+    ClimberConstants.LEFT_KP = climberLeftkp.getDouble(0.0);
+    ClimberConstants.LEFT_KD = climberLeftkd.getDouble(0.0);
+    ClimberConstants.LEFT_KI = climberLeftki.getDouble(0.0);
+    ClimberConstants.RIGHT_KP = climberRightkp.getDouble(0.0);
+    ClimberConstants.RIGHT_KI = climberRightki.getDouble(0.0);
+    ClimberConstants.RIGHT_KD = climberRightkd.getDouble(0.0);
     climberLeftPIDController.setPID(
-        ClimberConstants.LEFT_CLIMBER_KP,
-        ClimberConstants.LEFT_CLIMBER_KI,
-        ClimberConstants.LEFT_CLIMBER_KD);
+        ClimberConstants.LEFT_KP, ClimberConstants.LEFT_KI, ClimberConstants.LEFT_KD);
     climberRightPIDController.setPID(
-        ClimberConstants.RIGHT_CLIMBER_KP,
-        ClimberConstants.RIGHT_CLIMBER_KI,
-        ClimberConstants.RIGHT_CLIMBER_KD);
+        ClimberConstants.RIGHT_KP, ClimberConstants.RIGHT_KI, ClimberConstants.RIGHT_KD);
   }
 
   public void updateSetpoint() {
-    climberSetpoint = SmartDashboard.getNumber("climberSetpoint", 0.0);
+    climberSetpoint = climberSetpointSetter.getDouble(0.0);
     climberLeftPIDController.setSetpoint(climberSetpoint);
     climberRightPIDController.setSetpoint(climberSetpoint);
   }
