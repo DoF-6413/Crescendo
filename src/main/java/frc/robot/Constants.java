@@ -13,7 +13,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -81,8 +84,10 @@ public final class Constants {
      */
     public static final double driveKP(Optional<Boolean> isL3) {
       if (isL3 == Optional.of(true)) {
+        // System.out.println("kraken true kp");
         return DRIVE_KP_KRAKEN;
       } else {
+        // System.out.println("neo true kp");
         return DRIVE_KP_NEO;
       }
     }
@@ -90,8 +95,10 @@ public final class Constants {
     /** Gives the PID Constant I for the Drive Motors depending on whether the Module is an L3 or */
     public static final double driveKI(Optional<Boolean> isL3) {
       if (isL3 == Optional.of(true)) {
+        // System.out.println("kraken true kp");
         return DRIVE_KI_KRAKEN;
       } else {
+        // System.out.println("neo true ki");
         return DRIVE_KI_NEO;
       }
     }
@@ -156,7 +163,7 @@ public final class Constants {
     public static final double TRACK_WIDTH_M = Units.inchesToMeters(32.173359);
 
     /** Max Speed the Robot Can Travel in One Linear Direction (m/s) */
-    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 0; // TODO: Update
+    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 4.5; // TODO: Update
 
     /**
      * Max Speed the Robot Can Rotate (rads/s) Angular Speed can be Calulated by Dividing Max Linear
@@ -170,7 +177,7 @@ public final class Constants {
 
     // PID Constants for Neo Drive PID
     public static final double DRIVE_KP_NEO =
-        1.25; // TODO: update turns now without violently combusting but still doesn't drive forward
+        0; // TODO: turns now without violently combusting but still doesn't drive forward
     public static final double DRIVE_KI_NEO = 0.0; // TODO: Update
     public static final double DRIVE_KD_NEO = 0.0; // TODO: Update
 
@@ -184,12 +191,12 @@ public final class Constants {
     public static final double DRIVE_KV_KRAKEN = 0; // TODO: Update
 
     // Feed Forward Constants for Neo Drive
-    public static final double DRIVE_KS_NEO = 0.4;
-    public static final double DRIVE_KV_NEO = 0.4;
+    public static final double DRIVE_KS_NEO = 0.4; // TODO: Update
+    public static final double DRIVE_KV_NEO = 0.4; // TODO: Update
 
     // PID Constants for Neo Steer PID
-    public static final double STEER_KP_NEO = 7.0;
-    public static final double STEER_KI_NEO = 0.1;
+    public static final double STEER_KP_NEO = 0.0;
+    public static final double STEER_KI_NEO = 0.0;
     public static final double STEER_KD_NEO = 0.0;
     /** Gear Ratio for MK4I L3 */
     public static final double GEAR_RATIO_L3 = 6.12;
@@ -201,27 +208,25 @@ public final class Constants {
     /** Used in Robot Characterization Tool to Help Determine Drive Values like PID */
     public static final boolean IS_CHARACTERIZING = false;
 
-    public static final double DRIVE_J_KG_METERS_SQUARED = 0.0003125;
-
+    public static final double DRIVE_J_KG_METERS_SQUARED = 0.0003125; // moment of inertia for sim
     public static final double STEER_J_KG_METERS_SQUARED = 0.0003125; // TODO: Update
 
     public static final Translation2d[] getModuleTranslations() {
+      // Translation 2d assumes that the robot front facing is in the positive x direction and the
+      // robot left is in the positive y direction
       return new Translation2d[] {
-        new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
         new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
         new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
         new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
       };
     }
 
-    public static final double DRIVE_AFTER_ENCODER_REDUCTION =
-        (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0); // TODO: what are these numbers
-
     public enum DRIVE_MOTOR {
-      FRONT_RIGHT(4),
-      FRONT_LEFT(7),
-      BACK_LEFT(10),
-      BACK_RIGHT(13);
+      FRONT_RIGHT(7), // Module 0
+      FRONT_LEFT(6), // Module 1
+      BACK_LEFT(9), // Module 2
+      BACK_RIGHT(8); // Module 3
 
       public final int CAN_ID;
 
@@ -230,12 +235,11 @@ public final class Constants {
       }
     }
 
-    // TODO: update values
     public static enum L2_ABSOLUTE_ENCODER_OFFSET_RAD {
-      FRONT_LEFT(0), // Module 0
-      FRONT_RIGHT(0), // Module 1
-      BACK_LEFT(0), // Module 2
-      BACK_RIGHT(0); // Module 3
+      FRONT_RIGHT(-0.371), // Module 0
+      FRONT_LEFT(-2.023), // Module 1
+      BACK_LEFT(-0.626), // Module 2 oscillates btwn 0 and 2.6972541089???
+      BACK_RIGHT(0.373); // Module 3 oscillates btwn 0 and 3.181476
 
       public final double OFFSET;
 
@@ -259,10 +263,10 @@ public final class Constants {
     }
 
     public enum TURN_MOTOR {
-      FRONT_RIGHT(3),
-      FRONT_LEFT(6),
-      BACK_LEFT(9),
-      BACK_RIGHT(12);
+      FRONT_RIGHT(11), // Module 0
+      FRONT_LEFT(10), // Module 1
+      BACK_LEFT(13), // Module 2
+      BACK_RIGHT(12); // Module 3
 
       public final int CAN_ID;
 
@@ -272,10 +276,10 @@ public final class Constants {
     }
 
     public static enum ABSOLUTE_ENCODER {
-      FRONT_RIGHT(2),
-      FRONT_LEFT(5),
-      BACK_LEFT(8),
-      BACK_RIGHT(11);
+      FRONT_RIGHT(3), // Module 0
+      FRONT_LEFT(2), // Module 1
+      BACK_LEFT(5), // Module 2
+      BACK_RIGHT(2); // Module 3
 
       public final int ENCODER_ID;
 
@@ -284,18 +288,49 @@ public final class Constants {
       }
     }
 
-    public static final int SMART_CURRENT_LIMIT = 40;
+    // CAN IDs:
+    public static final int CUR_LIM_A = 40;
     public static final int MEASUREMENT_PERIOD_MS = 10;
+
+    public static final double DEADBAND = 0.1;
+  }
+
+  public class GyroConstants {
+    public static final double GYRO_HEADING_OFFSET_DEGREES = 90;
+  }
+
+  public class VisionConstants {
+
+    public static final Transform3d cameraOnRobotOffsets =
+        new Transform3d(
+            new Translation3d(0, 0, 0), // update this value
+            new Rotation3d(0, 0, 0)); // update this offset value
   }
 
   public static class ShooterConstants {
+
+    // Gear ratio of 1:1 for the prototype Horizontal-Rollers/Top-Bottom Shooter
+    public static final double GEAR_RATIO = 1.0;
+
     // Motor IDs
     public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
     public static final int BOTTOM_SHOOTER_MOTOR_ID =
-        15; // TalonFX currently set to 15 and is named "Climb motor" on the Pheonix tuner
+        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner
 
-    // Inverted motors
+    // Direction of motors; inverted = ccw
     public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
-        true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
+        true; // Top motor spins opposite of the bottom motor (CCW)
+    public static final boolean BOTTOM_SHOOTER_MOTOR_INVERTED =
+        false; // Bottom motor is NOT inverted (CW)
+
+    // Flywheel simulation constants
+    public static final double SHOOTER_J_KG_METERS_SQUARED = 0.0016007389;
+    public static final double APPLIED_VOLTS = 12.0;
+  }
+
+  /** Unchanging Values for the Under the Bumper Intake */
+  public static class UTBIntakeConstants {
+    public static final int UTB_INTAKE_CANID = 13;
+    public static final int GEAR_RATIO = 2;
   }
 }

@@ -20,6 +20,7 @@ import frc.robot.Constants.DriveConstants.DRIVE_MOTOR;
 import frc.robot.Constants.DriveConstants.L2_ABSOLUTE_ENCODER_OFFSET_RAD;
 import frc.robot.Constants.DriveConstants.TURN_MOTOR;
 import frc.robot.Constants.RobotStateConstants;
+import java.util.Optional;
 
 /** Runs an Individual Real Module with all Motors as Neos */
 public class ModuleIOSparkMax implements ModuleIO {
@@ -41,16 +42,16 @@ public class ModuleIOSparkMax implements ModuleIO {
     // sets drive & turn spark maxes, turn encoder, and absolute encoder offset
     switch (index) {
       case 0:
-        driveSparkMax = new CANSparkMax(DRIVE_MOTOR.FRONT_LEFT.CAN_ID, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(TURN_MOTOR.FRONT_LEFT.CAN_ID, MotorType.kBrushless);
-        turnAbsoluteEncoder = new CANcoder(ABSOLUTE_ENCODER.FRONT_LEFT.ENCODER_ID);
-        absoluteEncoderOffset = L2_ABSOLUTE_ENCODER_OFFSET_RAD.FRONT_LEFT.OFFSET;
-        break;
-      case 1:
         driveSparkMax = new CANSparkMax(DRIVE_MOTOR.FRONT_RIGHT.CAN_ID, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(TURN_MOTOR.FRONT_RIGHT.CAN_ID, MotorType.kBrushless);
         turnAbsoluteEncoder = new CANcoder(ABSOLUTE_ENCODER.FRONT_RIGHT.ENCODER_ID);
         absoluteEncoderOffset = L2_ABSOLUTE_ENCODER_OFFSET_RAD.FRONT_RIGHT.OFFSET;
+        break;
+      case 1:
+        driveSparkMax = new CANSparkMax(DRIVE_MOTOR.FRONT_LEFT.CAN_ID, MotorType.kBrushless);
+        turnSparkMax = new CANSparkMax(TURN_MOTOR.FRONT_LEFT.CAN_ID, MotorType.kBrushless);
+        turnAbsoluteEncoder = new CANcoder(ABSOLUTE_ENCODER.FRONT_LEFT.ENCODER_ID);
+        absoluteEncoderOffset = L2_ABSOLUTE_ENCODER_OFFSET_RAD.FRONT_LEFT.OFFSET;
         break;
       case 2:
         driveSparkMax = new CANSparkMax(DRIVE_MOTOR.BACK_LEFT.CAN_ID, MotorType.kBrushless);
@@ -68,10 +69,6 @@ public class ModuleIOSparkMax implements ModuleIO {
         throw new RuntimeException("Invalid module index for ModuleIOSparkMax");
     }
 
-    // ensure configs remain after power cycles
-    driveSparkMax.burnFlash();
-    turnSparkMax.burnFlash();
-
     // set can timeouts from constants
     driveSparkMax.setCANTimeout(RobotStateConstants.CAN_CONFIG_TIMEOUT_SEC);
     turnSparkMax.setCANTimeout(RobotStateConstants.CAN_CONFIG_TIMEOUT_SEC);
@@ -86,8 +83,8 @@ public class ModuleIOSparkMax implements ModuleIO {
           PeriodicFrame.kStatus2, DriveConstants.MEASUREMENT_PERIOD_MS);
       turnSparkMax.setInverted(isTurnMotorInverted);
 
-      driveSparkMax.setSmartCurrentLimit(DriveConstants.SMART_CURRENT_LIMIT);
-      turnSparkMax.setSmartCurrentLimit(DriveConstants.SMART_CURRENT_LIMIT);
+      driveSparkMax.setSmartCurrentLimit(DriveConstants.CUR_LIM_A);
+      turnSparkMax.setSmartCurrentLimit(DriveConstants.CUR_LIM_A);
 
       driveRelativeEncoder.setPosition(0.0); // resets position
       driveRelativeEncoder.setMeasurementPeriod(
@@ -101,9 +98,7 @@ public class ModuleIOSparkMax implements ModuleIO {
       turnRelativeEncoder.setAverageDepth(2);
     }
 
-    driveSparkMax.setCANTimeout(0);
-    turnSparkMax.setCANTimeout(0);
-
+    // ensure configs remain after power cycles
     driveSparkMax.burnFlash();
     turnSparkMax.burnFlash();
   }
@@ -141,7 +136,7 @@ public class ModuleIOSparkMax implements ModuleIO {
         "absolute encoder" + swerveModuleNumber,
         Units.rotationsToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble()));
     SmartDashboard.putNumber(
-        "absolute encoder" + swerveModuleNumber + "with offset",
+        "absolute encoder" + swerveModuleNumber + " with offset",
         Units.rotationsToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble())
             + absoluteEncoderOffset);
 
@@ -173,5 +168,10 @@ public class ModuleIOSparkMax implements ModuleIO {
   // returns absolute position from turn absolute encoders
   public double getAbsolutePositionRadians() {
     return Units.degreesToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble());
+  }
+
+  @Override
+  public Optional<Boolean> isL3() {
+    return Optional.of(false);
   }
 }

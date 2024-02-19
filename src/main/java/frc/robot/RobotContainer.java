@@ -13,20 +13,27 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.ModuleIO;
-import frc.robot.Subsystems.drive.ModuleIOSimNeo;
-import frc.robot.Subsystems.drive.ModuleIOSparkMax;
+import frc.robot.Subsystems.drive.ModuleIOSimNeoKraken;
+import frc.robot.Subsystems.drive.ModuleIOSparkMaxTalonFX;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.gyro.GyroIO;
 import frc.robot.Subsystems.gyro.GyroIONavX;
+import frc.robot.Subsystems.pose.PoseEstimator;
+import frc.robot.Subsystems.vision.Vision;
+import frc.robot.Subsystems.vision.VisionIO;
+import frc.robot.Subsystems.vision.VisionIOArduCam;
+import frc.robot.Subsystems.vision.VisionIOSim;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -39,6 +46,11 @@ public class RobotContainer {
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
   // private final Shooter m_shooterSubsystem;
+  private final PoseEstimator m_poseEstimator;
+  private final Vision m_vision;
+  // private final UTBIntake m_utbIntake;
+  private final SlewRateLimiter m_linearRamping;
+  private final SlewRateLimiter m_angularRamping;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -54,12 +66,15 @@ public class RobotContainer {
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
             new Drive(
-                new ModuleIOSparkMax(0),
-                new ModuleIOSparkMax(1),
-                new ModuleIOSparkMax(2),
-                new ModuleIOSparkMax(3),
+                new ModuleIOSparkMaxTalonFX(0),
+                new ModuleIOSparkMaxTalonFX(1),
+                new ModuleIOSparkMaxTalonFX(2),
+                new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
+        m_vision = new Vision(new VisionIOArduCam());
         // m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
+        // m_utbIntake = new UTBIntake(new UTBIntakeIOSparkMax());
         break;
 
       case SIM:
@@ -67,12 +82,16 @@ public class RobotContainer {
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
             new Drive(
-                new ModuleIOSimNeo(),
-                new ModuleIOSimNeo(),
-                new ModuleIOSimNeo(),
-                new ModuleIOSimNeo(),
+                new ModuleIOSimNeoKraken(),
+                new ModuleIOSimNeoKraken(),
+                new ModuleIOSimNeoKraken(),
+                new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
-        // m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_vision = new Vision(new VisionIOSim());
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
+        // m_shooterSubsystem = new Shooter(new ShooterIOSim());
+        // m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
+
         break;
 
       default:
@@ -85,9 +104,15 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
-        // m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        // m_shooterSubsystem = new Shooter(new ShooterIO() {});
+        m_vision = new Vision(new VisionIO() {});
+        m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_vision);
+        // m_utbIntake = new UTBIntake(new UTBIntakeIO() {});
         break;
     }
+
+    m_linearRamping = new SlewRateLimiter(0.5);
+    m_angularRamping = new SlewRateLimiter(0.2);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -102,14 +127,17 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
     m_driveSubsystem.setDefaultCommand(
-        new InstantCommand(
+        new RunCommand(
             () ->
-                m_driveSubsystem.setRaw(
+                m_driveSubsystem.driveWithDeadband(
                     driverController.getLeftX(),
-                    driverController.getLeftY(),
+                    driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
                     driverController.getRightX()),
             m_driveSubsystem));
 
+    driverController
+        .a()
+        .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
     /*
      * Spins the Shooter motors at a certain percent based off the y-axis value of right Xbox Joystick
      * Up will launch a NOTE outward
