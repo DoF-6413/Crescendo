@@ -9,8 +9,7 @@ import edu.wpi.first.math.geometry.*; // Rotation2d and Translation2d
 import edu.wpi.first.math.kinematics.*; // ChassisSpeeds, SwerveDriveKinematics, SwerveModuleStates
 import edu.wpi.first.wpilibj.*; // Timer
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
 import org.littletonrobotics.junction.Logger; // Logger
 
@@ -69,7 +68,6 @@ public class Drive extends SubsystemBase {
     coastOnDisable(DriverStation.isDisabled());
 
     runSwerveModules(getAdjustedSpeeds());
-
     getMeasuredStates();
   }
 

@@ -6,7 +6,6 @@ package frc.robot.Subsystems.drive;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.RobotStateConstants;
 import java.util.Optional;
 
