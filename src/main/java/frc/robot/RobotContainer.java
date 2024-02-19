@@ -15,15 +15,10 @@ package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.*;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
 import frc.robot.Subsystems.climber.*;
