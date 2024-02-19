@@ -49,14 +49,18 @@ public class ModuleIOSparkMax implements ModuleIO {
         absoluteEncoderOffset = L2_ABSOLUTE_ENCODER_OFFSET_RAD.FRONT_RIGHT.OFFSET;
         break;
       case 2:
-        driveSparkMax = new CANSparkMax(DriveConstants.DRIVE_MOTOR.BACK_LEFT.CAN_ID, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(DriveConstants.TURN_MOTOR.BACK_LEFT.CAN_ID, MotorType.kBrushless);
+        driveSparkMax =
+            new CANSparkMax(DriveConstants.DRIVE_MOTOR.BACK_LEFT.CAN_ID, MotorType.kBrushless);
+        turnSparkMax =
+            new CANSparkMax(DriveConstants.TURN_MOTOR.BACK_LEFT.CAN_ID, MotorType.kBrushless);
         turnAbsoluteEncoder = new CANcoder(DriveConstants.ABSOLUTE_ENCODER.BACK_LEFT.ENCODER_ID);
         absoluteEncoderOffset = DriveConstants.L2_ABSOLUTE_ENCODER_OFFSET_RAD.BACK_LEFT.OFFSET;
         break;
       case 3:
-        driveSparkMax = new CANSparkMax(DriveConstants.DRIVE_MOTOR.BACK_RIGHT.CAN_ID, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(DriveConstants.TURN_MOTOR.BACK_RIGHT.CAN_ID, MotorType.kBrushless);
+        driveSparkMax =
+            new CANSparkMax(DriveConstants.DRIVE_MOTOR.BACK_RIGHT.CAN_ID, MotorType.kBrushless);
+        turnSparkMax =
+            new CANSparkMax(DriveConstants.TURN_MOTOR.BACK_RIGHT.CAN_ID, MotorType.kBrushless);
         turnAbsoluteEncoder = new CANcoder(DriveConstants.ABSOLUTE_ENCODER.BACK_RIGHT.ENCODER_ID);
         absoluteEncoderOffset = DriveConstants.L2_ABSOLUTE_ENCODER_OFFSET_RAD.BACK_RIGHT.OFFSET;
         break;
