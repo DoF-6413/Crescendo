@@ -23,7 +23,7 @@ public class WristIOSparkMax implements WristIO {
     wristMotor = new CANSparkMax(WristConstants.CAN_ID, MotorType.kBrushless);
     wristEncoder = wristMotor.getEncoder();
 
-    /** sets default to brake mode which locks the motor position */
+    /** sets default to brake mode, which locks the motor position */
     wristMotor.setIdleMode(IdleMode.kBrake);
 
     /** sets current limit */
@@ -39,7 +39,6 @@ public class WristIOSparkMax implements WristIO {
         Units.rotationsToDegrees(wristEncoder.getPosition()) / WristConstants.GEAR_RATIO;
     inputs.wristVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity());
-
     inputs.wristTempCelsius = new double[] {wristMotor.getMotorTemperature()};
     inputs.wristCurrentAmps = new double[] {wristMotor.getOutputCurrent()};
   }

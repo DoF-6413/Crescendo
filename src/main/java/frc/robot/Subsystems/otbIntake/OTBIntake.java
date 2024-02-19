@@ -16,7 +16,7 @@ public class OTBIntake extends SubsystemBase {
   private final OTBIntakeIO io;
   private final OTBIntakeIOInputsAutoLogged inputs = new OTBIntakeIOInputsAutoLogged();
 
-  private final PIDController otbIntakePID;
+  private final PIDController otbIntakePIDController;
 
   private double setpointRPM = 0.0;
   private final ShuffleboardTab OTBIntakeTab = Shuffleboard.getTab("OTB Intake");
@@ -32,10 +32,10 @@ public class OTBIntake extends SubsystemBase {
   public OTBIntake(OTBIntakeIO io) {
     System.out.println("[Init] Creating OTB Intake");
     this.io = io;
-    otbIntakePID =
+    otbIntakePIDController =
         new PIDController(OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
-    otbIntakePID.setSetpoint(setpointRPM);
-    otbIntakePID.setTolerance(setpointRPM * OTBIntakeConstants.TOLERANCE_PERCENT);
+    otbIntakePIDController.setSetpoint(setpointRPM);
+    otbIntakePIDController.setTolerance(setpointRPM * OTBIntakeConstants.TOLERANCE_PERCENT);
 
     // TODO: Delete after PID is finalized
     OTBIntakekp = OTBIntakeTab.add("OTBIntakekp", 0.0).getEntry();
@@ -51,7 +51,7 @@ public class OTBIntake extends SubsystemBase {
     Logger.processInputs("OTBIntake", inputs);
 
     setOTBIntakeVoltage(
-        otbIntakePID.calculateForVoltage(
+        otbIntakePIDController.calculateForVoltage(
             inputs.otbIntakeVelocityRPM, OTBIntakeConstants.MAX_VALUE));
 
     // TODO: Delete after PID is finalized
@@ -73,13 +73,13 @@ public class OTBIntake extends SubsystemBase {
     OTBIntakeConstants.KP = OTBIntakekp.getDouble(0.0);
     OTBIntakeConstants.KI = OTBIntakeki.getDouble(0.0);
     OTBIntakeConstants.KD = OTBIntakekd.getDouble(0.0);
-    otbIntakePID.setPID(OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
+    otbIntakePIDController.setPID(OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
   }
 
   /** Updates the setpoint based on what is put on Shuffleboard */
   public void updateSetpoint() {
     setpointRPM = OTBIntakeSetpointSetter.getDouble(0.0);
-    otbIntakePID.setSetpoint(setpointRPM);
+    otbIntakePIDController.setSetpoint(setpointRPM);
   }
 
   /** Updates inputs for the OTB Intake */
@@ -118,6 +118,6 @@ public class OTBIntake extends SubsystemBase {
 
   /** Returns where the OTB Intake RPM is within the setpoint, including tolerance */
   public boolean atSetpoint() {
-    return otbIntakePID.atSetpoint(inputs.otbIntakeVelocityRPM);
+    return otbIntakePIDController.atSetpoint(inputs.otbIntakeVelocityRPM);
   }
 }

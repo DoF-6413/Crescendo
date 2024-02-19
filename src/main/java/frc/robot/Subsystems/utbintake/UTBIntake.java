@@ -10,8 +10,8 @@ public class UTBIntake extends SubsystemBase {
 
   private final UTBIntakeIO io;
   private final UTBIntakeIOInputsAutoLogged inputs = new UTBIntakeIOInputsAutoLogged();
-  /** shuffleboard tabs: utbIntake */
-  private final ShuffleboardTab utbIntakeTab = Shuffleboard.getTab("UTBIntake");
+  /** shuffleboard tabs: UTBIntake */
+  private final ShuffleboardTab UTBIntakeTab = Shuffleboard.getTab("UTBIntake");
 
   private GenericEntry utbIntakekp;
   private GenericEntry utbIntakeki;
@@ -19,7 +19,7 @@ public class UTBIntake extends SubsystemBase {
   private GenericEntry utbIntakeSetpointSetter;
 
   /** utb intake pid controller */
-  private static PIDController utbIntakePIDController;
+  private final PIDController utbIntakePIDController;
 
   private double utbIntakeSetpoint = 0.0;
 
@@ -39,14 +39,14 @@ public class UTBIntake extends SubsystemBase {
     utbIntakePIDController.setSetpoint(utbIntakeSetpoint);
     utbIntakePIDController.setTolerance(utbIntakeSetpoint * UTBIntakeConstants.TOLERANCE_PERCENT);
 
-    utbIntakekp = utbIntakeTab.add("UTBIntakekp", 0.0).getEntry();
-    utbIntakeki = utbIntakeTab.add("UTBIntakeki", 0.0).getEntry();
-    utbIntakekd = utbIntakeTab.add("UTBIntakekd", 0.0).getEntry();
-    utbIntakeSetpointSetter = utbIntakeTab.add("UTBIntakeSetpoint", 0.0).getEntry();
+    utbIntakekp = UTBIntakeTab.add("UTBIntakekp", 0.0).getEntry();
+    utbIntakeki = UTBIntakeTab.add("UTBIntakeki", 0.0).getEntry();
+    utbIntakekd = UTBIntakeTab.add("UTBIntakekd", 0.0).getEntry();
+    utbIntakeSetpointSetter = UTBIntakeTab.add("UTBIntakeSetpoint", 0.0).getEntry();
   }
 
   @Override
-  /** Periodically updates the inputs and outputs of the utb Intake */
+  /** Periodically updates the inputs and outputs of the UTB Intake */
   public void periodic() {
     this.updateInputs();
     Logger.processInputs("UTBIntake", inputs);
@@ -84,17 +84,17 @@ public class UTBIntake extends SubsystemBase {
     utbIntakePIDController.setSetpoint(utbIntakeSetpoint);
   }
 
-  /** Updates the inputs for the utb Intake */
+  /** Updates the inputs for the UTB Intake */
   public void updateInputs() {
     io.updateInputs(inputs);
   }
 
-  /** Sets intake voltage for the utb Intake :) */
+  /** Sets intake voltage for the UTB Intake :) */
   public void setUTBIntakeVoltage(double volts) {
     io.setUTBIntakeVoltage(volts);
   }
 
-  /** Sets intake speed for the utb Intake :) */
+  /** Sets intake speed for the UTB Intake :) */
   public void setUTBIntakePercentSpeed(double percent) {
     io.setUTBIntakePercentSpeed(percent);
   }

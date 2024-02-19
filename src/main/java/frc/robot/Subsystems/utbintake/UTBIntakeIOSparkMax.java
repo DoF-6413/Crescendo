@@ -5,16 +5,16 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
-/** utbIntake motor controller */
+/** UTB Intake motor controller */
 public class UTBIntakeIOSparkMax implements UTBIntakeIO {
   private final CANSparkMax utbIntakeMotor;
   private final RelativeEncoder utbIntakeEncoder;
 
-  /** Creates the Motor and Encoder for the utb Intake */
+  /** Creates the Motor and Encoder for the Under the Bumper (UTB) Intake */
   public UTBIntakeIOSparkMax() {
     System.out.println("[Init] Creating UTBIntakeIO");
 
-    /** Creates the Motor and Encoder for the utb Intake */
+    /** Creates the Motor and Encoder for the UTB Intake */
     utbIntakeMotor = new CANSparkMax(UTBIntakeConstants.CAN_ID, MotorType.kBrushless);
     utbIntakeEncoder = utbIntakeMotor.getEncoder();
 
@@ -22,7 +22,7 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
     utbIntakeMotor.setIdleMode(IdleMode.kBrake);
   }
 
-  /** Updates the printed values for the utb Intake */
+  /** Updates the printed values for the UTB Intake */
   public void updateInputs(UTBIntakeIOInputs inputs) {
     // Converts rotaions to Radians and then divides it by the gear ratio
     inputs.utbIntakeRPM = utbIntakeEncoder.getVelocity() / UTBIntakeConstants.GEAR_RATIO;
