@@ -209,7 +209,7 @@ public final class Constants {
     public static final boolean IS_CHARACTERIZING = false;
 
     public static final double DRIVE_J_KG_METERS_SQUARED = 0.0003125; // moment of inertia for sim
-    public static final double STEER_J_KG_METERS_SQUARED = 0.0003125; // TODO: Update
+    public static final double STEER_J_KG_METERS_SQUARED = 0.0000158025; // moment of inertia for sim
 
     public static final Translation2d[] getModuleTranslations() {
       // Translation 2d assumes that the robot front facing is in the positive x direction and the
