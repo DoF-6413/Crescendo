@@ -14,11 +14,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.DriveConstants.ABSOLUTE_ENCODER;
-import frc.robot.Constants.DriveConstants.DRIVE_MOTOR;
-import frc.robot.Constants.DriveConstants.L2_ABSOLUTE_ENCODER_OFFSET_RAD;
-import frc.robot.Constants.DriveConstants.TURN_MOTOR;
 import frc.robot.Constants.RobotStateConstants;
 import java.util.Optional;
 
@@ -42,28 +37,28 @@ public class ModuleIOSparkMax implements ModuleIO {
     // sets drive & turn spark maxes, turn encoder, and absolute encoder offset
     switch (index) {
       case 0:
-        driveSparkMax = new CANSparkMax(DRIVE_MOTOR.FRONT_RIGHT.CAN_ID, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(TURN_MOTOR.FRONT_RIGHT.CAN_ID, MotorType.kBrushless);
-        turnAbsoluteEncoder = new CANcoder(ABSOLUTE_ENCODER.FRONT_RIGHT.ENCODER_ID);
-        absoluteEncoderOffset = L2_ABSOLUTE_ENCODER_OFFSET_RAD.FRONT_RIGHT.OFFSET;
+        driveSparkMax = new CANSparkMax(DriveConstants.DRIVE_MOTOR.FRONT_RIGHT.CAN_ID, MotorType.kBrushless);
+        turnSparkMax = new CANSparkMax(DriveConstants.TURN_MOTOR.FRONT_RIGHT.CAN_ID, MotorType.kBrushless);
+        turnAbsoluteEncoder = new CANcoder(DriveConstants.ABSOLUTE_ENCODER.FRONT_RIGHT.ENCODER_ID);
+        absoluteEncoderOffset = DriveConstants.L2_ABSOLUTE_ENCODER_OFFSET_RAD.FRONT_RIGHT.OFFSET;
         break;
       case 1:
-        driveSparkMax = new CANSparkMax(DRIVE_MOTOR.FRONT_LEFT.CAN_ID, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(TURN_MOTOR.FRONT_LEFT.CAN_ID, MotorType.kBrushless);
-        turnAbsoluteEncoder = new CANcoder(ABSOLUTE_ENCODER.FRONT_LEFT.ENCODER_ID);
-        absoluteEncoderOffset = L2_ABSOLUTE_ENCODER_OFFSET_RAD.FRONT_LEFT.OFFSET;
+        driveSparkMax = new CANSparkMax(DriveConstants.DRIVE_MOTOR.FRONT_LEFT.CAN_ID, MotorType.kBrushless);
+        turnSparkMax = new CANSparkMax(DriveConstants.TURN_MOTOR.FRONT_LEFT.CAN_ID, MotorType.kBrushless);
+        turnAbsoluteEncoder = new CANcoder(DriveConstants.ABSOLUTE_ENCODER.FRONT_LEFT.ENCODER_ID);
+        absoluteEncoderOffset = DriveConstants.L2_ABSOLUTE_ENCODER_OFFSET_RAD.FRONT_LEFT.OFFSET;
         break;
       case 2:
-        driveSparkMax = new CANSparkMax(DRIVE_MOTOR.BACK_LEFT.CAN_ID, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(TURN_MOTOR.BACK_LEFT.CAN_ID, MotorType.kBrushless);
-        turnAbsoluteEncoder = new CANcoder(ABSOLUTE_ENCODER.BACK_LEFT.ENCODER_ID);
-        absoluteEncoderOffset = L2_ABSOLUTE_ENCODER_OFFSET_RAD.BACK_LEFT.OFFSET;
+        driveSparkMax = new CANSparkMax(DriveConstants.DRIVE_MOTOR.BACK_LEFT.CAN_ID, MotorType.kBrushless);
+        turnSparkMax = new CANSparkMax(DriveConstants.TURN_MOTOR.BACK_LEFT.CAN_ID, MotorType.kBrushless);
+        turnAbsoluteEncoder = new CANcoder(DriveConstants.ABSOLUTE_ENCODER.BACK_LEFT.ENCODER_ID);
+        absoluteEncoderOffset = DriveConstants.L2_ABSOLUTE_ENCODER_OFFSET_RAD.BACK_LEFT.OFFSET;
         break;
       case 3:
-        driveSparkMax = new CANSparkMax(DRIVE_MOTOR.BACK_RIGHT.CAN_ID, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(TURN_MOTOR.BACK_RIGHT.CAN_ID, MotorType.kBrushless);
-        turnAbsoluteEncoder = new CANcoder(ABSOLUTE_ENCODER.BACK_RIGHT.ENCODER_ID);
-        absoluteEncoderOffset = L2_ABSOLUTE_ENCODER_OFFSET_RAD.BACK_RIGHT.OFFSET;
+        driveSparkMax = new CANSparkMax(DriveConstants.DRIVE_MOTOR.BACK_RIGHT.CAN_ID, MotorType.kBrushless);
+        turnSparkMax = new CANSparkMax(DriveConstants.TURN_MOTOR.BACK_RIGHT.CAN_ID, MotorType.kBrushless);
+        turnAbsoluteEncoder = new CANcoder(DriveConstants.ABSOLUTE_ENCODER.BACK_RIGHT.ENCODER_ID);
+        absoluteEncoderOffset = DriveConstants.L2_ABSOLUTE_ENCODER_OFFSET_RAD.BACK_RIGHT.OFFSET;
         break;
       default:
         throw new RuntimeException("Invalid module index for ModuleIOSparkMax");
@@ -78,7 +73,7 @@ public class ModuleIOSparkMax implements ModuleIO {
     turnRelativeEncoder = turnSparkMax.getEncoder();
 
     /** For each drive motor, update values */
-    for (int i = 0; i < DRIVE_MOTOR.values().length; i++) {
+    for (int i = 0; i < DriveConstants.DRIVE_MOTOR.values().length; i++) {
       driveSparkMax.setPeriodicFramePeriod(
           PeriodicFrame.kStatus2, DriveConstants.MEASUREMENT_PERIOD_MS);
       turnSparkMax.setInverted(isTurnMotorInverted);
