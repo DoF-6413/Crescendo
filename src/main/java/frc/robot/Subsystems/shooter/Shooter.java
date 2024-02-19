@@ -32,15 +32,6 @@ public class Shooter extends SubsystemBase {
   // The desired RPM for the shooter
   private double setpointRPM = 0.0;
 
-  // TODO: Delete once proper PID values are determined, along with all SmartDashboard putNumbers
-  // and updates
-  private double topShooterkp = 0.0;
-  private double topShooterki = 0.0;
-  private double topShooterkd = 0.0;
-  private double bottomShooterkp = 0.0;
-  private double bottomShooterki = 0.0;
-  private double bottomShooterkd = 0.0;
-
   public Shooter(ShooterIO io) {
 
     System.out.println("[Init] Creating Shooter");
@@ -101,8 +92,8 @@ public class Shooter extends SubsystemBase {
     // SmartDashboard.putBoolean("shooterBottomAtSetpoint", bottomAtSetpoint());
 
     // Returns whether or not motors have reached setpoint
-    SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
-    SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
+    SmartDashboard.putBoolean("shooterTopAtSetpoint", topAtSetpoint());
+    SmartDashboard.putBoolean("shooterBottomAtSetpoint", bottomAtSetpoint());
 
     // Gets the current PID values that the PID contollers are set to
     SmartDashboard.putNumber("topCurrentkP", topShooterPIDController.getP());
@@ -151,7 +142,7 @@ public class Shooter extends SubsystemBase {
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
   public void setShooterBrakeMode(boolean enable) {
-    io.setShooterBreakMode(enable);
+    io.setShooterBrakeMode(enable);
   }
 
   /**
@@ -196,10 +187,12 @@ public class Shooter extends SubsystemBase {
     io.setBottomShooterMotorVoltage(volts);
   }
 
+  /** Returns where the Top Shooter RPM is within the setpoint, including tolerance */
   public boolean topAtSetpoint() {
     return topShooterPIDController.atSetpoint(inputs.topShooterMotorRPM);
   }
 
+  /** Returns where the Bottom Shooter RPM is within the setpoint, including tolerance */
   public boolean bottomAtSetpoint() {
     return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
   }
@@ -209,7 +202,7 @@ public class Shooter extends SubsystemBase {
   // arbitrary
   // 2.12.24: crashes in Sim, not tested on real hardware
   // public boolean exceedsTemperature() {
-  //   if (inputs.topShooterTempCelcius[inputs.topShooterTempCelcius.length - 1] > 100) {
+  //   if (inputs.topShooterTempCelsius[inputs.topShooterTempCelsius.length - 1] > 100) {
   //     return true;
   //   }
   //   return false;
