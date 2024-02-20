@@ -85,4 +85,12 @@ public interface ClimberIO {
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
   public default void setBrakeMode(boolean enable) {}
+
+  public default double getLeftClimberPose() {
+    return 0;
+  }
+
+  public default double getRightClimberPose() {
+    return 0;
+  }
 }

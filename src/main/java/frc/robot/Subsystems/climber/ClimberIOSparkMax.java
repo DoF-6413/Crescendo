@@ -117,4 +117,14 @@ public class ClimberIOSparkMax implements ClimberIO {
       rightClimberMotor.setIdleMode(IdleMode.kCoast);
     }
   }
+
+  @Override
+  public double getRightClimberPose() {
+    return rightClimberEncoder.getPosition();
+  }
+
+  @Override
+  public double getLeftClimberPose() {
+    return leftClimberEncoder.getPosition();
+  }
 }

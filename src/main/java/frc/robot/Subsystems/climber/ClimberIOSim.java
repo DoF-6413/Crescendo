@@ -86,4 +86,14 @@ public class ClimberIOSim implements ClimberIO {
   public void setRightClimberVoltage(double volts) {
     rightClimberSim.setInputVoltage(volts);
   }
+
+  @Override
+  public double getRightClimberPose() {
+    return rightClimberSim.getPositionMeters();
+  }
+
+  @Override
+  public double getLeftClimberPose() {
+    return leftClimberSim.getPositionMeters();
+  }
 }

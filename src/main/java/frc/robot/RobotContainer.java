@@ -44,7 +44,7 @@ public class RobotContainer {
   // Subsystems
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
-  
+
   private final Arm m_armSubsystem;
   private final Vision m_visionSubsystem;
   private final Climber m_climberSubsystem;
@@ -53,7 +53,7 @@ public class RobotContainer {
   private final Actuator m_actuatorSubsystem;
   private final Shooter m_shooterSubsystem;
   private final Wrist m_wristSubsystem;
-  
+
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
   private final Mechanisms2d m_mechanisms2d;
@@ -74,11 +74,11 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
-        new Drive(
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
+            new Drive(
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_visionSubsystem = new Vision(new VisionIOArduCam());
@@ -88,7 +88,9 @@ public class RobotContainer {
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_wristSubsystem = new Wrist(new WristIOSparkMax());
-        m_mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
+        m_mechanisms2d =
+            new Mechanisms2d(
+                m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem, m_climberSubsystem);
         break;
 
       case SIM:
@@ -109,7 +111,9 @@ public class RobotContainer {
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_wristSubsystem = new Wrist(new WristIOSim());
-        m_mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
+        m_mechanisms2d =
+            new Mechanisms2d(
+                m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem, m_climberSubsystem);
 
         break;
 
@@ -131,7 +135,9 @@ public class RobotContainer {
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
-        m_mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
+        m_mechanisms2d =
+            new Mechanisms2d(
+                m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem, m_climberSubsystem);
 
         break;
     }
@@ -170,10 +176,20 @@ public class RobotContainer {
     //         () -> m_utbIntakeSubsystem.setutbIntakePercentSpeed(auxController.getLeftY()),
     //         m_utbIntakeSubsystem));
 
-    // m_climberSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
-    //         m_climberSubsystem));
+    m_climberSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_climberSubsystem.setBothClimberPercentSpeed(driverController.getRightX()),
+            m_climberSubsystem));
+
+    m_climberSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_climberSubsystem.setLeftClimberPercentSpeed(auxController.getRightX()),
+            m_climberSubsystem));
+
+    m_climberSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_climberSubsystem.setRightClimberPercentSpeed(auxController.getRightY()),
+            m_climberSubsystem));
 
     m_armSubsystem.setDefaultCommand(
         new InstantCommand(
