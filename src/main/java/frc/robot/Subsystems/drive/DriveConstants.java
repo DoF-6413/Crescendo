@@ -95,7 +95,7 @@ public final class DriveConstants {
     FRONT_RIGHT(-0.153), // Module 0
     FRONT_LEFT(-0.767), // Module 1
     BACK_LEFT(-3.077), // Module 2
-    BACK_RIGHT(-0.790); // Module 3
+    BACK_RIGHT(0.023); // Module 3
 
     public final double OFFSET;
 
@@ -121,7 +121,7 @@ public final class DriveConstants {
     FRONT_RIGHT(3), // Module 0
     FRONT_LEFT(2), // Module 1
     BACK_LEFT(5), // Module 2
-    BACK_RIGHT(2); // Module 3
+    BACK_RIGHT(4); // Module 3
 
     public final int ENCODER_ID;
 
