@@ -13,10 +13,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.*; // Rotation3d, Transform3d, Translation2d, Transation3d;
+import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.*; // DriverStation and RobotBase
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotBase;
 import java.util.Optional;
 
 /**
@@ -155,7 +156,7 @@ public final class Constants {
      * Speed by Radius of the Circle an Object is Moving Around (v/r = w) The Radius of the Swerve
      * Drive is Equivelant to Half of the Distance of one Corner to the Other Corner This Can be
      * Calculated by Using Pythagoreans Theorem on Two of the Sides of the Robot and taking Half of
-     * the Hypotenuses
+     * the Hypotenus
      */
     public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC =
         MAX_LINEAR_SPEED_M_PER_SEC / (Math.sqrt(2 * (TRACK_WIDTH_M * TRACK_WIDTH_M)) / 2);
@@ -205,97 +206,5 @@ public final class Constants {
         new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
       };
     }
-  }
-
-  public class ArmConstants {
-    public static final double MOTOR_GEAR_RATIO = 123; // TODO: update
-    public static final double WRIST_APPLIED_VOLTS = 12;
-
-    public static final double MOTOR_LENGTH = 0.4126308486;
-    public static final double MOTOR_MIN_ANGLE = 0.390258413271767;
-    public static final double MOTOR_MAX_ANGLE = 1.8675;
-    public static final double MOTOR_STARTING_ANGLE = 0.39025841327;
-  }
-
-  public class VisionConstants {
-
-    public static final Transform3d cameraOnRobotOffsets =
-        new Transform3d(
-            new Translation3d(0, 0, 0), // update this value
-            new Rotation3d(0, 0, 0)); // update this offset value
-  }
-
-  public static class ShooterConstants {
-
-    // Gear ratio of 1:1 for the prototype Horizontal-Rollers/Top-Bottom Shooter
-    public static final double SHOOTER_GEAR_RATIO = 1.0;
-
-    // Motor IDs
-    public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14 TODO: Update?
-    public static final int BOTTOM_SHOOTER_MOTOR_ID =
-        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner TODO:
-    // Update?
-
-    // Inverted motors
-    public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
-        true; // Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor
-    public static final boolean BOTTOM_SHOOTER_MOTOR_INVERTED =
-        false; // Sets the bottom motor to not be inverted and will therefore spin in a CW direction
-
-    // PID Constants  TODO: Tune and update
-    public static final double TOP_SHOOTER_KP =
-        0.0; // The "P" value of the PID for the top shooter motor
-    public static final double TOP_SHOOTER_KI =
-        0.0; // The "I" value of the PID for the top shooter motor
-    public static final double TOP_SHOOTER_KD =
-        0.0; // The "D" value of the PID for the top shooter motor
-    public static final double BOTTOM_SHOOTER_KP =
-        0.0; // The "P" value of the PID for the bottom shooter motor
-    public static final double BOTTOM_SHOOTER_KI =
-        0.0; // The "I" value of the PID for the bottom shooter motor
-    public static final double BOTTOM_SHOOTER_KD =
-        0.0; // The "D" value of the PID for the bottom shooter motor
-
-    // Current limit Amps
-    public static final double SMART_CURRENT_LIMIT_AMPS = 60;
-
-    // Flywheel simulation constants
-    public static final double SHOOTER_MOI_KG_M2 =
-        0.0016007389; // Moment of Inertia for the shooter motors
-  }
-
-  /** Unchanging Values for the Under the Bumper Intake */
-  public static class UTBIntakeConstants {
-    public static final int UTB_INTAKE_CANID = 0; // TODO: Update later
-    public static final int GEAR_RATIO = 2; // 2:1 Gear Ratio
-    // public static final double UTB_KP = 1;
-    // public static final double UTB_KI = 1;
-    // public static final double UTB_KD = 1;
-    public static final double UTB_MOI_KG_M2 = 0.0001929765;
-    public static final double UTB_INTAKE_TOLERANCE = 0.05;
-    public static double UTB_INTAKE_KP = 0;
-    public static double UTB_INTAKE_KI = 0;
-    public static double UTB_INTAKE_KD = 0;
-  }
-
-  public static class ClimberConstants {
-    public static final int LEFT_CLIMBER_CANID = 0; // TODO: Update
-    public static final int RIGHT_CLIMBER_CANID = 0; // TODO: Update
-
-    // TODO: Confirm that one of the motors will need to be inverted
-    public static final boolean LEFT_CLIMBER_INVERTED =
-        false; // Ensures that the Left Climber Motor will not be inverted upon start up
-    public static final boolean RIGHT_CLIMBER_INVERTED =
-        true; // Ensures that the Right Climber Motor will be inverted upon start up
-
-    public static final double CLIMBER_GEAR_RATIO = 40; // 40:1 Gear Ratio
-
-    // Sim Constants
-    public static final double CLIMBER_CARRIAGE_MASS_KG = 5.0; // TODO: Update
-    public static final double CLIMBER_DRUM_RADIUS_M = 0.25; // TODO: Update
-    public static final double CLIMBER_MIN_HEIGHT_M = 0.2; // TODO: Update
-    public static final double CLIMBER_MAX_HEIGHT_M = 2.0; // TODO: Update
-    public static final double CLIMBER_STARTING_HEIGHT_M = 0.4; // TODO: Update
-    public static final boolean CLIMBER_SIMULATE_GRAVITY = false; // TODO: Update
   }
 }

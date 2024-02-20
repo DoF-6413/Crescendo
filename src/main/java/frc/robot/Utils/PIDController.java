@@ -93,10 +93,12 @@ public class PIDController {
     return pid;
   }
 
+  /** Sets New Setpoint */
   public void setSetpoint(double setpoint) {
     this.setpoint = setpoint;
   }
 
+  /** Gets Current Setpoint */
   public double getSetpoint() {
     return setpoint;
   }
@@ -133,46 +135,9 @@ public class PIDController {
             * RobotStateConstants.BATTERY_VOLTAGE
             / maxValue;
 
-    // TODO: Implement tolerence
+    // TODO: Implement tolerance
     return desiredVoltage;
   }
-
-  /**
-   * Calculates motor percent speed from measurement
-   *
-   * @param measurement Current Measurement (Behavior or Location) of System
-   * @return Returns motor percent speed [-1 to 1]
-   */
-  //   public double calculate(double measurement) {
-  //     // updates setpoint so accessible within class
-  //     // this.setpoint = setpoint;
-  //     System.out.println("ERROR VALUE " + error);
-
-  //     // update previous error
-  //     prevError = error;
-
-  //     // PROPORTIONAL: Current error
-  //     error = setpoint - measurement;
-  //     p = error * kP;
-
-  //     // INTEGRAL: Total Error = Area Under Graph = error accumulated for each periodic loop
-  //     i += error * kI;
-  //     System.out.println("I VALUE!! " + i);
-
-  //     // DERIVATIVE: Velocity error = change in position / time
-  //     d = ((error - prevError) / RobotStateConstants.LOOP_PERIODIC_SEC) * kD;
-
-  //     double motorPercentSpeed = p + i + d;
-
-  //     if (motorPercentSpeed > 1) {
-  //       motorPercentSpeed = 1;
-  //     } else if (motorPercentSpeed < -1) {
-  //       motorPercentSpeed = -1;
-  //     }
-
-  //     System.out.println("MOTOR PERCENT SPEED " + motorPercentSpeed);
-  //     return motorPercentSpeed;
-  //   }
 
   /** Returns whether or not the measurment is at the setpoint, including with the tolerance */
   public boolean atSetpoint(double measurement) {

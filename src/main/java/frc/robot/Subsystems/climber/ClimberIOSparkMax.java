@@ -1,107 +1,120 @@
 package frc.robot.Subsystems.climber;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.ClimberConstants;
 
-/** Climber Motor Control */
 public class ClimberIOSparkMax implements ClimberIO {
 
-  private CANSparkMax leftClimberMotor;
-  private RelativeEncoder leftClimberEncoder;
+  private final CANSparkMax leftClimberMotor;
+  private final RelativeEncoder leftClimberEncoder;
 
-  private CANSparkMax rightClimberMotor;
-  private RelativeEncoder rightClimberEncoder;
+  private final CANSparkMax rightClimberMotor;
+  private final RelativeEncoder rightClimberEncoder;
 
-  /** Creates the Motor and Encoder for the Climber */
+  /** Runs the real life Climbers with CANSpark Speed Controllers and NEO motor */
   public ClimberIOSparkMax() {
     System.out.println("[Init] Creating ClimberIOSparkMax");
 
-    leftClimberMotor = new CANSparkMax(ClimberConstants.LEFT_CLIMBER_CANID, MotorType.kBrushless);
+    leftClimberMotor = new CANSparkMax(ClimberConstants.LEFT_CAN_ID, MotorType.kBrushless);
     leftClimberEncoder = leftClimberMotor.getEncoder();
 
-    rightClimberMotor = new CANSparkMax(ClimberConstants.RIGHT_CLIMBER_CANID, MotorType.kBrushless);
+    rightClimberMotor = new CANSparkMax(ClimberConstants.RIGHT_CAN_ID, MotorType.kBrushless);
     rightClimberEncoder = rightClimberMotor.getEncoder();
 
-    leftClimberMotor.setInverted(ClimberConstants.LEFT_CLIMBER_INVERTED);
-    rightClimberMotor.setInverted(ClimberConstants.RIGHT_CLIMBER_INVERTED);
+    leftClimberMotor.setInverted(ClimberConstants.LEFT_IS_INVERTED);
+    rightClimberMotor.setInverted(ClimberConstants.RIGHT_IS_INVERTED);
+
+    leftClimberMotor.setIdleMode(IdleMode.kBrake);
+    rightClimberMotor.setIdleMode(IdleMode.kBrake);
   }
 
-  /** Updates the printed values for the Climber */
+  @Override
   public void updateInputs(ClimberIOInputs inputs) {
     // Updates the Left Climber Motor inputs
-    inputs.leftClimberPositionRad =
-        Units.rotationsToRadians(leftClimberEncoder.getPosition())
-            / ClimberConstants
-                .CLIMBER_GEAR_RATIO; // Converts rotaions to Radians and then divides it by the gear
-    // ratio
-    inputs.leftClimberVelocityRPM =
-        leftClimberEncoder.getVelocity()
-            / ClimberConstants
-                .CLIMBER_GEAR_RATIO; // Converts RPM to Radians per Second and then divides it by
-    // the gear ratio
     inputs.leftClimberAppliedVolts =
-        leftClimberMotor.getAppliedOutput()
-            * leftClimberMotor.getBusVoltage(); // Applied Voltage of the Left Climber Motor
-    inputs.leftClimberCurrentAmps =
-        new double[] {leftClimberMotor.getOutputCurrent()}; // Amps used by the Left Climber Motor
-    inputs.leftClimberTempCelcius =
-        new double[] {
-          leftClimberMotor.getMotorTemperature()
-        }; // Tempature (Celcius) of the Left Climber Motor
+        leftClimberMotor.getAppliedOutput() * leftClimberMotor.getBusVoltage();
+    // Converts rotations to radians, divides by gear ratio then multiplies by drum
+    // radius to get
+    // position in meters
+    inputs.leftClimberPositionMeters =
+        Units.rotationsToRadians(leftClimberEncoder.getPosition() / ClimberConstants.GEAR_RATIO)
+            * ClimberConstants.DRUM_RADIUS_M;
+
+    // Converts RPM to rad/s, divides by gear ratio then multiplies by drum radius
+    // to get velocity
+    // in m/s
+    inputs.leftClimberVelocityMetersPerSecond =
+        Units.rotationsPerMinuteToRadiansPerSecond(
+                leftClimberEncoder.getVelocity() / ClimberConstants.GEAR_RATIO)
+            * ClimberConstants.DRUM_RADIUS_M;
+
+    inputs.leftClimberCurrentAmps = new double[] {leftClimberMotor.getOutputCurrent()};
+
+    inputs.leftClimberTempCelsius = new double[] {leftClimberMotor.getMotorTemperature()};
 
     // Updates the Right Climber Motor inputs
-    inputs.rightClimberPositionRad =
-        Units.rotationsToRadians(rightClimberEncoder.getPosition())
-            / ClimberConstants
-                .CLIMBER_GEAR_RATIO; // Converts rotaions to Radians and then divides it by the gear
-    // ratio
-    inputs.rightClimberVelocityRPM =
-        rightClimberEncoder.getVelocity()
-            / ClimberConstants
-                .CLIMBER_GEAR_RATIO; // Converts RPM to Radians per Second and then divides it by
-    // the gear ratio
     inputs.rightClimberAppliedVolts =
-        rightClimberMotor.getBusVoltage(); // Applied Voltage of the Right Climber Motor
-    inputs.rightClimberCurrentAmps =
-        new double[] {rightClimberMotor.getOutputCurrent()}; // Amps used by the Right Climber Motor
-    inputs.rightClimberTempCelcius =
-        new double[] {
-          rightClimberMotor.getMotorTemperature()
-        }; // Tempature (Celcius) of the Right Climber Motor
+        rightClimberMotor.getAppliedOutput() * rightClimberMotor.getBusVoltage();
+    // Converts rotaions to Radians and then divides it by gear ratio then
+    // multiplies by drum radius position in meters
+    inputs.rightClimberPositionMeters =
+        Units.rotationsToRadians(rightClimberEncoder.getPosition() / ClimberConstants.GEAR_RATIO)
+            * ClimberConstants.DRUM_RADIUS_M;
+
+    // Converts RPM to rad/s, divides by gear ratio then multiplies by drum radius
+    // to get velocity
+    // in m/s
+    inputs.rightClimberVelocityMetersPerSecond =
+        Units.rotationsPerMinuteToRadiansPerSecond(
+                rightClimberEncoder.getVelocity() / ClimberConstants.GEAR_RATIO)
+            * ClimberConstants.DRUM_RADIUS_M;
+    inputs.rightClimberCurrentAmps = new double[] {rightClimberMotor.getOutputCurrent()};
+    inputs.rightClimberTempCelsius = new double[] {rightClimberMotor.getMotorTemperature()};
   }
 
   @Override
-  public void setBothClimberMotorsVoltage(double volts) {
+  public void setBothClimberVoltage(double volts) {
     leftClimberMotor.setVoltage(volts);
     rightClimberMotor.setVoltage(volts);
   }
 
   @Override
-  public void setLeftClimberMotorVoltage(double volts) {
+  public void setLeftClimberVoltage(double volts) {
     leftClimberMotor.setVoltage(volts);
   }
 
   @Override
-  public void setRightClimberMotorVoltage(double volts) {
+  public void setRightClimberVoltage(double volts) {
     rightClimberMotor.setVoltage(volts);
   }
 
   @Override
-  public void setBothClimberMotorsPercentSpeed(double percent) {
+  public void setBothClimberPercentSpeed(double percent) {
     leftClimberMotor.set(percent);
     rightClimberMotor.set(percent);
   }
 
   @Override
-  public void setLeftClimberMotorPercentSpeed(double percent) {
+  public void setLeftClimberPercentSpeed(double percent) {
     leftClimberMotor.set(percent);
   }
 
   @Override
-  public void setRightClimberMotorPercentSpeed(double percent) {
+  public void setRightClimberPercentSpeed(double percent) {
     rightClimberMotor.set(percent);
+  }
+
+  @Override
+  public void setBrakeMode(boolean enable) {
+    if (enable) {
+      leftClimberMotor.setIdleMode(IdleMode.kBrake);
+      rightClimberMotor.setIdleMode(IdleMode.kBrake);
+    } else {
+      leftClimberMotor.setIdleMode(IdleMode.kCoast);
+      rightClimberMotor.setIdleMode(IdleMode.kCoast);
+    }
   }
 }

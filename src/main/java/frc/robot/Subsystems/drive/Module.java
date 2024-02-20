@@ -110,7 +110,7 @@ public class Module {
     return new SwerveModuleState(getVelocityMetersPerSec(), getAngle());
   }
 
-  /** Sets Breake Mode for Turn and Drive Motors */
+  /** Sets Break Mode for Turn and Drive Motors */
   public void setBrakeModeAll(boolean enable) {
     io.setDriveBrakeMode(enable);
     io.setTurnBrakeMode(enable);

@@ -1,7 +1,7 @@
 # Crescendo
 Code Base for FRC Team 6413's 2024 Crescendo Robot Code
 
-## Code Ediquiete
+## Code Etiquette
 
   Comments on EVERYTHING (Commands, Constants, etc)
 
