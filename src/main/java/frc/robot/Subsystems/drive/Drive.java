@@ -41,7 +41,7 @@ public class Drive extends SubsystemBase {
 
     System.out.println("[Init] Creating Drive");
     this.gyro = gyro;
-    
+
     modules[0] = new Module(FRModuleIO, 0);
     modules[1] = new Module(FLModuleIO, 1);
     modules[2] = new Module(BLModuleIO, 2);

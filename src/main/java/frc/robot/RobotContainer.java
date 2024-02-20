@@ -14,7 +14,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -56,7 +55,7 @@ public class RobotContainer {
 
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
-  
+
   private final SlewRateLimiter m_linearRamping;
   private final SlewRateLimiter m_angularRamping;
 
@@ -103,7 +102,7 @@ public class RobotContainer {
                 new ModuleIOSimNeoKraken(),
                 new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIOSim())
+        m_armSubsystem = new Arm(new ArmIOSim());
         m_visionSubsystem = new Vision(new VisionIOSim());
         m_climberSubsystem = new Climber(new ClimberIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
@@ -113,8 +112,8 @@ public class RobotContainer {
         m_wristSubsystem = new Wrist(new WristIOSim());
 
         break;
-        
-        default:
+
+      default:
         // Replayed robot, disable IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
@@ -134,20 +133,18 @@ public class RobotContainer {
         m_wristSubsystem = new Wrist(new WristIO() {});
         break;
     }
-      
-      // Configure the button bindings
-      configureButtonBindings();
-    
-    
+
+    // Configure the button bindings
+    configureButtonBindings();
+
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
-    
 
     m_linearRamping = new SlewRateLimiter(0.5);
-    m_angularRamping = new SlewRateLimiter(0.2); 
+    m_angularRamping = new SlewRateLimiter(0.2);
   }
 
   /**
@@ -175,10 +172,10 @@ public class RobotContainer {
      * Down will retract a NOTE inward
      */
 
-    m_wristSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_wristSubsystem.setWristPercentSpeed(driverController.getLeftY()),
-            m_wristSubsystem));
+    //     m_wristSubsystem.setDefaultCommand(
+    //         new InstantCommand(
+    //             () -> m_wristSubsystem.setWristPercentSpeed(driverController.getLeftY()),
+    //             m_wristSubsystem));
 
     // m_shooterSubsystem.setDefaultCommand(
     //     new InstantCommand(
@@ -194,12 +191,12 @@ public class RobotContainer {
     // m_otbIntakeSubsystem.setDefaultCommand(
     //     new InstantCommand(
     //         () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(auxController.getRightY()),
-    //         m_otbIntakeSubsystem)); // TODO: Update controls
+    //         m_otbIntakeSubsystem));
 
-    m_actuatorSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
-            m_actuatorSubsystem)); // TODO: Update controls
+    //     m_actuatorSubsystem.setDefaultCommand(
+    //         new InstantCommand(
+    //             () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
+    //             m_actuatorSubsystem));
 
     // m_utbIntakeSubsystem.setDefaultCommand(
     //     new InstantCommand(

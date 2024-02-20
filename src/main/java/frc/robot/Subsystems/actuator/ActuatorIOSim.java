@@ -37,7 +37,7 @@ public class ActuatorIOSim implements ActuatorIO {
     inputs.actuatorAppliedVolts = 0.0;
     inputs.actuatorPositionRad = actuatorMotor.getAngleRads();
     inputs.actuatorPositionDeg =
-    inputs.actuatorVelocityRadPerSec = actuatorMotor.getVelocityRadPerSec();
+        inputs.actuatorVelocityRadPerSec = actuatorMotor.getVelocityRadPerSec();
     inputs.actuatorCurrentAmps = new double[] {actuatorMotor.getCurrentDrawAmps()};
   }
 

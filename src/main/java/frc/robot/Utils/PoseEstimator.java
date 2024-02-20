@@ -18,7 +18,6 @@ import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.gyro.*;
 import frc.robot.Subsystems.vision.*;
 import frc.robot.Subsystems.vision.VisionConstants;
-
 import org.photonvision.targeting.PhotonPipelineResult;
 
 /** This class handels the odometry and locates the robots current position */

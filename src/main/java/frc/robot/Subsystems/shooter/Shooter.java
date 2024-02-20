@@ -106,7 +106,8 @@ public class Shooter extends SubsystemBase {
 
     // Gets the current setpoint that the PID contollers are set to
     SmartDashboard.putNumber("Top PID Controller Setpoint", topShooterPIDController.getSetpoint());
-    SmartDashboard.putNumber("Bottom PID Controller Setpoint", -bottomShooterPIDController.getSetpoint());
+    SmartDashboard.putNumber(
+        "Bottom PID Controller Setpoint", -bottomShooterPIDController.getSetpoint());
 
     // SmartDashboard.putBoolean("!!Tempature Warning!!", exceedsTemperature());
   }
