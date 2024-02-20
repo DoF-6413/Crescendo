@@ -13,11 +13,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -80,40 +76,5 @@ public final class Constants {
 
   public class GyroConstants {
     public static final double GYRO_HEADING_OFFSET_DEGREES = 90;
-  }
-
-  public class VisionConstants {
-
-    public static final Transform3d cameraOnRobotOffsets =
-        new Transform3d(
-            new Translation3d(0, 0, 0), // update this value
-            new Rotation3d(0, 0, 0)); // update this offset value
-  }
-
-  public static class ShooterConstants {
-
-    // Gear ratio of 1:1 for the prototype Horizontal-Rollers/Top-Bottom Shooter
-    public static final double GEAR_RATIO = 1.0;
-
-    // Motor IDs
-    public static final int TOP_SHOOTER_MOTOR_ID = 14; // TalonFX currently set to 14
-    public static final int BOTTOM_SHOOTER_MOTOR_ID =
-        15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner
-
-    // Direction of motors; inverted = ccw
-    public static final boolean TOP_SHOOTER_MOTOR_INVERTED =
-        true; // Top motor spins opposite of the bottom motor (CCW)
-    public static final boolean BOTTOM_SHOOTER_MOTOR_INVERTED =
-        false; // Bottom motor is NOT inverted (CW)
-
-    // Flywheel simulation constants
-    public static final double SHOOTER_J_KG_METERS_SQUARED = 0.0016007389;
-    public static final double APPLIED_VOLTS = 12.0;
-  }
-
-  /** Unchanging Values for the Under the Bumper Intake */
-  public static class UTBIntakeConstants {
-    public static final int UTB_INTAKE_CANID = 13;
-    public static final int GEAR_RATIO = 2;
   }
 }

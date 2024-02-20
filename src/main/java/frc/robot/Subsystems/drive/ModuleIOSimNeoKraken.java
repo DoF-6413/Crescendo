@@ -28,16 +28,12 @@ public class ModuleIOSimNeoKraken implements ModuleIO {
     // Builds Drive Wheel for the Kraken Motor in the L3 Module
     driveSim =
         new FlywheelSim(
-            DCMotor.getKrakenX60(1),
-            DriveConstants.GEAR_RATIO_L3,
-            DriveConstants.DRIVE_J_KG_METERS_SQUARED);
+            DCMotor.getKrakenX60(1), DriveConstants.GEAR_RATIO_L3, DriveConstants.DRIVE_MOI_KG_M2);
 
     // Builds Turn Wheel for the Neo Motor in the L3 Module
     turnSim =
         new FlywheelSim(
-            DCMotor.getNEO(1),
-            DriveConstants.GEAR_RATIO_L3,
-            DriveConstants.STEER_J_KG_METERS_SQUARED);
+            DCMotor.getNEO(1), DriveConstants.GEAR_RATIO_L3, DriveConstants.STEER_MOI_KG_M2);
   }
 
   @Override
@@ -74,14 +70,14 @@ public class ModuleIOSimNeoKraken implements ModuleIO {
     inputs.driveAppliedVolts = driveAppliedVolts;
     // Math.abs = absolute value, sim sometimes makes amps directional
     inputs.driveCurrentAmps = new double[] {Math.abs(driveSim.getCurrentDrawAmps())};
-    inputs.driveTempCelcius = new double[] {};
+    inputs.driveTempCelsius = new double[] {};
 
     inputs.turnAbsolutePositionRad = turnAbsolutePositionRad;
     inputs.turnPositionRad = turnRelativePositionRad;
     inputs.turnVelocityRadPerSec = turnSim.getAngularVelocityRadPerSec();
     inputs.turnAppliedVolts = turnAppliedVolts;
     inputs.turnCurrentAmps = new double[] {Math.abs(turnSim.getCurrentDrawAmps())};
-    inputs.turnTempCelcius = new double[] {};
+    inputs.turnTempCelsius = new double[] {};
   }
 
   @Override

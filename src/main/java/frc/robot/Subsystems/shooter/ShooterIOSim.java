@@ -2,21 +2,21 @@ package frc.robot.Subsystems.shooter;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-import frc.robot.Constants.*;
+import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Utils.PIDController;
 
 public class ShooterIOSim implements ShooterIO {
   // Creating flywheels
-  private FlywheelSim topShooterFlywheel =
+  private final FlywheelSim topShooterFlywheel =
       new FlywheelSim(
-          DCMotor.getFalcon500(1),
-          ShooterConstants.GEAR_RATIO,
-          ShooterConstants.SHOOTER_J_KG_METERS_SQUARED);
+          DCMotor.getFalcon500(1), ShooterConstants.GEAR_RATIO, ShooterConstants.MOI_KG_M2);
 
-  private FlywheelSim bottomShooterFlywheel =
+  private final FlywheelSim bottomShooterFlywheel =
       new FlywheelSim(
-          DCMotor.getFalcon500(1),
-          ShooterConstants.GEAR_RATIO,
-          ShooterConstants.SHOOTER_J_KG_METERS_SQUARED);
+          DCMotor.getFalcon500(1), ShooterConstants.GEAR_RATIO, ShooterConstants.MOI_KG_M2);
+
+  private PIDController topShooterPID;
+  private PIDController bottomShooterPID;
 
   public ShooterIOSim() {
     System.out.println("[Init] Creating ShooterIOSim");
@@ -28,20 +28,36 @@ public class ShooterIOSim implements ShooterIO {
     topShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
     bottomShooterFlywheel.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
-    // Updates logged inputs, RPM and current. Voltage and temp aren't updated because ideally (like
-    // in a simulation), they would be constant
+    // Updates logged inputs of the simulated Shooter Flywheels
     inputs.topShooterMotorRPM = topShooterFlywheel.getAngularVelocityRPM();
+    inputs.topShooterAppliedVolts = 0.0;
     inputs.topShooterCurrentAmps = new double[] {Math.abs(topShooterFlywheel.getCurrentDrawAmps())};
 
     inputs.bottomShooterMotorRPM = bottomShooterFlywheel.getAngularVelocityRPM();
+    inputs.bottomShooterAppliedVolts = 0.0;
     inputs.bottomShooterCurrentAmps =
         new double[] {Math.abs(bottomShooterFlywheel.getCurrentDrawAmps())};
   }
 
   @Override
-  public void setShooterMotorPercentSpeed(double percent) {
-    // sets voltage
-    topShooterFlywheel.setInputVoltage(ShooterConstants.APPLIED_VOLTS * percent);
-    bottomShooterFlywheel.setInputVoltage(ShooterConstants.APPLIED_VOLTS * percent);
+  public void setBothShooterMotorPercentSpeed(double percent) {
+    topShooterFlywheel.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
+    bottomShooterFlywheel.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
+  }
+
+  @Override
+  public void setBothShooterMotorsVoltage(double volts) {
+    topShooterFlywheel.setInputVoltage(volts);
+    bottomShooterFlywheel.setInputVoltage(volts);
+  }
+
+  @Override
+  public void setTopShooterMotorVoltage(double volts) {
+    topShooterFlywheel.setInputVoltage(volts);
+  }
+
+  @Override
+  public void setBottomShooterMotorVoltage(double volts) {
+    bottomShooterFlywheel.setInputVoltage(volts);
   }
 }

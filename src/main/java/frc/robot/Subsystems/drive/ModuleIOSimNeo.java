@@ -27,12 +27,12 @@ public class ModuleIOSimNeo implements ModuleIO {
     // Builds Drive Wheel for the Neo Motor in the L2 Module
     driveSim =
         new DCMotorSim(
-            DCMotor.getNEO(1),
-            DriveConstants.GEAR_RATIO_L2,
-            DriveConstants.DRIVE_J_KG_METERS_SQUARED);
+            DCMotor.getNEO(1), DriveConstants.GEAR_RATIO_L2, DriveConstants.DRIVE_MOI_KG_M2);
 
     // Builds Turn Wheel for the Neo Motor in the L2 Module
-    turnSim = new DCMotorSim(DCMotor.getNEO(1), DriveConstants.GEAR_RATIO_L2, 0.004);
+    turnSim =
+        new DCMotorSim(
+            DCMotor.getNEO(1), DriveConstants.GEAR_RATIO_L2, DriveConstants.STEER_MOI_KG_M2);
   }
 
   @Override
@@ -69,14 +69,14 @@ public class ModuleIOSimNeo implements ModuleIO {
     inputs.driveAppliedVolts = driveAppliedVolts;
     // Math.abs = absolute value, sim sometimes makes amps directional
     inputs.driveCurrentAmps = new double[] {Math.abs(driveSim.getCurrentDrawAmps())};
-    inputs.driveTempCelcius = new double[] {};
+    inputs.driveTempCelsius = new double[] {};
 
     inputs.turnAbsolutePositionRad = turnAbsolutePositionRad;
     inputs.turnPositionRad = turnRelativePositionRad;
     inputs.turnVelocityRadPerSec = turnSim.getAngularVelocityRadPerSec();
     inputs.turnAppliedVolts = turnAppliedVolts;
     inputs.turnCurrentAmps = new double[] {Math.abs(turnSim.getCurrentDrawAmps())};
-    inputs.turnTempCelcius = new double[] {};
+    inputs.turnTempCelsius = new double[] {};
   }
 
   @Override

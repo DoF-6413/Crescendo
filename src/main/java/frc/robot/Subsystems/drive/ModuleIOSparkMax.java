@@ -115,7 +115,7 @@ public class ModuleIOSparkMax implements ModuleIO {
     inputs.driveAppliedVolts = driveSparkMax.getAppliedOutput() * driveSparkMax.getBusVoltage();
 
     inputs.driveCurrentAmps = new double[] {driveSparkMax.getOutputCurrent()};
-    inputs.driveTempCelcius = new double[] {driveSparkMax.getMotorTemperature()};
+    inputs.driveTempCelsius = new double[] {driveSparkMax.getMotorTemperature()};
 
     inputs.turnAbsolutePositionRad =
         MathUtil.angleModulus(
@@ -131,13 +131,13 @@ public class ModuleIOSparkMax implements ModuleIO {
         "absolute encoder" + swerveModuleNumber,
         Units.rotationsToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble()));
     SmartDashboard.putNumber(
-        "absolute encoder" + swerveModuleNumber + " with offset",
+        "absolute encoder" + swerveModuleNumber + "with offset",
         Units.rotationsToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble())
             + absoluteEncoderOffset);
 
     inputs.turnAppliedVolts = turnSparkMax.getAppliedOutput() * turnSparkMax.getBusVoltage();
     inputs.turnCurrentAmps = new double[] {turnSparkMax.getOutputCurrent()};
-    inputs.turnTempCelcius = new double[] {turnSparkMax.getMotorTemperature()};
+    inputs.turnTempCelsius = new double[] {turnSparkMax.getMotorTemperature()};
   }
 
   // sets voltage output of drive sparkmaxes

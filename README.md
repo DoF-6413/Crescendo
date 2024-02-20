@@ -1,7 +1,7 @@
 # Crescendo
 Code Base for FRC Team 6413's 2024 Crescendo Robot Code
 
-## Code Ediquiete
+## Code Etiquette
 
   Comments on EVERYTHING (Commands, Constants, etc)
 
@@ -19,11 +19,11 @@ Code Base for FRC Team 6413's 2024 Crescendo Robot Code
    Beta Numbers
  - first number = the repository
  - second number = pushes to Dev
- - third number = Issues #
- - fourth = # of commits
- - fifth = functionality (1 is working ,0 is work but not as intented, -1 is crashes ,-2 is doesn't build)
+ - third number = issue #
+ - fourth number = # of commits
+ - fifth number = functionality (1 is working, 0 works but not as intented, -1 is crashes, -2 is doesn't build)
 
-For Example, the First Repository that has 2 Pushes to Dev, with an issue number of 7, with 18 commits, and it works but not as intented, should look like: "1.2.7.18.0"
+For Example, the First Repository that has 2 Pushes to Dev, on the branch with an issue number of 7 with 18 commits, which it works but not as intented, should look like: "1.2.7.18.0"
 
 ## Branch Organization
 
@@ -59,16 +59,15 @@ feat#[Issue#]-[name]:
 bugfix#[Issue#]-[name]:
 
 - Used for a bugfix of a feature from Dev
-- Branch Name is all Lowercase
-- Make BugFix Branches off of the Dev Branch
+- Branch name is all lowercase
+- Make bugfix Branches off of the Dev Branch
 
 chore#[Issue#]-[name]:
 
 - Used for cleaning code
-- Branch Name is all Lowercase
-- Make Chore Branches off of the Dev Branch
+- Branch name is all Lowercase
+- Make chore branches off of the Dev Branch
 - Mainly used by mentor or lead
-
 
 ## Useful Git Bash Commands
 - git add .
@@ -95,8 +94,8 @@ chore#[Issue#]-[name]:
 - git config user.email [User Email]
   - Configures Email for THAT specfic Folder
   - DO NOT USE GLOBAL ON SHARED LAPTOPS
-  - Used to Properly Lable who Wrote what Code through Commits (Not Access or PRs)
+  - Used to properly label who wrote what code through Commits (Not Access or PRs)
 - git config user.name [Github Username]
   - Configures Username for THAT Specific Folder
   - DO NOT USE GLOBAL ON SHARED LAPTOPS
-  - Used to Properly Lable who Wrote what Code through Commits (Not Access or PRs)
+  - Used to properly label who wrote what code through Commits (Not Access or PRs)
