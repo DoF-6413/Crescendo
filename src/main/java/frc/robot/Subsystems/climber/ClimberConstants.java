@@ -66,7 +66,7 @@ public final class ClimberConstants {
   /** The Radius of the Spool that the "Elevator" or Climber rotates around */
   public static final double DRUM_RADIUS_M = Units.inchesToMeters(2);
 
-  /** The minimum angle the climber can extend to from the lowest point of the climber */
+  /** The minimum height the climber can extend to from the lowest point of the climber */
   public static final double MIN_HEIGHT_M = Units.inchesToMeters(2.969);
 
   /** The maximum height the climber can extend to from the lowest point of the climber */

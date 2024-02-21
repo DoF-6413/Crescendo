@@ -105,7 +105,6 @@ public class Actuator extends SubsystemBase {
 
   public double getAngleRads() {
     return io.getAngleRads();
-
   }
   /**
    * Sets the Brake Mode for the Actuator (Brake means motor holds position, Coast means easy to

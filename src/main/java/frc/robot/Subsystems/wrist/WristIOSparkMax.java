@@ -64,6 +64,5 @@ public class WristIOSparkMax implements WristIO {
     } else {
       wristMotor.setIdleMode(IdleMode.kCoast);
     }
-  
-}
+  }
 }

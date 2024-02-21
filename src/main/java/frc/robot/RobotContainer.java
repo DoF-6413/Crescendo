@@ -176,20 +176,20 @@ public class RobotContainer {
     //         () -> m_utbIntakeSubsystem.setutbIntakePercentSpeed(auxController.getLeftY()),
     //         m_utbIntakeSubsystem));
 
-    m_climberSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_climberSubsystem.setBothClimberPercentSpeed(driverController.getRightX()),
-            m_climberSubsystem));
+    // m_climberSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_climberSubsystem.setBothClimberPercentSpeed(driverController.getRightX()),
+    //         m_climberSubsystem));
 
     m_climberSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> m_climberSubsystem.setLeftClimberPercentSpeed(auxController.getRightX()),
+            () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
             m_climberSubsystem));
 
-    m_climberSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_climberSubsystem.setRightClimberPercentSpeed(auxController.getRightY()),
-            m_climberSubsystem));
+    // m_climberSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_climberSubsystem.setRightClimberPercentSpeed(auxController.getRightY()),
+    //         m_climberSubsystem));
 
     m_armSubsystem.setDefaultCommand(
         new InstantCommand(

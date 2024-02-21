@@ -102,7 +102,7 @@ public class Arm extends SubsystemBase {
   public double getAngleRads() {
     return io.getAngleRads();
   }
-    
+
   /**
    * Sets the Brake Mode for the Arm (Brake means motor holds position, Coast means easy to move)
    *

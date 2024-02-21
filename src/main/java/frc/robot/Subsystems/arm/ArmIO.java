@@ -45,13 +45,10 @@ public interface ArmIO {
    */
   public default void setArmVoltage(double volts) {}
 
-
-
   public default double getAngleRads() {
     return 0;
   }
 
-  
   /**
    * Sets the Brake Mode for the Arm (Brake means motor holds position, Coast means easy to move)
    *

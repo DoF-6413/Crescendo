@@ -50,10 +50,8 @@ public class ActuatorIOSparkMax implements ActuatorIO {
 
   @Override
   public double getAngleRads() {
-    return Units.rotationsToRadians(
-        actuatorEncoder.getPosition() / ActuatorConstants.GEAR_RATIO);
+    return Units.rotationsToRadians(actuatorEncoder.getPosition() / ActuatorConstants.GEAR_RATIO);
   }
-
 
   public void setBrakeMode(boolean enable) {
     if (enable) {
