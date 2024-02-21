@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Subsystems.actuator.Actuator;
+import frc.robot.Subsystems.actuator.ActuatorConstants;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.climber.Climber;
 import frc.robot.Subsystems.wrist.Wrist;
@@ -33,10 +34,10 @@ public class Mechanisms2d extends SubsystemBase {
   private final Color8Bit green = new Color8Bit(0, 255, 0);
   private final Color8Bit blue = new Color8Bit(0, 0, 255);
   private final Color8Bit purple = new Color8Bit(255, 0, 255);
-  private final Color8Bit loquesea = new Color8Bit(255, 255, 255);
+  private final Color8Bit white = new Color8Bit(255, 255, 255);
 
   public Mechanisms2d(Wrist wristSub, Arm arm, Actuator actuator, Climber climber) {
-    swerveMech = new Mechanism2d(5, 5); // sets the screen
+    swerveMech = new Mechanism2d(72, 68); // dimentions of the robot inside bumpers without bumpers
 
     m_wristSub = wristSub;
     m_Arm = arm;
@@ -46,16 +47,28 @@ public class Mechanisms2d extends SubsystemBase {
     // set the cordenates on the screen where it is
     Wristroot = swerveMech.getRoot("wristRoot", 2, 2);
     armRoot = swerveMech.getRoot("armRoot", 0, 0);
-    actuatorRoot = swerveMech.getRoot("actuatorRoot", 1, 2);
+    actuatorRoot = swerveMech.getRoot("actuatorRoot", 7, 27.15); // done
     climberRoot = swerveMech.getRoot("climberRoot", 2.5, 2.5);
-    // set the dimentions of the mecanism
+
+    // set the dimentions of the mecanism in cm
     wristMech = Wristroot.append(new MechanismLigament2d("wristRoot", 2, 0, 1, red));
+
     armMech = armRoot.append(new MechanismLigament2d("armRoot", 1, 120, 5, green));
-    actuatorMech = actuatorRoot.append(new MechanismLigament2d("actuatorRoot", 2, 10, 1, blue));
+
+    actuatorMech =
+        actuatorRoot.append(
+            new MechanismLigament2d( // done
+                "actuatorRoot",
+                28.51,
+                Units.radiansToDegrees(ActuatorConstants.START_ANGLE_RADS),
+                17.5,
+                blue));
+
     leftClimberMech =
         climberRoot.append(new MechanismLigament2d("leftClimberRoot", 2, 90, 2, purple));
+
     rightClimberMech =
-        climberRoot.append(new MechanismLigament2d("rightClimberRoot", 2, 90, 3, loquesea));
+        climberRoot.append(new MechanismLigament2d("rightClimberRoot", 2, 90, 3, white));
   }
 
   @Override

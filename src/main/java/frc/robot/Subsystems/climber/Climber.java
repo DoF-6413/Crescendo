@@ -4,10 +4,6 @@
 
 package frc.robot.Subsystems.climber;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -61,43 +57,43 @@ public class Climber extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("Climber", inputs);
 
-  //   io.setLeftClimberPercentSpeed(
-  //       climberLeftPIDController.calculate(inputs.leftClimberPositionMeters));
+    //   io.setLeftClimberPercentSpeed(
+    //       climberLeftPIDController.calculate(inputs.leftClimberPositionMeters));
 
-  //   io.setRightClimberPercentSpeed(
-  //       climberRightPIDController.calculate(inputs.rightClimberPositionMeters));
+    //   io.setRightClimberPercentSpeed(
+    //       climberRightPIDController.calculate(inputs.rightClimberPositionMeters));
 
-  //   if (ClimberConstants.RIGHT_KP != climberRightkp.getDouble(0.0)
-  //       || ClimberConstants.RIGHT_KI != climberRightki.getDouble(0.0)
-  //       || ClimberConstants.RIGHT_KD != climberRightkd.getDouble(0.0)
-  //       || ClimberConstants.LEFT_KP != climberLeftkp.getDouble(0.0)
-  //       || ClimberConstants.LEFT_KI != climberLeftki.getDouble(0.0)
-  //       || ClimberConstants.LEFT_KD != climberLeftkd.getDouble(0.0)) {
-  //     updatePIDController();
-  //   }
+    //   if (ClimberConstants.RIGHT_KP != climberRightkp.getDouble(0.0)
+    //       || ClimberConstants.RIGHT_KI != climberRightki.getDouble(0.0)
+    //       || ClimberConstants.RIGHT_KD != climberRightkd.getDouble(0.0)
+    //       || ClimberConstants.LEFT_KP != climberLeftkp.getDouble(0.0)
+    //       || ClimberConstants.LEFT_KI != climberLeftki.getDouble(0.0)
+    //       || ClimberConstants.LEFT_KD != climberLeftkd.getDouble(0.0)) {
+    //     updatePIDController();
+    //   }
 
-  //   if (climberSetpoint != climberSetpointSetter.getDouble(0.0)) {
-  //     updateSetpoint();
-  //   }
-  // }
+    //   if (climberSetpoint != climberSetpointSetter.getDouble(0.0)) {
+    //     updateSetpoint();
+    //   }
+    // }
 
-  // public void updatePIDController() {
-  //   ClimberConstants.LEFT_KP = climberLeftkp.getDouble(0.0);
-  //   ClimberConstants.LEFT_KD = climberLeftkd.getDouble(0.0);
-  //   ClimberConstants.LEFT_KI = climberLeftki.getDouble(0.0);
-  //   ClimberConstants.RIGHT_KP = climberRightkp.getDouble(0.0);
-  //   ClimberConstants.RIGHT_KI = climberRightki.getDouble(0.0);
-  //   ClimberConstants.RIGHT_KD = climberRightkd.getDouble(0.0);
-  //   climberLeftPIDController.setPID(
-  //       ClimberConstants.LEFT_KP, ClimberConstants.LEFT_KI, ClimberConstants.LEFT_KD);
-  //   climberRightPIDController.setPID(
-  //       ClimberConstants.RIGHT_KP, ClimberConstants.RIGHT_KI, ClimberConstants.RIGHT_KD);
-  // }
+    // public void updatePIDController() {
+    //   ClimberConstants.LEFT_KP = climberLeftkp.getDouble(0.0);
+    //   ClimberConstants.LEFT_KD = climberLeftkd.getDouble(0.0);
+    //   ClimberConstants.LEFT_KI = climberLeftki.getDouble(0.0);
+    //   ClimberConstants.RIGHT_KP = climberRightkp.getDouble(0.0);
+    //   ClimberConstants.RIGHT_KI = climberRightki.getDouble(0.0);
+    //   ClimberConstants.RIGHT_KD = climberRightkd.getDouble(0.0);
+    //   climberLeftPIDController.setPID(
+    //       ClimberConstants.LEFT_KP, ClimberConstants.LEFT_KI, ClimberConstants.LEFT_KD);
+    //   climberRightPIDController.setPID(
+    //       ClimberConstants.RIGHT_KP, ClimberConstants.RIGHT_KI, ClimberConstants.RIGHT_KD);
+    // }
 
-  // public void updateSetpoint() {
-  //   climberSetpoint = climberSetpointSetter.getDouble(0.0);
-  //   climberLeftPIDController.setSetpoint(climberSetpoint);
-  //   climberRightPIDController.setSetpoint(climberSetpoint);
+    // public void updateSetpoint() {
+    //   climberSetpoint = climberSetpointSetter.getDouble(0.0);
+    //   climberLeftPIDController.setSetpoint(climberSetpoint);
+    //   climberRightPIDController.setSetpoint(climberSetpoint);
   }
 
   /** Updates the inputs for the Climber */
