@@ -17,6 +17,8 @@ public class FeederConstants {
   public static final double MAX_VALUE = 0.0; //TODO: Update
 
   // Real constants
+  /** CAN ID for the feeder motor */
+  public static final int FEEDER_MOTOR_ID = 0; //TODO: Update
   /** Gear ratio of 4:3 for the Indexer */
   public static final double GEAR_RATIO = 4/3; // TODO: Update
   /** Current limit Amps */
