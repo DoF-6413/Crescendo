@@ -86,7 +86,7 @@ public class Module {
    * Manually Sets the Percent Speed of the Turn Motor in Individual Module (On a -1 to 1 Scale. 1
    * representing 100)
    */
-  public void setPercentSpeed(double percent) {
+  public void setTurnPercentSpeed(double percent) {
     io.setTurnVoltage(percent * 12);
   }
 
