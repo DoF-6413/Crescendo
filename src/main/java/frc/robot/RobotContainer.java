@@ -44,14 +44,14 @@ public class RobotContainer {
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
 
-  private final Arm m_armSubsystem;
+  // private final Arm m_armSubsystem;
   private final Vision m_visionSubsystem;
-  private final Climber m_climberSubsystem;
-  private final UTBIntake m_utbIntakeSubsystem;
-  private final OTBIntake m_otbIntakeSubsystem;
-  private final Actuator m_actuatorSubsystem;
-  private final Shooter m_shooterSubsystem;
-  private final Wrist m_wristSubsystem;
+  // private final Climber m_climberSubsystem;
+  // private final UTBIntake m_utbIntakeSubsystem;
+  // private final OTBIntake m_otbIntakeSubsystem;
+  // private final Actuator m_actuatorSubsystem;
+  // private final Shooter m_shooterSubsystem;
+  // private final Wrist m_wristSubsystem;
 
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
@@ -82,14 +82,14 @@ public class RobotContainer {
                 new ModuleIOSparkMaxTalonFX(2),
                 new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIOSparkMax());
+        // m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_visionSubsystem = new Vision(new VisionIOArduCam());
-        m_climberSubsystem = new Climber(new ClimberIOSparkMax());
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
-        m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
-        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_wristSubsystem = new Wrist(new WristIOSparkMax());
+        // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
+        // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
+        // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
+        // m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
+        // m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        // m_wristSubsystem = new Wrist(new WristIOSparkMax());
         break;
 
       case SIM:
@@ -102,14 +102,14 @@ public class RobotContainer {
                 new ModuleIOSimNeoKraken(),
                 new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIOSim());
+        // m_armSubsystem = new Arm(new ArmIOSim());
         m_visionSubsystem = new Vision(new VisionIOSim());
-        m_climberSubsystem = new Climber(new ClimberIOSim());
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
-        m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
-        m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_wristSubsystem = new Wrist(new WristIOSim());
+        // m_climberSubsystem = new Climber(new ClimberIOSim());
+        // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
+        // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
+        // m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
+        // m_shooterSubsystem = new Shooter(new ShooterIOSim());
+        // m_wristSubsystem = new Wrist(new WristIOSim());
 
         break;
 
@@ -123,14 +123,14 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIO() {});
+        // m_armSubsystem = new Arm(new ArmIO() {});
         m_visionSubsystem = new Vision(new VisionIO() {});
-        m_climberSubsystem = new Climber(new ClimberIO() {});
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
-        m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
-        m_shooterSubsystem = new Shooter(new ShooterIO() {});
-        m_wristSubsystem = new Wrist(new WristIO() {});
+        // m_climberSubsystem = new Climber(new ClimberIO() {});
+        // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
+        // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
+        // m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
+        // m_shooterSubsystem = new Shooter(new ShooterIO() {});
+        // m_wristSubsystem = new Wrist(new WristIO() {});
         break;
     }
 
@@ -181,9 +181,10 @@ public class RobotContainer {
     // m_shooterSubsystem.setDefaultCommand(
     //     new InstantCommand(
     //         () ->
-    //             m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() * 0.5),
+    //             m_shooterSubsystem.setShooterMotorPercentSpeed(driverController.getRightY() *
+    // 0.5),
     //         m_shooterSubsystem));
-    
+
     /** Spins the motor that will be running the UTB Intake */
     // m_utbIntake.setDefaultCommand(
     //     new InstantCommand(
