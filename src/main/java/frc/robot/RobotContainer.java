@@ -205,10 +205,10 @@ public class RobotContainer {
             () -> m_actuatorSubsystem.setActuatorPercentSpeed(driverController.getLeftX()),
             m_actuatorSubsystem));
 
-    m_wristSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_wristSubsystem.setWristPercentSpeed(driverController.getLeftY()),
-            m_wristSubsystem));
+    // m_wristSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_wristSubsystem.setWristPercentSpeed(driverController.getLeftY()),
+    //         m_wristSubsystem));
   }
 
   /**
