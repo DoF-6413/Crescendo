@@ -15,7 +15,6 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.RobotStateConstants;
 import java.util.Optional;
 
@@ -127,14 +126,6 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
                     // degrees
                     )
                 .getRadians());
-
-    SmartDashboard.putNumber(
-        "absolute encoder" + swerveModuleNumber,
-        Units.rotationsToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble()));
-    SmartDashboard.putNumber(
-        "absolute encoder" + swerveModuleNumber + " with offset",
-        Units.rotationsToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble())
-            + absoluteEncoderOffset);
 
     inputs.turnAppliedVolts = turnSparkMax.getAppliedOutput() * turnSparkMax.getBusVoltage();
 
