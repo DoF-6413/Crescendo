@@ -154,34 +154,44 @@ public class RobotContainer {
                     driverController.getLeftX(),
                     -driverController.getLeftY(),
                     driverController.getRightX()),
-            m_driveSubsystem));
+            m_driveSubsystem));//done 
 
-    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
+    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));//done
 
     // TODO: update controls
-    // m_utbIntakeSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_utbIntakeSubsystem.setutbIntakePercentSpeed(auxController.getLeftY()),
-    //         m_utbIntakeSubsystem));
+    m_utbIntakeSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_utbIntakeSubsystem.enableUTB(auxController.y().getAsBoolean()),//done
+            m_utbIntakeSubsystem));
 
     // m_climberSubsystem.setDefaultCommand(
     //     new InstantCommand(
-    //         () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
+    //         () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),//rejected
     //         m_climberSubsystem));
 
-    // m_armSubsystem.setDefaultCommand(
-    //       new InstantCommand(
-    //           () > m_armSubsystem.setArmMotorSpeed(auxController.getLeftY()), m_armSubsystem));
+    m_armSubsystem.setDefaultCommand(
+          new InstantCommand(
+              ()-> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY()),
+     m_armSubsystem));//need
 
-    // m_otbIntakeSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(auxController.getRightY()),
-    //         m_otbIntakeSubsystem));
+     m_wristSubsystem.setDefaultCommand(
+      new InstantCommand(
+        ()-> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY()),
+        m_wristSubsystem));//need 
 
-    // m_actuatorSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
-    //         m_actuatorSubsystem));
+    m_otbIntakeSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(driverController.getLeftX()),//need 
+            m_otbIntakeSubsystem));
+
+    m_actuatorSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_actuatorSubsystem.setActuatorPercentSpeed(-driverController.getLeftTriggerAxis()),//done
+            m_actuatorSubsystem));
+    m_actuatorSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_actuatorSubsystem.setActuatorPercentSpeed(driverController.getRightTriggerAxis()),//done
+            m_actuatorSubsystem));
   }
 
   /**

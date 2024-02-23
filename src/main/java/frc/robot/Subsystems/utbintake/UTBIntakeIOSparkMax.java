@@ -51,4 +51,14 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
       utbIntakeMotor.setIdleMode(IdleMode.kCoast);
     }
   }
+
+  @Override
+  public void enableUTB(boolean auxYIsPressed){
+    if(auxYIsPressed == true){
+     setUTBIntakePercentSpeed(100);
+   }else{
+     setUTBIntakePercentSpeed(100);
+   }
+   }
+
 }

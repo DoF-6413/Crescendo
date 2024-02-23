@@ -43,4 +43,6 @@ public interface UTBIntakeIO {
    * @param isEnabled boolean for is brake mode true or false
    */
   public default void setUTBIntakeBrakeMode(boolean isEnabled) {}
+
+  public default void enableUTB(boolean auxYIsPressed){}
 }

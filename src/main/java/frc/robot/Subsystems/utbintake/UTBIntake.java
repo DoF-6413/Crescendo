@@ -99,6 +99,8 @@ public class UTBIntake extends SubsystemBase {
     io.setUTBIntakePercentSpeed(percent);
   }
 
+
+
   /** Returns the speed of the wheels for the intake found under the bumpers in RPM */
   public double getUTBIntakeRPM() {
     return inputs.utbIntakeRPM;
@@ -111,5 +113,12 @@ public class UTBIntake extends SubsystemBase {
    */
   public void setUTBIntakeBrakeMode(boolean enable) {
     io.setUTBIntakeBrakeMode(enable);
+  }
+  public void enableUTB(boolean auxYIsPressed){
+   if(auxYIsPressed == true){
+    io.setUTBIntakePercentSpeed(100);
+  }else{
+    io.setUTBIntakePercentSpeed(0);
+  }
   }
 }
