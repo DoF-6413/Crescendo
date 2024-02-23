@@ -33,14 +33,13 @@ public class Module {
     // update drive pid values depending on neo or kraken
     drivePID =
         new PIDController(
-            DriveConstants.driveKP(io.isL3()),
-            DriveConstants.driveKI(io.isL3()),
-            DriveConstants.driveKD(io.isL3()));
+            DriveConstants.DRIVE_KP_KRAKEN,
+            DriveConstants.DRIVE_KI_KRAKEN,
+            DriveConstants.DRIVE_KD_KRAKEN);
 
     // update drive ff values depending on neo or kraken
     driveFeedforward =
-        new SimpleMotorFeedforward(
-            DriveConstants.driveKS(io.isL3()), DriveConstants.driveKV(io.isL3()));
+        new SimpleMotorFeedforward(DriveConstants.DRIVE_KS_KRAKEN, DriveConstants.DRIVE_KV_KRAKEN);
 
     // fill steer pid values
     steerPID =
@@ -156,7 +155,7 @@ public class Module {
     // Run drive controller
     io.setDriveVoltage(
         driveFeedforward.calculate(velocityRadPerSec)
-            + drivePID.calculate(inputs.driveVelocityRadPerSec, velocityRadPerSec));
+            + (drivePID.calculate(inputs.driveVelocityRadPerSec, velocityRadPerSec)));
 
     return optimizedState;
   }
