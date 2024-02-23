@@ -73,7 +73,8 @@ public class OTBIntake extends SubsystemBase {
     OTBIntakeConstants.KP = OTBIntakekp.getDouble(0.0);
     OTBIntakeConstants.KI = OTBIntakeki.getDouble(0.0);
     OTBIntakeConstants.KD = OTBIntakekd.getDouble(0.0);
-    otbIntakePIDController.setPID(OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
+    otbIntakePIDController.setPID(
+        OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
   }
 
   /** Updates the setpoint based on what is put on Shuffleboard */
@@ -121,10 +122,11 @@ public class OTBIntake extends SubsystemBase {
     return otbIntakePIDController.atSetpoint(inputs.otbIntakeVelocityRPM);
   }
 
-  public void enableRullers(boolean auxXIsPressed){
-   if(auxXIsPressed){ io.setOTBIntakePercentSpeed(100);
-  }else{
-    io.setOTBIntakePercentSpeed(0);
+  public void enableRullers(boolean auxXIsPressed) {
+    if (auxXIsPressed) {
+      io.setOTBIntakePercentSpeed(100);
+    } else {
+      io.setOTBIntakePercentSpeed(0);
+    }
   }
-}
 }

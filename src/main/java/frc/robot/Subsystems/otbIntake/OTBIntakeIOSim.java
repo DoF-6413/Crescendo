@@ -41,10 +41,11 @@ public class OTBIntakeIOSim implements OTBIntakeIO {
   }
 
   @Override
-  public void enableRullers(boolean auxXIsPressed){
-    if(auxXIsPressed){ setOTBIntakePercentSpeed(100);
-   }else{
-     setOTBIntakePercentSpeed(0);
-   }
- }
+  public void enableRullers(boolean auxXIsPressed) {
+    if (auxXIsPressed) {
+      setOTBIntakePercentSpeed(100);
+    } else {
+      setOTBIntakePercentSpeed(0);
+    }
+  }
 }

@@ -69,7 +69,8 @@ public class Shooter extends SubsystemBase {
 
     // Sets the voltage of the Shooter Motors using PID
     setTopShooterMotorVoltage(
-        topShooterPIDController.calculateForVoltage(inputs.topShooterMotorRPM, ShooterConstants.MAX_VALUE));
+        topShooterPIDController.calculateForVoltage(
+            inputs.topShooterMotorRPM, ShooterConstants.MAX_VALUE));
     setBottomShooterMotorVoltage(
         -bottomShooterPIDController.calculateForVoltage(
             Math.abs(inputs.bottomShooterMotorRPM), ShooterConstants.MAX_VALUE));
@@ -102,7 +103,8 @@ public class Shooter extends SubsystemBase {
     ShooterConstants.BOTTOM_KP = shooterBottomkP.getDouble(0.0);
     ShooterConstants.BOTTOM_KI = shooterBottomkI.getDouble(0.0);
     ShooterConstants.BOTTOM_KD = shooterBottomkD.getDouble(0.0);
-    topShooterPIDController.setPID(ShooterConstants.TOP_KP, ShooterConstants.TOP_KI, ShooterConstants.TOP_KD);
+    topShooterPIDController.setPID(
+        ShooterConstants.TOP_KP, ShooterConstants.TOP_KI, ShooterConstants.TOP_KD);
     bottomShooterPIDController.setPID(
         ShooterConstants.BOTTOM_KP, ShooterConstants.BOTTOM_KI, ShooterConstants.BOTTOM_KD);
   }
@@ -181,9 +183,11 @@ public class Shooter extends SubsystemBase {
     return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
   }
 
-  public void enableShooter(boolean auxAIsPressed){
-    if(auxAIsPressed){io.setBothShooterMotorPercentSpeed(100);
-    }else{io.setBothShooterMotorPercentSpeed(0);
+  public void enableShooter(boolean auxAIsPressed) {
+    if (auxAIsPressed) {
+      io.setBothShooterMotorPercentSpeed(100);
+    } else {
+      io.setBothShooterMotorPercentSpeed(0);
     }
   }
 

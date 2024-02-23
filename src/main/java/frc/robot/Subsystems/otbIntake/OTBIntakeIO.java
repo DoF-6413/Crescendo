@@ -47,5 +47,5 @@ public interface OTBIntakeIO {
    */
   public default void setBrakeMode(boolean enable) {}
 
-  public default void enableRullers(boolean auxXIsPressed){}
+  public default void enableRullers(boolean auxXIsPressed) {}
 }

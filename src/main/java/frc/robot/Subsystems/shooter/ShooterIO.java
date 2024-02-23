@@ -6,8 +6,6 @@ package frc.robot.Subsystems.shooter;
 
 import org.littletonrobotics.junction.AutoLog;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
-
 /** All the Loggable Inputs and Outputs of All Shooter Modes */
 public interface ShooterIO {
 
@@ -81,5 +79,5 @@ public interface ShooterIO {
    */
   public default void setBottomShooterMotorVoltage(double volts) {}
 
-  public default void enableShooter(boolean auxAIsPressed){}
+  public default void enableShooter(boolean auxAIsPressed) {}
 }

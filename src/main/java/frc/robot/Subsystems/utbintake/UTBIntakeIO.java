@@ -44,5 +44,5 @@ public interface UTBIntakeIO {
    */
   public default void setUTBIntakeBrakeMode(boolean isEnabled) {}
 
-  public default void enableUTB(boolean auxYIsPressed){}
+  public default void enableUTB(boolean auxYIsPressed) {}
 }

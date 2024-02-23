@@ -25,7 +25,7 @@ public final class UTBIntakeConstants {
 
   // Real Constants
   /** CAN ID of the UTB intake motor */
-  public static final int CAN_ID = 0; // TODO: Update
+  public static final int CAN_ID = 14; // TODO: Update
   /** current limiting for UTB intake */
   public static final int CUR_LIM_A = 30; // TODO: Update
   /** gear ratio of the UTB intake */

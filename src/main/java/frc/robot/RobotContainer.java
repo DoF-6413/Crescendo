@@ -42,16 +42,16 @@ public class RobotContainer {
   // Subsystems
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
-  
-  private final Arm m_armSubsystem;
+
+  // private final Arm m_armSubsystem;
   private final Vision m_visionSubsystem;
-  private final Climber m_climberSubsystem;
+  // private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
-  private final Shooter m_shooterSubsystem;
-  private final Wrist m_wristSubsystem;
-  
+  // private final Shooter m_shooterSubsystem;
+  // private final Wrist m_wristSubsystem;
+
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
 
@@ -71,20 +71,20 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
-        new Drive(
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
+            new Drive(
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
                 m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIOSparkMax());
+        // m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_visionSubsystem = new Vision(new VisionIOArduCam());
-        m_climberSubsystem = new Climber(new ClimberIOSparkMax());
+        // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
-        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_wristSubsystem = new Wrist(new WristIOSparkMax());
+        // m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        // m_wristSubsystem = new Wrist(new WristIOSparkMax());
         break;
 
       case SIM:
@@ -97,14 +97,14 @@ public class RobotContainer {
                 new ModuleIOSimNeo(),
                 new ModuleIOSimNeo(),
                 m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIOSim());
+        // m_armSubsystem = new Arm(new ArmIOSim());
         m_visionSubsystem = new Vision(new VisionIOSim());
-        m_climberSubsystem = new Climber(new ClimberIOSim());
+        // m_climberSubsystem = new Climber(new ClimberIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
-        m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_wristSubsystem = new Wrist(new WristIOSim());
+        // m_shooterSubsystem = new Shooter(new ShooterIOSim());
+        // m_wristSubsystem = new Wrist(new WristIOSim());
 
         break;
 
@@ -118,14 +118,14 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIO() {});
+        // m_armSubsystem = new Arm(new ArmIO() {});
         m_visionSubsystem = new Vision(new VisionIO() {});
-        m_climberSubsystem = new Climber(new ClimberIO() {});
+        // m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
-        m_shooterSubsystem = new Shooter(new ShooterIO() {});
-        m_wristSubsystem = new Wrist(new WristIO() {});
+        // m_shooterSubsystem = new Shooter(new ShooterIO() {});
+        // m_wristSubsystem = new Wrist(new WristIO() {});
         break;
     }
 
@@ -154,43 +154,49 @@ public class RobotContainer {
                     driverController.getLeftX(),
                     -driverController.getLeftY(),
                     driverController.getRightX()),
-            m_driveSubsystem)); 
+            m_driveSubsystem));
 
     driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     // TODO: update controls
     m_utbIntakeSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> m_utbIntakeSubsystem.enableUTB(auxController.y().getAsBoolean()),
+            // () -> m_utbIntakeSubsystem.enableUTB(auxController.y().getAsBoolean()),
+
+            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(auxController.getRightY()),
             m_utbIntakeSubsystem));
 
-    m_armSubsystem.setDefaultCommand(
-          new InstantCommand(
-              ()-> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY()),
-     m_armSubsystem));
+    // m_armSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY()), m_armSubsystem));
 
-     m_wristSubsystem.setDefaultCommand(
-      new InstantCommand(
-        ()-> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY()),
-        m_wristSubsystem));
+    // m_wristSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY()),
+    //         m_wristSubsystem));
 
-    m_otbIntakeSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_otbIntakeSubsystem.enableRullers(driverController.x().getAsBoolean()),
-            m_otbIntakeSubsystem));
+    // m_otbIntakeSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_otbIntakeSubsystem.enableRullers(driverController.x().getAsBoolean()),
+    //         m_otbIntakeSubsystem));
 
-    m_actuatorSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_actuatorSubsystem.setActuatorPercentSpeed(-driverController.getLeftTriggerAxis()),
-            m_actuatorSubsystem));
-    m_actuatorSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_actuatorSubsystem.setActuatorPercentSpeed(driverController.getRightTriggerAxis()),
-            m_actuatorSubsystem));
-  
-    m_shooterSubsystem.setDefaultCommand(
-      new InstantCommand(()-> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),m_shooterSubsystem)
-    );
+    // m_actuatorSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () ->
+    //
+    // m_actuatorSubsystem.setActuatorPercentSpeed(-driverController.getLeftTriggerAxis()),
+    //         m_actuatorSubsystem));
+    // m_actuatorSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () ->
+    //
+    // m_actuatorSubsystem.setActuatorPercentSpeed(driverController.getRightTriggerAxis()),
+    //         m_actuatorSubsystem));
+
+    // m_shooterSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
+    //         m_shooterSubsystem));
   }
 
   /**

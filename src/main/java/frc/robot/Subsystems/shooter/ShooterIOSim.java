@@ -58,9 +58,11 @@ public class ShooterIOSim implements ShooterIO {
   }
 
   @Override
-  public void enableShooter(boolean auxAIsPressed){
-    if(auxAIsPressed){setBothShooterMotorPercentSpeed(100);
-    }else{setBothShooterMotorPercentSpeed(0);
+  public void enableShooter(boolean auxAIsPressed) {
+    if (auxAIsPressed) {
+      setBothShooterMotorPercentSpeed(100);
+    } else {
+      setBothShooterMotorPercentSpeed(0);
     }
   }
 }
