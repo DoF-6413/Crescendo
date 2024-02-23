@@ -220,4 +220,8 @@ public class RobotContainer {
     // return autoChooser.get();
     return null;
   }
+
+  public void mechanismsCoastOnDisable(boolean isDisabled) {
+    m_driveSubsystem.coastOnDisable(isDisabled);
+  }
 }

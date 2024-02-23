@@ -40,10 +40,10 @@ public class PoseEstimator extends SubsystemBase {
   private Field2d field2d;
   public PhotonPipelineResult pipelineResult;
   public double resultsTimeStamp;
-  
+
   private double previousPipelineTimestamp = 0;
   private final AprilTagFieldLayout aprilTagFieldLayout;
-  
+
   public PoseEstimator(Drive drive, Gyro gyro, Vision Vision) {
 
     field2d = new Field2d();
@@ -53,16 +53,16 @@ public class PoseEstimator extends SubsystemBase {
     this.gyro = gyro;
 
     poseEstimator =
-    new SwerveDrivePoseEstimator(
-      new SwerveDriveKinematics(DriveConstants.getModuleTranslations()),
-      gyro.getYaw(),
-      drive.getSwerveModulePositions(),
-      new Pose2d(new Translation2d(), new Rotation2d()));
-      aprilTagFieldLayout =
-          new AprilTagFieldLayout(
-              AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getTags(),
-              AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldLength(),
-              AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldWidth());
+        new SwerveDrivePoseEstimator(
+            new SwerveDriveKinematics(DriveConstants.getModuleTranslations()),
+            gyro.getYaw(),
+            drive.getSwerveModulePositions(),
+            new Pose2d(new Translation2d(), new Rotation2d()));
+    aprilTagFieldLayout =
+        new AprilTagFieldLayout(
+            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getTags(),
+            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldLength(),
+            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldWidth());
   }
 
   @Override
@@ -85,7 +85,6 @@ public class PoseEstimator extends SubsystemBase {
         if (target.getPoseAmbiguity() < 0.2
             && fiducialID >= 1
             && fiducialID <= 16) { // 0.2 is considered ambiguous
-
 
           Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
           Transform3d camToTarget = target.getBestCameraToTarget();
