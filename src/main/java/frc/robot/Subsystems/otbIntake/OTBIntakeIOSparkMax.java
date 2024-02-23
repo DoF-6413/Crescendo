@@ -55,4 +55,11 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
       otbIntakeMotor.setIdleMode(IdleMode.kCoast);
     }
   }
+  @Override
+  public void enableRullers(boolean auxXIsPressed){
+    if(auxXIsPressed){ setOTBIntakePercentSpeed(100);
+   }else{
+     setOTBIntakePercentSpeed(0);
+   }
+ }
 }

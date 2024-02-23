@@ -120,4 +120,11 @@ public class OTBIntake extends SubsystemBase {
   public boolean atSetpoint() {
     return otbIntakePIDController.atSetpoint(inputs.otbIntakeVelocityRPM);
   }
+
+  public void enableRullers(boolean auxXIsPressed){
+   if(auxXIsPressed){ io.setOTBIntakePercentSpeed(100);
+  }else{
+    io.setOTBIntakePercentSpeed(0);
+  }
+}
 }

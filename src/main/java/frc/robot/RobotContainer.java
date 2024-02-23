@@ -181,7 +181,7 @@ public class RobotContainer {
 
     m_otbIntakeSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(driverController.getLeftX()),//need 
+            () -> m_otbIntakeSubsystem.enableRullers(driverController.x().getAsBoolean()),//done 
             m_otbIntakeSubsystem));
 
     m_actuatorSubsystem.setDefaultCommand(
