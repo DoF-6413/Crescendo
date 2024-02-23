@@ -154,44 +154,43 @@ public class RobotContainer {
                     driverController.getLeftX(),
                     -driverController.getLeftY(),
                     driverController.getRightX()),
-            m_driveSubsystem));//done 
+            m_driveSubsystem)); 
 
-    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));//done
+    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
 
     // TODO: update controls
     m_utbIntakeSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> m_utbIntakeSubsystem.enableUTB(auxController.y().getAsBoolean()),//done
+            () -> m_utbIntakeSubsystem.enableUTB(auxController.y().getAsBoolean()),
             m_utbIntakeSubsystem));
-
-    // m_climberSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),//rejected
-    //         m_climberSubsystem));
 
     m_armSubsystem.setDefaultCommand(
           new InstantCommand(
               ()-> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY()),
-     m_armSubsystem));//need
+     m_armSubsystem));
 
      m_wristSubsystem.setDefaultCommand(
       new InstantCommand(
         ()-> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY()),
-        m_wristSubsystem));//need 
+        m_wristSubsystem));
 
     m_otbIntakeSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> m_otbIntakeSubsystem.enableRullers(driverController.x().getAsBoolean()),//done 
+            () -> m_otbIntakeSubsystem.enableRullers(driverController.x().getAsBoolean()),
             m_otbIntakeSubsystem));
 
     m_actuatorSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> m_actuatorSubsystem.setActuatorPercentSpeed(-driverController.getLeftTriggerAxis()),//done
+            () -> m_actuatorSubsystem.setActuatorPercentSpeed(-driverController.getLeftTriggerAxis()),
             m_actuatorSubsystem));
     m_actuatorSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> m_actuatorSubsystem.setActuatorPercentSpeed(driverController.getRightTriggerAxis()),//done
+            () -> m_actuatorSubsystem.setActuatorPercentSpeed(driverController.getRightTriggerAxis()),
             m_actuatorSubsystem));
+  
+    m_shooterSubsystem.setDefaultCommand(
+      new InstantCommand(()-> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),m_shooterSubsystem)
+    );
   }
 
   /**

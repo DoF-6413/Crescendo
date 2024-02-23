@@ -93,4 +93,11 @@ public class ShooterIOTalonFX implements ShooterIO {
     topShooterMotor.set(percent);
     bottomShooterMotor.set(percent);
   }
+
+  @Override
+  public void enableShooter(boolean auxAIsPressed){
+    if(auxAIsPressed){setBothShooterMotorPercentSpeed(100);
+    }else{setBothShooterMotorPercentSpeed(0);
+    }
+  }
 }

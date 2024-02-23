@@ -181,6 +181,12 @@ public class Shooter extends SubsystemBase {
     return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
   }
 
+  public void enableShooter(boolean auxAIsPressed){
+    if(auxAIsPressed){io.setBothShooterMotorPercentSpeed(100);
+    }else{io.setBothShooterMotorPercentSpeed(0);
+    }
+  }
+
   // TODO: Create a tempature shutoff/warning
   // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is
   // arbitrary
