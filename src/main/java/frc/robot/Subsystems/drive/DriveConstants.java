@@ -7,10 +7,12 @@ import java.util.Optional;
 public final class DriveConstants {
 
   // PID Constants for Kraken Drive
+  // PID values used in sim: P = 6.4, I = 1.2, D = 0.03
   public static final double DRIVE_KP_KRAKEN = 0.6; // TODO: Update
   public static final double DRIVE_KI_KRAKEN = 0.1; // TODO: Update
   public static final double DRIVE_KD_KRAKEN = 0.4; // TODO: Update
   // Feed Forward Constants for Kraken Drive
+  // Feed Forward values used in sim: S = 0.4, V = 0.4
   public static final double DRIVE_KS_KRAKEN = 0.115; // TODO: Update
   public static final double DRIVE_KV_KRAKEN = 0.137; // TODO: Update
 
@@ -91,10 +93,10 @@ public final class DriveConstants {
 
   // TODO: update values
   public static enum L3_ABSOLUTE_ENCODER_OFFSET_RAD {
-    FRONT_RIGHT(-0.16879), // Module 0
-    FRONT_LEFT(-0.767), // Module 1
-    BACK_LEFT(-3.077), // Module 2
-    BACK_RIGHT(0.023); // Module 3
+    FRONT_RIGHT(-0.12879), // Module 0
+    FRONT_LEFT(2.379), // Module 1
+    BACK_LEFT(0.046), // Module 2
+    BACK_RIGHT(0.043); // Module 3
 
     public final double OFFSET;
 
