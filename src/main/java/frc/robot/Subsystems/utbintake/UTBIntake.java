@@ -16,7 +16,7 @@ public class UTBIntake extends SubsystemBase {
   private GenericEntry utbIntakekp;
   private GenericEntry utbIntakeki;
   private GenericEntry utbIntakekd;
-  private GenericEntry utbIntakeSetpointSetter;
+  // private GenericEntry utbIntakeSetpointSetter;
 
   /** utb intake pid controller */
   private final PIDController utbIntakePIDController;
@@ -42,7 +42,7 @@ public class UTBIntake extends SubsystemBase {
     utbIntakekp = UTBIntakeTab.add("UTBIntakekp", 0.0).getEntry();
     utbIntakeki = UTBIntakeTab.add("UTBIntakeki", 0.0).getEntry();
     utbIntakekd = UTBIntakeTab.add("UTBIntakekd", 0.0).getEntry();
-    utbIntakeSetpointSetter = UTBIntakeTab.add("UTBIntakeSetpoint", 0.0).getEntry();
+    // utbIntakeSetpointSetter = UTBIntakeTab.add("UTBIntakeSetpoint", 0.0).getEntry();
   }
 
   @Override
@@ -63,9 +63,9 @@ public class UTBIntake extends SubsystemBase {
       updatePIDController();
     }
 
-    if (utbIntakeSetpoint != utbIntakeSetpointSetter.getDouble(0.0)) {
-      updateSetpoint();
-    }
+    // if (utbIntakeSetpoint != utbIntakeSetpointSetter.getDouble(0.0)) {
+    //   updateSetpoint();
+    // }
   }
 
   /** updates PID values if SmartDashboard gets updated */
@@ -79,10 +79,10 @@ public class UTBIntake extends SubsystemBase {
   }
 
   /** updates setpoint if SmartDashboard gets updated */
-  public void updateSetpoint() {
-    utbIntakeSetpoint = utbIntakeSetpointSetter.getDouble(0.0);
-    utbIntakePIDController.setSetpoint(utbIntakeSetpoint);
-  }
+  // public void updateSetpoint() {
+  //   utbIntakeSetpoint = utbIntakeSetpointSetter.getDouble(0.0);
+  //   utbIntakePIDController.setSetpoint(utbIntakeSetpoint);
+  // }
 
   /** Updates the inputs for the UTB Intake */
   public void updateInputs() {
@@ -115,9 +115,12 @@ public class UTBIntake extends SubsystemBase {
 
   public void enableUTB(boolean auxYIsPressed) {
     if (auxYIsPressed == true) {
-      io.setUTBIntakePercentSpeed(15);
+      // setUTBIntakePercentSpeed(15);
+      utbIntakePIDController.setSetpoint(500);
     } else {
-      io.setUTBIntakePercentSpeed(0);
+      // setUTBIntakePercentSpeed(0);
+      utbIntakePIDController.setSetpoint(0);
+      setUTBIntakeVoltage(0);
     }
   }
 }

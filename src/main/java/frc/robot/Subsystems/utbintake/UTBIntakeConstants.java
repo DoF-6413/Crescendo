@@ -17,7 +17,7 @@ public final class UTBIntakeConstants {
   public static final double TOLERANCE_PERCENT = 0.01;
 
   /** max RPM for PID */
-  public static final int MAX_RPM = 2000;
+  public static final int MAX_RPM = 2800;
 
   // Sim Constants
   /** moment of inertia for the UTB intake */
