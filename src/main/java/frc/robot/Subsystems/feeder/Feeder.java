@@ -4,18 +4,17 @@
 
 package frc.robot.Subsystems.feeder;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.PIDController;
+import org.littletonrobotics.junction.Logger;
 
 public class Feeder extends SubsystemBase {
   private final FeederIO io;
   private final FeederIOInputsAutoLogged inputs = new FeederIOInputsAutoLogged();
- 
+
   // Creates adjustable PID values on a Shuffleboard tab
   private final ShuffleboardTab feederTab = Shuffleboard.getTab("Feeder");
   private GenericEntry feederkP;
@@ -30,11 +29,12 @@ public class Feeder extends SubsystemBase {
     System.out.println("[Init] Creating Feeder");
     this.io = io;
 
-    feederPIDController = new PIDController(FeederConstants.KP, FeederConstants.KI, FeederConstants.KD);
+    feederPIDController =
+        new PIDController(FeederConstants.KP, FeederConstants.KI, FeederConstants.KD);
     feederPIDController.setSetpoint(setpointRPM);
     feederPIDController.setTolerance(setpointRPM * FeederConstants.TOLERANCE_PERCENT);
 
-     // Puts adjustable PID values and setpoints onto the SmartDashboard
+    // Puts adjustable PID values and setpoints onto the SmartDashboard
     feederkP = feederTab.add("feederkP", 0.0).getEntry();
     feederkI = feederTab.add("feederkI", 0.0).getEntry();
     feederkD = feederTab.add("feederkD", 0.0).getEntry();
@@ -47,12 +47,16 @@ public class Feeder extends SubsystemBase {
     Logger.processInputs("Feeder", inputs);
 
     setFeederVoltage(
-      feederPIDController.calculateForVoltage(inputs.feederRPM, FeederConstants.MAX_VALUE));
+        feederPIDController.calculateForVoltage(inputs.feederRPM, FeederConstants.MAX_VALUE));
 
     if (FeederConstants.KP != feederkP.getDouble(0.0)
         || FeederConstants.KI != feederkI.getDouble(0.0)
-        || FeederConstants.KD != feederkD.getDouble(0.0)){
+        || FeederConstants.KD != feederkD.getDouble(0.0)) {
       updatePIDController();
+    }
+
+    if (setpointRPM != feederSetpointSetter.getDouble(0.0)) {
+      updateSetpoint();
     }
   }
 
@@ -77,7 +81,7 @@ public class Feeder extends SubsystemBase {
 
   /**
    * Sets the voltage of the Feeder motor
-   * 
+   *
    * @param volts [-12 to 12]
    */
   public void setFeederVoltage(double volts) {
@@ -86,7 +90,7 @@ public class Feeder extends SubsystemBase {
 
   /**
    * Sets the speed of the Feeder motor based on a percent of its maximum speed
-   * 
+   *
    * @param percent [-1 to 1]
    */
   public void setFeederPercentSpeed(double percent) {
@@ -95,7 +99,7 @@ public class Feeder extends SubsystemBase {
 
   /**
    * Sets the Feeder motor to brake mode
-   * 
+   *
    * @param enable
    */
   public void setFeederBrakeMode(boolean enable) {

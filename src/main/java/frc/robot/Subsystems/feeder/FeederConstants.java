@@ -1,7 +1,7 @@
 package frc.robot.Subsystems.feeder;
 
 public class FeederConstants {
-    
+
   // PID Constants  TODO: Tune, update, finalize
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
@@ -13,14 +13,17 @@ public class FeederConstants {
   public static double KD = 0.0;
   /** Allows the RPM to be within 1% of the setpoint */
   public static final double TOLERANCE_PERCENT = 0.01;
-  /** Max RPM achievable by the Indexer motor*/
-  public static final double MAX_VALUE = 0.0; //TODO: Update
+  /** Max RPM achievable by the Indexer motor */
+  public static final double MAX_VALUE = 4800.0; // TODO: Update
+
+  // Sim constants
+  public static final double MOI_KG_M2 = 0.0001; // TODO: Update
 
   // Real constants
   /** CAN ID for the feeder motor */
-  public static final int FEEDER_MOTOR_ID = 0; //TODO: Update
+  public static final int FEEDER_MOTOR_ID = 0; // TODO: Update
   /** Gear ratio of 4:3 for the Indexer */
-  public static final double GEAR_RATIO = 4/3; // TODO: Update
+  public static final double GEAR_RATIO = 1.33333333; // TODO: Update
   /** Current limit Amps */
   public static final double CUR_LIM_A = 40; // TODO: Update
   /** Used to set the Indexer motor to not be inverted on startup */
