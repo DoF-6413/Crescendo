@@ -15,13 +15,12 @@ public final class DriveConstants {
   public static final double DRIVE_KV_KRAKEN = 0.137; // TODO: Update
 
   // PID Constants for Steer (Neos)
-  public static final double STEER_KP_NEO = 1.0; // TODO: Update
-  public static final double STEER_KI_NEO = 0.5; // TODO: Update
-  public static final double STEER_KD_NEO = 0.0; // TODO: Update
+  public static final double STEER_KP_NEO = 6.4; // TODO: Test on robot (update as necessary)
+  public static final double STEER_KI_NEO = 1.2; // TODO: Test on robot (update as necessary)
+  public static final double STEER_KD_NEO = 0.03; // TODO: Test on robot (update as necessary)
 
-  /** PID Constants for Neo Drive */
+  // PID Constants for Neo Drive 
   public static final double DRIVE_KP_NEO = 0.0; // TODO: Update
-
   public static final double DRIVE_KI_NEO = 0.0; // TODO: Update
   public static final double DRIVE_KD_NEO = 0.0; // TODO: Update
 
