@@ -57,12 +57,13 @@ public class Drive extends SubsystemBase {
       modules[i].periodic();
     }
 
-    if (DriverStation.isDisabled()) {
-      // Stops driving when disabled
-      for (var module : modules) {
-        module.stop();
-      }
-    }
+    // TODO: Do we need this, seems to cause the command scheduler overun issues
+    // if (DriverStation.isDisabled()) {
+    //   // Stops driving when disabled
+    //   for (var module : modules) {
+    //     module.stop();
+    //   }
+    // }
 
     // coastOnDisable(DriverStation.isDisabled());
 
@@ -86,26 +87,26 @@ public class Drive extends SubsystemBase {
   /** */
   public SwerveModuleState[] getAdjustedSpeeds() {
     // // Updates Setpoints to be Cleaner
-    // var setpointTwist =
-    //     new Pose2d()
-    //         .log(
-    //             new Pose2d(
-    //                 setpoint.vxMetersPerSecond
-    //                     * RobotStateConstants.LOOP_PERIODIC_SEC, // gets meters from velocity
-    //                 setpoint.vyMetersPerSecond
-    //                     * RobotStateConstants.LOOP_PERIODIC_SEC, // gets meters from velocity
-    //                 new Rotation2d(
-    //                     setpoint.omegaRadiansPerSecond
-    //                         * RobotStateConstants
-    //                             .LOOP_PERIODIC_SEC))); // gets radians from velocity
-    // var adjustedSpeeds =
-    //     new ChassisSpeeds(
-    //         setpointTwist.dx
-    //             / RobotStateConstants.LOOP_PERIODIC_SEC, // turns meters travled into velocity
-    //         setpointTwist.dy
-    //             / RobotStateConstants.LOOP_PERIODIC_SEC, // turns meters travled into velocity
-    //         setpointTwist.dtheta
-    //             / RobotStateConstants.LOOP_PERIODIC_SEC); // turns radians travled into velocity
+    var setpointTwist =
+        new Pose2d()
+            .log(
+                new Pose2d(
+                    setpoint.vxMetersPerSecond
+                        * RobotStateConstants.LOOP_PERIODIC_SEC, // gets meters from velocity
+                    setpoint.vyMetersPerSecond
+                        * RobotStateConstants.LOOP_PERIODIC_SEC, // gets meters from velocity
+                    new Rotation2d(
+                        setpoint.omegaRadiansPerSecond
+                            * RobotStateConstants
+                                .LOOP_PERIODIC_SEC))); // gets radians from velocity
+    var adjustedSpeeds =
+        new ChassisSpeeds(
+            setpointTwist.dx
+                / RobotStateConstants.LOOP_PERIODIC_SEC, // turns meters travled into velocity
+            setpointTwist.dy
+                / RobotStateConstants.LOOP_PERIODIC_SEC, // turns meters travled into velocity
+            setpointTwist.dtheta
+                / RobotStateConstants.LOOP_PERIODIC_SEC); // turns radians travled into velocity
     SwerveModuleState[] setpointStates = new SwerveModuleState[4];
     setpointStates = swerveKinematics.toSwerveModuleStates(setpoint);
 

@@ -161,8 +161,18 @@ public class RobotContainer {
                 m_driveSubsystem.driveWithDeadband(
                     driverController.getLeftX(),
                     driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
-                    driverController.getRightX()),
+                    driverController.getRightX() * (0.5)),
             m_driveSubsystem));
+    // m_driveSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () ->
+    //             new FieldRelativeDrive(
+    //                 driverController.getLeftX(),
+    //                 driverController.getLeftY() * (-1), // Joystick on Xbox Controller is
+    // Inverted,
+    //                 driverController.getRightX() * (0.5),
+    //                 m_driveSubsystem),
+    //         m_driveSubsystem));
 
     driverController
         .a()
