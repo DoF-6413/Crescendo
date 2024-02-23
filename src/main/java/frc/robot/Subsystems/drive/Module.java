@@ -33,7 +33,8 @@ public class Module {
     // update drive pid values depending on neo or kraken
     drivePID =
         new PIDController(
-            DriveConstants.driveKP(io.isL3()), // Directly used Kraken PID and FF values in a different commit
+            DriveConstants.driveKP(
+                io.isL3()), // Directly used Kraken PID and FF values in a different commit
             DriveConstants.driveKI(io.isL3()),
             DriveConstants.driveKD(io.isL3()));
 

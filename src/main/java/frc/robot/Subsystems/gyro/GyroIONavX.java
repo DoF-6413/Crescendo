@@ -28,7 +28,8 @@ public class GyroIONavX implements GyroIO {
     inputs.rollPositionRad = new Rotation2d(Units.degreesToRadians(gyro.getRoll()));
     inputs.pitchPositionRad = new Rotation2d(Units.degreesToRadians(gyro.getPitch()));
     // Value is Negative because NavX reads CW and everything else runs CCW
-    inputs.yawPositionRad = new Rotation2d(Units.degreesToRadians(-gyro.getYaw() - 90));
+    inputs.yawPositionRad =
+        new Rotation2d(Units.degreesToRadians(-gyro.getYaw() - 90)); // TODO: Make -90 constant
     inputs.anglePositionRad = new Rotation2d(Units.degreesToRadians(gyro.getAngle()));
     inputs.rate = gyro.getRate();
     inputs.rollVelocityDegPerSec = gyro.getRawGyroY();

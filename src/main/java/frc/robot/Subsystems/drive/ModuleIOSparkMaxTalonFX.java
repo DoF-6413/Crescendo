@@ -81,6 +81,7 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
       // turnSparkMax.setPeriodicFramePeriod(
       //     PeriodicFrame.kStatus2, DriveConstants.MEASUREMENT_PERIOD_MS);
       turnSparkMax.setInverted(isTurnMotorInverted);
+      driveTalonFX.setInverted(false); // TODO: Make constant
 
       CurrentLimitsConfigs currentLimitsConfig =
           new CurrentLimitsConfigs().withStatorCurrentLimit(DriveConstants.CUR_LIM_A);
