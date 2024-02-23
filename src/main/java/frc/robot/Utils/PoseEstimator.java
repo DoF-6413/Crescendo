@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
-import frc.robot.Constants.RobotStateConstants.Mode;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.gyro.*;
 import frc.robot.Subsystems.vision.*;
@@ -71,11 +70,11 @@ public class PoseEstimator extends SubsystemBase {
   public void periodic() {
     // When ran on the real robot it would overload the command scheduler, causing input delay from
     // joystick to driving
-    if (RobotStateConstants.getMode() == Mode.SIM) {
-      field2d.setRobotPose(getCurrentPose2d());
-      poseEstimator.updateWithTime(
-          Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
-    }
+    // if (RobotStateConstants.getMode() == Mode.SIM) {
+    // field2d.setRobotPose(getCurrentPose2d());
+    // poseEstimator.updateWithTime(
+    //     Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
+    // }
 
     if (vision.getResult().hasTargets()) {
 

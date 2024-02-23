@@ -57,14 +57,15 @@ public class Drive extends SubsystemBase {
       modules[i].periodic();
     }
 
-    if (DriverStation.isDisabled()) {
-      // Stops driving when disabled
-      for (var module : modules) {
-        module.stop();
-      }
-    }
+    // TODO: Do we need this, seems to cause the command scheduler overun issues
+    // if (DriverStation.isDisabled()) {
+    //   // Stops driving when disabled
+    //   for (var module : modules) {
+    //     module.stop();
+    //   }
+    // }
 
-    coastOnDisable(DriverStation.isDisabled());
+    // coastOnDisable(DriverStation.isDisabled());
 
     runSwerveModules(getAdjustedSpeeds());
     getMeasuredStates();

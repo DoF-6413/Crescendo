@@ -75,6 +75,6 @@ public final class Constants {
 
   public class GyroConstants {
     public static final double GYRO_HEADING_OFFSET_DEGREES = 90;
-    public static final double YAW_OFFSET = -270.0; // TODO: Update
+    public static final double YAW_OFFSET = -90.0; // TODO: Update
   }
 }

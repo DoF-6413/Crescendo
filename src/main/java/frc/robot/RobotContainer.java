@@ -14,6 +14,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -158,11 +159,21 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(
         new RunCommand(
             () ->
-                m_driveSubsystem.driveWithDeadband(
-                    driverController.getLeftX(),
+                m_driveSubsystem.setRaw(
+                    driverController.getLeftX() * 0,
                     driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
                     driverController.getRightX() * (0.5)),
             m_driveSubsystem));
+    // m_driveSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () ->
+    //             new FieldRelativeDrive(
+    //                 driverController.getLeftX(),
+    //                 driverController.getLeftY() * (-1), // Joystick on Xbox Controller is
+    // Inverted,
+    //                 driverController.getRightX() * (0.5),
+    //                 m_driveSubsystem),
+    //         m_driveSubsystem));
 
     driverController
         .a()
