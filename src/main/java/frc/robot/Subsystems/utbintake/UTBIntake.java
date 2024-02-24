@@ -52,9 +52,9 @@ public class UTBIntake extends SubsystemBase {
     Logger.processInputs("UTBIntake", inputs);
 
     // updates UTB Intake voltage from PID calculations
-    // setUTBIntakeVoltage(
-    //     utbIntakePIDController.calculateForVoltage(
-    //         inputs.utbIntakeRPM, UTBIntakeConstants.MAX_RPM));
+    setUTBIntakeVoltage(
+        utbIntakePIDController.calculateForVoltage(
+            inputs.utbIntakeRPM, UTBIntakeConstants.MAX_RPM));
 
     // // TODO: delete once PID values are finalized
     // if (UTBIntakeConstants.KP != utbIntakekp.getDouble(0.0)

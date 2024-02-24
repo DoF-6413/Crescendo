@@ -50,7 +50,7 @@ public class RobotContainer {
   private final UTBIntake m_utbIntakeSubsystem;
   // private final OTBIntake m_otbIntakeSubsystem;
   // private final Actuator m_actuatorSubsystem;
-  // private final Shooter m_shooterSubsystem;
+  private final Shooter m_shooterSubsystem;
   // private final Wrist m_wristSubsystem;
 
   private final PoseEstimator m_poseEstimator;
@@ -88,7 +88,7 @@ public class RobotContainer {
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         // m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
-        // m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         // m_wristSubsystem = new Wrist(new WristIOSparkMax());
         break;
 
@@ -108,7 +108,7 @@ public class RobotContainer {
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         // m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
-        // m_shooterSubsystem = new Shooter(new ShooterIOSim());
+        m_shooterSubsystem = new Shooter(new ShooterIOSim());
         // m_wristSubsystem = new Wrist(new WristIOSim());
 
         break;
@@ -129,7 +129,7 @@ public class RobotContainer {
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         // m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
-        // m_shooterSubsystem = new Shooter(new ShooterIO() {});
+        m_shooterSubsystem = new Shooter(new ShooterIO() {});
         // m_wristSubsystem = new Wrist(new WristIO() {});
         break;
     }
@@ -167,6 +167,16 @@ public class RobotContainer {
     driverController
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
+
+    m_utbIntakeSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_utbIntakeSubsystem.enableUTB(auxController.y().getAsBoolean()),
+            m_utbIntakeSubsystem));
+
+    m_shooterSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
+            m_shooterSubsystem));
   }
 
   /**

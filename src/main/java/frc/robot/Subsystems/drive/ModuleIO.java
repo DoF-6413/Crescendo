@@ -9,7 +9,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 /** All the Loggable Inputs and Outputs of Each Individual Module */
 public interface ModuleIO {
-  
+
   @AutoLog
   public static class ModuleIOInputs {
     public double drivePositionRad = 0.0;
