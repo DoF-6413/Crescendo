@@ -1,44 +1,48 @@
 package frc.robot.Subsystems.utbintake;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.UTBIntakeConstants;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
 
-/** Runs the motor for the Under the Bumper (UTB) Intake */
 public class UTBIntake extends SubsystemBase {
 
   private final UTBIntakeIO io;
   private final UTBIntakeIOInputsAutoLogged inputs = new UTBIntakeIOInputsAutoLogged();
-  private static PIDController UTBintakePIDController;
-  private double setpointRPM = 0.0;
+  /** shuffleboard tabs: UTBIntake */
+  private final ShuffleboardTab UTBIntakeTab = Shuffleboard.getTab("UTBIntake");
 
-  private double kP = 0.0;
-  private double kI = 0.0;
-  private double kD = 0.0;
+  private GenericEntry utbIntakekp;
+  private GenericEntry utbIntakeki;
+  private GenericEntry utbIntakekd;
+  private GenericEntry utbIntakeSetpointSetter;
 
+  /** utb intake pid controller */
+  private final PIDController utbIntakePIDController;
+
+  private double utbIntakeSetpoint = 0.0;
+
+  /**
+   * creates an Under the Bumper (UTB) Intake, the subsystem that intakes pieces from under the
+   * bumper
+   */
   public UTBIntake(UTBIntakeIO io) {
-
     System.out.println("[Init] Creating UTB Intake");
     this.io = io;
 
-    UTBintakePIDController =
-        new PIDController(
-            kP, kI, kD
-            // UTBIntakeConstants.UTB_INTAKE_KP,
-            // UTBIntakeConstants.UTB_INTAKE_KI,
-            // UTBIntakeConstants.UTB_INTAKE_KD
-            );
+    /** creates a new PIDController for the UTBIntake */
+    utbIntakePIDController =
+        new PIDController(UTBIntakeConstants.KP, UTBIntakeConstants.KI, UTBIntakeConstants.KD);
 
-    UTBintakePIDController.setTolerance(setpointRPM * UTBIntakeConstants.UTB_INTAKE_TOLERANCE);
-    UTBintakePIDController.setSetpoint(setpointRPM);
+    /** sets tolerance and setpoint for UTBIntake PIDController */
+    utbIntakePIDController.setSetpoint(utbIntakeSetpoint);
+    utbIntakePIDController.setTolerance(utbIntakeSetpoint * UTBIntakeConstants.TOLERANCE_PERCENT);
 
-    SmartDashboard.putNumber("UTBIntakekp", 0.0);
-    SmartDashboard.putNumber("UTBIntakeki", 0.0);
-    SmartDashboard.putNumber("UTBIntakekd", 0.0);
-
-    SmartDashboard.putNumber("UTBIntakeSetpoint", 0.0);
+    utbIntakekp = UTBIntakeTab.add("UTBIntakekp", 0.0).getEntry();
+    utbIntakeki = UTBIntakeTab.add("UTBIntakeki", 0.0).getEntry();
+    utbIntakekd = UTBIntakeTab.add("UTBIntakekd", 0.0).getEntry();
+    utbIntakeSetpointSetter = UTBIntakeTab.add("UTBIntakeSetpoint", 0.0).getEntry();
   }
 
   @Override
@@ -47,46 +51,38 @@ public class UTBIntake extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("UTBIntake", inputs);
 
-    if (kP != SmartDashboard.getNumber("UTBIntakekp", 0.0)
-        || kI != SmartDashboard.getNumber("UTBIntakeki", 0.0)
-        || kD != SmartDashboard.getNumber("UTBIntakekd", 0.0)) {
-      updatePIDController();
-    }
+    // updates UTB Intake voltage from PID calculations
+    // setUTBIntakeVoltage(
+    //     utbIntakePIDController.calculateForVoltage(
+    //         inputs.utbIntakeRPM, UTBIntakeConstants.MAX_RPM));
 
-    if (setpointRPM != SmartDashboard.getNumber("UTBIntakeSetpoint", 0.0)) {
-      updateSetpoint();
-    }
+    // // TODO: delete once PID values are finalized
+    // if (UTBIntakeConstants.KP != utbIntakekp.getDouble(0.0)
+    //     || UTBIntakeConstants.KI != utbIntakeki.getDouble(0.0)
+    //     || UTBIntakeConstants.KD != utbIntakekd.getDouble(0.0)) {
+    //   updatePIDController();
+    // }
 
-    SmartDashboard.getNumber("UTBIntakeRealSetpoint", UTBintakePIDController.getSetpoint());
-
-    if (inputs.utbIntakeRPM < 0) {
-      setUTBIntakeVoltage(0);
-    } else {
-      setUTBIntakeVoltage(UTBintakePIDController.calculateForVoltage(inputs.utbIntakeRPM, 2800));
-    }
+    // if (utbIntakeSetpoint != utbIntakeSetpointSetter.getDouble(0.0)) {
+    //   updateSetpoint();
+    // }
   }
 
-  public void updatePIDController() {
-    // UTBIntakeConstants.UTB_INTAKE_KP = SmartDashboard.getNumber("UTBIntakekp", 0.0);
-    // UTBIntakeConstants.UTB_INTAKE_KI = SmartDashboard.getNumber("UTBIntakeki", 0.0);
-    // UTBIntakeConstants.UTB_INTAKE_KD = SmartDashboard.getNumber("UTBIntakekd", 0.0);
+  /** updates PID values if SmartDashboard gets updated */
+  // public void updatePIDController() {
+  //   UTBIntakeConstants.KP = utbIntakekp.getDouble(0.0);
+  //   UTBIntakeConstants.KI = utbIntakeki.getDouble(0.0);
+  //   UTBIntakeConstants.KD = utbIntakekd.getDouble(0.0);
 
-    kP = SmartDashboard.getNumber("UTBIntakekp", 0.0);
-    kI = SmartDashboard.getNumber("UTBIntakeki", 0.0);
-    kD = SmartDashboard.getNumber("UTBIntakekd", 0.0);
+  //   utbIntakePIDController.setPID(
+  //       UTBIntakeConstants.KP, UTBIntakeConstants.KI, UTBIntakeConstants.KD);
+  // }
 
-    UTBintakePIDController.setPID(
-        kP, kI, kD
-        // UTBIntakeConstants.UTB_INTAKE_KP,
-        // UTBIntakeConstants.UTB_INTAKE_KI,
-        // UTBIntakeConstants.UTB_INTAKE_KD
-        );
-  }
-
-  public void updateSetpoint() {
-    setpointRPM = SmartDashboard.getNumber("UTBIntakeSetpoint", 0.0);
-    UTBintakePIDController.setSetpoint(setpointRPM);
-  }
+  // /** updates setpoint if SmartDashboard gets updated */
+  // public void updateSetpoint() {
+  //   utbIntakeSetpoint = utbIntakeSetpointSetter.getDouble(0.0);
+  //   utbIntakePIDController.setSetpoint(utbIntakeSetpoint);
+  // }
 
   /** Updates the inputs for the UTB Intake */
   public void updateInputs() {
@@ -106,5 +102,14 @@ public class UTBIntake extends SubsystemBase {
   /** Returns the speed of the wheels for the intake found under the bumpers in RPM */
   public double getUTBIntakeRPM() {
     return inputs.utbIntakeRPM;
+  }
+
+  /**
+   * Sets brake mode
+   *
+   * @param isEnabled boolean for is brake mode true or false
+   */
+  public void setUTBIntakeBrakeMode(boolean enable) {
+    io.setUTBIntakeBrakeMode(enable);
   }
 }

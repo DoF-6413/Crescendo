@@ -8,18 +8,29 @@ public interface ClimberIO {
 
     // All the Inputs for the Right Climber Motor (Should be nearly identical to the Right Climber
     // Motor)
-    public double leftClimberPositionRad = 0.0;
-    public double leftClimberVelocityRPM = 0.0;
+    /** This returns the voltage the Left Climber Recieves */
     public double leftClimberAppliedVolts = 0.0;
+    /** Returns the position of the Left Climber in Meters */
+    public double leftClimberPositionMeters = 0.0;
+    /** Returns the velocity of the Left Climber in m/s */
+    public double leftClimberVelocityMetersPerSecond = 0.0;
+    /** The Current Drawn from the Left Climber in Amps */
     public double[] leftClimberCurrentAmps = new double[] {};
-    public double[] leftClimberTempCelcius = new double[] {};
+    /** The Temperature from the Left Climber in Celsius */
+    public double[] leftClimberTempCelsius = new double[] {};
+
     // All the Inputs for the Left Climber Motor (Should be nearly identical to the Left Climber
     // Motor)
-    public double rightClimberPositionRad = 0.0;
-    public double rightClimberVelocityRPM = 0.0;
+    /** This returns the voltage the Right Climber Recieves */
     public double rightClimberAppliedVolts = 0.0;
+    /** Returns the position of the Right Climber in Meters */
+    public double rightClimberPositionMeters = 0.0;
+    /** Returns the velocity of the Right Climber in m/s */
+    public double rightClimberVelocityMetersPerSecond = 0.0;
+    /** The Current Drawn from the Right Climber in Amps */
     public double[] rightClimberCurrentAmps = new double[] {};
-    public double[] rightClimberTempCelcius = new double[] {};
+    /** The Temperature from the Right Climber in Celsius */
+    public double[] rightClimberTempCelsius = new double[] {};
   }
 
   /** Updates the set of loggable inputs for the Climber */
@@ -30,40 +41,48 @@ public interface ClimberIO {
    *
    * @param volts [-12 to 12]
    */
-  public default void setBothClimberMotorsVoltage(double volts) {}
+  public default void setBothClimberVoltage(double volts) {}
 
   /**
    * Sets the voltage of the Left Climber Motor
    *
    * @param volts [-12 to 12]
    */
-  public default void setLeftClimberMotorVoltage(double volts) {}
+  public default void setLeftClimberVoltage(double volts) {}
 
   /**
    * Sets the voltage of the Right Climber Motor
    *
    * @param volts [-12 to 12]
    */
-  public default void setRightClimberMotorVoltage(double volts) {}
+  public default void setRightClimberVoltage(double volts) {}
 
   /**
    * Sets BOTH Climber Motors to a percent of their maximum speed
    *
    * @param percent [-1 to 1]
    */
-  public default void setBothClimberMotorsPercentSpeed(double percent) {}
+  public default void setBothClimberPercentSpeed(double percent) {}
 
   /**
    * Sets the Left Climber Motor to a percent of their maximum speed
    *
    * @param percent [-1 to 1]
    */
-  public default void setLeftClimberMotorPercentSpeed(double percent) {}
+  public default void setLeftClimberPercentSpeed(double percent) {}
 
   /**
    * Sets Right Climber Motor to a percent of their maximum speed
    *
    * @param percent [-1 to 1]
    */
-  public default void setRightClimberMotorPercentSpeed(double percent) {}
+  public default void setRightClimberPercentSpeed(double percent) {}
+
+  /**
+   * Sets the Brake Mode for the Actuator (Brake means motor holds position, Coast means easy to
+   * move)
+   *
+   * @param enable if enable, it sets brake mode, else it sets coast mode
+   */
+  public default void setBrakeMode(boolean enable) {}
 }

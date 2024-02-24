@@ -15,9 +15,10 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
-import frc.robot.Subsystems.drive.Drive;
-import frc.robot.Subsystems.gyro.Gyro;
-import frc.robot.Subsystems.vision.Vision;
+import frc.robot.Constants.RobotStateConstants.Mode;
+import frc.robot.Subsystems.drive.*;
+import frc.robot.Subsystems.gyro.*;
+import frc.robot.Subsystems.vision.*;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 /** This class handels the odometry and locates the robots current position */
@@ -43,6 +44,7 @@ public class PoseEstimator extends SubsystemBase {
   public double resultsTimeStamp;
 
   private double previousPipelineTimestamp = 0;
+  private final AprilTagFieldLayout aprilTagFieldLayout;
 
   public PoseEstimator(Drive drive, Gyro gyro, Vision Vision) {
 
@@ -58,13 +60,22 @@ public class PoseEstimator extends SubsystemBase {
             gyro.getYaw(),
             drive.getSwerveModulePositions(),
             new Pose2d(new Translation2d(), new Rotation2d()));
+    aprilTagFieldLayout =
+        new AprilTagFieldLayout(
+            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getTags(),
+            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldLength(),
+            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldWidth());
   }
 
   @Override
   public void periodic() {
-    field2d.setRobotPose(getCurrentPose2d());
-    poseEstimator.updateWithTime(
-        Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
+    // When ran on the real robot it would overload the command scheduler, causing input delay from
+    // joystick to driving
+    if (RobotStateConstants.getMode() == Mode.SIM) {
+      field2d.setRobotPose(getCurrentPose2d());
+      poseEstimator.updateWithTime(
+          Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
+    }
 
     if (vision.getResult().hasTargets()) {
 
@@ -81,12 +92,6 @@ public class PoseEstimator extends SubsystemBase {
             && fiducialID >= 1
             && fiducialID <= 16) { // 0.2 is considered ambiguous
 
-          AprilTagFieldLayout aprilTagFieldLayout =
-              new AprilTagFieldLayout(
-                  AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getTags(),
-                  AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldLength(),
-                  AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldWidth());
-
           Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
           Transform3d camToTarget = target.getBestCameraToTarget();
           Pose3d camPose = tagPose.transformBy(camToTarget);
@@ -96,23 +101,6 @@ public class PoseEstimator extends SubsystemBase {
               visionMeasurement.toPose2d(),
               Timer.getFPGATimestamp(),
               visionMeasurementStandardDevs);
-
-          // logging values
-
-          SmartDashboard.putBoolean("hasTarget?", vision.hasTargets());
-
-          SmartDashboard.putNumber("pipelineTimestamp", resultsTimeStamp);
-
-          SmartDashboard.putNumber("TargetID", target.getFiducialId());
-
-          SmartDashboard.putNumber("TagX", target.getBestCameraToTarget().getX());
-
-          SmartDashboard.putNumber("TagY", target.getBestCameraToTarget().getY());
-
-          SmartDashboard.putNumber("TagZ", target.getBestCameraToTarget().getZ());
-
-          SmartDashboard.putNumber(
-              "TagRotation", target.getBestCameraToTarget().getRotation().getAngle());
         }
       }
     }

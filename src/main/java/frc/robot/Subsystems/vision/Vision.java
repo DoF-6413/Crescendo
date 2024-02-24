@@ -26,7 +26,6 @@ public class Vision extends SubsystemBase {
   }
 
   public PhotonPipelineResult getResult() {
-
     return VisionIO.getPhotonPipelineResult();
   }
 

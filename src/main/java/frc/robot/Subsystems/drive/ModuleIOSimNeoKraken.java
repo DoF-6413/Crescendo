@@ -6,8 +6,8 @@ package frc.robot.Subsystems.drive;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.RobotStateConstants;
+import java.util.Optional;
 
 /**
  * Runs Simulation for an Individual Swerve Module with the Turn Motor as a Neo and the Drive Motor
@@ -70,14 +70,14 @@ public class ModuleIOSimNeoKraken implements ModuleIO {
     inputs.driveAppliedVolts = driveAppliedVolts;
     // Math.abs = absolute value, sim sometimes makes amps directional
     inputs.driveCurrentAmps = new double[] {Math.abs(driveSim.getCurrentDrawAmps())};
-    inputs.driveTempCelcius = new double[] {};
+    inputs.driveTempCelsius = new double[] {};
 
     inputs.turnAbsolutePositionRad = turnAbsolutePositionRad;
     inputs.turnPositionRad = turnRelativePositionRad;
     inputs.turnVelocityRadPerSec = turnSim.getAngularVelocityRadPerSec();
     inputs.turnAppliedVolts = turnAppliedVolts;
     inputs.turnCurrentAmps = new double[] {Math.abs(turnSim.getCurrentDrawAmps())};
-    inputs.turnTempCelcius = new double[] {};
+    inputs.turnTempCelsius = new double[] {};
   }
 
   @Override
@@ -91,7 +91,7 @@ public class ModuleIOSimNeoKraken implements ModuleIO {
   }
 
   @Override
-  public <Optional> Boolean isL3() {
-    return true;
+  public Optional<Boolean> isL3() {
+    return Optional.of(true);
   }
 }

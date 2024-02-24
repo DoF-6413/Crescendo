@@ -8,7 +8,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.*;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
-import frc.robot.Constants.DriveConstants;
 import org.littletonrobotics.junction.Logger;
 
 /** This Runs Each Individual Module of a Swerve Drive for all Modes of the Robot */
@@ -18,25 +17,32 @@ public class Module {
   private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
   private final int index;
 
+  // initialize PID controllers
   private PIDController drivePID = new PIDController(0, 0, 0);
   private PIDController steerPID = new PIDController(0, 0, 0);
+
+  // initialize feedforward
   private SimpleMotorFeedforward driveFeedforward = new SimpleMotorFeedforward(0, 0);
 
+  // construct module
   public Module(ModuleIO io, int index) {
     System.out.println("[Init] Creating Module");
     this.io = io;
     this.index = index;
 
+    // update drive pid values depending on neo or kraken
     drivePID =
         new PIDController(
-            DriveConstants.driveKP(io.isL3()),
+            DriveConstants.driveKP(
+                io.isL3()), // Directly used Kraken PID and FF values in a different commit
             DriveConstants.driveKI(io.isL3()),
             DriveConstants.driveKD(io.isL3()));
 
+    // update drive ff values depending on neo or kraken
     driveFeedforward =
-        new SimpleMotorFeedforward(
-            DriveConstants.driveKS(io.isL3()), DriveConstants.driveKV(io.isL3()));
+        new SimpleMotorFeedforward(DriveConstants.DRIVE_KS_KRAKEN, DriveConstants.DRIVE_KV_KRAKEN);
 
+    // fill steer pid values
     steerPID =
         new PIDController(
             DriveConstants.STEER_KP_NEO, DriveConstants.STEER_KI_NEO, DriveConstants.STEER_KD_NEO);
@@ -64,7 +70,7 @@ public class Module {
   }
 
   /** Manually Sets Voltage of the Turn Motor in Individual Module (Max is 12 Volts) */
-  public void seTurnVoltage(double volts) {
+  public void setTurnVoltage(double volts) {
     io.setTurnVoltage(volts);
   }
 
@@ -80,14 +86,14 @@ public class Module {
    * Manually Sets the Percent Speed of the Turn Motor in Individual Module (On a -1 to 1 Scale. 1
    * representing 100)
    */
-  public void setPercentSpeed(double percent) {
+  public void setTurnPercentSpeed(double percent) {
     io.setTurnVoltage(percent * 12);
   }
 
   /** Returns the current turn angle of the module. */
   public Rotation2d getAngle() {
     // Angle Modulus sets the Value Returned to be on a -pi, pi scale
-    return new Rotation2d(MathUtil.angleModulus(inputs.turnPositionRad));
+    return new Rotation2d(MathUtil.angleModulus(inputs.turnAbsolutePositionRad));
   }
 
   /** Returns the current drive position of the module in meters. */
@@ -110,7 +116,7 @@ public class Module {
     return new SwerveModuleState(getVelocityMetersPerSec(), getAngle());
   }
 
-  /** Sets Breake Mode for Turn and Drive Motors */
+  /** Sets Break Mode for Turn and Drive Motors */
   public void setBrakeModeAll(boolean enable) {
     io.setDriveBrakeMode(enable);
     io.setTurnBrakeMode(enable);
@@ -123,6 +129,7 @@ public class Module {
   public void periodic() {
     this.updateInputs();
     Logger.processInputs("Drive/Module" + Integer.toString(index), inputs);
+    // System.out.println(io.isL3());
   }
 
   /**
@@ -149,7 +156,7 @@ public class Module {
     // Run drive controller
     io.setDriveVoltage(
         driveFeedforward.calculate(velocityRadPerSec)
-            + drivePID.calculate(inputs.driveVelocityRadPerSec, velocityRadPerSec));
+            + (drivePID.calculate(inputs.driveVelocityRadPerSec, velocityRadPerSec)));
 
     return optimizedState;
   }
