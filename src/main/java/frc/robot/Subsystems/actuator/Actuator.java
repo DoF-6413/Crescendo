@@ -45,6 +45,8 @@ public class Actuator extends SubsystemBase {
     this.updateInputs();
     // log the inputs
     Logger.processInputs("Actuator", inputs);
+    
+    setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
   }
   // Updates Actuator Speed based on PID Control
 
@@ -114,5 +116,13 @@ public class Actuator extends SubsystemBase {
   public void setActuatorSetpoint(double setpoint) {
     actuatorPIDController.setSetpoint(setpoint);
     setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
+  }
+
+  public void enableActuator(boolean enable) {
+    if (enable) {
+      actuatorPIDController.setSetpoint(ActuatorConstants.MAX_ANGLE_RADS);
+    } else {
+      actuatorPIDController.setSetpoint(ActuatorConstants.MIN_ANGLE_RADS);
+    }
   }
 }

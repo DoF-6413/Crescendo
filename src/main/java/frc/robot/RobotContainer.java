@@ -197,22 +197,36 @@ public class RobotContainer {
     // m_otbIntakeSubsystem.enableRollers(driverController.rightBumper().getAsBoolean()),
     //         m_otbIntakeSubsystem));
 
-    m_actuatorSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
-            m_actuatorSubsystem));
+    // m_actuatorSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
+    //         m_actuatorSubsystem));
 
     /** PID controls for the mechanisms */
-    m_utbIntakeSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_utbIntakeSubsystem.enableUTBPID(driverController.leftBumper().getAsBoolean()),
-            m_utbIntakeSubsystem));
+    driverController
+        .leftBumper()
+        .whileTrue(
+            new InstantCommand(
+                () -> m_utbIntakeSubsystem.setUTBSetpoint(1500), m_utbIntakeSubsystem))
+        .whileFalse(
+            new InstantCommand(() -> m_utbIntakeSubsystem.disableUTB(), m_utbIntakeSubsystem));
+    driverController
+        .rightBumper()
+        .whileTrue(
+            new InstantCommand(
+                () -> m_utbIntakeSubsystem.setUTBSetpoint(-1500), m_utbIntakeSubsystem))
+        .whileFalse(
+            new InstantCommand(() -> m_utbIntakeSubsystem.disableUTB(), m_utbIntakeSubsystem));
+
+    // m_utbIntakeSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () ->
+    // m_utbIntakeSubsystem.enableUTBPID(driverController.leftBumper().getAsBoolean()),
+    //         m_utbIntakeSubsystem));
 
     m_otbIntakeSubsystem.setDefaultCommand(
         new InstantCommand(
-            () ->
-                m_otbIntakeSubsystem.enableRollersPID(
-                    driverController.rightBumper().getAsBoolean()),
+            () -> m_otbIntakeSubsystem.enableRollersPID(driverController.y().getAsBoolean()),
             m_otbIntakeSubsystem));
 
     // Actuator
@@ -222,14 +236,17 @@ public class RobotContainer {
     //         new InstantCommand(
     //             () ->
     //                 m_actuatorSubsystem.setActuatorSetpoint(
-    //                     Math.atan(-7.432 / 8.253) + (2 * Math.PI)), // Extended position
+    //                     ActuatorConstants.MAX_ANGLE_RADS), // Extended position
     //             m_actuatorSubsystem))
     //     .onFalse(
     //         new InstantCommand(
     //             () ->
     //                 m_actuatorSubsystem.setActuatorSetpoint(
-    //                     Math.atan(11.105 / .096)), // Retracted position
+    //                     ActuatorConstants.MIN_ANGLE_RADS), // Retracted position
     //             m_actuatorSubsystem));
+    m_actuatorSubsystem.setDefaultCommand(
+      new InstantCommand(
+        ()-> m_actuatorSubsystem.enableActuator(driverController.x().getAsBoolean()), m_actuatorSubsystem));
   }
 
   // m_shooterSubsystem.setDefaultCommand(

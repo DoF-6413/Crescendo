@@ -121,20 +121,25 @@ public class OTBIntake extends SubsystemBase {
     return otbIntakePIDController.atSetpoint(inputs.otbIntakeVelocityRPM);
   }
 
-  public void enableRollers(boolean auxXIsPressed) {
-    if (auxXIsPressed) {
+  public void enableRollers(boolean enable) {
+    if (enable) {
       setOTBIntakePercentSpeed(0.75);
     } else {
       setOTBIntakePercentSpeed(0);
     }
   }
 
-  public void enableRollersPID(boolean auxXIsPressed) {
-    if (auxXIsPressed) {
-      otbIntakePIDController.setSetpoint(1000.0);
+  public void enableRollersPID(boolean enable) {
+    if (enable) {
+      otbIntakePIDController.setSetpoint(-1000.0);
     } else {
       otbIntakePIDController.setSetpoint(0.0);
       setOTBIntakeVoltage(0);
     }
+  }
+
+  public void disableOTBRollers() {
+    otbIntakePIDController.setSetpoint(0);
+    setOTBIntakeVoltage(0);
   }
 }

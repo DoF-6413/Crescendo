@@ -34,4 +34,7 @@ public final class UTBIntakeConstants {
   public static final boolean IS_BRAKE_MODE_ENABLED = true;
   /** is inverted for UTB motor */
   public static final boolean IS_INVERTED = false;
+
+  /** runs OTB as a ratio of the UTB */
+  public static final double OTB_RATIO = 1.5;
 }
