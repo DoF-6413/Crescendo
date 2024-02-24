@@ -106,7 +106,6 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
     inputs.drivePositionRad =
         Units.rotationsToRadians(
             driveTalonFX.getPosition().getValueAsDouble() / DriveConstants.GEAR_RATIO_L3);
-
     inputs.driveVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(driveTalonFX.getVelocity().getValueAsDouble())
             / DriveConstants.getGearRatio(true);
@@ -139,29 +138,24 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
     inputs.turnTempCelsius = new double[] {turnSparkMax.getMotorTemperature()};
   }
 
-  // sets voltage output of drive sparkmaxes
+  @Override
   public void setDriveVoltage(double volts) {
     driveTalonFX.setVoltage(volts);
   }
 
-  // sets voltage output of turn sparkmaxes
+  @Override
   public void setTurnVoltage(double volts) {
     turnSparkMax.setVoltage(volts);
   }
 
-  // sets BrakeMode for drives
+  @Override
   public void setDriveBrakeMode(boolean enable) {
     driveTalonFX.setNeutralMode(enable ? NeutralModeValue.Brake : NeutralModeValue.Coast);
   }
 
-  // set BrakeMode for turn
+  @Override
   public void setTurnBrakeMode(boolean enable) {
     turnSparkMax.setIdleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
-  }
-
-  // returns absolute position from turn absolute encoders
-  public double getAbsolutePositionRadians() {
-    return Units.degreesToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble());
   }
 
   @Override

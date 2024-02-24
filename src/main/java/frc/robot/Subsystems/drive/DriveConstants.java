@@ -8,27 +8,110 @@ public final class DriveConstants {
 
   // PID Constants for Kraken Drive
   // PID values used in sim: P = 6.4, I = 1.2, D = 0.03
-  public static final double DRIVE_KP_KRAKEN = 0.6; // TODO: Update
-  public static final double DRIVE_KI_KRAKEN = 0.1; // TODO: Update
-  public static final double DRIVE_KD_KRAKEN = 0.4; // TODO: Update
+    /**
+   * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
+   */
+  public static final double DRIVE_KP_KRAKEN = 0.6;
+  /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
+  public static final double DRIVE_KI_KRAKEN = 0.1;
+  /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
+  public static final double DRIVE_KD_KRAKEN = 0.4;
   // Feed Forward Constants for Kraken Drive
   // Feed Forward values used in sim: S = 0.4, V = 0.4
-  public static final double DRIVE_KS_KRAKEN = 0.115; // TODO: Update
-  public static final double DRIVE_KV_KRAKEN = 0.137; // TODO: Update
+
+  /** KS represents the voltage required to overcome static friction */
+  public static final double DRIVE_KS_KRAKEN = 0.115;
+
+  /** KV represents the voltage used every second per meter*/
+  public static final double DRIVE_KV_KRAKEN = 0.137;
 
   // PID Constants for Steer (Neos)
-  public static final double STEER_KP_NEO = 6.4; // TODO: Test on robot (update as necessary)
-  public static final double STEER_KI_NEO = 1.2; // TODO: Test on robot (update as necessary)
-  public static final double STEER_KD_NEO = 0.03; // TODO: Test on robot (update as necessary)
+    /**
+   * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
+   */
+  public static final double STEER_KP_NEO = 6.4; 
+  /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
+  public static final double STEER_KI_NEO = 1.2; 
+  /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
+  public static final double STEER_KD_NEO = 0.03; 
 
   // PID Constants for Neo Drive
-  public static final double DRIVE_KP_NEO = 0.0; // TODO: Update
-  public static final double DRIVE_KI_NEO = 0.0; // TODO: Update
-  public static final double DRIVE_KD_NEO = 0.0; // TODO: Update
+  /**
+   * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
+   */
+  public static final double DRIVE_KP_NEO = 0.0; 
+  /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
+  public static final double DRIVE_KI_NEO = 0.0; 
+  /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
+  public static final double DRIVE_KD_NEO = 0.0; 
 
   // Feed Forward Constants for Neo Drive
-  public static final double DRIVE_KS_NEO = 0.4; // TODO: Update
-  public static final double DRIVE_KV_NEO = 0.4; // TODO: Update
+    /** KS represents the voltage required to overcome static friction */
+  public static final double DRIVE_KS_NEO = 0.4; 
+    /** KV represents the voltage used every second per meter*/
+  public static final double DRIVE_KV_NEO = 0.4; 
+
+
+  /**
+   * returns P of PID constants for Drive Motors depending on whether the Module is an L3 (kraken)
+   * or L2 (neo)
+   */
+  public static final double driveKP(Optional<Boolean> isL3) {
+    if (isL3 == Optional.of(true)) {
+      return DRIVE_KP_KRAKEN;
+    } else {
+      return DRIVE_KP_NEO;
+    }
+  }
+
+  /** returns I of PID constants for Drive Motors depending on whether the Module is an L3 or L2 */
+  public static final double driveKI(Optional<Boolean> isL3) {
+    if (isL3 == Optional.of(true)) {
+      return DRIVE_KI_KRAKEN;
+    } else {
+      return DRIVE_KI_NEO;
+    }
+  }
+
+  /** returns D of PID constants for Drive Motors depending on whether the Module is an L3 or L2 */
+  public static final double driveKD(Optional<Boolean> isL3) {
+    if (isL3 == Optional.of(true)) {
+      return DRIVE_KD_KRAKEN;
+    } else {
+      return DRIVE_KD_NEO;
+    }
+  }
+
+  /**
+   * returns S of feedforward constants for Drive Motors depending on whether the Module is an L3 or
+   * L2
+   */
+  public static final double driveKS(Optional<Boolean> isL3) {
+    if (isL3 == Optional.of(true)) {
+      return DRIVE_KS_KRAKEN;
+    } else {
+      return DRIVE_KS_NEO;
+    }
+  }
+
+  /**
+   * returns V of feedforward constants for Drive Motors depending on whether the Module is an L3 or
+   * L2
+   */
+  public static final double driveKV(Optional<Boolean> isL3) {
+    if (isL3 == Optional.of(true)) {
+      return DRIVE_KV_KRAKEN;
+    } else {
+      return DRIVE_KV_NEO;
+    }
+  }
+
+  /** Sim Constants */
+  /** Moment of inertia of wheel when driving */
+  public static final double DRIVE_MOI_KG_M2 = 0.0003125;
+  /** Moment of inertia of wheel when turning */
+  public static final double STEER_MOI_KG_M2 = 0.0000158025413;
+
 
   /** Real Constants */
   /** Wheel Radius in Meters */
@@ -61,12 +144,6 @@ public final class DriveConstants {
   /** Used in Robot Characterization Tool to Help Determine Drive Values like PID */
   public static final boolean IS_CHARACTERIZING = false;
 
-  /** Sim Constants */
-  /** Moment of inertia of wheel when driving */
-  public static final double DRIVE_MOI_KG_M2 = 0.0003125;
-  /** Moment of inertia of wheel when turning */
-  public static final double STEER_MOI_KG_M2 = 0.0000158025413;
-
   public static final Translation2d[] getModuleTranslations() {
     // Translation 2d assumes that the robot front facing is in the positive x direction and the
     // robot left is in the positive y direction
@@ -91,7 +168,6 @@ public final class DriveConstants {
     }
   }
 
-  // TODO: update values
   public static enum L3_ABSOLUTE_ENCODER_OFFSET_RAD {
     FRONT_RIGHT(-0.12879), // Module 0
     FRONT_LEFT(2.379), // Module 1
@@ -154,60 +230,6 @@ public final class DriveConstants {
 
     TURN_MOTOR(int value) {
       CAN_ID = value;
-    }
-  }
-
-  /**
-   * returns P of PID constants for Drive Motors depending on whether the Module is an L3 (kraken)
-   * or L2 (neo)
-   */
-  public static final double driveKP(Optional<Boolean> isL3) {
-    if (isL3 == Optional.of(true)) {
-      return DRIVE_KP_KRAKEN;
-    } else {
-      return DRIVE_KP_NEO;
-    }
-  }
-
-  /** returns I of PID constants for Drive Motors depending on whether the Module is an L3 or L2 */
-  public static final double driveKI(Optional<Boolean> isL3) {
-    if (isL3 == Optional.of(true)) {
-      return DRIVE_KI_KRAKEN;
-    } else {
-      return DRIVE_KI_NEO;
-    }
-  }
-
-  /** returns D of PID constants for Drive Motors depending on whether the Module is an L3 or L2 */
-  public static final double driveKD(Optional<Boolean> isL3) {
-    if (isL3 == Optional.of(true)) {
-      return DRIVE_KD_KRAKEN;
-    } else {
-      return DRIVE_KD_NEO;
-    }
-  }
-
-  /**
-   * returns S of feedforward constants for Drive Motors depending on whether the Module is an L3 or
-   * L2
-   */
-  public static final double driveKS(Optional<Boolean> isL3) {
-    if (isL3 == Optional.of(true)) {
-      return DRIVE_KS_KRAKEN;
-    } else {
-      return DRIVE_KS_NEO;
-    }
-  }
-
-  /**
-   * returns V of feedforward constants for Drive Motors depending on whether the Module is an L3 or
-   * L2
-   */
-  public static final double driveKV(Optional<Boolean> isL3) {
-    if (isL3 == Optional.of(true)) {
-      return DRIVE_KV_KRAKEN;
-    } else {
-      return DRIVE_KV_NEO;
     }
   }
 
