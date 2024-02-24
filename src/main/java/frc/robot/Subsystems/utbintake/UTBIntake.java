@@ -113,10 +113,11 @@ public class UTBIntake extends SubsystemBase {
     io.setUTBIntakeBrakeMode(enable);
   }
 
+  /** Sets the speed of the UTB Intake to predetermined speed (currently 1000 RPM) */
   public void enableUTB(boolean auxYIsPressed) {
     if (auxYIsPressed == true) {
       // setUTBIntakePercentSpeed(15);
-      utbIntakePIDController.setSetpoint(500);
+      utbIntakePIDController.setSetpoint(-1000);
     } else {
       // setUTBIntakePercentSpeed(0);
       utbIntakePIDController.setSetpoint(0);

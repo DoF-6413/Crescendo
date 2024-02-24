@@ -36,7 +36,7 @@ public final class ActuatorConstants {
 
   // Real Constants for the Actuator
   /** The CAN ID of the Actuator so it can be Identified on the CAN bus */
-  public static final int CAN_ID = 15; // TODO: update this id
+  public static final int CAN_ID = 15;
   /**
    * The Gear Ratio of the Actuator (Controls Speed vs Power, Calculated from Teeth of Gears for
    * Control)
