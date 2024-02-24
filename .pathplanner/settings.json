@@ -1,6 +1,6 @@
 {
-  "robotWidth": 0.8172033186,
-  "robotLength": 0.8172033186,
+  "robotWidth": 0.7112,
+  "robotLength": 0.7112,
   "holonomicMode": true,
   "pathFolders": [
     "New Folder"

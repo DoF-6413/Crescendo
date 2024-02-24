@@ -72,9 +72,9 @@ public class PoseEstimator extends SubsystemBase {
     // When ran on the real robot it would overload the command scheduler, causing input delay from
     // joystick to driving
     if (RobotStateConstants.getMode() == Mode.SIM) {
-      field2d.setRobotPose(getCurrentPose2d());
-      poseEstimator.updateWithTime(
-          Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
+    field2d.setRobotPose(getCurrentPose2d());
+    poseEstimator.updateWithTime(
+        Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
     }
 
     if (vision.getResult().hasTargets()) {

@@ -121,7 +121,7 @@ public class Robot extends LoggedRobot {
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
 
-    robotContainer.mechanismsCoastOnDisable(false);
+    // robotContainer.mechanismsCoastOnDisable(false);
 
     // schedule the autonomous command (example)
     if (autonomousCommand != null) {
