@@ -45,7 +45,7 @@ public class Climber extends SubsystemBase {
     // Set Tolerance
     climberLeftPIDController.setTolerance(ClimberConstants.TOLERANCE_PERCENT * climberSetpoint);
     climberRightPIDController.setTolerance(ClimberConstants.TOLERANCE_PERCENT * climberSetpoint);
-    
+
     // TODO: Delete once final PID Numbers are Decided
     climberLeftkp = climberTab.add("climberLeftkp", 0.0).getEntry();
     climberLeftki = climberTab.add("climberLeftki", 0.0).getEntry();
@@ -55,50 +55,50 @@ public class Climber extends SubsystemBase {
     climberRightkd = climberTab.add("climberRightkd", 0.0).getEntry();
     climberSetpointSetter = climberTab.add("climberSetpoint", 0.0).getEntry();
   }
-  
+
   /** Periodically updates the inputs and outputs of the Climber */
   public void periodic() {
     this.updateInputs();
     Logger.processInputs("Climber", inputs);
 
-    io.setLeftClimberPercentSpeed(
-        climberLeftPIDController.calculate(inputs.leftClimberPositionMeters));
-  
-    io.setRightClimberPercentSpeed(
-        climberRightPIDController.calculate(inputs.rightClimberPositionMeters));
+    // io.setLeftClimberPercentSpeed(
+    //     climberLeftPIDController.calculate(inputs.leftClimberPositionMeters));
 
-    if (ClimberConstants.RIGHT_KP != climberRightkp.getDouble(0.0)
-        || ClimberConstants.RIGHT_KI != climberRightki.getDouble(0.0)
-        || ClimberConstants.RIGHT_KD != climberRightkd.getDouble(0.0)
-        || ClimberConstants.LEFT_KP != climberLeftkp.getDouble(0.0)
-        || ClimberConstants.LEFT_KI != climberLeftki.getDouble(0.0)
-        || ClimberConstants.LEFT_KD != climberLeftkd.getDouble(0.0)) {
-      updatePIDController();
-    }
+    // io.setRightClimberPercentSpeed(
+    //     climberRightPIDController.calculate(inputs.rightClimberPositionMeters));
 
-    if (climberSetpoint != climberSetpointSetter.getDouble(0.0)) {
-      updateSetpoint();
-    }
+    // if (ClimberConstants.RIGHT_KP != climberRightkp.getDouble(0.0)
+    //     || ClimberConstants.RIGHT_KI != climberRightki.getDouble(0.0)
+    //     || ClimberConstants.RIGHT_KD != climberRightkd.getDouble(0.0)
+    //     || ClimberConstants.LEFT_KP != climberLeftkp.getDouble(0.0)
+    //     || ClimberConstants.LEFT_KI != climberLeftki.getDouble(0.0)
+    //     || ClimberConstants.LEFT_KD != climberLeftkd.getDouble(0.0)) {
+    //   updatePIDController();
+    // }
+
+    // if (climberSetpoint != climberSetpointSetter.getDouble(0.0)) {
+    // updateSetpoint();
+    // }
   }
 
-  public void updatePIDController() {
-    ClimberConstants.LEFT_KP = climberLeftkp.getDouble(0.0);
-    ClimberConstants.LEFT_KD = climberLeftkd.getDouble(0.0);
-    ClimberConstants.LEFT_KI = climberLeftki.getDouble(0.0);
-    ClimberConstants.RIGHT_KP = climberRightkp.getDouble(0.0);
-    ClimberConstants.RIGHT_KI = climberRightki.getDouble(0.0);
-    ClimberConstants.RIGHT_KD = climberRightkd.getDouble(0.0);
-    climberLeftPIDController.setPID(
-        ClimberConstants.LEFT_KP, ClimberConstants.LEFT_KI, ClimberConstants.LEFT_KD);
-    climberRightPIDController.setPID(
-        ClimberConstants.RIGHT_KP, ClimberConstants.RIGHT_KI, ClimberConstants.RIGHT_KD);
-  }
+  // public void updatePIDController() {
+  //   ClimberConstants.LEFT_KP = climberLeftkp.getDouble(0.0);
+  //   ClimberConstants.LEFT_KD = climberLeftkd.getDouble(0.0);
+  //   ClimberConstants.LEFT_KI = climberLeftki.getDouble(0.0);
+  //   ClimberConstants.RIGHT_KP = climberRightkp.getDouble(0.0);
+  //   ClimberConstants.RIGHT_KI = climberRightki.getDouble(0.0);
+  //   ClimberConstants.RIGHT_KD = climberRightkd.getDouble(0.0);
+  //   climberLeftPIDController.setPID(
+  //       ClimberConstants.LEFT_KP, ClimberConstants.LEFT_KI, ClimberConstants.LEFT_KD);
+  //   climberRightPIDController.setPID(
+  //       ClimberConstants.RIGHT_KP, ClimberConstants.RIGHT_KI, ClimberConstants.RIGHT_KD);
+  // }
 
-  public void updateSetpoint() {
-    climberSetpoint = climberSetpointSetter.getDouble(0.0);
-    climberLeftPIDController.setSetpoint(climberSetpoint);
-    climberRightPIDController.setSetpoint(climberSetpoint);
-  }
+  // public void updateSetpoint() {
+  //   climberSetpoint = climberSetpointSetter.getDouble(0.0);
+  //   climberLeftPIDController.setSetpoint(climberSetpoint);
+  //   climberRightPIDController.setSetpoint(climberSetpoint);
+  // }
 
   /** Updates the inputs for the Climber */
   public void updateInputs() {

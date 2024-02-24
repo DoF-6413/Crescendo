@@ -7,7 +7,6 @@ package frc.robot.Subsystems.otbIntake;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
@@ -50,37 +49,38 @@ public class OTBIntake extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("OTBIntake", inputs);
 
-    setOTBIntakeVoltage(
-        otbIntakePIDController.calculateForVoltage(
-            inputs.otbIntakeVelocityRPM, OTBIntakeConstants.MAX_VALUE));
+    // setOTBIntakeVoltage(
+    //     otbIntakePIDController.calculateForVoltage(
+    //         inputs.otbIntakeVelocityRPM, OTBIntakeConstants.MAX_VALUE));
 
-    // TODO: Delete after PID is finalized
-    if (OTBIntakeConstants.KP != OTBIntakekp.getDouble(0.0)
-        || OTBIntakeConstants.KI != OTBIntakeki.getDouble(0.0)
-        || OTBIntakeConstants.KD != OTBIntakekd.getDouble(0.0)) {
-      updatePIDController();
-    }
+    // // TODO: Delete after PID is finalized
+    // if (OTBIntakeConstants.KP != OTBIntakekp.getDouble(0.0)
+    //     || OTBIntakeConstants.KI != OTBIntakeki.getDouble(0.0)
+    //     || OTBIntakeConstants.KD != OTBIntakekd.getDouble(0.0)) {
+    //   updatePIDController();
+    // }
 
-    if (setpointRPM != OTBIntakeSetpointSetter.getDouble(0.0)) {
-      updateSetpoint();
-    }
+    // if (setpointRPM != OTBIntakeSetpointSetter.getDouble(0.0)) {
+    //   updateSetpoint();
+    // }
 
-    SmartDashboard.putBoolean("OTBIntakeAtSetpoint", atSetpoint());
+    // SmartDashboard.putBoolean("OTBIntakeAtSetpoint", atSetpoint());
   }
 
-  /** Updates the PID values based on what is put on Shuffleboard */
-  public void updatePIDController() {
-    OTBIntakeConstants.KP = OTBIntakekp.getDouble(0.0);
-    OTBIntakeConstants.KI = OTBIntakeki.getDouble(0.0);
-    OTBIntakeConstants.KD = OTBIntakekd.getDouble(0.0);
-    otbIntakePIDController.setPID(OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
-  }
+  // /** Updates the PID values based on what is put on Shuffleboard */
+  // public void updatePIDController() {
+  //   OTBIntakeConstants.KP = OTBIntakekp.getDouble(0.0);
+  //   OTBIntakeConstants.KI = OTBIntakeki.getDouble(0.0);
+  //   OTBIntakeConstants.KD = OTBIntakekd.getDouble(0.0);
+  //   otbIntakePIDController.setPID(
+  //       OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
+  // }
 
-  /** Updates the setpoint based on what is put on Shuffleboard */
-  public void updateSetpoint() {
-    setpointRPM = OTBIntakeSetpointSetter.getDouble(0.0);
-    otbIntakePIDController.setSetpoint(setpointRPM);
-  }
+  // /** Updates the setpoint based on what is put on Shuffleboard */
+  // public void updateSetpoint() {
+  //   setpointRPM = OTBIntakeSetpointSetter.getDouble(0.0);
+  //   otbIntakePIDController.setSetpoint(setpointRPM);
+  // }
 
   /** Updates inputs for the OTB Intake */
   public void updateInputs() {

@@ -7,7 +7,6 @@ package frc.robot.Subsystems.shooter;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
@@ -68,51 +67,71 @@ public class Shooter extends SubsystemBase {
     Logger.processInputs("Shooter", inputs);
 
     // Sets the voltage of the Shooter Motors using PID
-    setTopShooterMotorVoltage(
-        topShooterPIDController.calculateForVoltage(inputs.topShooterMotorRPM, ShooterConstants.MAX_VALUE));
-    setBottomShooterMotorVoltage(
-        -bottomShooterPIDController.calculateForVoltage(
-            Math.abs(inputs.bottomShooterMotorRPM), ShooterConstants.MAX_VALUE));
+    // setTopShooterMotorVoltage(
+    //     topShooterPIDController.calculateForVoltage(
+    //         inputs.topShooterMotorRPM, ShooterConstants.MAX_VALUE));
+    // setBottomShooterMotorVoltage(
+    //     -bottomShooterPIDController.calculateForVoltage(
+    //         Math.abs(inputs.bottomShooterMotorRPM), ShooterConstants.MAX_VALUE));
 
-    if (ShooterConstants.TOP_KP != shooterTopkP.getDouble(0.0)
-        || ShooterConstants.TOP_KI != shooterTopkI.getDouble(0.0)
-        || ShooterConstants.TOP_KD != shooterTopkD.getDouble(0.0)
-        || ShooterConstants.BOTTOM_KP != shooterBottomkP.getDouble(0.0)
-        || ShooterConstants.BOTTOM_KI != shooterBottomkI.getDouble(0.0)
-        || ShooterConstants.BOTTOM_KD != shooterBottomkD.getDouble(0.0)) {
-      updatePIDController();
-    }
+    // if (ShooterConstants.TOP_KP != shooterTopkP.getDouble(0.0)
+    //     || ShooterConstants.TOP_KI != shooterTopkI.getDouble(0.0)
+    //     || ShooterConstants.TOP_KD != shooterTopkD.getDouble(0.0)
+    //     || ShooterConstants.BOTTOM_KP != shooterBottomkP.getDouble(0.0)
+    //     || ShooterConstants.BOTTOM_KI != shooterBottomkI.getDouble(0.0)
+    //     || ShooterConstants.BOTTOM_KD != shooterBottomkD.getDouble(0.0)) {
+    //   updatePIDController();
+    // }
 
-    if (setpointRPM != shooterSetpointSetter.getDouble(0.0)) {
-      updateSetpoint();
-    }
+    // if (setpointRPM != shooterSetpointSetter.getDouble(0.0)) {
+    //   updateSetpoint();
+    // }
 
-    // Returns whether or not motors have reached setpoint
-    SmartDashboard.putBoolean("shooterTopAtSetpoint", topAtSetpoint());
-    SmartDashboard.putBoolean("shooterBottomAtSetpoint", bottomAtSetpoint());
+    // // Returns whether or not motors have reached setpoint
+    // // SmartDashboard.putBoolean("shooterTopAtSetpoint", topAtSetpoint());
+    // // SmartDashboard.putBoolean("shooterBottomAtSetpoint", bottomAtSetpoint());
 
-    // SmartDashboard.putboolean("!!Tempature Warning!!", exceedsTemperature());
+    // // Returns whether or not motors have reached setpoint
+    // SmartDashboard.putBoolean("shooterTopAtSetpoint", topAtSetpoint());
+    // SmartDashboard.putBoolean("shooterBottomAtSetpoint", bottomAtSetpoint());
+
+    // // Gets the current PID values that the PID contollers are set to
+    // SmartDashboard.putNumber("topCurrentkP", topShooterPIDController.getP());
+    // SmartDashboard.putNumber("topCurrentkI", topShooterPIDController.getI());
+    // SmartDashboard.putNumber("topCurrentkD", topShooterPIDController.getD());
+    // SmartDashboard.putNumber("bottomCurrentkP", bottomShooterPIDController.getP());
+    // SmartDashboard.putNumber("bottomCurrentkI", bottomShooterPIDController.getI());
+    // SmartDashboard.putNumber("bottomCurrentkD", bottomShooterPIDController.getD());
+
+    // // Gets the current setpoint that the PID contollers are set to
+    // SmartDashboard.putNumber("Top PID Controller Setpoint",
+    // topShooterPIDController.getSetpoint());
+    // SmartDashboard.putNumber(
+    //     "Bottom PID Controller Setpoint", -bottomShooterPIDController.getSetpoint());
+
+    // SmartDashboard.putBoolean("!!Tempature Warning!!", exceedsTemperature());
   }
 
   // Updates the PID values to what they are set to on the SmartDashboard
-  public void updatePIDController() {
-    ShooterConstants.TOP_KP = shooterTopkP.getDouble(0.0);
-    ShooterConstants.TOP_KI = shooterTopkI.getDouble(0.0);
-    ShooterConstants.TOP_KD = shooterTopkD.getDouble(0.0);
-    ShooterConstants.BOTTOM_KP = shooterBottomkP.getDouble(0.0);
-    ShooterConstants.BOTTOM_KI = shooterBottomkI.getDouble(0.0);
-    ShooterConstants.BOTTOM_KD = shooterBottomkD.getDouble(0.0);
-    topShooterPIDController.setPID(ShooterConstants.TOP_KP, ShooterConstants.TOP_KI, ShooterConstants.TOP_KD);
-    bottomShooterPIDController.setPID(
-        ShooterConstants.BOTTOM_KP, ShooterConstants.BOTTOM_KI, ShooterConstants.BOTTOM_KD);
-  }
+  // public void updatePIDController() {
+  //   ShooterConstants.TOP_KP = shooterTopkP.getDouble(0.0);
+  //   ShooterConstants.TOP_KI = shooterTopkI.getDouble(0.0);
+  //   ShooterConstants.TOP_KD = shooterTopkD.getDouble(0.0);
+  //   ShooterConstants.BOTTOM_KP = shooterBottomkP.getDouble(0.0);
+  //   ShooterConstants.BOTTOM_KI = shooterBottomkI.getDouble(0.0);
+  //   ShooterConstants.BOTTOM_KD = shooterBottomkD.getDouble(0.0);
+  //   topShooterPIDController.setPID(
+  //       ShooterConstants.TOP_KP, ShooterConstants.TOP_KI, ShooterConstants.TOP_KD);
+  //   bottomShooterPIDController.setPID(
+  //       ShooterConstants.BOTTOM_KP, ShooterConstants.BOTTOM_KI, ShooterConstants.BOTTOM_KD);
+  // }
 
-  // Updates the setpoint to what is typed on the SmartDashboard
-  public void updateSetpoint() {
-    setpointRPM = shooterSetpointSetter.getDouble(0.0);
-    topShooterPIDController.setSetpoint(setpointRPM);
-    bottomShooterPIDController.setSetpoint(setpointRPM);
-  }
+  // // Updates the setpoint to what is typed on the SmartDashboard
+  // public void updateSetpoint() {
+  //   setpointRPM = shooterSetpointSetter.getDouble(0.0);
+  //   topShooterPIDController.setSetpoint(setpointRPM);
+  //   bottomShooterPIDController.setSetpoint(setpointRPM);
+  // }
 
   /** Updates the set of loggable inputs for both Shooter Motors */
   public void updateInputs() {

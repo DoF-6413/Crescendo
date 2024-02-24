@@ -58,9 +58,10 @@ public class Robot extends LoggedRobot {
     switch (RobotStateConstants.getMode()) {
       case REAL:
         // Running on a real robot, log to a USB stick ("/U/logs")
-        Logger.addDataReceiver(
-            new WPILOGWriter(
-                "/Crescendo/Logs")); // The name looks like "Logs_Year-Month-Day_Hour-Minute-Second"
+        // Logger.addDataReceiver(
+        //     new WPILOGWriter(
+        //         "/Crescendo/Logs")); // The name looks like
+        // "Logs_Year-Month-Day_Hour-Minute-Second"
         Logger.addDataReceiver(new NT4Publisher());
         break;
 
@@ -87,7 +88,7 @@ public class Robot extends LoggedRobot {
     // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
     // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
     // Build)
-    SmartDashboard.putString("Beta Number", "1.25.0.42.1");
+    SmartDashboard.putString("Beta Number", "1.26.0.42.1");
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
@@ -107,7 +108,9 @@ public class Robot extends LoggedRobot {
 
   /** This function is called once when the robot is disabled. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    robotContainer.mechanismsCoastOnDisable(true);
+  }
 
   /** This function is called periodically when disabled. */
   @Override
@@ -117,6 +120,8 @@ public class Robot extends LoggedRobot {
   @Override
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
+
+    robotContainer.mechanismsCoastOnDisable(false);
 
     // schedule the autonomous command (example)
     if (autonomousCommand != null) {
@@ -138,6 +143,8 @@ public class Robot extends LoggedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+
+    robotContainer.mechanismsCoastOnDisable(false);
   }
 
   /** This function is called periodically during operator control. */

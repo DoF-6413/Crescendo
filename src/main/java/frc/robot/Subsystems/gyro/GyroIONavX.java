@@ -18,6 +18,7 @@ public class GyroIONavX implements GyroIO {
   public GyroIONavX() {
     System.out.println("[Init] Creating GyroIONavX");
     gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
+    gyro.setAngleAdjustment(GyroConstants.GYRO_HEADING_OFFSET_DEGREES);
   }
 
   @Override
@@ -25,7 +26,9 @@ public class GyroIONavX implements GyroIO {
     inputs.connected = gyro.isConnected();
     inputs.rollPositionRad = new Rotation2d(Units.degreesToRadians(gyro.getRoll()));
     inputs.pitchPositionRad = new Rotation2d(Units.degreesToRadians(gyro.getPitch()));
-    inputs.yawPositionRad = new Rotation2d(Units.degreesToRadians(270 - gyro.getYaw()));
+    // Value is Negative because NavX reads CW and everything else runs CCW
+    inputs.yawPositionRad =
+        new Rotation2d(Units.degreesToRadians(-gyro.getYaw() + GyroConstants.GYRO_HEADING_OFFSET_DEGREES)); // TODO: Make -90 constant
     inputs.anglePositionRad = new Rotation2d(Units.degreesToRadians(gyro.getAngle()));
     inputs.rate = gyro.getRate();
     inputs.rollVelocityDegPerSec = gyro.getRawGyroY();

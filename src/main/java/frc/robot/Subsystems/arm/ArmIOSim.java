@@ -16,18 +16,18 @@ public class ArmIOSim implements ArmIO {
 
   /** Creates and initalizes the simulated arm */
   public ArmIOSim() {
-      System.out.println("[Init] Creating ArmIOSim");
-      armMotor =
-      new SingleJointedArmSim(
-          DCMotor.getNEO(1),
-          ArmConstants.GEAR_RATIO,
-          ArmConstants.MOI_KG_M2,
-          ArmConstants.LENGTH_M,
-          ArmConstants.MIN_ANGLE_RAD,
-          ArmConstants.MAX_ANGLE_RAD,
-          ArmConstants.IS_SIMULATING_GRAVITY,
-          ArmConstants.STARTING_ANGLE_RAD);
-    }
+    System.out.println("[Init] Creating ArmIOSim");
+    armMotor =
+        new SingleJointedArmSim(
+            DCMotor.getNEO(1),
+            ArmConstants.GEAR_RATIO,
+            ArmConstants.MOI_KG_M2,
+            ArmConstants.LENGTH_M,
+            ArmConstants.MIN_ANGLE_RAD,
+            ArmConstants.MAX_ANGLE_RAD,
+            ArmConstants.IS_SIMULATING_GRAVITY,
+            ArmConstants.STARTING_ANGLE_RAD);
+  }
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
