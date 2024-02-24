@@ -197,26 +197,29 @@ public class RobotContainer {
     // m_otbIntakeSubsystem.enableRollers(driverController.rightBumper().getAsBoolean()),
     //         m_otbIntakeSubsystem));
 
-    // m_actuatorSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
-    //         m_actuatorSubsystem));
+    m_actuatorSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
+            m_actuatorSubsystem));
 
     /** PID controls for the mechanisms */
+    /** UTB Intake */
     driverController
-        .leftBumper()
+        .rightTrigger()
         .whileTrue(
             new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBSetpoint(1500), m_utbIntakeSubsystem))
+                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem))
         .whileFalse(
-            new InstantCommand(() -> m_utbIntakeSubsystem.disableUTB(), m_utbIntakeSubsystem));
+            new InstantCommand(
+                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
     driverController
         .rightBumper()
         .whileTrue(
             new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBSetpoint(-1500), m_utbIntakeSubsystem))
+                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(1), m_utbIntakeSubsystem))
         .whileFalse(
-            new InstantCommand(() -> m_utbIntakeSubsystem.disableUTB(), m_utbIntakeSubsystem));
+            new InstantCommand(
+                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
 
     // m_utbIntakeSubsystem.setDefaultCommand(
     //     new InstantCommand(
@@ -224,10 +227,35 @@ public class RobotContainer {
     // m_utbIntakeSubsystem.enableUTBPID(driverController.leftBumper().getAsBoolean()),
     //         m_utbIntakeSubsystem));
 
-    m_otbIntakeSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_otbIntakeSubsystem.enableRollersPID(driverController.y().getAsBoolean()),
-            m_otbIntakeSubsystem));
+    // m_otbIntakeSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_otbIntakeSubsystem.enableRollersPID(driverController.y().getAsBoolean()),
+    //         m_otbIntakeSubsystem));
+
+    driverController
+        .leftTrigger()
+        .whileTrue(
+            new SequentialCommandGroup(
+                new InstantCommand(
+                    () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem),
+                new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(-0.75))))
+        .whileFalse(
+            new SequentialCommandGroup(
+                new InstantCommand(
+                    () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem),
+                new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(0))));
+    driverController
+        .leftBumper()
+        .whileTrue(
+            new SequentialCommandGroup(
+                new InstantCommand(
+                    () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(1), m_utbIntakeSubsystem),
+                new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(0.75))))
+        .whileFalse(
+            new SequentialCommandGroup(
+                new InstantCommand(
+                    () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem),
+                new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(0))));
 
     // Actuator
     // driverController
@@ -244,9 +272,10 @@ public class RobotContainer {
     //                 m_actuatorSubsystem.setActuatorSetpoint(
     //                     ActuatorConstants.MIN_ANGLE_RADS), // Retracted position
     //             m_actuatorSubsystem));
-    m_actuatorSubsystem.setDefaultCommand(
-      new InstantCommand(
-        ()-> m_actuatorSubsystem.enableActuator(driverController.x().getAsBoolean()), m_actuatorSubsystem));
+    // m_actuatorSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_actuatorSubsystem.enableActuator(driverController.x().getAsBoolean()),
+    //         m_actuatorSubsystem));
   }
 
   // m_shooterSubsystem.setDefaultCommand(

@@ -59,5 +59,5 @@ public final class ActuatorConstants {
   public static final double LENGTH_M = Units.inchesToMeters(30.354561);
 
   /** Sets if Actuator Motor is Inverted */
-  public static final boolean IS_INVERTED = false;
+  public static final boolean IS_INVERTED = true;
 }

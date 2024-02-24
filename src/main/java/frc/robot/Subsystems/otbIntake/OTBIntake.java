@@ -49,9 +49,9 @@ public class OTBIntake extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("OTBIntake", inputs);
 
-    setOTBIntakeVoltage(
-        otbIntakePIDController.calculateForVoltage(
-            inputs.otbIntakeVelocityRPM, OTBIntakeConstants.MAX_VALUE));
+    // setOTBIntakeVoltage(
+    //     otbIntakePIDController.calculateForVoltage(
+    //         inputs.otbIntakeVelocityRPM, OTBIntakeConstants.MAX_VALUE));
 
     // // TODO: Delete after PID is finalized
     if (OTBIntakeConstants.KP != OTBIntakekp.getDouble(0.0)
@@ -119,6 +119,10 @@ public class OTBIntake extends SubsystemBase {
   /** Returns where the OTB Intake RPM is within the setpoint, including tolerance */
   public boolean atSetpoint() {
     return otbIntakePIDController.atSetpoint(inputs.otbIntakeVelocityRPM);
+  }
+
+  public void setOTBSetpoint(double setpoint) {
+    otbIntakePIDController.setSetpoint(setpoint);
   }
 
   public void enableRollers(boolean enable) {
