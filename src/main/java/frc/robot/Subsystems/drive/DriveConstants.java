@@ -8,7 +8,7 @@ public final class DriveConstants {
 
   // PID Constants for Kraken Drive
   // PID values used in sim: P = 6.4, I = 1.2, D = 0.03
-    /**
+  /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
   public static final double DRIVE_KP_KRAKEN = 0.6;
@@ -22,35 +22,34 @@ public final class DriveConstants {
   /** KS represents the voltage required to overcome static friction */
   public static final double DRIVE_KS_KRAKEN = 0.115;
 
-  /** KV represents the voltage used every second per meter*/
+  /** KV represents the voltage used every second per meter */
   public static final double DRIVE_KV_KRAKEN = 0.137;
 
   // PID Constants for Steer (Neos)
-    /**
+  /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static final double STEER_KP_NEO = 6.4; 
+  public static final double STEER_KP_NEO = 6.4;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static final double STEER_KI_NEO = 1.2; 
+  public static final double STEER_KI_NEO = 1.2;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static final double STEER_KD_NEO = 0.03; 
+  public static final double STEER_KD_NEO = 0.03;
 
   // PID Constants for Neo Drive
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static final double DRIVE_KP_NEO = 0.0; 
+  public static final double DRIVE_KP_NEO = 0.0;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static final double DRIVE_KI_NEO = 0.0; 
+  public static final double DRIVE_KI_NEO = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static final double DRIVE_KD_NEO = 0.0; 
+  public static final double DRIVE_KD_NEO = 0.0;
 
   // Feed Forward Constants for Neo Drive
-    /** KS represents the voltage required to overcome static friction */
-  public static final double DRIVE_KS_NEO = 0.4; 
-    /** KV represents the voltage used every second per meter*/
-  public static final double DRIVE_KV_NEO = 0.4; 
-
+  /** KS represents the voltage required to overcome static friction */
+  public static final double DRIVE_KS_NEO = 0.4;
+  /** KV represents the voltage used every second per meter */
+  public static final double DRIVE_KV_NEO = 0.4;
 
   /**
    * returns P of PID constants for Drive Motors depending on whether the Module is an L3 (kraken)
@@ -111,7 +110,6 @@ public final class DriveConstants {
   public static final double DRIVE_MOI_KG_M2 = 0.0003125;
   /** Moment of inertia of wheel when turning */
   public static final double STEER_MOI_KG_M2 = 0.0000158025413;
-
 
   /** Real Constants */
   /** Wheel Radius in Meters */

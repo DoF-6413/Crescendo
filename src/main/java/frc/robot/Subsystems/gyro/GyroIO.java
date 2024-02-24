@@ -13,8 +13,9 @@ public interface GyroIO {
 
   @AutoLog
   public static class GyroIOInputs {
-    /** Returns whether or not the  */
+    /** Returns whether or not the */
     public boolean connected = false;
+
     public Rotation2d rollPositionRad = new Rotation2d();
     public Rotation2d pitchPositionRad = new Rotation2d();
     public Rotation2d yawPositionRad = new Rotation2d();
@@ -28,8 +29,11 @@ public interface GyroIO {
   }
 
   /** Updates the set of loggable inputs. */
-  public default void updateInputs(GyroIOInputs inputs) {}  
-  
-  /** Resets the heading to be whereever the front of the robot is facing (front being the intake side) */
+  public default void updateInputs(GyroIOInputs inputs) {}
+
+  /**
+   * Resets the heading to be whereever the front of the robot is facing (front being the intake
+   * side)
+   */
   public default void zeroHeading() {}
 }

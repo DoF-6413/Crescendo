@@ -14,23 +14,30 @@ public interface ModuleIO {
   public static class ModuleIOInputs {
     /** This returns the voltage the Propulsion Motor Recieves */
     public double driveAppliedVolts = 0.0;
-    /**Returns the position of the Propulsion Motor by how many radians it has rotated*/ 
+    /** Returns the position of the Propulsion Motor by how many radians it has rotated */
     public double drivePositionRad = 0.0;
-    /**Returns the velocity of the Propulsion Motor by how many radians per second it has rotated*/
+    /**
+     * Returns the velocity of the Propulsion Motor by how many radians per second it has rotated
+     */
     public double driveVelocityRadPerSec = 0.0;
-    /**Returns the absoltute value of the velocity of the Propulsion Motor by how many radians per second it has rotated (Used to find Displacement)*/
+    /**
+     * Returns the absoltute value of the velocity of the Propulsion Motor by how many radians per
+     * second it has rotated (Used to find Displacement)
+     */
     public double driveVelocityRadPerSecAbs = Math.abs(0.0);
     /** The Current Drawn from the Propulsion Motor in Amps */
     public double[] driveCurrentAmps = new double[] {};
     /** The tempature of the Propulsion Motor in Celsius */
     public double[] driveTempCelsius = new double[] {};
 
-
     /** This returns the voltage the Steer Motor Recieves */
     public double turnAppliedVolts = 0.0;
-    /**Returns the position of the absoltute encoder in Radians (Used to make sure wheel zero doesnt change on enable*/
+    /**
+     * Returns the position of the absoltute encoder in Radians (Used to make sure wheel zero doesnt
+     * change on enable
+     */
     public double turnAbsolutePositionRad = 0.0;
-    /**Returns the position of the Steer Motor by how many radians it has rotated */ 
+    /** Returns the position of the Steer Motor by how many radians it has rotated */
     public double turnPositionRad = 0.0;
     /** Returns the velocity of the Steer Motor by how many radians per second it has rotated */
     public double turnVelocityRadPerSec = 0.0;
