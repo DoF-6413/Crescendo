@@ -23,6 +23,7 @@ import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
 import frc.robot.Subsystems.climber.*;
 import frc.robot.Subsystems.drive.*;
+import frc.robot.Subsystems.feeder.*;
 import frc.robot.Subsystems.gyro.*;
 import frc.robot.Subsystems.otbIntake.*;
 import frc.robot.Subsystems.shooter.*;
@@ -42,16 +43,17 @@ public class RobotContainer {
   // Subsystems
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
-  
+
   private final Arm m_armSubsystem;
   private final Vision m_visionSubsystem;
+  private final Feeder m_feederSubsystem;
   private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
   private final Shooter m_shooterSubsystem;
   private final Wrist m_wristSubsystem;
-  
+
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
 
@@ -71,14 +73,15 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
-        new Drive(
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
-          new ModuleIOSparkMax(),
+            new Drive(
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
+                new ModuleIOSparkMax(),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_visionSubsystem = new Vision(new VisionIOArduCam());
+        m_feederSubsystem = new Feeder(new FeederIOTalonFX());
         m_climberSubsystem = new Climber(new ClimberIOSparkMax());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
@@ -99,6 +102,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
         m_visionSubsystem = new Vision(new VisionIOSim());
+        m_feederSubsystem = new Feeder(new FeederIOSim());
         m_climberSubsystem = new Climber(new ClimberIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
@@ -120,6 +124,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
         m_visionSubsystem = new Vision(new VisionIO() {});
+        m_feederSubsystem = new Feeder(new FeederIO() {});
         m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
@@ -182,6 +187,11 @@ public class RobotContainer {
     //     new InstantCommand(
     //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
     //         m_actuatorSubsystem));
+
+    m_feederSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_feederSubsystem.setFeederPercentSpeed(auxController.getRightY()),
+            m_feederSubsystem));
   }
 
   /**
