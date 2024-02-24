@@ -14,6 +14,7 @@ public interface ModuleIO {
   public static class ModuleIOInputs {
     public double drivePositionRad = 0.0;
     public double driveVelocityRadPerSec = 0.0;
+    public double driveVelocityRadPerSecAbs = Math.abs(0.0);
     public double driveAppliedVolts = 0.0;
     public double[] driveCurrentAmps = new double[] {};
     public double[] driveTempCelsius = new double[] {};
