@@ -198,10 +198,9 @@ public class RobotContainer {
     //         m_otbIntakeSubsystem));
 
     m_actuatorSubsystem.setDefaultCommand(
-      new InstantCommand(
-        ()-> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY())
-      )
-    );
+        new InstantCommand(
+            () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
+            m_actuatorSubsystem));
 
     /** PID controls for the mechanisms */
     m_utbIntakeSubsystem.setDefaultCommand(
