@@ -8,7 +8,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 /** All the Loggable Inputs and Outputs of All Shooter Modes */
 public interface ShooterIO {
-
+  
   @AutoLog
   public static class ShooterIOInputs {
     // All the Inputs for the Top Shooter Motor (Should be nearly identical to the Bottom Shooter

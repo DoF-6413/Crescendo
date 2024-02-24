@@ -4,6 +4,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 /** All the Loggable Inputs and Outputs of the UTB Intake */
 public interface UTBIntakeIO {
+  
   @AutoLog
   public static class UTBIntakeIOInputs {
     /** The velocity of the UTB Intake in Rotations per Minute */

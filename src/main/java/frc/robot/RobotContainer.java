@@ -13,8 +13,6 @@
 
 package frc.robot;
 
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.*;
@@ -33,6 +31,7 @@ import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.vision.*;
 import frc.robot.Subsystems.wrist.*;
 import frc.robot.Utils.*;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -179,7 +178,7 @@ public class RobotContainer {
     return autoChooser.get();
   }
 
-  /**This Turns the Mechanisms to either Coast or Brake Depending on Disable or Enable */
+  /** This Turns the Mechanisms to either Coast or Brake Depending on Disable or Enable */
   public void mechanismsCoastOnDisable(boolean isDisabled) {
     m_driveSubsystem.coastOnDisable(isDisabled);
   }
