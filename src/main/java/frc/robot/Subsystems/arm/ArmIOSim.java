@@ -47,6 +47,7 @@ public class ArmIOSim implements ArmIO {
   @Override
   public void setArmPercentSpeed(double percent) {
     armMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
+    armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
   }
 
   @Override
