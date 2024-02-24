@@ -114,7 +114,7 @@ public class UTBIntake extends SubsystemBase {
   }
 
   /** Sets the speed of the UTB Intake to predetermined speed (currently 1000 RPM) */
-  public void enableUTB(boolean auxYIsPressed) {
+  public void enableUTBPID(boolean auxYIsPressed) {
     if (auxYIsPressed == true) {
       // setUTBIntakePercentSpeed(15);
       utbIntakePIDController.setSetpoint(-1000);
@@ -122,6 +122,14 @@ public class UTBIntake extends SubsystemBase {
       // setUTBIntakePercentSpeed(0);
       utbIntakePIDController.setSetpoint(0);
       setUTBIntakeVoltage(0);
+    }
+  }
+
+  public void enableUTB(boolean auxYIsPressed) {
+    if (auxYIsPressed == true) {
+      setUTBIntakePercentSpeed(0.75);
+    } else {
+      setUTBIntakePercentSpeed(0);
     }
   }
 }

@@ -34,11 +34,8 @@ public class ArmIOSim implements ArmIO {
     // Updates inputs periodically
     armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
-    inputs.armPositionRad +=
-        armMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
-    inputs.armPositionDeg +=
-        Units.radiansToDegrees(
-            armMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC);
+    inputs.armPositionRad = armMotor.getAngleRads();
+    Units.radiansToDegrees(armMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC);
     inputs.armVelocityRadPerSec = armMotor.getVelocityRadPerSec();
     inputs.armAppliedVolts = 0.0;
     inputs.armCurrentAmps = new double[] {Math.abs(armMotor.getCurrentDrawAmps())};
@@ -47,7 +44,6 @@ public class ArmIOSim implements ArmIO {
   @Override
   public void setArmPercentSpeed(double percent) {
     armMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
-    armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
   }
 
   @Override

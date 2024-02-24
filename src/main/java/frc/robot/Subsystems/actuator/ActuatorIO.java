@@ -51,5 +51,5 @@ public interface ActuatorIO {
    *
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
-  public default void setBrakeMode(boolean enable) {}
+  // public default void setBrakeMode(boolean enable) {}
 }
