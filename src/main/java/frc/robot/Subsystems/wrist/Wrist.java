@@ -8,7 +8,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -55,41 +54,41 @@ public class Wrist extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
 
-    setWristPercentSpeed(wristPIDController.calculate(inputs.wristPositionRad));
+    //   setWristPercentSpeed(wristPIDController.calculate(inputs.wristPositionRad));
 
-    // TODO: delete once PID is finalized
-    /** updates PID values if SmartDashboard gets updated */
-    if (WristConstants.KP != wristkp.getDouble(0.0)
-        || WristConstants.KI != wristki.getDouble(0.0)
-        || WristConstants.KD != wristkd.getDouble(0.0)) {
-      updatePIDController();
-    }
+    //   // TODO: delete once PID is finalized
+    //   /** updates PID values if SmartDashboard gets updated */
+    //   if (WristConstants.KP != wristkp.getDouble(0.0)
+    //       || WristConstants.KI != wristki.getDouble(0.0)
+    //       || WristConstants.KD != wristkd.getDouble(0.0)) {
+    //     updatePIDController();
+    //   }
 
-    if (wristSetpoint != wristSetpointSetter.getDouble(0.0)) {
-      updateSetpoint();
-    }
+    //   if (wristSetpoint != wristSetpointSetter.getDouble(0.0)) {
+    //     updateSetpoint();
+    //   }
 
-    // Gets the current PID values that the PID contollers are set to
-    SmartDashboard.putNumber("wristError", wristSetpoint - inputs.wristPositionRad);
-    SmartDashboard.putNumber("wristCurrentkP", wristPIDController.getP());
-    SmartDashboard.putNumber("wristCurrentkI", wristPIDController.getI());
-    SmartDashboard.putNumber("wristCurrentkD", wristPIDController.getD());
-    SmartDashboard.putNumber("wristCurrentSetpoint", wristPIDController.getSetpoint());
-  }
+    //   // Gets the current PID values that the PID contollers are set to
+    //   SmartDashboard.putNumber("wristError", wristSetpoint - inputs.wristPositionRad);
+    //   SmartDashboard.putNumber("wristCurrentkP", wristPIDController.getP());
+    //   SmartDashboard.putNumber("wristCurrentkI", wristPIDController.getI());
+    //   SmartDashboard.putNumber("wristCurrentkD", wristPIDController.getD());
+    //   SmartDashboard.putNumber("wristCurrentSetpoint", wristPIDController.getSetpoint());
+    // }
 
-  /** updates PID values if SmartDashboard gets updated */
-  public void updatePIDController() {
-    WristConstants.KP = wristkp.getDouble(0.0);
-    WristConstants.KI = wristki.getDouble(0.0);
-    WristConstants.KD = wristkd.getDouble(0.0);
+    // /** updates PID values if SmartDashboard gets updated */
+    // public void updatePIDController() {
+    //   WristConstants.KP = wristkp.getDouble(0.0);
+    //   WristConstants.KI = wristki.getDouble(0.0);
+    //   WristConstants.KD = wristkd.getDouble(0.0);
 
-    wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
-  }
+    //   wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
+    // }
 
-  /** updates setpoint if SmartDashboard gets updated */
-  public void updateSetpoint() {
-    wristSetpoint = wristSetpointSetter.getDouble(0.0);
-    wristPIDController.setSetpoint(wristSetpoint);
+    // /** updates setpoint if SmartDashboard gets updated */
+    // public void updateSetpoint() {
+    //   wristSetpoint = wristSetpointSetter.getDouble(0.0);
+    //   wristPIDController.setSetpoint(wristSetpoint);
   }
 
   /** updates setpoint if SmartDashboard gets updated */

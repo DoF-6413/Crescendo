@@ -4,12 +4,12 @@
 
 package frc.robot.Subsystems.drive;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*; // Rotation2d and Translation2d
 import edu.wpi.first.math.kinematics.*; // ChassisSpeeds, SwerveDriveKinematics, SwerveModuleStates
 import edu.wpi.first.wpilibj.*; // Timer
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
 import org.littletonrobotics.junction.Logger; // Logger
 
@@ -18,7 +18,7 @@ public class Drive extends SubsystemBase {
   private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
   private static final Module[] modules = new Module[4];
   private final Gyro gyro;
-  private Twist2d twist;
+  private Twist2d twist = new Twist2d();
 
   // swerve kinematics library
   public SwerveDriveKinematics swerveKinematics;
@@ -33,23 +33,21 @@ public class Drive extends SubsystemBase {
   private double[] lastModulePositionsMeters = new double[] {0.0, 0.0, 0.0, 0.0};
 
   public Drive(
-      ModuleIO FLModuleIO,
       ModuleIO FRModuleIO,
+      ModuleIO FLModuleIO,
       ModuleIO BLModuleIO,
       ModuleIO BRModuleIO,
       Gyro gyro) {
 
     System.out.println("[Init] Creating Drive");
-    modules[0] = new Module(FLModuleIO, 0);
-    modules[1] = new Module(FRModuleIO, 1);
+    this.gyro = gyro;
+    modules[0] = new Module(FRModuleIO, 0);
+    modules[1] = new Module(FLModuleIO, 1);
     modules[2] = new Module(BLModuleIO, 2);
     modules[3] = new Module(BRModuleIO, 3);
 
-    this.gyro = gyro;
-
-    for (var module : modules) {
-      module.setBrakeModeAll(true); // set brake mode to be true by default
-    }
+    // Creates Swerve Dimensions in a 2D plan
+    swerveKinematics = new SwerveDriveKinematics(DriveConstants.getModuleTranslations());
   }
 
   @Override
@@ -59,21 +57,36 @@ public class Drive extends SubsystemBase {
       modules[i].periodic();
     }
 
-    if (DriverStation.isDisabled()) {
-      // Stops driving when disabled
+    // TODO: Do we need this, seems to cause the command scheduler overun issues
+    // if (DriverStation.isDisabled()) {
+    //   // Stops driving when disabled
+    //   for (var module : modules) {
+    //     module.stop();
+    //   }
+    // }
+
+    // coastOnDisable(DriverStation.isDisabled());
+
+    runSwerveModules(getAdjustedSpeeds());
+    getMeasuredStates();
+  }
+
+  /** Puts robot to coast mode on disable */
+  public void coastOnDisable(boolean isDisabled) {
+    if (isDisabled) {
       for (var module : modules) {
-        module.stop();
+        module.setBrakeModeAll(false);
+      }
+    } else {
+      for (var module : modules) {
+        module.setBrakeModeAll(true);
       }
     }
+  }
 
-    // Creates Swerve Dimensions in a 2D plan
-    swerveKinematics = new SwerveDriveKinematics(DriveConstants.getModuleTranslations());
-
-    // Creates setpoint logs
-    Logger.recordOutput("SwerveStates/Setpoints", new double[] {});
-    Logger.recordOutput("SwerveStates/SetpointsOptimized", new double[] {});
-
-    // Updates Setpoints to be Cleaner
+  /** */
+  public SwerveModuleState[] getAdjustedSpeeds() {
+    // // Updates Setpoints to be Cleaner
     var setpointTwist =
         new Pose2d()
             .log(
@@ -95,14 +108,17 @@ public class Drive extends SubsystemBase {
             setpointTwist.dtheta
                 / RobotStateConstants.LOOP_PERIODIC_SEC); // turns radians travled into velocity
     SwerveModuleState[] setpointStates = new SwerveModuleState[4];
-    setpointStates = swerveKinematics.toSwerveModuleStates(adjustedSpeeds);
+    setpointStates = swerveKinematics.toSwerveModuleStates(setpoint);
 
     // Renormalizes all wheel speeds so the ratio of velocity remains the same but
     // they don't exceed
     // the maximum speed anymore
     SwerveDriveKinematics.desaturateWheelSpeeds(
         setpointStates, DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC);
+    return setpointStates;
+  }
 
+  public void runSwerveModules(SwerveModuleState[] setpointStates) {
     // Runs Modules to Run at Specific Setpoints (Linear and Angular Velocity) that
     // is Quick and
     // Optimized for smoothest movement
@@ -114,6 +130,9 @@ public class Drive extends SubsystemBase {
     // Updates setpoint logs
     Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
     Logger.recordOutput("SwerveStates/SetpointsOptimized", optimizedStates);
+  }
+  /** Get Swerve Measured States */
+  public SwerveModuleState[] getMeasuredStates() {
     // Tracks the state each module is in
     SwerveModuleState[] measuredStates = new SwerveModuleState[4];
     for (int i = 0; i < 4; i++) {
@@ -123,6 +142,7 @@ public class Drive extends SubsystemBase {
     // Updates what states each module is in (Current Velocity, Angular Velocity,
     // and Angle)
     Logger.recordOutput("SwerveStates/Measured", measuredStates);
+    return measuredStates;
   }
 
   /**
@@ -143,6 +163,39 @@ public class Drive extends SubsystemBase {
    */
   public void setRaw(double x, double y, double rot) {
     runVelocity(ChassisSpeeds.fromFieldRelativeSpeeds(x, y, rot, this.getRotation()));
+  }
+
+  /** returns a swerveModuleState of chassis speeds */
+  public ChassisSpeeds getChassisSpeed() {
+    return swerveKinematics.toChassisSpeeds(
+        new SwerveModuleState[] {
+          modules[0].getState(), modules[1].getState(), modules[2].getState(), modules[3].getState()
+        });
+  }
+
+  public void driveWithDeadband(double x, double y, double rot) {
+    // Apply deadband
+    double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), DriveConstants.DEADBAND);
+    Rotation2d linearDirection = new Rotation2d(x, y);
+    double omega = MathUtil.applyDeadband(rot, DriveConstants.DEADBAND);
+
+    // Square values
+    linearMagnitude = linearMagnitude * linearMagnitude;
+    omega = Math.copySign(omega * omega, omega);
+
+    // Calcaulate new linear velocity
+    Translation2d linearVelocity =
+        new Pose2d(new Translation2d(), linearDirection)
+            .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
+            .getTranslation();
+
+    // The actual run command itself
+    this.runVelocity(
+        ChassisSpeeds.fromFieldRelativeSpeeds(
+            linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            linearVelocity.getY() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            omega * DriveConstants.MAX_ANGULAR_SPEED_RAD_PER_SEC,
+            this.getRotation()));
   }
 
   /** stops the robot (sets velocity to 0 bu inputing empty Chassis Speeds which Default to 0) */
@@ -168,17 +221,7 @@ public class Drive extends SubsystemBase {
     };
   }
 
-  public ChassisSpeeds getChassisSpeed() {
-    return swerveKinematics.toChassisSpeeds(
-        new SwerveModuleState[] {
-          modules[0].getState(), modules[1].getState(), modules[2].getState(), modules[3].getState()
-        });
-  }
-  /**
-   * Combines the Rotation of the Modules AND the rotation of the gyroscope to determine how we have
-   * rotated
-   */
-  public Rotation2d getRotation() {
+  public SwerveModulePosition[] getWheelDeltas() {
     SwerveModulePosition[] wheelDeltas = new SwerveModulePosition[4];
     /* Wheel Deltas or Wheel Positions */
     for (int i = 0; i < 4; i++) {
@@ -189,13 +232,23 @@ public class Drive extends SubsystemBase {
               modules[i].getAngle()); // Gets individual MODULE rotation
       lastModulePositionsMeters[i] = modules[i].getPositionMeters();
     }
+    return wheelDeltas;
+  }
+
+  /**
+   * Combines the Rotation of the Modules AND the rotation of the gyroscope to determine how we have
+   * rotated
+   */
+  public Rotation2d getRotation() {
 
     var gyroYaw = new Rotation2d(gyro.getYaw().getRadians());
 
-    /* Twist2d is a change in distance along an arc
-    //  x is the forward distance driven
-    //  y is the distance driven to the side
-    // (left positive), and the component is the change in heading. */
+    /*
+     * Twist2d is a change in distance along an arc
+     * // x is the forward distance driven
+     * // y is the distance driven to the side
+     * // (left positive), and the component is the change in heading.
+     */
     if (gyro.isConnected()) {
       twist =
           new Twist2d(
@@ -203,7 +256,8 @@ public class Drive extends SubsystemBase {
               twist.dy,
               gyroYaw.minus(lastGyroYaw).getRadians()); // Updates twist based on GYRO
     } else {
-      twist = swerveKinematics.toTwist2d(wheelDeltas); // Updates Twist Based on MODULE position
+      twist =
+          swerveKinematics.toTwist2d(getWheelDeltas()); // Updates Twist Based on MODULE position
       gyroYaw =
           lastGyroYaw.minus(
               new Rotation2d(twist.dtheta)); // Updates rotation 2d based on robot module position

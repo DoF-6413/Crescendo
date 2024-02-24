@@ -52,16 +52,16 @@ public class UTBIntake extends SubsystemBase {
     Logger.processInputs("UTBIntake", inputs);
 
     // updates UTB Intake voltage from PID calculations
-    setUTBIntakeVoltage(
-        utbIntakePIDController.calculateForVoltage(
-            inputs.utbIntakeRPM, UTBIntakeConstants.MAX_RPM));
+    // setUTBIntakeVoltage(
+    //     utbIntakePIDController.calculateForVoltage(
+    //         inputs.utbIntakeRPM, UTBIntakeConstants.MAX_RPM));
 
-    // TODO: delete once PID values are finalized
-    if (UTBIntakeConstants.KP != utbIntakekp.getDouble(0.0)
-        || UTBIntakeConstants.KI != utbIntakeki.getDouble(0.0)
-        || UTBIntakeConstants.KD != utbIntakekd.getDouble(0.0)) {
-      updatePIDController();
-    }
+    // // TODO: delete once PID values are finalized
+    // if (UTBIntakeConstants.KP != utbIntakekp.getDouble(0.0)
+    //     || UTBIntakeConstants.KI != utbIntakeki.getDouble(0.0)
+    //     || UTBIntakeConstants.KD != utbIntakekd.getDouble(0.0)) {
+    //   updatePIDController();
+    // }
 
     // if (utbIntakeSetpoint != utbIntakeSetpointSetter.getDouble(0.0)) {
     //   updateSetpoint();
@@ -69,16 +69,16 @@ public class UTBIntake extends SubsystemBase {
   }
 
   /** updates PID values if SmartDashboard gets updated */
-  public void updatePIDController() {
-    UTBIntakeConstants.KP = utbIntakekp.getDouble(0.0);
-    UTBIntakeConstants.KI = utbIntakeki.getDouble(0.0);
-    UTBIntakeConstants.KD = utbIntakekd.getDouble(0.0);
+  // public void updatePIDController() {
+  //   UTBIntakeConstants.KP = utbIntakekp.getDouble(0.0);
+  //   UTBIntakeConstants.KI = utbIntakeki.getDouble(0.0);
+  //   UTBIntakeConstants.KD = utbIntakekd.getDouble(0.0);
 
-    utbIntakePIDController.setPID(
-        UTBIntakeConstants.KP, UTBIntakeConstants.KI, UTBIntakeConstants.KD);
-  }
+  //   utbIntakePIDController.setPID(
+  //       UTBIntakeConstants.KP, UTBIntakeConstants.KI, UTBIntakeConstants.KD);
+  // }
 
-  /** updates setpoint if SmartDashboard gets updated */
+  // /** updates setpoint if SmartDashboard gets updated */
   // public void updateSetpoint() {
   //   utbIntakeSetpoint = utbIntakeSetpointSetter.getDouble(0.0);
   //   utbIntakePIDController.setSetpoint(utbIntakeSetpoint);
