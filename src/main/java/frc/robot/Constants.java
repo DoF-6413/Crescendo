@@ -42,7 +42,7 @@ public final class Constants {
     }
 
     /** Gets Robot Mode (Real, Sim, or Replay) */
-    public static Mode getMode() {
+    public static final Mode getMode() {
       if (RobotBase.isReal()) {
         return Mode.REAL;
       } else if (RobotBase.isSimulation()) {
@@ -71,10 +71,5 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int AUX_CONTROLLER = 1;
-  }
-
-  public class GyroConstants {
-    public static final double GYRO_HEADING_OFFSET_DEGREES = 90;
-    public static final double YAW_OFFSET = -90.0; // TODO: Update
   }
 }
