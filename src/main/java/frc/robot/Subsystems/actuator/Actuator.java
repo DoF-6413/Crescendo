@@ -50,35 +50,36 @@ public class Actuator extends SubsystemBase {
     Logger.processInputs("Actuator", inputs);
 
     // Updates Actuator Speed based on PID Control
-    setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
+    // setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
 
-    // TODO: Delete once final PID Numbers are Decided
-    if (ActuatorConstants.KP != actuatorkp.getDouble(0.0)
-        || ActuatorConstants.KI != actuatorki.getDouble(0.0)
-        || ActuatorConstants.KD != actuatorkd.getDouble(0.0)) {
-      updatePIDController();
-    }
+    // // TODO: Delete once final PID Numbers are Decided
+    // if (ActuatorConstants.KP != actuatorkp.getDouble(0.0)
+    //     || ActuatorConstants.KI != actuatorki.getDouble(0.0)
+    //     || ActuatorConstants.KD != actuatorkd.getDouble(0.0)) {
+    //   updatePIDController();
+    // }
 
-    if (actuatorSetpoint != actuatorSetpointSetter.getDouble(0.0)) {
-      updateSetpoint();
-    }
+    // if (actuatorSetpoint != actuatorSetpointSetter.getDouble(0.0)) {
+    //   updateSetpoint();
+    // }
   }
 
   // TODO: Make this appear only in "Test" when Final PID Numbers are Selected
   /** Updates the PID Contants for the PID Controller */
-  public void updatePIDController() {
-    ActuatorConstants.KP = actuatorkp.getDouble(0.0);
-    ActuatorConstants.KI = actuatorki.getDouble(0.0);
-    ActuatorConstants.KD = actuatorkd.getDouble(0.0);
-    actuatorPIDController.setPID(ActuatorConstants.KP, ActuatorConstants.KI, ActuatorConstants.KD);
-  }
+  // public void updatePIDController() {
+  //   ActuatorConstants.KP = actuatorkp.getDouble(0.0);
+  //   ActuatorConstants.KI = actuatorki.getDouble(0.0);
+  //   ActuatorConstants.KD = actuatorkd.getDouble(0.0);
+  //   actuatorPIDController.setPID(ActuatorConstants.KP, ActuatorConstants.KI,
+  // ActuatorConstants.KD);
+  // }
 
-  // TODO: Make this have a setpoint as a parameter and delete smartdashboard getter
-  /** Updates the Position the Actuator is Going To */
-  public void updateSetpoint() {
-    actuatorSetpoint = actuatorSetpointSetter.getDouble(0.0);
-    actuatorPIDController.setSetpoint(actuatorSetpoint);
-  }
+  // // TODO: Make this have a setpoint as a parameter and delete smartdashboard getter
+  // /** Updates the Position the Actuator is Going To */
+  // public void updateSetpoint() {
+  //   actuatorSetpoint = actuatorSetpointSetter.getDouble(0.0);
+  //   actuatorPIDController.setSetpoint(actuatorSetpoint);
+  // }
 
   /** Updates the Outputs of the Motors based on What Mode we are In */
   public void updateInputs() {

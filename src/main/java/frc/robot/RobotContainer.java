@@ -14,6 +14,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -57,12 +58,16 @@ public class RobotContainer {
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
 
+  private final SlewRateLimiter m_linearRamping;
+  private final SlewRateLimiter m_angularRamping;
+
   // Controllers
   private final CommandXboxController driverController =
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
   private final CommandXboxController auxController =
       new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
 
+  // Autos
   private final LoggedDashboardChooser<Command> autoChooser =
       new LoggedDashboardChooser<>("Auto Choices");
 
@@ -74,10 +79,10 @@ public class RobotContainer {
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
             new Drive(
-                new ModuleIOSparkMax(),
-                new ModuleIOSparkMax(),
-                new ModuleIOSparkMax(),
-                new ModuleIOSparkMax(),
+                new ModuleIOSparkMaxTalonFX(0),
+                new ModuleIOSparkMaxTalonFX(1),
+                new ModuleIOSparkMaxTalonFX(2),
+                new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_visionSubsystem = new Vision(new VisionIOArduCam());
@@ -95,10 +100,10 @@ public class RobotContainer {
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
             new Drive(
-                new ModuleIOSimNeo(),
-                new ModuleIOSimNeo(),
-                new ModuleIOSimNeo(),
-                new ModuleIOSimNeo(),
+                new ModuleIOSimNeoKraken(),
+                new ModuleIOSimNeoKraken(),
+                new ModuleIOSimNeoKraken(),
+                new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
         m_visionSubsystem = new Vision(new VisionIOSim());
@@ -134,14 +139,17 @@ public class RobotContainer {
         break;
     }
 
+    m_linearRamping = new SlewRateLimiter(0.5);
+    m_angularRamping = new SlewRateLimiter(0.2);
+
+    // Configure the button bindings
+    configureButtonBindings();
+
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
-
-    // Configure the button bindings
-    configureButtonBindings();
   }
 
   /**
@@ -155,43 +163,15 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(
         new RunCommand(
             () ->
-                m_driveSubsystem.setRaw(
+                m_driveSubsystem.driveWithDeadband(
                     driverController.getLeftX(),
-                    -driverController.getLeftY(),
-                    driverController.getRightX()),
+                    driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
+                    driverController.getRightX() * (1)),
             m_driveSubsystem));
 
-    driverController.a().onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading()));
-
-    // TODO: update controls
-    // m_utbIntakeSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_utbIntakeSubsystem.setutbIntakePercentSpeed(auxController.getLeftY()),
-    //         m_utbIntakeSubsystem));
-
-    // m_climberSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_climberSubsystem.setBothClimberPercentSpeed(auxController.getRightY()),
-    //         m_climberSubsystem));
-
-    // m_armSubsystem.setDefaultCommand(
-    //       new InstantCommand(
-    //           () > m_armSubsystem.setArmMotorSpeed(auxController.getLeftY()), m_armSubsystem));
-
-    // m_otbIntakeSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(auxController.getRightY()),
-    //         m_otbIntakeSubsystem));
-
-    // m_actuatorSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY()),
-    //         m_actuatorSubsystem));
-
-    m_feederSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_feederSubsystem.setFeederPercentSpeed(auxController.getRightY()),
-            m_feederSubsystem));
+    driverController
+        .a()
+        .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
   }
 
   /**
@@ -200,7 +180,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // return autoChooser.get();
-    return null;
+    return autoChooser.get();
+  }
+
+  /**This Turns the Mechanisms to either Coast or Brake Depending on Disable or Enable */
+  public void mechanismsCoastOnDisable(boolean isDisabled) {
+    m_driveSubsystem.coastOnDisable(isDisabled);
   }
 }
