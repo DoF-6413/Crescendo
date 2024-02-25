@@ -16,8 +16,8 @@ public final class UTBIntakeConstants {
   /** the RPM of the UTB intake can be within 1% of the setpoint */
   public static final double TOLERANCE_PERCENT = 0.01;
 
-  /** max RPM for PID */
-  public static final int MAX_RPM = 2000;
+  /** Max RPM for PID */
+  public static final int MAX_RPM = 2800;
 
   // Sim Constants
   /** moment of inertia for the UTB intake */
@@ -25,7 +25,7 @@ public final class UTBIntakeConstants {
 
   // Real Constants
   /** CAN ID of the UTB intake motor */
-  public static final int CAN_ID = 0; // TODO: Update
+  public static final int CAN_ID = 14;
   /** current limiting for UTB intake */
   public static final int CUR_LIM_A = 30; // TODO: Update
   /** gear ratio of the UTB intake */
@@ -34,4 +34,7 @@ public final class UTBIntakeConstants {
   public static final boolean IS_BRAKE_MODE_ENABLED = true;
   /** is inverted for UTB motor */
   public static final boolean IS_INVERTED = false;
+
+  /** runs OTB as a ratio of the UTB */
+  public static final double OTB_RATIO = 1.5;
 }

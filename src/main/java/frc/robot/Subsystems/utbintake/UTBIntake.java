@@ -16,7 +16,7 @@ public class UTBIntake extends SubsystemBase {
   private GenericEntry utbIntakekp;
   private GenericEntry utbIntakeki;
   private GenericEntry utbIntakekd;
-  private GenericEntry utbIntakeSetpointSetter;
+  // private GenericEntry utbIntakeSetpointSetter;
 
   /** utb intake pid controller */
   private final PIDController utbIntakePIDController;
@@ -42,7 +42,7 @@ public class UTBIntake extends SubsystemBase {
     utbIntakekp = UTBIntakeTab.add("UTBIntakekp", 0.0).getEntry();
     utbIntakeki = UTBIntakeTab.add("UTBIntakeki", 0.0).getEntry();
     utbIntakekd = UTBIntakeTab.add("UTBIntakekd", 0.0).getEntry();
-    utbIntakeSetpointSetter = UTBIntakeTab.add("UTBIntakeSetpoint", 0.0).getEntry();
+    // utbIntakeSetpointSetter = UTBIntakeTab.add("UTBIntakeSetpoint", 0.0).getEntry();
   }
 
   @Override
@@ -111,5 +111,35 @@ public class UTBIntake extends SubsystemBase {
    */
   public void setUTBIntakeBrakeMode(boolean enable) {
     io.setUTBIntakeBrakeMode(enable);
+  }
+
+  /** Sets the speed of the UTB Intake to predetermined speed (currently 1000 RPM) */
+  public void enableUTBPID(boolean enable) {
+    if (enable == true) {
+      // setUTBIntakePercentSpeed(15);
+      utbIntakePIDController.setSetpoint(-2000);
+    } else {
+      // setUTBIntakePercentSpeed(0);
+      utbIntakePIDController.setSetpoint(0);
+      setUTBIntakeVoltage(0);
+    }
+  }
+
+  public void enableUTB(boolean enable) {
+    if (enable == true) {
+      setUTBIntakePercentSpeed(0.75);
+    } else {
+      setUTBIntakePercentSpeed(0);
+    }
+  }
+
+  public void disableUTB() {
+    utbIntakePIDController.setSetpoint(0);
+    setUTBIntakeVoltage(0);
+  }
+
+  public void setUTBSetpoint(double setpoint) {
+    utbIntakePIDController.setSetpoint(setpoint);
+    utbIntakePIDController.calculateForVoltage(inputs.utbIntakeRPM, UTBIntakeConstants.MAX_RPM);
   }
 }

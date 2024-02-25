@@ -88,7 +88,9 @@ public class Robot extends LoggedRobot {
     // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
     // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
     // Build)
-    SmartDashboard.putString("Beta Number", "1.28.0.44.1");
+    SmartDashboard.putString("Beta Number", "1.29.0.45.1" + //
+        "\r\n" + //
+        "");
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
@@ -121,7 +123,9 @@ public class Robot extends LoggedRobot {
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
 
+    // if (RobotStateConstants.getMode() != RobotStateConstants.Mode.SIM){
     robotContainer.mechanismsCoastOnDisable(false);
+    // }
 
     // schedule the autonomous command (example)
     if (autonomousCommand != null) {
