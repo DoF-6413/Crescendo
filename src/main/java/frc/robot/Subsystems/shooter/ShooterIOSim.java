@@ -3,6 +3,7 @@ package frc.robot.Subsystems.shooter;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Utils.PIDController;
 
 public class ShooterIOSim implements ShooterIO {
   // Creating flywheels
@@ -13,6 +14,9 @@ public class ShooterIOSim implements ShooterIO {
   private final FlywheelSim bottomShooterFlywheel =
       new FlywheelSim(
           DCMotor.getFalcon500(1), ShooterConstants.GEAR_RATIO, ShooterConstants.MOI_KG_M2);
+
+  private PIDController topShooterPID;
+  private PIDController bottomShooterPID;
 
   public ShooterIOSim() {
     System.out.println("[Init] Creating ShooterIOSim");
@@ -55,5 +59,14 @@ public class ShooterIOSim implements ShooterIO {
   @Override
   public void setBottomShooterMotorVoltage(double volts) {
     bottomShooterFlywheel.setInputVoltage(volts);
+  }
+
+  @Override
+  public void enableShooter(boolean auxAIsPressed) {
+    if (auxAIsPressed) {
+      setBothShooterMotorPercentSpeed(100);
+    } else {
+      setBothShooterMotorPercentSpeed(0);
+    }
   }
 }

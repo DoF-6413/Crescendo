@@ -55,4 +55,13 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
       otbIntakeMotor.setIdleMode(IdleMode.kCoast);
     }
   }
+
+  @Override
+  public void enableRollers(boolean enable) {
+    if (enable) {
+      setOTBIntakePercentSpeed(100);
+    } else {
+      setOTBIntakePercentSpeed(0);
+    }
+  }
 }

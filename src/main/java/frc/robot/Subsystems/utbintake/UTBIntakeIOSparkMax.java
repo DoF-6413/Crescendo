@@ -12,7 +12,7 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
 
   /** Creates the Motor and Encoder for the Under the Bumper (UTB) Intake */
   public UTBIntakeIOSparkMax() {
-    System.out.println("[Init] Creating UTBIntakeIO");
+    System.out.println("[Init] Creating UTBIntakeIOSparkMax");
 
     /** Creates the Motor and Encoder for the UTB Intake */
     utbIntakeMotor = new CANSparkMax(UTBIntakeConstants.CAN_ID, MotorType.kBrushless);
@@ -48,6 +48,15 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
       utbIntakeMotor.setIdleMode(IdleMode.kBrake);
     } else {
       utbIntakeMotor.setIdleMode(IdleMode.kCoast);
+    }
+  }
+
+  @Override
+  public void enableUTB(boolean auxYIsPressed) {
+    if (auxYIsPressed == true) {
+      setUTBIntakePercentSpeed(100);
+    } else {
+      setUTBIntakePercentSpeed(100);
     }
   }
 }

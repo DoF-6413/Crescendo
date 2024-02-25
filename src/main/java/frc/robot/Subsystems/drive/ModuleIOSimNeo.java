@@ -7,8 +7,8 @@ package frc.robot.Subsystems.drive;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.RobotStateConstants;
+import java.util.Optional;
 
 /** Runs Simulation for an Individual Swerve Module with both Motors as Neos */
 public class ModuleIOSimNeo implements ModuleIO {
@@ -30,7 +30,9 @@ public class ModuleIOSimNeo implements ModuleIO {
             DCMotor.getNEO(1), DriveConstants.GEAR_RATIO_L2, DriveConstants.DRIVE_MOI_KG_M2);
 
     // Builds Turn Wheel for the Neo Motor in the L2 Module
-    turnSim = new DCMotorSim(DCMotor.getNEO(1), DriveConstants.GEAR_RATIO_L2, 0.004);
+    turnSim =
+        new DCMotorSim(
+            DCMotor.getNEO(1), DriveConstants.GEAR_RATIO_L2, DriveConstants.STEER_MOI_KG_M2);
   }
 
   @Override
@@ -90,7 +92,7 @@ public class ModuleIOSimNeo implements ModuleIO {
   }
 
   @Override
-  public <Optional> Boolean isL3() {
-    return false;
+  public Optional<Boolean> isL3() {
+    return Optional.of(false);
   }
 }

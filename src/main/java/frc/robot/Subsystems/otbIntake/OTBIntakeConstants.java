@@ -17,7 +17,7 @@ public class OTBIntakeConstants {
 
   // Real Constants
   /** The CAN ID of the OTB Intake so it can be Identified on the CAN bus */
-  public static final int CAN_ID = 0; // TODO: Update
+  public static final int CAN_ID = 16;
   /** Gear ratio of 2:1 for the OTB Intake */
   public static final double GEAR_RATIO = 2.0;
   /** The Current Limit for the OTB Intake in Amps */

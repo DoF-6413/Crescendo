@@ -15,7 +15,7 @@ public final class ActuatorConstants {
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static double KP = 0.0;
+  public static double KP = 1.0;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
   public static double KI = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
@@ -32,11 +32,11 @@ public final class ActuatorConstants {
   public static final double MOI_KG_M2 = 0.0000453591;
 
   /** Declares if Actuator is Simulating Gravity */
-  public static final boolean IS_SIMULATING_GRAVITY = true;
+  public static final boolean IS_SIMULATING_GRAVITY = false;
 
   // Real Constants for the Actuator
   /** The CAN ID of the Actuator so it can be Identified on the CAN bus */
-  public static final int CAN_ID = 0; // TODO: update this id
+  public static final int CAN_ID = 15;
   /**
    * The Gear Ratio of the Actuator (Controls Speed vs Power, Calculated from Teeth of Gears for
    * Control)
@@ -44,7 +44,7 @@ public final class ActuatorConstants {
   public static final double GEAR_RATIO = 193.75;
 
   /** The Current Limit for the Actuator in Amps */
-  public static final int CUR_LIM_A = 40; // TODO: Update
+  public static final int CUR_LIM_A = 20;
 
   /** The maximum angle the actuator can rotate to */
   public static final double MAX_ANGLE_RADS = Math.atan(-7.432 / 8.253) + (2 * Math.PI);
@@ -59,5 +59,5 @@ public final class ActuatorConstants {
   public static final double LENGTH_M = Units.inchesToMeters(30.354561);
 
   /** Sets if Actuator Motor is Inverted */
-  public static final boolean IS_INVERTED = false;
+  public static final boolean IS_INVERTED = true;
 }
