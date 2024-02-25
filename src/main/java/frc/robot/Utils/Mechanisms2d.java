@@ -49,9 +49,9 @@ public class Mechanisms2d extends SubsystemBase {
     armRoot = swerveMech.getRoot("armRoot", 0.57, .58985); // done
     actuatorRoot = swerveMech.getRoot("actuatorRoot", .35, .2715); // done
     climberRoot = swerveMech.getRoot("climberRoot", .732, .183); // done
-    
+    Wristroot = swerveMech.getRoot("wristRoot", .48, .16);
     // set the dimentions of the mecanism in m
-   
+    wristMech = Wristroot.append(new MechanismLigament2d("wristRoot", .2, 0, 1, red));
 
     armMech =
         armRoot.append(
@@ -69,9 +69,6 @@ public class Mechanisms2d extends SubsystemBase {
 
     rightClimberMech =
         climberRoot.append(new MechanismLigament2d("rightClimberRoot", .5, 90, 1, white)); // done
-
-        Wristroot = swerveMech.getRoot("wristRoot", .48, .16);
-        
   }
 
   @Override

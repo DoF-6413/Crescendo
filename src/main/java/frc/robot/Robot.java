@@ -90,7 +90,7 @@ public class Robot extends LoggedRobot {
     // Build)
     SmartDashboard.putString(
         "Beta Number",
-        "1.29.0.45.1"
+        "1.29.29.67.0"
             + //
             "\r\n"
             + //
