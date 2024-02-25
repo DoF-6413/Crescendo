@@ -47,10 +47,10 @@ public final class ActuatorConstants {
   public static final int CUR_LIM_A = 20;
 
   /** The maximum angle the actuator can rotate to */
-  public static final double MAX_ANGLE_RADS = Math.atan(-7.432 / 8.253) + (2 * Math.PI);
+  public static final double MAX_ANGLE_RADS = 3.979286095381181;//317.996298741448
 
   /** The minimum angle the actuator can rotate to */
-  public static final double MIN_ANGLE_RADS = Math.atan(11.105 / .096);
+  public static final double MIN_ANGLE_RADS = Math.atan(11.105 / .096);//90
 
   /** The angle where the actuator starts */
   public static final double START_ANGLE_RADS = MIN_ANGLE_RADS;

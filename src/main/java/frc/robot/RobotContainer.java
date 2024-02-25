@@ -13,8 +13,6 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -93,7 +91,9 @@ public class RobotContainer {
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_wristSubsystem = new Wrist(new WristIOSparkMax());
-        m_mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem, m_climberSubsystem);
+        m_mechanisms2d =
+            new Mechanisms2d(
+                m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem, m_climberSubsystem);
         break;
 
       case SIM:
@@ -153,7 +153,7 @@ public class RobotContainer {
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
-    autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
+    // autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
   }
 
@@ -170,7 +170,7 @@ public class RobotContainer {
             () ->
                 m_driveSubsystem.driveWithDeadband(
                     driverController.getLeftX(),
-                   driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
+                    driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
                     (driverController.getRightX() * (1))),
             m_driveSubsystem));
 
