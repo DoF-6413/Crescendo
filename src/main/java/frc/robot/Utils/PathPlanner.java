@@ -29,9 +29,9 @@ public class PathPlanner extends SubsystemBase {
                 DriveConstants.DRIVE_KI_KRAKEN,
                 DriveConstants.DRIVE_KD_KRAKEN),
             new PIDConstants( // Rotation PID constants
-                DriveConstants.STEER_KP_NEO,
-                DriveConstants.STEER_KI_NEO,
-                DriveConstants.STEER_KD_NEO),
+                0.002,
+                .0002,
+                0.002),
             27.462, // Max module speed, in m/s
             DriveConstants
                 .TRACK_WIDTH_M, // Drive base radius in meters. Distance from robot center to

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Constants.RobotStateConstants.Mode;
 import frc.robot.Subsystems.drive.*;
+import frc.robot.Subsystems.drive.DriveConstants;
 import frc.robot.Subsystems.gyro.*;
 import frc.robot.Subsystems.vision.*;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -72,9 +73,9 @@ public class PoseEstimator extends SubsystemBase {
     // When ran on the real robot it would overload the command scheduler, causing input delay from
     // joystick to driving
     if (RobotStateConstants.getMode() == Mode.SIM) {
-    field2d.setRobotPose(getCurrentPose2d());
-    poseEstimator.updateWithTime(
-        Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
+      field2d.setRobotPose(getCurrentPose2d());
+      poseEstimator.updateWithTime(
+          Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
     }
 
     if (vision.getResult().hasTargets()) {

@@ -14,7 +14,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -55,11 +54,8 @@ public class RobotContainer {
   // private final Shooter m_shooterSubsystem;
   // private final Wrist m_wristSubsystem;
 
-  private final PoseEstimator m_poseEstimator;
-  private final PathPlanner m_pathPlanner;
-
-  private final SlewRateLimiter m_linearRamping;
-  private final SlewRateLimiter m_angularRamping;
+  private PoseEstimator m_poseEstimator;
+  private PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -139,23 +135,18 @@ public class RobotContainer {
         break;
     }
 
-    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
-    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
-    autoChooser.addOption("Do Nothing", new InstantCommand());
-    autoChooser.addOption("Default Path", new PathPlannerAuto("5.5PieceAuto"));
-    autoChooser.addOption("Default Path", new PathPlannerAuto("shootCloseNotes"));
-    autoChooser.addOption("Default Path", new PathPlannerAuto("shootFarNotes"));
-
-    Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
-
     // Configure the button bindings
     configureButtonBindings();
-    
+
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
-    
+
     autoChooser.addOption("Do Nothing", new InstantCommand());
-    autoChooser.addOption("Default Path", new PathPlannerAuto("ROCK"));
+
+    autoChooser.addOption("5.5 piece auto", new PathPlannerAuto("5.5PieceAuto"));
+    autoChooser.addOption("shoot far notes", new PathPlannerAuto("shootFarNotes"));
+    ;
+    autoChooser.addOption("Default Path", new PathPlannerAuto("Example Auto"));
     autoChooser.addDefaultOption("shoot close notes", new PathPlannerAuto("shootCloseNotes"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
   }
