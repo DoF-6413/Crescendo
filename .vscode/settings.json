@@ -36,6 +36,7 @@
     "editor.defaultFormatter": "richardwillis.vscode-spotless-gradle"
   },
   "[java]": {
-    "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
-  }
+    "editor.defaultFormatter": "richardwillis.vscode-spotless-gradle"
+  },
+  "java.debug.settings.onBuildFailureProceed": true
 }

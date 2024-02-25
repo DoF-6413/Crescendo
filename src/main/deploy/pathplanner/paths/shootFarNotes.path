@@ -24,7 +24,7 @@
         "y": 6.990576641485824
       },
       "nextControl": {
-        "x": 3.498399676134271,
+        "x": 3.4983996761342704,
         "y": 6.990576641485824
       },
       "isLocked": false,
@@ -154,16 +154,27 @@
       }
     }
   ],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "wait",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxVelocity": 7.46,
+    "maxAcceleration": 7.0,
+    "maxAngularVelocity": 5.0,
+    "maxAngularAcceleration": 3.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -0.9391909457356304,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,

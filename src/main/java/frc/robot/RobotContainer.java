@@ -139,9 +139,15 @@ public class RobotContainer {
         break;
     }
 
-    m_linearRamping = new SlewRateLimiter(0.5);
-    m_angularRamping = new SlewRateLimiter(0.2);
-    
+    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+    autoChooser.addOption("Do Nothing", new InstantCommand());
+    autoChooser.addOption("Default Path", new PathPlannerAuto("5.5PieceAuto"));
+    autoChooser.addOption("Default Path", new PathPlannerAuto("shootCloseNotes"));
+    autoChooser.addOption("Default Path", new PathPlannerAuto("shootFarNotes"));
+
+    Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
+
     // Configure the button bindings
     configureButtonBindings();
     

@@ -72,4 +72,137 @@ public final class Constants {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int AUX_CONTROLLER = 1;
   }
+
+  public class DriveConstants {
+    /**
+     * Gives the PID Constant P for the Drive Motors depending on whether the Module is an L3 or L2
+     */
+    public static final double driveKP(boolean isL3) {
+      if (isL3) {
+        return DRIVE_KP_KRAKEN;
+      } else {
+        return DRIVE_KP_NEO;
+      }
+    }
+
+    /** Gives the PID Constant I for the Drive Motors depending on whether the Module is an L3 or */
+    public static final double driveKI(boolean isL3) {
+      if (isL3) {
+        return DRIVE_KI_KRAKEN;
+      } else {
+        return DRIVE_KI_NEO;
+      }
+    }
+
+    /**
+     * Gives the PID Constant D for the Drive Motors depending on whether the Module is an L3 or L2
+     */
+    public static final double driveKD(boolean isL3) {
+      if (isL3) {
+        return DRIVE_KD_KRAKEN;
+      } else {
+        return DRIVE_KD_NEO;
+      }
+    }
+
+    /**
+     * Gives the FeedFoward Constant S for the Drive Motors depending on whether the Module is an
+     * L3or L2
+     */
+    public static final double driveKS(boolean isL3) {
+      if (isL3) {
+        return DRIVE_KS_KRAKEN;
+      } else {
+        return DRIVE_KS_NEO;
+      }
+    }
+
+    // ** Gives the Feed Forward V for the Drive Motors depending on whether the
+    // Module is an L3 or L2 */
+    public static final double driveKV(boolean isL3) {
+      if (isL3) {
+        return DRIVE_KV_KRAKEN;
+      } else {
+        return DRIVE_KV_NEO;
+      }
+    }
+
+    // ** Gives the Gear Ratio for the Module depending on whether the Module is an
+    // L3 or L2 */
+    public static final double gearRatio(boolean isL3) {
+      if (isL3) {
+        return GEAR_RATIO_L3;
+      } else {
+        return GEAR_RATIO_L2;
+      }
+    }
+
+    /** Wheel Radius in Meters */
+    public static final double WHEEL_RADIUS_M = Units.inchesToMeters(2);
+
+    /**
+     * Chassis Length and Width (distance between the centerline of two adjacent wheels, same for x
+     * & y bc DT is square)
+     */
+    public static final double TRACK_WIDTH_M = Units.inchesToMeters(32.173359);
+
+    /** Max Speed the Robot Can Travel in One Linear Direction (m/s) */
+    public static final double MAX_LINEAR_SPEED_M_PER_SEC = 4.5; // TODO: Update
+
+    /**
+     * Max Speed the Robot Can Rotate (rad/s) Angular Speed can be Calulated by Dividing Max Linear
+     * Speed by Radius of the Circle an Object is Moving Around (v/r = w) The Radius of the Swerve
+     * Drive is Equivelant to Half of the Distance of one Corner to the Other Corner This Can be
+     * Calculated by Using Pythagoreans Theorem on Two of the Sides of the Robot and taking Half of
+     * the Hypotenus
+     */
+    public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC =
+        MAX_LINEAR_SPEED_M_PER_SEC / (Math.sqrt(2 * (TRACK_WIDTH_M * TRACK_WIDTH_M)) / 2);
+
+    // PID Constants for Neo Drive PID
+    public static final double DRIVE_KP_NEO = 0.05; // TODO: Update
+    public static final double DRIVE_KI_NEO = 0; // TODO: Update
+    public static final double DRIVE_KD_NEO = 0; // TODO: Update
+
+    // PID Constants for Kraken Drive PID
+    public static final double DRIVE_KP_KRAKEN = 1; // TODO: Update
+    public static final double DRIVE_KI_KRAKEN = 0; // TODO: Update
+    public static final double DRIVE_KD_KRAKEN = 0; // TODO: Update
+
+    // Feed Forward Constants for Kraken Drive
+    public static final double DRIVE_KS_KRAKEN = 0; // TODO: Update
+    public static final double DRIVE_KV_KRAKEN = 0; // TODO: Update
+
+    // Feed Forward Constants for Neo Drive
+    public static final double DRIVE_KS_NEO = 0.4; // TODO: Update
+    public static final double DRIVE_KV_NEO = 0.4; // TODO: Update
+
+    // PID Constants for Neo Steer PID
+    public static final double STEER_KP_NEO = 1.0; // TODO: Update
+    public static final double STEER_KI_NEO = 0; // TODO: Update
+    public static final double STEER_KD_NEO = 0; // TODO: Update
+
+    /** Gear Ratio for MK4I L3 */
+    public static final double GEAR_RATIO_L3 = 6.12;
+
+    /** Gear Ratio for MK4I L2 */
+    public static final double GEAR_RATIO_L2 = 6.75;
+
+    public static final boolean IS_BRAKE_MODE = true;
+
+    /** Used in Robot Characterization Tool to Help Determine Drive Values like PID */
+    public static final boolean IS_CHARACTERIZING = false;
+
+    public static final double DRIVE_MOI_KG_M2 = 0.0003125; // moment of inertia for sim
+    public static final double STEER_MOI_KG_M2 = 0.0003125; // TODO: Update
+
+    public static final Translation2d[] getModuleTranslations() {
+      return new Translation2d[] {
+        new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, DriveConstants.TRACK_WIDTH_M / 2.0),
+        new Translation2d(-DriveConstants.TRACK_WIDTH_M / 2.0, -DriveConstants.TRACK_WIDTH_M / 2.0)
+      };
+    }
+  }
 }
