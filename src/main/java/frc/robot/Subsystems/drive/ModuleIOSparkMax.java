@@ -139,29 +139,24 @@ public class ModuleIOSparkMax implements ModuleIO {
     inputs.turnTempCelsius = new double[] {turnSparkMax.getMotorTemperature()};
   }
 
-  // sets voltage output of drive sparkmaxes
+  @Override
   public void setDriveVoltage(double volts) {
     driveSparkMax.setVoltage(volts);
   }
 
-  // sets voltage output of turn sparkmaxes
+  @Override
   public void setTurnVoltage(double volts) {
     turnSparkMax.setVoltage(volts);
   }
 
-  // sets BrakeMode for drives
+  @Override
   public void setDriveBrakeMode(boolean enable) {
     driveSparkMax.setIdleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
   }
 
-  // set BrakeMode for turn
+  @Override
   public void setTurnBrakeMode(boolean enable) {
     turnSparkMax.setIdleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
-  }
-
-  // returns absolute position from turn absolute encoders
-  public double getAbsolutePositionRadians() {
-    return Units.degreesToRadians(turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble());
   }
 
   @Override

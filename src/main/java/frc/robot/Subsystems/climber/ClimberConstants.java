@@ -7,7 +7,7 @@ package frc.robot.Subsystems.climber;
 import edu.wpi.first.math.util.Units;
 
 public final class ClimberConstants {
-  // PID Constants for the Actuator
+  // PID Constants for the Climber
   // TODO: Finalize PID values once they are tuned/determined
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)

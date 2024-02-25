@@ -49,6 +49,7 @@ public class Gyro extends SubsystemBase {
     io.zeroHeading();
   }
 
+  /** Returns whether or not the gyro is connected */
   public boolean isConnected() {
     return inputs.connected;
   }
