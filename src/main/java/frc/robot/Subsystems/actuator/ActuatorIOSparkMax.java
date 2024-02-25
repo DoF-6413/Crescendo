@@ -49,12 +49,12 @@ public class ActuatorIOSparkMax implements ActuatorIO {
     actuatorMotor.set(percent);
   }
 
-  // @Override
-  // public void setBrakeMode(boolean enable) {
-  //   if (enable) {
-  //     actuatorMotor.setIdleMode(IdleMode.kBrake);
-  //   } else {
-  //     actuatorMotor.setIdleMode(IdleMode.kCoast);
-  //   }
-  // }
+  @Override
+  public void setBrakeMode(boolean enable) {
+    if (enable) {
+      actuatorMotor.setIdleMode(IdleMode.kBrake);
+    } else {
+      actuatorMotor.setIdleMode(IdleMode.kCoast);
+    }
+  }
 }

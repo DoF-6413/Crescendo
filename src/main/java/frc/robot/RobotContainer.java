@@ -58,9 +58,6 @@ public class RobotContainer {
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
 
-  private final SlewRateLimiter m_linearRamping;
-  private final SlewRateLimiter m_angularRamping;
-
   // Controllers
   private final CommandXboxController driverController =
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
@@ -139,9 +136,6 @@ public class RobotContainer {
         break;
     }
 
-    m_linearRamping = new SlewRateLimiter(0.5);
-    m_angularRamping = new SlewRateLimiter(0.2);
-
     // Configure the button bindings
     configureButtonBindings();
 
@@ -165,8 +159,8 @@ public class RobotContainer {
             () ->
                 m_driveSubsystem.driveWithDeadband(
                     driverController.getLeftX(),
-                    driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
-                    driverController.getRightX() * (1)),
+                   driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
+                    (driverController.getRightX() * (1))),
             m_driveSubsystem));
 
     driverController
