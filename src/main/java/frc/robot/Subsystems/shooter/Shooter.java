@@ -8,7 +8,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Utils.PIDController;
+import frc.robot.Utils.RPMPIDController;
 import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
@@ -25,8 +25,8 @@ public class Shooter extends SubsystemBase {
   private GenericEntry shooterSetpointSetter;
 
   // Creates the PID Contollers for both shooter motors
-  private final PIDController topShooterPIDController;
-  private final PIDController bottomShooterPIDController;
+  private final RPMPIDController topShooterPIDController;
+  private final RPMPIDController bottomShooterPIDController;
 
   // The desired RPM for the shooter
   private double setpointRPM = 0.0;
@@ -37,10 +37,10 @@ public class Shooter extends SubsystemBase {
     this.io = io;
 
     topShooterPIDController =
-        new PIDController(
+        new RPMPIDController(
             ShooterConstants.TOP_KP, ShooterConstants.TOP_KI, ShooterConstants.TOP_KD);
     bottomShooterPIDController =
-        new PIDController(
+        new RPMPIDController(
             ShooterConstants.BOTTOM_KP, ShooterConstants.BOTTOM_KI, ShooterConstants.BOTTOM_KD);
 
     topShooterPIDController.setSetpoint(setpointRPM);

@@ -7,7 +7,7 @@ package frc.robot.Utils;
 import frc.robot.Constants.RobotStateConstants;
 
 /** Custom DOF PID Control Solution */
-public class PIDController {
+public class RPMPIDController {
   private double kP;
   private double kI;
   private double kD;
@@ -20,21 +20,21 @@ public class PIDController {
   private boolean atSetpoint = false;
 
   /** Sets PID Controller without kI or kD */
-  public PIDController(double kP) {
+  public RPMPIDController(double kP) {
     this.kP = kP;
     this.kI = 0.0;
     this.kD = 0.0;
   }
 
   /** Sets PID Controller without kD */
-  public PIDController(double kP, double kI) {
+  public RPMPIDController(double kP, double kI) {
     this.kP = kP;
     this.kI = kI;
     this.kD = 0.0;
   }
 
   /** Sets PID Controller */
-  public PIDController(double kP, double kI, double kD) {
+  public RPMPIDController(double kP, double kI, double kD) {
     this.kP = kP;
     this.kI = kI;
     this.kD = kD;

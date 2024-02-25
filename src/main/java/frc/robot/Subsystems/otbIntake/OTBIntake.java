@@ -8,14 +8,14 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Utils.PIDController;
+import frc.robot.Utils.RPMPIDController;
 import org.littletonrobotics.junction.Logger;
 
 public class OTBIntake extends SubsystemBase {
   private final OTBIntakeIO io;
   private final OTBIntakeIOInputsAutoLogged inputs = new OTBIntakeIOInputsAutoLogged();
 
-  private final PIDController otbIntakePIDController;
+  private final RPMPIDController otbIntakePIDController;
 
   private double setpointRPM = 0.0;
   private final ShuffleboardTab OTBIntakeTab = Shuffleboard.getTab("OTB Intake");
@@ -32,7 +32,7 @@ public class OTBIntake extends SubsystemBase {
     System.out.println("[Init] Creating OTB Intake");
     this.io = io;
     otbIntakePIDController =
-        new PIDController(OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
+        new RPMPIDController(OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
     otbIntakePIDController.setSetpoint(setpointRPM);
     otbIntakePIDController.setTolerance(setpointRPM * OTBIntakeConstants.TOLERANCE_PERCENT);
 

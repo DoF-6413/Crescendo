@@ -8,7 +8,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Utils.PIDController;
+import frc.robot.Utils.RPMPIDController;
 import org.littletonrobotics.junction.Logger;
 
 public class Feeder extends SubsystemBase {
@@ -22,7 +22,7 @@ public class Feeder extends SubsystemBase {
   private GenericEntry feederkD;
   private GenericEntry feederSetpointSetter;
   private double setpointRPM = 0.0;
-  private final PIDController feederPIDController;
+  private final RPMPIDController feederPIDController;
 
   /** Creates a new Feeder */
   public Feeder(FeederIO io) {
@@ -30,7 +30,7 @@ public class Feeder extends SubsystemBase {
     this.io = io;
 
     feederPIDController =
-        new PIDController(FeederConstants.KP, FeederConstants.KI, FeederConstants.KD);
+        new RPMPIDController(FeederConstants.KP, FeederConstants.KI, FeederConstants.KD);
     feederPIDController.setSetpoint(setpointRPM);
     feederPIDController.setTolerance(setpointRPM * FeederConstants.TOLERANCE_PERCENT);
 

@@ -10,11 +10,11 @@ public final class DriveConstants {
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static final double DRIVE_KP_KRAKEN = 0.1;
+  public static final double DRIVE_KP_KRAKEN = 2;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static final double DRIVE_KI_KRAKEN = 0.0;
+  public static final double DRIVE_KI_KRAKEN = 19.83;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static final double DRIVE_KD_KRAKEN = 0.0;
+  public static final double DRIVE_KD_KRAKEN = 0.01815;
   // Feed Forward Constants for Kraken Drive
   // Feed Forward values used in sim: S = 0.4, V = 0.4
 

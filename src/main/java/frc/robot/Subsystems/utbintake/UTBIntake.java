@@ -3,7 +3,7 @@ package frc.robot.Subsystems.utbintake;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Utils.PIDController;
+import frc.robot.Utils.RPMPIDController;
 import org.littletonrobotics.junction.Logger;
 
 public class UTBIntake extends SubsystemBase {
@@ -19,7 +19,7 @@ public class UTBIntake extends SubsystemBase {
   // private GenericEntry utbIntakeSetpointSetter;
 
   /** utb intake pid controller */
-  private final PIDController utbIntakePIDController;
+  private final RPMPIDController utbIntakePIDController;
 
   private double utbIntakeSetpoint = 0.0;
 
@@ -33,7 +33,7 @@ public class UTBIntake extends SubsystemBase {
 
     /** creates a new PIDController for the UTBIntake */
     utbIntakePIDController =
-        new PIDController(UTBIntakeConstants.KP, UTBIntakeConstants.KI, UTBIntakeConstants.KD);
+        new RPMPIDController(UTBIntakeConstants.KP, UTBIntakeConstants.KI, UTBIntakeConstants.KD);
 
     /** sets tolerance and setpoint for UTBIntake PIDController */
     utbIntakePIDController.setSetpoint(utbIntakeSetpoint);

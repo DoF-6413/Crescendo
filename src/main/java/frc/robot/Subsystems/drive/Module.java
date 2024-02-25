@@ -5,10 +5,12 @@
 package frc.robot.Subsystems.drive;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.*;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Utils.RPMPIDController;
 import org.littletonrobotics.junction.Logger;
 
 /** This Runs Each Individual Module of a Swerve Drive for all Modes of the Robot */
@@ -19,7 +21,7 @@ public class Module {
   private final int index;
 
   // initialize PID controllers
-  private PIDController drivePID = new PIDController(0, 0, 0);
+  private RPMPIDController drivePID = new RPMPIDController(0, 0, 0);
   private PIDController steerPID = new PIDController(0, 0, 0);
 
   // initialize feedforward
@@ -33,7 +35,7 @@ public class Module {
 
     // update drive pid values depending on neo or kraken
     drivePID =
-        new PIDController(
+        new RPMPIDController(
             DriveConstants
                 .DRIVE_KP_KRAKEN, // Directly used Kraken PID and FF values in a different commit
             DriveConstants.DRIVE_KI_KRAKEN,
@@ -156,10 +158,11 @@ public class Module {
     // DriveConstants.WHEEL_RADIUS_M;
     double velocityRadPerSec = 6;
 
+    drivePID.setSetpoint(velocityRadPerSec);
     // Run drive controller
     io.setDriveVoltage(
         driveFeedforward.calculate(velocityRadPerSec)
-            + (drivePID.calculate(inputs.driveVelocityRadPerSec, velocityRadPerSec)));
+            + (drivePID.calculateForVoltage(inputs.driveVelocityRadPerSec, 102.36)));
 
     SmartDashboard.putNumber("Setpoint" + index, velocityRadPerSec);
     SmartDashboard.putNumber("DriveVel" + index, inputs.driveVelocityRadPerSec);
