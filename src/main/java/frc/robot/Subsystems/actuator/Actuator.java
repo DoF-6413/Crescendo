@@ -107,11 +107,9 @@ public class Actuator extends SubsystemBase {
    *
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
-  // public void setBrakeMode(boolean enable) {
-  //   io.setBrakeMode(enable);
-  // }
-
-  // public void enableActuator(boolean enable) {}
+  public void setBrakeMode(boolean enable) {
+    io.setBrakeMode(enable);
+  }
 
   public void setActuatorSetpoint(double setpoint) {
     actuatorPIDController.setSetpoint(setpoint);

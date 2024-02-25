@@ -57,8 +57,8 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
   }
 
   @Override
-  public void enableRollers(boolean auxXIsPressed) {
-    if (auxXIsPressed) {
+  public void enableRollers(boolean enable) {
+    if (enable) {
       setOTBIntakePercentSpeed(100);
     } else {
       setOTBIntakePercentSpeed(0);
