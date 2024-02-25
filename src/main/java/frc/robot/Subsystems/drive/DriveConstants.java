@@ -7,23 +7,22 @@ import java.util.Optional;
 public final class DriveConstants {
 
   // PID Constants for Kraken Drive
-  // PID values used in sim: P = 6.4, I = 1.2, D = 0.03
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static final double DRIVE_KP_KRAKEN = 0.6;
+  public static final double DRIVE_KP_KRAKEN = 0.1;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static final double DRIVE_KI_KRAKEN = 0.1;
+  public static final double DRIVE_KI_KRAKEN = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static final double DRIVE_KD_KRAKEN = 0.4;
+  public static final double DRIVE_KD_KRAKEN = 0.0;
   // Feed Forward Constants for Kraken Drive
   // Feed Forward values used in sim: S = 0.4, V = 0.4
 
   /** KS represents the voltage required to overcome static friction */
-  public static final double DRIVE_KS_KRAKEN = 0.115;
+  public static final double DRIVE_KS_KRAKEN = 0.0;
 
   /** KV represents the voltage used every second per meter */
-  public static final double DRIVE_KV_KRAKEN = 0.137;
+  public static final double DRIVE_KV_KRAKEN = 0.0;
 
   // PID Constants for Steer (Neos)
   /**
@@ -47,9 +46,9 @@ public final class DriveConstants {
 
   // Feed Forward Constants for Neo Drive
   /** KS represents the voltage required to overcome static friction */
-  public static final double DRIVE_KS_NEO = 0.4;
+  public static final double DRIVE_KS_NEO = 0.0;
   /** KV represents the voltage used every second per meter */
-  public static final double DRIVE_KV_NEO = 0.4;
+  public static final double DRIVE_KV_NEO = 0.0;
 
   /**
    * returns P of PID constants for Drive Motors depending on whether the Module is an L3 (kraken)

@@ -15,7 +15,6 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.RobotStateConstants;
 import java.util.Optional;
 
@@ -89,13 +88,10 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
       currentLimitsConfig.withSupplyCurrentLimitEnable(true);
       currentLimitsConfig.withStatorCurrentLimit(DriveConstants.CUR_LIM_A);
       currentLimitsConfig.withStatorCurrentLimitEnable(true);
-      SmartDashboard.putBoolean("StatorEnabled", currentLimitsConfig.StatorCurrentLimitEnable);
-      SmartDashboard.putBoolean("SupplyEnabled", currentLimitsConfig.SupplyCurrentLimitEnable);
-      SmartDashboard.putNumber("StatorCurr", currentLimitsConfig.StatorCurrentLimit);
-      SmartDashboard.putNumber("SupplyCurr", currentLimitsConfig.SupplyCurrentLimit);
+      currentLimitsConfig.withSupplyCurrentThreshold(4);
       driveTalonFX.getConfigurator().apply(currentLimitsConfig);
-      // turnSparkMax.setSmartCurrentLimit(DriveConstants.CUR_LIM_A);
-      turnSparkMax.setSmartCurrentLimit(DriveConstants.CUR_LIM_A, DriveConstants.CUR_LIM_A);
+      turnSparkMax.setSmartCurrentLimit(DriveConstants.CUR_LIM_A);
+      turnSparkMax.setSecondaryCurrentLimit(DriveConstants.CUR_LIM_A);
 
       driveTalonFX.setPosition(0.0); // resets position
       // driveTalonFX.setMeasurementPeriod(
@@ -116,7 +112,10 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
         Units.rotationsToRadians(
             driveTalonFX.getPosition().getValueAsDouble() / DriveConstants.GEAR_RATIO_L3);
     inputs.driveVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(driveTalonFX.getVelocity().getValueAsDouble())
+        // Units.rotationsPerMinuteToRadiansPerSecond(driveTalonFX.getVelocity().getValueAsDouble())
+        //     / DriveConstants.getGearRatio(true);
+        Units.rotationsPerMinuteToRadiansPerSecond(
+                driveTalonFX.getVelocity().getValueAsDouble() * 60)
             / DriveConstants.getGearRatio(true);
     inputs.driveVelocityRadPerSecAbs =
         Math.abs(

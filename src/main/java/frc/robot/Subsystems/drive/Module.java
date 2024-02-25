@@ -8,6 +8,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.*;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.littletonrobotics.junction.Logger;
 
 /** This Runs Each Individual Module of a Swerve Drive for all Modes of the Robot */
@@ -33,10 +34,10 @@ public class Module {
     // update drive pid values depending on neo or kraken
     drivePID =
         new PIDController(
-            DriveConstants.driveKP(
-                io.isL3()), // Directly used Kraken PID and FF values in a different commit
-            DriveConstants.driveKI(io.isL3()),
-            DriveConstants.driveKD(io.isL3()));
+            DriveConstants
+                .DRIVE_KP_KRAKEN, // Directly used Kraken PID and FF values in a different commit
+            DriveConstants.DRIVE_KI_KRAKEN,
+            DriveConstants.DRIVE_KD_KRAKEN);
 
     // update drive ff values depending on neo or kraken
     driveFeedforward =
@@ -151,12 +152,17 @@ public class Module {
     optimizedState.speedMetersPerSecond *= Math.cos(steerPID.getPositionError());
 
     // Turn Speed m/s into Vel rad/s
-    double velocityRadPerSec = optimizedState.speedMetersPerSecond / DriveConstants.WHEEL_RADIUS_M;
+    // double velocityRadPerSec = optimizedState.speedMetersPerSecond /
+    // DriveConstants.WHEEL_RADIUS_M;
+    double velocityRadPerSec = 6;
 
     // Run drive controller
     io.setDriveVoltage(
         driveFeedforward.calculate(velocityRadPerSec)
             + (drivePID.calculate(inputs.driveVelocityRadPerSec, velocityRadPerSec)));
+
+    SmartDashboard.putNumber("Setpoint" + index, velocityRadPerSec);
+    SmartDashboard.putNumber("DriveVel" + index, inputs.driveVelocityRadPerSec);
 
     return optimizedState;
   }
