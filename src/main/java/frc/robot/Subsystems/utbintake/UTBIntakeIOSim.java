@@ -32,4 +32,13 @@ public class UTBIntakeIOSim implements UTBIntakeIO {
   public void setUTBIntakePercentSpeed(double percent) {
     utbFlywheelSim.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
+
+  @Override
+  public void enableUTB(boolean auxYIsPressed) {
+    if (auxYIsPressed == true) {
+      setUTBIntakePercentSpeed(100);
+    } else {
+      setUTBIntakePercentSpeed(100);
+    }
+  }
 }

@@ -39,4 +39,13 @@ public class OTBIntakeIOSim implements OTBIntakeIO {
   public void setOTBIntakePercentSpeed(double percent) {
     intakeMotorSim.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
   }
+
+  @Override
+  public void enableRollers(boolean enable) {
+    if (enable) {
+      setOTBIntakePercentSpeed(100);
+    } else {
+      setOTBIntakePercentSpeed(0);
+    }
+  }
 }

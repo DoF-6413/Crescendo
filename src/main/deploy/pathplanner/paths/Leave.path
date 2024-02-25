@@ -8,19 +8,19 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2,
-        "y": 6.75
+        "x": 3.118033988749895,
+        "y": 7.0
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.75,
+        "x": 4.7503160533386595,
         "y": 7.0
       },
       "prevControl": {
-        "x": 1.55,
+        "x": 3.2296254207641084,
         "y": 7.0
       },
       "nextControl": null,

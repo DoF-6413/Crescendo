@@ -47,22 +47,22 @@ public class Arm extends SubsystemBase {
     Logger.processInputs("Arm", armInputs);
 
     // Updates Arm Speed based on PID Control
-    //   setArmPercentSpeed(armPIDController.calculate(armInputs.armPositionRad));
+    // setArmPercentSpeed(armPIDController.calculate(armInputs.armPositionRad));
 
-    //   // TODO: Delete once final PID Numbers are Decided
-    //   if (ArmConstants.KP != armkp.getDouble(0.0)
-    //       || ArmConstants.KI != armki.getDouble(0.0)
-    //       || ArmConstants.KD != armkd.getDouble(0.0)) {
-    //     updatePIDController();
-    //   }
+    // // TODO: Delete once final PID Numbers are Decided
+    // if (ArmConstants.KP != armkp.getDouble(0.0)
+    //     || ArmConstants.KI != armki.getDouble(0.0)
+    //     || ArmConstants.KD != armkd.getDouble(0.0)) {
+    //   updatePIDController();
+    // }
 
-    //   if (armSetpoint != armSetpointSetter.getDouble(0.0)) {
-    //     updateSetpoint();
-    //   }
+    // if (armSetpoint != armSetpointSetter.getDouble(0.0)) {
+    //   updateSetpoint();
+    // }
   }
 
-  // // TODO: Make this appear only in "Test" when Final PID Numbers are Selected
-  // /** Updates the PID Contants for the PID Controller */
+  // TODO: Make this appear only in "Test" when Final PID Numbers are Selected
+  /** Updates the PID Contants for the PID Controller */
   // public void updatePIDController() {
   //   ArmConstants.KP = armkp.getDouble(0.0);
   //   ArmConstants.KI = armki.getDouble(0.0);

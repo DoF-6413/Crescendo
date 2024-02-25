@@ -78,4 +78,6 @@ public interface ShooterIO {
    * @param volts -12 to 12
    */
   public default void setBottomShooterMotorVoltage(double volts) {}
+
+  public default void enableShooter(boolean auxAIsPressed) {}
 }

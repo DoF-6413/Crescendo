@@ -4,6 +4,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 /** All the Loggable Inputs and Outputs of the UTB Intake */
 public interface UTBIntakeIO {
+
   @AutoLog
   public static class UTBIntakeIOInputs {
     /** The velocity of the UTB Intake in Rotations per Minute */
@@ -43,4 +44,6 @@ public interface UTBIntakeIO {
    * @param isEnabled boolean for is brake mode true or false
    */
   public default void setUTBIntakeBrakeMode(boolean isEnabled) {}
+
+  public default void enableUTB(boolean auxYIsPressed) {}
 }

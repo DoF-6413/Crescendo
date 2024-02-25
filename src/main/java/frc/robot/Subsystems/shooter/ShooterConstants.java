@@ -32,9 +32,9 @@ public class ShooterConstants {
   /** Gear ratio of 1:1 for the shooter */
   public static final double GEAR_RATIO = 1.0;
   // Motor IDs TODO: Update?
-  public static final int TOP_MOTOR_ID = 14; // TalonFX currently set to 14
+  public static final int TOP_MOTOR_ID = 22; // TODO: Update on real motor
   public static final int BOTTOM_MOTOR_ID =
-      15; // TalonFX currently set to 15 and is named "Climb motor" on the Phoenix tuner
+      23; // Named "Climb motor" on the Phoenix tuner and TODO: Update on real motor
   /** Current limit Amps */
   public static final double CUR_LIM_A = 60;
 

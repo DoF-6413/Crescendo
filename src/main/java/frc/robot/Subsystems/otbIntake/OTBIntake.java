@@ -54,11 +54,11 @@ public class OTBIntake extends SubsystemBase {
     //         inputs.otbIntakeVelocityRPM, OTBIntakeConstants.MAX_VALUE));
 
     // // TODO: Delete after PID is finalized
-    // if (OTBIntakeConstants.KP != OTBIntakekp.getDouble(0.0)
-    //     || OTBIntakeConstants.KI != OTBIntakeki.getDouble(0.0)
-    //     || OTBIntakeConstants.KD != OTBIntakekd.getDouble(0.0)) {
-    //   updatePIDController();
-    // }
+    if (OTBIntakeConstants.KP != OTBIntakekp.getDouble(0.0)
+        || OTBIntakeConstants.KI != OTBIntakeki.getDouble(0.0)
+        || OTBIntakeConstants.KD != OTBIntakekd.getDouble(0.0)) {
+      updatePIDController();
+    }
 
     // if (setpointRPM != OTBIntakeSetpointSetter.getDouble(0.0)) {
     //   updateSetpoint();
@@ -68,13 +68,13 @@ public class OTBIntake extends SubsystemBase {
   }
 
   // /** Updates the PID values based on what is put on Shuffleboard */
-  // public void updatePIDController() {
-  //   OTBIntakeConstants.KP = OTBIntakekp.getDouble(0.0);
-  //   OTBIntakeConstants.KI = OTBIntakeki.getDouble(0.0);
-  //   OTBIntakeConstants.KD = OTBIntakekd.getDouble(0.0);
-  //   otbIntakePIDController.setPID(
-  //       OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
-  // }
+  public void updatePIDController() {
+    OTBIntakeConstants.KP = OTBIntakekp.getDouble(0.0);
+    OTBIntakeConstants.KI = OTBIntakeki.getDouble(0.0);
+    OTBIntakeConstants.KD = OTBIntakekd.getDouble(0.0);
+    otbIntakePIDController.setPID(
+        OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
+  }
 
   // /** Updates the setpoint based on what is put on Shuffleboard */
   // public void updateSetpoint() {
@@ -119,5 +119,31 @@ public class OTBIntake extends SubsystemBase {
   /** Returns where the OTB Intake RPM is within the setpoint, including tolerance */
   public boolean atSetpoint() {
     return otbIntakePIDController.atSetpoint(inputs.otbIntakeVelocityRPM);
+  }
+
+  public void setOTBSetpoint(double setpoint) {
+    otbIntakePIDController.setSetpoint(setpoint);
+  }
+
+  public void enableRollers(boolean enable) {
+    if (enable) {
+      setOTBIntakePercentSpeed(0.75);
+    } else {
+      setOTBIntakePercentSpeed(0);
+    }
+  }
+
+  public void enableRollersPID(boolean enable) {
+    if (enable) {
+      otbIntakePIDController.setSetpoint(-1000.0);
+    } else {
+      otbIntakePIDController.setSetpoint(0.0);
+      setOTBIntakeVoltage(0);
+    }
+  }
+
+  public void disableOTBRollers() {
+    otbIntakePIDController.setSetpoint(0);
+    setOTBIntakeVoltage(0);
   }
 }
