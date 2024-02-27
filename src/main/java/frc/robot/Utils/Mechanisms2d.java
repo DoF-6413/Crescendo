@@ -38,7 +38,7 @@ public class Mechanisms2d extends SubsystemBase {
   public Mechanisms2d(Wrist wristSub, Arm arm, Actuator actuator, Climber climber) {
     swerveMech =
         new Mechanism2d(
-            1, 1); // dimentions of the robot inside bumpers without bumpers x+.28 ,y-.32
+            1.5, 1.5); // dimentions of the robot inside bumpers without bumpers x+.28 ,y-.32//1,1
 
     m_wristSub = wristSub;
     m_Arm = arm;
@@ -49,15 +49,9 @@ public class Mechanisms2d extends SubsystemBase {
     armRoot = swerveMech.getRoot("armRoot", 0.57, .58985); // done
     actuatorRoot = swerveMech.getRoot("actuatorRoot", .35, .2715); // done
     climberRoot = swerveMech.getRoot("climberRoot", .732, .183); // done
-    Wristroot = swerveMech.getRoot("wristRoot", .48, .16);
-    // set the dimentions of the mecanism in m
-    wristMech = Wristroot.append(new MechanismLigament2d("wristRoot", .2, 0, 1, red));
+    Wristroot = swerveMech.getRoot("wristRoot", .2, 0);
 
-    armMech =
-        armRoot.append(
-            new MechanismLigament2d(
-                "armRoot", // done
-                .39869769, 0, 1, green));
+    // set the dimentions of the mecanism in m
 
     actuatorMech =
         actuatorRoot.append(
@@ -69,6 +63,16 @@ public class Mechanisms2d extends SubsystemBase {
 
     rightClimberMech =
         climberRoot.append(new MechanismLigament2d("rightClimberRoot", .5, 90, 1, white)); // done
+
+    wristMech = Wristroot.append(new MechanismLigament2d("wristRoot", .2, 0, 1, red));
+
+    armMech =
+        armRoot
+            .append(
+                new MechanismLigament2d(
+                    "armRoot", // done
+                    .39869769, 0, 1, green))
+            .append(wristMech);
   }
 
   @Override

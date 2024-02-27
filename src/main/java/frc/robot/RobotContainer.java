@@ -200,6 +200,8 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_armSubsystem.setArmPercentSpeed(driverController.getRightY()), m_armSubsystem));
 
+    m_wristSubsystem.setDefaultCommand(new InstantCommand(()-> m_wristSubsystem.setWristPercentSpeed(driverController.getLeftY()),m_wristSubsystem));
+
     // m_otbIntakeSubsystem.setDefaultCommand(
     //     new InstantCommand(
     //         () ->
