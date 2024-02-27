@@ -24,17 +24,17 @@ public class PathPlanner extends SubsystemBase {
         drive::getChassisSpeed,
         drive::runVelocity,
         new HolonomicPathFollowerConfig(
-            new PIDConstants( // Translation PID constants
+            new PIDConstants( // Propulsion PID constants
                 DriveConstants.DRIVE_KP_KRAKEN,
                 DriveConstants.DRIVE_KI_KRAKEN,
                 DriveConstants.DRIVE_KD_KRAKEN),
-            new PIDConstants( // Rotation PID constants
-                0.002,
-                .0002,
-                0.002),
-            27.462, // Max module speed, in m/s
-            DriveConstants
-                .TRACK_WIDTH_M, // Drive base radius in meters. Distance from robot center to
+            new PIDConstants( // Steer PID constants
+                DriveConstants.STEER_KP_NEO,
+                DriveConstants.STEER_KI_NEO,
+                DriveConstants.STEER_KD_NEO),
+            DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
+            DriveConstants.TRACK_WIDTH_M
+                / 2, // Drive base radius in meters. Distance from robot center to
             // furthest module.
             new ReplanningConfig()),
         () -> {

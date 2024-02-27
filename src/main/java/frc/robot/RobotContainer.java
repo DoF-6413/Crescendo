@@ -141,13 +141,20 @@ public class RobotContainer {
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
-    autoChooser.addOption("Do Nothing", new InstantCommand());
+    /** Putting autos into the auto chooser */
+    // The auto defaulted to
+    autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
+    // Test autos
+    autoChooser.addOption("Forward1m", new PathPlannerAuto("Forward1m"));
+    autoChooser.addOption("Diagonal1m", new PathPlannerAuto("Diagonal1m"));
+    autoChooser.addOption("Rotate90Deg", new PathPlannerAuto("Rotate90Deg"));
+    autoChooser.addOption("Curve", new PathPlannerAuto("Curve"));
 
+    // Scoring autos
     autoChooser.addOption("5.5 piece auto", new PathPlannerAuto("5.5PieceAuto"));
     autoChooser.addOption("shoot far notes", new PathPlannerAuto("shootFarNotes"));
-    ;
-    autoChooser.addOption("Default Path", new PathPlannerAuto("Example Auto"));
-    autoChooser.addDefaultOption("shoot close notes", new PathPlannerAuto("shootCloseNotes"));
+    autoChooser.addOption("shoot close notes", new PathPlannerAuto("shootCloseNotes"));
+
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
   }
 
@@ -164,7 +171,7 @@ public class RobotContainer {
             () ->
                 m_driveSubsystem.driveWithDeadband(
                     driverController.getLeftX(),
-                   driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
+                    driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
                     (driverController.getRightX() * (1))),
             m_driveSubsystem));
 
