@@ -7,10 +7,10 @@ package frc.robot.Subsystems.drive;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Utils.RPMPIDController;
 import org.littletonrobotics.junction.Logger;
 
 /** This Runs Each Individual Module of a Swerve Drive for all Modes of the Robot */
@@ -21,11 +21,13 @@ public class Module {
   private final int index;
 
   // initialize PID controllers
-  private RPMPIDController drivePID = new RPMPIDController(0, 0, 0);
+  private PIDController drivePID = new PIDController(0, 0, 0);
   private PIDController steerPID = new PIDController(0, 0, 0);
 
   // initialize feedforward
   private SimpleMotorFeedforward driveFeedforward = new SimpleMotorFeedforward(0, 0);
+
+  private LinearFilter drivePIDFilter = LinearFilter.movingAverage(1);
 
   // construct module
   public Module(ModuleIO io, int index) {
@@ -35,7 +37,7 @@ public class Module {
 
     // update drive pid values depending on neo or kraken
     drivePID =
-        new RPMPIDController(
+        new PIDController(
             DriveConstants
                 .DRIVE_KP_KRAKEN, // Directly used Kraken PID and FF values in a different commit
             DriveConstants.DRIVE_KI_KRAKEN,
@@ -154,18 +156,19 @@ public class Module {
     optimizedState.speedMetersPerSecond *= Math.cos(steerPID.getPositionError());
 
     // Turn Speed m/s into Vel rad/s
-    // double velocityRadPerSec = optimizedState.speedMetersPerSecond /
-    // DriveConstants.WHEEL_RADIUS_M;
-    double velocityRadPerSec = 6;
+    double velocityRadPerSec = optimizedState.speedMetersPerSecond / DriveConstants.WHEEL_RADIUS_M;
+    // velocityRadPerSec = Math.copySign(50, optimizedState.speedMetersPerSecond);
 
-    drivePID.setSetpoint(velocityRadPerSec);
+    double encoderSpeed = inputs.driveVelocityRadPerSec;
+    double filteredSpeed = drivePIDFilter.calculate(encoderSpeed);
     // Run drive controller
     io.setDriveVoltage(
         driveFeedforward.calculate(velocityRadPerSec)
-            + (drivePID.calculateForVoltage(inputs.driveVelocityRadPerSec, 102.36)));
+            + (drivePID.calculate(filteredSpeed, velocityRadPerSec)));
 
     SmartDashboard.putNumber("Setpoint" + index, velocityRadPerSec);
     SmartDashboard.putNumber("DriveVel" + index, inputs.driveVelocityRadPerSec);
+    SmartDashboard.putNumber("FilteredVel" + index, filteredSpeed);
 
     return optimizedState;
   }
