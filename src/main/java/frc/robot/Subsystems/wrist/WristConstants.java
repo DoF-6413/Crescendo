@@ -25,7 +25,7 @@ public final class WristConstants {
 
   // Real constants
   /** CAN ID of the wrist motor */
-  public static final int CAN_ID = 0; // TODO: UPDATE
+  public static final int CAN_ID = 20;
 
   /** current limiting for wrist */
   public static final int CUR_LIM_A = 30;

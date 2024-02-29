@@ -31,7 +31,7 @@ public final class ArmConstants {
 
   // Real Constants
   /** The CAN ID of the Arm so it can be Identified on the CAN bus */
-  public static final int CAN_ID = 20; // TODO: Update real CAN ID (on actual SPARK MAX)
+  public static final int CAN_ID = 19; 
 
   /** The Current Limit for the Actuator in Amps */
   public static final int CUR_LIM_A = 30;
