@@ -14,6 +14,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -56,6 +57,10 @@ public class RobotContainer {
 
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
+
+  private final SlewRateLimiter m_xlinearRamping;
+  private final SlewRateLimiter m_ylinearRamping;
+  private final SlewRateLimiter m_angularRamping;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -143,6 +148,10 @@ public class RobotContainer {
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
+
+    m_xlinearRamping = new SlewRateLimiter(DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC);
+    m_ylinearRamping = new SlewRateLimiter(DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC);
+    m_angularRamping = new SlewRateLimiter(DriveConstants.MAX_ANGULAR_SPEED_RAD_PER_SEC);
   }
 
   /**
@@ -157,9 +166,9 @@ public class RobotContainer {
         new RunCommand(
             () ->
                 m_driveSubsystem.driveWithDeadband(
-                    driverController.getLeftX(),
-                    driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
-                    (driverController.getRightX() * (1))),
+                    m_xlinearRamping.calculate(driverController.getLeftX()),
+                    m_ylinearRamping.calculate(driverController.getLeftY() * (-1)), // Joystick on Xbox Controller is Inverted
+                    m_angularRamping.calculate(driverController.getRightX() * (1))),
             m_driveSubsystem));
 
     driverController
