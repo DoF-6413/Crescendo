@@ -6,32 +6,36 @@ package frc.robot.Commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.Field;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.drive.Drive;
-import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Utils.PoseEstimator;
 
 public class AimDriveToSpeaker extends Command {
   /** Creates a new AimDriveToSpeaker. */
   private Drive m_drive;
 
-  private Gyro m_gyro;
   private PoseEstimator m_pose;
   private double x;
   private double y;
+  private CommandXboxController m_xbox;
   private PIDController rotPID;
 
-  public AimDriveToSpeaker(Drive m_drive, Gyro m_gyro, PoseEstimator m_pose, double x, double y) {
+  public AimDriveToSpeaker(Drive m_drive, PoseEstimator m_pose, CommandXboxController m_xbox) {
     this.m_drive = m_drive;
     this.m_pose = m_pose;
-    this.m_gyro = m_gyro;
-    this.x = x;
-    this.y = y;
-    addRequirements(m_drive, m_gyro, m_pose);
-    rotPID = new PIDController(0, 0, 0);
+    this.x = m_xbox.getLeftX();
+    this.y = m_xbox.getLeftY() * (-1); // Axis inverted
+    this.m_xbox = m_xbox;
+    addRequirements(m_drive, m_pose);
+    rotPID = new PIDController(1, 0, 0);
+    rotPID.enableContinuousInput(-2 * Math.PI, 2 * Math.PI);
+    // rotPID.setTolerance(1 / 6 * Math.PI);
   }
 
   // Called when the command is initially scheduled.
@@ -41,6 +45,8 @@ public class AimDriveToSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    this.x = m_xbox.getLeftX();
+    this.y = m_xbox.getLeftY() * (-1); // Axis inverted
     rotPID.setSetpoint(speakerAngle());
     // move robot to desired angle
 
@@ -49,7 +55,10 @@ public class AimDriveToSpeaker extends Command {
     // } else {
     //   allianceOffset = 0;
     // }
-    m_drive.driveWithDeadband(x, y, rotPID.calculate(m_gyro.getYaw().getDegrees()));
+    m_drive.driveWithDeadband(x, y, -rotPID.calculate(m_drive.getRotation().getRadians()));
+    SmartDashboard.putNumber("Current Angle", m_drive.getRotation().getDegrees());
+    SmartDashboard.putNumber(
+        "Current Calculation", -rotPID.calculate(m_drive.getRotation().getRadians()));
   }
 
   // Called once the command ends or is interrupted.
@@ -79,12 +88,14 @@ public class AimDriveToSpeaker extends Command {
 
     if (dtvalues.getY() >= Field.SPEAKER_Y) {
       // the robot is to the left of the speaker
-      double thetaAbove = -Math.toDegrees(Math.asin(deltaX / speakerDist)) - 90;
+      double thetaAbove = -Math.asin(deltaX / speakerDist) - (1 / 2 * Math.PI);
       m_desiredRobotAngle = thetaAbove;
     } else {
-      double thetaBelow = Math.toDegrees(Math.asin(deltaX / speakerDist)) + 90;
+      double thetaBelow = Math.asin(deltaX / speakerDist) + (1 / 2 * Math.PI);
       m_desiredRobotAngle = thetaBelow;
     }
+    SmartDashboard.putNumber(
+        "Desired Angle in Degrees", Units.radiansToDegrees(m_desiredRobotAngle));
     return m_desiredRobotAngle;
   }
 }
