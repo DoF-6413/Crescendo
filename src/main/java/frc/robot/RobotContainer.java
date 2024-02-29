@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Commands.AimDriveToSpeaker;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
@@ -153,14 +154,21 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
+    // m_driveSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () ->
+    //             m_driveSubsystem.driveWithDeadband(
+    //                 driverController.getLeftX(),
+    //                driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
+    //                 (driverController.getRightX() * (1))),
+    //         m_driveSubsystem));
     m_driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_driveSubsystem.driveWithDeadband(
-                    driverController.getLeftX(),
-                    driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
-                    (driverController.getRightX() * (1))),
-            m_driveSubsystem));
+        new AimDriveToSpeaker(
+            m_driveSubsystem,
+            m_gyroSubsystem,
+            m_poseEstimator,
+            driverController.getLeftX(),
+            driverController.getLeftY() * (-1)));
 
     driverController
         .a()
