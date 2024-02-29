@@ -136,14 +136,13 @@ public class RobotContainer {
         break;
     }
 
-    // Configure the button bindings
-    configureButtonBindings();
-
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
+    // Configure the button bindings
+    configureButtonBindings();
   }
 
   /**
@@ -163,12 +162,7 @@ public class RobotContainer {
     //                 (driverController.getRightX() * (1))),
     //         m_driveSubsystem));
     m_driveSubsystem.setDefaultCommand(
-        new AimDriveToSpeaker(
-            m_driveSubsystem,
-            m_gyroSubsystem,
-            m_poseEstimator,
-            driverController.getLeftX(),
-            driverController.getLeftY() * (-1)));
+        new AimDriveToSpeaker(m_driveSubsystem, m_poseEstimator, driverController));
 
     driverController
         .a()

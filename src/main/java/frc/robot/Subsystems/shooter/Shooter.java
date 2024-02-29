@@ -8,7 +8,6 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
 
@@ -213,9 +212,8 @@ public class Shooter extends SubsystemBase {
     }
   }
 
-
   public double returnDesiredAngle(double x) {
-    double deltaX;    
+    double deltaX;
     return ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][0];
   }
 
