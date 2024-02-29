@@ -72,4 +72,7 @@ public final class Constants {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int AUX_CONTROLLER = 1;
   }
+
+  public static class FieldConstants {
+  }
 }

@@ -14,7 +14,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -159,7 +158,7 @@ public class RobotContainer {
             () ->
                 m_driveSubsystem.driveWithDeadband(
                     driverController.getLeftX(),
-                   driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
+                    driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
                     (driverController.getRightX() * (1))),
             m_driveSubsystem));
 

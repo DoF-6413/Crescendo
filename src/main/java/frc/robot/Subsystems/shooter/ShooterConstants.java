@@ -1,5 +1,9 @@
 package frc.robot.Subsystems.shooter;
 
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 public class ShooterConstants {
 
   // PID Constants  TODO: Tune, update, finalize
@@ -37,6 +41,11 @@ public class ShooterConstants {
       23; // Named "Climb motor" on the Phoenix tuner and TODO: Update on real motor
   /** Current limit Amps */
   public static final double CUR_LIM_A = 60;
+  
+  
+
+  /** Auto-aiming shooting */
+  public final static double[][] LOOKUP_TABLE_X_M_VS_THETA_DEG = {{1, 40}, {1.5, 30}, {2, 20}}; //random values
 
   // Inverted motors
   /** Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor */

@@ -8,6 +8,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
 
@@ -200,8 +201,8 @@ public class Shooter extends SubsystemBase {
     return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
   }
 
-  public void enableShooter(boolean auxAIsPressed) {
-    if (auxAIsPressed) {
+  public void enableShooter(boolean enable) {
+    if (enable) {
       topShooterPIDController.setSetpoint(5000);
       bottomShooterPIDController.setSetpoint(5000);
     } else {
@@ -210,6 +211,12 @@ public class Shooter extends SubsystemBase {
       setTopShooterMotorVoltage(0);
       setBottomShooterMotorVoltage(0);
     }
+  }
+
+
+  public double returnDesiredAngle(double x) {
+    double deltaX;    
+    return ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][0];
   }
 
   // TODO: Create a tempature shutoff/warning
