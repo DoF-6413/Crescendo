@@ -1,5 +1,9 @@
 package frc.robot.Subsystems.shooter;
 
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 public class ShooterConstants {
 
   // PID & FF Constants
@@ -38,6 +42,11 @@ public class ShooterConstants {
   public static final double CUR_LIM_A = 60;
   /** Enables current limiting for TalonFX/Falcon500 motors */
   public static final boolean ENABLE_CUR_LIM = true;
+  
+  
+
+  /** Auto-aiming shooting */
+  public final static double[][] LOOKUP_TABLE_X_M_VS_THETA_DEG = {{1, 40}, {1.5, 30}, {2, 20}}; //random values
 
   // Inverted motors
   /** Sets the inversion status of the Top Shooter motor */
