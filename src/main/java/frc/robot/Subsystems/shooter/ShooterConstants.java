@@ -32,7 +32,7 @@ public class ShooterConstants {
   /** Gear ratio of 1:1 for the shooter */
   public static final double GEAR_RATIO = 1.0;
   // Motor IDs TODO: Update?
-  public static final int TOP_MOTOR_ID = 22; 
+  public static final int TOP_MOTOR_ID = 22;
   public static final int BOTTOM_MOTOR_ID = 23;
   /** Current limit Amps */
   public static final double CUR_LIM_A = 60;

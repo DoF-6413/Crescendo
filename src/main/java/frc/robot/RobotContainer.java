@@ -51,7 +51,7 @@ public class RobotContainer {
   // private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
-  //   private final Actuator m_actuatorSubsystem;
+  private final Actuator m_actuatorSubsystem;
   private final Shooter m_shooterSubsystem;
   private final Wrist m_wristSubsystem;
 
@@ -87,7 +87,7 @@ public class RobotContainer {
         // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
-        // m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
+        m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_wristSubsystem = new Wrist(new WristIOSparkMax());
         break;
@@ -108,7 +108,7 @@ public class RobotContainer {
         // m_climberSubsystem = new Climber(new ClimberIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
-        // m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
+        m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_wristSubsystem = new Wrist(new WristIOSim());
 
@@ -130,7 +130,7 @@ public class RobotContainer {
         // m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
-        // m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
+        m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
         break;
@@ -205,6 +205,14 @@ public class RobotContainer {
     //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
     //         m_actuatorSubsystem));
 
+    m_armSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY() * (-1)),
+            m_armSubsystem));
+    m_wristSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY() * (-1)),
+            m_wristSubsystem));
     /** PID controls for the mechanisms */
     /** UTB Intake */
     driverController
@@ -223,17 +231,6 @@ public class RobotContainer {
         .whileFalse(
             new InstantCommand(
                 () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
-
-    // m_utbIntakeSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () ->
-    // m_utbIntakeSubsystem.enableUTBPID(driverController.leftBumper().getAsBoolean()),
-    //         m_utbIntakeSubsystem));
-
-    // m_otbIntakeSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_otbIntakeSubsystem.enableRollersPID(driverController.y().getAsBoolean()),
-    //         m_otbIntakeSubsystem));
 
     driverController
         .leftTrigger()

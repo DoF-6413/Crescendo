@@ -41,9 +41,9 @@ public final class ClimberConstants {
 
   // Real Constants for the Climber
   /** The CAN ID of the left Arm motor so it can be Identified on the CAN bus */
-  public static final int LEFT_CAN_ID = 17; 
+  public static final int LEFT_CAN_ID = 17;
   /** The CAN ID of the right Arm motor so it can be Identified on the CAN bus */
-  public static final int RIGHT_CAN_ID = 18; 
+  public static final int RIGHT_CAN_ID = 18;
 
   // TODO: Confirm that one of the motors will need to be inverted
   /** Ensures that the Left Climber Motor will not be inverted upon start up */
