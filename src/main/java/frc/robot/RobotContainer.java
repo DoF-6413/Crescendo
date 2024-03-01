@@ -200,15 +200,31 @@ public class RobotContainer {
     // m_otbIntakeSubsystem.enableRollers(driverController.rightBumper().getAsBoolean()),
     //         m_otbIntakeSubsystem));
 
-    // m_actuatorSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
-    //         m_actuatorSubsystem));
+    m_actuatorSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
+            m_actuatorSubsystem));
+    auxController
+        .leftTrigger()
+        .onTrue(
+            new RunCommand(
+                () -> m_shooterSubsystem.setShooterMotorPercentSpeed(0.5), m_shooterSubsystem))
+        .onFalse(
+            new RunCommand(
+                () -> m_shooterSubsystem.setShooterMotorPercentSpeed(0.0), m_shooterSubsystem));
 
-    m_armSubsystem.setDefaultCommand(
-        new RunCommand(
-            () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY() * (-1)),
-            m_armSubsystem));
+    auxController
+        .rightTrigger()
+        .onTrue(
+            new RunCommand(() -> m_feederSubsystem.setFeederPercentSpeed(0.5), m_feederSubsystem))
+        .onFalse(
+            new RunCommand(() -> m_feederSubsystem.setFeederPercentSpeed(0.0), m_feederSubsystem));
+
+    // m_armSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY() * (-1)),
+    //         m_armSubsystem));
+
     m_wristSubsystem.setDefaultCommand(
         new RunCommand(
             () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY() * (-1)),
@@ -295,5 +311,7 @@ public class RobotContainer {
   /** This Turns the Mechanisms to either Coast or Brake Depending on Disable or Enable */
   public void mechanismsCoastOnDisable(boolean isDisabled) {
     m_driveSubsystem.coastOnDisable(isDisabled);
+    m_armSubsystem.setBrakeMode(!isDisabled);
+    m_feederSubsystem.setFeederBrakeMode(isDisabled);
   }
 }

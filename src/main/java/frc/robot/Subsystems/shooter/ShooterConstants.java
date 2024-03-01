@@ -41,5 +41,5 @@ public class ShooterConstants {
   /** Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor */
   public static final boolean TOP_MOTOR_IS_INVERTED = true;
   /** Sets the bottom motor to not be inverted and will therefore spin in a CW direction */
-  public static final boolean BOTTOM_MOTOR_IS_INVERTED = false;
+  public static final boolean BOTTOM_MOTOR_IS_INVERTED = true;
 }

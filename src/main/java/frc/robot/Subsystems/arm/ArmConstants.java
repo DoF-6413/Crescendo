@@ -55,5 +55,5 @@ public final class ArmConstants {
   public static final double STARTING_ANGLE_RAD = 0.39025841327; // TODO: update
 
   /** Sets if Arm Motor is Inverted */
-  public static final boolean IS_INVERTED = false;
+  public static final boolean IS_INVERTED = true;
 }

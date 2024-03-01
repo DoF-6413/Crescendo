@@ -7,22 +7,22 @@
 
 package frc.robot.Subsystems.wrist;
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
 
 public class WristIOSparkMax implements WristIO {
 
   private final CANSparkMax wristMotor;
-  private final AbsoluteEncoder wristEncoder;
+  private final RelativeEncoder wristEncoder;
   // private final RelativeEncoder wristEncoder;
 
   public WristIOSparkMax() {
     /** creates a new wrist motor and encoder */
     wristMotor = new CANSparkMax(WristConstants.CAN_ID, MotorType.kBrushless);
-    wristEncoder = wristMotor.getAbsoluteEncoder();
+    wristEncoder = wristMotor.getEncoder();
 
     /** sets default to brake mode, which locks the motor position */
     wristMotor.setIdleMode(IdleMode.kBrake);
