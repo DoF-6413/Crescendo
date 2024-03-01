@@ -193,4 +193,13 @@ public class Wrist extends SubsystemBase {
       updateTrapezoidalConstraints(SmartDashboard.getNumber("armMaxAcceleration", 0.0));
     }
   }
+
+  /**
+   * Sets the wrist to a specified angle
+   *
+   * @param double angle in radians
+   */
+  public void setWristPositionRads(double angle) {
+    setWristPositionRads(angle);
+  }
 }

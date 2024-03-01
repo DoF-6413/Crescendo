@@ -6,6 +6,9 @@ package frc.robot.Subsystems.shooter;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotStateConstants;
@@ -243,4 +246,43 @@ public class Shooter extends SubsystemBase {
           SmartDashboard.getNumber("shooterkA", 0.8));
     }
   }
+
+  public double returnDesiredAngle(double x) {
+    int i = 0; 
+    double closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i],
+      closestTheta = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
+      
+    // since the table is sorted, find the index of the first value where the distance value exceeds
+    while (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] < x) {
+      i++;
+    }
+
+    // finds which x value in the table the actual distance is closer to and return that
+    if (Math.abs(ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i - 1] - x) < 
+        Math.abs(ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] - x)) {
+        closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i - 1];
+        closestTheta = (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i - 1] + 
+        ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i - 1]) / 2;
+    } else {
+      closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
+      closestTheta = (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i] + 
+        ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i]) / 2;
+    }
+
+    // returns the closest Theta based on the lookup table
+    return closestTheta; 
+  }
+
+
+
+  // TODO: Create a tempature shutoff/warning
+  // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is
+  // arbitrary
+  // 2.12.24: crashes in Sim, not tested on real hardware
+  // public boolean exceedsTemperature() {
+  //   if (inputs.topShooterTempCelsius[inputs.topShooterTempCelsius.length - 1] > 100) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 }

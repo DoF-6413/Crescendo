@@ -1,5 +1,9 @@
 package frc.robot.Subsystems.shooter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class ShooterConstants {
 
   // PID & FF Constants
@@ -43,9 +47,14 @@ public class ShooterConstants {
 
   /** Auto-aiming shooting */
   public static final double[][] LOOKUP_TABLE_X_M_VS_THETA_DEG = {
-    {1, 40}, {1.5, 30}, {2, 20}
+    {1, 1.5, 2}, //x in meters
+    {70, 60, 10}, //theta_max
+    {50, 45, 30} //theta_min
   }; // random values
 
+  // public static ArrayList<Double> x = new ArrayList<>();
+  public static List<List<Double>> l = new ArrayList<List<Double>>();
+ 
   // Inverted motors
   /** Sets the inversion status of the Top Shooter motor */
   public static final boolean TOP_MOTOR_IS_INVERTED = true;
