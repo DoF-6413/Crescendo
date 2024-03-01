@@ -49,5 +49,5 @@ public interface WristIO {
    *
    * @param double angle in radians
    */
-  public default void setWristPositionRads(double angle) {}
+  public default void setWristSetpoint(double setpoint) {}
 }
