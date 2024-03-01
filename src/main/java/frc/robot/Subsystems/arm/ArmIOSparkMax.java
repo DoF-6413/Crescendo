@@ -9,8 +9,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.robot.Constants.RobotStateConstants;
 
@@ -37,8 +35,10 @@ public class ArmIOSparkMax implements ArmIO {
         Units.rotationsToRadians(Units.rotationsToRadians(armRelativeEncoder.getPosition()))
             / ArmConstants.GEAR_RATIO;
     inputs.armRelativePositionDeg = Units.rotationsToDegrees(armRelativeEncoder.getPosition());
-    inputs.armAbsolutePositionRad = armAbsoluteEncoder.getAbsolutePosition(); //Update
-    inputs.armAbsolutePositionDeg = armAbsoluteEncoder.getAbsolutePosition(); //Update
+    // The absolute encoder, or a dut cycle encoder, rotates where a full rotation is equal to 1. If
+    // 1 rotation is equal to 2pi or 360 degrees, multiply by appropriate to get value
+    inputs.armAbsolutePositionRad = armAbsoluteEncoder.getAbsolutePosition() * 2 * Math.PI;
+    inputs.armAbsolutePositionDeg = armAbsoluteEncoder.getAbsolutePosition() * 360;
     inputs.armVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(armRelativeEncoder.getVelocity())
             / ArmConstants.GEAR_RATIO;
@@ -64,6 +64,4 @@ public class ArmIOSparkMax implements ArmIO {
       armMotor.setIdleMode(IdleMode.kCoast);
     }
   }
-
-
 }

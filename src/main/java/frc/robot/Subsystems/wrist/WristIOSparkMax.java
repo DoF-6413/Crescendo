@@ -9,14 +9,10 @@ package frc.robot.Subsystems.wrist;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkAnalogSensor;
-import com.revrobotics.SparkMaxAlternateEncoder;
-
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 import edu.wpi.first.math.util.Units;
 
 public class WristIOSparkMax implements WristIO {
@@ -24,7 +20,7 @@ public class WristIOSparkMax implements WristIO {
   private final CANSparkMax wristMotor;
   private final RelativeEncoder wristRelativeEncoder;
   private final SparkAbsoluteEncoder wristAbsoluteEncoder;
-  
+
   // private final RelativeEncoder wristEncoder;
 
   public WristIOSparkMax() {
@@ -50,10 +46,10 @@ public class WristIOSparkMax implements WristIO {
         Units.rotationsToRadians(wristRelativeEncoder.getPosition()) / WristConstants.GEAR_RATIO;
     inputs.wristRelativePositionDeg =
         Units.rotationsToDegrees(wristRelativeEncoder.getPosition()) / WristConstants.GEAR_RATIO;
-    inputs.wristAbsolutePositionRad =
-        wristAbsoluteEncoder.getPosition();
-    inputs.wristAbsolutePositionDeg =
-        Units.radiansToDegrees(wristAbsoluteEncoder.getPosition());
+    // The absolute encoder, or a dut cycle encoder, rotates where a full rotation is equal to 1. If
+    // 1 rotation is equal to 2pi or 360 degrees, multiply by appropriate to get value
+    inputs.wristAbsolutePositionRad = wristAbsoluteEncoder.getPosition() * 2 * Math.PI;
+    inputs.wristAbsolutePositionDeg = wristAbsoluteEncoder.getPosition() * 360;
     inputs.wristVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(wristRelativeEncoder.getVelocity());
     inputs.wristTempCelsius = new double[] {wristMotor.getMotorTemperature()};

@@ -114,12 +114,12 @@ public class Wrist extends SubsystemBase {
   }
 
   /**
-   * Sets brake mode
+   * Sets brake mode !
    *
    * @param enable boolean for is brake mode true or false
    */
   public void setWristBrakeMode(boolean enable) {
-    setWristBrakeMode(enable);
+    io.setWristBrakeMode(enable);
   }
 
   /** Returns whether the wrist is at it's setpoint or not */
