@@ -6,19 +6,19 @@ public class ShooterConstants {
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static double TOP_KP = 0.0;
+  public static final double TOP_KP = 0.75;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static double TOP_KI = 0.0;
+  public static final double TOP_KI = 0.25;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static double TOP_KD = 0.0;
+  public static final double TOP_KD = 0.0;
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static double BOTTOM_KP = 0.0;
+  public static final double BOTTOM_KP = 0.75;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static double BOTTOM_KI = 0.0;
+  public static final double BOTTOM_KI = 0.25;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static double BOTTOM_KD = 0.0;
+  public static final double BOTTOM_KD = 0.0;
   /** Allows the RPM to be within 1% of the setpoint */
   public static final double TOLERANCE_PERCENT = 0.01;
   /** Max RPM achievable by the Shooter motors */

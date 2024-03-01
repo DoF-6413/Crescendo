@@ -204,26 +204,28 @@ public class RobotContainer {
     //     new InstantCommand(
     //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
     //         m_actuatorSubsystem));
-    auxController
-        .leftTrigger()
-        .onTrue(
-            new RunCommand(
-                () -> m_shooterSubsystem.setShooterMotorPercentSpeed(0.5), m_shooterSubsystem))
-        .onFalse(
-            new RunCommand(
-                () -> m_shooterSubsystem.setShooterMotorPercentSpeed(0.0), m_shooterSubsystem));
+    // auxController
+    //     .leftTrigger()
+    //     .onTrue(
+    //         new RunCommand(
+    //             () -> m_shooterSubsystem.setShooterMotorPercentSpeed(0.5), m_shooterSubsystem))
+    //     .onFalse(
+    //         new RunCommand(
+    //             () -> m_shooterSubsystem.setShooterMotorPercentSpeed(0.0), m_shooterSubsystem));
 
-    auxController
-        .rightTrigger()
-        .onTrue(
-            new RunCommand(() -> m_feederSubsystem.setFeederPercentSpeed(0.5), m_feederSubsystem))
-        .onFalse(
-            new RunCommand(() -> m_feederSubsystem.setFeederPercentSpeed(0.0), m_feederSubsystem));
+    // auxController
+    //     .rightTrigger()
+    //     .onTrue(
+    //         new RunCommand(() -> m_feederSubsystem.setFeederPercentSpeed(0.5),
+    // m_feederSubsystem))
+    //     .onFalse(
+    //         new RunCommand(() -> m_feederSubsystem.setFeederPercentSpeed(0.0),
+    // m_feederSubsystem));
 
-    // m_armSubsystem.setDefaultCommand(
-    //     new RunCommand(
-    //         () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY() * (-1)),
-    //         m_armSubsystem));
+    m_armSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY() * (-1)),
+            m_armSubsystem));
 
     m_wristSubsystem.setDefaultCommand(
         new RunCommand(
@@ -293,6 +295,25 @@ public class RobotContainer {
 
     // m_shooterSubsystem.setDefaultCommand(
     //     new InstantCommand(
+    //         () -> m_shooterSubsystem.enableShooter(auxController.leftBumper().getAsBoolean()),
+    //         m_shooterSubsystem));
+
+    // Shooter
+    auxController
+        .leftBumper()
+        .whileTrue(
+            new InstantCommand(() -> m_shooterSubsystem.setSetpoint(3000), m_shooterSubsystem))
+        .whileFalse(
+            new InstantCommand(() -> m_shooterSubsystem.disableShooter(), m_shooterSubsystem));
+
+    auxController
+        .rightBumper()
+        .whileTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
+        .whileFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
+  
+
+    // m_shooterSubsystem.setDefaultCommand(
+    //     new InstantCommand(
     //         () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
     //         m_shooterSubsystem));
   }
@@ -313,5 +334,6 @@ public class RobotContainer {
     m_armSubsystem.setBrakeMode(!isDisabled);
     m_wristSubsystem.setWristBrakeMode(!isDisabled);
     m_actuatorSubsystem.setBrakeMode(!isDisabled);
+    m_shooterSubsystem.setShooterBrakeMode(!isDisabled);
   }
 }
