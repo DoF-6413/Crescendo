@@ -32,9 +32,9 @@ public class WristIOSim implements WristIO {
   public void updateInputs(WristIOInputs inputs) {
     wristMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
-    inputs.wristPositionRad +=
+    inputs.wristRelativePositionRad +=
         wristMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC;
-    inputs.wristPositionDeg +=
+    inputs.wristRelativePositionDeg +=
         Units.radiansToDegrees(
             wristMotor.getVelocityRadPerSec() * RobotStateConstants.LOOP_PERIODIC_SEC);
     inputs.wristVelocityRadPerSec = wristMotor.getVelocityRadPerSec();

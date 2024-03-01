@@ -16,16 +16,21 @@ public interface ArmIO {
 
     /** This returns the voltage the Arm Recieves */
     public double armAppliedVolts = 0.0;
-    /** Returns the position of the Arm in Radians */
-    public double armPositionRad = 0.0;
-    /** Returns the position of the Arm in Degrees */
-    public double armPositionDeg = 0.0;
+    /** Returns the relative position of the Arm in Radians */
+    public double armRelativePositionRad = 0.0;
+    /** Returns the relative position of the Arm in Degrees */
+    public double armRelativePositionDeg = 0.0;
+    /** Returns the absolute position of the Arm in Radians */
+    public double armAbsolutePositionRad = 0.0;
+    /** Returns the absolute position of the Arm in Degrees */
+    public double armAbsolutePositionDeg = 0.0;
     /** Returns the velocity of the Actuator in Rad/s */
     public double armVelocityRadPerSec = 0.0;
     /** The Current Drawn from the Atuator in Amps */
     public double[] armCurrentAmps = new double[] {};
     /** The Temperature from the Actuator in Celsius */
     public double[] armTempCelsius = new double[] {};
+    public double armPositionRad;
   }
 
   /** Updates the set of loggable inputs for the Arm */
