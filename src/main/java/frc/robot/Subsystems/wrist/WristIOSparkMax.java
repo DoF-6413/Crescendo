@@ -75,12 +75,5 @@ public class WristIOSparkMax implements WristIO {
     } else {
       wristMotor.setIdleMode(IdleMode.kCoast);
     }
-  }
-
-  @Override
-  public void setWristPositionRads(double angle) {
-    //TODO: implement
-  }
-
-  
+  }  
 }
