@@ -199,10 +199,10 @@ public class RobotContainer {
     // m_otbIntakeSubsystem.enableRollers(driverController.rightBumper().getAsBoolean()),
     //         m_otbIntakeSubsystem));
 
-    m_actuatorSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
-            m_actuatorSubsystem));
+    // m_actuatorSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
+    //         m_actuatorSubsystem));
     auxController
         .leftTrigger()
         .onTrue(
@@ -273,20 +273,20 @@ public class RobotContainer {
                 new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(0))));
 
     // Actuator
-    // driverController
-    //     .b()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () ->
-    //                 m_actuatorSubsystem.setActuatorSetpoint(
-    //                     ActuatorConstants.MAX_ANGLE_RADS), // Extended position
-    //             m_actuatorSubsystem))
-    //     .onFalse(
-    //         new InstantCommand(
-    //             () ->
-    //                 m_actuatorSubsystem.setActuatorSetpoint(
-    //                     ActuatorConstants.MIN_ANGLE_RADS), // Retracted position
-    //             m_actuatorSubsystem));
+    driverController
+        .b()
+        .onTrue(
+            new InstantCommand(
+                () ->
+                    m_actuatorSubsystem.setActuatorSetpoint(
+                        ActuatorConstants.MAX_ANGLE_RADS), // Extended position
+                m_actuatorSubsystem))
+        .onFalse(
+            new InstantCommand(
+                () ->
+                    m_actuatorSubsystem.setActuatorSetpoint(
+                        ActuatorConstants.MIN_ANGLE_RADS), // Retracted position
+                m_actuatorSubsystem));
     // m_actuatorSubsystem.setDefaultCommand(
     //     new InstantCommand(
     //         () -> m_actuatorSubsystem.enableActuator(driverController.x().getAsBoolean()),
@@ -313,5 +313,6 @@ public class RobotContainer {
     m_driveSubsystem.coastOnDisable(isDisabled);
     m_armSubsystem.setBrakeMode(!isDisabled);
     m_wristSubsystem.setWristBrakeMode(!isDisabled);
+    m_actuatorSubsystem.setBrakeMode(!isDisabled);
   }
 }

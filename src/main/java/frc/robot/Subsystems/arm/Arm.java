@@ -95,6 +95,7 @@ public class Arm extends SubsystemBase {
    * @param volts [-12 to 12]
    */
   public void setArmMotorVoltage(double volts) {
+
     io.setArmVoltage(volts);
   }
 
