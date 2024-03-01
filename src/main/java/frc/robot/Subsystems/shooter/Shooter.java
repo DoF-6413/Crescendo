@@ -16,17 +16,17 @@ public class Shooter extends SubsystemBase {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
   private final ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
-  private GenericEntry shooterTopkP;
-  private GenericEntry shooterTopkI;
-  private GenericEntry shooterTopkD;
-  private GenericEntry shooterBottomkP;
-  private GenericEntry shooterBottomkI;
-  private GenericEntry shooterBottomkD;
-  private GenericEntry shooterSetpointSetter;
+  // private GenericEntry shooterTopkP;
+  // private GenericEntry shooterTopkI;
+  // private GenericEntry shooterTopkD;
+  // private GenericEntry shooterBottomkP;
+  // private GenericEntry shooterBottomkI;
+  // private GenericEntry shooterBottomkD;
+  // private GenericEntry shooterSetpointSetter;
 
   // Creates the PID Contollers for both shooter motors
-  private final PIDController topShooterPIDController;
-  private final PIDController bottomShooterPIDController;
+  // private final PIDController topShooterPIDController;
+  // private final PIDController bottomShooterPIDController;
 
   // The desired RPM for the shooter
   private double setpointRPM = 0.0;
@@ -36,29 +36,29 @@ public class Shooter extends SubsystemBase {
     System.out.println("[Init] Creating Shooter");
     this.io = io;
 
-    topShooterPIDController =
-        new PIDController(
-            ShooterConstants.TOP_KP, ShooterConstants.TOP_KI, ShooterConstants.TOP_KD);
-    bottomShooterPIDController =
-        new PIDController(
-            ShooterConstants.BOTTOM_KP, ShooterConstants.BOTTOM_KI, ShooterConstants.BOTTOM_KD);
+    // topShooterPIDController =
+    //     new PIDController(
+    //         ShooterConstants.TOP_KP, ShooterConstants.TOP_KI, ShooterConstants.TOP_KD);
+    // bottomShooterPIDController =
+    //     new PIDController(
+    //         ShooterConstants.BOTTOM_KP, ShooterConstants.BOTTOM_KI, ShooterConstants.BOTTOM_KD);
 
-    topShooterPIDController.setSetpoint(setpointRPM);
-    bottomShooterPIDController.setSetpoint(setpointRPM);
+    // topShooterPIDController.setSetpoint(setpointRPM);
+    // bottomShooterPIDController.setSetpoint(setpointRPM);
 
     // Sets the tolerance of the setpoint, allowing the RPM of the motors to be within 200 RPM of
     // the setpoint
-    topShooterPIDController.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
-    bottomShooterPIDController.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
+    // topShooterPIDController.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
+    // bottomShooterPIDController.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
 
     // Puts adjustable PID values and setpoints onto the SmartDashboard
-    shooterTopkP = shooterTab.add("shooterTopkp", 0.0).getEntry();
-    shooterTopkI = shooterTab.add("shooterTopki", 0.0).getEntry();
-    shooterTopkD = shooterTab.add("shooterTopkd", 0.0).getEntry();
-    shooterBottomkP = shooterTab.add("shooterBottomkp", 0.0).getEntry();
-    shooterBottomkI = shooterTab.add("shooterBottomki", 0.0).getEntry();
-    shooterBottomkD = shooterTab.add("shooterBottomkd", 0.0).getEntry();
-    shooterSetpointSetter = shooterTab.add("shooterSetpoint", 0.0).getEntry();
+    // shooterTopkP = shooterTab.add("shooterTopkp", 0.0).getEntry();
+    // shooterTopkI = shooterTab.add("shooterTopki", 0.0).getEntry();
+    // shooterTopkD = shooterTab.add("shooterTopkd", 0.0).getEntry();
+    // shooterBottomkP = shooterTab.add("shooterBottomkp", 0.0).getEntry();
+    // shooterBottomkI = shooterTab.add("shooterBottomki", 0.0).getEntry();
+    // shooterBottomkD = shooterTab.add("shooterBottomkd", 0.0).getEntry();
+    // shooterSetpointSetter = shooterTab.add("shooterSetpoint", 0.0).getEntry();
   }
 
   @Override
@@ -67,12 +67,12 @@ public class Shooter extends SubsystemBase {
     Logger.processInputs("Shooter", inputs);
 
     // Sets the voltage of the Shooter Motors using PID
-    setTopShooterMotorVoltage(
-        topShooterPIDController.calculateForVoltage(
-            inputs.topShooterMotorRPM, ShooterConstants.MAX_VALUE));
-    setBottomShooterMotorVoltage(
-        -bottomShooterPIDController.calculateForVoltage(
-            Math.abs(inputs.bottomShooterMotorRPM), ShooterConstants.MAX_VALUE));
+    // setTopShooterMotorVoltage(
+    //     topShooterPIDController.calculateForVoltage(
+    //         inputs.topShooterMotorRPM, ShooterConstants.MAX_VALUE));
+    // setBottomShooterMotorVoltage(
+    //     -bottomShooterPIDController.calculateForVoltage(
+    //         Math.abs(inputs.bottomShooterMotorRPM), ShooterConstants.MAX_VALUE));
 
     // if (ShooterConstants.TOP_KP != shooterTopkP.getDouble(0.0)
     //     || ShooterConstants.TOP_KI != shooterTopkI.getDouble(0.0)
@@ -191,26 +191,26 @@ public class Shooter extends SubsystemBase {
   }
 
   /** Returns where the Top Shooter RPM is within the setpoint, including tolerance */
-  public boolean topAtSetpoint() {
-    return topShooterPIDController.atSetpoint(inputs.topShooterMotorRPM);
-  }
+  // public boolean topAtSetpoint() {
+  //   return topShooterPIDController.atSetpoint(inputs.topShooterMotorRPM);
+  // }
 
   /** Returns where the Bottom Shooter RPM is within the setpoint, including tolerance */
-  public boolean bottomAtSetpoint() {
-    return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
-  }
+  // public boolean bottomAtSetpoint() {
+  //   return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
+  // }
 
-  public void enableShooter(boolean auxAIsPressed) {
-    if (auxAIsPressed) {
-      topShooterPIDController.setSetpoint(5000);
-      bottomShooterPIDController.setSetpoint(5000);
-    } else {
-      topShooterPIDController.setSetpoint(0);
-      bottomShooterPIDController.setSetpoint(0);
-      setTopShooterMotorVoltage(0);
-      setBottomShooterMotorVoltage(0);
-    }
-  }
+  // public void enableShooter(boolean auxAIsPressed) {
+  //   if (auxAIsPressed) {
+  //     topShooterPIDController.setSetpoint(5000);
+  //     bottomShooterPIDController.setSetpoint(5000);
+  //   } else {
+  //     topShooterPIDController.setSetpoint(0);
+  //     bottomShooterPIDController.setSetpoint(0);
+  //     setTopShooterMotorVoltage(0);
+  //     setBottomShooterMotorVoltage(0);
+  //   }
+  // }
 
   // TODO: Create a tempature shutoff/warning
   // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is

@@ -167,10 +167,14 @@ public class RobotContainer {
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
+    // Amp Scoring TODO: Update setpoints
     auxController
         .y()
         .onTrue(
-            new AmpScore(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
+            new AmpScore(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem)).onFalse(new InstantCommand(
+                ()-> {m_feederSubsystem.setFeederPercentSpeed(0);
+                m_shooterSubsystem.setBothShooterMotorsVoltage(0);}
+            ));
 
     /** Non PID controls for the mechanisms */
     // NOTE: In sim the angle that the arm stops at changes and isnt near the min/max angles we set
@@ -276,10 +280,10 @@ public class RobotContainer {
     //         () -> m_actuatorSubsystem.enableActuator(driverController.x().getAsBoolean()),
     //         m_actuatorSubsystem));
 
-    m_shooterSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
-            m_shooterSubsystem));
+    // m_shooterSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
+    //         m_shooterSubsystem));
   }
 
   /**
