@@ -22,7 +22,7 @@ public class ActuatorIOSparkMax implements ActuatorIO {
     actuatorMotor.setSmartCurrentLimit(ActuatorConstants.CUR_LIM_A);
     actuatorMotor.setInverted(ActuatorConstants.IS_INVERTED);
     actuatorMotor.setIdleMode(IdleMode.kBrake);
-    actuatorEncoder.setPosition(ActuatorConstants.MIN_ANGLE_RADS);
+    // actuatorEncoder.setPosition(ActuatorConstants.MIN_ANGLE_RADS);
   }
 
   @Override

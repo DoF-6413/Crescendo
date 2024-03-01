@@ -13,6 +13,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -273,23 +274,21 @@ public class RobotContainer {
                 new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(0))));
 
     // Actuator
-    driverController
+    auxController
         .b()
         .onTrue(
             new InstantCommand(
                 () ->
                     m_actuatorSubsystem.setActuatorSetpoint(
-                        ActuatorConstants.MAX_ANGLE_RADS), // Extended position
+                        Units.degreesToRadians(135)), // Extended position
                 m_actuatorSubsystem))
         .onFalse(
             new InstantCommand(
-                () ->
-                    m_actuatorSubsystem.setActuatorSetpoint(
-                        ActuatorConstants.MIN_ANGLE_RADS), // Retracted position
+                () -> m_actuatorSubsystem.setActuatorSetpoint(0), // Retracted position
                 m_actuatorSubsystem));
     // m_actuatorSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_actuatorSubsystem.enableActuator(driverController.x().getAsBoolean()),
+    //     new RunCommand(
+    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * (-1)),
     //         m_actuatorSubsystem));
 
     // m_shooterSubsystem.setDefaultCommand(

@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.actuator;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -29,7 +30,8 @@ public class Actuator extends SubsystemBase {
     actuatorPIDController =
         new PIDController(ActuatorConstants.KP, ActuatorConstants.KI, ActuatorConstants.KD);
     actuatorPIDController.setSetpoint(actuatorSetpoint);
-    // actuatorPIDController.setTolerance(ActuatorConstants.TOLERANCE_PERCENT * actuatorSetpoint);
+    actuatorPIDController.setTolerance(
+        ActuatorConstants.TOLERANCE_PERCENT * actuatorSetpoint + 0.2);
     actuatorPIDController.disableContinuousInput();
 
     // TODO: Delete once final PID Numbers are Decided
@@ -45,8 +47,11 @@ public class Actuator extends SubsystemBase {
     this.updateInputs();
     // log the inputs
     Logger.processInputs("Actuator", inputs);
-
+    SmartDashboard.putNumber("Setpoint", actuatorSetpoint);
     setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
+    SmartDashboard.putNumber(
+        "PID Calculate", actuatorPIDController.calculate(inputs.actuatorPositionRad));
+    SmartDashboard.putNumber("Tolerence", actuatorSetpoint * ActuatorConstants.TOLERANCE_PERCENT);
   }
   // Updates Actuator Speed based on PID Control
 
@@ -113,6 +118,8 @@ public class Actuator extends SubsystemBase {
 
   public void setActuatorSetpoint(double setpoint) {
     actuatorPIDController.setSetpoint(setpoint);
+    actuatorPIDController.setTolerance(
+        ActuatorConstants.TOLERANCE_PERCENT * actuatorSetpoint + 0.2);
   }
 
   public void enableActuator(boolean enable) {
