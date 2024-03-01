@@ -6,7 +6,6 @@ package frc.robot.Commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,7 +32,7 @@ public class AimDriveToSpeaker extends Command {
     this.y = m_xbox.getLeftY() * (-1); // Axis inverted
     this.m_xbox = m_xbox;
     addRequirements(m_drive, m_pose);
-    rotPID = new PIDController(1, 0, 0);
+    rotPID = new PIDController(1.3, 0.1, .001);
     rotPID.enableContinuousInput(-2 * Math.PI, 2 * Math.PI);
     // rotPID.setTolerance(1 / 6 * Math.PI);
   }
@@ -46,7 +45,7 @@ public class AimDriveToSpeaker extends Command {
   @Override
   public void execute() {
     this.x = m_xbox.getLeftX();
-    this.y = m_xbox.getLeftY() * (-1); // Axis inverted
+    this.y = -m_xbox.getLeftY(); // Axis inverted
     rotPID.setSetpoint(speakerAngle());
     // move robot to desired angle
 
@@ -84,18 +83,17 @@ public class AimDriveToSpeaker extends Command {
     } else {
       deltaX = Math.abs(dtvalues.getX() - Field.BLUE_SPEAKER_X);
     }
-    speakerDist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+    speakerDist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)); // pythagoream
 
     if (dtvalues.getY() >= Field.SPEAKER_Y) {
       // the robot is to the left of the speaker
-      double thetaAbove = -Math.asin(deltaX / speakerDist) - (1 / 2 * Math.PI);
+      double thetaAbove = -Math.asin(deltaX / speakerDist) - (Math.PI / 2);
       m_desiredRobotAngle = thetaAbove;
     } else {
-      double thetaBelow = Math.asin(deltaX / speakerDist) + (1 / 2 * Math.PI);
+      double thetaBelow = Math.asin(deltaX / speakerDist) + (Math.PI / 2);
       m_desiredRobotAngle = thetaBelow;
     }
-    SmartDashboard.putNumber(
-        "Desired Angle in Degrees", Units.radiansToDegrees(m_desiredRobotAngle));
+    SmartDashboard.putNumber("Desired Angle in Degrees", (m_desiredRobotAngle));
     return m_desiredRobotAngle;
   }
 }
