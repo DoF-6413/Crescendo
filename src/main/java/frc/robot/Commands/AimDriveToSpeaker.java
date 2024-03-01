@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.Field;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Utils.PoseEstimator;
@@ -48,7 +48,6 @@ public class AimDriveToSpeaker extends Command {
     this.y = -m_xbox.getLeftY(); // Axis inverted
     rotPID.setSetpoint(speakerAngle());
     // move robot to desired angle
-
     // if(DriverStation.getAlliance().get() == Alliance.Red) {
     //   allianceOffset = Math.PI;
     // } else {
@@ -73,19 +72,18 @@ public class AimDriveToSpeaker extends Command {
   public double speakerAngle() {
     Pose2d dtvalues = m_pose.getCurrentPose2d();
     // 	//triangle for robot angle
-    double deltaY = Math.abs(dtvalues.getY() - Field.SPEAKER_Y);
-    ;
-    double deltaX;
+    double deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
+    double deltaX; 
     double m_desiredRobotAngle;
     double speakerDist;
     if (RobotStateConstants.getAlliance().get() == Alliance.Red) {
-      deltaX = Math.abs(dtvalues.getX() - Field.RED_SPEAKER_X);
+      deltaX = Math.abs(dtvalues.getX() - FieldConstants.RED_SPEAKER_X);
     } else {
-      deltaX = Math.abs(dtvalues.getX() - Field.BLUE_SPEAKER_X);
+      deltaX = Math.abs(dtvalues.getX() - FieldConstants.BLUE_SPEAKER_X);
     }
     speakerDist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)); // pythagoream
 
-    if (dtvalues.getY() >= Field.SPEAKER_Y) {
+    if (dtvalues.getY() >= FieldConstants.SPEAKER_Y) {
       // the robot is to the left of the speaker
       double thetaAbove = -Math.asin(deltaX / speakerDist) - (Math.PI / 2);
       m_desiredRobotAngle = thetaAbove;

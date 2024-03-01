@@ -9,6 +9,8 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Subsystems.shooter.Shooter;
+
 import org.littletonrobotics.junction.Logger;
 
 public class Wrist extends SubsystemBase {
@@ -23,10 +25,13 @@ public class Wrist extends SubsystemBase {
   private GenericEntry wristkd;
   private GenericEntry wristSetpointSetter;
 
+
   /** utb intake pid controller */
   private final PIDController wristPIDController;
 
   private double wristSetpoint = 0.0;
+
+  private Shooter m_Shooter;
 
   /** creates a new wrist, the second joint of the arm subsystem */
   public Wrist(WristIO io) {
@@ -121,5 +126,14 @@ public class Wrist extends SubsystemBase {
    */
   public void setWristBrakeMode(boolean enable) {
     setWristBrakeMode(enable);
+  }
+
+  /**
+   * Sets the wrist to a specified angle
+   *
+   * @param double angle in radians
+   */
+  public void setWristPositionRads(double angle) {
+    setWristPositionRads(angle);
   }
 }

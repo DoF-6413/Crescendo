@@ -6,12 +6,15 @@ package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.wrist.Wrist;
+
 
 public class AimShooter extends Command {
+  public Shooter m_Shooter;
+  public Wrist m_Wrist;
 
   /** Creates a new AimShooter. */
-  public AimShooter(Shooter shooter) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public AimShooter(Shooter shooter, Wrist wrist){
     addRequirements(shooter);
   }
 
@@ -21,8 +24,11 @@ public class AimShooter extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
 
+    m_Wrist.setWristPercentSpeed(2);
+
+  }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}

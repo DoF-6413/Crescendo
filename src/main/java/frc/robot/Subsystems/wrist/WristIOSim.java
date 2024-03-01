@@ -50,5 +50,9 @@ public class WristIOSim implements WristIO {
   @Override
   public void setWristVoltage(double volts) {
     wristMotor.setInputVoltage(volts);
+  } 
+  @Override
+  public void setWristPositionRads(double angle) {
+    wristMotor.setState(angle, wristMotor.getVelocityRadPerSec());
   }
 }

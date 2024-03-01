@@ -43,4 +43,11 @@ public interface WristIO {
    * @param enable boolean for is brake mode true or false
    */
   public default void setWristBrakeMode(boolean enable) {}
+
+  /**
+   * Sets the wrist to a specified angle
+   *
+   * @param double angle in radians
+   */
+  public default void setWristPositionRads(double angle) {}
 }
