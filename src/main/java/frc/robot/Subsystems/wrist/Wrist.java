@@ -54,15 +54,15 @@ public class Wrist extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
 
-    //   setWristPercentSpeed(wristPIDController.calculate(inputs.wristPositionRad));
+    setWristPercentSpeed(wristPIDController.calculate(inputs.wristPositionRad));
 
     //   // TODO: delete once PID is finalized
     //   /** updates PID values if SmartDashboard gets updated */
-    //   if (WristConstants.KP != wristkp.getDouble(0.0)
-    //       || WristConstants.KI != wristki.getDouble(0.0)
-    //       || WristConstants.KD != wristkd.getDouble(0.0)) {
-    //     updatePIDController();
-    //   }
+    // if (WristConstants.KP != wristkp.getDouble(0.0)
+    //     || WristConstants.KI != wristki.getDouble(0.0)
+    //     || WristConstants.KD != wristkd.getDouble(0.0)) {
+    //   updatePIDController();
+    // }
 
     //   if (wristSetpoint != wristSetpointSetter.getDouble(0.0)) {
     //     updateSetpoint();
@@ -74,22 +74,22 @@ public class Wrist extends SubsystemBase {
     //   SmartDashboard.putNumber("wristCurrentkI", wristPIDController.getI());
     //   SmartDashboard.putNumber("wristCurrentkD", wristPIDController.getD());
     //   SmartDashboard.putNumber("wristCurrentSetpoint", wristPIDController.getSetpoint());
-    // }
-
-    // /** updates PID values if SmartDashboard gets updated */
-    // public void updatePIDController() {
-    //   WristConstants.KP = wristkp.getDouble(0.0);
-    //   WristConstants.KI = wristki.getDouble(0.0);
-    //   WristConstants.KD = wristkd.getDouble(0.0);
-
-    //   wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
-    // }
-
-    // /** updates setpoint if SmartDashboard gets updated */
-    // public void updateSetpoint() {
-    //   wristSetpoint = wristSetpointSetter.getDouble(0.0);
-    //   wristPIDController.setSetpoint(wristSetpoint);
   }
+
+  // /** updates PID values if SmartDashboard gets updated */
+  // public void updatePIDController() {
+  //   WristConstants.KP = wristkp.getDouble(0.0);
+  //   WristConstants.KI = wristki.getDouble(0.0);
+  //   WristConstants.KD = wristkd.getDouble(0.0);
+
+  //   wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
+  // }
+
+  // /** updates setpoint if SmartDashboard gets updated */
+  // public void updateSetpoint() {
+  //   wristSetpoint = wristSetpointSetter.getDouble(0.0);
+  //   wristPIDController.setSetpoint(wristSetpoint);
+  // }
 
   /** updates setpoint if SmartDashboard gets updated */
   public void updateInputs() {
@@ -121,5 +121,14 @@ public class Wrist extends SubsystemBase {
    */
   public void setWristBrakeMode(boolean enable) {
     setWristBrakeMode(enable);
+  }
+
+  /** Returns whether the wrist is at it's setpoint or not */
+  public boolean atSetpoint() {
+    return wristPIDController.atSetpoint();
+  }
+
+  public void setSetpoint(double setpoint) {
+    wristPIDController.setSetpoint(setpoint);
   }
 }
