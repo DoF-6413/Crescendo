@@ -15,7 +15,7 @@ public class AimShooter extends Command {
 
   /** Creates a new AimShooter. */
   public AimShooter(Shooter shooter, Wrist wrist){
-    addRequirements(shooter);
+    addRequirements(shooter,wrist);
   }
 
   // Called when the command is initially scheduled.
@@ -26,8 +26,7 @@ public class AimShooter extends Command {
   @Override
   public void execute() {
 
-    m_Wrist.setWristPercentSpeed(2);
-
+ m_Wrist.setWristSetpoint(m_Shooter.returnDesiredAngle(0));
   }
   // Called once the command ends or is interrupted.
   @Override
