@@ -180,33 +180,60 @@ public class RobotContainer {
             ));
 
     /** Non PID controls for the mechanisms */
-    // NOTE: In sim the angle that the arm stops at changes and isnt near the min/max angles we set
-    m_armSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY()), m_armSubsystem));
 
-    m_wristSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY()),
-            m_wristSubsystem));
-
-    // m_utbIntakeSubsystem.setDefaultCommand(
-    //   new InstantCommand(
-    //     ()-> m_utbIntakeSubsystem.enableUTB(driverController.leftBumper().getAsBoolean()),
-    //     m_utbIntakeSubsystem
-    //   )
-    // );
-
-    // m_otbIntakeSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () ->
-    // m_otbIntakeSubsystem.enableRollers(driverController.rightBumper().getAsBoolean()),
-    //         m_otbIntakeSubsystem));
-
+    // OTB Actuator
     // m_actuatorSubsystem.setDefaultCommand(
     //     new InstantCommand(
     //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
     //         m_actuatorSubsystem));
+
+    // UTB Intake
+    driverController // Intake NOTE
+        .rightTrigger()
+        .whileTrue(
+            new InstantCommand(
+                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem))
+        .whileFalse(
+            new InstantCommand(
+                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
+    driverController // Outtake NOTE
+        .rightBumper()
+        .whileTrue(
+            new InstantCommand(
+                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(1), m_utbIntakeSubsystem))
+        .whileFalse(
+            new InstantCommand(
+                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
+
+     // UTB + OTB Intakes
+      driverController // Intake NOTE
+        .leftTrigger()
+        .whileTrue(
+            new FullIntakesOut(
+                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true))
+        .whileFalse(
+            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+     driverController // Outake NOTE
+        .leftBumper()
+        .whileTrue(
+            new FullIntakesOut(
+                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false))
+        .whileFalse(
+            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+
+    // Arm
+    m_armSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY() * (-1)),
+            m_armSubsystem));
+
+    // Wrist
+    // m_wristSubsystem.setDefaultCommand(
+        // new RunCommand(
+            // () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY() * (-1)),
+            // m_wristSubsystem));
+    
+    // Shooter
     // auxController
     //     .leftTrigger()
     //     .onTrue(
@@ -216,6 +243,7 @@ public class RobotContainer {
     //         new RunCommand(
     //             () -> m_shooterSubsystem.setShooterMotorPercentSpeed(0.0), m_shooterSubsystem));
 
+    // Feeder
     // auxController
     //     .rightTrigger()
     //     .onTrue(
@@ -224,12 +252,10 @@ public class RobotContainer {
     //     .onFalse(
     //         new RunCommand(() -> m_feederSubsystem.setFeederPercentSpeed(0.0),
     // m_feederSubsystem));
-
-    m_armSubsystem.setDefaultCommand(
-        new RunCommand(
-            () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY() * (-1)),
-            m_armSubsystem));
-
+                 
+    /** PID controls for the mechanisms */
+                    
+    // Wrist
     auxController
         .a()
         .onTrue(new InstantCommand(() -> m_wristSubsystem.updateSetpoint(0), m_wristSubsystem));
@@ -245,46 +271,6 @@ public class RobotContainer {
             new InstantCommand(
                 () -> m_wristSubsystem.updateSetpoint(Units.degreesToRadians(50)),
                 m_wristSubsystem));
-    // m_wristSubsystem.setDefaultCommand(
-    //     new RunCommand(
-    //         () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY() * (-1)),
-    //         m_wristSubsystem));
-    /** PID controls for the mechanisms */
-
-    /** UTB Intake */
-    driverController
-        .rightTrigger()
-        .whileTrue(
-            new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem))
-        .whileFalse(
-            new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
-    driverController
-        .rightBumper()
-        .whileTrue(
-            new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(1), m_utbIntakeSubsystem))
-        .whileFalse(
-            new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
-
-    /** UTB + OTB Intakes */
-    driverController
-        .leftTrigger()
-        .whileTrue(
-            new FullIntakesOut(
-                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true))
-        .whileFalse(
-            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
-
-    driverController
-        .leftBumper()
-        .whileTrue(
-            new FullIntakesOut(
-                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false))
-        .whileFalse(
-            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
 
     // Actuator
     // auxController
@@ -294,19 +280,12 @@ public class RobotContainer {
     //             () ->
     //                 m_actuatorSubsystem.setActuatorSetpoint(
     //                     Units.degreesToRadians(ActuatorConstants.MAX_ANGLE_RADS)), // Extended
-    // position
     //             m_actuatorSubsystem))
     //     .onFalse(
     //         new InstantCommand(
-    //             () -> m_actuatorSubsystem.setActuatorSetpoint(ActuatorConstants.MIN_ANGLE_RADS),
-    // // Retracted position
+    //             () -> m_actuatorSubsystem.setActuatorSetpoint(ActuatorConstants.MIN_ANGLE_RADS), // Retracted
     //             m_actuatorSubsystem));
-
     auxController.back().onTrue(new ZeroActuator(m_actuatorSubsystem));
-    // m_actuatorSubsystem.setDefaultCommand(
-    //     new RunCommand(
-    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * (-1)),
-    //         m_actuatorSubsystem));
 
     // Shooter
     auxController
@@ -316,7 +295,7 @@ public class RobotContainer {
         .whileFalse(
             new InstantCommand(() -> m_shooterSubsystem.disableShooter(), m_shooterSubsystem));
 
-    /** Feeder */
+    // Feeder
     auxController // Forward
         .rightBumper()
         .whileTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2000), m_feederSubsystem))
