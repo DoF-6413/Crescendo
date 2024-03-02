@@ -14,9 +14,12 @@ import frc.robot.Subsystems.wrist.Wrist;
 import frc.robot.Utils.PoseEstimator;
 
 public class AimShooter extends Command {
-  public Shooter m_Shooter;
-  public Wrist m_Wrist;
+  public Shooter m_shooter;
+  public Wrist m_wrist;
   public PoseEstimator m_pose;
+  double deltaX, 
+    deltaY,
+    speakerDist;
 
   /** Creates a new AimShooter. */
   public AimShooter(Shooter shooter, Wrist wrist) {
@@ -30,22 +33,19 @@ public class AimShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     Pose2d dtvalues = m_pose.getCurrentPose2d();
     //triangle for robot angle
-    double deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
-
-    double deltaX,speakerDist;
 
     if (RobotStateConstants.getAlliance().get() == Alliance.Red) {
       deltaX = Math.abs(dtvalues.getX() - FieldConstants.RED_SPEAKER_X);
-    } 
-    else {
+    } else if (RobotStateConstants.getAlliance().get() == Alliance.Blue) {
       deltaX = Math.abs(dtvalues.getX() - FieldConstants.BLUE_SPEAKER_X);
-    }
-    speakerDist = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
+    } 
+  
+    deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
+    speakerDist = Math.hypot(deltaX, deltaY);
 
-    m_Wrist.setWristSetpoint(m_Shooter.returnDesiredAngle(speakerDist));
+    m_wrist.setWristSetpoint(m_shooter.returnDesiredAngle(speakerDist));
   }
   // Called once the command ends or is interrupted.
   @Override
