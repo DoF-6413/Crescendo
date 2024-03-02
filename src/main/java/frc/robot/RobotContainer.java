@@ -13,12 +13,14 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.TeleopCommands.AmpScore;
+import frc.robot.Commands.TeleopCommands.FullIntakesIn;
+import frc.robot.Commands.TeleopCommands.FullIntakesOut;
+import frc.robot.Commands.ZeroCommands.ZeroActuator;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
@@ -253,41 +255,36 @@ public class RobotContainer {
     driverController
         .leftTrigger()
         .whileTrue(
-            new SequentialCommandGroup(
-                new InstantCommand(
-                    () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem),
-                new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(-0.75))))
+            new FullIntakesOut(
+                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true))
         .whileFalse(
-            new SequentialCommandGroup(
-                new InstantCommand(
-                    () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem),
-                new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(0))));
+            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+
     driverController
         .leftBumper()
         .whileTrue(
-            new SequentialCommandGroup(
-                new InstantCommand(
-                    () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(1), m_utbIntakeSubsystem),
-                new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(0.75))))
+            new FullIntakesOut(
+                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false))
         .whileFalse(
-            new SequentialCommandGroup(
-                new InstantCommand(
-                    () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem),
-                new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(0))));
+            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
 
     // Actuator
-    auxController
-        .b()
-        .onTrue(
-            new InstantCommand(
-                () ->
-                    m_actuatorSubsystem.setActuatorSetpoint(
-                        Units.degreesToRadians(135)), // Extended position
-                m_actuatorSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> m_actuatorSubsystem.setActuatorSetpoint(0), // Retracted position
-                m_actuatorSubsystem));
+    // auxController
+    //     .b()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () ->
+    //                 m_actuatorSubsystem.setActuatorSetpoint(
+    //                     Units.degreesToRadians(ActuatorConstants.MAX_ANGLE_RADS)), // Extended
+    // position
+    //             m_actuatorSubsystem))
+    //     .onFalse(
+    //         new InstantCommand(
+    //             () -> m_actuatorSubsystem.setActuatorSetpoint(ActuatorConstants.MIN_ANGLE_RADS),
+    // // Retracted position
+    //             m_actuatorSubsystem));
+
+    auxController.back().onTrue(new ZeroActuator(m_actuatorSubsystem));
     // m_actuatorSubsystem.setDefaultCommand(
     //     new RunCommand(
     //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * (-1)),

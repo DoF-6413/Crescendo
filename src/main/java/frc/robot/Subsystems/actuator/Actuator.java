@@ -14,6 +14,7 @@ public class Actuator extends SubsystemBase {
   public final ActuatorIOInputsAutoLogged inputs = new ActuatorIOInputsAutoLogged();
   private final PIDController actuatorPIDController;
   private double actuatorSetpoint = 0.0;
+  private boolean actuatorPIDenable = true;
   // private final ShuffleboardTab actuatorTab = Shuffleboard.getTab("Actuator");
   // private GenericEntry actuatorkp;
   // private GenericEntry actuatorki;
@@ -33,12 +34,6 @@ public class Actuator extends SubsystemBase {
     actuatorPIDController.setTolerance(
         ActuatorConstants.TOLERANCE_PERCENT * actuatorSetpoint + 0.2);
     actuatorPIDController.disableContinuousInput();
-
-    // TODO: Delete once final PID Numbers are Decided
-    // actuatorkp = actuatorTab.add("actuatorkp", 0.0).getEntry();
-    // actuatorki = actuatorTab.add("actuatorki", 0.0).getEntry();
-    // actuatorkd = actuatorTab.add("actuatorkd", 0.0).getEntry();
-    // actuatorSetpointSetter = actuatorTab.add("actuatorSetpoint", 0.0).getEntry();
   }
 
   @Override
@@ -48,7 +43,10 @@ public class Actuator extends SubsystemBase {
     // log the inputs
     Logger.processInputs("Actuator", inputs);
     SmartDashboard.putNumber("Setpoint", actuatorSetpoint);
-    setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
+
+    if (actuatorPIDenable) {
+      setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
+    }
     SmartDashboard.putNumber(
         "PID Calculate", actuatorPIDController.calculate(inputs.actuatorPositionRad));
     SmartDashboard.putNumber("Tolerence", actuatorSetpoint * ActuatorConstants.TOLERANCE_PERCENT);
@@ -122,15 +120,23 @@ public class Actuator extends SubsystemBase {
         ActuatorConstants.TOLERANCE_PERCENT * actuatorSetpoint + 0.2);
   }
 
-  public void enableActuator(boolean enable) {
-    if (enable) {
-      actuatorPIDController.setSetpoint(ActuatorConstants.MAX_ANGLE_RADS);
-    } else {
-      actuatorPIDController.setSetpoint(ActuatorConstants.MIN_ANGLE_RADS);
-    }
-  }
-
   public void disableActuator() {
     setActuatorVoltage(0);
+  }
+
+  public void setCurrentLimit(int current) {
+    io.setCurrentLimit(current);
+  }
+
+  public double getOutputCurrent() {
+    return inputs.actuatorCurrentAmps[0];
+  }
+
+  public void zeroPosition() {
+    io.zeroPosition();
+  }
+
+  public void actuatorPIDEnable(boolean isEnable) {
+    actuatorPIDenable = isEnable;
   }
 }

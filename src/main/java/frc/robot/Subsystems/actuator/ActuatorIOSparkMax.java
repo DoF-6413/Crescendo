@@ -57,4 +57,14 @@ public class ActuatorIOSparkMax implements ActuatorIO {
       actuatorMotor.setIdleMode(IdleMode.kCoast);
     }
   }
+
+  @Override
+  public void setCurrentLimit(int current) {
+    actuatorMotor.setSmartCurrentLimit(current);
+  }
+
+  @Override
+  public void zeroPosition() {
+    actuatorEncoder.setPosition(0);
+  }
 }
