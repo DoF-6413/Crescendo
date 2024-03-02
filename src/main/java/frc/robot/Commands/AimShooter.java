@@ -5,6 +5,7 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,9 +48,7 @@ public class AimShooter extends Command {
 
     deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
     speakerDist = Math.hypot(deltaX, deltaY);
-
-    m_wrist.setWristSetpoint(m_shooter.returnDesiredAngle(speakerDist));
-    SmartDashboard.putString("abidhaihdaihdia", "ndwaindinidawniaidn");
+    m_wrist.setWristSetpoint(Units.degreesToRadians(m_shooter.returnDesiredAngle(speakerDist)));    
   }
   // Called once the command ends or is interrupted.
   @Override

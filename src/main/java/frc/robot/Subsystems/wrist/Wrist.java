@@ -38,17 +38,17 @@ public class Wrist extends SubsystemBase {
 
     /** creates a new PIDController for the wrist */
     wristPIDController = new PIDController(WristConstants.KP, WristConstants.KI, WristConstants.KD);
-    wristPIDController.setSetpoint(wristSetpoint);
+    // wristPIDController.setSetpoint(wristSetpoint);
     wristPIDController.setTolerance(WristConstants.TOLERANCE_PERCENT * wristSetpoint);
 
     /** disables continuous input */
     wristPIDController.disableContinuousInput();
 
-    /** Shuffleboard values */
-    wristkp = wristTab.add("wristkp", 0.0).getEntry();
-    wristki = wristTab.add("wristki", 0.0).getEntry();
-    wristkd = wristTab.add("wristkd", 0.0).getEntry();
-    wristSetpointSetter = wristTab.add("wristSetpoint", 0.0).getEntry();
+    // /** Shuffleboard values */
+    // wristkp = wristTab.add("wristkp", 0.0).getEntry();
+    // wristki = wristTab.add("wristki", 0.0).getEntry();
+    // wristkd = wristTab.add("wristkd", 0.0).getEntry();
+    // wristSetpointSetter = wristTab.add("wristSetpoint", 0.0).getEntry();
   }
 
   @Override
@@ -57,7 +57,7 @@ public class Wrist extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
 
-    //   setWristPercentSpeed(wristPIDController.calculate(inputs.wristPositionRad));
+    setWristPercentSpeed(wristPIDController.calculate(inputs.wristPositionRad));
 
     //   // TODO: delete once PID is finalized
     //   /** updates PID values if SmartDashboard gets updated */

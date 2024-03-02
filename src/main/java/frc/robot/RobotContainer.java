@@ -165,7 +165,7 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(
         new AimDriveToSpeaker(m_driveSubsystem, m_poseEstimator, driverController));
 
-    m_shooterSubsystem.setDefaultCommand(
+    m_wristSubsystem.setDefaultCommand(
         new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_poseEstimator));
 
     driverController
@@ -277,10 +277,10 @@ public class RobotContainer {
     //         m_actuatorSubsystem));
   }
 
-  // m_shooterSubsystem.setDefaultCommand(
-  //     new InstantCommand(
-  //         () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
-  //         m_shooterSubsystem));
+  //   m_shooterSubsystem.setDefaultCommand(
+  //       new InstantCommand(
+  //           () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
+  //           m_shooterSubsystem));
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
