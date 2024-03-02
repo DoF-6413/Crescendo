@@ -140,21 +140,9 @@ public class RobotContainer {
 
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
-
-    /** Putting autos into the auto chooser */
-    // The auto defaulted to
-    autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
-    // Test autos
-    autoChooser.addOption("Forward1m", new PathPlannerAuto("Forward1m"));
-    autoChooser.addOption("Diagonal1m", new PathPlannerAuto("Diagonal1m"));
-    autoChooser.addOption("Rotate90Deg", new PathPlannerAuto("Rotate90Deg"));
-    autoChooser.addOption("Curve", new PathPlannerAuto("Curve"));
-
-    // Scoring autos
-    autoChooser.addOption("5.5 piece auto", new PathPlannerAuto("5.5PieceAuto"));
-    autoChooser.addOption("shoot far notes", new PathPlannerAuto("shootFarNotes"));
-    autoChooser.addOption("shoot close notes", new PathPlannerAuto("shootCloseNotes"));
-
+    autoChooser.addOption("Do Nothing", new InstantCommand());
+    autoChooser.addOption("Curve", new PathPlannerAuto("5.5PieceAuto"));
+    // autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
   }
 
@@ -282,6 +270,7 @@ public class RobotContainer {
     //     new InstantCommand(
     //         () -> m_actuatorSubsystem.enableActuator(driverController.x().getAsBoolean()),
     //         m_actuatorSubsystem));
+
   }
 
   // m_shooterSubsystem.setDefaultCommand(
@@ -295,6 +284,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    // PathPlannerPath path = PathPlannerPath.fromPathFile("Curve");
+    // return AutoBuilder.followPath(path);
+    // return new PathPlannerAuto("Curve");
     return autoChooser.get();
   }
 
