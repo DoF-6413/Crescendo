@@ -75,7 +75,7 @@ public final class Constants {
 
   public final class FieldConstants {
     // all in meters
-    public static final double BLUE_SPEAKER_X = 0.23; 
+    public static final double BLUE_SPEAKER_X = 0.23;
     public static final double RED_SPEAKER_X = 16.49;
     public static final double SPEAKER_Y = 5.3; // 16.412;
     public static final double SPEAKER_Z = 2.08; // height of opening

@@ -71,9 +71,9 @@ public class AimDriveToSpeaker extends Command {
 
   public double speakerAngle() {
     Pose2d dtvalues = m_pose.getCurrentPose2d();
-    // 	//triangle for robot angle
+    //triangle for robot angle
     double deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
-    double deltaX; 
+    double deltaX;
     double m_desiredRobotAngle;
     double speakerDist;
     if (RobotStateConstants.getAlliance().get() == Alliance.Red) {

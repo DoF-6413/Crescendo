@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Subsystems.shooter.Shooter;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Wrist extends SubsystemBase {
@@ -24,7 +23,6 @@ public class Wrist extends SubsystemBase {
   private GenericEntry wristki;
   private GenericEntry wristkd;
   private GenericEntry wristSetpointSetter;
-
 
   /** utb intake pid controller */
   private final PIDController wristPIDController;

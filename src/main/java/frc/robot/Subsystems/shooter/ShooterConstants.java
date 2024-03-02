@@ -1,19 +1,22 @@
 package frc.robot.Subsystems.shooter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ShooterConstants {
 
   // PID Constants  TODO: Tune, update, finalize
-  /** KP represents the constant multiplied by the current error from setpoint (Proportional Error) */
+  /**
+   * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
+   */
   public static double TOP_KP = 0.0;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
   public static double TOP_KI = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
   public static double TOP_KD = 0.0;
-  /** KP represents the constant multiplied by the current error from setpoint (Proportional Error) */
+  /**
+   * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
+   */
   public static double BOTTOM_KP = 0.0;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
   public static double BOTTOM_KI = 0.0;
@@ -40,14 +43,14 @@ public class ShooterConstants {
 
   /** Auto-aiming shooting */
   public static final double[][] LOOKUP_TABLE_X_M_VS_THETA_DEG = {
-    {1, 1.5, 2}, //x in meters
-    {70, 60, 10}, //theta_max
-    {50, 45, 30} //theta_min
+    {1, 1.5, 2}, // x in meters
+    {70, 60, 10}, // theta_max
+    {50, 45, 30} // theta_min
   }; // random values
 
   // public static ArrayList<Double> x = new ArrayList<>();
   public static List<List<Double>> l = new ArrayList<List<Double>>();
- 
+
   // Inverted motors
   /** Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor */
   public static final boolean TOP_MOTOR_IS_INVERTED = true;
