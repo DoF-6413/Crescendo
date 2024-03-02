@@ -200,6 +200,6 @@ public class Wrist extends SubsystemBase {
    * @param double angle in radians
    */
   public void setWristSetpoint(double setpoint) {
-    wristPIDController.setSetpoint(setpoint);
+    wristPIDController.setGoal(setpoint);
   }
 }
