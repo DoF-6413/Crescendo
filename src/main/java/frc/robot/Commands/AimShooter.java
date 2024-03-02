@@ -30,22 +30,22 @@ public class AimShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (m_pose != null) {
+      Pose2d dtvalues = m_pose.getCurrentPose2d();
+      // triangle for robot angle
+      double deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
 
-    Pose2d dtvalues = m_pose.getCurrentPose2d();
-    //triangle for robot angle
-    double deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
+      double deltaX, speakerDist;
 
-    double deltaX,speakerDist;
+      if (RobotStateConstants.getAlliance().get() == Alliance.Red) {
+        deltaX = Math.abs(dtvalues.getX() - FieldConstants.RED_SPEAKER_X);
+      } else {
+        deltaX = Math.abs(dtvalues.getX() - FieldConstants.BLUE_SPEAKER_X);
+      }
+      speakerDist = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
 
-    if (RobotStateConstants.getAlliance().get() == Alliance.Red) {
-      deltaX = Math.abs(dtvalues.getX() - FieldConstants.RED_SPEAKER_X);
-    } 
-    else {
-      deltaX = Math.abs(dtvalues.getX() - FieldConstants.BLUE_SPEAKER_X);
+      m_Wrist.setWristSetpoint(m_Shooter.returnDesiredAngle(speakerDist));
     }
-    speakerDist = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
-
-    m_Wrist.setWristSetpoint(m_Shooter.returnDesiredAngle(speakerDist));
   }
   // Called once the command ends or is interrupted.
   @Override

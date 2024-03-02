@@ -248,7 +248,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public double returnDesiredAngle(double x) {
-    int i = 0;
+    int i = 1;
     double closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i],
         closestTheta = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
 
