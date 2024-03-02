@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.AimDriveToSpeaker;
+import frc.robot.Commands.AimShooter;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
@@ -52,8 +53,8 @@ public class RobotContainer {
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
-  // private final Shooter m_shooterSubsystem;
-  // private final Wrist m_wristSubsystem;
+  private final Shooter m_shooterSubsystem;
+  private final Wrist m_wristSubsystem;
 
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
@@ -88,8 +89,8 @@ public class RobotContainer {
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
-        // m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        // m_wristSubsystem = new Wrist(new WristIOSparkMax());
+        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_wristSubsystem = new Wrist(new WristIOSparkMax());
         break;
 
       case SIM:
@@ -109,8 +110,8 @@ public class RobotContainer {
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
-        // m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        // m_wristSubsystem = new Wrist(new WristIOSim());
+        m_shooterSubsystem = new Shooter(new ShooterIOSim());
+        m_wristSubsystem = new Wrist(new WristIOSim());
 
         break;
 
@@ -131,8 +132,8 @@ public class RobotContainer {
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
-        // m_shooterSubsystem = new Shooter(new ShooterIO() {});
-        // m_wristSubsystem = new Wrist(new WristIO() {});
+        m_shooterSubsystem = new Shooter(new ShooterIO() {});
+        m_wristSubsystem = new Wrist(new WristIO() {});
         break;
     }
 
@@ -164,6 +165,8 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(
         new AimDriveToSpeaker(m_driveSubsystem, m_poseEstimator, driverController));
 
+    m_shooterSubsystem.setDefaultCommand(new AimShooter(m_shooterSubsystem, m_wristSubsystem));
+
     driverController
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
@@ -192,10 +195,10 @@ public class RobotContainer {
     // m_otbIntakeSubsystem.enableRollers(driverController.rightBumper().getAsBoolean()),
     //         m_otbIntakeSubsystem));
 
-    m_actuatorSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
-            m_actuatorSubsystem));
+    // m_actuatorSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
+    //         m_actuatorSubsystem));
 
     /** PID controls for the mechanisms */
     /** UTB Intake */
