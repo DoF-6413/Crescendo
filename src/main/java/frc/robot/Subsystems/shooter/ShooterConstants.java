@@ -46,9 +46,9 @@ public class ShooterConstants {
 
   /** Auto-aiming shooting */
   public static final double[][] LOOKUP_TABLE_X_M_VS_THETA_DEG = {
-    {1, 1.5, 2}, // x in meters
-    {70, 60, 10}, // theta_max
-    {50, 45, 30} // theta_min
+    {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6}, // x in meters
+    {70, 60, 10, 5, 2.5, 1.25, .675, .3375, .1682, .05, 0.005}, // theta_max
+    {50, 45, 30, 15, 7.5, 3.75, 675, .3375, .1682, .05, 0.005} // theta_min
   }; // random values
 
   // public static ArrayList<Double> x = new ArrayList<>();
