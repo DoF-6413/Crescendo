@@ -252,7 +252,9 @@ public class Shooter extends SubsystemBase {
     double closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i],
         closestTheta = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
 
-    // since the table is sorted, find the index of the first value where the distance value exceeds
+if(ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][5] < x){//do closest theta is 0 if you are 5 m away of the speaker(you cant shoot)//TODO:when we change the max change the 5 to the new max 
+  
+  // since the table is sorted, find the index of the first value where the distance value exceeds
     while (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] < x) {
       i++;
     }
@@ -275,6 +277,10 @@ public class Shooter extends SubsystemBase {
 
     // returns the closest Theta based on the lookup table
     return closestTheta;
+  }else {
+    closestTheta = 0;
+    return closestTheta;
+  }
   }
 
   // TODO: Create a tempature shutoff/warning
