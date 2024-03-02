@@ -234,6 +234,7 @@ public class RobotContainer {
             () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY() * (-1)),
             m_wristSubsystem));
     /** PID controls for the mechanisms */
+
     /** UTB Intake */
     driverController
         .rightTrigger()
@@ -252,6 +253,7 @@ public class RobotContainer {
             new InstantCommand(
                 () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
 
+    /** UTB + OTB Intakes */
     driverController
         .leftTrigger()
         .whileTrue(
@@ -290,22 +292,23 @@ public class RobotContainer {
     //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * (-1)),
     //         m_actuatorSubsystem));
 
-    // m_shooterSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_shooterSubsystem.enableShooter(auxController.leftBumper().getAsBoolean()),
-    //         m_shooterSubsystem));
-
     // Shooter
     auxController
         .leftBumper()
         .whileTrue(
-            new InstantCommand(() -> m_shooterSubsystem.setSetpoint(3000), m_shooterSubsystem))
+            new InstantCommand(() -> m_shooterSubsystem.setSetpoint(2500), m_shooterSubsystem))
         .whileFalse(
             new InstantCommand(() -> m_shooterSubsystem.disableShooter(), m_shooterSubsystem));
 
-    auxController
+    /** Feeder */
+    auxController // Forward
         .rightBumper()
-        .whileTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
+        .whileTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2000), m_feederSubsystem))
+        .whileFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
+    auxController // Backward
+        .rightTrigger()
+        .whileTrue(
+            new InstantCommand(() -> m_feederSubsystem.setSetpoint(-2000), m_feederSubsystem))
         .whileFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
   
 
@@ -321,8 +324,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // return autoChooser.get();
-    return null;
+    return autoChooser.get();
   }
 
   /** This Turns the Mechanisms to either Coast or Brake Depending on Disable or Enable */
