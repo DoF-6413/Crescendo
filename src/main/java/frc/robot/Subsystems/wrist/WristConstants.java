@@ -36,8 +36,9 @@ public final class WristConstants {
   public static final double LENGTH_M = 0.4126308486;
   /** minimum and maximum angle of the physical wrist in radians */
   public static final double MIN_ANGLE_RAD = 0.390258413271767;
+
   public static final double MAX_ANGLE_RAD = 1.8675;
-  
+
   /** starting angle of the wrist for sim, same as minimum angle */
   public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD;
 }

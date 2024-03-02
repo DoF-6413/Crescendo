@@ -165,7 +165,8 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(
         new AimDriveToSpeaker(m_driveSubsystem, m_poseEstimator, driverController));
 
-    m_shooterSubsystem.setDefaultCommand(new AimShooter(m_shooterSubsystem, m_wristSubsystem));
+    m_shooterSubsystem.setDefaultCommand(
+        new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_poseEstimator));
 
     driverController
         .a()
