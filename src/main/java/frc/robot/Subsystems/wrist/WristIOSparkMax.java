@@ -14,6 +14,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class WristIOSparkMax implements WristIO {
 
@@ -29,8 +30,8 @@ public class WristIOSparkMax implements WristIO {
     wristRelativeEncoder = wristMotor.getEncoder();
     // wristAbsoluteEncoder = new SparkMaxAlternateEncoder(wristMotor, , 8192);
     wristAbsoluteEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    wristAbsoluteEncoder.setInverted(true);
     wristAbsoluteEncoder.setZeroOffset(0);
-    wristAbsoluteEncoder.setInverted(false);
 
     /** sets default to brake mode, which locks the motor position */
     wristMotor.setIdleMode(IdleMode.kBrake);
@@ -48,12 +49,14 @@ public class WristIOSparkMax implements WristIO {
         Units.rotationsToDegrees(wristRelativeEncoder.getPosition()) / WristConstants.GEAR_RATIO;
     // The absolute encoder, or a dut cycle encoder, rotates where a full rotation is equal to 1. If
     // 1 rotation is equal to 2pi or 360 degrees, multiply by appropriate to get value
-    inputs.wristAbsolutePositionRad = wristAbsoluteEncoder.getPosition() * 2 * Math.PI;
-    inputs.wristAbsolutePositionDeg = wristAbsoluteEncoder.getPosition() * 360;
+    inputs.wristAbsolutePositionRad = (wristAbsoluteEncoder.getPosition() * 2 * Math.PI) - 2.8;
+    inputs.wristAbsolutePositionDeg =
+        (wristAbsoluteEncoder.getPosition() * 360) - Units.radiansToDegrees(2.8);
     inputs.wristVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(wristRelativeEncoder.getVelocity());
     inputs.wristTempCelsius = new double[] {wristMotor.getMotorTemperature()};
     inputs.wristCurrentAmps = new double[] {wristMotor.getOutputCurrent()};
+    SmartDashboard.putNumber("Absolute Encoder", wristAbsoluteEncoder.getPosition());
   }
 
   @Override

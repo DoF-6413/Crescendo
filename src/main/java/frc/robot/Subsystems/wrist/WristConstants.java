@@ -5,13 +5,13 @@ public final class WristConstants {
   // modifiers
 
   /** represents the proportional constant, multiplied by the current error */
-  public static double KP = 1.0;
+  public static final double KP = 1.8;
 
   /** represents the integral constant, multiplied by the total error */
-  public static double KI = 0.0;
+  public static final double KI = 0.0;
 
   /** represents the derivative constant, multiplied by the change in error */
-  public static double KD = 0.0;
+  public static final double KD = 0.0;
 
   /** the position of the wrist can be within 1% of the setpoint */
   public static final double TOLERANCE_PERCENT = 0.01;

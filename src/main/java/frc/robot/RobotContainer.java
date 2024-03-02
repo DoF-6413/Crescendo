@@ -13,6 +13,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -229,10 +230,25 @@ public class RobotContainer {
             () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY() * (-1)),
             m_armSubsystem));
 
-    m_wristSubsystem.setDefaultCommand(
-        new RunCommand(
-            () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY() * (-1)),
-            m_wristSubsystem));
+    auxController
+        .a()
+        .onTrue(new InstantCommand(() -> m_wristSubsystem.updateSetpoint(0), m_wristSubsystem));
+    auxController
+        .x()
+        .onTrue(
+            new InstantCommand(
+                () -> m_wristSubsystem.updateSetpoint(Units.degreesToRadians(20)),
+                m_wristSubsystem));
+    auxController
+        .y()
+        .onTrue(
+            new InstantCommand(
+                () -> m_wristSubsystem.updateSetpoint(Units.degreesToRadians(50)),
+                m_wristSubsystem));
+    // m_wristSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY() * (-1)),
+    //         m_wristSubsystem));
     /** PID controls for the mechanisms */
 
     /** UTB Intake */
