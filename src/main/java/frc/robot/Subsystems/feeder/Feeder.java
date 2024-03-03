@@ -16,29 +16,29 @@ public class Feeder extends SubsystemBase {
   private final FeederIOInputsAutoLogged inputs = new FeederIOInputsAutoLogged();
 
   // Creates adjustable PID values on a Shuffleboard tab
-  private final ShuffleboardTab feederTab = Shuffleboard.getTab("Feeder");
-  private GenericEntry feederkP;
-  private GenericEntry feederkI;
-  private GenericEntry feederkD;
-  private GenericEntry feederSetpointSetter;
-  private double setpointRPM = 0.0;
-  private final PIDController feederPIDController;
+  // private final ShuffleboardTab feederTab = Shuffleboard.getTab("Feeder");
+  // private GenericEntry feederkP;
+  // private GenericEntry feederkI;
+  // private GenericEntry feederkD;
+  // private GenericEntry feederSetpointSetter;
+  // private double setpointRPM = 0.0;
+  // private final PIDController feederPIDController;
 
   /** Creates a new Feeder */
   public Feeder(FeederIO io) {
     System.out.println("[Init] Creating Feeder");
     this.io = io;
 
-    feederPIDController =
-        new PIDController(FeederConstants.KP, FeederConstants.KI, FeederConstants.KD);
-    feederPIDController.setSetpoint(setpointRPM);
-    feederPIDController.setTolerance(setpointRPM * FeederConstants.TOLERANCE_PERCENT);
+    // feederPIDController =
+    //     new PIDController(FeederConstants.KP, FeederConstants.KI, FeederConstants.KD);
+    // feederPIDController.setSetpoint(setpointRPM);
+    // feederPIDController.setTolerance(setpointRPM * FeederConstants.TOLERANCE_PERCENT);
 
     // Puts adjustable PID values and setpoints onto the SmartDashboard
-    feederkP = feederTab.add("feederkP", 0.0).getEntry();
-    feederkI = feederTab.add("feederkI", 0.0).getEntry();
-    feederkD = feederTab.add("feederkD", 0.0).getEntry();
-    feederSetpointSetter = feederTab.add("feederSetpoint", 0.0).getEntry();
+    // feederkP = feederTab.add("feederkP", 0.0).getEntry();
+    // feederkI = feederTab.add("feederkI", 0.0).getEntry();
+    // feederkD = feederTab.add("feederkD", 0.0).getEntry();
+    // feederSetpointSetter = feederTab.add("feederSetpoint", 0.0).getEntry();
   }
 
   @Override
@@ -46,18 +46,18 @@ public class Feeder extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("Feeder", inputs);
 
-    setFeederVoltage(
-        feederPIDController.calculateForVoltage(inputs.feederRPM, FeederConstants.MAX_VALUE));
+    // setFeederVoltage(
+    //     feederPIDController.calculateForVoltage(inputs.feederRPM, FeederConstants.MAX_VALUE));
 
-    if (FeederConstants.KP != feederkP.getDouble(0.0)
-        || FeederConstants.KI != feederkI.getDouble(0.0)
-        || FeederConstants.KD != feederkD.getDouble(0.0)) {
-      updatePIDController();
-    }
+    // if (FeederConstants.KP != feederkP.getDouble(0.0)
+    //     || FeederConstants.KI != feederkI.getDouble(0.0)
+    //     || FeederConstants.KD != feederkD.getDouble(0.0)) {
+    //   updatePIDController();
+    // }
 
-    if (setpointRPM != feederSetpointSetter.getDouble(0.0)) {
-      updateSetpoint();
-    }
+    // if (setpointRPM != feederSetpointSetter.getDouble(0.0)) {
+    //   updateSetpoint();
+    // }
   }
 
   /** Updates the set of loggable inputs for both Shooter Motors */
@@ -66,18 +66,18 @@ public class Feeder extends SubsystemBase {
   }
 
   /** Updates the PID values to what they are set to on the SmartDashboard */
-  public void updatePIDController() {
-    FeederConstants.KP = feederkP.getDouble(0.0);
-    FeederConstants.KP = feederkP.getDouble(0.0);
-    FeederConstants.KP = feederkP.getDouble(0.0);
-    feederPIDController.setPID(FeederConstants.KP, FeederConstants.KI, FeederConstants.KD);
-  }
+  // public void updatePIDController() {
+  //   FeederConstants.KP = feederkP.getDouble(0.0);
+  //   FeederConstants.KP = feederkP.getDouble(0.0);
+  //   FeederConstants.KP = feederkP.getDouble(0.0);
+  //   feederPIDController.setPID(FeederConstants.KP, FeederConstants.KI, FeederConstants.KD);
+  // }
 
   /** Updates the setpoint to what is typed on the SmartDashboard */
-  public void updateSetpoint() {
-    setpointRPM = feederSetpointSetter.getDouble(0.0);
-    feederPIDController.setSetpoint(setpointRPM);
-  }
+  // public void updateSetpoint() {
+  //   setpointRPM = feederSetpointSetter.getDouble(0.0);
+  //   feederPIDController.setSetpoint(setpointRPM);
+  // }
 
   /**
    * Sets the voltage of the Feeder motor
