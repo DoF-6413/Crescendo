@@ -142,6 +142,7 @@ public class RobotContainer {
         "shoot", new InstantCommand(() -> m_shooterSubsystem.setShooterMotorPercentSpeed(.5)));//update porcentage of seed
         NamedCommands.registerCommand("actuator out ", new InstantCommand(()-> m_actuatorSubsystem.setActuatorPercentSpeed(1)));//TODO: change this to the command of feat68
         NamedCommands.registerCommand("actuator in", new InstantCommand(()-> m_actuatorSubsystem.setActuatorPercentSpeed(-1)));
+        NamedCommands.registerCommand("UTB", new InstantCommand(()-> m_utbIntakeSubsystem.enableUTB(true)));
 
         /* NamedCommands.registerCommand(
              "shooter auto aling", new InstantCommand(new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_poseEstimator))
