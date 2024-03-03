@@ -146,7 +146,8 @@ public class RobotContainer {
 
     /* NamedCommands.registerCommand(
         "shooter auto aling", new InstantCommand(new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_poseEstimator))
-    );*/// this is how you do the auto ailing for the future in auto
+    );*/
+    // this is how you do the auto ailing for the future in auto
 
     configureButtonBindings();
 
@@ -157,7 +158,7 @@ public class RobotContainer {
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
   }
 
-  /* 
+  /*
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
@@ -183,10 +184,13 @@ public class RobotContainer {
     auxController
         .y()
         .onTrue(
-            new AmpScore(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem)).onFalse(new InstantCommand(
-                ()-> {m_feederSubsystem.setFeederPercentSpeed(0);
-                m_shooterSubsystem.setBothShooterMotorsVoltage(0);}
-            ));
+            new AmpScore(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem))
+        .onFalse(
+            new InstantCommand(
+                () -> {
+                  m_feederSubsystem.setFeederPercentSpeed(0);
+                  m_shooterSubsystem.setBothShooterMotorsVoltage(0);
+                }));
 
     /** Non PID controls for the mechanisms */
     // NOTE: In sim the angle that the arm stops at changes and isnt near the min/max angles we set
@@ -294,11 +298,10 @@ public class RobotContainer {
 
   }
 
-    // m_shooterSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
-    //         m_shooterSubsystem));
-  
+  // m_shooterSubsystem.setDefaultCommand(
+  //     new InstantCommand(
+  //         () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
+  //         m_shooterSubsystem));
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

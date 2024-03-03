@@ -36,7 +36,7 @@ public class Wrist extends SubsystemBase {
     /** creates a new PIDController for the wrist */
     wristPIDController = new PIDController(WristConstants.KP, WristConstants.KI, WristConstants.KD);
     wristPIDController.setSetpoint(wristSetpoint);
-    
+
     /** disables continuous input */
     wristPIDController.disableContinuousInput();
 
@@ -52,9 +52,9 @@ public class Wrist extends SubsystemBase {
     /** periodically updates inputs and logs them */
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
-    
+
     setWristPercentSpeed(wristPIDController.calculate(inputs.wristPositionRad));
-    
+
     //   // TODO: delete once PID is finalized
     //   /** updates PID values if SmartDashboard gets updated */
     // if (WristConstants.KP != wristkp.getDouble(0.0)
@@ -126,7 +126,7 @@ public class Wrist extends SubsystemBase {
   public boolean atSetpoint() {
     return wristPIDController.atSetpoint();
   }
-  
+
   public void setSetpoint(double setpoint) {
     wristPIDController.setSetpoint(setpoint);
     wristPIDController.setTolerance(WristConstants.TOLERANCE_PERCENT * setpoint);

@@ -30,7 +30,7 @@ public class Arm extends SubsystemBase {
     armPIDController = new PIDController(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
     armPIDController.setSetpoint(armSetpoint);
     armPIDController.disableContinuousInput();
-    
+
     // TODO: Delete once final PID Numbers are Decided
     armkp = armTab.add("armkp", 0.0).getEntry();
     armki = armTab.add("armki", 0.0).getEntry();
@@ -47,7 +47,7 @@ public class Arm extends SubsystemBase {
 
     // Updates Arm Speed based on PID Control
     setArmPercentSpeed(armPIDController.calculate(armInputs.armPositionRad));
-    
+
     // // TODO: Delete once final PID Numbers are Decided
     // if (ArmConstants.KP != armkp.getDouble(0.0)
     //     || ArmConstants.KI != armki.getDouble(0.0)
