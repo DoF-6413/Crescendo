@@ -13,6 +13,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -51,7 +52,7 @@ public class RobotContainer {
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
-  // private final Shooter m_shooterSubsystem;
+  private final Shooter m_shooterSubsystem;
   // private final Wrist m_wristSubsystem;
 
   private final PoseEstimator m_poseEstimator;
@@ -87,7 +88,7 @@ public class RobotContainer {
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
-        // m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         // m_wristSubsystem = new Wrist(new WristIOSparkMax());
         break;
 
@@ -108,7 +109,7 @@ public class RobotContainer {
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
-        // m_shooterSubsystem = new Shooter(new ShooterIOSim());
+        m_shooterSubsystem = new Shooter(new ShooterIOSim());
         // m_wristSubsystem = new Wrist(new WristIOSim());
 
         break;
@@ -130,18 +131,31 @@ public class RobotContainer {
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
-        // m_shooterSubsystem = new Shooter(new ShooterIO() {});
+        m_shooterSubsystem = new Shooter(new ShooterIO() {});
         // m_wristSubsystem = new Wrist(new WristIO() {});
         break;
     }
 
     // Configure the button bindings
+
+    NamedCommands.registerCommand(
+        "shoot", new InstantCommand(() -> m_shooterSubsystem.setShooterMotorPercentSpeed(.5)));//update porcentage of seed
+        NamedCommands.registerCommand("actuator out ", new InstantCommand(()-> m_actuatorSubsystem.setActuatorPercentSpeed(1)));//TODO: change this to the command of feat68
+        NamedCommands.registerCommand("actuator in", new InstantCommand(()-> m_actuatorSubsystem.setActuatorPercentSpeed(-1)));
+
+        /* NamedCommands.registerCommand(
+             "shooter auto aling", new InstantCommand(new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_poseEstimator))
+         );*/
+         //this is how you do the auto ailing for the future in auto 
+        
     configureButtonBindings();
 
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
-    autoChooser.addOption("Curve", new PathPlannerAuto("5.5PieceAuto"));
+    autoChooser.addDefaultOption("Curve", new PathPlannerAuto("thing"));
+    autoChooser.addOption("shoot far pieces ", new PathPlannerAuto("shootFarNotes"));
+    autoChooser.addOption("shootCloseNotes", new PathPlannerAuto("shootCloseNotes"));
     // autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
   }
@@ -154,6 +168,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
+
     m_driveSubsystem.setDefaultCommand(
         new RunCommand(
             () ->
