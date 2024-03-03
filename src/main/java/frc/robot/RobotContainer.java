@@ -139,29 +139,24 @@ public class RobotContainer {
     // Configure the button bindings
 
     NamedCommands.registerCommand(
-        "shoot", new InstantCommand(() -> m_shooterSubsystem.setShooterMotorPercentSpeed(.5)));//update porcentage of seed
-        NamedCommands.registerCommand("actuator out ", new InstantCommand(()-> m_actuatorSubsystem.setActuatorPercentSpeed(1)));//TODO: change this to the command of feat68
-        NamedCommands.registerCommand("actuator in", new InstantCommand(()-> m_actuatorSubsystem.setActuatorPercentSpeed(-1)));
-        NamedCommands.registerCommand("UTB", new InstantCommand(()-> m_utbIntakeSubsystem.enableUTB(true)));
+        "shoot",
+        new InstantCommand(
+            () -> m_shooterSubsystem.setShooterMotorPercentSpeed(.5))); // update porcentage of seed
 
-        /* NamedCommands.registerCommand(
-             "shooter auto aling", new InstantCommand(new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_poseEstimator))
-         );*/
-         //this is how you do the auto ailing for the future in auto 
-        
+    /* NamedCommands.registerCommand(
+        "shooter auto aling", new InstantCommand(new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_poseEstimator))
+    );*/// this is how you do the auto ailing for the future in auto
+
     configureButtonBindings();
 
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
-    autoChooser.addDefaultOption("Curve", new PathPlannerAuto("thing"));
-    autoChooser.addOption("shoot far pieces ", new PathPlannerAuto("shootFarNotes"));
-    autoChooser.addOption("shootCloseNotes", new PathPlannerAuto("shootCloseNotes"));
-    // autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
+    autoChooser.addDefaultOption("Auto1", new PathPlannerAuto("Auto1"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
   }
 
-  /**
+  /* 
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link

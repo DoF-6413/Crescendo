@@ -160,10 +160,10 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 7.46,
-    "maxAcceleration": 7.0,
-    "maxAngularVelocity": 180.0,
-    "maxAngularAcceleration": 180.0
+    "maxVelocity": 5.2,
+    "maxAcceleration": 5.2,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
@@ -171,7 +171,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "complexPaths",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

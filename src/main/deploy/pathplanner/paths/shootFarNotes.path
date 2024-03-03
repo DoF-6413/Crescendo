@@ -238,7 +238,7 @@
             {
               "type": "named",
               "data": {
-                "name": "actuator out"
+                "name": "actuatorOut"
               }
             }
           ]
@@ -255,7 +255,7 @@
             {
               "type": "named",
               "data": {
-                "name": "actuator in"
+                "name": "actuatorIn"
               }
             }
           ]
@@ -351,8 +351,8 @@
   "globalConstraints": {
     "maxVelocity": 7.46,
     "maxAcceleration": 7.0,
-    "maxAngularVelocity": 180.0,
-    "maxAngularAcceleration": 180.0
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
@@ -360,10 +360,10 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "complexPaths",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
