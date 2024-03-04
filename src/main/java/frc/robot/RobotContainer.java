@@ -14,11 +14,13 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Commands.TeleopCommands.AmpScore;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
@@ -48,7 +50,7 @@ public class RobotContainer {
   private final Arm m_armSubsystem;
   private final Vision m_visionSubsystem;
   private final Feeder m_feederSubsystem;
-//   private final Climber m_climberSubsystem;
+  // private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
@@ -175,16 +177,25 @@ public class RobotContainer {
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
+    // Amp Scoring TODO: Update setpoints
+    auxController
+        .y()
+        .onTrue(
+            new AmpScore(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem)).onFalse(new InstantCommand(
+                ()-> {m_feederSubsystem.setFeederPercentSpeed(0);
+                m_shooterSubsystem.setBothShooterMotorsVoltage(0);}
+            ));
+
     /** Non PID controls for the mechanisms */
     // NOTE: In sim the angle that the arm stops at changes and isnt near the min/max angles we set
-    // m_armSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY()), m_armSubsystem));
+    m_armSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY()), m_armSubsystem));
 
-    // m_wristSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY()),
-    //         m_wristSubsystem));
+    m_wristSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY()),
+            m_wristSubsystem));
 
     // m_utbIntakeSubsystem.setDefaultCommand(
     //   new InstantCommand(
@@ -199,10 +210,10 @@ public class RobotContainer {
     // m_otbIntakeSubsystem.enableRollers(driverController.rightBumper().getAsBoolean()),
     //         m_otbIntakeSubsystem));
 
-    m_actuatorSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
-            m_actuatorSubsystem));
+    // m_actuatorSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
+    //         m_actuatorSubsystem));
 
     /** PID controls for the mechanisms */
     /** UTB Intake */
@@ -282,12 +293,12 @@ public class RobotContainer {
     //     new InstantCommand(
     //         () -> m_actuatorSubsystem.enableActuator(driverController.x().getAsBoolean()),
     //         m_actuatorSubsystem));
-  }
 
-  // m_shooterSubsystem.setDefaultCommand(
-  //     new InstantCommand(
-  //         () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
-  //         m_shooterSubsystem));
+    // m_shooterSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
+    //         m_shooterSubsystem));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

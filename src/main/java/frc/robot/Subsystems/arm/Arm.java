@@ -29,9 +29,8 @@ public class Arm extends SubsystemBase {
     this.io = io;
     armPIDController = new PIDController(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
     armPIDController.setSetpoint(armSetpoint);
-    armPIDController.setTolerance(ArmConstants.TOLERANCE_PERCENT * armSetpoint);
     armPIDController.disableContinuousInput();
-
+    
     // TODO: Delete once final PID Numbers are Decided
     armkp = armTab.add("armkp", 0.0).getEntry();
     armki = armTab.add("armki", 0.0).getEntry();
@@ -47,8 +46,8 @@ public class Arm extends SubsystemBase {
     Logger.processInputs("Arm", armInputs);
 
     // Updates Arm Speed based on PID Control
-    // setArmPercentSpeed(armPIDController.calculate(armInputs.armPositionRad));
-
+    setArmPercentSpeed(armPIDController.calculate(armInputs.armPositionRad));
+    
     // // TODO: Delete once final PID Numbers are Decided
     // if (ArmConstants.KP != armkp.getDouble(0.0)
     //     || ArmConstants.KI != armki.getDouble(0.0)
@@ -106,5 +105,14 @@ public class Arm extends SubsystemBase {
    */
   public void setBrakeMode(boolean enable) {
     io.setBrakeMode(enable);
+  }
+
+  public void setSetpoint(double setpoint) {
+    armPIDController.setSetpoint(setpoint);
+    armPIDController.setTolerance(ArmConstants.TOLERANCE_PERCENT * setpoint);
+  }
+
+  public boolean atSetpoint() {
+    return armPIDController.atSetpoint();
   }
 }
