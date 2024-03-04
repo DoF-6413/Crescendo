@@ -6,24 +6,12 @@ package frc.robot.Subsystems.wrist;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
 public class Wrist extends SubsystemBase {
   private final WristIO io;
   private final WristIOInputsAutoLogged inputs = new WristIOInputsAutoLogged();
-
-  /** shuffleboard tabs: wrist */
-  private final ShuffleboardTab wristTab = Shuffleboard.getTab("Wrist");
-
-  private GenericEntry wristkp;
-  private GenericEntry wristki;
-  private GenericEntry wristkd;
-  private GenericEntry wristSetpointSetter;
 
   /** utb intake pid controller */
   private final PIDController wristPIDController;
@@ -49,7 +37,6 @@ public class Wrist extends SubsystemBase {
     Logger.processInputs("Wrist", inputs);
 
     setWristPercentSpeed(wristPIDController.calculate(inputs.wristAbsolutePositionRad));
-    SmartDashboard.putNumber("WristSetoint", wristPIDController.getSetpoint());
   }
 
   /** updates setpoint if SmartDashboard gets updated */

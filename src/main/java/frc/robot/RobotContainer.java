@@ -259,13 +259,12 @@ public class RobotContainer {
     // Wrist
     auxController
         .a()
-        .onTrue(new InstantCommand(() -> m_wristSubsystem.updateSetpoint(0), m_wristSubsystem));
+        .onTrue(new InstantCommand(() -> m_armSubsystem.updateSetpoint(0), m_armSubsystem));
     auxController
         .x()
         .onTrue(
             new InstantCommand(
-                () -> m_wristSubsystem.updateSetpoint(Units.degreesToRadians(20)),
-                m_wristSubsystem));
+                () -> m_armSubsystem.updateSetpoint(Units.degreesToRadians(20)), m_armSubsystem));
     auxController
         .y()
         .onTrue(
