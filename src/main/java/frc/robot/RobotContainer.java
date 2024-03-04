@@ -46,15 +46,15 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems TODO: Add back subsystems as we get them working? If not then just uncomment them
   private final Gyro m_gyroSubsystem;
-  private final Drive m_driveSubsystem;
+  //   private final Drive m_driveSubsystem;
 
   private final Arm m_armSubsystem;
   //   private final Vision m_visionSubsystem;
   private final Feeder m_feederSubsystem;
   // private final Climber m_climberSubsystem;
-  private final UTBIntake m_utbIntakeSubsystem;
-  private final OTBIntake m_otbIntakeSubsystem;
-  private final Actuator m_actuatorSubsystem;
+  //   private final UTBIntake m_utbIntakeSubsystem;
+  //   private final OTBIntake m_otbIntakeSubsystem;
+  //   private final Actuator m_actuatorSubsystem;
   private final Shooter m_shooterSubsystem;
   private final Wrist m_wristSubsystem;
 
@@ -77,20 +77,20 @@ public class RobotContainer {
       case REAL:
         // Real robot, instantiate hardware IO implementations
         m_gyroSubsystem = new Gyro(new GyroIONavX());
-        m_driveSubsystem =
-            new Drive(
-                new ModuleIOSparkMaxTalonFX(0),
-                new ModuleIOSparkMaxTalonFX(1),
-                new ModuleIOSparkMaxTalonFX(2),
-                new ModuleIOSparkMaxTalonFX(3),
-                m_gyroSubsystem);
+        // m_driveSubsystem =
+        //     new Drive(
+        //         new ModuleIOSparkMaxTalonFX(0),
+        //         new ModuleIOSparkMaxTalonFX(1),
+        //         new ModuleIOSparkMaxTalonFX(2),
+        //         new ModuleIOSparkMaxTalonFX(3),
+        //         m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         // m_visionSubsystem = new Vision(new VisionIOSim());
         m_feederSubsystem = new Feeder(new FeederIOTalonFX());
         // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
-        m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
+        // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
+        // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
+        // m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_wristSubsystem = new Wrist(new WristIOSparkMax());
         break;
@@ -98,20 +98,20 @@ public class RobotContainer {
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
-        m_driveSubsystem =
-            new Drive(
-                new ModuleIOSimNeoKraken(),
-                new ModuleIOSimNeoKraken(),
-                new ModuleIOSimNeoKraken(),
-                new ModuleIOSimNeoKraken(),
-                m_gyroSubsystem);
+        // m_driveSubsystem =
+        //     new Drive(
+        //         new ModuleIOSimNeoKraken(),
+        //         new ModuleIOSimNeoKraken(),
+        //         new ModuleIOSimNeoKraken(),
+        //         new ModuleIOSimNeoKraken(),
+        //         m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
         // m_visionSubsystem = new Vision(new VisionIOSim());
         m_feederSubsystem = new Feeder(new FeederIOSim());
         // m_climberSubsystem = new Climber(new ClimberIOSim());
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
-        m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
+        // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
+        // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
+        // m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_wristSubsystem = new Wrist(new WristIOSim());
 
@@ -120,20 +120,20 @@ public class RobotContainer {
       default:
         // Replayed robot, disable IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
-        m_driveSubsystem =
-            new Drive(
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                m_gyroSubsystem);
+        // m_driveSubsystem =
+        //     new Drive(
+        //         new ModuleIO() {},
+        //         new ModuleIO() {},
+        //         new ModuleIO() {},
+        //         new ModuleIO() {},
+        //         m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
         // m_visionSubsystem = new Vision(new VisionIO() {});
         m_feederSubsystem = new Feeder(new FeederIO() {});
         // m_climberSubsystem = new Climber(new ClimberIO() {});
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
-        m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
+        // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
+        // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
+        // m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
         break;
@@ -157,18 +157,19 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // A default command always runs unless another command is called
-    m_driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_driveSubsystem.driveWithDeadband(
-                    driverController.getLeftX(),
-                    driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
-                    (driverController.getRightX() * (1))),
-            m_driveSubsystem));
+    // m_driveSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () ->
+    //             m_driveSubsystem.driveWithDeadband(
+    //                 driverController.getLeftX(),
+    //                 driverController.getLeftY() * (-1), // Joystick on Xbox Controller is
+    // Inverted
+    //                 (driverController.getRightX() * (1))),
+    //         m_driveSubsystem));
 
-    driverController
-        .a()
-        .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
+    // driverController
+    //     .a()
+    //     .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
     // Amp Scoring TODO: Update setpoints
     auxController
@@ -285,7 +286,7 @@ public class RobotContainer {
     //         new InstantCommand(
     //             () -> m_actuatorSubsystem.setActuatorSetpoint(ActuatorConstants.MIN_ANGLE_RADS), // Retracted
     //             m_actuatorSubsystem));
-    auxController.back().onTrue(new ZeroActuator(m_actuatorSubsystem));
+    // auxController.back().onTrue(new ZeroActuator(m_actuatorSubsystem));
 
     // Shooter
     auxController
@@ -324,10 +325,10 @@ public class RobotContainer {
 
   /** This Turns the Mechanisms to either Coast or Brake Depending on Disable or Enable */
   public void mechanismsCoastOnDisable(boolean isDisabled) {
-    m_driveSubsystem.coastOnDisable(isDisabled);
-    m_armSubsystem.setBrakeMode(!isDisabled);
+    // m_driveSubsystem.coastOnDisable(isDisabled);
+    m_armSubsystem.setBrakeMode(true);
     m_wristSubsystem.setWristBrakeMode(!isDisabled);
-    m_actuatorSubsystem.setBrakeMode(!isDisabled);
+    // m_actuatorSubsystem.setBrakeMode(!isDisabled);
     m_shooterSubsystem.setShooterBrakeMode(!isDisabled);
   }
 }

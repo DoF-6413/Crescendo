@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.wrist;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -35,7 +36,7 @@ public class Wrist extends SubsystemBase {
     /** creates a new PIDController for the wrist */
     wristPIDController = new PIDController(WristConstants.KP, WristConstants.KI, WristConstants.KD);
     wristPIDController.setSetpoint(0);
-    wristPIDController.setTolerance(0);
+    wristPIDController.setTolerance(Units.degreesToRadians(1));
 
     /** disables continuous input */
     wristPIDController.disableContinuousInput();

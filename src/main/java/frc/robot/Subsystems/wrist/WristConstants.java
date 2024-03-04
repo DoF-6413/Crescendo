@@ -5,7 +5,7 @@ public final class WristConstants {
   // modifiers
 
   /** represents the proportional constant, multiplied by the current error */
-  public static final double KP = 0.1;
+  public static final double KP = 1.2;
 
   /** represents the integral constant, multiplied by the total error */
   public static final double KI = 0.0;
