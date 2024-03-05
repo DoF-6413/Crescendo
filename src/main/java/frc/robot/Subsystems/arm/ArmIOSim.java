@@ -34,6 +34,7 @@ public class ArmIOSim implements ArmIO {
     armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
     inputs.armPositionRad = armMotor.getAngleRads();
+    inputs.armAbsolutePositionRad = inputs.armPositionRad;
     inputs.armVelocityRadPerSec = armMotor.getVelocityRadPerSec();
     inputs.armAppliedVolts = 0.0;
     inputs.armCurrentAmps = new double[] {Math.abs(armMotor.getCurrentDrawAmps())};

@@ -6,19 +6,19 @@ public class ShooterConstants {
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static double TOP_KP = 0.0;
+  public static final double TOP_KP = 0.75;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static double TOP_KI = 0.0;
+  public static final double TOP_KI = 0.25;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static double TOP_KD = 0.0;
+  public static final double TOP_KD = 0.0;
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static double BOTTOM_KP = 0.0;
+  public static final double BOTTOM_KP = 0.75;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static double BOTTOM_KI = 0.0;
+  public static final double BOTTOM_KI = 0.25;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static double BOTTOM_KD = 0.0;
+  public static final double BOTTOM_KD = 0.0;
   /** Allows the RPM to be within 1% of the setpoint */
   public static final double TOLERANCE_PERCENT = 0.01;
   /** Max RPM achievable by the Shooter motors */
@@ -32,9 +32,8 @@ public class ShooterConstants {
   /** Gear ratio of 1:1 for the shooter */
   public static final double GEAR_RATIO = 1.0;
   // Motor IDs TODO: Update?
-  public static final int TOP_MOTOR_ID = 22; // TODO: Update on real motor
-  public static final int BOTTOM_MOTOR_ID =
-      23; // Named "Climb motor" on the Phoenix tuner and TODO: Update on real motor
+  public static final int TOP_MOTOR_ID = 22;
+  public static final int BOTTOM_MOTOR_ID = 23;
   /** Current limit Amps */
   public static final double CUR_LIM_A = 60;
 
@@ -42,5 +41,5 @@ public class ShooterConstants {
   /** Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor */
   public static final boolean TOP_MOTOR_IS_INVERTED = true;
   /** Sets the bottom motor to not be inverted and will therefore spin in a CW direction */
-  public static final boolean BOTTOM_MOTOR_IS_INVERTED = false;
+  public static final boolean BOTTOM_MOTOR_IS_INVERTED = true;
 }
