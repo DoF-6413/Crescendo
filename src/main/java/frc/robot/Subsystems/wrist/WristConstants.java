@@ -41,5 +41,5 @@ public final class WristConstants {
   /** starting angle of the wrist for sim, same as minimum angle */
   public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD;
 
-  public static final double ABS_ENCODER_OFFSET_RADS = -0.7;
+  public static final double ABS_ENCODER_OFFSET_RADS = -0.85;
 }

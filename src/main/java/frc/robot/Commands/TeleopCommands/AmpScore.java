@@ -19,11 +19,10 @@ public class AmpScore extends SequentialCommandGroup {
   public AmpScore(Arm arm, Wrist wrist, Feeder feeder, Shooter shooter) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addRequirements(arm, wrist, feeder, shooter);
     addCommands(
         Commands.runOnce(
             () -> {
-              arm.setSetpoint(Units.degreesToRadians(20));
+              arm.setSetpoint(Units.degreesToRadians(19.7));
               wrist.setSetpoint(Units.degreesToRadians(83));
             },
             arm,

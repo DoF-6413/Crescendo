@@ -25,10 +25,10 @@ public class FullIntakesOut extends ParallelCommandGroup {
       Actuator actuator, OTBIntake otbIntake, UTBIntake utbIntake, boolean isInwards) {
     // Add your commands in the addCommands() call, e.g.
     if (isInwards) {
-      otbIntakeSpeed = -0.75;
+      otbIntakeSpeed = -0.50;
       utbIntakeSpeed = -1.0;
     } else {
-      otbIntakeSpeed = 0.75;
+      otbIntakeSpeed = 0.50;
       utbIntakeSpeed = -1.0;
     }
     // addCommands(new FooCommand(), new BarCommand());
