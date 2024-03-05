@@ -19,9 +19,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.TeleopCommands.AmpScore;
-import frc.robot.Commands.TeleopCommands.FullIntakesIn;
-import frc.robot.Commands.TeleopCommands.FullIntakesOut;
-import frc.robot.Commands.ZeroCommands.ZeroActuator;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
@@ -273,17 +270,17 @@ public class RobotContainer {
     // Arm
     auxController
         .a()
-        .onTrue(new InstantCommand(() -> m_armSubsystem.updateSetpoint(0), m_armSubsystem));
+        .onTrue(new InstantCommand(() -> m_armSubsystem.setSetpoint(0), m_armSubsystem));
     auxController
         .b()
         .onTrue(
             new InstantCommand(
-                () -> m_armSubsystem.updateSetpoint(Units.degreesToRadians(20)), m_armSubsystem));
+                () -> m_armSubsystem.setSetpoint(Units.degreesToRadians(20)), m_armSubsystem));
 
     // Wrist
     auxController
         .x()
-        .onTrue(new InstantCommand(() -> m_armSubsystem.updateSetpoint(0), m_wristSubsystem));
+        .onTrue(new InstantCommand(() -> m_armSubsystem.setSetpoint(0), m_wristSubsystem));
     auxController
         .y()
         .onTrue(

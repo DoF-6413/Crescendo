@@ -4,6 +4,7 @@
 
 package frc.robot.Commands.TeleopCommands;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.feeder.Feeder;
@@ -22,8 +23,8 @@ public class AmpScore extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              arm.setSetpoint(1);
-              wrist.setSetpoint(1);
+              arm.setSetpoint(Units.degreesToRadians(20));
+              wrist.setSetpoint(Units.degreesToRadians(83));
             },
             arm,
             wrist),

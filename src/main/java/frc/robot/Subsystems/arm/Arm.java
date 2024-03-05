@@ -41,12 +41,6 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("ArmSetpoint", armPIDController.getSetpoint());
   }
 
-  // TODO: Make this have a setpoint as a parameter and delete smartdashboard getter
-  /** Updates the Position the Arm is Going To */
-  public void updateSetpoint(double armSetpoint) {
-    armPIDController.setSetpoint(armSetpoint);
-  }
-
   /** Updates the Outputs of the Motors based on What Mode we are In */
   public void updateInputs() {
     io.updateInputs(armInputs);
@@ -79,9 +73,13 @@ public class Arm extends SubsystemBase {
     io.setBrakeMode(enable);
   }
 
+  /**
+   * Updates the angle that the wrist should be at using the WPI PID controller
+   *
+   * @param setpoint Radians [RANGE]
+   */
   public void setSetpoint(double setpoint) {
     armPIDController.setSetpoint(setpoint);
-    armPIDController.setTolerance(ArmConstants.TOLERANCE_PERCENT * setpoint);
   }
 
   /** Returns whether the arm is at its setpoint or not */
