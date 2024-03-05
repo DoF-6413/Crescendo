@@ -76,12 +76,100 @@
   ],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
+      "name": "shoot",
       "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickup1",
+      "waypointRelativePos": 0.6000000000000001,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pickUp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot2",
+      "waypointRelativePos": 1.5500000000000003,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickup2",
+      "waypointRelativePos": 2.05,
+      "command": {
+        "type": "parallel",
+        "data": {
           "commands": []
+        }
+      }
+    },
+    {
+      "name": "shoot3",
+      "waypointRelativePos": 2.75,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "pickup3",
+      "waypointRelativePos": 3.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "shoot4",
+      "waypointRelativePos": 3.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            }
+          ]
         }
       }
     }

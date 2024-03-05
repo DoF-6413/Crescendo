@@ -112,16 +112,16 @@
     },
     {
       "anchor": {
-        "x": 6.076560941720459,
-        "y": 5.966852028715935
+        "x": 6.083449659776812,
+        "y": 6.303149244475128
       },
       "prevControl": {
-        "x": 6.125480815069628,
-        "y": 5.966852028715935
+        "x": 6.132369533125981,
+        "y": 6.303149244475128
       },
       "nextControl": {
-        "x": 6.027641068371289,
-        "y": 5.966852028715935
+        "x": 6.034529786427642,
+        "y": 6.303149244475128
       },
       "isLocked": false,
       "linkedName": null
@@ -158,7 +158,188 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "pickup1",
+      "waypointRelativePos": 0.75,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pickUp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot1",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickup2",
+      "waypointRelativePos": 2.05,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pickUp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot2",
+      "waypointRelativePos": 2.05,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "pickup3",
+      "waypointRelativePos": 3.1,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pickUp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot3",
+      "waypointRelativePos": 2.55,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickup4",
+      "waypointRelativePos": 3.9000000000000004,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pickUp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot4",
+      "waypointRelativePos": 4.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickup5",
+      "waypointRelativePos": 6.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pickUp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot5",
+      "waypointRelativePos": 7.1,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickup6",
+      "waypointRelativePos": 9.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pickUp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 5.2,
     "maxAcceleration": 5.2,
