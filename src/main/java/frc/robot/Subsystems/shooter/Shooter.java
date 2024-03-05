@@ -58,9 +58,8 @@ public class Shooter extends SubsystemBase {
         bottomShooterPIDController.calculateForVoltage(
             inputs.bottomShooterMotorRPM, ShooterConstants.MAX_VALUE));
 
-    // Returns whether or not motors have reached setpoint
-    SmartDashboard.putBoolean("shooterTopAtSetpoint", topAtSetpoint());
-    SmartDashboard.putBoolean("shooterBottomAtSetpoint", bottomAtSetpoint());
+    SmartDashboard.putNumber("ShooterTopSetpoint", topShooterPIDController.getSetpoint());
+    SmartDashboard.putNumber("ShooterBottomSetpoint", bottomShooterPIDController.getSetpoint());
 
     // SmartDashboard.putBoolean("!!Tempature Warning!!", exceedsTemperature());
   }
@@ -123,14 +122,14 @@ public class Shooter extends SubsystemBase {
   }
 
   /** Returns where the Top Shooter RPM is within the setpoint, including tolerance */
-  public boolean topAtSetpoint() {
-    return topShooterPIDController.atSetpoint(inputs.topShooterMotorRPM);
-  }
+  // public boolean topAtSetpoint() {
+  //   return topShooterPIDController.atSetpoint(inputs.topShooterMotorRPM);
+  // }
 
   /** Returns where the Bottom Shooter RPM is within the setpoint, including tolerance */
-  public boolean bottomAtSetpoint() {
-    return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
-  }
+  // public boolean bottomAtSetpoint() {
+  //   return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
+  // }
 
   public void enableShooter(boolean auxAIsPressed) {
     if (auxAIsPressed) {

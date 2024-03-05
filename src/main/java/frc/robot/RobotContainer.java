@@ -44,12 +44,11 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // Subsystems TODO: Add back subsystems as we get them working? If not then just uncomment them
   private final Gyro m_gyroSubsystem;
   //   private final Drive m_driveSubsystem;
 
   private final Arm m_armSubsystem;
-  //   private final Vision m_visionSubsystem;
+  private final Vision m_visionSubsystem;
   private final Feeder m_feederSubsystem;
   // private final Climber m_climberSubsystem;
   //   private final UTBIntake m_utbIntakeSubsystem;
@@ -85,7 +84,7 @@ public class RobotContainer {
         //         new ModuleIOSparkMaxTalonFX(3),
         //         m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
-        // m_visionSubsystem = new Vision(new VisionIOSim());
+        m_visionSubsystem = new Vision(new VisionIOArduCam());
         m_feederSubsystem = new Feeder(new FeederIOTalonFX());
         // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
         // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
@@ -106,7 +105,7 @@ public class RobotContainer {
         //         new ModuleIOSimNeoKraken(),
         //         m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
-        // m_visionSubsystem = new Vision(new VisionIOSim());
+        m_visionSubsystem = new Vision(new VisionIOSim());
         m_feederSubsystem = new Feeder(new FeederIOSim());
         // m_climberSubsystem = new Climber(new ClimberIOSim());
         // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
@@ -128,7 +127,7 @@ public class RobotContainer {
         //         new ModuleIO() {},
         //         m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
-        // m_visionSubsystem = new Vision(new VisionIO() {});
+        m_visionSubsystem = new Vision(new VisionIO() {});
         m_feederSubsystem = new Feeder(new FeederIO() {});
         // m_climberSubsystem = new Climber(new ClimberIO() {});
         // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
@@ -223,10 +222,10 @@ public class RobotContainer {
     //         new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
 
     // Arm
-    m_armSubsystem.setDefaultCommand(
-        new RunCommand(
-            () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY() * (-1)),
-            m_armSubsystem));
+    // m_armSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY() * (-1)),
+    //         m_armSubsystem));
 
     // Wrist
     // m_wristSubsystem.setDefaultCommand(
@@ -255,23 +254,7 @@ public class RobotContainer {
     // m_feederSubsystem));
     /** PID controls for the mechanisms */
 
-    // Wrist
-    auxController
-        .a()
-        .onTrue(new InstantCommand(() -> m_armSubsystem.updateSetpoint(0), m_armSubsystem));
-    auxController
-        .x()
-        .onTrue(
-            new InstantCommand(
-                () -> m_armSubsystem.updateSetpoint(Units.degreesToRadians(20)), m_armSubsystem));
-    auxController
-        .y()
-        .onTrue(
-            new InstantCommand(
-                () -> m_wristSubsystem.updateSetpoint(Units.degreesToRadians(50)),
-                m_wristSubsystem));
-
-    // Actuator
+    // OTB Actuator
     // auxController
     //     .b()
     //     .onTrue(
@@ -287,30 +270,56 @@ public class RobotContainer {
     //             m_actuatorSubsystem));
     // auxController.back().onTrue(new ZeroActuator(m_actuatorSubsystem));
 
-    // Shooter
+    // Arm
     auxController
-        .leftBumper()
-        .whileTrue(
-            new InstantCommand(() -> m_shooterSubsystem.setSetpoint(2500), m_shooterSubsystem))
-        .whileFalse(
-            new InstantCommand(() -> m_shooterSubsystem.disableShooter(), m_shooterSubsystem));
+        .a()
+        .onTrue(new InstantCommand(() -> m_armSubsystem.updateSetpoint(0), m_armSubsystem));
+    auxController
+        .b()
+        .onTrue(
+            new InstantCommand(
+                () -> m_armSubsystem.updateSetpoint(Units.degreesToRadians(20)), m_armSubsystem));
 
-    // Feeder
-    auxController // Forward
-        .rightBumper()
-        .whileTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2000), m_feederSubsystem))
-        .whileFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
-    auxController // Backward
-        .rightTrigger()
-        .whileTrue(
-            new InstantCommand(() -> m_feederSubsystem.setSetpoint(-2000), m_feederSubsystem))
-        .whileFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
-  
+    // Wrist
+    auxController
+        .x()
+        .onTrue(new InstantCommand(() -> m_armSubsystem.updateSetpoint(0), m_wristSubsystem));
+    auxController
+        .y()
+        .onTrue(
+            new InstantCommand(
+                () -> m_wristSubsystem.setSetpoint(Units.degreesToRadians(20)), m_wristSubsystem));
 
-    // m_shooterSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
-    //         m_shooterSubsystem));
+    // // Feeder
+    // auxController // Forward
+    //     .rightBumper()
+    //     .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2000), m_feederSubsystem))
+    //     .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
+    // auxController // Backward
+    //     .rightTrigger()
+    //     .onTrue(
+    //         new InstantCommand(() -> m_feederSubsystem.setSetpoint(-2000), m_feederSubsystem))
+    //     .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
+
+    // // Shooter
+    // auxController
+    //     .leftBumper()
+    //     .onTrue(
+    //         new InstantCommand(() -> m_shooterSubsystem.setSetpoint(2500), m_shooterSubsystem))
+    //     .onFalse(
+    //         new InstantCommand(() -> m_shooterSubsystem.disableShooter(), m_shooterSubsystem));
+
+    // Amp Scoring TODO: Update setpoints, Zero Arm & Wrist?
+    auxController
+        .leftTrigger()
+        .onTrue(
+            new AmpScore(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem))
+        .onFalse(
+            new InstantCommand(
+                () -> {
+                  m_feederSubsystem.disableFeeder();
+                  m_shooterSubsystem.disableShooter();
+                }));
   }
 
   /**

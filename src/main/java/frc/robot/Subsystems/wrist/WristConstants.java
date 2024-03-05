@@ -21,7 +21,7 @@ public final class WristConstants {
   public static final double MOI_KG_M2 = 0.000271862238;
 
   /** if the wrist simulation is simulating */
-  public static final boolean IS_SIMULATING_GRAVITY = false; // TODO: UPDATE
+  public static final boolean IS_SIMULATING_GRAVITY = false;
 
   // Real constants
   /** CAN ID of the wrist motor */

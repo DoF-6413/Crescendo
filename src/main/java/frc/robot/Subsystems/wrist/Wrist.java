@@ -13,20 +13,18 @@ public class Wrist extends SubsystemBase {
   private final WristIO io;
   private final WristIOInputsAutoLogged inputs = new WristIOInputsAutoLogged();
 
-  /** utb intake pid controller */
+  /** Wrist pid controller */
   private final PIDController wristPIDController;
 
-  /** creates a new wrist, the second joint of the arm subsystem */
+  /** Creates a new wrist, the second joint of the arm subsystem */
   public Wrist(WristIO io) {
     System.out.println("[Init] Creating wrist");
     this.io = io;
 
-    /** creates a new PIDController for the wrist */
+    /** Creates a new PIDController for the wrist */
     wristPIDController = new PIDController(WristConstants.KP, WristConstants.KI, WristConstants.KD);
     wristPIDController.setSetpoint(0);
     wristPIDController.setTolerance(Units.degreesToRadians(1));
-
-    /** disables continuous input */
     wristPIDController.disableContinuousInput();
   }
 
@@ -38,26 +36,6 @@ public class Wrist extends SubsystemBase {
 
     setWristPercentSpeed(wristPIDController.calculate(inputs.wristAbsolutePositionRad));
   }
-
-  /** updates setpoint if SmartDashboard gets updated */
-  public void updateSetpoint(double setpoint) {
-    wristPIDController.setSetpoint(setpoint);
-  }
-
-  // /** updates PID values if SmartDashboard gets updated */
-  // public void updatePIDController() {
-  //   WristConstants.KP = wristkp.getDouble(0.0);
-  //   WristConstants.KI = wristki.getDouble(0.0);
-  //   WristConstants.KD = wristkd.getDouble(0.0);
-
-  //   wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
-  // }
-
-  // /** updates setpoint if SmartDashboard gets updated */
-  // public void updateSetpoint() {
-  //   wristSetpoint = wristSetpointSetter.getDouble(0.0);
-  //   wristPIDController.setSetpoint(wristSetpoint);
-  // }
 
   /** updates setpoint if SmartDashboard gets updated */
   public void updateInputs() {
@@ -83,7 +61,7 @@ public class Wrist extends SubsystemBase {
   }
 
   /**
-   * Sets brake mode !
+   * Sets brake mode
    *
    * @param enable boolean for is brake mode true or false
    */
@@ -91,13 +69,18 @@ public class Wrist extends SubsystemBase {
     io.setWristBrakeMode(enable);
   }
 
-  /** Returns whether the wrist is at it's setpoint or not */
-  public boolean atSetpoint() {
-    return wristPIDController.atSetpoint();
-  }
-  
+  /**
+   * Updates the angle that the wrist should be at using the WPI PID controller
+   * 
+   * @param setpoint Radians [RANGE]
+   */
   public void setSetpoint(double setpoint) {
     wristPIDController.setSetpoint(setpoint);
     wristPIDController.setTolerance(WristConstants.TOLERANCE_PERCENT * setpoint);
+  }
+
+  /** Returns whether the wrist is at it's setpoint or not */
+  public boolean atSetpoint() {
+    return wristPIDController.atSetpoint();
   }
 }

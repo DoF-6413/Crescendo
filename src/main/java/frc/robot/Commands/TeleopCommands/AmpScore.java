@@ -31,8 +31,8 @@ public class AmpScore extends SequentialCommandGroup {
         new WaitUntilCommand(() -> wrist.atSetpoint()),
         Commands.runOnce(
             () -> {
-              shooter.setShooterMotorPercentSpeed(1);
-              feeder.setFeederPercentSpeed(1);
+              shooter.setSetpoint(2500);
+              feeder.setSetpoint(1500);
             },
             shooter,
             feeder));

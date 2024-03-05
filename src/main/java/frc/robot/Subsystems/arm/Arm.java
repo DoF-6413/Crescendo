@@ -84,6 +84,7 @@ public class Arm extends SubsystemBase {
     armPIDController.setTolerance(ArmConstants.TOLERANCE_PERCENT * setpoint);
   }
 
+  /** Returns whether the arm is at its setpoint or not */
   public boolean atSetpoint() {
     return armPIDController.atSetpoint();
   }
