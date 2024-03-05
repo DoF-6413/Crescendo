@@ -25,11 +25,12 @@ public class PathPlanner extends SubsystemBase {
         drive::runVelocity,
         new HolonomicPathFollowerConfig(
             new PIDConstants( // Propulsion PID constants
-                DriveConstants.DRIVE_KP_KRAKEN,
-                DriveConstants.DRIVE_KI_KRAKEN,
-                DriveConstants.DRIVE_KD_KRAKEN),
+         6.4,1.2,.03   ),
+            // DriveConstants.DRIVE_KP_KRAKEN,//0.6
+            // DriveConstants.DRIVE_KI_KRAKEN,//0.1
+            // DriveConstants.DRIVE_KD_KRAKEN),//0.4
             new PIDConstants( // Steer PID constants
-                .25, 1, 0),
+                .55, 0.43, .0025),
             // DriveConstants.STEER_KP_NEO,//6.4
             // DriveConstants.STEER_KI_NEO,//1.2
             // DriveConstants.STEER_KD_NEO),//.03
