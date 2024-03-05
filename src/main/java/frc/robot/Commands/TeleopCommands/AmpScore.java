@@ -23,11 +23,14 @@ public class AmpScore extends SequentialCommandGroup {
         Commands.runOnce(
             () -> {
               arm.setSetpoint(Units.degreesToRadians(19.7));
+            },
+            arm),
+        new WaitUntilCommand(() -> arm.atSetpoint()),
+        Commands.runOnce(
+            () -> {
               wrist.setSetpoint(Units.degreesToRadians(83));
             },
-            arm,
             wrist),
-        new WaitUntilCommand(() -> arm.atSetpoint()),
         new WaitUntilCommand(() -> wrist.atSetpoint()),
         Commands.runOnce(
             () -> {
