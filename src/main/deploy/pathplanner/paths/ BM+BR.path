@@ -1,0 +1,169 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.6849446477990359,
+        "y": 4.3678916811515345
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 0.585708843080093,
+        "y": 4.380230848942914
+      },
+      "isLocked": true,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.4204016103994217,
+        "y": 5.567111941824834
+      },
+      "prevControl": {
+        "x": 2.402513066579423,
+        "y": 5.468724950814843
+      },
+      "nextControl": {
+        "x": 2.43829015421942,
+        "y": 5.665498932834825
+      },
+      "isLocked": true,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.7336934388833163,
+        "y": 4.319142890067254
+      },
+      "prevControl": {
+        "x": 0.8044041170019711,
+        "y": 4.3898535681859085
+      },
+      "nextControl": {
+        "x": 0.6629827607646614,
+        "y": 4.248432211948599
+      },
+      "isLocked": true,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.6251465329533996,
+        "y": 4.1046482092964185
+      },
+      "prevControl": {
+        "x": 2.4983996761308296,
+        "y": 4.046149659995033
+      },
+      "nextControl": null,
+      "isLocked": true,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0499999999999998,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "shoot",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickup",
+      "waypointRelativePos": 0.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pickUp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot2",
+      "waypointRelativePos": 2.0999999999999996,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickup2",
+      "waypointRelativePos": 3.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "shoot3",
+      "waypointRelativePos": 3.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.2,
+    "maxAcceleration": 5.2,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -2.2025981617657924,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "pickup2OfTheBack",
+  "previewStartingState": {
+    "rotation": -57.03059609653792,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

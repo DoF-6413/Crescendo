@@ -3,6 +3,7 @@
   "robotLength": 0.82,
   "holonomicMode": true,
   "pathFolders": [
+    "pickup2OfTheBack",
     "complexPaths",
     "pick1OfTheBack",
     "pickUpFolder",
