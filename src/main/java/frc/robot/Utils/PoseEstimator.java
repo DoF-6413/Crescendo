@@ -11,6 +11,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -111,7 +112,10 @@ public class PoseEstimator extends SubsystemBase {
   }
 
   public void resetPose(Pose2d currentPose2d) {
-    poseEstimator.resetPosition(gyro.getYaw(), drive.getSwerveModulePositions(), currentPose2d);
+    poseEstimator.resetPosition(
+        gyro.getYaw().plus(new Rotation2d(Units.degreesToRadians(180))),
+        drive.getSwerveModulePositions(),
+        currentPose2d);
   }
 
   public Pose2d getInitialPose2d() {
