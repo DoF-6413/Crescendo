@@ -90,7 +90,7 @@ public class Robot extends LoggedRobot {
     // Build)
     SmartDashboard.putString(
         "Beta Number",
-        "1.31.0.47.1");
+        "1.32.0.48.1");
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
