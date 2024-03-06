@@ -26,15 +26,15 @@ public class PathPlanner extends SubsystemBase {
         new HolonomicPathFollowerConfig(
             new PIDConstants( // Propulsion PID constants
                 6.4, 1.2, .03),
-                // 1, 0, 0), //
-                // DriveConstants.DRIVE_KP_KRAKEN, // 0.6
-                // DriveConstants.DRIVE_KI_KRAKEN, // 0.1
-                // DriveConstants.DRIVE_KD_KRAKEN), // 0.4
+            // 1, 0, 0), //
+            // DriveConstants.DRIVE_KP_KRAKEN, // 0.6
+            // DriveConstants.DRIVE_KI_KRAKEN, // 0.1
+            // DriveConstants.DRIVE_KD_KRAKEN), // 0.4
             new PIDConstants( // Steer PID constants
-                 .55, 0.43, .0025),
-                // DriveConstants.STEER_KP_NEO, // 6.4
-                // DriveConstants.STEER_KI_NEO, // 1.2
-                // DriveConstants.STEER_KD_NEO), // .03
+                .55, 0.43, .0025),
+            // DriveConstants.STEER_KP_NEO, // 6.4
+            // DriveConstants.STEER_KI_NEO, // 1.2
+            // DriveConstants.STEER_KD_NEO), // .03
             DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
             DriveConstants.TRACK_WIDTH_M
                 / 2, // Drive base radius in meters. Distance from robot center to
