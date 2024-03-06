@@ -21,21 +21,19 @@ public class ArmPickUp extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      Commands.runOnce(
-        () -> {
-          arm.setSetpoint(Units.degreesToRadians(10.0));
-          wrist.setSetpoint(Units.degreesToRadians(189));
-        },
-        arm,
-        wrist),
-    new WaitUntilCommand(() -> arm.atSetpoint()),
-    new WaitUntilCommand(() -> wrist.atSetpoint()),
-
-    Commands.runOnce(
-        () -> {
-          feeder.setSetpoint(1500);
-        },
-        feeder)
-    );
+        Commands.runOnce(
+            () -> {
+              arm.setSetpoint(Units.degreesToRadians(10.0));
+              wrist.setSetpoint(Units.degreesToRadians(189));
+            },
+            arm,
+            wrist),
+        new WaitUntilCommand(() -> arm.atSetpoint()),
+        new WaitUntilCommand(() -> wrist.atSetpoint()),
+        Commands.runOnce(
+            () -> {
+              feeder.setSetpoint(1500);
+            },
+            feeder));
   }
 }

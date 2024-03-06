@@ -4,7 +4,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
 public interface WristIO {
-  
+
   @AutoLog
   public static class WristIOInputs {
     /** Number of volts sent to the Wrist motor */

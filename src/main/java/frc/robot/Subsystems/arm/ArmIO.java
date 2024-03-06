@@ -11,7 +11,7 @@ import org.littletonrobotics.junction.AutoLog;
  * Motors)
  */
 public interface ArmIO {
-  
+
   @AutoLog
   public static class ArmIOInputs {
 

@@ -3,9 +3,9 @@ package frc.robot.Subsystems.TelescopingClimber;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface ClimberIO {
-    @AutoLog
-    public static class ClimberIOInputs {
-    /** This returns the voltage the Climber Recieves */
+  @AutoLog
+  public static class ClimberIOInputs {
+    /** Returns the voltage the Climber Recieves */
     public double climberAppliedVolts = 0.0;
     /** Returns the position of the Climber in Meters */
     public double climberPositionMeters = 0.0;
@@ -15,9 +15,9 @@ public interface ClimberIO {
     public double[] climberCurrentAmps = new double[] {};
     /** The Temperature from the Climber in Celsius */
     public double[] climberTempCelsius = new double[] {};
-    }
+  }
 
-    /** Updates the set of loggable inputs for the Climber */
+  /** Updates the set of loggable inputs for the Climber */
   public default void updateInputs(ClimberIOInputs inputs) {}
 
   /**
