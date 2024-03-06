@@ -70,11 +70,6 @@
       "waypointRelativePos": 2.0,
       "rotationDegrees": -60.0,
       "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 3,
-      "rotationDegrees": 0,
-      "rotateFast": false
     }
   ],
   "constraintZones": [],
@@ -173,11 +168,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -57.44999650780663,
+    "rotation": 3.5549060642198427,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "pickup2OfTheBack",
+  "folder": "3PieceAuto",
   "previewStartingState": {
     "rotation": -57.03059609653792,
     "velocity": 0

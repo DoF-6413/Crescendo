@@ -3,11 +3,12 @@
   "robotLength": 0.82,
   "holonomicMode": true,
   "pathFolders": [
-    "pickup2OfTheBack",
     "complexPaths",
-    "pick1OfTheBack",
-    "pickUpFolder",
-    "shootFolder"
+    "2PieceAuto",
+    "3PieceAuto",
+    "4PieceAuto",
+    "5PieceAuto",
+    "OnePieceAuto"
   ],
   "autoFolders": [],
   "defaultMaxVel": 5.2,
