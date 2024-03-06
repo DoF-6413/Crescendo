@@ -24,7 +24,6 @@ import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.ScoreAmpFrontSide;
 import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesIn;
 import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesOut;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
-import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpFrontside;
 import frc.robot.Commands.ZeroCommands.ArmToZero;
 import frc.robot.Commands.ZeroCommands.EndEffectorToZero;
 import frc.robot.Constants.*;
@@ -53,7 +52,7 @@ public class RobotContainer {
   private final Drive m_driveSubsystem;
 
   private final Arm m_armSubsystem;
-  private final Vision m_visionSubsystem;
+  //   private final Vision m_visionSubsystem;
   private final Feeder m_feederSubsystem;
   // private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
@@ -62,8 +61,8 @@ public class RobotContainer {
   private final Shooter m_shooterSubsystem;
   private final Wrist m_wristSubsystem;
 
-  private final PoseEstimator m_poseEstimator;
-  private final PathPlanner m_pathPlanner;
+  //   private final PoseEstimator m_poseEstimator;
+  //   private final PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -89,7 +88,7 @@ public class RobotContainer {
                 new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
-        m_visionSubsystem = new Vision(new VisionIOArduCam());
+        // m_visionSubsystem = new Vision(new VisionIOArduCam());
         m_feederSubsystem = new Feeder(new FeederIOTalonFX());
         // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
@@ -110,7 +109,7 @@ public class RobotContainer {
                 new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
-        m_visionSubsystem = new Vision(new VisionIOSim());
+        // m_visionSubsystem = new Vision(new VisionIOSim());
         m_feederSubsystem = new Feeder(new FeederIOSim());
         // m_climberSubsystem = new Climber(new ClimberIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
@@ -132,7 +131,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
-        m_visionSubsystem = new Vision(new VisionIO() {});
+        // m_visionSubsystem = new Vision(new VisionIO() {});
         m_feederSubsystem = new Feeder(new FeederIO() {});
         // m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
@@ -146,8 +145,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
-    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+    // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+    // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
     // autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
@@ -186,14 +185,6 @@ public class RobotContainer {
         .onFalse(
             new ScoreAmpFrontSide(
                 m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
-
-    auxController
-        .leftBumper()
-        .onTrue(new SourcePickUpFrontside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
-        .onFalse(
-            new ParallelCommandGroup(
-                new ArmToZero(m_wristSubsystem, m_armSubsystem),
-                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
 
     auxController
         .leftBumper()

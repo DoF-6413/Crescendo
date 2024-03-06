@@ -23,8 +23,8 @@ public class SourcePickUpBackside extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              arm.setSetpoint(Units.degreesToRadians(10.0)); // TODO: Update These Values
-              wrist.setSetpoint(Units.degreesToRadians(189)); // TODO: Update These Values
+              arm.setSetpoint(Units.degreesToRadians(10.0));
+              wrist.setSetpoint(Units.degreesToRadians(155));
             },
             arm,
             wrist),
