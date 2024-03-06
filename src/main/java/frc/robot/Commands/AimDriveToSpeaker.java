@@ -32,7 +32,7 @@ public class AimDriveToSpeaker extends Command {
     this.y = m_xbox.getLeftY() * (-1); // Axis inverted
     this.m_xbox = m_xbox;
     addRequirements(m_drive, m_pose);
-    rotPID = new PIDController(0.7, 0.1, .001); //oscillates
+    rotPID = new PIDController(0.2, 0.0, 0.0); // oscillates
     rotPID.enableContinuousInput(-2 * Math.PI, 2 * Math.PI);
     // rotPID.setTolerance(1 / 6 * Math.PI);
   }
@@ -47,6 +47,9 @@ public class AimDriveToSpeaker extends Command {
     this.x = m_xbox.getLeftX();
     this.y = -m_xbox.getLeftY(); // Axis inverted
     rotPID.setSetpoint(speakerAngle());
+
+    SmartDashboard.putNumber("Gyro Setpoint", speakerAngle());
+    SmartDashboard.putNumber("Measured Gyro Values :D", m_drive.getRotation().getRadians());
     // move robot to desired angle
     // if(DriverStation.getAlliance().get() == Alliance.Red) {
     //   allianceOffset = Math.PI;
