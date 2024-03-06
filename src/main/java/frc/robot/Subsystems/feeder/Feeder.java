@@ -46,14 +46,8 @@ public class Feeder extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("Feeder", inputs);
 
-    // setFeederVoltage(
-    //     feederPIDController.calculateForVoltage(inputs.feederRPM, FeederConstants.MAX_VALUE));
-
-    // if (FeederConstants.KP != feederkP.getDouble(0.0)
-    //     || FeederConstants.KI != feederkI.getDouble(0.0)
-    //     || FeederConstants.KD != feederkD.getDouble(0.0)) {
-    //   updatePIDController();
-    // }
+    setFeederVoltage(
+        feederPIDController.calculateForVoltage(inputs.feederRPM, FeederConstants.MAX_VALUE));
 
     // if (setpointRPM != feederSetpointSetter.getDouble(0.0)) {
     //   updateSetpoint();
@@ -65,7 +59,7 @@ public class Feeder extends SubsystemBase {
     io.updateInputs(inputs);
   }
 
-  /** Updates the PID values to what they are set to on the SmartDashboard */
+  // /** Updates the PID values to what they are set to on the SmartDashboard */
   // public void updatePIDController() {
   //   FeederConstants.KP = feederkP.getDouble(0.0);
   //   FeederConstants.KP = feederkP.getDouble(0.0);
@@ -104,5 +98,13 @@ public class Feeder extends SubsystemBase {
    */
   public void setFeederBrakeMode(boolean enable) {
     io.setFeederBrakeMode(enable);
+  }
+
+  public void setSetpoint(double setpoint) {
+    feederPIDController.setSetpoint(setpoint);
+  }
+
+  public void disableFeeder() {
+    feederPIDController.setSetpoint(0);
   }
 }

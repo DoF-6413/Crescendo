@@ -12,11 +12,11 @@ public final class ArmConstants {
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static double KP = 1.0;
+  public static final double KP = 1.0;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static double KI = 0.0;
+  public static final double KI = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static double KD = 0.0;
+  public static final double KD = 0.0;
   /**
    * Updates the range of error acceptable from setpoint (The position of the Actuator can be within
    * 1% of the setpoint)
@@ -31,7 +31,7 @@ public final class ArmConstants {
 
   // Real Constants
   /** The CAN ID of the Arm so it can be Identified on the CAN bus */
-  public static final int CAN_ID = 20; // TODO: Update real CAN ID (on actual SPARK MAX)
+  public static final int CAN_ID = 19;
 
   /** The Current Limit for the Actuator in Amps */
   public static final int CUR_LIM_A = 30;
@@ -46,14 +46,14 @@ public final class ArmConstants {
   public static final double LENGTH_M = 0.4126308486; // TODO: update
 
   /** The minimum angle the arm can rotate to */
-  public static final double MIN_ANGLE_RAD = 0.390258413271767; // TODO: update
+  public static final double MIN_ANGLE_RAD = 0.0; // TODO: update
 
   /** The maximum angle the arm can rotate to */
   public static final double MAX_ANGLE_RAD = 1.8675; // TODO: update
 
   /** The angle where the arm starts */
-  public static final double STARTING_ANGLE_RAD = 0.39025841327; // TODO: update
+  public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD; // TODO: update
 
   /** Sets if Arm Motor is Inverted */
-  public static final boolean IS_INVERTED = false;
+  public static final boolean IS_INVERTED = true;
 }

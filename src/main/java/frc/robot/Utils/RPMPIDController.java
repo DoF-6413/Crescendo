@@ -135,6 +135,9 @@ public class RPMPIDController {
             * RobotStateConstants.BATTERY_VOLTAGE
             / maxValue;
 
+    if (setpoint == 0) {
+      desiredVoltage = 0;
+    }
     // TODO: Implement tolerance
     return desiredVoltage;
   }
