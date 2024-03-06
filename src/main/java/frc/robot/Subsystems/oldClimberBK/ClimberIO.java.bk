@@ -79,7 +79,7 @@ public interface ClimberIO {
   public default void setRightClimberPercentSpeed(double percent) {}
 
   /**
-   * Sets the Brake Mode for the Actuator (Brake means motor holds position, Coast means easy to
+   * Sets the Brake Mode for the Climber (Brake means motor holds position, Coast means easy to
    * move)
    *
    * @param enable if enable, it sets brake mode, else it sets coast mode

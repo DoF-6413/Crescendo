@@ -16,4 +16,29 @@ public interface ClimberIO {
     /** The Temperature from the Climber in Celsius */
     public double[] climberTempCelsius = new double[] {};
     }
+
+    /** Updates the set of loggable inputs for the Climber */
+  public default void updateInputs(ClimberIOInputs inputs) {}
+
+  /**
+   * Sets the voltage of Climber Motors
+   *
+   * @param volts [-12 to 12]
+   */
+  public default void setClimberVoltage(double volts) {}
+
+  /**
+   * Sets Climber Motors to a percent of their maximum speed
+   *
+   * @param percent [-1 to 1]
+   */
+  public default void setClimberPercentSpeed(double percent) {}
+
+  /**
+   * Sets the Brake Mode for the Climber (Brake means motor holds position, Coast means easy to
+   * move)
+   *
+   * @param enable if enable, it sets brake mode, else it sets coast mode
+   */
+  public default void setClimberBrakeMode(boolean enable) {}
 }
