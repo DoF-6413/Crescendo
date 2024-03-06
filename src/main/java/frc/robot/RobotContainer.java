@@ -162,8 +162,24 @@ public class RobotContainer {
     //                driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
     //                 (driverController.getRightX() * (1))),
     //         m_driveSubsystem));
-    m_driveSubsystem.setDefaultCommand(
-        new AimDriveToSpeaker(m_driveSubsystem, m_poseEstimator, driverController));
+    // m_driveSubsystem.setDefaultCommand(
+    //     new AimDriveToSpeaker(m_driveSubsystem, m_poseEstimator, driverController));
+
+    driverController
+        .b()
+        .onTrue(new AimDriveToSpeaker(m_driveSubsystem, m_poseEstimator, driverController));
+
+    driverController
+        .x()
+        .onTrue(
+            new RunCommand(
+                () ->
+                    m_driveSubsystem.driveWithDeadband(
+                        driverController.getLeftX(),
+                        driverController.getLeftY()
+                            * (-1), // Joystick on Xbox Controller is Inverted
+                        (driverController.getRightX() * (1))),
+                m_driveSubsystem));
 
     m_wristSubsystem.setDefaultCommand(
         new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_poseEstimator));
