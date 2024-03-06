@@ -10,7 +10,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 public class VisionIOArduCam implements VisionIO {
   /** Creates a camera */
   private static PhotonCamera camera =
-      new PhotonCamera("Arducam_IMX298_Camera"); // TO-DO: update camera names
+      new PhotonCamera("Arducam_Shooter"); // TO-DO: update camera names
   // (front & back)
 
   public VisionIOArduCam() {}
