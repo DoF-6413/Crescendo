@@ -29,6 +29,12 @@ public class ScoreAmpFrontSide extends SequentialCommandGroup {
             },
             feeder),
         new WaitCommand(1),
+        Commands.runOnce(
+            () -> {
+              feeder.setSetpoint(0);
+              shooter.setSetpoint(0);
+            },
+            feeder),
         new ArmToZero(wrist, arm));
   }
 }
