@@ -32,8 +32,11 @@ public class ShooterIOTalonFX implements ShooterIO {
     // Configures current limits
     final CurrentLimitsConfigs currentLimitsConfig =
         new CurrentLimitsConfigs().withStatorCurrentLimit(ShooterConstants.CUR_LIM_A);
+    currentLimitsConfig.withSupplyCurrentLimit(ShooterConstants.CUR_LIM_A);
     topShooterMotor.getConfigurator().apply(currentLimitsConfig);
     bottomShooterMotor.getConfigurator().apply(currentLimitsConfig);
+    currentLimitsConfig.withStatorCurrentLimitEnable(true);
+    currentLimitsConfig.withSupplyCurrentLimitEnable(true);
   }
 
   @Override

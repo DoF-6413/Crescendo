@@ -15,10 +15,14 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Commands.TeleopCommands.AmpScore;
+import frc.robot.Commands.TeleopCommands.FullIntakesIn;
+import frc.robot.Commands.TeleopCommands.FullIntakesOut;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
@@ -41,7 +45,6 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // Subsystems TODO: Add back subsystems as we get them working? If not then just uncomment them
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
 
@@ -329,6 +332,10 @@ public class RobotContainer {
 
   /** This Turns the Mechanisms to either Coast or Brake Depending on Disable or Enable */
   public void mechanismsCoastOnDisable(boolean isDisabled) {
-    m_driveSubsystem.coastOnDisable(isDisabled);
+    // m_driveSubsystem.coastOnDisable(isDisabled);
+    // m_armSubsystem.setBrakeMode(!isDisabled);
+    // m_wristSubsystem.setWristBrakeMode(!isDisabled);
+    // m_actuatorSubsystem.setBrakeMode(!isDisabled);
+    // m_shooterSubsystem.setShooterBrakeMode(!isDisabled);
   }
 }

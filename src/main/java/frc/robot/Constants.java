@@ -60,7 +60,7 @@ public final class Constants {
     }
 
     /** If CAN takes too long, it cancels */
-    public static final int CAN_CONFIG_TIMEOUT_SEC = 500;
+    public static final int CAN_CONFIG_TIMEOUT_SEC = 30;
 
     /** Command Loop Seconds */
     public static final double LOOP_PERIODIC_SEC = 0.02;
