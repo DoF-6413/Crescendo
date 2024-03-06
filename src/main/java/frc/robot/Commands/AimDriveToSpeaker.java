@@ -32,7 +32,7 @@ public class AimDriveToSpeaker extends Command {
     this.y = m_xbox.getLeftY() * (-1); // Axis inverted
     this.m_xbox = m_xbox;
     addRequirements(m_drive, m_pose);
-    rotPID = new PIDController(1.3, 0.1, .001);
+    rotPID = new PIDController(0.7, 0.1, .001); //oscillates
     rotPID.enableContinuousInput(-2 * Math.PI, 2 * Math.PI);
     // rotPID.setTolerance(1 / 6 * Math.PI);
   }

@@ -252,35 +252,38 @@ public class Shooter extends SubsystemBase {
     double closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i],
         closestTheta = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
 
-if(ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][5] < x){//do closest theta is 0 if you are 5 m away of the speaker(you cant shoot)//TODO:when we change the max change the 5 to the new max 
-  
-  // since the table is sorted, find the index of the first value where the distance value exceeds
-    while (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] < x) {
-      i++;
-    }
+    if (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][5]
+        < x) { // do closest theta is 0 if you are 5 m away of the speaker(you cant
+      // shoot)//TODO:when we change the max change the 5 to the new max
 
-    // finds which x value in the table the actual distance is closer to and return that
-    if (Math.abs(ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i - 1] - x)
-        < Math.abs(ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] - x)) {
-      closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i - 1];
-      closestTheta =
-          (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i - 1]
-                  + ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i - 1])
-              / 2;
+      // since the table is sorted, find the index of the first value where the distance value
+      // exceeds
+      while (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] < x) {
+        i++;
+      }
+
+      // finds which x value in the table the actual distance is closer to and return that
+      if (Math.abs(ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i - 1] - x)
+          < Math.abs(ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] - x)) {
+        closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i - 1];
+        closestTheta =
+            (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i - 1]
+                    + ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i - 1])
+                / 2;
+      } else {
+        closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
+        closestTheta =
+            (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i]
+                    + ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i])
+                / 2;
+      }
+
+      // returns the closest Theta based on the lookup table
+      return closestTheta;
     } else {
-      closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
-      closestTheta =
-          (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i]
-                  + ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i])
-              / 2;
+      closestTheta = 0;
+      return closestTheta;
     }
-
-    // returns the closest Theta based on the lookup table
-    return closestTheta;
-  }else {
-    closestTheta = 0;
-    return closestTheta;
-  }
   }
 
   // TODO: Create a tempature shutoff/warning
