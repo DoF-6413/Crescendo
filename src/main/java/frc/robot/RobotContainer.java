@@ -19,8 +19,15 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
+import frc.robot.Commands.TeleopCommands.AmpScore.Backside.ScoreAmpBackSide;
+import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.PositionAmpScoreFrontSide;
+import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.ScoreAmpFrontSide;
 import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesIn;
 import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesOut;
+import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
+import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpFrontside;
+import frc.robot.Commands.ZeroCommands.ArmToZero;
+import frc.robot.Commands.ZeroCommands.EndEffectorToZero;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
@@ -170,12 +177,26 @@ public class RobotContainer {
 
     // Amp Scoring TODO: Update setpoints
     auxController
-        .y()
+        .rightBumper()
         .onTrue(
-            new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem)).onFalse(new InstantCommand(
-                ()-> {m_feederSubsystem.setFeederPercentSpeed(0);
-                m_shooterSubsystem.setBothShooterMotorsVoltage(0);}
-            ));
+            new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem)).onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem)
+            );
+
+    auxController
+        .rightTrigger()
+        .onTrue(
+            new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem)).onFalse(new ScoreAmpFrontSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem)
+            );
+
+    auxController
+        .leftBumper()
+        .onTrue(
+           new SourcePickUpFrontside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem)).onFalse(new ParallelCommandGroup(new ArmToZero(m_wristSubsystem, m_armSubsystem), new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
+
+    auxController
+        .leftBumper()
+        .onTrue(
+            new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem)).onFalse(new ParallelCommandGroup(new ArmToZero(m_wristSubsystem, m_armSubsystem), new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
 
     /** Non PID controls for the mechanisms */
 
@@ -219,90 +240,32 @@ public class RobotContainer {
         .whileFalse(
             new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
 
-    // Shooter
-    // auxController
-    //     .leftTrigger()
-    //     .onTrue(
-    //         new RunCommand(
-    //             () -> m_shooterSubsystem.setShooterMotorPercentSpeed(0.5), m_shooterSubsystem))
-    //     .onFalse(
-    //         new RunCommand(
-    //             () -> m_shooterSubsystem.setShooterMotorPercentSpeed(0.0), m_shooterSubsystem));
-
-    // Feeder
-    // auxController
-    //     .rightTrigger()
-    //     .onTrue(
-    //         new RunCommand(() -> m_feederSubsystem.setFeederPercentSpeed(0.5),
-    // m_feederSubsystem))
-    //     .onFalse(
-    //         new RunCommand(() -> m_feederSubsystem.setFeederPercentSpeed(0.0),
-    // m_feederSubsystem));
-    /** PID controls for the mechanisms */
-
-    // OTB Actuator
-    // auxController
-    //     .b()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () ->
-    //                 m_actuatorSubsystem.setActuatorSetpoint(
-    //                     Units.degreesToRadians(ActuatorConstants.MAX_ANGLE_RADS)), // Extended
-    //             m_actuatorSubsystem))
-    //     .onFalse(
-    //         new InstantCommand(
-    //             () -> m_actuatorSubsystem.setActuatorSetpoint(ActuatorConstants.MIN_ANGLE_RADS),
-    // // Retracted
-    //             m_actuatorSubsystem));
-    // auxController.back().onTrue(new ZeroActuator(m_actuatorSubsystem));
-
-    // Arm
-    auxController
-        .a()
-        .onTrue(new InstantCommand(() -> m_armSubsystem.setSetpoint(0), m_armSubsystem));
-    auxController
-        .b()
-        .onTrue(
-            new InstantCommand(
-                () -> m_armSubsystem.setSetpoint(Units.degreesToRadians(20)), m_armSubsystem));
-
-    // Wrist
-    auxController
-        .x()
-        .onTrue(new InstantCommand(() -> m_armSubsystem.setSetpoint(0), m_wristSubsystem));
-    auxController
-        .y()
-        .onTrue(
-            new InstantCommand(
-                () -> m_wristSubsystem.setSetpoint(Units.degreesToRadians(20)), m_wristSubsystem));
-
     // // Feeder
     auxController // Forward
-        .rightBumper()
+        .y()
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
     auxController // Backward
-        .rightTrigger()
+        .a()
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-2500), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
 
+    auxController.b().onTrue(new InstantCommand(()-> m_wristSubsystem.incrementWristSetpoint(1), m_wristSubsystem));
+    auxController.x().onTrue(new InstantCommand(()-> m_wristSubsystem.incrementWristSetpoint(-1), m_wristSubsystem));
+    auxController.povRight().onTrue(new InstantCommand(()-> m_armSubsystem.incrementArmSetpoint(1), m_armSubsystem));
+    auxController.povLeft().onTrue(new InstantCommand(()-> m_armSubsystem.incrementArmSetpoint(-1), m_armSubsystem));
+
     // // Shooter
     auxController
-        .leftBumper()
+        .start()
         .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(3000), m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.disableShooter(), m_shooterSubsystem));
 
-    // Amp Scoring TODO: Update setpoints, Zero Arm & Wrist?
     auxController
-        .leftTrigger()
-        .onTrue(
-            new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> {
-                  m_feederSubsystem.disableFeeder();
-                  m_shooterSubsystem.disableShooter();
-                }));
+        .back()
+        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(3000), m_shooterSubsystem))
+        .onFalse(new InstantCommand(() -> m_shooterSubsystem.disableShooter(), m_shooterSubsystem));
+
   }
 
   /**

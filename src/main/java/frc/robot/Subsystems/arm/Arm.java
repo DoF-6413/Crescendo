@@ -83,6 +83,10 @@ public class Arm extends SubsystemBase {
     armPIDController.setSetpoint(setpoint);
   }
 
+  public void incrementArmSetpoint(double increment){
+    armPIDController.setSetpoint(armPIDController.getSetpoint() + increment);
+  }
+
   /** Returns whether the arm is at its setpoint or not */
   public boolean atSetpoint() {
     return armPIDController.atSetpoint();
