@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.Commands.TeleopCommands.AmpScore;
-import frc.robot.Commands.TeleopCommands.FullIntakesIn;
-import frc.robot.Commands.TeleopCommands.FullIntakesOut;
+import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
+import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesIn;
+import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesOut;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
@@ -172,7 +172,7 @@ public class RobotContainer {
     auxController
         .y()
         .onTrue(
-            new AmpScore(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem)).onFalse(new InstantCommand(
+            new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem)).onFalse(new InstantCommand(
                 ()-> {m_feederSubsystem.setFeederPercentSpeed(0);
                 m_shooterSubsystem.setBothShooterMotorsVoltage(0);}
             ));
@@ -296,7 +296,7 @@ public class RobotContainer {
     auxController
         .leftTrigger()
         .onTrue(
-            new AmpScore(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem))
+            new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem))
         .onFalse(
             new InstantCommand(
                 () -> {
