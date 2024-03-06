@@ -20,18 +20,17 @@ public class ArmToZero extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      Commands.runOnce(
-        () -> {
-          wrist.setSetpoint(Units.degreesToRadians(0.0));
-        },
-        wrist),
+        Commands.runOnce(
+            () -> {
+              wrist.setSetpoint(Units.degreesToRadians(0.0));
+            },
+            wrist),
         new WaitUntilCommand(() -> wrist.atSetpoint()),
-      Commands.runOnce(
-        () -> {
-          arm.setSetpoint(Units.degreesToRadians(0.0));
-        },
-        arm),
-    new WaitUntilCommand(() -> arm.atSetpoint())
-    );
+        Commands.runOnce(
+            () -> {
+              arm.setSetpoint(Units.degreesToRadians(0.0));
+            },
+            arm),
+        new WaitUntilCommand(() -> arm.atSetpoint()));
   }
 }

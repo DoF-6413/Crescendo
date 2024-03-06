@@ -153,8 +153,6 @@ public class Shooter extends SubsystemBase {
     bottomShooterPIDController.setSetpoint(setpoint);
   }
 
-
-
   // TODO: Create a tempature shutoff/warning
   // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is
   // arbitrary

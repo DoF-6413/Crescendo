@@ -13,7 +13,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -178,25 +177,31 @@ public class RobotContainer {
     // Amp Scoring TODO: Update setpoints
     auxController
         .rightBumper()
-        .onTrue(
-            new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem)).onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem)
-            );
+        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
+        .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
 
     auxController
         .rightTrigger()
-        .onTrue(
-            new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem)).onFalse(new ScoreAmpFrontSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem)
-            );
+        .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
+        .onFalse(
+            new ScoreAmpFrontSide(
+                m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
 
     auxController
         .leftBumper()
-        .onTrue(
-           new SourcePickUpFrontside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem)).onFalse(new ParallelCommandGroup(new ArmToZero(m_wristSubsystem, m_armSubsystem), new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
+        .onTrue(new SourcePickUpFrontside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
+        .onFalse(
+            new ParallelCommandGroup(
+                new ArmToZero(m_wristSubsystem, m_armSubsystem),
+                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
 
     auxController
         .leftBumper()
-        .onTrue(
-            new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem)).onFalse(new ParallelCommandGroup(new ArmToZero(m_wristSubsystem, m_armSubsystem), new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
+        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
+        .onFalse(
+            new ParallelCommandGroup(
+                new ArmToZero(m_wristSubsystem, m_armSubsystem),
+                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
 
     /** Non PID controls for the mechanisms */
 
@@ -250,10 +255,21 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-2500), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
 
-    auxController.b().onTrue(new InstantCommand(()-> m_wristSubsystem.incrementWristSetpoint(1), m_wristSubsystem));
-    auxController.x().onTrue(new InstantCommand(()-> m_wristSubsystem.incrementWristSetpoint(-1), m_wristSubsystem));
-    auxController.povRight().onTrue(new InstantCommand(()-> m_armSubsystem.incrementArmSetpoint(1), m_armSubsystem));
-    auxController.povLeft().onTrue(new InstantCommand(()-> m_armSubsystem.incrementArmSetpoint(-1), m_armSubsystem));
+    auxController
+        .b()
+        .onTrue(
+            new InstantCommand(() -> m_wristSubsystem.incrementWristSetpoint(1), m_wristSubsystem));
+    auxController
+        .x()
+        .onTrue(
+            new InstantCommand(
+                () -> m_wristSubsystem.incrementWristSetpoint(-1), m_wristSubsystem));
+    auxController
+        .povRight()
+        .onTrue(new InstantCommand(() -> m_armSubsystem.incrementArmSetpoint(1), m_armSubsystem));
+    auxController
+        .povLeft()
+        .onTrue(new InstantCommand(() -> m_armSubsystem.incrementArmSetpoint(-1), m_armSubsystem));
 
     // // Shooter
     auxController
@@ -265,7 +281,6 @@ public class RobotContainer {
         .back()
         .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(3000), m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.disableShooter(), m_shooterSubsystem));
-
   }
 
   /**

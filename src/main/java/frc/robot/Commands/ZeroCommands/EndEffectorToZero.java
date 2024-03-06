@@ -18,13 +18,12 @@ public class EndEffectorToZero extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      Commands.runOnce(
-          () -> {
-            shooter.setSetpoint(0.0);
-            feeder.setSetpoint(0.0);
-          },
-          shooter,
-          feeder)
-    );
+        Commands.runOnce(
+            () -> {
+              shooter.setSetpoint(0.0);
+              feeder.setSetpoint(0.0);
+            },
+            shooter,
+            feeder));
   }
 }

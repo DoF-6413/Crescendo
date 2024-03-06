@@ -7,7 +7,6 @@ package frc.robot.Commands.TeleopCommands.AmpScore.Backside;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Subsystems.arm.Arm;
-import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.wrist.Wrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -21,13 +20,13 @@ public class PositionAmpScoreBackside extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              arm.setSetpoint(Units.degreesToRadians(19.7));
+              arm.setSetpoint(Units.degreesToRadians(40));
             },
             arm),
         new WaitUntilCommand(() -> arm.atSetpoint()),
         Commands.runOnce(
             () -> {
-              wrist.setSetpoint(Units.degreesToRadians(83));
+              wrist.setSetpoint(Units.degreesToRadians(77));
             },
             wrist),
         new WaitUntilCommand(() -> wrist.atSetpoint()));

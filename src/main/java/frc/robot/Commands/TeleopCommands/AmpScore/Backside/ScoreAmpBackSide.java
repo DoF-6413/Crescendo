@@ -21,13 +21,17 @@ public class ScoreAmpBackSide extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      Commands.runOnce(
-        () -> {
-          feeder.setSetpoint(-1500);
-        },
-        feeder),
+        Commands.runOnce(
+            () -> {
+              feeder.setSetpoint(-1500);
+            },
+            feeder),
         new WaitCommand(1),
-      new ArmToZero(wrist, arm)
-    );
+        Commands.runOnce(
+            () -> {
+              feeder.setSetpoint(0);
+            },
+            feeder),
+        new ArmToZero(wrist, arm));
   }
 }
