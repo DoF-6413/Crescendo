@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import frc.robot.Commands.ZeroCommands.ArmToZero;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.wrist.Wrist;
@@ -28,20 +27,27 @@ public class ShootAtSpeaker extends SequentialCommandGroup {
               feeder.setSetpoint(1500);
               wrist.setSetpoint(Units.degreesToRadians(21));
             },
-            feeder, wrist),
-        new WaitUntilCommand(()-> wrist.atSetpoint()),
+            feeder,
+            wrist),
+        new WaitUntilCommand(() -> wrist.atSetpoint()),
         Commands.runOnce(
             () -> {
               feeder.setSetpoint(-1500);
-              shooter.setSetpoint(3000);
             },
-            feeder, shooter),
-            new WaitCommand(1),
-            Commands.runOnce(
+            feeder),
+        new WaitCommand(0.3),
+        Commands.runOnce(
             () -> {
-              feeder.setSetpoint(-1500);
               shooter.setSetpoint(3000);
-            }, feeder)
-    );
+              feeder.setSetpoint(0);
+            },
+            shooter,
+            feeder),
+        new WaitCommand(0.8),
+        Commands.runOnce(
+            () -> {
+              feeder.setSetpoint(1500);
+            },
+            feeder));
   }
 }
