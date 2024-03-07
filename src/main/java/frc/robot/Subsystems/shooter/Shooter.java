@@ -185,8 +185,9 @@ public class Shooter extends SubsystemBase {
     } else {
       closestTheta = 0;
       return closestTheta;
-    } 
+    }
   }
+
   public void disableShooter() {
     topShooterPIDController.setSetpoint(0);
     bottomShooterPIDController.setSetpoint(0);

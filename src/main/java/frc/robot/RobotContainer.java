@@ -18,16 +18,10 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
-import frc.robot.Commands.TeleopCommands.AmpScore.Backside.ScoreAmpBackSide;
-import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.PositionAmpScoreFrontSide;
-import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.ScoreAmpFrontSide;
+import frc.robot.Commands.SpeakerAutoAlign.AimDriveToSpeaker;
+import frc.robot.Commands.SpeakerAutoAlign.AimShooter;
 import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesIn;
 import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesOut;
-import frc.robot.Commands.TeleopCommands.ShootAtSpeaker;
-import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
-import frc.robot.Commands.ZeroCommands.ArmToZero;
-import frc.robot.Commands.ZeroCommands.EndEffectorToZero;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
@@ -63,8 +57,8 @@ public class RobotContainer {
   private final Shooter m_shooterSubsystem;
   private final Wrist m_wristSubsystem;
 
-  // private final PoseEstimator m_poseEstimator;
-  // private final PathPlanner m_pathPlanner;
+  private final PoseEstimator m_poseEstimator;
+  //   private final PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -133,7 +127,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
-        // m_visionSubsystem = new Vision(new VisionIO() {});
+        m_visionSubsystem = new Vision(new VisionIO() {});
         m_feederSubsystem = new Feeder(new FeederIO() {});
         // m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
@@ -145,7 +139,7 @@ public class RobotContainer {
     }
 
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
-    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+    // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
     // autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
@@ -200,33 +194,33 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
     // Amp Scoring TODO: Update setpoints
-    auxController
-        .rightBumper()
-        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
-        .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
+    // auxController
+    //     .rightBumper()
+    //     .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
+    //     .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
 
-    auxController
-        .rightTrigger()
-        .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
-        .onFalse(
-            new ScoreAmpFrontSide(
-                m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
+    // auxController
+    //     .rightTrigger()
+    //     .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
+    //     .onFalse(
+    //         new ScoreAmpFrontSide(
+    //             m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
 
-    auxController
-        .leftBumper()
-        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
-        .onFalse(
-            new ParallelCommandGroup(
-                new ArmToZero(m_wristSubsystem, m_armSubsystem),
-                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
+    // auxController
+    //     .leftBumper()
+    //     .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
+    //     .onFalse(
+    //         new ParallelCommandGroup(
+    //             new ArmToZero(m_wristSubsystem, m_armSubsystem),
+    //             new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
 
-    auxController
-        .leftTrigger()
-        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
-        .onFalse(
-            new ParallelCommandGroup(
-                new ArmToZero(m_wristSubsystem, m_armSubsystem),
-                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
+    // auxController
+    //     .leftTrigger()
+    //     .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
+    //     .onFalse(
+    //         new ParallelCommandGroup(
+    //             new ArmToZero(m_wristSubsystem, m_armSubsystem),
+    //             new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
 
     /** Non PID controls for the mechanisms */
 
@@ -273,26 +267,37 @@ public class RobotContainer {
 
     // // Feeder
     auxController // Forward
-        .y()
+        .leftTrigger()
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
     auxController // Backward
-        .a()
+        .leftBumper()
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-2500), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
 
-    auxController
-        .b()
-        .onTrue(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
-                m_wristSubsystem));
-    auxController
-        .x()
-        .onTrue(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
-                m_wristSubsystem));
+    // // Shooter
+    auxController // Forward
+        .rightTrigger()
+        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(2500), m_shooterSubsystem))
+        .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
+    auxController // Backward
+        .rightBumper()
+        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(-2500), m_shooterSubsystem))
+        .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
+
+    // auxController
+    //     .b()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
+    //             m_wristSubsystem));
+
+    // auxController
+    //     .x()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
+    //             m_wristSubsystem));
     auxController
         .povRight()
         .onTrue(
@@ -305,6 +310,24 @@ public class RobotContainer {
             new InstantCommand(
                 () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(-1)),
                 m_armSubsystem));
+
+    // auxController
+    //     .povUp()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
+    //             m_wristSubsystem));
+    // auxController
+    //     .povDown()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
+    //             m_wristSubsystem));
+
+    m_wristSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_wristSubsystem.setWristPercentSpeed(auxController.getLeftY()),
+            m_wristSubsystem));
   }
 
   /**

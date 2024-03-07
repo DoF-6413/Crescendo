@@ -7,7 +7,6 @@ package frc.robot.Subsystems.wrist;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Subsystems.shooter.Shooter;
 import org.littletonrobotics.junction.Logger;
 
 public class Wrist extends SubsystemBase {
