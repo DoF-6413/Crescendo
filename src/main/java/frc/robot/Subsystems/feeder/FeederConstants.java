@@ -23,7 +23,7 @@ public class FeederConstants {
   /** CAN ID for the feeder motor */
   public static final int FEEDER_MOTOR_ID = 21;
   /** Gear ratio of 4:3 for the Indexer */
-  public static final double GEAR_RATIO = 1.5; // TODO: Update
+  public static final double GEAR_RATIO = 1.33; // TODO: Update
   /** Current limit Amps */
   public static final double CUR_LIM_A = 40; // TODO: Update
   /** Used to set the Indexer motor to not be inverted on startup */

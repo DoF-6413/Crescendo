@@ -4,6 +4,8 @@
 
 package frc.robot.Subsystems.arm;
 
+import edu.wpi.first.math.util.Units;
+
 public final class ArmConstants {
   // PID Constants for the Actuator
   // TODO: Finalize PID values once they are tuned/determined + add 'final'
@@ -58,8 +60,8 @@ public final class ArmConstants {
   public static final boolean IS_INVERTED = true;
 
   // Teleop Automations
-  /** Amp Score Backside */
+  /** Arm angle for Amp Score Backside (non intake side) */
   public static final double AMP_BACKSIDE_DEG = 40;
-  /** Amp Score Frontside */
-  public static final double AMP_FRONTSIDE_RAD = 1.849;
+  /** Arm angle for Amp Score Frontside (intake side) */
+  public static final double AMP_FRONTSIDE_DEG = Units.radiansToDegrees(1.849);
 }

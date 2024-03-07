@@ -116,12 +116,14 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
         Units.rotationsToRadians(
             driveTalonFX.getPosition().getValueAsDouble() / DriveConstants.GEAR_RATIO_L3);
     inputs.driveVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(driveTalonFX.getVelocity().getValueAsDouble())
+        Units.rotationsPerMinuteToRadiansPerSecond(driveTalonFX.getVelocity().getValueAsDouble() * 60)
             / DriveConstants.getGearRatio(true);
+
+    // unit conversions, Kraken getVelocity returns rotations per sec, multiply by 60 to get RPM
     inputs.driveVelocityRadPerSecAbs =
         Math.abs(
             Units.rotationsPerMinuteToRadiansPerSecond(
-                    driveTalonFX.getVelocity().getValueAsDouble())
+                    driveTalonFX.getVelocity().getValueAsDouble() * 60)
                 / DriveConstants.getGearRatio(true));
 
     inputs.driveAppliedVolts =
@@ -142,7 +144,6 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
                 .getRadians());
 
     inputs.turnAppliedVolts = turnSparkMax.getAppliedOutput() * turnSparkMax.getBusVoltage();
-
     inputs.turnCurrentAmps = new double[] {turnSparkMax.getOutputCurrent()};
     inputs.turnTempCelsius = new double[] {turnSparkMax.getMotorTemperature()};
   }

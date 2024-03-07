@@ -14,7 +14,7 @@ public interface FeederIO {
     /** Number of amps used by the Feeder motor */
     public double[] feederCurrentAmps = new double[] {};
     /** Tempature of the Feeder motor in Celsius */
-    public double[] feederTempCelsuis = new double[] {};
+    public double[] feederTempCelsius = new double[] {};
   }
 
   /** Updates the set of loggable inputs for both Shooter Motors */

@@ -19,7 +19,6 @@ public class Feeder extends SubsystemBase {
   public Feeder(FeederIO io) {
     System.out.println("[Init] Creating Feeder");
     this.io = io;
-
     feederPIDController =
         new PIDController(FeederConstants.KP, FeederConstants.KI, FeederConstants.KD);
     feederPIDController.setSetpoint(setpointRPM);

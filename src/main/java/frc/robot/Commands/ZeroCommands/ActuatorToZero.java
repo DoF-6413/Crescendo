@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.actuator.Actuator;
 import frc.robot.Subsystems.actuator.ActuatorConstants;
 
-public class ZeroActuator extends Command {
+public class ActuatorToZero extends Command {
   /** Creates a new ZeroActuator. */
   private Actuator actuator;
 
-  public ZeroActuator(Actuator actuator) {
+  public ActuatorToZero(Actuator actuator) {
     this.actuator = actuator;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(actuator);

@@ -22,8 +22,8 @@ import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBacks
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.ScoreAmpBackSide;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.PositionAmpScoreFrontSide;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.ScoreAmpFrontSide;
-import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesIn;
-import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesOut;
+import frc.robot.Commands.TeleopCommands.IntakesPosition.AlIntakesIn;
+import frc.robot.Commands.TeleopCommands.IntakesPosition.AllIntakesOut;
 import frc.robot.Commands.TeleopCommands.ShootAtSpeaker;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.ZeroCommands.ArmToZero;
@@ -198,17 +198,17 @@ public class RobotContainer {
     driverController // Intake NOTE
         .leftTrigger()
         .whileTrue(
-            new FullIntakesOut(
+            new AllIntakesOut(
                 m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true))
         .whileFalse(
-            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+            new AlIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
     driverController // Outake NOTE
         .leftBumper()
         .whileTrue(
-            new FullIntakesOut(
+            new AllIntakesOut(
                 m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false))
         .whileFalse(
-            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+            new AlIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
 
     // Feeder
     auxController // Forward
