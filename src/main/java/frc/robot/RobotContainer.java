@@ -13,10 +13,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Commands.TeleopCommands.ShootAtSpeaker;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.ScoreAmpBackSide;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.PositionAmpScoreFrontSide;
@@ -42,253 +44,264 @@ import frc.robot.Utils.*;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final Gyro m_gyroSubsystem;
-  private final Drive m_driveSubsystem;
+    private final Gyro m_gyroSubsystem;
+    private final Drive m_driveSubsystem;
 
-  private final Arm m_armSubsystem;
-  //   private final Vision m_visionSubsystem;
-  private final Feeder m_feederSubsystem;
-  // private final Climber m_climberSubsystem;
-  private final UTBIntake m_utbIntakeSubsystem;
-  private final OTBIntake m_otbIntakeSubsystem;
-  private final Actuator m_actuatorSubsystem;
-  private final Shooter m_shooterSubsystem;
-  private final Wrist m_wristSubsystem;
+    private final Arm m_armSubsystem;
+    // private final Vision m_visionSubsystem;
+    private final Feeder m_feederSubsystem;
+    // private final Climber m_climberSubsystem;
+    private final UTBIntake m_utbIntakeSubsystem;
+    private final OTBIntake m_otbIntakeSubsystem;
+    private final Actuator m_actuatorSubsystem;
+    private final Shooter m_shooterSubsystem;
+    private final Wrist m_wristSubsystem;
 
-  //   private final PoseEstimator m_poseEstimator;
-  //   private final PathPlanner m_pathPlanner;
+    // private final PoseEstimator m_poseEstimator;
+    // private final PathPlanner m_pathPlanner;
 
-  // Controllers
-  private final CommandXboxController driverController =
-      new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
-  private final CommandXboxController auxController =
-      new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
+    // Controllers
+    private final CommandXboxController driverController = new CommandXboxController(
+            OperatorConstants.DRIVE_CONTROLLER);
+    private final CommandXboxController auxController = new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
 
-  // Autos
-  private final LoggedDashboardChooser<Command> autoChooser =
-      new LoggedDashboardChooser<>("Auto Choices");
+    // Autos
+    private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    switch (RobotStateConstants.getMode()) {
-      case REAL:
-        // Real robot, instantiate hardware IO implementations
-        m_gyroSubsystem = new Gyro(new GyroIONavX());
-        m_driveSubsystem =
-            new Drive(
-                new ModuleIOSparkMaxTalonFX(0),
-                new ModuleIOSparkMaxTalonFX(1),
-                new ModuleIOSparkMaxTalonFX(2),
-                new ModuleIOSparkMaxTalonFX(3),
-                m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIOSparkMax());
-        // m_visionSubsystem = new Vision(new VisionIOArduCam());
-        m_feederSubsystem = new Feeder(new FeederIOTalonFX());
-        // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
-        m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
-        m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
-        m_wristSubsystem = new Wrist(new WristIOSparkMax());
-        break;
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
+        switch (RobotStateConstants.getMode()) {
+            case REAL:
+                // Real robot, instantiate hardware IO implementations
+                m_gyroSubsystem = new Gyro(new GyroIONavX());
+                m_driveSubsystem = new Drive(
+                        new ModuleIOSparkMaxTalonFX(0),
+                        new ModuleIOSparkMaxTalonFX(1),
+                        new ModuleIOSparkMaxTalonFX(2),
+                        new ModuleIOSparkMaxTalonFX(3),
+                        m_gyroSubsystem);
+                m_armSubsystem = new Arm(new ArmIOSparkMax());
+                // m_visionSubsystem = new Vision(new VisionIOArduCam());
+                m_feederSubsystem = new Feeder(new FeederIOTalonFX());
+                // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
+                m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
+                m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
+                m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
+                m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+                m_wristSubsystem = new Wrist(new WristIOSparkMax());
+                break;
 
-      case SIM:
-        // Sim robot, instantiate physics sim IO implementations
-        m_gyroSubsystem = new Gyro(new GyroIO() {});
-        m_driveSubsystem =
-            new Drive(
-                new ModuleIOSimNeoKraken(),
-                new ModuleIOSimNeoKraken(),
-                new ModuleIOSimNeoKraken(),
-                new ModuleIOSimNeoKraken(),
-                m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIOSim());
-        // m_visionSubsystem = new Vision(new VisionIOSim());
-        m_feederSubsystem = new Feeder(new FeederIOSim());
-        // m_climberSubsystem = new Climber(new ClimberIOSim());
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
-        m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
-        m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_wristSubsystem = new Wrist(new WristIOSim());
+            case SIM:
+                // Sim robot, instantiate physics sim IO implementations
+                m_gyroSubsystem = new Gyro(new GyroIO() {
+                });
+                m_driveSubsystem = new Drive(
+                        new ModuleIOSimNeoKraken(),
+                        new ModuleIOSimNeoKraken(),
+                        new ModuleIOSimNeoKraken(),
+                        new ModuleIOSimNeoKraken(),
+                        m_gyroSubsystem);
+                m_armSubsystem = new Arm(new ArmIOSim());
+                // m_visionSubsystem = new Vision(new VisionIOSim());
+                m_feederSubsystem = new Feeder(new FeederIOSim());
+                // m_climberSubsystem = new Climber(new ClimberIOSim());
+                m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
+                m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
+                m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
+                m_shooterSubsystem = new Shooter(new ShooterIOSim());
+                m_wristSubsystem = new Wrist(new WristIOSim());
 
-        break;
+                break;
 
-      default:
-        // Replayed robot, disable IO implementations
-        m_gyroSubsystem = new Gyro(new GyroIO() {});
-        m_driveSubsystem =
-            new Drive(
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIO() {});
-        // m_visionSubsystem = new Vision(new VisionIO() {});
-        m_feederSubsystem = new Feeder(new FeederIO() {});
-        // m_climberSubsystem = new Climber(new ClimberIO() {});
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
-        m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
-        m_shooterSubsystem = new Shooter(new ShooterIO() {});
-        m_wristSubsystem = new Wrist(new WristIO() {});
-        break;
+            default:
+                // Replayed robot, disable IO implementations
+                m_gyroSubsystem = new Gyro(new GyroIO() {});
+                m_driveSubsystem = new Drive(
+                        new ModuleIO() {},
+                        new ModuleIO() {},
+                        new ModuleIO() {},
+                        new ModuleIO() {},
+                        m_gyroSubsystem);
+                m_armSubsystem = new Arm(new ArmIO() {});
+                // m_visionSubsystem = new Vision(new VisionIO() {});
+                m_feederSubsystem = new Feeder(new FeederIO() {});
+                // m_climberSubsystem = new Climber(new ClimberIO() {});
+                m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO(){});
+                m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
+                m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
+                m_shooterSubsystem = new Shooter(new ShooterIO() {});
+                m_wristSubsystem = new Wrist(new WristIO() {});
+                break;
+        }
+
+        // Configure the button bindings
+        configureButtonBindings();
+
+        // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
+        // m_visionSubsystem);
+        // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+        autoChooser.addOption("Do Nothing", new InstantCommand());
+        // autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
+        Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
     }
 
-    // Configure the button bindings
-    configureButtonBindings();
+    /**
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+     * it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
+        // A default command always runs unless another command is called
+        m_driveSubsystem.setDefaultCommand(
+                new RunCommand(
+                        () -> m_driveSubsystem.driveWithDeadband(
+                                driverController.getLeftX(),
+                                driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
+                                (driverController.getRightX() * (1))),
+                        m_driveSubsystem));
 
-    // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
-    // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
-    autoChooser.addOption("Do Nothing", new InstantCommand());
-    // autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
-    Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
-  }
+        driverController
+                .a()
+                .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    // A default command always runs unless another command is called
-    m_driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_driveSubsystem.driveWithDeadband(
-                    driverController.getLeftX(),
-                    driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
-                    (driverController.getRightX() * (1))),
-            m_driveSubsystem));
+        // Amp Scoring TODO: Update setpoints
+        auxController
+                .rightBumper()
+                .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
+                .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
 
-    driverController
-        .a()
-        .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
+        auxController
+                .rightTrigger()
+                .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
+                .onFalse(
+                        new ScoreAmpFrontSide(
+                                m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
 
-    // Amp Scoring TODO: Update setpoints
-    auxController
-        .rightBumper()
-        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
-        .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
+        auxController
+                .leftBumper()
+                .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
+                .onFalse(
+                        new ParallelCommandGroup(
+                                new ArmToZero(m_wristSubsystem, m_armSubsystem),
+                                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
 
-    auxController
-        .rightTrigger()
-        .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
-        .onFalse(
-            new ScoreAmpFrontSide(
-                m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
+        auxController.leftTrigger().onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
+                .onFalse(
+                        new ParallelCommandGroup(
+                                new ArmToZero(m_wristSubsystem, m_armSubsystem),
+                                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
 
-    auxController
-        .leftBumper()
-        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
-        .onFalse(
-            new ParallelCommandGroup(
-                new ArmToZero(m_wristSubsystem, m_armSubsystem),
-                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
+        /** Non PID controls for the mechanisms */
 
-    /** Non PID controls for the mechanisms */
+        // OTB Actuator
+        // m_actuatorSubsystem.setDefaultCommand(
+        // new InstantCommand(
+        // () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() *
+        // 0.5),
+        // m_actuatorSubsystem));
 
-    // OTB Actuator
-    // m_actuatorSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
-    //         m_actuatorSubsystem));
+        // UTB Intake
+        driverController // Intake NOTE
+                .rightTrigger()
+                .whileTrue(
+                        new InstantCommand(
+                                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem))
+                .whileFalse(
+                        new InstantCommand(
+                                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
+        driverController // Outtake NOTE
+                .rightBumper()
+                .whileTrue(
+                        new InstantCommand(
+                                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(1), m_utbIntakeSubsystem))
+                .whileFalse(
+                        new InstantCommand(
+                                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
 
-    // UTB Intake
-    driverController // Intake NOTE
-        .rightTrigger()
-        .whileTrue(
-            new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem))
-        .whileFalse(
-            new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
-    driverController // Outtake NOTE
-        .rightBumper()
-        .whileTrue(
-            new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(1), m_utbIntakeSubsystem))
-        .whileFalse(
-            new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
+        // // UTB + OTB Intakes
+        driverController // Intake NOTE
+                .leftTrigger()
+                .whileTrue(
+                        new FullIntakesOut(
+                                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true))
+                .whileFalse(
+                        new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+        driverController // Outake NOTE
+                .leftBumper()
+                .whileTrue(
+                        new FullIntakesOut(
+                                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false))
+                .whileFalse(
+                        new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
 
-    //  // UTB + OTB Intakes
-    driverController // Intake NOTE
-        .leftTrigger()
-        .whileTrue(
-            new FullIntakesOut(
-                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true))
-        .whileFalse(
-            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
-    driverController // Outake NOTE
-        .leftBumper()
-        .whileTrue(
-            new FullIntakesOut(
-                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false))
-        .whileFalse(
-            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+        // // Feeder
+        auxController // Forward
+                .y()
+                .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
+                .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
+        auxController // Backward
+                .a()
+                .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-2500), m_feederSubsystem))
+                .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
 
-    // // Feeder
-    auxController // Forward
-        .y()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
-    auxController // Backward
-        .a()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-2500), m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
+        auxController
+                .b()
+                .onTrue(
+                        new InstantCommand(
+                                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
+                                m_wristSubsystem));
+        auxController
+                .x()
+                .onTrue(
+                        new InstantCommand(
+                                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
+                                m_wristSubsystem));
+        auxController
+                .povRight()
+                .onTrue(
+                        new InstantCommand(
+                                () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(1)),
+                                m_armSubsystem));
+        auxController
+                .povLeft()
+                .onTrue(
+                        new InstantCommand(
+                                () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(-1)),
+                                m_armSubsystem));
+    }
 
-    auxController
-        .b()
-        .onTrue(
-            new InstantCommand(() -> m_wristSubsystem.incrementWristSetpoint(1), m_wristSubsystem));
-    auxController
-        .x()
-        .onTrue(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristSetpoint(-1), m_wristSubsystem));
-    auxController
-        .povRight()
-        .onTrue(new InstantCommand(() -> m_armSubsystem.incrementArmSetpoint(1), m_armSubsystem));
-    auxController
-        .povLeft()
-        .onTrue(new InstantCommand(() -> m_armSubsystem.incrementArmSetpoint(-1), m_armSubsystem));
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        return autoChooser.get();
+    }
 
-    // // Shooter
-    auxController
-        .start()
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(3000), m_shooterSubsystem))
-        .onFalse(new InstantCommand(() -> m_shooterSubsystem.disableShooter(), m_shooterSubsystem));
-
-    auxController
-        .back()
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(3000), m_shooterSubsystem))
-        .onFalse(new InstantCommand(() -> m_shooterSubsystem.disableShooter(), m_shooterSubsystem));
-  }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    return autoChooser.get();
-  }
-
-  /** This Turns the Mechanisms to either Coast or Brake Depending on Disable or Enable */
-  public void mechanismsCoastOnDisable(boolean isDisabled) {
-    m_driveSubsystem.coastOnDisable(isDisabled);
-    m_armSubsystem.setBrakeMode(!isDisabled);
-    m_wristSubsystem.setWristBrakeMode(!isDisabled);
-    m_actuatorSubsystem.setBrakeMode(!isDisabled);
-    m_shooterSubsystem.setShooterBrakeMode(!isDisabled);
-  }
+    /**
+     * This Turns the Mechanisms to either Coast or Brake Depending on Disable or
+     * Enable
+     */
+    public void mechanismsCoastOnDisable(boolean isDisabled) {
+        m_driveSubsystem.coastOnDisable(isDisabled);
+        m_armSubsystem.setBrakeMode(!isDisabled);
+        m_wristSubsystem.setWristBrakeMode(!isDisabled);
+        m_actuatorSubsystem.setBrakeMode(!isDisabled);
+        m_shooterSubsystem.setShooterBrakeMode(!isDisabled);
+    }
 }
