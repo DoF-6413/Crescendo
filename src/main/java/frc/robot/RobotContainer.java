@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.SpeakerAutoAlign.AimDriveToSpeaker;
-import frc.robot.Commands.SpeakerAutoAlign.AimShooter;
 import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesIn;
 import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesOut;
 import frc.robot.Constants.*;
@@ -186,8 +185,8 @@ public class RobotContainer {
                         (driverController.getRightX() * (1))),
                 m_driveSubsystem));
 
-    m_wristSubsystem.setDefaultCommand(
-        new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_armSubsystem, m_poseEstimator));
+    // m_wristSubsystem.setDefaultCommand(
+    //     new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_armSubsystem, m_poseEstimator));
 
     driverController
         .a()
@@ -285,19 +284,19 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(-2500), m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
 
-    // auxController
-    //     .b()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
-    //             m_wristSubsystem));
+    auxController
+        .b()
+        .onTrue(
+            new InstantCommand(
+                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
+                m_wristSubsystem));
 
-    // auxController
-    //     .x()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
-    //             m_wristSubsystem));
+    auxController
+        .x()
+        .onTrue(
+            new InstantCommand(
+                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
+                m_wristSubsystem));
     auxController
         .povRight()
         .onTrue(
@@ -324,10 +323,10 @@ public class RobotContainer {
     //             () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
     //             m_wristSubsystem));
 
-    m_wristSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_wristSubsystem.setWristPercentSpeed(auxController.getLeftY()),
-            m_wristSubsystem));
+    // m_wristSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_wristSubsystem.setWristPercentSpeed(auxController.getLeftY()),
+    //         m_wristSubsystem));
   }
 
   /**
