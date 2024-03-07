@@ -31,7 +31,7 @@ public class Feeder extends SubsystemBase {
     Logger.processInputs("Feeder", inputs);
 
     setFeederVoltage(
-        feederPIDController.calculateForVoltage(inputs.feederRPM, FeederConstants.MAX_VALUE));
+        feederPIDController.calculateForVoltage(inputs.feederRPM, FeederConstants.MAX_RPM));
   }
 
   /** Updates the set of loggable inputs for both Shooter Motors */

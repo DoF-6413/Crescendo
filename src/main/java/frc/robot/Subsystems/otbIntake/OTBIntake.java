@@ -51,7 +51,7 @@ public class OTBIntake extends SubsystemBase {
 
     // setOTBIntakeVoltage(
     //     otbIntakePIDController.calculateForVoltage(
-    //         inputs.otbIntakeVelocityRPM, OTBIntakeConstants.MAX_VALUE));
+    //         inputs.otbIntakeVelocityRPM, OTBIntakeConstants.MAX_RPM));
 
     // // TODO: Delete after PID is finalized
     if (OTBIntakeConstants.KP != OTBIntakekp.getDouble(0.0)

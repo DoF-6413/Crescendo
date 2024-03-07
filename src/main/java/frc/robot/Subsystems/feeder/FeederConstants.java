@@ -14,7 +14,7 @@ public class FeederConstants {
   /** Allows the RPM to be within 1% of the setpoint */
   public static final double TOLERANCE_PERCENT = 0.01;
   /** Max RPM achievable by the Indexer motor */
-  public static final double MAX_VALUE = 4800.0; // TODO: Update
+  public static final double MAX_RPM = 4800.0; // TODO: Update
 
   // Sim constants
   public static final double MOI_KG_M2 = 0.0001; // TODO: Update

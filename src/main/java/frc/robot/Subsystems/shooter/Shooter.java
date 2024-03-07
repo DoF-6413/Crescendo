@@ -53,10 +53,10 @@ public class Shooter extends SubsystemBase {
     // Sets the voltage of the Shooter Motors using PID
     setTopShooterMotorVoltage(
         topShooterPIDController.calculateForVoltage(
-            inputs.topShooterMotorRPM, ShooterConstants.MAX_VALUE));
+            inputs.topShooterMotorRPM, ShooterConstants.MAX_RPM));
     setBottomShooterMotorVoltage(
         bottomShooterPIDController.calculateForVoltage(
-            inputs.bottomShooterMotorRPM, ShooterConstants.MAX_VALUE));
+            inputs.bottomShooterMotorRPM, ShooterConstants.MAX_RPM));
 
     SmartDashboard.putNumber("ShooterTopSetpoint", topShooterPIDController.getSetpoint());
     SmartDashboard.putNumber("ShooterBottomSetpoint", bottomShooterPIDController.getSetpoint());
