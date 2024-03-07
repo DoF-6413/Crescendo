@@ -277,11 +277,11 @@ public class RobotContainer {
     // // Shooter
     auxController // Forward
         .rightTrigger()
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(2500), m_shooterSubsystem))
+        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(4000), m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
     auxController // Backward
         .rightBumper()
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(-2500), m_shooterSubsystem))
+        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(-4000), m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
 
     auxController
