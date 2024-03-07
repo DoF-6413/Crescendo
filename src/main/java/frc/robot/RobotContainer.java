@@ -19,13 +19,13 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
-import frc.robot.Commands.TeleopCommands.AmpScore.Backside.ScoreAmpBackSide;
-import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.PositionAmpScoreFrontSide;
-import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.ScoreAmpFrontSide;
-import frc.robot.Commands.TeleopCommands.IntakesPosition.AlIntakesIn;
+import frc.robot.Commands.TeleopCommands.AmpScore.Backside.ScoreAmpBackside;
+import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.PositionAmpScoreFrontside;
+import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.ScoreAmpFrontside;
+import frc.robot.Commands.TeleopCommands.IntakesPosition.AllIntakesIn;
 import frc.robot.Commands.TeleopCommands.IntakesPosition.AllIntakesOut;
-import frc.robot.Commands.TeleopCommands.ShootAtSpeaker;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
+import frc.robot.Commands.TeleopCommands.SpeakerScore.ShootAtSpeaker;
 import frc.robot.Commands.ZeroCommands.ArmToZero;
 import frc.robot.Commands.ZeroCommands.EndEffectorToZero;
 import frc.robot.Constants.*;
@@ -201,14 +201,14 @@ public class RobotContainer {
             new AllIntakesOut(
                 m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true))
         .whileFalse(
-            new AlIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+            new AllIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
     driverController // Outake NOTE
         .leftBumper()
         .whileTrue(
             new AllIntakesOut(
                 m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false))
         .whileFalse(
-            new AlIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+            new AllIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
 
     // Feeder
     auxController // Forward
@@ -217,7 +217,7 @@ public class RobotContainer {
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
     auxController // Backward
         .a()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-2500), m_feederSubsystem))
+        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-250), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
 
     // Wrist
@@ -234,6 +234,7 @@ public class RobotContainer {
                 () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
                 m_wristSubsystem));
 
+    // Arm
     auxController // Increases angle of the Elbow by 1 degree
         .povRight()
         .onTrue(
@@ -251,15 +252,16 @@ public class RobotContainer {
     auxController // Scoring AMP from the shooter side
         .rightBumper()
         .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
-        .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
+        .onFalse(new ScoreAmpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
 
     auxController // Scoring AMP from the intake side
         .rightTrigger()
-        .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
+        .onTrue(new PositionAmpScoreFrontside(m_armSubsystem, m_wristSubsystem))
         .onFalse(
-            new ScoreAmpFrontSide(
+            new ScoreAmpFrontside(
                 m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
 
+    // Source Pickup
     auxController // Picking up from SOURCE on the shooter side
         .leftBumper()
         .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
@@ -267,7 +269,6 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new ArmToZero(m_wristSubsystem, m_armSubsystem),
                 new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
-
     auxController // Picking up from SOURCE on the intake side
         .leftTrigger()
         .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))

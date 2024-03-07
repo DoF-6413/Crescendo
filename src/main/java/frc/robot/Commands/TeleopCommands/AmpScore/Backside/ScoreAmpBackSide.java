@@ -13,9 +13,9 @@ import frc.robot.Subsystems.wrist.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreAmpBackSide extends SequentialCommandGroup {
+public class ScoreAmpBackside extends SequentialCommandGroup {
   /** Creates a new ScoreAmp. */
-  public ScoreAmpBackSide(Arm arm, Wrist wrist, Feeder feeder) {
+  public ScoreAmpBackside(Arm arm, Wrist wrist, Feeder feeder) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -30,6 +30,6 @@ public class ScoreAmpBackSide extends SequentialCommandGroup {
               feeder.setSetpoint(0);
             },
             feeder),
-        new ArmToZero(wrist, arm));
+    new ArmToZero(wrist, arm));
   }
 }

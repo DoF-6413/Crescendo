@@ -11,9 +11,9 @@ import frc.robot.Subsystems.wrist.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PositionAmpScoreFrontSide extends SequentialCommandGroup {
+public class PositionAmpScoreFrontside extends SequentialCommandGroup {
   /** Creates a new AmpScore. */
-  public PositionAmpScoreFrontSide(Arm arm, Wrist wrist) {
+  public PositionAmpScoreFrontside(Arm arm, Wrist wrist) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

@@ -39,6 +39,14 @@ public interface OTBIntakeIO {
   public default void setOTBIntakePercentSpeed(double percent) {}
 
   /**
+   * Enables rollers 
+   *
+   * @param enable
+   */
+  public default void enableRollers(boolean enable) {}
+
+
+  /**
    * Sets the Brake Mode for the OTB Intake
    *
    * <p>Brake means motor holds position, Coast means easy to move
@@ -46,6 +54,4 @@ public interface OTBIntakeIO {
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
   public default void setBrakeMode(boolean enable) {}
-
-  public default void enableRollers(boolean enable) {}
 }

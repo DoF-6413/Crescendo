@@ -82,7 +82,11 @@ public class Wrist extends SubsystemBase {
   public boolean atSetpoint() {
     return wristPIDController.atSetpoint();
   }
-
+  /**
+   * increments the wrist setpoint.
+   * 
+   * @param increment  
+  */
   public void incrementWristSetpoint(double increment) {
     wristPIDController.setSetpoint(wristPIDController.getSetpoint() + increment);
   }

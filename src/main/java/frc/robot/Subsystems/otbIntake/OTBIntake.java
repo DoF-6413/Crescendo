@@ -19,10 +19,6 @@ public class OTBIntake extends SubsystemBase {
 
   private double setpointRPM = 0.0;
   private final ShuffleboardTab OTBIntakeTab = Shuffleboard.getTab("OTB Intake");
-  private GenericEntry OTBIntakekp;
-  private GenericEntry OTBIntakeki;
-  private GenericEntry OTBIntakekd;
-  private GenericEntry OTBIntakeSetpointSetter;
 
   /**
    * Runs the real life motor for the Over the Bumper (OTB) Intake with CAN SPARKMAX Speed
@@ -35,12 +31,6 @@ public class OTBIntake extends SubsystemBase {
         new PIDController(OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
     otbIntakePIDController.setSetpoint(setpointRPM);
     otbIntakePIDController.setTolerance(setpointRPM * OTBIntakeConstants.TOLERANCE_PERCENT);
-
-    // TODO: Delete after PID is finalized
-    OTBIntakekp = OTBIntakeTab.add("OTBIntakekp", 0.0).getEntry();
-    OTBIntakeki = OTBIntakeTab.add("OTBIntakeki", 0.0).getEntry();
-    OTBIntakekd = OTBIntakeTab.add("OTBIntakekd", 0.0).getEntry();
-    OTBIntakeSetpointSetter = OTBIntakeTab.add("OTBIntakeSetpoint", 0.0).getEntry();
   }
 
   /** Periodically updates the inputs and outputs of the OTB Intake */
@@ -53,34 +43,8 @@ public class OTBIntake extends SubsystemBase {
     //     otbIntakePIDController.calculateForVoltage(
     //         inputs.otbIntakeVelocityRPM, OTBIntakeConstants.MAX_RPM));
 
-    // // TODO: Delete after PID is finalized
-    if (OTBIntakeConstants.KP != OTBIntakekp.getDouble(0.0)
-        || OTBIntakeConstants.KI != OTBIntakeki.getDouble(0.0)
-        || OTBIntakeConstants.KD != OTBIntakekd.getDouble(0.0)) {
-      updatePIDController();
-    }
-
-    // if (setpointRPM != OTBIntakeSetpointSetter.getDouble(0.0)) {
-    //   updateSetpoint();
-    // }
-
     // SmartDashboard.putBoolean("OTBIntakeAtSetpoint", atSetpoint());
   }
-
-  // /** Updates the PID values based on what is put on Shuffleboard */
-  public void updatePIDController() {
-    OTBIntakeConstants.KP = OTBIntakekp.getDouble(0.0);
-    OTBIntakeConstants.KI = OTBIntakeki.getDouble(0.0);
-    OTBIntakeConstants.KD = OTBIntakekd.getDouble(0.0);
-    otbIntakePIDController.setPID(
-        OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
-  }
-
-  // /** Updates the setpoint based on what is put on Shuffleboard */
-  // public void updateSetpoint() {
-  //   setpointRPM = OTBIntakeSetpointSetter.getDouble(0.0);
-  //   otbIntakePIDController.setSetpoint(setpointRPM);
-  // }
 
   /** Updates inputs for the OTB Intake */
   public void updateInputs() {
@@ -121,29 +85,12 @@ public class OTBIntake extends SubsystemBase {
     return otbIntakePIDController.atSetpoint(inputs.otbIntakeVelocityRPM);
   }
 
+/**
+ * Sets the PID setpoint for the OTB Rollers
+ * 
+ * @param setpoint RPM
+ */
   public void setOTBSetpoint(double setpoint) {
     otbIntakePIDController.setSetpoint(setpoint);
-  }
-
-  public void enableRollers(boolean enable) {
-    if (enable) {
-      setOTBIntakePercentSpeed(0.75);
-    } else {
-      setOTBIntakePercentSpeed(0);
-    }
-  }
-
-  public void enableRollersPID(boolean enable) {
-    if (enable) {
-      otbIntakePIDController.setSetpoint(-1000.0);
-    } else {
-      otbIntakePIDController.setSetpoint(0.0);
-      setOTBIntakeVoltage(0);
-    }
-  }
-
-  public void disableOTBRollers() {
-    otbIntakePIDController.setSetpoint(0);
-    setOTBIntakeVoltage(0);
   }
 }

@@ -24,16 +24,20 @@ public class Vision extends SubsystemBase {
       Logger.processInputs("Vision", inputs);
     }
   }
-
+/**
+ * get the photon pipeline result 
+*/
   public PhotonPipelineResult getResult() {
     return VisionIO.getPhotonPipelineResult();
   }
-
+/**get the x position that is in that way  of the target */
   public double getTargetX() {
 
     return inputs.TargetX;
   }
-
+/**
+ * get Target 
+ */
   public double getTargetY() {
 
     return inputs.TargetY;

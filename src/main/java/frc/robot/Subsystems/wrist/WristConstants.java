@@ -1,8 +1,7 @@
 package frc.robot.Subsystems.wrist;
 
 public final class WristConstants {
-  // PID Constants for the wrist; TODO: finalize PID values once they are determined + add 'final'
-  // modifiers
+  // PID Constants for the wrist; TODO: finalize PID values
 
   /** represents the proportional constant, multiplied by the current error */
   public static final double KP = 1.2;
@@ -36,8 +35,8 @@ public final class WristConstants {
   public static final double LENGTH_M = 0.4126308486;
   /** minimum and maximum angle of the physical wrist in radians */
   public static final double MIN_ANGLE_RAD = 0.390258413271767;
-
   public static final double MAX_ANGLE_RAD = 1.8675;
+
   /** starting angle of the wrist for sim, same as minimum angle */
   public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD;
 
