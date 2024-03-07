@@ -11,6 +11,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -59,7 +60,11 @@ public class PoseEstimator extends SubsystemBase {
             new SwerveDriveKinematics(DriveConstants.getModuleTranslations()),
             gyro.getYaw(),
             drive.getSwerveModulePositions(),
-            new Pose2d(new Translation2d(), new Rotation2d()));
+            new Pose2d(
+                new Translation2d(
+                    FieldConstants.BLUE_SPEAKER_X + DriveConstants.TRACK_WIDTH_M / 2,
+                    FieldConstants.SPEAKER_Y + DriveConstants.TRACK_WIDTH_M / 2),
+                new Rotation2d(Units.degreesToRadians(-90))));
     aprilTagFieldLayout =
         new AprilTagFieldLayout(
             AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getTags(),
