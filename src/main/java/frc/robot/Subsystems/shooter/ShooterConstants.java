@@ -46,9 +46,9 @@ public class ShooterConstants {
 
     // from tests
     {0, 0.5, 1, 1.5, 2, 2.5, 3}, // x in meters
-    {25, 15, 13, 5, 0, -2.5, -5}, // theta_max
-    {15, 10, 5, 2.5, -1, -3.5, -6} // theta_min
-  }; // random values
+    {25, 15, 13, 5, 0, -2.5, -5}, // theta_max_degrees
+    {15, 10, 5, 2.5, -1, -3.5, -6} // theta_min_degrees
+  }; 
 
   // Inverted motors
   /** Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor */
