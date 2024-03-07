@@ -116,12 +116,13 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
         Units.rotationsToRadians(
             driveTalonFX.getPosition().getValueAsDouble() / DriveConstants.GEAR_RATIO_L3);
     inputs.driveVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(driveTalonFX.getVelocity().getValueAsDouble())
+        Units.rotationsPerMinuteToRadiansPerSecond(
+                driveTalonFX.getVelocity().getValueAsDouble() * 60)
             / DriveConstants.getGearRatio(true);
     inputs.driveVelocityRadPerSecAbs =
         Math.abs(
             Units.rotationsPerMinuteToRadiansPerSecond(
-                    driveTalonFX.getVelocity().getValueAsDouble())
+                    driveTalonFX.getVelocity().getValueAsDouble() * 60)
                 / DriveConstants.getGearRatio(true));
 
     inputs.driveAppliedVolts =
