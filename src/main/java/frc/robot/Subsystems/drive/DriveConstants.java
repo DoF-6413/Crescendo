@@ -170,7 +170,7 @@ public final class DriveConstants {
     FRONT_RIGHT(-0.12879), // Module 0
     FRONT_LEFT(2.379), // Module 1
     BACK_LEFT(0.046), // Module 2
-    BACK_RIGHT(-0.559); // Module 3
+    BACK_RIGHT(-0.859); // Module 3
 
     public final double OFFSET;
 
