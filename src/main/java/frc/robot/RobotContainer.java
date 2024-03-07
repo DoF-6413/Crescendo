@@ -13,13 +13,21 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.Commands.AimDriveToSpeaker;
-import frc.robot.Commands.AimShooter;
+import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
+import frc.robot.Commands.TeleopCommands.AmpScore.Backside.ScoreAmpBackSide;
+import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.PositionAmpScoreFrontSide;
+import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.ScoreAmpFrontSide;
+import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesIn;
+import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesOut;
+import frc.robot.Commands.TeleopCommands.ShootAtSpeaker;
+import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
+import frc.robot.Commands.ZeroCommands.ArmToZero;
+import frc.robot.Commands.ZeroCommands.EndEffectorToZero;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
@@ -42,13 +50,12 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // Subsystems TODO: Add back subsystems as we get them working? If not then just uncomment them
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
 
   private final Arm m_armSubsystem;
   private final Vision m_visionSubsystem;
-  // private final Feeder m_feederSubsystem;
+  private final Feeder m_feederSubsystem;
   // private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
@@ -56,8 +63,8 @@ public class RobotContainer {
   private final Shooter m_shooterSubsystem;
   private final Wrist m_wristSubsystem;
 
-  private final PoseEstimator m_poseEstimator;
-  private final PathPlanner m_pathPlanner;
+  // private final PoseEstimator m_poseEstimator;
+  // private final PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -84,7 +91,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_visionSubsystem = new Vision(new VisionIOArduCam());
-        // m_feederSubsystem = new Feeder(new FeederIOTalonFX());
+        m_feederSubsystem = new Feeder(new FeederIOTalonFX());
         // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
@@ -105,7 +112,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
         m_visionSubsystem = new Vision(new VisionIOSim());
-        // m_feederSubsystem = new Feeder(new FeederIOSim());
+        m_feederSubsystem = new Feeder(new FeederIOSim());
         // m_climberSubsystem = new Climber(new ClimberIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
@@ -126,8 +133,8 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
-        m_visionSubsystem = new Vision(new VisionIO() {});
-        // m_feederSubsystem = new Feeder(new FeederIO() {});
+        // m_visionSubsystem = new Vision(new VisionIO() {});
+        m_feederSubsystem = new Feeder(new FeederIO() {});
         // m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
@@ -140,7 +147,7 @@ public class RobotContainer {
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
-    autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
+    // autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
     // Configure the button bindings
     configureButtonBindings();
@@ -192,51 +199,46 @@ public class RobotContainer {
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
-    // auxController
-    //     .b()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () -> m_wristSubsystem.setWristPercentSpeed(driverController.getRightY()),
-    //             m_wristSubsystem));
+    // Amp Scoring TODO: Update setpoints
+    auxController
+        .rightBumper()
+        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
+        .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
 
-    // auxController
-    //     .y()
-    //     .onTrue(
-    //         new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_armSubsystem,
-    // m_poseEstimator));
+    auxController
+        .rightTrigger()
+        .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
+        .onFalse(
+            new ScoreAmpFrontSide(
+                m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
+
+    auxController
+        .leftBumper()
+        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
+        .onFalse(
+            new ParallelCommandGroup(
+                new ArmToZero(m_wristSubsystem, m_armSubsystem),
+                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
+
+    auxController
+        .leftTrigger()
+        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
+        .onFalse(
+            new ParallelCommandGroup(
+                new ArmToZero(m_wristSubsystem, m_armSubsystem),
+                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
 
     /** Non PID controls for the mechanisms */
-    // NOTE: In sim the angle that the arm stops at changes and isnt near the min/max angles we set
-    // m_armSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_armSubsystem.setArmPercentSpeed(auxController.getLeftY()), m_armSubsystem));
 
-    // m_wristSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY()),
-    //         m_wristSubsystem));
-    // uncomment the last from 209 -this line
-    // m_utbIntakeSubsystem.setDefaultCommand(
-    //   new InstantCommand(
-    //     ()-> m_utbIntakeSubsystem.enableUTB(driverController.leftBumper().getAsBoolean()),
-    //     m_utbIntakeSubsystem
-    //   )
-    // );
-
-    // m_otbIntakeSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () ->
-    // m_otbIntakeSubsystem.enableRollers(driverController.rightBumper().getAsBoolean()),
-    //         m_otbIntakeSubsystem));
-
+    // OTB Actuator
     // m_actuatorSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() * 0.5),
-    //         m_actuatorSubsystem));
+    // new InstantCommand(
+    // () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() *
+    // 0.5),
+    // m_actuatorSubsystem));
 
-    /** PID controls for the mechanisms */
-    /** UTB Intake */
-    driverController
+    // UTB Intake
+    driverController // Intake NOTE
         .rightTrigger()
         .whileTrue(
             new InstantCommand(
@@ -244,7 +246,7 @@ public class RobotContainer {
         .whileFalse(
             new InstantCommand(
                 () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
-    driverController
+    driverController // Outtake NOTE
         .rightBumper()
         .whileTrue(
             new InstantCommand(
@@ -253,67 +255,57 @@ public class RobotContainer {
             new InstantCommand(
                 () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
 
-    // m_utbIntakeSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () ->
-    // m_utbIntakeSubsystem.enableUTBPID(driverController.leftBumper().getAsBoolean()),
-    //         m_utbIntakeSubsystem));
-
-    // m_otbIntakeSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_otbIntakeSubsystem.enableRollersPID(driverController.y().getAsBoolean()),
-    //         m_otbIntakeSubsystem));
-
-    driverController
+    // // UTB + OTB Intakes
+    driverController // Intake NOTE
         .leftTrigger()
         .whileTrue(
-            new SequentialCommandGroup(
-                new InstantCommand(
-                    () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem),
-                new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(-0.75))))
+            new FullIntakesOut(
+                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true))
         .whileFalse(
-            new SequentialCommandGroup(
-                new InstantCommand(
-                    () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem),
-                new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(0))));
-    driverController
+            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+    driverController // Outake NOTE
         .leftBumper()
         .whileTrue(
-            new SequentialCommandGroup(
-                new InstantCommand(
-                    () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(1), m_utbIntakeSubsystem),
-                new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(0.75))))
+            new FullIntakesOut(
+                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false))
         .whileFalse(
-            new SequentialCommandGroup(
-                new InstantCommand(
-                    () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem),
-                new InstantCommand(() -> m_otbIntakeSubsystem.setOTBIntakePercentSpeed(0))));
+            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
 
-    // Actuator
-    // driverController
-    //     .b()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () ->
-    //                 m_actuatorSubsystem.setActuatorSetpoint(
-    //                     ActuatorConstants.MAX_ANGLE_RADS), // Extended position
-    //             m_actuatorSubsystem))
-    //     .onFalse(
-    //         new InstantCommand(
-    //             () ->
-    //                 m_actuatorSubsystem.setActuatorSetpoint(
-    //                     ActuatorConstants.MIN_ANGLE_RADS), // Retracted position
-    //             m_actuatorSubsystem));
-    // m_actuatorSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_actuatorSubsystem.enableActuator(driverController.x().getAsBoolean()),
-    //         m_actuatorSubsystem));
+    // // Feeder
+    auxController // Forward
+        .y()
+        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
+        .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
+    auxController // Backward
+        .a()
+        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-2500), m_feederSubsystem))
+        .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
+
+    auxController
+        .b()
+        .onTrue(
+            new InstantCommand(
+                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
+                m_wristSubsystem));
+    auxController
+        .x()
+        .onTrue(
+            new InstantCommand(
+                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
+                m_wristSubsystem));
+    auxController
+        .povRight()
+        .onTrue(
+            new InstantCommand(
+                () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(1)),
+                m_armSubsystem));
+    auxController
+        .povLeft()
+        .onTrue(
+            new InstantCommand(
+                () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(-1)),
+                m_armSubsystem));
   }
-
-  //   m_shooterSubsystem.setDefaultCommand(
-  //       new InstantCommand(
-  //           () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
-  //           m_shooterSubsystem));
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -327,5 +319,9 @@ public class RobotContainer {
   /** This Turns the Mechanisms to either Coast or Brake Depending on Disable or Enable */
   public void mechanismsCoastOnDisable(boolean isDisabled) {
     m_driveSubsystem.coastOnDisable(isDisabled);
+    m_armSubsystem.setBrakeMode(!isDisabled);
+    m_wristSubsystem.setWristBrakeMode(!isDisabled);
+    m_actuatorSubsystem.setBrakeMode(!isDisabled);
+    m_shooterSubsystem.setShooterBrakeMode(!isDisabled);
   }
 }

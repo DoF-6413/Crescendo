@@ -11,6 +11,7 @@ import org.littletonrobotics.junction.AutoLog;
  * from Motors)
  */
 public interface ActuatorIO {
+
   @AutoLog
   public static class ActuatorIOInputs {
 
@@ -52,4 +53,8 @@ public interface ActuatorIO {
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
   public default void setBrakeMode(boolean enable) {}
+
+  public default void setCurrentLimit(int current) {}
+
+  public default void zeroPosition() {}
 }

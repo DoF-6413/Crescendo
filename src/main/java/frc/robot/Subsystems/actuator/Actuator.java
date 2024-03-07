@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.actuator;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -13,6 +14,7 @@ public class Actuator extends SubsystemBase {
   public final ActuatorIOInputsAutoLogged inputs = new ActuatorIOInputsAutoLogged();
   private final PIDController actuatorPIDController;
   private double actuatorSetpoint = 0.0;
+  private boolean actuatorPIDenable = true;
   // private final ShuffleboardTab actuatorTab = Shuffleboard.getTab("Actuator");
   // private GenericEntry actuatorkp;
   // private GenericEntry actuatorki;
@@ -29,14 +31,9 @@ public class Actuator extends SubsystemBase {
     actuatorPIDController =
         new PIDController(ActuatorConstants.KP, ActuatorConstants.KI, ActuatorConstants.KD);
     actuatorPIDController.setSetpoint(actuatorSetpoint);
-    // actuatorPIDController.setTolerance(ActuatorConstants.TOLERANCE_PERCENT * actuatorSetpoint);
+    actuatorPIDController.setTolerance(
+        ActuatorConstants.TOLERANCE_PERCENT * actuatorSetpoint + 0.2);
     actuatorPIDController.disableContinuousInput();
-
-    // TODO: Delete once final PID Numbers are Decided
-    // actuatorkp = actuatorTab.add("actuatorkp", 0.0).getEntry();
-    // actuatorki = actuatorTab.add("actuatorki", 0.0).getEntry();
-    // actuatorkd = actuatorTab.add("actuatorkd", 0.0).getEntry();
-    // actuatorSetpointSetter = actuatorTab.add("actuatorSetpoint", 0.0).getEntry();
   }
 
   @Override
@@ -45,8 +42,14 @@ public class Actuator extends SubsystemBase {
     this.updateInputs();
     // log the inputs
     Logger.processInputs("Actuator", inputs);
+    SmartDashboard.putNumber("Setpoint", actuatorSetpoint);
 
-    // setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
+    if (actuatorPIDenable) {
+      setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
+    }
+    SmartDashboard.putNumber(
+        "PID Calculate", actuatorPIDController.calculate(inputs.actuatorPositionRad));
+    SmartDashboard.putNumber("Tolerence", actuatorSetpoint * ActuatorConstants.TOLERANCE_PERCENT);
   }
   // Updates Actuator Speed based on PID Control
 
@@ -113,18 +116,27 @@ public class Actuator extends SubsystemBase {
 
   public void setActuatorSetpoint(double setpoint) {
     actuatorPIDController.setSetpoint(setpoint);
-    setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
-  }
-
-  public void enableActuator(boolean enable) {
-    if (enable) {
-      actuatorPIDController.setSetpoint(ActuatorConstants.MAX_ANGLE_RADS);
-    } else {
-      actuatorPIDController.setSetpoint(ActuatorConstants.MIN_ANGLE_RADS);
-    }
+    actuatorPIDController.setTolerance(
+        ActuatorConstants.TOLERANCE_PERCENT * actuatorSetpoint + 0.2);
   }
 
   public void disableActuator() {
     setActuatorVoltage(0);
+  }
+
+  public void setCurrentLimit(int current) {
+    io.setCurrentLimit(current);
+  }
+
+  public double getOutputCurrent() {
+    return inputs.actuatorCurrentAmps[0];
+  }
+
+  public void zeroPosition() {
+    io.zeroPosition();
+  }
+
+  public void actuatorPIDEnable(boolean isEnable) {
+    actuatorPIDenable = isEnable;
   }
 }

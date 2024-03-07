@@ -8,10 +8,14 @@ public interface WristIO {
   public static class WristIOInputs {
     /** Number of volts sent to the Wrist motor */
     public double wristAppliedVolts = 0.0;
-    /** The current angle of the Wrist in Radians */
-    public double wristPositionRad = 0.0;
-    /** The current angle of the Wrist in Degrees */
-    public double wristPositionDeg = 0.0;
+    /** The current, relative angle of the Wrist in Radians */
+    public double wristRelativePositionRad = 0.0;
+    /** The current, relative angle of the Wrist in Degrees */
+    public double wristRelativePositionDeg = 0.0;
+    /** The current, absolute angle of the Wrist in Radians */
+    public double wristAbsolutePositionRad = 0.0;
+    /** The current, absolute angle of the Wrist in Degrees */
+    public double wristAbsolutePositionDeg = 0.0;
     /** The velocity of the Wrist in Radians per Second */
     public double wristVelocityRadPerSec = 0.0;
     /** Number of amps used by the Wrist motor */
