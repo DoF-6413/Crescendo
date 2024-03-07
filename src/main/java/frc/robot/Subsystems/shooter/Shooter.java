@@ -248,12 +248,13 @@ public class Shooter extends SubsystemBase {
   }
 
   public double returnDesiredAngle(double x) {
-    int i = 1;
-    double closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i],
-        closestTheta = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
+    double closestX, closestTheta;
+    if (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][5] > x) {
+      int i = 1;
+      closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
+      closestTheta = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
 
-    if (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][5]
-        < x) { // do closest theta is 0 if you are 5 m away of the speaker(you cant
+      // do closest theta is 0 if you are 5 m away of the speaker(you cant
       // shoot)//TODO:when we change the max change the 5 to the new max
 
       // since the table is sorted, find the index of the first value where the distance value
