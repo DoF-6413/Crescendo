@@ -1,8 +1,5 @@
 package frc.robot.Subsystems.shooter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ShooterConstants {
 
   // PID Constants  TODO: Tune, update, finalize
@@ -47,9 +44,6 @@ public class ShooterConstants {
     {70, 60, 10, 5, 2.5, 1.25, .675, .3375, .1682, .05, 0.005}, // theta_max
     {50, 45, 30, 15, 7.5, 3.75, 675, .3375, .1682, .05, 0.005} // theta_min
   }; // random values
-
-  // public static ArrayList<Double> x = new ArrayList<>();
-  public static List<List<Double>> l = new ArrayList<List<Double>>();
 
   // Inverted motors
   /** Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor */

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.wrist.Wrist;
 import frc.robot.Utils.PoseEstimator;
@@ -17,15 +18,17 @@ import frc.robot.Utils.PoseEstimator;
 public class AimShooter extends Command {
   public Shooter m_shooter;
   public Wrist m_wrist;
+  public Arm m_arm;
   public PoseEstimator m_pose;
   double deltaX, deltaY, speakerDist;
 
   /** Creates a new AimShooter. */
-  public AimShooter(Shooter shooter, Wrist wrist, PoseEstimator pose) {
+  public AimShooter(Shooter shooter, Wrist wrist, Arm arm, PoseEstimator pose) {
     m_shooter = shooter;
     m_wrist = wrist;
+    m_arm = arm;
     m_pose = pose;
-    addRequirements(shooter, wrist);
+    addRequirements(shooter, wrist, arm);
   }
 
   // Called when the command is initially scheduled.

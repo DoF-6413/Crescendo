@@ -7,7 +7,6 @@ package frc.robot.Subsystems.shooter;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
@@ -74,8 +73,6 @@ public class Shooter extends SubsystemBase {
     setBottomShooterMotorVoltage(
         -bottomShooterPIDController.calculateForVoltage(
             Math.abs(inputs.bottomShooterMotorRPM), ShooterConstants.MAX_RPM));
-
-    SmartDashboard.putNumber("Shooter desired angle", returnDesiredAngle(0));
 
     // if (ShooterConstants.TOP_KP != shooterTopkP.getDouble(0.0)
     //     || ShooterConstants.TOP_KI != shooterTopkI.getDouble(0.0)
@@ -217,12 +214,13 @@ public class Shooter extends SubsystemBase {
   }
 
   public double returnDesiredAngle(double x) {
-    int i = 1;
-    double closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i],
-        closestTheta = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
+    double closestX, closestTheta;
+    if (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][5] > x) {
+      int i = 1;
+      closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
+      closestTheta = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
 
-    if (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][5]
-        < x) { // do closest theta is 0 if you are 5 m away of the speaker(you cant
+      // do closest theta is 0 if you are 5 m away of the speaker(you cant
       // shoot)//TODO:when we change the max change the 5 to the new max
 
       // since the table is sorted, find the index of the first value where the distance value

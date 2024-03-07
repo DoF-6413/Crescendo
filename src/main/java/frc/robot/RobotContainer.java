@@ -46,7 +46,7 @@ public class RobotContainer {
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
 
-  // private final Arm m_armSubsystem;
+  private final Arm m_armSubsystem;
   private final Vision m_visionSubsystem;
   // private final Feeder m_feederSubsystem;
   // private final Climber m_climberSubsystem;
@@ -82,7 +82,7 @@ public class RobotContainer {
                 new ModuleIOSparkMaxTalonFX(2),
                 new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
-        // m_armSubsystem = new Arm(new ArmIOSparkMax());
+        m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_visionSubsystem = new Vision(new VisionIOArduCam());
         // m_feederSubsystem = new Feeder(new FeederIOTalonFX());
         // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
@@ -103,7 +103,7 @@ public class RobotContainer {
                 new ModuleIOSimNeoKraken(),
                 new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
-        // m_armSubsystem = new Arm(new ArmIOSim());
+        m_armSubsystem = new Arm(new ArmIOSim());
         m_visionSubsystem = new Vision(new VisionIOSim());
         // m_feederSubsystem = new Feeder(new FeederIOSim());
         // m_climberSubsystem = new Climber(new ClimberIOSim());
@@ -125,7 +125,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
-        // m_armSubsystem = new Arm(new ArmIO() {});
+        m_armSubsystem = new Arm(new ArmIO() {});
         m_visionSubsystem = new Vision(new VisionIO() {});
         // m_feederSubsystem = new Feeder(new FeederIO() {});
         // m_climberSubsystem = new Climber(new ClimberIO() {});
@@ -165,6 +165,10 @@ public class RobotContainer {
     // m_driveSubsystem.setDefaultCommand(
     //     new AimDriveToSpeaker(m_driveSubsystem, m_poseEstimator, driverController));
 
+    // driverController
+    //     .b()
+    //     .onTrue(new AimDriveToSpeaker(m_driveSubsystem, m_poseEstimator, driverController));
+
     driverController
         .b()
         .onTrue(new AimDriveToSpeaker(m_driveSubsystem, m_poseEstimator, driverController));
@@ -182,11 +186,24 @@ public class RobotContainer {
                 m_driveSubsystem));
 
     m_wristSubsystem.setDefaultCommand(
-        new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_poseEstimator));
+        new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_armSubsystem, m_poseEstimator));
 
     driverController
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
+
+    // auxController
+    //     .b()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> m_wristSubsystem.setWristPercentSpeed(driverController.getRightY()),
+    //             m_wristSubsystem));
+
+    // auxController
+    //     .y()
+    //     .onTrue(
+    //         new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_armSubsystem,
+    // m_poseEstimator));
 
     /** Non PID controls for the mechanisms */
     // NOTE: In sim the angle that the arm stops at changes and isnt near the min/max angles we set
@@ -198,7 +215,7 @@ public class RobotContainer {
     //     new InstantCommand(
     //         () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY()),
     //         m_wristSubsystem));
-
+    // uncomment the last from 209 -this line
     // m_utbIntakeSubsystem.setDefaultCommand(
     //   new InstantCommand(
     //     ()-> m_utbIntakeSubsystem.enableUTB(driverController.leftBumper().getAsBoolean()),
