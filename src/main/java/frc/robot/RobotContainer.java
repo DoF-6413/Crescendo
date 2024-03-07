@@ -54,7 +54,7 @@ public class RobotContainer {
   private final Drive m_driveSubsystem;
 
   private final Arm m_armSubsystem;
-  // private final Vision m_visionSubsystem;
+  private final Vision m_visionSubsystem;
   private final Feeder m_feederSubsystem;
   // private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
@@ -63,8 +63,8 @@ public class RobotContainer {
   private final Shooter m_shooterSubsystem;
   private final Wrist m_wristSubsystem;
 
-  // private final PoseEstimator m_poseEstimator;
-  // private final PathPlanner m_pathPlanner;
+  private final PoseEstimator m_poseEstimator;
+  private final PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -90,7 +90,7 @@ public class RobotContainer {
                 new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
-        // m_visionSubsystem = new Vision(new VisionIOArduCam());
+        m_visionSubsystem = new Vision(new VisionIOArduCam());
         m_feederSubsystem = new Feeder(new FeederIOTalonFX());
         // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
@@ -111,7 +111,7 @@ public class RobotContainer {
                 new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
-        // m_visionSubsystem = new Vision(new VisionIOSim());
+        m_visionSubsystem = new Vision(new VisionIOSim());
         m_feederSubsystem = new Feeder(new FeederIOSim());
         // m_climberSubsystem = new Climber(new ClimberIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
@@ -133,7 +133,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
-        // m_visionSubsystem = new Vision(new VisionIO() {});
+        m_visionSubsystem = new Vision(new VisionIO() {});
         m_feederSubsystem = new Feeder(new FeederIO() {});
         // m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
@@ -147,11 +147,9 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
-    // m_visionSubsystem);
-    // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
-    // autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
   }
 
@@ -176,43 +174,7 @@ public class RobotContainer {
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
-    // Amp Scoring TODO: Update setpoints
-    auxController
-        .rightBumper()
-        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
-        .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
-
-    auxController
-        .rightTrigger()
-        .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
-        .onFalse(
-            new ScoreAmpFrontSide(
-                m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
-
-    auxController
-        .leftBumper()
-        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
-        .onFalse(
-            new ParallelCommandGroup(
-                new ArmToZero(m_wristSubsystem, m_armSubsystem),
-                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
-
-    auxController
-        .leftTrigger()
-        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
-        .onFalse(
-            new ParallelCommandGroup(
-                new ArmToZero(m_wristSubsystem, m_armSubsystem),
-                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
-
     /** Non PID controls for the mechanisms */
-
-    // OTB Actuator
-    // m_actuatorSubsystem.setDefaultCommand(
-    // new InstantCommand(
-    // () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() *
-    // 0.5),
-    // m_actuatorSubsystem));
 
     // UTB Intake
     driverController // Intake NOTE
@@ -232,7 +194,7 @@ public class RobotContainer {
             new InstantCommand(
                 () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
 
-    // // UTB + OTB Intakes
+    // UTB + OTB Intakes
     driverController // Intake NOTE
         .leftTrigger()
         .whileTrue(
@@ -248,40 +210,71 @@ public class RobotContainer {
         .whileFalse(
             new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
 
-    // // Feeder
+    // Feeder
     auxController // Forward
         .y()
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
+        .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
     auxController // Backward
         .a()
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-2500), m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
+        .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
 
-    auxController
+    // Wrist
+    auxController // Increases angle of the Wrist by 1 degree
         .b()
         .onTrue(
             new InstantCommand(
                 () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
                 m_wristSubsystem));
-    auxController
+    auxController // Increases angle of the Wrist by -1 degree
         .x()
         .onTrue(
             new InstantCommand(
                 () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
                 m_wristSubsystem));
-    auxController
+
+    auxController // Increases angle of the Elbow by 1 degree
         .povRight()
         .onTrue(
             new InstantCommand(
                 () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(1)),
                 m_armSubsystem));
-    auxController
+    auxController // Increases angle of the Elbow by -1 degree
         .povLeft()
         .onTrue(
             new InstantCommand(
                 () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(-1)),
                 m_armSubsystem));
+
+    // Amp Scoring
+    auxController // Scoring AMP from the shooter side
+        .rightBumper()
+        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
+        .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
+
+    auxController // Scoring AMP from the intake side
+        .rightTrigger()
+        .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
+        .onFalse(
+            new ScoreAmpFrontSide(
+                m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
+
+    auxController // Picking up from SOURCE on the shooter side
+        .leftBumper()
+        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
+        .onFalse(
+            new ParallelCommandGroup(
+                new ArmToZero(m_wristSubsystem, m_armSubsystem),
+                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
+
+    auxController // Picking up from SOURCE on the intake side
+        .leftTrigger()
+        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
+        .onFalse(
+            new ParallelCommandGroup(
+                new ArmToZero(m_wristSubsystem, m_armSubsystem),
+                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
   }
 
   /**
@@ -297,8 +290,8 @@ public class RobotContainer {
   public void mechanismsCoastOnDisable(boolean isDisabled) {
     m_driveSubsystem.coastOnDisable(isDisabled);
     m_armSubsystem.setBrakeMode(!isDisabled);
-    m_wristSubsystem.setWristBrakeMode(!isDisabled);
+    m_wristSubsystem.setBrakeMode(!isDisabled);
     m_actuatorSubsystem.setBrakeMode(!isDisabled);
-    m_shooterSubsystem.setShooterBrakeMode(!isDisabled);
+    m_shooterSubsystem.setBrakeMode(!isDisabled);
   }
 }

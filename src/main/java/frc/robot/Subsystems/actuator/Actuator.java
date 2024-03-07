@@ -38,7 +38,6 @@ public class Actuator extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // updates the inputs
     this.updateInputs();
     // log the inputs
     Logger.processInputs("Actuator", inputs);

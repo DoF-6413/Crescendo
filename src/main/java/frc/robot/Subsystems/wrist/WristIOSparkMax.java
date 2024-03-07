@@ -72,7 +72,7 @@ public class WristIOSparkMax implements WristIO {
   }
 
   @Override
-  public void setWristBrakeMode(boolean enable) {
+  public void setBrakeMode(boolean enable) {
     if (enable) {
       wristMotor.setIdleMode(IdleMode.kBrake);
     } else {

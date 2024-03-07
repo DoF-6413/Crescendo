@@ -42,4 +42,10 @@ public final class WristConstants {
   public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD;
 
   public static final double ABS_ENCODER_OFFSET_RADS = -0.85;
+
+  // Teleop Automations
+  /** Amp Score Backside */
+  public static final double AMP_BACKSIDE_DEG = 77;
+  /** Amp Score Frontside */
+  public static final double AMP_FRONTSIDE_RAD = 1.363;
 }

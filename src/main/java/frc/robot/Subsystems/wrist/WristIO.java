@@ -46,5 +46,5 @@ public interface WristIO {
    *
    * @param enable boolean for is brake mode true or false
    */
-  public default void setWristBrakeMode(boolean enable) {}
+  public default void setBrakeMode(boolean enable) {}
 }

@@ -43,7 +43,7 @@ public interface ShooterIO {
    *
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
-  public default void setShooterBrakeMode(boolean isEnabled) {}
+  public default void setBrakeMode(boolean enable) {}
 
   /**
    * Sets BOTH Shooter Motors at a percentage of its max speed.
@@ -78,6 +78,4 @@ public interface ShooterIO {
    * @param volts -12 to 12
    */
   public default void setBottomShooterMotorVoltage(double volts) {}
-
-  public default void enableShooter(boolean auxAIsPressed) {}
 }

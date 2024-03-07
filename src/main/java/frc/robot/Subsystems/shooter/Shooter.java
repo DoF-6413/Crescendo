@@ -41,8 +41,8 @@ public class Shooter extends SubsystemBase {
 
     // Sets the tolerance of the setpoint, allowing the RPM of the motors to be within 200 RPM of
     // the setpoint
-    topShooterPIDController.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
-    bottomShooterPIDController.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
+    topShooterPIDController.setTolerance(200);
+    bottomShooterPIDController.setTolerance(200);
   }
 
   @Override
@@ -60,8 +60,9 @@ public class Shooter extends SubsystemBase {
 
     SmartDashboard.putNumber("ShooterTopSetpoint", topShooterPIDController.getSetpoint());
     SmartDashboard.putNumber("ShooterBottomSetpoint", bottomShooterPIDController.getSetpoint());
-
-    // SmartDashboard.putBoolean("!!Tempature Warning!!", exceedsTemperature());
+    SmartDashboard.putBoolean("BothAtSetpoint", allAtSetpoint());
+    SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
+    SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
   }
 
   /** Updates the set of loggable inputs for both Shooter Motors */
@@ -75,8 +76,8 @@ public class Shooter extends SubsystemBase {
    *
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
-  public void setShooterBrakeMode(boolean enable) {
-    io.setShooterBrakeMode(enable);
+  public void setBrakeMode(boolean enable) {
+    io.setBrakeMode(enable);
   }
 
   /**
@@ -131,12 +132,14 @@ public class Shooter extends SubsystemBase {
     return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
   }
 
+  /** Returns whether BOTH Shooter motors are at their setpoint */
   public boolean allAtSetpoint() {
     return bottomAtSetpoint() && topAtSetpoint();
   }
 
-  public void enableShooter(boolean auxAIsPressed) {
-    if (auxAIsPressed) {
+  /** Enables the Shooter with PID */
+  public void enableShooter(boolean enable) {
+    if (enable) {
       topShooterPIDController.setSetpoint(setpointRPM);
       bottomShooterPIDController.setSetpoint(setpointRPM);
     } else {
@@ -147,26 +150,13 @@ public class Shooter extends SubsystemBase {
     }
   }
 
-  public void disableShooter() {
-    topShooterPIDController.setSetpoint(0);
-    bottomShooterPIDController.setSetpoint(0);
-  }
-
+  /**
+   * Sets the PID setpoint of the Shooter
+   *
+   * @param setpoint RPM
+   */
   public void setSetpoint(double setpoint) {
     topShooterPIDController.setSetpoint(setpoint);
     bottomShooterPIDController.setSetpoint(setpoint);
-    topShooterPIDController.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
-    bottomShooterPIDController.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
   }
-
-  // TODO: Create a tempature shutoff/warning
-  // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is
-  // arbitrary
-  // 2.12.24: crashes in Sim, not tested on real hardware
-  // public boolean exceedsTemperature() {
-  //   if (inputs.topShooterTempCelsius[inputs.topShooterTempCelsius.length - 1] > 100) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
 }

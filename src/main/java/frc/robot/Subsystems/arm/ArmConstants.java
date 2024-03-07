@@ -56,4 +56,10 @@ public final class ArmConstants {
 
   /** Sets if Arm Motor is Inverted */
   public static final boolean IS_INVERTED = true;
+
+  // Teleop Automations
+  /** Amp Score Backside */
+  public static final double AMP_BACKSIDE_DEG = 40;
+  /** Amp Score Frontside */
+  public static final double AMP_FRONTSIDE_RAD = 1.849;
 }

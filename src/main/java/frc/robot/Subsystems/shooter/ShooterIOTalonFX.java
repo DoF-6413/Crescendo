@@ -65,7 +65,7 @@ public class ShooterIOTalonFX implements ShooterIO {
   }
 
   @Override
-  public void setShooterBrakeMode(boolean enable) {
+  public void setBrakeMode(boolean enable) {
     if (enable) {
       topShooterMotor.setNeutralMode(NeutralModeValue.Brake);
       bottomShooterMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -95,14 +95,5 @@ public class ShooterIOTalonFX implements ShooterIO {
   public void setBothShooterMotorPercentSpeed(double percent) {
     topShooterMotor.set(percent);
     bottomShooterMotor.set(percent);
-  }
-
-  @Override
-  public void enableShooter(boolean auxAIsPressed) {
-    if (auxAIsPressed) {
-      setBothShooterMotorPercentSpeed(100);
-    } else {
-      setBothShooterMotorPercentSpeed(0);
-    }
   }
 }
