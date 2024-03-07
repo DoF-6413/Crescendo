@@ -11,6 +11,7 @@ import org.littletonrobotics.junction.AutoLog;
  * from Motors)
  */
 public interface ActuatorIO {
+
   @AutoLog
   public static class ActuatorIOInputs {
 
