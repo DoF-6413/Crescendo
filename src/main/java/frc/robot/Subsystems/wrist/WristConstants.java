@@ -29,7 +29,7 @@ public final class WristConstants {
   /** current limiting for Wrist */
   public static final int CUR_LIM_A = 30;
 
-/** Sets the inversion status of the Wrist motor */
+  /** Sets the inversion status of the Wrist motor */
   public static final boolean IS_INVERTED = true;
 
   /** Gear ratio of the Wrist motor */

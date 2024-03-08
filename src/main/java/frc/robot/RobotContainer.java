@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackSide;
+import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.ScoreAmpBackSide;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.PositionAmpScoreFrontSide;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.ScoreAmpFrontSide;
@@ -251,7 +251,7 @@ public class RobotContainer {
     // Amp Scoring
     auxController // Scoring AMP from the shooter side
         .rightBumper()
-        .onTrue(new PositionAmpScoreBackSide(m_armSubsystem, m_wristSubsystem))
+        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
         .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
 
     auxController // Scoring AMP from the intake side

@@ -148,7 +148,8 @@ public class Module {
    */
   public SwerveModuleState runSetpoint(SwerveModuleState state) {
 
-    // Optimize state based on current angle (Quickest Path for Wheel to be at Desired Angle (-pi,pi rads))
+    // Optimize state based on current angle (Quickest Path for Wheel to be at Desired Angle (-pi,pi
+    // rads))
     var optimizedState = SwerveModuleState.optimize(state, getAngle());
 
     // Run turn controller

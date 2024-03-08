@@ -20,8 +20,8 @@ public final class ArmConstants {
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
   public static final double KD = 0.0;
   /**
-   * Updates the range of error acceptable from setpoint (The position of the arm can be within
-   * 1% of the setpoint)
+   * Updates the range of error acceptable from setpoint (The position of the arm can be within 1%
+   * of the setpoint)
    */
   public static final double TOLERANCE_PERCENT = 0.01;
 
@@ -39,8 +39,7 @@ public final class ArmConstants {
   public static final int CUR_LIM_A = 30;
 
   /**
-   * The Gear Ratio of the arm (Controls Speed vs Power, Calculated from Teeth of Gears for
-   * Control)
+   * The Gear Ratio of the arm (Controls Speed vs Power, Calculated from Teeth of Gears for Control)
    */
   public static final double GEAR_RATIO = 99.1736;
 

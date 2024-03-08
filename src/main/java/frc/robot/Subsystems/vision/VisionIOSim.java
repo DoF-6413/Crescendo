@@ -4,7 +4,6 @@
 
 package frc.robot.Subsystems.vision;
 
-import edu.wpi.first.apriltag.AprilTagFields;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 
@@ -13,7 +12,6 @@ public class VisionIOSim implements VisionIO {
 
   private static PhotonCamera camera =
       new PhotonCamera("Arducam_IMX298_Camera_2_Top"); // TODO: update name
-  
 
   @Override
   public void updateInputs(VisionIOInputs inputs) {

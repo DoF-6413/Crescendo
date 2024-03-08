@@ -3,7 +3,7 @@ package frc.robot.Subsystems.utbintake;
 public final class UTBIntakeConstants {
   // PID Constants for the UTB Intake
   // TODO: finalize PID values once they are determined + add 'final' modifiers
- 
+
   /** Represents the proportional constant, multiplied by the current error */
   public static double KP = 0.0;
 

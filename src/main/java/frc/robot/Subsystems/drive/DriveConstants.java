@@ -177,9 +177,9 @@ public final class DriveConstants {
       OFFSET = value;
     }
   }
-  /** Set the inverted for the turn spark max  */
+  /** Set the inverted for the turn spark max */
   public static final boolean INVERT_TURN_SPARK_MAX = true;
-  /** DON'T set the inverted for the drive TalonFX  */
+  /** DON'T set the inverted for the drive TalonFX */
   public static final boolean INVERT_DRIVE_TALONFX = false;
 
   /** Current limiting in amps */

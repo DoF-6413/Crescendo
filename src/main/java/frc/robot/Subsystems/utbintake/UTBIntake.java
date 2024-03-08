@@ -60,7 +60,7 @@ public class UTBIntake extends SubsystemBase {
 
   /**
    * Sets the speed of the UTB Intake to a percentage of it max speed
-   * 
+   *
    * @param percent -1 to 1
    */
   public void setUTBIntakePercentSpeed(double percent) {
@@ -78,7 +78,7 @@ public class UTBIntake extends SubsystemBase {
 
   /**
    * Sets the UTB Intake PID setpoint
-   * 
+   *
    * @param setpoint RPM
    */
   public void setUTBSetpoint(double setpoint) {

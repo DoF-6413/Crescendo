@@ -17,8 +17,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Subsystems.drive.DriveConstants.DRIVE_MOTOR;
-
 import java.util.Optional;
 
 /** Runs an Individual Real Module with the Turn Motors as a Neo and Drive Motor as a Krakens */
@@ -84,7 +82,7 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
       // turnSparkMax.setPeriodicFramePeriod(
       //     PeriodicFrame.kStatus2, DriveConstants.MEASUREMENT_PERIOD_MS);
       turnSparkMax.setInverted(DriveConstants.INVERT_TURN_SPARK_MAX);
-      driveTalonFX.setInverted(DriveConstants.INVERT_DRIVE_TALONFX); 
+      driveTalonFX.setInverted(DriveConstants.INVERT_DRIVE_TALONFX);
 
       CurrentLimitsConfigs currentLimitsConfig =
           new CurrentLimitsConfigs().withSupplyCurrentLimit(DriveConstants.CUR_LIM_A);
