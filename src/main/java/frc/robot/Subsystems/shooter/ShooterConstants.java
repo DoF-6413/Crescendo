@@ -2,7 +2,7 @@ package frc.robot.Subsystems.shooter;
 
 public class ShooterConstants {
 
-  // PID Constants  TODO: Tune, update, finalize
+  // PID Constants
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
@@ -20,7 +20,7 @@ public class ShooterConstants {
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
   public static final double BOTTOM_KD = 0.0;
   /** Allows the RPM to be within % of the setpoint */
-  public static final double TOLERANCE_PERCENT = 0.10;
+  public static final int RPM_TOLERANCE = 200;
   /** Max RPM achievable by the Shooter motors */
   public static final double MAX_RPM = 6350.0;
 
@@ -31,15 +31,17 @@ public class ShooterConstants {
   // Real constants
   /** Gear ratio of 1:1 for the shooter */
   public static final double GEAR_RATIO = 1.0;
-  // Motor IDs TODO: Update?
+  // Motor IDs
   public static final int TOP_MOTOR_ID = 22;
   public static final int BOTTOM_MOTOR_ID = 23;
   /** Current limit Amps */
   public static final double CUR_LIM_A = 60;
+  /** Enables current limiting for TalonFX/Falcon500 motors */
+  public static final boolean ENABLE_CUR_LIM = true;
 
   // Inverted motors
-  /** Sets the top motor to spin in the opposite direction of the Bottom Shooter Motor */
+  /** Sets the inversion status of the Top Shooter motor */
   public static final boolean TOP_MOTOR_IS_INVERTED = true;
-  /** Sets the bottom motor to not be inverted and will therefore spin in a CW direction */
+  /** Sets the inversion status of the Bottom Shooter motor */
   public static final boolean BOTTOM_MOTOR_IS_INVERTED = true;
 }

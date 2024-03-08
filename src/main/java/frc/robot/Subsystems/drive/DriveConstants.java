@@ -7,7 +7,6 @@ import java.util.Optional;
 public final class DriveConstants {
 
   // PID Constants for Kraken Drive
-  // PID values used in sim: P = 6.4, I = 1.2, D = 0.03
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
@@ -122,7 +121,7 @@ public final class DriveConstants {
   public static final double TRACK_WIDTH_M = Units.inchesToMeters(32.173359);
 
   /** Max Speed the Robot Can Travel in One Linear Direction (m/s) */
-  public static final double MAX_LINEAR_SPEED_M_PER_SEC = 5.2; 
+  public static final double MAX_LINEAR_SPEED_M_PER_SEC = 5.2;
 
   /**
    * Max Speed the Robot Can Rotate (rads/s) Angular Speed is linear speed divided by radius of the
@@ -178,9 +177,15 @@ public final class DriveConstants {
       OFFSET = value;
     }
   }
+  /** Set the inverted for the turn spark max  */
+  public static final boolean INVERT_TURN_SPARK_MAX = true;
+  /** DON'T set the inverted for the drive TalonFX  */
+  public static final boolean INVERT_DRIVE_TALONFX = false;
 
   /** Current limiting in amps */
   public static final int CUR_LIM_A = 40;
+  /** Enebles the current limit */
+  public static final boolean ENABLE_CUR_LIM = true;
   /** Updates encoders every 10 milliseconds */
   public static final int MEASUREMENT_PERIOD_MS = 10;
   /**

@@ -88,7 +88,7 @@ public class Actuator extends SubsystemBase {
   /**
    * Sets the Actuator motor to a percentage of its max speed
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public void setActuatorPercentSpeed(double percent) {
     io.setActuatorPercentSpeed(percent);
@@ -97,7 +97,7 @@ public class Actuator extends SubsystemBase {
   /**
    * Sets the voltage of the Actuator motor
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public void setActuatorVoltage(double volts) {
     io.setActuatorVoltage(volts);

@@ -27,5 +27,5 @@ public class OTBIntakeConstants {
   /** Max RPM achievable by the OTB Intake */
   public static final double MAX_RPM = 1400.0; // TODO: Verify, maxValue based on sim
   /** Disables break mode */
-  public static final boolean IS_BRAKE_MODE_ENABLED = false; // TODO: Update/Decide
+  public static final boolean IS_BRAKE_MODE_ENABLED = false;
 }

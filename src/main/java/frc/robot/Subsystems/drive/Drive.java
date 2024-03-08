@@ -197,7 +197,7 @@ public class Drive extends SubsystemBase {
       wheelDeltas[i] =
           new SwerveModulePosition(
               (modules[i].getPositionMeters()
-                  - lastModulePositionsMeters[i]), // This calculates the CHANGE in angle
+                  - lastModulePositionsMeters[i]), // This calculates the change in angle
               modules[i].getAngle()); // Gets individual MODULE rotation
       lastModulePositionsMeters[i] = modules[i].getPositionMeters();
     }

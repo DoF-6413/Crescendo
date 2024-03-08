@@ -23,14 +23,14 @@ public interface FeederIO {
   /**
    * Sets the voltage of the Feeder motor
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public default void setFeederVoltage(double volts) {}
 
   /**
    * Sets the speed of the Feeder motor based on a percent of its maximum speed
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public default void setFeederPercentSpeed(double percent) {}
 

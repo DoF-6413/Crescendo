@@ -13,15 +13,15 @@ public class Wrist extends SubsystemBase {
   private final WristIO io;
   private final WristIOInputsAutoLogged inputs = new WristIOInputsAutoLogged();
 
-  /** Wrist pid controller */
+  /** Wrist PID controller */
   private final PIDController wristPIDController;
 
-  /** Creates a new wrist, the second joint of the arm subsystem */
+  /** Creates a new Wrist, the second joint of the arm mechanism */
   public Wrist(WristIO io) {
     System.out.println("[Init] Creating wrist");
     this.io = io;
 
-    /** Creates a new PIDController for the wrist */
+    /** Creates a new PID controller for the Wrist */
     wristPIDController = new PIDController(WristConstants.KP, WristConstants.KI, WristConstants.KD);
     wristPIDController.setSetpoint(0);
     wristPIDController.setTolerance(Units.degreesToRadians(1));
@@ -30,63 +30,63 @@ public class Wrist extends SubsystemBase {
 
   @Override
   public void periodic() {
-    /** periodically updates inputs and logs them */
+    /** Periodically updates inputs and logs them */
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
 
     setWristPercentSpeed(wristPIDController.calculate(inputs.wristAbsolutePositionRad));
   }
 
-  /** updates setpoint if SmartDashboard gets updated */
+  /** Updates the set of loggable inputs for the Wrist */
   public void updateInputs() {
     io.updateInputs(inputs);
   }
 
   /**
-   * Sets Wrist Percent Speed
+   * Sets Wrist to a percentage of its maximum speed
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public void setWristPercentSpeed(double percent) {
     io.setWristPercentSpeed(percent);
   }
 
   /**
-   * Sets Wrist Voltage
+   * Sets voltage of the Wrist
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public void setWristMotorVoltage(double volts) {
     setWristMotorVoltage(volts);
   }
 
   /**
-   * Sets brake mode
+   * Sets brake mode of the Wrist
    *
-   * @param enable boolean for is brake mode true or false
+   * @param enable Sets brake mode if true, coast if false
    */
   public void setBrakeMode(boolean enable) {
     io.setBrakeMode(enable);
   }
 
   /**
-   * Updates the angle that the wrist should be at using the WPI PID controller
+   * Updates the angle that the Wrist should be at using the WPI PID controller
    *
-   * @param setpoint Radians [RANGE]
+   * @param setpoint Radians [RANGE] TODO: Update range
    */
   public void setSetpoint(double setpoint) {
     wristPIDController.setSetpoint(setpoint);
   }
 
-  /** Returns whether the wrist is at it's setpoint or not */
+  /** Returns whether the Wrist is at it's setpoint or not */
   public boolean atSetpoint() {
     return wristPIDController.atSetpoint();
   }
   /**
-   * increments the wrist setpoint.
-   * 
-   * @param increment  
-  */
+   * Increments the Wrist setpoint
+   *
+   * @param increment Radians
+   */
   public void incrementWristSetpoint(double increment) {
     wristPIDController.setSetpoint(wristPIDController.getSetpoint() + increment);
   }

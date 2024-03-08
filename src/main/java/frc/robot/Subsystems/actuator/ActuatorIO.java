@@ -35,14 +35,14 @@ public interface ActuatorIO {
   /**
    * Sets the voltage of the Actuator motor
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public default void setActuatorVoltage(double volts) {}
 
   /**
    * Sets the Actuator motor to a percentage of its max speed
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public default void setActuatorPercentSpeed(double percent) {}
 

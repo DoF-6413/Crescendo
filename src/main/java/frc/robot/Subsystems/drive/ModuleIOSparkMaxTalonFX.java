@@ -17,6 +17,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Subsystems.drive.DriveConstants.DRIVE_MOTOR;
+
 import java.util.Optional;
 
 /** Runs an Individual Real Module with the Turn Motors as a Neo and Drive Motor as a Krakens */
@@ -35,7 +37,7 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
     this.swerveModuleNumber = index;
     System.out.println("[Init] Creating ModuleIOSparkMaxTalonFX");
 
-    // sets drive & turn spark maxes, turn encoder, and absolute encoder offset
+    // sets drive & turn SPARK MAXes, turn encoder, and absolute encoder offset
     switch (index) {
       case 0:
         driveTalonFX = new TalonFX(DriveConstants.DRIVE_MOTOR.FRONT_RIGHT.CAN_ID);
@@ -73,22 +75,22 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
     driveTalonFX.setExpiration(RobotStateConstants.CAN_CONFIG_TIMEOUT_SEC);
     turnSparkMax.setCANTimeout(RobotStateConstants.CAN_CONFIG_TIMEOUT_SEC);
 
-    // set drive encoders to match the sparkmax motor controllers
+    // set drive encoders to match the SPARK MAX motor controllers
     turnRelativeEncoder = turnSparkMax.getEncoder();
 
     /** For each drive motor, update values */
     for (int i = 0; i < DriveConstants.DRIVE_MOTOR.values().length; i++) {
-      // todo: drive?
+      // TODO: drive? NO!!!!!!!!!!!!!!!!!!
       // turnSparkMax.setPeriodicFramePeriod(
       //     PeriodicFrame.kStatus2, DriveConstants.MEASUREMENT_PERIOD_MS);
-      turnSparkMax.setInverted(isTurnMotorInverted);
-      driveTalonFX.setInverted(false); // TODO: Make constant
+      turnSparkMax.setInverted(DriveConstants.INVERT_TURN_SPARK_MAX);
+      driveTalonFX.setInverted(DriveConstants.INVERT_DRIVE_TALONFX); 
 
       CurrentLimitsConfigs currentLimitsConfig =
           new CurrentLimitsConfigs().withSupplyCurrentLimit(DriveConstants.CUR_LIM_A);
-      currentLimitsConfig.withSupplyCurrentLimitEnable(true);
+      currentLimitsConfig.withSupplyCurrentLimitEnable(DriveConstants.ENABLE_CUR_LIM);
       currentLimitsConfig.withStatorCurrentLimit(DriveConstants.CUR_LIM_A);
-      currentLimitsConfig.withStatorCurrentLimitEnable(true);
+      currentLimitsConfig.withStatorCurrentLimitEnable(DriveConstants.ENABLE_CUR_LIM);
       SmartDashboard.putBoolean("StatorEnabled", currentLimitsConfig.StatorCurrentLimitEnable);
       SmartDashboard.putBoolean("SupplyEnabled", currentLimitsConfig.SupplyCurrentLimitEnable);
       SmartDashboard.putNumber("StatorCurr", currentLimitsConfig.StatorCurrentLimit);
@@ -116,7 +118,8 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
         Units.rotationsToRadians(
             driveTalonFX.getPosition().getValueAsDouble() / DriveConstants.GEAR_RATIO_L3);
     inputs.driveVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(driveTalonFX.getVelocity().getValueAsDouble() * 60)
+        Units.rotationsPerMinuteToRadiansPerSecond(
+                driveTalonFX.getVelocity().getValueAsDouble() * 60)
             / DriveConstants.getGearRatio(true);
 
     // unit conversions, Kraken getVelocity returns rotations per sec, multiply by 60 to get RPM

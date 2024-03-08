@@ -14,7 +14,6 @@ import frc.robot.Subsystems.utbintake.*;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AllIntakesIn extends ParallelCommandGroup {
   /** Creates a new AllIntake. */
-  
   public AllIntakesIn(Actuator actuator, OTBIntake otbIntake, UTBIntake utbIntake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

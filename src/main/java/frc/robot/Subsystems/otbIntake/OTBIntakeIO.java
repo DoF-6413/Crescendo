@@ -27,24 +27,16 @@ public interface OTBIntakeIO {
   /**
    * Sets the voltage for the OTB Intake
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public default void setOTBIntakeVoltage(double volts) {}
 
   /**
    * Sets the speed for the OTB Intake
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public default void setOTBIntakePercentSpeed(double percent) {}
-
-  /**
-   * Enables rollers 
-   *
-   * @param enable
-   */
-  public default void enableRollers(boolean enable) {}
-
 
   /**
    * Sets the Brake Mode for the OTB Intake

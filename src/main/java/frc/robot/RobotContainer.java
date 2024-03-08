@@ -18,10 +18,10 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
-import frc.robot.Commands.TeleopCommands.AmpScore.Backside.ScoreAmpBackside;
-import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.PositionAmpScoreFrontside;
-import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.ScoreAmpFrontside;
+import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackSide;
+import frc.robot.Commands.TeleopCommands.AmpScore.Backside.ScoreAmpBackSide;
+import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.PositionAmpScoreFrontSide;
+import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.ScoreAmpFrontSide;
 import frc.robot.Commands.TeleopCommands.IntakesPosition.AllIntakesIn;
 import frc.robot.Commands.TeleopCommands.IntakesPosition.AllIntakesOut;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
@@ -251,14 +251,14 @@ public class RobotContainer {
     // Amp Scoring
     auxController // Scoring AMP from the shooter side
         .rightBumper()
-        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
-        .onFalse(new ScoreAmpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
+        .onTrue(new PositionAmpScoreBackSide(m_armSubsystem, m_wristSubsystem))
+        .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
 
     auxController // Scoring AMP from the intake side
         .rightTrigger()
-        .onTrue(new PositionAmpScoreFrontside(m_armSubsystem, m_wristSubsystem))
+        .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
         .onFalse(
-            new ScoreAmpFrontside(
+            new ScoreAmpFrontSide(
                 m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
 
     // Source Pickup

@@ -42,7 +42,7 @@ public class Feeder extends SubsystemBase {
   /**
    * Sets the voltage of the Feeder motor
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public void setFeederVoltage(double volts) {
     io.setFeederVoltage(volts);
@@ -51,7 +51,7 @@ public class Feeder extends SubsystemBase {
   /**
    * Sets the speed of the Feeder motor based on a percent of its maximum speed
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public void setFeederPercentSpeed(double percent) {
     io.setFeederPercentSpeed(percent);

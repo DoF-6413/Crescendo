@@ -49,7 +49,7 @@ public class Arm extends SubsystemBase {
   /**
    * Sets the Arm motor to a percent of its maximum speed
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public void setArmPercentSpeed(double percent) {
     io.setArmPercentSpeed(percent);
@@ -57,7 +57,7 @@ public class Arm extends SubsystemBase {
   /**
    * Sets the voltage of the Arm motor
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public void setArmMotorVoltage(double volts) {
 

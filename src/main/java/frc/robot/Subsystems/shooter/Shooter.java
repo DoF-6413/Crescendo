@@ -41,8 +41,8 @@ public class Shooter extends SubsystemBase {
 
     // Sets the tolerance of the setpoint, allowing the RPM of the motors to be within 200 RPM of
     // the setpoint
-    topShooterPIDController.setTolerance(200);
-    bottomShooterPIDController.setTolerance(200);
+    topShooterPIDController.setTolerance(ShooterConstants.RPM_TOLERANCE);
+    bottomShooterPIDController.setTolerance(ShooterConstants.RPM_TOLERANCE);
   }
 
   @Override
@@ -95,9 +95,6 @@ public class Shooter extends SubsystemBase {
   /**
    * Sets BOTH Shooter Motors at the specified Voltage
    *
-   * <p>A positve number spins the Top Shooter Motor CCW and the Bottom Shooter Motor CW and vice
-   * versa for a negative number
-   *
    * @param volts -12 to 12
    */
   public void setBothShooterMotorsVoltage(double volts) {
@@ -135,19 +132,6 @@ public class Shooter extends SubsystemBase {
   /** Returns whether BOTH Shooter motors are at their setpoint */
   public boolean allAtSetpoint() {
     return bottomAtSetpoint() && topAtSetpoint();
-  }
-
-  /** Enables the Shooter with PID */
-  public void enableShooter(boolean enable) {
-    if (enable) {
-      topShooterPIDController.setSetpoint(setpointRPM);
-      bottomShooterPIDController.setSetpoint(setpointRPM);
-    } else {
-      topShooterPIDController.setSetpoint(0);
-      bottomShooterPIDController.setSetpoint(0);
-      setTopShooterMotorVoltage(0);
-      setBottomShooterMotorVoltage(0);
-    }
   }
 
   /**

@@ -13,7 +13,7 @@ public class VisionIOSim implements VisionIO {
 
   private static PhotonCamera camera =
       new PhotonCamera("Arducam_IMX298_Camera_2_Top"); // TODO: update name
-  private final AprilTagFields apriltags = AprilTagFields.k2024Crescendo;
+  
 
   @Override
   public void updateInputs(VisionIOInputs inputs) {

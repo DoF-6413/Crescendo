@@ -24,49 +24,63 @@ public class Vision extends SubsystemBase {
       Logger.processInputs("Vision", inputs);
     }
   }
-/**
- * get the photon pipeline result 
-*/
+  /** get the photon pipeline result */
   public PhotonPipelineResult getResult() {
     return VisionIO.getPhotonPipelineResult();
   }
-/**get the x position that is in that way  of the target */
+  /**
+   * @return the x position of the AprilTag
+   */
   public double getTargetX() {
 
     return inputs.TargetX;
   }
-/**
- * get Target 
- */
+  /**
+   * @return the y position of the AprilTag
+   */
   public double getTargetY() {
 
     return inputs.TargetY;
   }
-
+  /**
+   * @return z potition of the AprilTag
+   */
   public double getTargetZ() {
 
     return inputs.TargetZ;
   }
-
+  /**
+   * @return
+   */
   public double getTargetPitch() {
 
     return inputs.TargetX;
   }
-
+  /**
+   * @return the yaw of the AprilTag
+   */
   public double getTargetYaw() {
 
     return inputs.TargetX;
   }
-
+  /**
+   * @return the area that the AprilTag uses on the screen
+   */
   public double getTargetArea() {
 
     return inputs.TargetArea;
   }
-
-  public boolean hasTargets() {
+  /***
+   *
+   * @return if has AprilTag
+   */
+  public boolean hasAprilTags() {
     return inputs.HasTargets;
   }
-
+  /***
+   *
+   * @return the fiducial ID of the AprilTag
+   */
   public int getBestFiducialID() {
     return inputs.BestFiducialID;
   }

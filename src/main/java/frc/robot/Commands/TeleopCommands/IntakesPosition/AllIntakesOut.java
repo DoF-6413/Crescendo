@@ -15,9 +15,11 @@ import frc.robot.Subsystems.utbintake.*;
 public class AllIntakesOut extends ParallelCommandGroup {
   /** Creates a new AllIntake. */
   private double otbIntakeSpeed;
+
   private double utbIntakeSpeed;
 
-  public AllIntakesOut(Actuator actuator, OTBIntake otbIntake, UTBIntake utbIntake, boolean isInwards) {
+  public AllIntakesOut(
+      Actuator actuator, OTBIntake otbIntake, UTBIntake utbIntake, boolean isInwards) {
     if (isInwards) {
       otbIntakeSpeed = -0.50;
       utbIntakeSpeed = -1.0;
@@ -26,7 +28,7 @@ public class AllIntakesOut extends ParallelCommandGroup {
       utbIntakeSpeed = -1.0;
     }
     addRequirements();
-    
+
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

@@ -20,30 +20,28 @@ public interface UTBIntakeIO {
   /**
    * Sets UTB intake Percent Speed
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public default void updateInputs(UTBIntakeIOInputs inputs) {}
 
   /**
    * Sets UTB intake Voltage
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public default void setUTBIntakeVoltage(double volts) {}
 
   /**
    * Sets UTB intake Voltage
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public default void setUTBIntakePercentSpeed(double percent) {}
 
   /**
-   * Sets brake mode
+   * Sets brake mode of the UTB Intake
    *
-   * @param isEnabled boolean for is brake mode true or false
+   * @param enable Enables brake mode if true, coast if false
    */
-  public default void setUTBIntakeBrakeMode(boolean isEnabled) {}
-
-  public default void enableUTB(boolean auxYIsPressed) {}
+  public default void setUTBIntakeBrakeMode(boolean enable) {}
 }

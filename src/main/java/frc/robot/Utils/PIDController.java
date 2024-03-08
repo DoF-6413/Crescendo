@@ -109,7 +109,7 @@ public class PIDController {
    *
    * @param measurement Current Measurement (Behavior or Location) of System
    * @param maxValue The Max Value the Setpoint Could Ever Achieve
-   * @return Returns Voltage [-12 to 12]
+   * @return Returns Voltage -12 to 12
    */
   public double calculateForVoltage(double measurement, double maxValue) {
 
