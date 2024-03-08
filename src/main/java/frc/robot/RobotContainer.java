@@ -26,6 +26,7 @@ import frc.robot.Commands.TeleopCommands.IntakesPosition.AllIntakesIn;
 import frc.robot.Commands.TeleopCommands.IntakesPosition.AllIntakesOut;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.ShootAtSpeaker;
+import frc.robot.Commands.ZeroCommands.ActuatorToZero;
 import frc.robot.Commands.ZeroCommands.ArmToZero;
 import frc.robot.Commands.ZeroCommands.EndEffectorToZero;
 import frc.robot.Constants.*;
@@ -163,7 +164,7 @@ public class RobotContainer {
     // Please note that the front of the robot indicates the side where the intakes are located
     // A default command always runs unless another command is called
 
-    /** Driver Contols * */
+    /** Driver Contols */
 
     // Driving controls for the robot
     m_driveSubsystem.setDefaultCommand(
@@ -218,51 +219,66 @@ public class RobotContainer {
         .whileFalse(
             new AllIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
 
-    /** Aux Controls * */
+    // Brings Actuator back to its default position (all the way up)
+    driverController
+        .start()
+        .onTrue(
+            new ActuatorToZero(m_actuatorSubsystem));
+
+    /** Aux Controls */
 
     /* Feeder */
     // Forward
     auxController
-        .y()
+        .x()
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
     // Backward
     auxController
-        .a()
+        .b()
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-250), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
 
     /* Wrist */
-    // Increases angle of the Wrist by 1 degree
+    // Increases angle of the Wrist by +1 degree
     auxController
-        .b()
+        .povLeft()
         .onTrue(
             new InstantCommand(
                 () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
                 m_wristSubsystem));
     // Increases angle of the Wrist by -1 degree
     auxController
-        .x()
+        .povRight()
         .onTrue(
             new InstantCommand(
                 () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
                 m_wristSubsystem));
 
     /* Arm */
-    // Increases angle of the Arm by 1 degree
+    // Increases angle of the Arm by +1 degree
     auxController
-        .povRight()
+        .povUp()
         .onTrue(
             new InstantCommand(
                 () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(1)),
                 m_armSubsystem));
     // Increases angle of the Arm by -1 degree
     auxController
-        .povLeft()
+        .povDown()
         .onTrue(
             new InstantCommand(
                 () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(-1)),
                 m_armSubsystem));
+
+    /* Scoring into the SPEAKER when up againsts it */
+    auxController
+    .a()
+    .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
+    .onFalse(
+        new ParallelCommandGroup(
+            new ArmToZero(m_wristSubsystem, m_armSubsystem),
+            new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
 
     /* AMP Scoring */
     // Scoring AMP from the frontside
