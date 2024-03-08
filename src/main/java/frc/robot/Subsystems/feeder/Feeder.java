@@ -6,7 +6,6 @@ package frc.robot.Subsystems.feeder;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.PIDController;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Feeder extends SubsystemBase {

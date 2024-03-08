@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.PIDController;
-
 import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
@@ -153,8 +152,6 @@ public class Shooter extends SubsystemBase {
     topShooterPIDController.setSetpoint(setpoint);
     bottomShooterPIDController.setSetpoint(setpoint);
   }
-
-
 
   // TODO: Create a tempature shutoff/warning
   // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is

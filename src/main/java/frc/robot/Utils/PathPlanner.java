@@ -31,7 +31,7 @@ public class PathPlanner extends SubsystemBase {
             // DriveConstants.DRIVE_KI_KRAKEN, // 0.1
             // DriveConstants.DRIVE_KD_KRAKEN), // 0.4
             new PIDConstants( // Steer PID constants
-                .55, 0.43, .0025),
+                1, 0.5, 0),
             // DriveConstants.STEER_KP_NEO, // 6.4
             // DriveConstants.STEER_KI_NEO, // 1.2
             // DriveConstants.STEER_KD_NEO), // .03

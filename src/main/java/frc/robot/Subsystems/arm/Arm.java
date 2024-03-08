@@ -8,7 +8,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -35,7 +34,6 @@ public class Arm extends SubsystemBase {
     // armSetpointSetter = armTab.add("armSetpoint", 0.0).getEntry();
   }
 
-  
   @Override
   public void periodic() {
     // updates the inputs
