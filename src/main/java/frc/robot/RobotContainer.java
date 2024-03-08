@@ -160,24 +160,29 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // Please note that the front of the robot indicates the side where the intakes are located
     // A default command always runs unless another command is called
+
+    /** Driver Contols * */
+
+    // Driving controls for the robot
     m_driveSubsystem.setDefaultCommand(
         new RunCommand(
             () ->
                 m_driveSubsystem.driveWithDeadband(
-                    driverController.getLeftX(),
-                    driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
-                    (driverController.getRightX() * (1))),
+                    driverController.getLeftX(), // Forward/backward
+                    driverController.getLeftY() * (-1), // Left/Right
+                    (driverController.getRightX())), // Rotate chassis left/right
             m_driveSubsystem));
 
+    // Resets robot heading to be wherever the front of the robot is facing
     driverController
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
-    /** Non PID controls for the mechanisms */
-
-    // UTB Intake
-    driverController // Intake NOTE
+    /* UTB Intake */
+    // Intake NOTE
+    driverController
         .rightTrigger()
         .whileTrue(
             new InstantCommand(
@@ -185,7 +190,8 @@ public class RobotContainer {
         .whileFalse(
             new InstantCommand(
                 () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
-    driverController // Outtake NOTE
+    // Outtake NOTE
+    driverController
         .rightBumper()
         .whileTrue(
             new InstantCommand(
@@ -194,15 +200,17 @@ public class RobotContainer {
             new InstantCommand(
                 () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
 
-    // UTB + OTB Intakes
-    driverController // Intake NOTE
+    /* All Intakes */
+    // Intake NOTE
+    driverController
         .leftTrigger()
         .whileTrue(
             new AllIntakesOut(
                 m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true))
         .whileFalse(
             new AllIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
-    driverController // Outake NOTE
+    // Outtake NOTE
+    driverController
         .leftBumper()
         .whileTrue(
             new AllIntakesOut(
@@ -210,68 +218,79 @@ public class RobotContainer {
         .whileFalse(
             new AllIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
 
-    // Feeder
-    auxController // Forward
+    /** Aux Controls * */
+
+    /* Feeder */
+    // Forward
+    auxController
         .y()
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
-    auxController // Backward
+    // Backward
+    auxController
         .a()
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-250), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
 
-    // Wrist
-    auxController // Increases angle of the Wrist by 1 degree
+    /* Wrist */
+    // Increases angle of the Wrist by 1 degree
+    auxController
         .b()
         .onTrue(
             new InstantCommand(
                 () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
                 m_wristSubsystem));
-    auxController // Increases angle of the Wrist by -1 degree
+    // Increases angle of the Wrist by -1 degree
+    auxController
         .x()
         .onTrue(
             new InstantCommand(
                 () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
                 m_wristSubsystem));
 
-    // Arm
-    auxController // Increases angle of the Elbow by 1 degree
+    /* Arm */
+    // Increases angle of the Arm by 1 degree
+    auxController
         .povRight()
         .onTrue(
             new InstantCommand(
                 () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(1)),
                 m_armSubsystem));
-    auxController // Increases angle of the Elbow by -1 degree
+    // Increases angle of the Arm by -1 degree
+    auxController
         .povLeft()
         .onTrue(
             new InstantCommand(
                 () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(-1)),
                 m_armSubsystem));
 
-    // Amp Scoring
-    auxController // Scoring AMP from the shooter side
-        .rightBumper()
-        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
-        .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
-
-    auxController // Scoring AMP from the intake side
+    /* AMP Scoring */
+    // Scoring AMP from the frontside
+    auxController
         .rightTrigger()
         .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
         .onFalse(
             new ScoreAmpFrontSide(
                 m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
+    // Scoring from the backside
+    auxController
+        .rightBumper()
+        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
+        .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
 
-    // Source Pickup
-    auxController // Picking up from SOURCE on the shooter side
-        .leftBumper()
-        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
+    /* SOURCE Pickup */
+    // Picking up from SOURCE from the frontside
+    auxController
+        .leftTrigger()
+        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
         .onFalse(
             new ParallelCommandGroup(
                 new ArmToZero(m_wristSubsystem, m_armSubsystem),
                 new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
-    auxController // Picking up from SOURCE on the intake side
-        .leftTrigger()
-        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
+    // Picking up from SOURCE from the backside
+    auxController
+        .leftBumper()
+        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
         .onFalse(
             new ParallelCommandGroup(
                 new ArmToZero(m_wristSubsystem, m_armSubsystem),
