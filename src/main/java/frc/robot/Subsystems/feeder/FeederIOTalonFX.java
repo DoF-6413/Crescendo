@@ -28,14 +28,12 @@ public class FeederIOTalonFX implements FeederIO {
   @Override
   /** Updates all the logged values for the Feeder motpor */
   public void updateInputs(FeederIOInputs inputs) {
-    inputs.feederRPM =
-        feederMotor.getVelocity().getValueAsDouble()
-            / FeederConstants
-                .GEAR_RATIO; // Gets the velocity of the Feeder motor, in RPM, and divides it by the
+    // Gets the velocity of the Feeder motor, in RPM, and divides it by the
     // gear ratio to obatin the RPM of the feeder itself
+    inputs.feederRPM = feederMotor.getVelocity().getValueAsDouble() / FeederConstants.GEAR_RATIO;
     inputs.feederAppliedVolts = feederMotor.getMotorVoltage().getValueAsDouble();
     inputs.feederCurrentAmps = new double[] {feederMotor.getStatorCurrent().getValueAsDouble()};
-    inputs.feederTempCelsuis = new double[] {feederMotor.getDeviceTemp().getValueAsDouble()};
+    inputs.feederTempCelsius = new double[] {feederMotor.getDeviceTemp().getValueAsDouble()};
   }
 
   @Override
@@ -49,7 +47,7 @@ public class FeederIOTalonFX implements FeederIO {
   }
 
   @Override
-  public void setFeederBrakeMode(boolean enable) {
+  public void setBrakeMode(boolean enable) {
     if (enable) {
       feederMotor.setNeutralMode(NeutralModeValue.Brake);
     } else {

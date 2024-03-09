@@ -11,8 +11,7 @@ public interface ShooterIO {
 
   @AutoLog
   public static class ShooterIOInputs {
-    // All the Inputs for the Top Shooter Motor (Should be nearly identical to the Bottom Shooter
-    // Motor)
+    // All the Inputs for the Top Shooter Motor
     /** Velocity of the Top Shooter Motor in Rotations per Minute */
     public double topShooterMotorRPM = 0.0;
     /** Number of volts being sent to the Top Shooter Motor */
@@ -22,8 +21,7 @@ public interface ShooterIO {
     /** Tempature, in Celsius, of the Top Shooter Motor */
     public double[] topShooterTempCelsius = new double[] {};
 
-    // All the Inputs for the Bottom Shooter Motor (Should be nearly identical to the Top Shooter
-    // Motor)
+    // All the Inputs for the Bottom Shooter Motor
     /** Velocity of the Bottom Shooter Motor in Rotations per Minute */
     public double bottomShooterMotorRPM = 0.0;
     /** Number of volts being sent to the Bottom Shooter Motor */
@@ -43,7 +41,7 @@ public interface ShooterIO {
    *
    * @param enable if enable, it sets brake mode, else it sets coast mode
    */
-  public default void setShooterBrakeMode(boolean isEnabled) {}
+  public default void setBrakeMode(boolean enable) {}
 
   /**
    * Sets BOTH Shooter Motors at a percentage of its max speed.
@@ -78,6 +76,4 @@ public interface ShooterIO {
    * @param volts -12 to 12
    */
   public default void setBottomShooterMotorVoltage(double volts) {}
-
-  public default void enableShooter(boolean auxAIsPressed) {}
 }

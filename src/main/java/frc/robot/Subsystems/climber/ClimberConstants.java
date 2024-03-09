@@ -40,9 +40,9 @@ public final class ClimberConstants {
   public static final boolean SIMULATE_GRAVITY = false;
 
   // Real Constants for the Climber
-  /** The CAN ID of the left Arm motor so it can be Identified on the CAN bus */
+  /** The CAN ID of the left Climber motor so it can be Identified on the CAN bus */
   public static final int LEFT_CAN_ID = 17;
-  /** The CAN ID of the right Arm motor so it can be Identified on the CAN bus */
+  /** The CAN ID of the right Climber motor so it can be Identified on the CAN bus */
   public static final int RIGHT_CAN_ID = 18;
 
   // TODO: Confirm that one of the motors will need to be inverted

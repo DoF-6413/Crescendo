@@ -18,16 +18,12 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
-import frc.robot.Commands.TeleopCommands.AmpScore.Backside.ScoreAmpBackSide;
-import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.PositionAmpScoreFrontSide;
-import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.ScoreAmpFrontSide;
-import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesIn;
-import frc.robot.Commands.TeleopCommands.IntakesPosition.FullIntakesOut;
-import frc.robot.Commands.TeleopCommands.ShootAtSpeaker;
+import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
+import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
+import frc.robot.Commands.TeleopCommands.Intakes.*;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
-import frc.robot.Commands.ZeroCommands.ArmToZero;
-import frc.robot.Commands.ZeroCommands.EndEffectorToZero;
+import frc.robot.Commands.TeleopCommands.SpeakerScore.ShootAtSpeaker;
+import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
@@ -50,21 +46,24 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  // Drivetrain
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
 
+  // Mechanisms
   private final Arm m_armSubsystem;
-  // private final Vision m_visionSubsystem;
-  private final Feeder m_feederSubsystem;
+  private final Vision m_visionSubsystem;
   // private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
   private final Shooter m_shooterSubsystem;
+  private final Feeder m_feederSubsystem;
   private final Wrist m_wristSubsystem;
 
-  // private final PoseEstimator m_poseEstimator;
-  // private final PathPlanner m_pathPlanner;
+  // Utilities
+  private final PoseEstimator m_poseEstimator;
+  private final PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -76,11 +75,11 @@ public class RobotContainer {
   private final LoggedDashboardChooser<Command> autoChooser =
       new LoggedDashboardChooser<>("Auto Choices");
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /** The container for the robot. Contains subsystems, IO devices, and commands. */
   public RobotContainer() {
     switch (RobotStateConstants.getMode()) {
       case REAL:
-        // Real robot, instantiate hardware IO implementations
+        // Real robot, instantiates hardware IO implementations
         m_gyroSubsystem = new Gyro(new GyroIONavX());
         m_driveSubsystem =
             new Drive(
@@ -90,18 +89,18 @@ public class RobotContainer {
                 new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
-        // m_visionSubsystem = new Vision(new VisionIOArduCam());
-        m_feederSubsystem = new Feeder(new FeederIOTalonFX());
+        m_visionSubsystem = new Vision(new VisionIOArduCam());
         // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
+        m_feederSubsystem = new Feeder(new FeederIOTalonFX());
         m_wristSubsystem = new Wrist(new WristIOSparkMax());
         break;
 
       case SIM:
-        // Sim robot, instantiate physics sim IO implementations
+        // Sim robot, instantiates physics sim IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
             new Drive(
@@ -111,19 +110,18 @@ public class RobotContainer {
                 new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
-        // m_visionSubsystem = new Vision(new VisionIOSim());
-        m_feederSubsystem = new Feeder(new FeederIOSim());
+        m_visionSubsystem = new Vision(new VisionIOSim());
         // m_climberSubsystem = new Climber(new ClimberIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
+        m_feederSubsystem = new Feeder(new FeederIOSim());
         m_wristSubsystem = new Wrist(new WristIOSim());
-
         break;
 
       default:
-        // Replayed robot, disable IO implementations
+        // Replayed robot, disables IO implementations
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
             new Drive(
@@ -133,13 +131,13 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
-        // m_visionSubsystem = new Vision(new VisionIO() {});
-        m_feederSubsystem = new Feeder(new FeederIO() {});
+        m_visionSubsystem = new Vision(new VisionIO() {});
         // m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
+        m_feederSubsystem = new Feeder(new FeederIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
         break;
     }
@@ -147,11 +145,11 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem,
-    // m_visionSubsystem);
-    // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+
+    // Adds list of autos to Shuffleboard
     autoChooser.addOption("Do Nothing", new InstantCommand());
-    // autoChooser.addDefaultOption("Default Path", new PathPlannerAuto("ROCK"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
   }
 
@@ -162,60 +160,30 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // The front of the robot is the side where the intakes are located
     // A default command always runs unless another command is called
+
+    /** Driver Contols */
+
+    // Driving the robot
     m_driveSubsystem.setDefaultCommand(
         new RunCommand(
             () ->
                 m_driveSubsystem.driveWithDeadband(
-                    driverController.getLeftX(),
-                    driverController.getLeftY() * (-1), // Joystick on Xbox Controller is Inverted
-                    (driverController.getRightX() * (1))),
+                    driverController.getLeftX(), // Forward/backward
+                    -driverController
+                        .getLeftY(), // Left/Right (multiply by -1 bc controller axis is inverted)
+                    driverController.getRightX()), // Rotate chassis left/right
             m_driveSubsystem));
 
+    // Resets robot heading to be wherever the front of the robot is facing
     driverController
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
-    // Amp Scoring TODO: Update setpoints
-    auxController
-        .rightBumper()
-        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
-        .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
-
-    auxController
-        .rightTrigger()
-        .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
-        .onFalse(
-            new ScoreAmpFrontSide(
-                m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
-
-    auxController
-        .leftBumper()
-        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
-        .onFalse(
-            new ParallelCommandGroup(
-                new ArmToZero(m_wristSubsystem, m_armSubsystem),
-                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
-
-    auxController
-        .leftTrigger()
-        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
-        .onFalse(
-            new ParallelCommandGroup(
-                new ArmToZero(m_wristSubsystem, m_armSubsystem),
-                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
-
-    /** Non PID controls for the mechanisms */
-
-    // OTB Actuator
-    // m_actuatorSubsystem.setDefaultCommand(
-    // new InstantCommand(
-    // () -> m_actuatorSubsystem.setActuatorPercentSpeed(auxController.getLeftY() *
-    // 0.5),
-    // m_actuatorSubsystem));
-
-    // UTB Intake
-    driverController // Intake NOTE
+    /* UTB Intake */
+    // Intake NOTE
+    driverController
         .rightTrigger()
         .whileTrue(
             new InstantCommand(
@@ -223,7 +191,8 @@ public class RobotContainer {
         .whileFalse(
             new InstantCommand(
                 () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
-    driverController // Outtake NOTE
+    // Outtake NOTE
+    driverController
         .rightBumper()
         .whileTrue(
             new InstantCommand(
@@ -232,56 +201,105 @@ public class RobotContainer {
             new InstantCommand(
                 () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
 
-    // // UTB + OTB Intakes
-    driverController // Intake NOTE
+    /* All Intakes */
+    // Intake NOTE
+    driverController
         .leftTrigger()
         .whileTrue(
-            new FullIntakesOut(
+            new AllIntakesRun(
                 m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true))
         .whileFalse(
-            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
-    driverController // Outake NOTE
+            new AllIntakesStop(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+    // Outtake NOTE
+    driverController
         .leftBumper()
         .whileTrue(
-            new FullIntakesOut(
+            new AllIntakesRun(
                 m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false))
         .whileFalse(
-            new FullIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+            new AllIntakesStop(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
 
-    // // Feeder
-    auxController // Forward
-        .y()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
-    auxController // Backward
-        .a()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-2500), m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.disableFeeder(), m_feederSubsystem));
+    // Brings Actuator back to its default position (all the way up)
+    driverController.start().onTrue(new ActuatorToZero(m_actuatorSubsystem));
 
-    auxController
-        .b()
-        .onTrue(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
-                m_wristSubsystem));
+    /** Aux Controls */
+
+    /* Feeder */
+    // Forward
     auxController
         .x()
-        .onTrue(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
-                m_wristSubsystem));
+        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
+        .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
+    // Backward
     auxController
-        .povRight()
-        .onTrue(
-            new InstantCommand(
-                () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(1)),
-                m_armSubsystem));
+        .b()
+        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-250), m_feederSubsystem))
+        .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
+
+    /* Wrist */
+    // Increases angle of the Wrist by 1 degree
     auxController
         .povLeft()
         .onTrue(
             new InstantCommand(
+                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
+                m_wristSubsystem));
+    // Decreases angle of the Wrist by 1 degree
+    auxController
+        .povRight()
+        .onTrue(
+            new InstantCommand(
+                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
+                m_wristSubsystem));
+
+    /* Arm */
+    // Increases angle of the Arm by 1 degree
+    auxController
+        .povUp()
+        .onTrue(
+            new InstantCommand(
+                () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(1)),
+                m_armSubsystem));
+    // Decreases angle of the Arm by 1 degree
+    auxController
+        .povDown()
+        .onTrue(
+            new InstantCommand(
                 () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(-1)),
                 m_armSubsystem));
+
+    /* Scoring SPEAKER when up against it */
+    auxController
+        .leftTrigger()
+        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
+        .onFalse(
+            new ParallelCommandGroup(
+                new ArmToZero(m_wristSubsystem, m_armSubsystem),
+                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
+
+    /* AMP Scoring */
+    // Scoring AMP from the frontside
+    auxController
+        .rightTrigger()
+        .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
+        .onFalse(
+            new ScoreAmpFrontSide(
+                m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
+    // Scoring from the backside
+    auxController
+        .rightBumper()
+        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
+        .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
+
+    /* SOURCE Pickup */
+    // Picking up from SOURCE, backside
+    auxController
+        .leftBumper()
+        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
+        .onFalse(
+            new ParallelCommandGroup(
+                new ArmToZero(m_wristSubsystem, m_armSubsystem),
+                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
   }
 
   /**
@@ -293,12 +311,12 @@ public class RobotContainer {
     return autoChooser.get();
   }
 
-  /** This Turns the Mechanisms to either Coast or Brake Depending on Disable or Enable */
+  /** Either Coast or Brake mechanisms depending on Disable or Enable */
   public void mechanismsCoastOnDisable(boolean isDisabled) {
     m_driveSubsystem.coastOnDisable(isDisabled);
     m_armSubsystem.setBrakeMode(!isDisabled);
-    m_wristSubsystem.setWristBrakeMode(!isDisabled);
+    m_wristSubsystem.setBrakeMode(!isDisabled);
     m_actuatorSubsystem.setBrakeMode(!isDisabled);
-    m_shooterSubsystem.setShooterBrakeMode(!isDisabled);
+    m_shooterSubsystem.setBrakeMode(!isDisabled);
   }
 }
