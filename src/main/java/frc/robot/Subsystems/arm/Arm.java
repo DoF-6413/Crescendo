@@ -21,11 +21,11 @@ public class Arm extends SubsystemBase {
 
   /** Creates a new Arm, the Subsystem that moves the Shooter from Up and Down */
   public Arm(ArmIO io) {
-    System.out.println("[Init] Creating arm");
+    System.out.println("[Init] Creating Arm");
     this.io = io;
     armPIDController = new PIDController(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
     armPIDController.setSetpoint(0);
-    armPIDController.setTolerance(Units.degreesToRadians(3));
+    armPIDController.setTolerance(ArmConstants.ANGLE_TOLERANCE);
     armPIDController.disableContinuousInput();
   }
 

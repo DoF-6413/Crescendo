@@ -1,5 +1,7 @@
 package frc.robot.Subsystems.wrist;
 
+import edu.wpi.first.math.util.Units;
+
 public final class WristConstants {
 
   // PID Constants for the Wrist
@@ -12,21 +14,21 @@ public final class WristConstants {
   /** Represents the derivative constant, multiplied by the change in error */
   public static final double KD = 0.0;
 
-  /** the position of the Wrist can be within 1% of the setpoint */
-  public static final double TOLERANCE_PERCENT = 0.01;
+  /** The position of the Wrist can be within 1 degree of the setpoint */
+  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(1);
 
   // Sim Constants
   /** Moment of inertia for the Wrist */
   public static final double MOI_KG_M2 = 0.000271862238;
 
-  /** if the Wrist simulation is simulating */
+  /** If the Wrist simulation is simulating gravity */
   public static final boolean IS_SIMULATING_GRAVITY = false;
 
   // Real constants
   /** CAN ID of the Wrist motor */
   public static final int CAN_ID = 20;
 
-  /** current limiting for Wrist */
+  /** Current limiting for Wrist */
   public static final int CUR_LIM_A = 30;
 
   /** Sets the inversion status of the Wrist motor */

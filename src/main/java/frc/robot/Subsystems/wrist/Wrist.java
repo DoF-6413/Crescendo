@@ -5,7 +5,6 @@
 package frc.robot.Subsystems.wrist;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -18,13 +17,13 @@ public class Wrist extends SubsystemBase {
 
   /** Creates a new Wrist, the second joint of the arm mechanism */
   public Wrist(WristIO io) {
-    System.out.println("[Init] Creating wrist");
+    System.out.println("[Init] Creating Wrist");
     this.io = io;
 
     /** Creates a new PID controller for the Wrist */
     wristPIDController = new PIDController(WristConstants.KP, WristConstants.KI, WristConstants.KD);
     wristPIDController.setSetpoint(0);
-    wristPIDController.setTolerance(Units.degreesToRadians(1));
+    wristPIDController.setTolerance(WristConstants.ANGLE_TOLERANCE);
     wristPIDController.disableContinuousInput();
   }
 
