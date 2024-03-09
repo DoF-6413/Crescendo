@@ -273,12 +273,12 @@ public class RobotContainer {
 
     /* Scoring into the SPEAKER when up againsts it */
     auxController
-    .a()
-    .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
-    .onFalse(
-        new ParallelCommandGroup(
-            new ArmToZero(m_wristSubsystem, m_armSubsystem),
-            new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
+        .leftTrigger()
+        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
+        .onFalse(
+            new ParallelCommandGroup(
+                new ArmToZero(m_wristSubsystem, m_armSubsystem),
+                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
 
     /* AMP Scoring */
     // Scoring AMP from the frontside
@@ -295,14 +295,6 @@ public class RobotContainer {
         .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
 
     /* SOURCE Pickup */
-    // Picking up from SOURCE from the frontside
-    auxController
-        .leftTrigger()
-        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
-        .onFalse(
-            new ParallelCommandGroup(
-                new ArmToZero(m_wristSubsystem, m_armSubsystem),
-                new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
     // Picking up from SOURCE from the backside
     auxController
         .leftBumper()
