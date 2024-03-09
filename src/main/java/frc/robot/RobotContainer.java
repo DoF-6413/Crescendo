@@ -13,6 +13,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -140,19 +141,11 @@ public class RobotContainer {
         m_wristSubsystem = new Wrist(new WristIO() {});
         break;
     }
-    m_gyroSubsystem = new Gyro(new GyroIO() {});
-    m_driveSubsystem =
-        new Drive(
-            new ModuleIO() {},
-            new ModuleIO() {},
-            new ModuleIO() {},
-            new ModuleIO() {},
-            m_gyroSubsystem);
 
     // Configure the button bindings
     configureButtonBindings();
 
-    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
     // Adds list of autos to Shuffleboard
