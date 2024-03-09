@@ -1,4 +1,4 @@
-package frc.robot.Subsystems.TelescopingClimber;
+package frc.robot.Subsystems.climber;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;

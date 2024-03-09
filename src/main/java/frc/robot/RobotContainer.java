@@ -25,9 +25,9 @@ import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.ShootAtSpeaker;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
-import frc.robot.Subsystems.TelescopingClimber.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
+import frc.robot.Subsystems.climber.*;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.feeder.*;
 import frc.robot.Subsystems.gyro.*;
@@ -53,7 +53,7 @@ public class RobotContainer {
   // Mechanisms
   private final Arm m_armSubsystem;
   // private final Vision m_visionSubsystem;
-  // private final Climber m_climberSubsystem;
+  private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
@@ -90,7 +90,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         // m_visionSubsystem = new Vision(new VisionIOArduCam());
-        // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
+        m_climberSubsystem = new Climber(new ClimberIOTalonFX());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
@@ -111,7 +111,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
         // m_visionSubsystem = new Vision(new VisionIOSim());
-        // m_climberSubsystem = new Climber(new ClimberIOSim());
+        m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
@@ -132,7 +132,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
         // m_visionSubsystem = new Vision(new VisionIO() {});
-        // m_climberSubsystem = new Climber(new ClimberIO() {});
+        m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
@@ -267,6 +267,12 @@ public class RobotContainer {
             new InstantCommand(
                 () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(-1)),
                 m_armSubsystem));
+
+    /* Climber */
+    m_climberSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_climberSubsystem.setClimberPercentSpeed(auxController.getLeftY()),
+            m_climberSubsystem));
 
     /* Scoring SPEAKER when up against it */
     auxController
