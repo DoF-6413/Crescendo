@@ -57,8 +57,10 @@ public final class ArmConstants {
   public static final boolean IS_INVERTED = true;
 
   // Teleop Automations
-  /** Arm angle for Amp Score Backside (non intake side) */
-  public static final double AMP_BACKSIDE_DEG = 40;
-  /** Arm angle for Amp Score Frontside (intake side) */
-  public static final double AMP_FRONTSIDE_DEG = Units.radiansToDegrees(1.849);
+  /** AMP Score back side */
+  public static final double AMP_BACK_SIDE_RAD = Units.degreesToRadians(40);
+  /** AMP Score front side */
+  public static final double AMP_FRONT_SIDE_RAD = 1.849;
+  /** SOURCE Pickup back side */
+  public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(10.0);
 }

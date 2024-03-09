@@ -7,6 +7,7 @@ package frc.robot.Commands.TeleopCommands.AmpScore.Frontside;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Subsystems.arm.*;
 import frc.robot.Subsystems.wrist.Wrist;
+import frc.robot.Subsystems.wrist.WristConstants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -19,13 +20,13 @@ public class PositionAmpScoreFrontSide extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              arm.setSetpoint(ArmConstants.AMP_FRONTSIDE_DEG);
+              arm.setSetpoint(ArmConstants.AMP_FRONT_SIDE_RAD);
             },
             arm),
         new WaitUntilCommand(() -> arm.atSetpoint()),
         Commands.runOnce(
             () -> {
-              wrist.setSetpoint(ArmConstants.AMP_FRONTSIDE_DEG);
+              wrist.setSetpoint(WristConstants.AMP_FRONT_SIDE_RAD);
             },
             wrist),
         new WaitUntilCommand(() -> wrist.atSetpoint()));

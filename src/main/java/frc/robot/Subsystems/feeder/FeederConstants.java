@@ -28,4 +28,12 @@ public class FeederConstants {
   public static final double CUR_LIM_A = 40; // TODO: Update
   /** Used to set the Indexer motor to not be inverted on startup */
   public static final boolean IS_INVERTED = false;
+
+  // Teleop Automations
+  /** AMP score speed */
+  public static final double AMP_RPM = 1500;
+  /** SOURCE pickup speed */
+  public static final double SOURCE_RPM = 1500;
+  /** SPEAKER score speed */
+  public static final double SPEAKER_RPM = 1500;
 }

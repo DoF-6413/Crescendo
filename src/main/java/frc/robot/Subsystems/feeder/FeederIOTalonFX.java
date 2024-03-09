@@ -47,7 +47,7 @@ public class FeederIOTalonFX implements FeederIO {
   }
 
   @Override
-  public void setFeederBrakeMode(boolean enable) {
+  public void setBrakeMode(boolean enable) {
     if (enable) {
       feederMotor.setNeutralMode(NeutralModeValue.Brake);
     } else {

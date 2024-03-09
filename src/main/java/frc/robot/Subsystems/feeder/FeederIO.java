@@ -39,5 +39,5 @@ public interface FeederIO {
    *
    * @param enable
    */
-  public default void setFeederBrakeMode(boolean enable) {}
+  public default void setBrakeMode(boolean enable) {}
 }

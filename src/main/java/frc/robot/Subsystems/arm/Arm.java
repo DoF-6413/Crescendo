@@ -82,8 +82,8 @@ public class Arm extends SubsystemBase {
   }
 
   /**
-   * Changes the angle setpoint of the Arm 
-   * 
+   * Changes the angle setpoint of the Arm
+   *
    * @param increment Angle (Radians)
    */
   public void incrementArmSetpoint(double increment) {

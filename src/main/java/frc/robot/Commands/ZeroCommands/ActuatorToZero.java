@@ -29,7 +29,6 @@ public class ActuatorToZero extends Command {
   @Override
   public void execute() {
     actuator.setActuatorPercentSpeed(-0.2);
-    ;
   }
 
   // Called once the command ends or is interrupted.

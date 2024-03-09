@@ -21,7 +21,7 @@ public class OTBIntakeConstants {
   /** Gear ratio of 2:1 for the OTB Intake */
   public static final double GEAR_RATIO = 2.0;
   /** The Current Limit for the OTB Intake in Amps */
-  public static final int CURR_LIM_A = 40; // TODO: Update
+  public static final int CUR_LIM_A = 40; // TODO: Update
   /** Ensure the OTB Intake wont be inverted on startup */
   public static final boolean IS_INVERTED = false;
   /** Max RPM achievable by the OTB Intake */

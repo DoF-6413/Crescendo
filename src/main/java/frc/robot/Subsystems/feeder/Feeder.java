@@ -62,8 +62,8 @@ public class Feeder extends SubsystemBase {
    *
    * @param enable
    */
-  public void setFeederBrakeMode(boolean enable) {
-    io.setFeederBrakeMode(enable);
+  public void setBrakeMode(boolean enable) {
+    io.setBrakeMode(enable);
   }
 
   /**

@@ -83,8 +83,8 @@ public class Wrist extends SubsystemBase {
   }
 
   /**
-   * Changes the angle setpoint of the Wrist 
-   * 
+   * Changes the angle setpoint of the Wrist
+   *
    * @param increment Angle (Radians)
    */
   public void incrementWristSetpoint(double increment) {

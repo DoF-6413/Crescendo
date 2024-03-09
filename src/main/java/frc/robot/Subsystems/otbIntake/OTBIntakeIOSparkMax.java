@@ -20,7 +20,7 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
     otbIntakeMotor = new CANSparkMax(OTBIntakeConstants.CAN_ID, MotorType.kBrushless);
     otbIntakeEncoder = otbIntakeMotor.getEncoder();
     otbIntakeMotor.setIdleMode(IdleMode.kBrake);
-    otbIntakeMotor.setSmartCurrentLimit(OTBIntakeConstants.CURR_LIM_A);
+    otbIntakeMotor.setSmartCurrentLimit(OTBIntakeConstants.CUR_LIM_A);
     otbIntakeMotor.setInverted(OTBIntakeConstants.IS_INVERTED);
   }
 

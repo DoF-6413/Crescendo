@@ -39,8 +39,7 @@ public class Shooter extends SubsystemBase {
     topShooterPIDController.setSetpoint(setpointRPM);
     bottomShooterPIDController.setSetpoint(setpointRPM);
 
-    // Sets the tolerance of the setpoint, allowing the RPM of the motors to be within 200 RPM of
-    // the setpoint
+    // Sets the tolerance of the setpoint
     topShooterPIDController.setTolerance(ShooterConstants.RPM_TOLERANCE);
     bottomShooterPIDController.setTolerance(ShooterConstants.RPM_TOLERANCE);
   }

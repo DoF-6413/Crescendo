@@ -9,7 +9,7 @@ import edu.wpi.first.math.util.Units;
 /** Actuator Constants */
 public final class ActuatorConstants {
   // PID Constants for the Actuator
-  
+
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */

@@ -44,4 +44,10 @@ public class ShooterConstants {
   public static final boolean TOP_MOTOR_IS_INVERTED = true;
   /** Sets the inversion status of the Bottom Shooter motor */
   public static final boolean BOTTOM_MOTOR_IS_INVERTED = true;
+
+  // Teleop Automations
+  /** AMP score speed */
+  public static final double AMP_RPM = 2500;
+  /** SPEAKER score speed */
+  public static final double SPEAKER_RPM = 4000;
 }

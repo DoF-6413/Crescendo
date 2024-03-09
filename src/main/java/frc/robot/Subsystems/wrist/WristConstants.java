@@ -4,7 +4,7 @@ import edu.wpi.first.math.util.Units;
 
 public final class WristConstants {
   // PID Constants for the Wrist
-  
+
   /** Represents the proportional constant, multiplied by the current error */
   public static final double KP = 1.2;
 
@@ -50,8 +50,12 @@ public final class WristConstants {
   public static final double ABS_ENCODER_OFFSET_RADS = -0.85;
 
   // Teleop Automations
-  /** Amp Score Backside angle */
-  public static final double AMP_BACKSIDE_DEG = 77;
-  /** Amp Score Frontside angle */
-  public static final double AMP_FRONTSIDE_RAD = 1.363;
+  /** AMP Score back side */
+  public static final double AMP_BACK_SIDE_DEG = 77;
+
+  public static final double AMP_BACK_SIDE_RAD = Units.degreesToRadians(77);
+  /** AMP Score front side */
+  public static final double AMP_FRONT_SIDE_RAD = 1.363;
+  /** SOURCE Pickup back side */
+  public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(155.0);
 }

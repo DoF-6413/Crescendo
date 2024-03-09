@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Commands.ZeroCommands.ArmToZero;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.feeder.Feeder;
+import frc.robot.Subsystems.feeder.FeederConstants;
 import frc.robot.Subsystems.wrist.Wrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -21,7 +22,7 @@ public class ScoreAmpBackSide extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              feeder.setSetpoint(-1500);
+              feeder.setSetpoint(-FeederConstants.AMP_RPM);
             },
             feeder),
         new WaitCommand(1),
