@@ -71,7 +71,7 @@ public class Wrist extends SubsystemBase {
   /**
    * Updates the angle that the Wrist should be at using the WPI PID controller
    *
-   * @param setpoint Radians [RANGE] TODO: Update range
+   * @param setpoint Angle (Radians)
    */
   public void setSetpoint(double setpoint) {
     wristPIDController.setSetpoint(setpoint);
@@ -81,10 +81,11 @@ public class Wrist extends SubsystemBase {
   public boolean atSetpoint() {
     return wristPIDController.atSetpoint();
   }
+
   /**
-   * Increments the Wrist setpoint
-   *
-   * @param increment Radians
+   * Changes the angle setpoint of the Wrist 
+   * 
+   * @param increment Angle (Radians)
    */
   public void incrementWristSetpoint(double increment) {
     wristPIDController.setSetpoint(wristPIDController.getSetpoint() + increment);

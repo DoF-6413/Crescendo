@@ -15,11 +15,6 @@ public class Actuator extends SubsystemBase {
   private final PIDController actuatorPIDController;
   private double actuatorSetpoint = 0.0;
   private boolean actuatorPIDenable = true;
-  // private final ShuffleboardTab actuatorTab = Shuffleboard.getTab("Actuator");
-  // private GenericEntry actuatorkp;
-  // private GenericEntry actuatorki;
-  // private GenericEntry actuatorkd;
-  // private GenericEntry actuatorSetpointSetter;
 
   /**
    * Creates a new Actuator, the Subsystem that moves the OTB Intake Rollers from inside the Robot
@@ -46,35 +41,6 @@ public class Actuator extends SubsystemBase {
       setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
     }
   }
-  // Updates Actuator Speed based on PID Control
-
-  // // TODO: Delete once final PID Numbers are Decided
-  // if (ActuatorConstants.KP != actuatorkp.getDouble(0.0)
-  //     || ActuatorConstants.KI != actuatorki.getDouble(0.0)
-  //     || ActuatorConstants.KD != actuatorkd.getDouble(0.0)) {
-  //   updatePIDController();
-  // }
-
-  // if (actuatorSetpoint != actuatorSetpointSetter.getDouble(0.0)) {
-  //   updateSetpoint();
-  // }
-
-  // TODO: Make this appear only in "Test" when Final PID Numbers are Selected
-  /** Updates the PID Contants for the PID Controller */
-  // public void updatePIDController() {
-  //   ActuatorConstants.KP = actuatorkp.getDouble(0.0);
-  //   ActuatorConstants.KI = actuatorki.getDouble(0.0);
-  //   ActuatorConstants.KD = actuatorkd.getDouble(0.0);
-  //   actuatorPIDController.setPID(ActuatorConstants.KP, ActuatorConstants.KI,
-  // ActuatorConstants.KD);
-  // }
-
-  // // TODO: Make this have a setpoint as a parameter and delete smartdashboard getter
-  // /** Updates the Position the Actuator is Going To */
-  // public void updateSetpoint() {
-  //   actuatorSetpoint = actuatorSetpointSetter.getDouble(0.0);
-  //   actuatorPIDController.setSetpoint(actuatorSetpoint);
-  // }
 
   /** Updates the Outputs of the Motors based on What Mode we are In */
   public void updateInputs() {
@@ -109,9 +75,13 @@ public class Actuator extends SubsystemBase {
     io.setBrakeMode(enable);
   }
 
+  /**
+   * Sets the PID setpoint of the Actuator
+   * 
+   * @param setpoint Angle (Radians)
+   */
   public void setActuatorSetpoint(double setpoint) {
     actuatorPIDController.setSetpoint(setpoint);
-    actuatorPIDController.setTolerance(ActuatorConstants.ANGLE_TOLERANCE);
   }
 
   /**

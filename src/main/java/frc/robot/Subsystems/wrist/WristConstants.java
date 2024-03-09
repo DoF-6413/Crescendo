@@ -3,8 +3,8 @@ package frc.robot.Subsystems.wrist;
 import edu.wpi.first.math.util.Units;
 
 public final class WristConstants {
-
   // PID Constants for the Wrist
+  
   /** Represents the proportional constant, multiplied by the current error */
   public static final double KP = 1.2;
 

@@ -8,18 +8,16 @@ import edu.wpi.first.math.util.Units;
 
 /** Actuator Constants */
 public final class ActuatorConstants {
-
   // PID Constants for the Actuator
-  // TODO: Finalize PID values once they are tuned/determined + add 'final'
-  // modifiers
+  
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static double KP = 1.0;
+  public static final double KP = 1.0;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static double KI = 0.0;
+  public static final double KI = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static double KD = 0.0;
+  public static final double KD = 0.0;
   /**
    * Updates the range of error acceptable from setpoint (The position of the Actuator can be within
    * 5% of the setpoint)

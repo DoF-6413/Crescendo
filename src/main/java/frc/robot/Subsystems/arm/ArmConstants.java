@@ -8,8 +8,6 @@ import edu.wpi.first.math.util.Units;
 
 public final class ArmConstants {
   // PID Constants for the arm
-  // TODO: Finalize PID values once they are tuned/determined + add 'final'
-  // modifiers
 
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)

@@ -75,12 +75,17 @@ public class Arm extends SubsystemBase {
   /**
    * Updates the angle that the wrist should be at using the WPI PID controller
    *
-   * @param setpoint Radians [RANGE]
+   * @param setpoint Angle (Radians)
    */
   public void setSetpoint(double setpoint) {
     armPIDController.setSetpoint(setpoint);
   }
 
+  /**
+   * Changes the angle setpoint of the Arm 
+   * 
+   * @param increment Angle (Radians)
+   */
   public void incrementArmSetpoint(double increment) {
     armPIDController.setSetpoint(armPIDController.getSetpoint() + increment);
   }
