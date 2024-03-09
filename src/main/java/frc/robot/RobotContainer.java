@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
-import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackSide;
+import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.ShootAtSpeaker;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
@@ -288,14 +288,14 @@ public class RobotContainer {
     // Scoring from the backside
     auxController
         .rightBumper()
-        .onTrue(new PositionAmpScoreBackSide(m_armSubsystem, m_wristSubsystem))
+        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
         .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
 
     /* SOURCE Pickup */
     // Picking up from SOURCE, backside
     auxController
         .leftBumper()
-        .onTrue(new SourcePickUpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
+        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
         .onFalse(
             new ParallelCommandGroup(
                 new ArmToZero(m_wristSubsystem, m_armSubsystem),

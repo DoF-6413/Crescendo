@@ -15,9 +15,9 @@ import frc.robot.Subsystems.wrist.WristConstants;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SourcePickUpBackSide extends SequentialCommandGroup {
+public class SourcePickUpBackside extends SequentialCommandGroup {
   /** Intakes NOTE from SOURCE, backside */
-  public SourcePickUpBackSide(Arm arm, Wrist wrist, Feeder feeder) {
+  public SourcePickUpBackside(Arm arm, Wrist wrist, Feeder feeder) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
