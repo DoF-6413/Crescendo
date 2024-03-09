@@ -122,14 +122,18 @@ public class Shooter extends SubsystemBase {
   }
 
   /** Returns where the Top Shooter RPM is within the setpoint, including tolerance */
-  // public boolean topAtSetpoint() {
-  //   return topShooterPIDController.atSetpoint(inputs.topShooterMotorRPM);
-  // }
+  public boolean topAtSetpoint() {
+    return topShooterPIDController.atSetpoint(inputs.topShooterMotorRPM);
+  }
 
   /** Returns where the Bottom Shooter RPM is within the setpoint, including tolerance */
-  // public boolean bottomAtSetpoint() {
-  //   return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
-  // }
+  public boolean bottomAtSetpoint() {
+    return bottomShooterPIDController.atSetpoint(inputs.bottomShooterMotorRPM);
+  }
+
+  public boolean allAtSetpoint() {
+    return bottomAtSetpoint() && topAtSetpoint();
+  }
 
   public void enableShooter(boolean auxAIsPressed) {
     if (auxAIsPressed) {
@@ -151,6 +155,8 @@ public class Shooter extends SubsystemBase {
   public void setSetpoint(double setpoint) {
     topShooterPIDController.setSetpoint(setpoint);
     bottomShooterPIDController.setSetpoint(setpoint);
+    topShooterPIDController.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
+    bottomShooterPIDController.setTolerance(setpointRPM * ShooterConstants.TOLERANCE_PERCENT);
   }
 
   // TODO: Create a tempature shutoff/warning

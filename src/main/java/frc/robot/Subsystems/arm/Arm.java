@@ -25,7 +25,7 @@ public class Arm extends SubsystemBase {
     this.io = io;
     armPIDController = new PIDController(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
     armPIDController.setSetpoint(0);
-    armPIDController.setTolerance(Units.degreesToRadians(1));
+    armPIDController.setTolerance(Units.degreesToRadians(3));
     armPIDController.disableContinuousInput();
   }
 
@@ -80,6 +80,10 @@ public class Arm extends SubsystemBase {
    */
   public void setSetpoint(double setpoint) {
     armPIDController.setSetpoint(setpoint);
+  }
+
+  public void incrementArmSetpoint(double increment) {
+    armPIDController.setSetpoint(armPIDController.getSetpoint() + increment);
   }
 
   /** Returns whether the arm is at its setpoint or not */
