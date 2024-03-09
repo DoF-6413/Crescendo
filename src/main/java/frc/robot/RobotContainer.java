@@ -50,9 +50,9 @@ import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.feeder.*;
 import frc.robot.Subsystems.gyro.*;
 import frc.robot.Subsystems.otbIntake.*;
+import frc.robot.Subsystems.photonVision.*;
 import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
-import frc.robot.Subsystems.vision.*;
 import frc.robot.Subsystems.wrist.*;
 import frc.robot.Utils.*;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -156,6 +156,14 @@ public class RobotContainer {
         m_wristSubsystem = new Wrist(new WristIO() {});
         break;
     }
+    m_gyroSubsystem = new Gyro(new GyroIO() {});
+    m_driveSubsystem =
+        new Drive(
+            new ModuleIO() {},
+            new ModuleIO() {},
+            new ModuleIO() {},
+            new ModuleIO() {},
+            m_gyroSubsystem);
 
     // Utils
     m_poseEstimator = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
