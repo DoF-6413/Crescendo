@@ -22,7 +22,7 @@ import frc.robot.Subsystems.gyro.*;
 /** This class handels the odometry and locates the robots current position */
 public class PoseEstimator extends SubsystemBase {
   /**
-   * increase the numbers to trust the model's state estimate less it is a matrix in form of [x, y,
+   * Increase the numbers to trust the model's state estimate less it is a matrix in form of [x, y,
    * theta] or meters, meters, radians
    */
   public static Vector<N3> stateStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
@@ -75,18 +75,23 @@ public class PoseEstimator extends SubsystemBase {
     // }
   }
 
+  /**
+   * @return the current pose in a Pose2d
+   */
   public Pose2d getCurrentPose2d() {
     return poseEstimator.getEstimatedPosition();
   }
-
+  /**
+   * Resets the pose
+   *
+   * @param currentPose2d
+   */
   public void resetPose(Pose2d currentPose2d) {
     poseEstimator.resetPosition(gyro.getYaw(), drive.getSwerveModulePositions(), currentPose2d);
   }
-
-  public Pose2d getInitialPose2d() {
-    return null;
-  }
-
+  /**
+   * @return the rotation in a Rotation2d in degrees
+   */
   public Rotation2d getRotation() {
     return poseEstimator.getEstimatedPosition().getRotation();
   }

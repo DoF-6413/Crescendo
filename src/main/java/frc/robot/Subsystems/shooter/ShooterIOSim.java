@@ -60,13 +60,4 @@ public class ShooterIOSim implements ShooterIO {
   public void setBottomShooterMotorVoltage(double volts) {
     bottomShooterFlywheel.setInputVoltage(volts);
   }
-
-  @Override
-  public void enableShooter(boolean auxAIsPressed) {
-    if (auxAIsPressed) {
-      setBothShooterMotorPercentSpeed(100);
-    } else {
-      setBothShooterMotorPercentSpeed(0);
-    }
-  }
 }

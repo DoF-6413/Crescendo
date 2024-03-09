@@ -15,11 +15,6 @@ public class Actuator extends SubsystemBase {
   private final PIDController actuatorPIDController;
   private double actuatorSetpoint = 0.0;
   private boolean actuatorPIDenable = true;
-  // private final ShuffleboardTab actuatorTab = Shuffleboard.getTab("Actuator");
-  // private GenericEntry actuatorkp;
-  // private GenericEntry actuatorki;
-  // private GenericEntry actuatorkd;
-  // private GenericEntry actuatorSetpointSetter;
 
   /**
    * Creates a new Actuator, the Subsystem that moves the OTB Intake Rollers from inside the Robot
@@ -31,14 +26,12 @@ public class Actuator extends SubsystemBase {
     actuatorPIDController =
         new PIDController(ActuatorConstants.KP, ActuatorConstants.KI, ActuatorConstants.KD);
     actuatorPIDController.setSetpoint(actuatorSetpoint);
-    actuatorPIDController.setTolerance(
-        ActuatorConstants.TOLERANCE_PERCENT * actuatorSetpoint + 0.2);
+    actuatorPIDController.setTolerance(ActuatorConstants.ANGLE_TOLERANCE);
     actuatorPIDController.disableContinuousInput();
   }
 
   @Override
   public void periodic() {
-    // updates the inputs
     this.updateInputs();
     // log the inputs
     Logger.processInputs("Actuator", inputs);
@@ -47,39 +40,7 @@ public class Actuator extends SubsystemBase {
     if (actuatorPIDenable) {
       setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
     }
-    SmartDashboard.putNumber(
-        "PID Calculate", actuatorPIDController.calculate(inputs.actuatorPositionRad));
-    SmartDashboard.putNumber("Tolerence", actuatorSetpoint * ActuatorConstants.TOLERANCE_PERCENT);
   }
-  // Updates Actuator Speed based on PID Control
-
-  // // TODO: Delete once final PID Numbers are Decided
-  // if (ActuatorConstants.KP != actuatorkp.getDouble(0.0)
-  //     || ActuatorConstants.KI != actuatorki.getDouble(0.0)
-  //     || ActuatorConstants.KD != actuatorkd.getDouble(0.0)) {
-  //   updatePIDController();
-  // }
-
-  // if (actuatorSetpoint != actuatorSetpointSetter.getDouble(0.0)) {
-  //   updateSetpoint();
-  // }
-
-  // TODO: Make this appear only in "Test" when Final PID Numbers are Selected
-  /** Updates the PID Contants for the PID Controller */
-  // public void updatePIDController() {
-  //   ActuatorConstants.KP = actuatorkp.getDouble(0.0);
-  //   ActuatorConstants.KI = actuatorki.getDouble(0.0);
-  //   ActuatorConstants.KD = actuatorkd.getDouble(0.0);
-  //   actuatorPIDController.setPID(ActuatorConstants.KP, ActuatorConstants.KI,
-  // ActuatorConstants.KD);
-  // }
-
-  // // TODO: Make this have a setpoint as a parameter and delete smartdashboard getter
-  // /** Updates the Position the Actuator is Going To */
-  // public void updateSetpoint() {
-  //   actuatorSetpoint = actuatorSetpointSetter.getDouble(0.0);
-  //   actuatorPIDController.setSetpoint(actuatorSetpoint);
-  // }
 
   /** Updates the Outputs of the Motors based on What Mode we are In */
   public void updateInputs() {
@@ -89,7 +50,7 @@ public class Actuator extends SubsystemBase {
   /**
    * Sets the Actuator motor to a percentage of its max speed
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public void setActuatorPercentSpeed(double percent) {
     io.setActuatorPercentSpeed(percent);
@@ -98,7 +59,7 @@ public class Actuator extends SubsystemBase {
   /**
    * Sets the voltage of the Actuator motor
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public void setActuatorVoltage(double volts) {
     io.setActuatorVoltage(volts);
@@ -114,28 +75,41 @@ public class Actuator extends SubsystemBase {
     io.setBrakeMode(enable);
   }
 
+  /**
+   * Sets the PID setpoint of the Actuator
+   *
+   * @param setpoint Angle (Radians)
+   */
   public void setActuatorSetpoint(double setpoint) {
     actuatorPIDController.setSetpoint(setpoint);
-    actuatorPIDController.setTolerance(
-        ActuatorConstants.TOLERANCE_PERCENT * actuatorSetpoint + 0.2);
   }
 
-  public void disableActuator() {
-    setActuatorVoltage(0);
-  }
-
+  /**
+   * Sets the smart current limiting of the Actuator using the SPARK MAX speed contollers
+   *
+   * @param current Amps
+   */
   public void setCurrentLimit(int current) {
     io.setCurrentLimit(current);
   }
 
+  /**
+   * @return The current ouputs of the Actuator in amps
+   */
   public double getOutputCurrent() {
     return inputs.actuatorCurrentAmps[0];
   }
 
+  /** Resets the current position of the Actuator to be the new zero position */
   public void zeroPosition() {
     io.zeroPosition();
   }
 
+  /**
+   * Enables or disables the position PID calculations of the Actuator
+   *
+   * @param isEnable True enables PID, false disables PID
+   */
   public void actuatorPIDEnable(boolean isEnable) {
     actuatorPIDenable = isEnable;
   }

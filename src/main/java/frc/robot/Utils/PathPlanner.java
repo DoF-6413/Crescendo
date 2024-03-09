@@ -15,11 +15,12 @@ import frc.robot.Subsystems.drive.DriveConstants;
 
 /** Add your docs here. */
 public class PathPlanner extends SubsystemBase {
-
   private Drive drive;
   private PoseEstimator pose;
 
   public PathPlanner(Drive drive, PoseEstimator pose) {
+    this.drive = drive;
+    this.pose = pose;
 
     AutoBuilder.configureHolonomic(
         pose::getCurrentPose2d,
@@ -35,7 +36,7 @@ public class PathPlanner extends SubsystemBase {
                 DriveConstants.STEER_KP_NEO,
                 DriveConstants.STEER_KI_NEO,
                 DriveConstants.STEER_KD_NEO),
-            27.462, // Max module speed, in m/s
+            DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
             DriveConstants
                 .TRACK_WIDTH_M, // Drive base radius in meters. Distance from robot center to
             // furthest module.

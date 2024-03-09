@@ -35,8 +35,8 @@ public class ShooterIOTalonFX implements ShooterIO {
     currentLimitsConfig.withSupplyCurrentLimit(ShooterConstants.CUR_LIM_A);
     topShooterMotor.getConfigurator().apply(currentLimitsConfig);
     bottomShooterMotor.getConfigurator().apply(currentLimitsConfig);
-    currentLimitsConfig.withStatorCurrentLimitEnable(true);
-    currentLimitsConfig.withSupplyCurrentLimitEnable(true);
+    currentLimitsConfig.withStatorCurrentLimitEnable(ShooterConstants.ENABLE_CUR_LIM);
+    currentLimitsConfig.withSupplyCurrentLimitEnable(ShooterConstants.ENABLE_CUR_LIM);
   }
 
   @Override
@@ -65,7 +65,7 @@ public class ShooterIOTalonFX implements ShooterIO {
   }
 
   @Override
-  public void setShooterBrakeMode(boolean enable) {
+  public void setBrakeMode(boolean enable) {
     if (enable) {
       topShooterMotor.setNeutralMode(NeutralModeValue.Brake);
       bottomShooterMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -95,14 +95,5 @@ public class ShooterIOTalonFX implements ShooterIO {
   public void setBothShooterMotorPercentSpeed(double percent) {
     topShooterMotor.set(percent);
     bottomShooterMotor.set(percent);
-  }
-
-  @Override
-  public void enableShooter(boolean auxAIsPressed) {
-    if (auxAIsPressed) {
-      setBothShooterMotorPercentSpeed(100);
-    } else {
-      setBothShooterMotorPercentSpeed(0);
-    }
   }
 }

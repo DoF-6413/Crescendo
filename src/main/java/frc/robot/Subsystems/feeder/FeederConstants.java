@@ -14,7 +14,7 @@ public class FeederConstants {
   /** Allows the RPM to be within 1% of the setpoint */
   public static final double TOLERANCE_PERCENT = 0.01;
   /** Max RPM achievable by the Indexer motor */
-  public static final double MAX_VALUE = 4800.0; // TODO: Update
+  public static final double MAX_RPM = 4800.0; // TODO: Update
 
   // Sim constants
   public static final double MOI_KG_M2 = 0.0001; // TODO: Update
@@ -23,9 +23,17 @@ public class FeederConstants {
   /** CAN ID for the feeder motor */
   public static final int FEEDER_MOTOR_ID = 21;
   /** Gear ratio of 4:3 for the Indexer */
-  public static final double GEAR_RATIO = 1.5; // TODO: Update
+  public static final double GEAR_RATIO = 1.33; // TODO: Update
   /** Current limit Amps */
   public static final double CUR_LIM_A = 40; // TODO: Update
   /** Used to set the Indexer motor to not be inverted on startup */
   public static final boolean IS_INVERTED = false;
+
+  // Teleop Automations
+  /** AMP score speed */
+  public static final double AMP_RPM = 1500;
+  /** SOURCE pickup speed */
+  public static final double SOURCE_RPM = 1500;
+  /** SPEAKER score speed */
+  public static final double SPEAKER_RPM = 1500;
 }

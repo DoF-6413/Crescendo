@@ -20,7 +20,7 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
     otbIntakeMotor = new CANSparkMax(OTBIntakeConstants.CAN_ID, MotorType.kBrushless);
     otbIntakeEncoder = otbIntakeMotor.getEncoder();
     otbIntakeMotor.setIdleMode(IdleMode.kBrake);
-    otbIntakeMotor.setSmartCurrentLimit(OTBIntakeConstants.CURR_LIM_A);
+    otbIntakeMotor.setSmartCurrentLimit(OTBIntakeConstants.CUR_LIM_A);
     otbIntakeMotor.setInverted(OTBIntakeConstants.IS_INVERTED);
   }
 
@@ -53,15 +53,6 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
       otbIntakeMotor.setIdleMode(IdleMode.kBrake);
     } else {
       otbIntakeMotor.setIdleMode(IdleMode.kCoast);
-    }
-  }
-
-  @Override
-  public void enableRollers(boolean enable) {
-    if (enable) {
-      setOTBIntakePercentSpeed(100);
-    } else {
-      setOTBIntakePercentSpeed(0);
     }
   }
 }

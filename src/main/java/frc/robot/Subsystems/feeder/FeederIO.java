@@ -14,30 +14,30 @@ public interface FeederIO {
     /** Number of amps used by the Feeder motor */
     public double[] feederCurrentAmps = new double[] {};
     /** Tempature of the Feeder motor in Celsius */
-    public double[] feederTempCelsuis = new double[] {};
+    public double[] feederTempCelsius = new double[] {};
   }
 
-  /** Updates the set of loggable inputs for both Shooter Motors */
+  /** Updates the set of loggable inputs for both Feeder motors */
   public default void updateInputs(FeederIOInputs inputs) {}
 
   /**
    * Sets the voltage of the Feeder motor
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public default void setFeederVoltage(double volts) {}
 
   /**
    * Sets the speed of the Feeder motor based on a percent of its maximum speed
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public default void setFeederPercentSpeed(double percent) {}
 
   /**
    * Sets the Feeder motor to brake mode
    *
-   * @param enable
+   * @param enable Enables brake mode if true, coast if false
    */
-  public default void setFeederBrakeMode(boolean enable) {}
+  public default void setBrakeMode(boolean enable) {}
 }

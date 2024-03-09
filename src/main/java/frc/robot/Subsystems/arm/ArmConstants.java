@@ -4,10 +4,10 @@
 
 package frc.robot.Subsystems.arm;
 
+import edu.wpi.first.math.util.Units;
+
 public final class ArmConstants {
-  // PID Constants for the Actuator
-  // TODO: Finalize PID values once they are tuned/determined + add 'final'
-  // modifiers
+  // PID Constants for the arm
 
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
@@ -18,10 +18,10 @@ public final class ArmConstants {
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
   public static final double KD = 0.0;
   /**
-   * Updates the range of error acceptable from setpoint (The position of the Actuator can be within
-   * 1% of the setpoint)
+   * Updates the range of error acceptable from setpoint (The position of the arm can be within 3
+   * degrees of the setpoint)
    */
-  public static final double TOLERANCE_PERCENT = 0.01;
+  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
 
   // Sim Constants for the Arm
   /** Moment of Inertia for the Arm sim */
@@ -33,16 +33,15 @@ public final class ArmConstants {
   /** The CAN ID of the Arm so it can be Identified on the CAN bus */
   public static final int CAN_ID = 19;
 
-  /** The Current Limit for the Actuator in Amps */
+  /** The Current Limit for the arm in Amps */
   public static final int CUR_LIM_A = 30;
 
   /**
-   * The Gear Ratio of the Actuator (Controls Speed vs Power, Calculated from Teeth of Gears for
-   * Control)
+   * The Gear Ratio of the arm (Controls Speed vs Power, Calculated from Teeth of Gears for Control)
    */
   public static final double GEAR_RATIO = 99.1736;
 
-  /** Length from pivot to wrist */
+  /** Length from pivot to arm */
   public static final double LENGTH_M = 0.4126308486; // TODO: update
 
   /** The minimum angle the arm can rotate to */
@@ -52,8 +51,16 @@ public final class ArmConstants {
   public static final double MAX_ANGLE_RAD = 1.8675; // TODO: update
 
   /** The angle where the arm starts */
-  public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD; // TODO: update
+  public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD;
 
   /** Sets if Arm Motor is Inverted */
   public static final boolean IS_INVERTED = true;
+
+  // Teleop Automations
+  /** AMP Score back side */
+  public static final double AMP_BACK_SIDE_RAD = Units.degreesToRadians(40);
+  /** AMP Score front side */
+  public static final double AMP_FRONT_SIDE_RAD = 1.849;
+  /** SOURCE Pickup back side */
+  public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(10.0);
 }
