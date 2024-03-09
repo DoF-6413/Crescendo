@@ -24,14 +24,14 @@ public interface ClimberIO {
   /**
    * Sets the voltage of Climber Motors
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public default void setClimberVoltage(double volts) {}
 
   /**
    * Sets Climber Motors to a percent of their maximum speed
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public default void setClimberPercentSpeed(double percent) {}
 

@@ -286,15 +286,4 @@ public class Shooter extends SubsystemBase {
       return closestTheta;
     }
   }
-
-  // TODO: Create a tempature shutoff/warning
-  // note 2.8.24: probably also check if the last x array values are over some set temp; 100 is
-  // arbitrary
-  // 2.12.24: crashes in Sim, not tested on real hardware
-  // public boolean exceedsTemperature() {
-  //   if (inputs.topShooterTempCelsius[inputs.topShooterTempCelsius.length - 1] > 100) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
 }
