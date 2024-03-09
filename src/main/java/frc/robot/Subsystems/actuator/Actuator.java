@@ -31,8 +31,7 @@ public class Actuator extends SubsystemBase {
     actuatorPIDController =
         new PIDController(ActuatorConstants.KP, ActuatorConstants.KI, ActuatorConstants.KD);
     actuatorPIDController.setSetpoint(actuatorSetpoint);
-    actuatorPIDController.setTolerance(
-        ActuatorConstants.TOLERANCE_PERCENT * actuatorSetpoint + 0.2);
+    actuatorPIDController.setTolerance(ActuatorConstants.ANGLE_TOLERANCE);
     actuatorPIDController.disableContinuousInput();
   }
 
@@ -46,9 +45,6 @@ public class Actuator extends SubsystemBase {
     if (actuatorPIDenable) {
       setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
     }
-    SmartDashboard.putNumber(
-        "PID Calculate", actuatorPIDController.calculate(inputs.actuatorPositionRad));
-    SmartDashboard.putNumber("Tolerence", actuatorSetpoint * ActuatorConstants.TOLERANCE_PERCENT);
   }
   // Updates Actuator Speed based on PID Control
 
@@ -115,26 +111,35 @@ public class Actuator extends SubsystemBase {
 
   public void setActuatorSetpoint(double setpoint) {
     actuatorPIDController.setSetpoint(setpoint);
-    actuatorPIDController.setTolerance(
-        ActuatorConstants.TOLERANCE_PERCENT * actuatorSetpoint + 0.2);
+    actuatorPIDController.setTolerance(ActuatorConstants.ANGLE_TOLERANCE);
   }
 
-  public void disableActuator() {
-    setActuatorVoltage(0);
-  }
-
+  /**
+   * Sets the smart current limiting of the Actuator using the SPARK MAX speed contollers
+   *
+   * @param current Amps
+   */
   public void setCurrentLimit(int current) {
     io.setCurrentLimit(current);
   }
 
+  /**
+   * @return The current ouputs of the Actuator in amps
+   */
   public double getOutputCurrent() {
     return inputs.actuatorCurrentAmps[0];
   }
 
+  /** Resets the current position of the Actuator to be the new zero position */
   public void zeroPosition() {
     io.zeroPosition();
   }
 
+  /**
+   * Enables or disables the position PID calculations of the Actuator
+   *
+   * @param isEnable True enables PID, false disables PID
+   */
   public void actuatorPIDEnable(boolean isEnable) {
     actuatorPIDenable = isEnable;
   }

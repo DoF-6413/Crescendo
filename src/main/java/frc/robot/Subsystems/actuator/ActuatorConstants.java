@@ -24,7 +24,7 @@ public final class ActuatorConstants {
    * Updates the range of error acceptable from setpoint (The position of the Actuator can be within
    * 5% of the setpoint)
    */
-  public static final double TOLERANCE_PERCENT = 0.05;
+  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(2);
 
   // Sim Constants for the Actuator
 

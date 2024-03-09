@@ -20,8 +20,8 @@ public final class ArmConstants {
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
   public static final double KD = 0.0;
   /**
-   * Updates the range of error acceptable from setpoint (The position of the arm can be within 3 degrees
-   * of the setpoint)
+   * Updates the range of error acceptable from setpoint (The position of the arm can be within 3
+   * degrees of the setpoint)
    */
   public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
 

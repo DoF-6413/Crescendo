@@ -54,7 +54,13 @@ public interface ActuatorIO {
    */
   public default void setBrakeMode(boolean enable) {}
 
+  /**
+   * Sets the smart current limiting of the Actuator using the SPARK MAX speed contollers
+   *
+   * @param current Amps
+   */
   public default void setCurrentLimit(int current) {}
 
+  /** Resets the current position of the Actuator to be the new zero position */
   public default void zeroPosition() {}
 }

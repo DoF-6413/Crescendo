@@ -220,10 +220,7 @@ public class RobotContainer {
             new AllIntakesIn(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
 
     // Brings Actuator back to its default position (all the way up)
-    driverController
-        .start()
-        .onTrue(
-            new ActuatorToZero(m_actuatorSubsystem));
+    driverController.start().onTrue(new ActuatorToZero(m_actuatorSubsystem));
 
     /** Aux Controls */
 
