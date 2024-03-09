@@ -17,7 +17,7 @@ public interface FeederIO {
     public double[] feederTempCelsius = new double[] {};
   }
 
-  /** Updates the set of loggable inputs for both Shooter Motors */
+  /** Updates the set of loggable inputs for both Feeder motors */
   public default void updateInputs(FeederIOInputs inputs) {}
 
   /**
@@ -37,7 +37,7 @@ public interface FeederIO {
   /**
    * Sets the Feeder motor to brake mode
    *
-   * @param enable
+   * @param enable Enables brake mode if true, coast if false
    */
   public default void setBrakeMode(boolean enable) {}
 }

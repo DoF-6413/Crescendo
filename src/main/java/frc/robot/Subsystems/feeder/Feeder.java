@@ -34,7 +34,7 @@ public class Feeder extends SubsystemBase {
         feederPIDController.calculateForVoltage(inputs.feederRPM, FeederConstants.MAX_RPM));
   }
 
-  /** Updates the set of loggable inputs for both Shooter Motors */
+  /** Updates the set of loggable inputs for both Feeder motors */
   public void updateInputs() {
     io.updateInputs(inputs);
   }
@@ -60,7 +60,7 @@ public class Feeder extends SubsystemBase {
   /**
    * Sets the Feeder motor to brake mode
    *
-   * @param enable
+   * @param enable Enables brake mode if true, coast if false
    */
   public void setBrakeMode(boolean enable) {
     io.setBrakeMode(enable);

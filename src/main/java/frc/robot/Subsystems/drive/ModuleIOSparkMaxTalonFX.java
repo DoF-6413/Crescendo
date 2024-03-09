@@ -27,7 +27,6 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
   private final RelativeEncoder turnRelativeEncoder;
   private final CANcoder turnAbsoluteEncoder;
 
-  private final boolean isTurnMotorInverted = true;
   private final double absoluteEncoderOffsetRad;
   private final int swerveModuleNumber;
 
