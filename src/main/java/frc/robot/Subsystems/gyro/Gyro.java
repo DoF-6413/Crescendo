@@ -25,21 +25,29 @@ public class Gyro extends SubsystemBase {
     Logger.processInputs("Gyro", inputs);
   }
 
-  /** Returns the Roll (Y Axis) in Radians (-pi, pi) */
+  /**
+   * @return the Roll (Y Axis) in Radians (-pi, pi)
+   */
   public Rotation2d getRoll() {
     return inputs.rollPositionRad;
   }
 
-  /** Returns the Pitch (X Axis) in Radians (-pi, pi) */
+  /**
+   * @return the Pitch (X Axis) in Radians (-pi, pi)
+   */
   public Rotation2d getPitch() {
     return inputs.pitchPositionRad;
   }
 
-  /** Returns the Yaw (Z Axis) in Radians (-pi, pi) */
+  /**
+   * @return returns the Yaw (Z Axis) in Radians (-pi, pi)
+   */
   public Rotation2d getYaw() {
     return inputs.yawPositionRad;
   }
-
+  /**
+   * @return the angle of the robot in Radian
+   */
   public Rotation2d getAngle() {
     return inputs.anglePositionRad;
   }
@@ -49,7 +57,9 @@ public class Gyro extends SubsystemBase {
     io.zeroHeading();
   }
 
-  /** Returns whether or not the gyro is connected */
+  /**
+   * @return Returns whether or not the gyro is connected
+   */
   public boolean isConnected() {
     return inputs.connected;
   }

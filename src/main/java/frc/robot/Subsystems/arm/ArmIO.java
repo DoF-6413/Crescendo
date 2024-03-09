@@ -41,14 +41,14 @@ public interface ArmIO {
   /**
    * Sets the Arm motor to a percent of its maximum speed
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public default void setArmPercentSpeed(double percent) {}
 
   /**
    * Sets the voltage of the Arm motor
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public default void setArmVoltage(double volts) {}
 
