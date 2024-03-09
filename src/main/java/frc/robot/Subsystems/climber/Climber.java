@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.climber;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
 
 public class Climber extends SubsystemBase {
 
@@ -20,6 +21,7 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    Logger.processInputs("Climber", inputs);
   }
 
   /** Updates the set of loggable inputs for the Climber */
