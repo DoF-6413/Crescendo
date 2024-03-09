@@ -314,6 +314,8 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new ArmToZero(m_wristSubsystem, m_armSubsystem),
                 new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
+
+   m_wristSubsystem.setDefaultCommand(new InstantCommand(()-> m_wristSubsystem.setWristPercentSpeed(auxController.getLeftX()),m_wristSubsystem));
   }
 
   /**

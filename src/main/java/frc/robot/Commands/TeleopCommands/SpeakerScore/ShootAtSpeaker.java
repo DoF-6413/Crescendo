@@ -24,7 +24,8 @@ public class ShootAtSpeaker extends SequentialCommandGroup {
               feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
               wrist.setSetpoint(
                   Units.degreesToRadians(
-                    angle)); // TODO: update when shooter interpolation branch is merged to reference
+                      angle)); // TODO: update when shooter interpolation branch is merged to
+              // reference
               // lookup table
             },
             feeder,
