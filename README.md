@@ -65,11 +65,11 @@ chore#[Issue#]-[name]:
 - Branch name is all lowercase and hyphenated
 
 ## Naming Conventions
-- Constants
-  - ALL_CAPS_WITH_UNDERSCORES
 - Folder and file names
   - CapitalizeEveryWordWithoutSpaces
   - *unless it's a subsystem in Subsystems, which are all lowercase (ex: "arm", "utbintake")
+- Constants
+  - ALL_CAPS_WITH_UNDERSCORES
 - Functions and variables
   - camelCase (lowercase first word, capitalize first letter of all subsequent words, no spaces)
 

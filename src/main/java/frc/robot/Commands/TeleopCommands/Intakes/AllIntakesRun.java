@@ -28,7 +28,6 @@ public class AllIntakesRun extends ParallelCommandGroup {
       otbIntakePercentSpeed = 0.50;
       utbIntakePercentSpeed = -1.0;
     }
-    addRequirements(actuator, otbIntake, utbIntake);
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
