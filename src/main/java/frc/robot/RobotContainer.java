@@ -22,7 +22,7 @@ import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
-import frc.robot.Commands.TeleopCommands.SpeakerScore.ShootAtSpeaker;
+import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
@@ -186,20 +186,16 @@ public class RobotContainer {
     driverController
         .rightTrigger()
         .whileTrue(
-            new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem))
+            new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, false))
         .whileFalse(
-            new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
+            new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, true));
     // Outtake NOTE
     driverController
         .rightBumper()
         .whileTrue(
-            new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(1), m_utbIntakeSubsystem))
+            new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, false))
         .whileFalse(
-            new InstantCommand(
-                () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
+            new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
 
     /* All Intakes */
     // Intake NOTE
@@ -207,9 +203,10 @@ public class RobotContainer {
         .leftTrigger()
         .whileTrue(
             new AllIntakesRun(
-                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true))
+                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false))
         .whileFalse(
-            new AllIntakesStop(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+            new AllIntakesRun(
+                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true));
     // Outtake NOTE
     driverController
         .leftBumper()
@@ -217,7 +214,8 @@ public class RobotContainer {
             new AllIntakesRun(
                 m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false))
         .whileFalse(
-            new AllIntakesStop(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
+            new AllIntakesRun(
+                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true));
 
     // Brings Actuator back to its default position (all the way up)
     driverController.start().onTrue(new ActuatorToZero(m_actuatorSubsystem));
@@ -233,7 +231,7 @@ public class RobotContainer {
     // Backward
     auxController
         .b()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-250), m_feederSubsystem))
+        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-500), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
 
     /* Wrist */
@@ -277,15 +275,15 @@ public class RobotContainer {
     /* Scoring SPEAKER when up against it */
     auxController
         .leftTrigger()
-        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 21))
+        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 21))
         .onFalse(
             new ParallelCommandGroup(
                 new ArmToZero(m_wristSubsystem, m_armSubsystem),
                 new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem)));
-    /* Scoring SPEAKER when up against it */
+    /* Scoring SPEAKER when up against the PODIUM */
     auxController
         .rightTrigger()
-        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 1.5))
+        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 1.5))
         .onFalse(
             new ParallelCommandGroup(
                 new ArmToZero(m_wristSubsystem, m_armSubsystem),
@@ -306,7 +304,7 @@ public class RobotContainer {
         .onFalse(new ScoreAmpBackSide(m_armSubsystem, m_wristSubsystem, m_feederSubsystem));
 
     /* SOURCE Pickup */
-    // Picking up from SOURCE, backside
+    // Picking up from SOURCE, backside TODO: Change button
     auxController
         .leftBumper()
         .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
