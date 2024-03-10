@@ -13,19 +13,19 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.drive.Drive;
-import frc.robot.Utils.PoseEstimator;
+import frc.robot.Utils.PoseEstimatorLimelight;
 
 public class AimDriveToSpeaker extends Command {
   /** Creates a new AimDriveToSpeaker. */
   private Drive m_drive;
 
-  private PoseEstimator m_pose;
+  private PoseEstimatorLimelight m_pose;
   private double x;
   private double y;
   private CommandXboxController m_xbox;
   private PIDController rotPID;
 
-  public AimDriveToSpeaker(Drive m_drive, PoseEstimator m_pose, CommandXboxController m_xbox) {
+  public AimDriveToSpeaker(Drive m_drive, PoseEstimatorLimelight m_pose, CommandXboxController m_xbox) {
     this.m_drive = m_drive;
     this.m_pose = m_pose;
     this.x = m_xbox.getLeftX();

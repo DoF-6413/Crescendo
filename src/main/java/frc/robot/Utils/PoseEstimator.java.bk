@@ -6,6 +6,7 @@ package frc.robot.Utils;
 
 import edu.wpi.first.apriltag.*;
 import edu.wpi.first.math.*;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -14,10 +15,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.Constants.RobotStateConstants.Mode;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.drive.DriveConstants;
 import frc.robot.Subsystems.gyro.*;
-// import frc.robot.Subsystems.photonVision.*;
+import frc.robot.Subsystems.photonVision.*;
+import org.photonvision.targeting.PhotonPipelineResult;
 
 /** This class handels the odometry and locates the robots current position */
 public class PoseEstimator extends SubsystemBase {
@@ -35,10 +38,17 @@ public class PoseEstimator extends SubsystemBase {
 
   private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;
+  private Vision vision;
   private Gyro gyro;
   private Field2d field2d;
+  public PhotonPipelineResult pipelineResult;
+  public double resultsTimeStamp;
 
-  public PoseEstimator(Drive drive, Gyro gyro) {
+  private double previousPipelineTimestamp = 0;
+  private final AprilTagFieldLayout aprilTagFieldLayout;
+
+  /** Pose Estimation aided by PhotonVision */
+  public PoseEstimator(Drive drive, Gyro gyro, Vision Vision) {
 
     field2d = new Field2d();
     SmartDashboard.putData(field2d);
@@ -52,6 +62,11 @@ public class PoseEstimator extends SubsystemBase {
             gyro.getYaw(),
             drive.getSwerveModulePositions(),
             new Pose2d(new Translation2d(), new Rotation2d()));
+    aprilTagFieldLayout =
+        new AprilTagFieldLayout(
+            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getTags(),
+            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldLength(),
+            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldWidth());
   }
 
   @Override
@@ -70,9 +85,6 @@ public class PoseEstimator extends SubsystemBase {
           limelightMeasurement.timestampSeconds,
           visionMeasurementStandardDevs);
     }
-    //   }
-    // }
-    // }
   }
 
   /**
