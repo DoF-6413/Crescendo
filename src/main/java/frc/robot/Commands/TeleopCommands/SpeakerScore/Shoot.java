@@ -8,16 +8,19 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Subsystems.arm.Arm;
+import frc.robot.Subsystems.arm.ArmConstants;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.feeder.FeederConstants;
+import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterConstants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Shoot extends SequentialCommandGroup {
   /** Creates a new Shoot. */
-  public Shoot(CommandXboxController xbox, Feeder feeder) {
+  public Shoot(Feeder feeder, Arm arm, Shooter shooter) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -27,23 +30,23 @@ public class Shoot extends SequentialCommandGroup {
                   feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
                 },
                 feeder),
-            new InstantCommand(),
-            () -> xbox.leftTrigger().getAsBoolean() || xbox.rightTrigger().getAsBoolean()),
-        new ConditionalCommand(
-            Commands.runOnce(
-                () -> {
-                  feeder.setSetpoint(FeederConstants.AMP_RPM);
-                },
-                feeder),
-            new InstantCommand(),
-            () -> xbox.leftBumper().getAsBoolean()),
-        new ConditionalCommand(
-            Commands.runOnce(
-                () -> {
-                  feeder.setSetpoint(-FeederConstants.AMP_RPM);
-                },
-                feeder),
-            new InstantCommand(),
-            () -> xbox.rightBumper().getAsBoolean()));
+            new ConditionalCommand(
+                Commands.runOnce(
+                    () -> {
+                      feeder.setSetpoint(FeederConstants.AMP_RPM);
+                      shooter.setSetpoint(ShooterConstants.AMP_RPM);
+                    },
+                    feeder,
+                    shooter),
+                new ConditionalCommand(
+                    Commands.runOnce(
+                        () -> {
+                          feeder.setSetpoint(-FeederConstants.AMP_RPM);
+                        },
+                        feeder),
+                    new InstantCommand(),
+                    () -> arm.getSetpoint() == ArmConstants.AMP_BACK_SIDE_RAD),
+                () -> arm.getSetpoint() == ArmConstants.AMP_FRONT_SIDE_RAD),
+            () -> arm.getSetpoint() == 0));
   }
 }
