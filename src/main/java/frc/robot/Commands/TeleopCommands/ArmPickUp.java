@@ -5,39 +5,35 @@
 package frc.robot.Commands.TeleopCommands;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.feeder.Feeder;
-import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.wrist.Wrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AmpScore extends SequentialCommandGroup {
-  /** Creates a new AmpScore. */
-  public AmpScore(Arm arm, Wrist wrist, Feeder feeder, Shooter shooter) {
+public class ArmPickUp extends SequentialCommandGroup {
+  /** Creates a new ArmPickUp. */
+  public ArmPickUp(Arm arm, Wrist wrist, Feeder feeder) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         Commands.runOnce(
             () -> {
-              arm.setSetpoint(Units.degreesToRadians(19.7));
+              arm.setSetpoint(Units.degreesToRadians(10.0));
+              wrist.setSetpoint(Units.degreesToRadians(189));
             },
-            arm),
-        new WaitUntilCommand(() -> arm.atSetpoint()),
-        Commands.runOnce(
-            () -> {
-              wrist.setSetpoint(Units.degreesToRadians(83));
-            },
+            arm,
             wrist),
+        new WaitUntilCommand(() -> arm.atSetpoint()),
         new WaitUntilCommand(() -> wrist.atSetpoint()),
         Commands.runOnce(
             () -> {
-              shooter.setSetpoint(2500);
               feeder.setSetpoint(1500);
             },
-            shooter,
             feeder));
   }
 }

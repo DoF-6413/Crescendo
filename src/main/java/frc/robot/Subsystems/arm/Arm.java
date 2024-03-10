@@ -5,7 +5,7 @@
 package frc.robot.Subsystems.arm;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,26 +16,22 @@ public class Arm extends SubsystemBase {
   private final ArmIO io;
   private final ArmIOInputsAutoLogged armInputs = new ArmIOInputsAutoLogged();
   private final PIDController armPIDController;
-  private double armSetpoint = 0.0;
   private final ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
-  private GenericEntry armkp;
-  private GenericEntry armki;
-  private GenericEntry armkd;
-  private GenericEntry armSetpointSetter;
 
   /** Creates a new Arm, the Subsystem that moves the Shooter from Up and Down */
   public Arm(ArmIO io) {
     System.out.println("[Init] Creating arm");
     this.io = io;
     armPIDController = new PIDController(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
-    armPIDController.setSetpoint(armSetpoint);
+    armPIDController.setSetpoint(0);
+    armPIDController.setTolerance(Units.degreesToRadians(1));
     armPIDController.disableContinuousInput();
 
     // TODO: Delete once final PID Numbers are Decided
-    armkp = armTab.add("armkp", 0.0).getEntry();
-    armki = armTab.add("armki", 0.0).getEntry();
-    armkd = armTab.add("armkd", 0.0).getEntry();
-    armSetpointSetter = armTab.add("armSetpoint", 0.0).getEntry();
+    // armkp = armTab.add("armkp", 0.0).getEntry();
+    // armki = armTab.add("armki", 0.0).getEntry();
+    // armkd = armTab.add("armkd", 0.0).getEntry();
+    // armSetpointSetter = armTab.add("armSetpoint", 0.0).getEntry();
   }
 
   @Override
@@ -60,22 +56,6 @@ public class Arm extends SubsystemBase {
     // }
   }
 
-  // TODO: Make this appear only in "Test" when Final PID Numbers are Selected
-  /** Updates the PID Contants for the PID Controller */
-  // public void updatePIDController() {
-  //   ArmConstants.KP = armkp.getDouble(0.0);
-  //   ArmConstants.KI = armki.getDouble(0.0);
-  //   ArmConstants.KD = armkd.getDouble(0.0);
-  //   armPIDController.setPID(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
-  // }
-
-  // // TODO: Make this have a setpoint as a parameter and delete smartdashboard getter
-  // /** Updates the Position the Arm is Going To */
-  // public void updateSetpoint() {
-  //   armSetpoint = armSetpointSetter.getDouble(0.0);
-  //   armPIDController.setSetpoint(armSetpoint);
-  // }
-
   /** Updates the Outputs of the Motors based on What Mode we are In */
   public void updateInputs() {
     io.updateInputs(armInputs);
@@ -95,6 +75,7 @@ public class Arm extends SubsystemBase {
    * @param volts [-12 to 12]
    */
   public void setArmMotorVoltage(double volts) {
+
     io.setArmVoltage(volts);
   }
 
@@ -107,11 +88,16 @@ public class Arm extends SubsystemBase {
     io.setBrakeMode(enable);
   }
 
+  /**
+   * Updates the angle that the wrist should be at using the WPI PID controller
+   *
+   * @param setpoint Radians [RANGE]
+   */
   public void setSetpoint(double setpoint) {
     armPIDController.setSetpoint(setpoint);
-    armPIDController.setTolerance(ArmConstants.TOLERANCE_PERCENT * setpoint);
   }
 
+  /** Returns whether the arm is at its setpoint or not */
   public boolean atSetpoint() {
     return armPIDController.atSetpoint();
   }

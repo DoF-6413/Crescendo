@@ -41,7 +41,6 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // Subsystems TODO: Add back subsystems as we get them working? If not then just uncomment them
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
 
@@ -51,7 +50,7 @@ public class RobotContainer {
   //   // private final Climber m_climberSubsystem;
   //   private final UTBIntake m_utbIntakeSubsystem;
   //   private final OTBIntake m_otbIntakeSubsystem;
-  //   private final Actuator m_actuatorSubsystem;
+  private final Actuator m_actuatorSubsystem;
   //   private final Shooter m_shooterSubsystem;
   //   private final Wrist m_wristSubsystem;
 
@@ -87,7 +86,7 @@ public class RobotContainer {
         // // m_climberSubsystem = new Climber(new ClimberIOSparkMax());
         // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
-        // m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
+        m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
         // m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         // m_wristSubsystem = new Wrist(new WristIOSparkMax());
         break;
@@ -108,7 +107,7 @@ public class RobotContainer {
         // m_climberSubsystem = new Climber(new ClimberIOSim());
         // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
-        // m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
+        m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
         // m_shooterSubsystem = new Shooter(new ShooterIOSim());
         // m_wristSubsystem = new Wrist(new WristIOSim());
 
@@ -130,7 +129,7 @@ public class RobotContainer {
         // m_climberSubsystem = new Climber(new ClimberIO() {});
         // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         // m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
-        // m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
+        m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         // m_shooterSubsystem = new Shooter(new ShooterIO() {});
         // m_wristSubsystem = new Wrist(new WristIO() {});
         break;
@@ -159,7 +158,7 @@ public class RobotContainer {
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
-    autoChooser.addDefaultOption("Auto1", new PathPlannerAuto("Auto1"));
+    autoChooser.addOption("Auto1", new PathPlannerAuto("Auto1"));
     autoChooser.addDefaultOption("test1", new PathPlannerAuto("test1"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
   }
@@ -196,7 +195,7 @@ public class RobotContainer {
     //         new InstantCommand(
     //             () -> {
     //               m_feederSubsystem.setFeederPercentSpeed(0);
-    //               m_shooterSubsystem.setBothShooterMotorsVoltage(0);
+    //               m_shooterSubsystem.se/tBothShooterMotorsVoltage(0);
     //             }));
 
     // /** Non PID controls for the mechanisms */
@@ -330,5 +329,9 @@ public class RobotContainer {
   /** This Turns the Mechanisms to either Coast or Brake Depending on Disable or Enable */
   public void mechanismsCoastOnDisable(boolean isDisabled) {
     m_driveSubsystem.coastOnDisable(isDisabled);
+    // m_armSubsystem.setBrakeMode(!isDisabled);
+    // m_wristSubsystem.setWristBrakeMode(!isDisabled);
+    m_actuatorSubsystem.setBrakeMode(!isDisabled);
+    // m_shooterSubsystem.setShooterBrakeMode(!isDisabled);
   }
 }
