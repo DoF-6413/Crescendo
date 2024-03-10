@@ -159,6 +159,8 @@ public class RobotContainer {
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Auto1", new PathPlannerAuto("Auto1"));
+    autoChooser.addOption("test2", new PathPlannerAuto("test2"));
+    autoChooser.addOption("test3", new PathPlannerAuto("test3"));
     autoChooser.addDefaultOption("test1", new PathPlannerAuto("test1"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
   }

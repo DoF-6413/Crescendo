@@ -19,6 +19,7 @@ public interface GyroIO {
     public Rotation2d rollPositionRad = new Rotation2d();
     public Rotation2d pitchPositionRad = new Rotation2d();
     public Rotation2d yawPositionRad = new Rotation2d();
+    public Rotation2d rawYawPositionRad = new Rotation2d();
     public Rotation2d anglePositionRad = new Rotation2d();
     /** Gets the angular velocity of the roll */
     public double rollVelocityRadPerSec = 0.0;

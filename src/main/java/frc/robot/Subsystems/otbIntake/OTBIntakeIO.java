@@ -8,7 +8,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 /** These are all the input/output values that you can log for OTB Intake */
 public interface OTBIntakeIO {
-
+  
   @AutoLog
   public static class OTBIntakeIOInputs {
     /** Velocity of the OTB Intake Rollers in Rotations per Minute */

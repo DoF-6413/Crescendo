@@ -40,6 +40,10 @@ public class Gyro extends SubsystemBase {
     return inputs.yawPositionRad;
   }
 
+  public Rotation2d getRawYaw() {
+    return inputs.rawYawPositionRad;
+  }
+
   public Rotation2d getAngle() {
     return inputs.anglePositionRad;
   }
