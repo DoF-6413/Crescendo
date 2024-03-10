@@ -30,7 +30,7 @@ public class WristIOSparkMax implements WristIO {
     wristRelativeEncoder = wristMotor.getEncoder();
     wristAbsoluteEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
     wristAbsoluteEncoder.setInverted(WristConstants.IS_INVERTED);
-    wristAbsoluteEncoder.setZeroOffset(WristConstants.ABS_ENCODER_OFFSET_RADS);
+    wristAbsoluteEncoder.setZeroOffset(0.8);
 
     /** sets default to brake mode, which locks the motor position */
     wristMotor.setIdleMode(IdleMode.kBrake);
