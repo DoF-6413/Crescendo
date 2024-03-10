@@ -33,9 +33,10 @@ public class ArmIOSim implements ArmIO {
   public void updateInputs(ArmIOInputs inputs) {
     // Updates inputs periodically
     armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
-    inputs.armRelativePositionDeg = Units.radiansToDegrees(armMotor.getAngleRads());
+
     inputs.armRelativePositionRad = armMotor.getAngleRads();
-    inputs.armAbsolutePositionRad = inputs.armPositionRad;
+    inputs.armRelativePositionDeg = Units.radiansToDegrees(armMotor.getAngleRads());
+    inputs.armAbsolutePositionRad = inputs.armRelativePositionRad;
     inputs.armVelocityRadPerSec = armMotor.getVelocityRadPerSec();
     inputs.armAppliedVolts = 0.0;
     inputs.armCurrentAmps = new double[] {Math.abs(armMotor.getCurrentDrawAmps())};
