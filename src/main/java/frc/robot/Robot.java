@@ -110,6 +110,10 @@ public class Robot extends LoggedRobot {
   @Override
   public void disabledInit() {
     robotContainer.mechanismsCoastOnDisable(true);
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
+    }
+    robotContainer.setAllSetpointsZero();
   }
 
   /** This function is called periodically when disabled. */
@@ -146,6 +150,7 @@ public class Robot extends LoggedRobot {
       autonomousCommand.cancel();
     }
 
+    robotContainer.setAllSetpointsZero();
     robotContainer.mechanismsCoastOnDisable(false);
   }
 

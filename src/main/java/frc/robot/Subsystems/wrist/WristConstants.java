@@ -58,4 +58,6 @@ public final class WristConstants {
   public static final double AMP_FRONT_SIDE_RAD = 1.363;
   /** SOURCE Pickup back side */
   public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(155.0);
+  /** SPEAKER shot from podium */
+  public static final double PODIUM_RAD = Units.degreesToRadians(-1.0);
 }

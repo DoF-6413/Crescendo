@@ -7,14 +7,10 @@ package frc.robot.Commands.AutonomousCommands;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import frc.robot.Commands.TeleopCommands.SpeakerScore.ShootAtSpeaker;
-import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.feeder.FeederConstants;
 import frc.robot.Subsystems.shooter.Shooter;
-
 import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.wrist.Wrist;
 
@@ -27,11 +23,9 @@ public class OnePieceAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      Commands.runOnce(
+        Commands.runOnce(
             () -> {
-              wrist.setSetpoint(
-                  Units.degreesToRadians(
-                      21)); 
+              wrist.setSetpoint(Units.degreesToRadians(21));
               shooter.setSetpoint(ShooterConstants.SPEAKER_RPM);
             },
             shooter,
@@ -41,7 +35,6 @@ public class OnePieceAuto extends SequentialCommandGroup {
             () -> {
               feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
             },
-            feeder)
-    );
+            feeder));
   }
 }

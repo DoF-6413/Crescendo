@@ -15,7 +15,6 @@ package frc.robot;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.AutonomousCommands.OnePieceAuto;
@@ -153,10 +152,25 @@ public class RobotContainer {
 
     // Adds list of autos to Shuffleboard
     autoChooser.addOption("Do Nothing", new InstantCommand());
-    autoChooser.addOption("One Piece", new OnePieceAuto(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
-    autoChooser.addOption("One Piece and Leave", new OnePieceLeaveAuto(m_driveSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, 2, 0.4)); 
-    autoChooser.addOption("Two Piece", new TwoPieceAuto(m_driveSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, 2, 0.4, m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
-    Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
+    autoChooser.addOption(
+        "One Piece", new OnePieceAuto(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
+    autoChooser.addOption(
+        "One Piece and Leave",
+        new OnePieceLeaveAuto(
+            m_driveSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, 2, 0.8));
+    autoChooser.addOption(
+        "Two Piece",
+        new TwoPieceAuto(
+            m_driveSubsystem,
+            m_gyroSubsystem,
+            m_wristSubsystem,
+            m_feederSubsystem,
+            m_shooterSubsystem,
+            2,
+            0.8,
+            m_actuatorSubsystem,
+            m_otbIntakeSubsystem,
+            m_utbIntakeSubsystem));
   }
 
   /**
@@ -345,5 +359,11 @@ public class RobotContainer {
     m_actuatorSubsystem.setBrakeMode(!isDisabled);
     m_shooterSubsystem.setBrakeMode(!isDisabled);
     m_climberSubsystem.setClimberBrakeMode(!isDisabled);
+  }
+
+  public void setAllSetpointsZero() {
+    new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem);
+    m_shooterSubsystem.setSetpoint(0);
+    m_wristSubsystem.setSetpoint(0);
   }
 }
