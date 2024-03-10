@@ -13,9 +13,9 @@ import frc.robot.Subsystems.wrist.*;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShootAtSpeaker extends SequentialCommandGroup {
+public class PositionToShoot extends SequentialCommandGroup {
   /** Shoots NOTE when robot is against the subwoofer (right in front of the SPEAKER) */
-  public ShootAtSpeaker(Feeder feeder, Shooter shooter, Wrist wrist) {
+  public PositionToShoot(Feeder feeder, Shooter shooter, Wrist wrist, double angle) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -24,7 +24,8 @@ public class ShootAtSpeaker extends SequentialCommandGroup {
               feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
               wrist.setSetpoint(
                   Units.degreesToRadians(
-                      21)); // TODO: update when shooter interpolation branch is merged to reference
+                      angle)); // TODO: update when shooter interpolation branch is merged to
+              // reference
               // lookup table
             },
             feeder,
@@ -42,12 +43,6 @@ public class ShootAtSpeaker extends SequentialCommandGroup {
               feeder.setSetpoint(0);
             },
             shooter,
-            feeder),
-        new WaitCommand(0.8),
-        Commands.runOnce(
-            () -> {
-              feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
-            },
             feeder));
   }
 }

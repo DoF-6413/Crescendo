@@ -40,7 +40,7 @@ public final class WristConstants {
   /** Length from the Wrist */
   public static final double LENGTH_M = 0.4126308486;
   /** Minimum angle of the Wrist */
-  public static final double MIN_ANGLE_RAD = 0.390258413271767;
+  public static final double MIN_ANGLE_RAD = 0.0;
   /** Maximum angle of the Wrist */
   public static final double MAX_ANGLE_RAD = 1.8675;
 
