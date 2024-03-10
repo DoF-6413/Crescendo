@@ -18,6 +18,9 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Commands.AutonomousCommands.OnePieceAuto;
+import frc.robot.Commands.AutonomousCommands.OnePieceLeaveAuto;
+import frc.robot.Commands.AutonomousCommands.TwoPieceAuto;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
@@ -150,6 +153,9 @@ public class RobotContainer {
 
     // Adds list of autos to Shuffleboard
     autoChooser.addOption("Do Nothing", new InstantCommand());
+    autoChooser.addOption("One Piece", new OnePieceAuto(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
+    autoChooser.addOption("One Piece and Leave", new OnePieceLeaveAuto(m_driveSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, 2, 0.4)); 
+    autoChooser.addOption("Two Piece", new TwoPieceAuto(m_driveSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, 2, 0.4, m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
   }
 
@@ -271,7 +277,7 @@ public class RobotContainer {
     /* Scoring SPEAKER when up against it */
     auxController
         .leftTrigger()
-        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
+        .onTrue(new ShootAtSpeaker(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 21))
         .onFalse(
             new ParallelCommandGroup(
                 new ArmToZero(m_wristSubsystem, m_armSubsystem),
