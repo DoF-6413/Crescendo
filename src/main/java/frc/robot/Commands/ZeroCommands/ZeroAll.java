@@ -18,9 +18,6 @@ public class ZeroAll extends ParallelCommandGroup {
   public ZeroAll(Wrist wrist, Arm arm, Shooter shooter, Feeder feeder) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-      new ArmToZero(wrist, arm),
-      new EndEffectorToZero(shooter, feeder)
-    );
+    addCommands(new ArmToZero(wrist, arm), new EndEffectorToZero(shooter, feeder));
   }
 }

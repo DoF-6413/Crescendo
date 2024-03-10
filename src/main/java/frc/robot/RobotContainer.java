@@ -186,17 +186,13 @@ public class RobotContainer {
     // Intake NOTE
     driverController
         .rightTrigger()
-        .whileTrue(
-            new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, false))
-        .whileFalse(
-            new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, true));
+        .whileTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, false))
+        .whileFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, true));
     // Outtake NOTE
     driverController
         .rightBumper()
-        .whileTrue(
-            new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, false))
-        .whileFalse(
-            new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
+        .whileTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, false))
+        .whileFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
 
     /* All Intakes */
     // Intake NOTE
@@ -234,7 +230,7 @@ public class RobotContainer {
         .b()
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-500), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
-        auxController.a().onTrue(new Shoot(auxController, m_feederSubsystem));
+    auxController.a().onTrue(new Shoot(auxController, m_feederSubsystem));
 
     /* Wrist */
     // Increases angle of the Wrist by 1 degree
@@ -278,33 +274,35 @@ public class RobotContainer {
     auxController
         .leftTrigger()
         .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 21))
-        .onFalse(new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     /* Scoring SPEAKER when up against the PODIUM */
     auxController
         .rightTrigger()
         .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 1.5))
-        .onFalse(new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     /* AMP Scoring */
     // Scoring AMP from the frontside
     auxController
         .leftBumper()
         .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
-        
-        .onFalse(new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Scoring from the backside
     auxController
         .rightBumper()
         .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
-        .onFalse(new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* SOURCE Pickup */
     // Picking up from SOURCE, backside TODO: Change button
     auxController
         .leftBumper()
         .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
-        
-        .onFalse(new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
   }
 
   /**

@@ -22,20 +22,28 @@ public class Shoot extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new ConditionalCommand(
-          Commands.runOnce(() -> {feeder.setSetpoint(FeederConstants.SPEAKER_RPM);}, feeder), 
-          new InstantCommand(), 
-          () -> xbox.leftTrigger().getAsBoolean()
-            || xbox.rightTrigger().getAsBoolean()),
-
+            Commands.runOnce(
+                () -> {
+                  feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
+                },
+                feeder),
+            new InstantCommand(),
+            () -> xbox.leftTrigger().getAsBoolean() || xbox.rightTrigger().getAsBoolean()),
         new ConditionalCommand(
-          Commands.runOnce(() -> {feeder.setSetpoint(FeederConstants.AMP_RPM);}, feeder), 
-          new InstantCommand(), 
-          () -> xbox.leftBumper().getAsBoolean()),
-        
+            Commands.runOnce(
+                () -> {
+                  feeder.setSetpoint(FeederConstants.AMP_RPM);
+                },
+                feeder),
+            new InstantCommand(),
+            () -> xbox.leftBumper().getAsBoolean()),
         new ConditionalCommand(
-          Commands.runOnce(() -> {feeder.setSetpoint(-FeederConstants.AMP_RPM);}, feeder), 
-          new InstantCommand(), 
-          () -> xbox.rightBumper().getAsBoolean())
-     );
+            Commands.runOnce(
+                () -> {
+                  feeder.setSetpoint(-FeederConstants.AMP_RPM);
+                },
+                feeder),
+            new InstantCommand(),
+            () -> xbox.rightBumper().getAsBoolean()));
   }
 }

@@ -43,7 +43,6 @@ public class PositionToShoot extends SequentialCommandGroup {
               feeder.setSetpoint(0);
             },
             shooter,
-            feeder)
-    );
+            feeder));
   }
 }

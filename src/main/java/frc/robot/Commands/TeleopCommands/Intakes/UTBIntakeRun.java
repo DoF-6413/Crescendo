@@ -14,10 +14,9 @@ import frc.robot.Subsystems.utbintake.*;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class UTBIntakeRun extends ParallelCommandGroup {
   /** Creates a new AllIntake. */
-
   private double utbIntakePercentSpeed;
-  private double feederRPM;
 
+  private double feederRPM;
 
   /** Lowers OTB Intake and runs both Intakes to intake/outtake depending on isInwards */
   public UTBIntakeRun(UTBIntake utbIntake, Feeder feeder, boolean isInwards, boolean stop) {
@@ -25,8 +24,8 @@ public class UTBIntakeRun extends ParallelCommandGroup {
       feederRPM = -3750;
       utbIntakePercentSpeed = -1.0;
     } else if (stop) {
-        feederRPM = 0;
-        utbIntakePercentSpeed = 0;
+      feederRPM = 0;
+      utbIntakePercentSpeed = 0;
     } else {
       feederRPM = 3750;
       utbIntakePercentSpeed = 1.0;
@@ -34,11 +33,9 @@ public class UTBIntakeRun extends ParallelCommandGroup {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addRequirements(utbIntake, feeder);
     addCommands(
         new InstantCommand(
             () -> utbIntake.setUTBIntakePercentSpeed(utbIntakePercentSpeed), utbIntake));
-        new InstantCommand(
-            () -> feeder.setSetpoint(feederRPM), feeder);
+    new InstantCommand(() -> feeder.setSetpoint(feederRPM), feeder);
   }
 }

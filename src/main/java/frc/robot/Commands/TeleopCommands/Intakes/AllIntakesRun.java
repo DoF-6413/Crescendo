@@ -18,19 +18,17 @@ public class AllIntakesRun extends ParallelCommandGroup {
   private double actuatorPosition;
 
   /** Lowers OTB Intake and runs both Intakes to intake/outtake depending on isInwards */
-  public AllIntakesRun(
-      Actuator actuator, OTBIntake otbIntake, UTBIntake utbIntake, boolean stop) {
+  public AllIntakesRun(Actuator actuator, OTBIntake otbIntake, UTBIntake utbIntake, boolean stop) {
 
-    if (stop){
+    if (stop) {
       otbIntakePercentSpeed = 0;
       utbIntakePercentSpeed = 0;
       actuatorPosition = ActuatorConstants.MIN_ANGLE_RADS;
-    }else {
+    } else {
       otbIntakePercentSpeed = -0.50;
       utbIntakePercentSpeed = -1.0;
       actuatorPosition = ActuatorConstants.MAX_ANGLE_RADS;
     }
-
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
