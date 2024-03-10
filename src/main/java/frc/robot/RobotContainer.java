@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
-import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
@@ -186,33 +185,49 @@ public class RobotContainer {
     // Intake NOTE
     driverController
         .rightTrigger()
-        .whileTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, false))
-        .whileFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, true));
+        .onTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, false))
+        .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, true));
     // Outtake NOTE
     driverController
         .rightBumper()
-        .whileTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, false))
-        .whileFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
+        .onTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, false))
+        .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
 
     /* All Intakes */
     // Intake NOTE
     driverController
         .leftTrigger()
-        .whileTrue(
+        .onTrue(
             new AllIntakesRun(
-                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false))
-        .whileFalse(
+                m_actuatorSubsystem,
+                m_otbIntakeSubsystem,
+                m_utbIntakeSubsystem,
+                m_feederSubsystem,
+                false))
+        .onFalse(
             new AllIntakesRun(
-                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true));
+                m_actuatorSubsystem,
+                m_otbIntakeSubsystem,
+                m_utbIntakeSubsystem,
+                m_feederSubsystem,
+                true));
     // Outtake NOTE
     driverController
         .leftBumper()
-        .whileTrue(
+        .onTrue(
             new AllIntakesRun(
-                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false))
-        .whileFalse(
+                m_actuatorSubsystem,
+                m_otbIntakeSubsystem,
+                m_utbIntakeSubsystem,
+                m_feederSubsystem,
+                false))
+        .onFalse(
             new AllIntakesRun(
-                m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true));
+                m_actuatorSubsystem,
+                m_otbIntakeSubsystem,
+                m_utbIntakeSubsystem,
+                m_feederSubsystem,
+                true));
 
     // Brings Actuator back to its default position (all the way up)
     driverController.start().onTrue(new ActuatorToZero(m_actuatorSubsystem));
@@ -230,6 +245,7 @@ public class RobotContainer {
         .b()
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-500), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
+   
     auxController.a().onTrue(new Shoot(auxController, m_feederSubsystem));
 
     /* Wrist */
@@ -298,11 +314,12 @@ public class RobotContainer {
 
     /* SOURCE Pickup */
     // Picking up from SOURCE, backside TODO: Change button
-    auxController
-        .leftBumper()
-        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+    // auxController
+    //     .leftBumper()
+    //     .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
+    //     .onFalse(
+    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
+    // m_feederSubsystem));
   }
 
   /**

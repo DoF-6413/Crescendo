@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.arm;
 
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.*;
 
@@ -33,8 +34,9 @@ public class ArmIOSim implements ArmIO {
     // Updates inputs periodically
     armMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
-    inputs.armPositionRad = armMotor.getAngleRads();
-    inputs.armAbsolutePositionRad = inputs.armPositionRad;
+    inputs.armRelativePositionRad = armMotor.getAngleRads();
+    inputs.armRelativePositionDeg = Units.radiansToDegrees(armMotor.getAngleRads());
+    inputs.armAbsolutePositionRad = inputs.armRelativePositionRad;
     inputs.armVelocityRadPerSec = armMotor.getVelocityRadPerSec();
     inputs.armAppliedVolts = 0.0;
     inputs.armCurrentAmps = new double[] {Math.abs(armMotor.getCurrentDrawAmps())};

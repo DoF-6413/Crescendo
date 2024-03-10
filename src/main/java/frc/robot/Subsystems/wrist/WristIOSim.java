@@ -34,6 +34,7 @@ public class WristIOSim implements WristIO {
 
     inputs.wristRelativePositionRad = wristMotor.getAngleRads();
     inputs.wristRelativePositionDeg = Units.radiansToDegrees(wristMotor.getAngleRads());
+    inputs.wristAbsolutePositionRad = inputs.wristRelativePositionRad;
     inputs.wristVelocityRadPerSec = wristMotor.getVelocityRadPerSec();
     inputs.wristAppliedVolts = 0.0;
     inputs.wristCurrentAmps = new double[] {Math.abs(wristMotor.getCurrentDrawAmps())};
