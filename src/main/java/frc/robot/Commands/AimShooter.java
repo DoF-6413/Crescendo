@@ -13,17 +13,17 @@ import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.wrist.Wrist;
-import frc.robot.Utils.PoseEstimator;
+import frc.robot.Utils.PoseEstimatorLimelight;
 
 public class AimShooter extends Command {
   public Shooter m_shooter;
   public Wrist m_wrist;
   public Arm m_arm;
-  public PoseEstimator m_pose;
+  public PoseEstimatorLimelight m_pose;
   double deltaX, deltaY, speakerDist;
 
   /** Creates a new AimShooter. */
-  public AimShooter(Shooter shooter, Wrist wrist, Arm arm, PoseEstimator pose) {
+  public AimShooter(Shooter shooter, Wrist wrist, Arm arm, PoseEstimatorLimelight pose) {
     m_shooter = shooter;
     m_wrist = wrist;
     m_arm = arm;

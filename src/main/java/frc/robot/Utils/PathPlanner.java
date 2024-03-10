@@ -16,9 +16,9 @@ import frc.robot.Subsystems.drive.DriveConstants;
 /** Add your docs here. */
 public class PathPlanner extends SubsystemBase {
   private Drive drive;
-  private PoseEstimator pose;
+  private PoseEstimatorLimelight pose;
 
-  public PathPlanner(Drive drive, PoseEstimator pose) {
+  public PathPlanner(Drive drive, PoseEstimatorLimelight pose) {
     this.drive = drive;
     this.pose = pose;
 

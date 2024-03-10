@@ -62,7 +62,7 @@ public class RobotContainer {
   private final Wrist m_wristSubsystem;
 
   // Utilities
-  private final PoseEstimator m_poseEstimator;
+  private final PoseEstimatorLimelight m_poseEstimatorLimelight;
   private final PathPlanner m_pathPlanner;
 
   // Controllers
@@ -145,8 +145,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
-    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+    m_poseEstimatorLimelight = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
+    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimatorLimelight);
 
     // Adds list of autos to Shuffleboard
     autoChooser.addOption("Do Nothing", new InstantCommand());
