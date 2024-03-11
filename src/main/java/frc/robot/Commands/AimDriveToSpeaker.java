@@ -25,7 +25,8 @@ public class AimDriveToSpeaker extends Command {
   private CommandXboxController m_xbox;
   private PIDController rotPID;
 
-  public AimDriveToSpeaker(Drive m_drive, PoseEstimatorLimelight m_pose, CommandXboxController m_xbox) {
+  public AimDriveToSpeaker(
+      Drive m_drive, PoseEstimatorLimelight m_pose, CommandXboxController m_xbox) {
     this.m_drive = m_drive;
     this.m_pose = m_pose;
     this.x = m_xbox.getLeftX();

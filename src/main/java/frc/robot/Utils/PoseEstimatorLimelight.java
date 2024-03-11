@@ -10,6 +10,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -70,8 +71,6 @@ public class PoseEstimatorLimelight extends SubsystemBase {
           limelightMeasurement.timestampSeconds,
           visionMeasurementStandardDevs);
     }
-    //   }
-    // }
     // }
   }
 
@@ -94,5 +93,29 @@ public class PoseEstimatorLimelight extends SubsystemBase {
    */
   public Rotation2d getRotation() {
     return poseEstimator.getEstimatedPosition().getRotation();
+  }
+
+  public Rotation2d AngleForSpeaker() {
+    Translation2d delta;
+    if (DriverStation.getAlliance().isPresent()
+        && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+      delta = this.getCurrentPose2d().getTranslation().minus(FieldConstants.RED_SPEAKER);
+      delta =
+          delta.minus(
+              new Translation2d(
+                      0, (drive.getChassisSpeed().vyMetersPerSecond / 6) * delta.getNorm())
+                  .rotateBy(
+                      this.getCurrentPose2d().getRotation().plus(Rotation2d.fromDegrees(180))));
+      return Rotation2d.fromRadians(Math.atan(delta.getY() / delta.getX()))
+          .rotateBy(new Rotation2d(Math.PI));
+    } else {
+      delta = this.getCurrentPose2d().getTranslation().minus(FieldConstants.BLUE_SPEAKER);
+      delta =
+          delta.plus(
+              new Translation2d(
+                      0, (drive.getChassisSpeed().vyMetersPerSecond / 6) * delta.getNorm())
+                  .rotateBy(this.getCurrentPose2d().getRotation()));
+      return Rotation2d.fromRadians(Math.atan(delta.getY() / delta.getX()));
+    }
   }
 }

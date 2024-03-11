@@ -6,30 +6,23 @@ package frc.robot.Commands.SpeakerAutoAlign;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.Constants.FieldConstants;
-import frc.robot.Subsystems.drive.Drive;
-import frc.robot.Utils.PoseEstimator;
-
+import frc.robot.Utils.PoseEstimatorLimelight;
 import java.util.function.Supplier;
-import org.littletonrobotics.junction.AutoLogOutput;
 
 /** Add your docs here. */
 public class HeadingController {
   private final PIDController controller;
-private Supplier<Rotation2d> goalHeadingSupplier;
-private PoseEstimator pose;
-private Drive drive;
+  private Supplier<Rotation2d> goalHeadingSupplier;
+  private PoseEstimatorLimelight pose;
 
-  public HeadingController(Supplier<Rotation2d> goalHeadingSupplier, PoseEstimator pose, Drive drive) {
-    controller = new PIDController(0, 0, 0);
+  public HeadingController(
+      Supplier<Rotation2d> goalHeadingSupplier, PoseEstimatorLimelight m_poseEstimator) {
+    controller = new PIDController(0.12, 0.0, 0.000625);
     controller.enableContinuousInput(-Math.PI, Math.PI);
     controller.setTolerance(Units.degreesToRadians(3));
     this.goalHeadingSupplier = goalHeadingSupplier;
-    this.pose = pose;
-    this.drive = drive;
+    this.pose = m_poseEstimator;
   }
 
   /** Returns the rotation rate to turn to aim at speaker */
@@ -61,25 +54,12 @@ private Drive drive;
   }
 
   /** Returns true if within tolerance of aiming at speaker */
-//   @AutoLogOutput(key = "Drive/HeadingController/AtGoal")
+  //   @AutoLogOutput(key = "Drive/HeadingController/AtGoal")
   public boolean atGoal() {
     return controller.atSetpoint();
     // EqualsUtil.epsilonEquals(
     // controller.getSetpoint().position,
     // controller.getGoal().position,
     // Units.degreesToRadians(toleranceDegrees.get()));
-  }
-
-  public Rotation2d AngleForSpeaker(){
-    Translation2d delta;
-    if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
-        delta = pose.getCurrentPose2d().getTranslation().minus(FieldConstants.RED_SPEAKER);
-        delta = delta.minus(new Translation2d(0, (drive.getChassisSpeed().vyMetersPerSecond * 1/8)  * delta.getNorm()).rotateBy(pose.getCurrentPose2d().getRotation().plus(Rotation2d.fromDegrees(180))));  
-        return Rotation2d.fromRadians(Math.atan(delta.getY() / delta.getX())).rotateBy(new Rotation2d(Math.PI));
-    } else {
-        delta = pose.getCurrentPose2d().getTranslation().minus(FieldConstants.BLUE_SPEAKER);
-        delta = delta.plus(new Translation2d(0, (drive.getChassisSpeed().vyMetersPerSecond * 1/8)  * delta.getNorm()).rotateBy(pose.getCurrentPose2d().getRotation()));  
-        return Rotation2d.fromRadians(Math.atan(delta.getY() / delta.getX()));
-    }                                 
   }
 }
