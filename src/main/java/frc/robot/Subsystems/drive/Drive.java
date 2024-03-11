@@ -302,6 +302,11 @@ public class Drive extends SubsystemBase {
     return lastGyroYaw;
   }
 
+  public Twist2d fieldVelocity(){
+    Translation2d linearFieldVelocity = new Translation2d(twist.dx, twist.dy).rotateBy(getRotation());
+    return new Twist2d(linearFieldVelocity.getX(), linearFieldVelocity.getY(), twist.dtheta);
+  }
+
   public void updateHeading() {
     if (gyro.isConnected()) {
       gyro.zeroYaw();
