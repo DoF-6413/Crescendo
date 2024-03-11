@@ -69,6 +69,9 @@ public class RobotContainer {
   private final Gyro m_gyroSubsystem;
   private final Drive m_driveSubsystem;
 
+  // Heading Controller
+  private final HeadingController m_headingController;
+
   // Mechanisms
   private final Arm m_armSubsystem;
   // private final Vision m_visionSubsystem;
@@ -81,7 +84,7 @@ public class RobotContainer {
 
   // Utilities
   private final PoseEstimatorLimelight m_poseEstimator;
-  private final PathPlanner m_pathPlanner;
+  //   private final PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -159,7 +162,9 @@ public class RobotContainer {
     }
 
     m_poseEstimator = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
-    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+    m_headingController =
+        new HeadingController(() -> m_poseEstimator.AngleForSpeaker(), m_poseEstimator);
+    // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
     // Adds list of deadreckond autos to Shuffleboard
     autoChooser.addOption("Do Nothing", new InstantCommand());
