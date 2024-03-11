@@ -81,6 +81,9 @@ public class Arm extends SubsystemBase {
     armPIDController.setSetpoint(setpoint);
   }
 
+  public double getSetpoint() {
+    return armPIDController.getSetpoint();
+  }
   /**
    * Changes the angle setpoint of the Arm
    *

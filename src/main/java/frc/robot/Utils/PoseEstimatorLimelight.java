@@ -6,7 +6,6 @@ package frc.robot.Utils;
 
 import edu.wpi.first.apriltag.*;
 import edu.wpi.first.math.*;
-import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -15,14 +14,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
-import frc.robot.Constants.RobotStateConstants.Mode;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.gyro.*;
-import frc.robot.Subsystems.photonVision.*;
-import org.photonvision.targeting.PhotonPipelineResult;
+// import frc.robot.Subsystems.photonVision.*;
 
 /** This class handels the odometry and locates the robots current position */
-public class PoseEstimator extends SubsystemBase {
+public class PoseEstimatorLimelight extends SubsystemBase {
   /**
    * Increase the numbers to trust the model's state estimate less it is a matrix in form of [x, y,
    * theta] or meters, meters, radians
@@ -37,22 +34,15 @@ public class PoseEstimator extends SubsystemBase {
 
   private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;
-  private Vision vision;
   private Gyro gyro;
   private Field2d field2d;
-  public PhotonPipelineResult pipelineResult;
-  public double resultsTimeStamp;
 
-  private double previousPipelineTimestamp = 0;
-  private final AprilTagFieldLayout aprilTagFieldLayout;
-
-  /** Pose Estimation aided by PhotonVision */
-  public PoseEstimator(Drive drive, Gyro gyro, Vision Vision) {
+  /** Pose Estimation aided by the Limelight */
+  public PoseEstimatorLimelight(Drive drive, Gyro gyro) {
 
     field2d = new Field2d();
     SmartDashboard.putData(field2d);
     this.drive = drive;
-    this.vision = Vision;
     this.gyro = gyro;
 
     poseEstimator =
@@ -61,50 +51,28 @@ public class PoseEstimator extends SubsystemBase {
             gyro.getYaw(),
             drive.getSwerveModulePositions(),
             new Pose2d(new Translation2d(), new Rotation2d()));
-    aprilTagFieldLayout =
-        new AprilTagFieldLayout(
-            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getTags(),
-            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldLength(),
-            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldWidth());
   }
 
   @Override
   public void periodic() {
     // When ran on the real robot it would overload the command scheduler, causing input delay from
     // joystick to driving
-    if (RobotStateConstants.getMode() == Mode.SIM) {
-      field2d.setRobotPose(getCurrentPose2d());
-      poseEstimator.updateWithTime(
-          Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
+    // if (RobotStateConstants.getMode() == Mode.SIM) {
+    field2d.setRobotPose(getCurrentPose2d());
+    poseEstimator.updateWithTime(
+        Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
+
+    LimelightHelpers.PoseEstimate limelightMeasurement =
+        LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+    if (limelightMeasurement.tagCount >= 2) {
+      poseEstimator.addVisionMeasurement(
+          limelightMeasurement.pose,
+          limelightMeasurement.timestampSeconds,
+          visionMeasurementStandardDevs);
     }
-
-    if (vision.getResult().hasTargets()) {
-
-      pipelineResult = vision.getResult();
-      resultsTimeStamp = pipelineResult.getTimestampSeconds();
-
-      if (resultsTimeStamp != previousPipelineTimestamp) {
-
-        previousPipelineTimestamp = resultsTimeStamp;
-
-        var target = pipelineResult.getBestTarget();
-        var fiducialID = target.getFiducialId();
-        if (target.getPoseAmbiguity() < 0.2
-            && fiducialID >= 1
-            && fiducialID <= 16) { // 0.2 is considered ambiguous
-
-          Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
-          Transform3d camToTarget = target.getBestCameraToTarget();
-          Pose3d camPose = tagPose.transformBy(camToTarget);
-
-          Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobotOffsets);
-          poseEstimator.addVisionMeasurement(
-              visionMeasurement.toPose2d(),
-              Timer.getFPGATimestamp(),
-              visionMeasurementStandardDevs);
-        }
-      }
-    }
+    //   }
+    // }
+    // }
   }
 
   /**
