@@ -33,7 +33,7 @@ public class AimDriveToSpeaker extends Command {
     this.m_xbox = m_xbox;
     addRequirements(m_drive, m_pose);
     rotPID = new PIDController(0.2, 0.0, 0.0); // oscillates
-    rotPID.enableContinuousInput(-2 * Math.PI, 2 * Math.PI);
+    rotPID.enableContinuousInput(Math.PI, Math.PI);
     // rotPID.setTolerance(1 / 6 * Math.PI);
   }
 
@@ -86,7 +86,7 @@ public class AimDriveToSpeaker extends Command {
     }
     speakerDist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)); // pythagoream
 
-    if (dtvalues.getY() >= FieldConstants.SPEAKER_Y) {
+    if (dtvalues.getY() <= FieldConstants.SPEAKER_Y) {
       // the robot is to the left of the speaker
       double thetaAbove = -Math.asin(deltaX / speakerDist) - (Math.PI / 2);
       m_desiredRobotAngle = thetaAbove;

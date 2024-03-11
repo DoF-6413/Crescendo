@@ -13,6 +13,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -79,5 +80,7 @@ public final class Constants {
     public static final double RED_SPEAKER_X = 16.49;
     public static final double SPEAKER_Y = 5.3; // 16.412;
     public static final double SPEAKER_Z = 2.08; // height of opening
+    public static final Translation2d BLUE_SPEAKER = new Translation2d(0, 5.55);
+    public static final Translation2d RED_SPEAKER =  new Translation2d(16.58, 5.55);
   }
 }

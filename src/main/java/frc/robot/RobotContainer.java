@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Commands.SpeakerAutoAlign.AimDriveToSpeaker;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
@@ -142,9 +143,6 @@ public class RobotContainer {
         break;
     }
 
-    // Configure the button bindings
-    configureButtonBindings();
-
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
@@ -168,15 +166,32 @@ public class RobotContainer {
     /** Driver Contols */
 
     // Driving the robot
-    m_driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_driveSubsystem.driveWithDeadband(
-                    driverController.getLeftX(), // Forward/backward
-                    -driverController
-                        .getLeftY(), // Left/Right (multiply by -1 bc controller axis is inverted)
-                    driverController.getRightX()), // Rotate chassis left/right
-            m_driveSubsystem));
+    // m_driveSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () ->
+    //             m_driveSubsystem.driveWithDeadband(
+    //                 driverController.getLeftX(), // Forward/backward
+    //                 -driverController
+    //                     .getLeftY(), // Left/Right (multiply by -1 bc controller axis is
+    // inverted)
+    //                 driverController.getRightX()), // Rotate chassis left/right
+    //         m_driveSubsystem));
+
+    driverController
+        .b()
+        .onTrue(new AimDriveToSpeaker(m_driveSubsystem, m_poseEstimator, driverController));
+
+    driverController
+        .x()
+        .onTrue(
+            new RunCommand(
+                () ->
+                    m_driveSubsystem.driveWithDeadband(
+                        driverController.getLeftX(),
+                        driverController.getLeftY()
+                            * (-1), // Joystick on Xbox Controller is Inverted
+                        (driverController.getRightX() * (1))),
+                m_driveSubsystem));
 
     // Resets robot heading to be wherever the front of the robot is facing
     driverController
