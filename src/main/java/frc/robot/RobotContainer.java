@@ -166,7 +166,7 @@ public class RobotContainer {
             m_wristSubsystem,
             m_feederSubsystem,
             m_shooterSubsystem,
-            2,
+            3,
             0.8,
             m_actuatorSubsystem,
             m_otbIntakeSubsystem,

@@ -14,8 +14,8 @@ public final class WristConstants {
   /** Represents the derivative constant, multiplied by the change in error */
   public static final double KD = 0.0;
 
-  /** The position of the Wrist can be within 1 degree of the setpoint */
-  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(1);
+  /** The position of the Wrist can be within 2 degree of the setpoint */
+  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(2);
 
   // Sim Constants
   /** Moment of inertia for the Wrist */
