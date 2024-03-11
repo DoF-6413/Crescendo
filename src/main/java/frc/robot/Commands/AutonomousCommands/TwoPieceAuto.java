@@ -4,6 +4,7 @@
 
 package frc.robot.Commands.AutonomousCommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -24,17 +25,18 @@ import frc.robot.Subsystems.wrist.*;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TwoPieceAuto extends SequentialCommandGroup {
   /** Creates a new TwoPieceAuto. */
-  public TwoPieceAuto(
+  public 
+  TwoPieceAuto(
       Drive drive,
       Gyro gyro,
       Wrist wrist,
       Feeder feeder,
       Shooter shooter,
-      double seconds,
-      double speed,
       Actuator actuator,
       OTBIntake otbIntake,
-      UTBIntake utbIntake) {
+      UTBIntake utbIntake,
+      double seconds,
+      double speed) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -44,19 +46,12 @@ public class TwoPieceAuto extends SequentialCommandGroup {
             },
             gyro),
         new OnePieceAuto(wrist, feeder, shooter),
-        Commands.runOnce(
-            () -> {
-              wrist.setSetpoint(1);
-            },
-            wrist),
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
                   drive.setRaw(0, speed, 0);
-                  wrist.setSetpoint(1);
                 },
-                drive,
-                wrist),
+                drive),
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
         new WaitCommand(seconds),
         Commands.runOnce(

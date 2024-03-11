@@ -5,8 +5,10 @@
 package frc.robot.Commands.AutonomousCommands;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.feeder.FeederConstants;
@@ -23,6 +25,7 @@ public class OnePieceAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+        new WaitCommand(SmartDashboard.getNumber("delay", 0)),
         Commands.runOnce(
             () -> {
               wrist.setSetpoint(Units.degreesToRadians(21));
