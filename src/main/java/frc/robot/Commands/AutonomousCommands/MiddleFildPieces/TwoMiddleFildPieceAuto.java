@@ -53,10 +53,9 @@ public class TwoMiddleFildPieceAuto extends SequentialCommandGroup {
                 },
                 drive),
             Commands.runOnce(
-              () -> {
-                drive.setRaw(speedX,0, 0);
-              }
-            ),
+                () -> {
+                  drive.setRaw(speedX, 0, 0);
+                }),
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
         new WaitCommand(seconds),
         Commands.runOnce(
@@ -65,16 +64,15 @@ public class TwoMiddleFildPieceAuto extends SequentialCommandGroup {
             },
             drive),
         new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
-         Commands.runOnce(
-                () -> {
-                  drive.setRaw(-speedX, 0, 0);
-                },
-                drive),
-            Commands.runOnce(
-              () -> {
-                drive.setRaw(0, -speedY, 0);
-              }
-            ),
+        Commands.runOnce(
+            () -> {
+              drive.setRaw(-speedX, 0, 0);
+            },
+            drive),
+        Commands.runOnce(
+            () -> {
+              drive.setRaw(0, -speedY, 0);
+            }),
         new PositionToShoot(feeder, shooter, wrist, WristConstants.PODIUM_RAD));
   }
 }

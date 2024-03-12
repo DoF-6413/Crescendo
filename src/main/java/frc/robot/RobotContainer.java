@@ -22,7 +22,6 @@ import frc.robot.Commands.AutonomousCommands.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceAuto;
-import frc.robot.Commands.AutonomousCommands.MiddleFildPieces.TwoMiddleFildPieceAuto;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
@@ -154,14 +153,14 @@ public class RobotContainer {
     // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
     // Adds list of autos to Shuffleboard
-    autoChooser.addOption("Do Nothing", new InstantCommand());
+    autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
+    autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 2, 1));
     autoChooser.addOption(
         "One Piece", new OnePieceAuto(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
-        autoChooser.addOption("leave",new LeaveAuto(m_driveSubsystem, 2, 0.8) );
     autoChooser.addOption(
         "One Piece and Leave",
         new OnePieceLeaveAuto(
-            m_driveSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, 2, 0.8));
+            m_driveSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, 2, 1));
     autoChooser.addOption(
         "Two Piece",
         new TwoPieceAuto(
@@ -174,7 +173,7 @@ public class RobotContainer {
             m_otbIntakeSubsystem,
             m_utbIntakeSubsystem,
             3,
-            0.8));
+            1));
     // autoChooser.addOption(
     //     "2 middle field piece auto",
     //     new TwoMiddleFildPieceAuto(
@@ -190,7 +189,7 @@ public class RobotContainer {
     //         5.2,
     //         1));
 
-    SmartDashboard.putNumber("delay", 0);
+    SmartDashboard.putNumber("Dkmelay", 0);
   }
 
   /**
