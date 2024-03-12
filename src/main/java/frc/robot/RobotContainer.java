@@ -55,7 +55,7 @@ public class RobotContainer {
 
   // Mechanisms
   private final Arm m_armSubsystem;
-  private final Vision m_visionSubsystem;
+  //   private final Vision m_visionSubsystem;
   private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
@@ -65,7 +65,7 @@ public class RobotContainer {
   private final Wrist m_wristSubsystem;
 
   // Utilities
-  private final PoseEstimator m_poseEstimator;
+  //   private final PoseEstimator m_poseEstimator;
   // private final PathPlanner m_pathPlanner;
 
   // Controllers
@@ -92,7 +92,7 @@ public class RobotContainer {
                 new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
-        m_visionSubsystem = new Vision(new VisionIOArduCam());
+        // m_visionSubsystem = new Vision(new VisionIOArduCam());
         m_climberSubsystem = new Climber(new ClimberIOTalonFX());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
@@ -113,7 +113,7 @@ public class RobotContainer {
                 new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
-        m_visionSubsystem = new Vision(new VisionIOSim());
+        // m_visionSubsystem = new Vision(new VisionIOSim());
         m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
@@ -134,7 +134,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
-        m_visionSubsystem = new Vision(new VisionIO() {});
+        // m_visionSubsystem = new Vision(new VisionIO() {});
         m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
@@ -148,7 +148,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+    // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
     // Adds list of autos to Shuffleboard
@@ -312,31 +312,27 @@ public class RobotContainer {
     auxController
         .leftTrigger()
         .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 21))
-    .onFalse(
-        new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem))
-    ;
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     /* Scoring SPEAKER when up against the PODIUM */
     auxController
         .rightTrigger()
         .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 1.5))
-    .onFalse(
-        new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem))
-    ;
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     /* AMP Scoring */
     // Scoring AMP from the frontside
     auxController
         .leftBumper()
         .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
-    .onFalse(
-        new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem))
-    ;
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Scoring from the backside
     auxController
         .rightBumper()
         .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
-    .onFalse(
-        new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem))
-    ;
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* SOURCE Pickup */
     // Picking up from SOURCE, backside TODO: Change button
