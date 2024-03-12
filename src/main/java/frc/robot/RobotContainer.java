@@ -382,6 +382,9 @@ public class RobotContainer {
   }
 
   public void setAllSetpointsZero() {
-    new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem);
+    m_shooterSubsystem.setSetpoint(0);
+    m_wristSubsystem.setSetpoint(0);
+    m_armSubsystem.setSetpoint(0);
+    m_feederSubsystem.setSetpoint(0);
   }
 }
