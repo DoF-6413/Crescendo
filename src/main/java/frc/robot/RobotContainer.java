@@ -175,20 +175,20 @@ public class RobotContainer {
             m_utbIntakeSubsystem,
             3,
             0.8));
-    autoChooser.addOption(
-        "2 middle field piece auto",
-        new TwoMiddleFildPieceAuto(
-            m_driveSubsystem,
-            m_gyroSubsystem,
-            m_wristSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
-            m_utbIntakeSubsystem,
-            3,
-            5.2,
-            1));
+    // autoChooser.addOption(
+    //     "2 middle field piece auto",
+    //     new TwoMiddleFildPieceAuto(
+    //         m_driveSubsystem,
+    //         m_gyroSubsystem,
+    //         m_wristSubsystem,
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_actuatorSubsystem,
+    //         m_otbIntakeSubsystem,
+    //         m_utbIntakeSubsystem,
+    //         3,
+    //         5.2,
+    //         1));
 
     SmartDashboard.putNumber("delay", 0);
   }
