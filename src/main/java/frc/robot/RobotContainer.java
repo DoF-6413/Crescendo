@@ -18,9 +18,11 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.Commands.AutonomousCommands.OnePieceAuto;
-import frc.robot.Commands.AutonomousCommands.OnePieceLeaveAuto;
-import frc.robot.Commands.AutonomousCommands.TwoPieceAuto;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.LeaveAuto;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAuto;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceAuto;
+import frc.robot.Commands.AutonomousCommands.MiddleFildPieces.TwoMiddleFildPieceAuto;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
@@ -155,6 +157,7 @@ public class RobotContainer {
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption(
         "One Piece", new OnePieceAuto(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
+        autoChooser.addOption("leave",new LeaveAuto(m_driveSubsystem, 2, 0.8) );
     autoChooser.addOption(
         "One Piece and Leave",
         new OnePieceLeaveAuto(
@@ -172,6 +175,21 @@ public class RobotContainer {
             m_utbIntakeSubsystem,
             3,
             0.8));
+    autoChooser.addOption(
+        "2 middle field piece auto",
+        new TwoMiddleFildPieceAuto(
+            m_driveSubsystem,
+            m_gyroSubsystem,
+            m_wristSubsystem,
+            m_feederSubsystem,
+            m_shooterSubsystem,
+            m_actuatorSubsystem,
+            m_otbIntakeSubsystem,
+            m_utbIntakeSubsystem,
+            3,
+            5.2,
+            1));
+
     SmartDashboard.putNumber("delay", 0);
   }
 

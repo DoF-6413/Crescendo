@@ -2,12 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.AutonomousCommands;
+package frc.robot.Commands.AutonomousCommands.MiddleFildPieces;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Subsystems.actuator.Actuator;
@@ -22,9 +23,9 @@ import frc.robot.Subsystems.wrist.*;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TwoPieceAuto extends SequentialCommandGroup {
+public class TwoMiddleFildPieceAuto extends SequentialCommandGroup {
   /** Creates a new TwoPieceAuto. */
-  public TwoPieceAuto(
+  public TwoMiddleFildPieceAuto(
       Drive drive,
       Gyro gyro,
       Wrist wrist,
@@ -34,7 +35,8 @@ public class TwoPieceAuto extends SequentialCommandGroup {
       OTBIntake otbIntake,
       UTBIntake utbIntake,
       double seconds,
-      double speed) {
+      double speedY,
+      double speedX) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -44,17 +46,17 @@ public class TwoPieceAuto extends SequentialCommandGroup {
             },
             gyro),
         new OnePieceAuto(wrist, feeder, shooter),
-        Commands.runOnce(
-            () -> {
-              wrist.setSetpoint(0);
-            },
-            wrist),
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
-                  drive.setRaw(0, speed, 0);
+                  drive.setRaw(0, speedY, 0);
                 },
                 drive),
+            Commands.runOnce(
+              () -> {
+                drive.setRaw(speedX,0, 0);
+              }
+            ),
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
         new WaitCommand(seconds),
         Commands.runOnce(
@@ -63,6 +65,16 @@ public class TwoPieceAuto extends SequentialCommandGroup {
             },
             drive),
         new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
+         Commands.runOnce(
+                () -> {
+                  drive.setRaw(-speedX, 0, 0);
+                },
+                drive),
+            Commands.runOnce(
+              () -> {
+                drive.setRaw(0, -speedY, 0);
+              }
+            ),
         new PositionToShoot(feeder, shooter, wrist, WristConstants.PODIUM_RAD));
   }
 }
