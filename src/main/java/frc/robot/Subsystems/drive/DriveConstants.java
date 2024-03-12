@@ -183,7 +183,7 @@ public final class DriveConstants {
   public static final boolean INVERT_DRIVE_TALONFX = false;
 
   /** Current limiting in amps */
-  public static final int CUR_LIM_A = 40;
+  public static final int CUR_LIM_A = 60;
   /** Enebles the current limit */
   public static final boolean ENABLE_CUR_LIM = true;
   /** Updates encoders every 10 milliseconds */
