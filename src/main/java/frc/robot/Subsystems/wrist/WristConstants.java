@@ -14,8 +14,8 @@ public final class WristConstants {
   /** Represents the derivative constant, multiplied by the change in error */
   public static final double KD = 0.0;
 
-  /** The position of the Wrist can be within 1 degree of the setpoint */
-  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(1);
+  /** The position of the Wrist can be within 2 degree of the setpoint */
+  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(2);
 
   // Sim Constants
   /** Moment of inertia for the Wrist */
@@ -58,4 +58,6 @@ public final class WristConstants {
   public static final double AMP_FRONT_SIDE_RAD = 1.363;
   /** SOURCE Pickup back side */
   public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(155.0);
+  /** SPEAKER shot from podium */
+  public static final double PODIUM_RAD = Units.degreesToRadians(-1.0);
 }

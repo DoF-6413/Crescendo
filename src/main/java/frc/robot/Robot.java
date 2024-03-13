@@ -13,6 +13,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.*;
@@ -79,6 +80,7 @@ public class Robot extends LoggedRobot {
         break;
     }
 
+    CameraServer.startAutomaticCapture();
     // See http://bit.ly/3YIzFZ6 for more information on timestamps in AdvantageKit.
     // Logger.disableDeterministicTimestamps()
 
@@ -88,7 +90,7 @@ public class Robot extends LoggedRobot {
     // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
     // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
     // Build)
-    SmartDashboard.putString("Beta Number", "1.34.69.92.1");
+    SmartDashboard.putString("Beta Number", "1.35.69.93.1");
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
@@ -110,6 +112,10 @@ public class Robot extends LoggedRobot {
   @Override
   public void disabledInit() {
     robotContainer.mechanismsCoastOnDisable(true);
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
+    }
+    robotContainer.setAllSetpointsZero();
   }
 
   /** This function is called periodically when disabled. */
@@ -146,6 +152,7 @@ public class Robot extends LoggedRobot {
       autonomousCommand.cancel();
     }
 
+    robotContainer.setAllSetpointsZero();
     robotContainer.mechanismsCoastOnDisable(false);
   }
 
