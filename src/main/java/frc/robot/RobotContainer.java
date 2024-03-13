@@ -15,9 +15,13 @@ package frc.robot;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.LeaveAuto;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAuto;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceAuto;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
@@ -52,8 +56,8 @@ public class RobotContainer {
 
   // Mechanisms
   private final Arm m_armSubsystem;
-  // private final Vision m_visionSubsystem;
-  //   private final Climber m_climberSubsystem;
+  //   private final Vision m_visionSubsystem;
+  private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
@@ -90,7 +94,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         // m_visionSubsystem = new Vision(new VisionIOArduCam());
-        // m_climberSubsystem = new Climber(new ClimberIOTalonFX());
+        m_climberSubsystem = new Climber(new ClimberIOTalonFX());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
@@ -111,7 +115,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
         // m_visionSubsystem = new Vision(new VisionIOSim());
-        // m_climberSubsystem = new Climber(new ClimberIO() {});
+        m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
@@ -132,7 +136,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
         // m_visionSubsystem = new Vision(new VisionIO() {});
-        // m_climberSubsystem = new Climber(new ClimberIO() {});
+        m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
@@ -149,8 +153,43 @@ public class RobotContainer {
     // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
     // Adds list of autos to Shuffleboard
-    autoChooser.addOption("Do Nothing", new InstantCommand());
-    Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
+    autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
+    autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 2, 1));
+    autoChooser.addOption(
+        "One Piece", new OnePieceAuto(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
+    autoChooser.addOption(
+        "One Piece and Leave",
+        new OnePieceLeaveAuto(
+            m_driveSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, 2, 1));
+    autoChooser.addOption(
+        "Two Piece",
+        new TwoPieceAuto(
+            m_driveSubsystem,
+            m_gyroSubsystem,
+            m_wristSubsystem,
+            m_feederSubsystem,
+            m_shooterSubsystem,
+            m_actuatorSubsystem,
+            m_otbIntakeSubsystem,
+            m_utbIntakeSubsystem,
+            3,
+            1));
+    // autoChooser.addOption(
+    //     "2 middle field piece auto",
+    //     new TwoMiddleFieldPieceAuto(
+    //         m_driveSubsystem,
+    //         m_gyroSubsystem,
+    //         m_wristSubsystem,
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_actuatorSubsystem,
+    //         m_otbIntakeSubsystem,
+    //         m_utbIntakeSubsystem,
+    //         3,
+    //         1,
+    //         5.2));
+
+    SmartDashboard.putNumber("Delay", 0);
   }
 
   /**
@@ -163,7 +202,7 @@ public class RobotContainer {
     // The front of the robot is the side where the intakes are located
     // A default command always runs unless another command is called
 
-    /** Driver Contols */
+    /** Driver Controls */
 
     // Driving the robot
     m_driveSubsystem.setDefaultCommand(
@@ -281,10 +320,10 @@ public class RobotContainer {
                 m_armSubsystem));
 
     /* Climber */
-    // m_climberSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_climberSubsystem.setClimberPercentSpeed(auxController.getLeftY()),
-    //         m_climberSubsystem));
+    m_climberSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_climberSubsystem.setClimberPercentSpeed(auxController.getLeftY()),
+            m_climberSubsystem));
 
     /* Scoring SPEAKER when up against it */
     auxController
@@ -338,5 +377,13 @@ public class RobotContainer {
     m_wristSubsystem.setBrakeMode(!isDisabled);
     m_actuatorSubsystem.setBrakeMode(!isDisabled);
     m_shooterSubsystem.setBrakeMode(!isDisabled);
+    m_climberSubsystem.setClimberBrakeMode(!isDisabled);
+  }
+
+  public void setAllSetpointsZero() {
+    m_shooterSubsystem.setSetpoint(0);
+    m_wristSubsystem.setSetpoint(0);
+    m_armSubsystem.setSetpoint(0);
+    m_feederSubsystem.setSetpoint(0);
   }
 }
