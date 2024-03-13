@@ -18,11 +18,11 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.Commands.SpeakerAutoAlign.HeadingController;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceAuto;
+import frc.robot.Commands.SpeakerAutoAlign.HeadingController;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
@@ -150,6 +150,8 @@ public class RobotContainer {
         break;
     }
 
+    configureButtonBindings();
+    
     m_poseEstimator = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
     m_headingController =
         new HeadingController(() -> m_poseEstimator.AngleForSpeaker(), m_poseEstimator);
@@ -177,7 +179,7 @@ public class RobotContainer {
             m_utbIntakeSubsystem,
             3,
             1));
-            
+
     // autoChooser.addOption(
     //     "2 middle field piece auto",
     //     new TwoMiddleFieldPieceAuto(

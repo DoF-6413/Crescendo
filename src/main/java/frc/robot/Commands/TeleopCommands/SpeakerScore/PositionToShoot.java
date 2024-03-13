@@ -22,9 +22,7 @@ public class PositionToShoot extends SequentialCommandGroup {
         Commands.runOnce(
             () -> {
               feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
-              wrist.setSetpoint(
-                  Units.degreesToRadians(
-                      angle));
+              wrist.setSetpoint(Units.degreesToRadians(angle));
             },
             feeder,
             wrist),
