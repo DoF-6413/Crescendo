@@ -176,7 +176,7 @@ public class RobotContainer {
             1));
     // autoChooser.addOption(
     //     "2 middle field piece auto",
-    //     new TwoMiddleFildPieceAuto(
+    //     new TwoMiddleFieldPieceAuto(
     //         m_driveSubsystem,
     //         m_gyroSubsystem,
     //         m_wristSubsystem,
@@ -186,10 +186,10 @@ public class RobotContainer {
     //         m_otbIntakeSubsystem,
     //         m_utbIntakeSubsystem,
     //         3,
-    //         5.2,
-    //         1));
+    //         1,
+    //         5.2));
 
-    SmartDashboard.putNumber("Dkmelay", 0);
+    SmartDashboard.putNumber("Delay", 0);
   }
 
   /**
