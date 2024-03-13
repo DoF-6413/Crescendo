@@ -52,7 +52,7 @@ public class RobotContainer {
 
   // Mechanisms
   private final Arm m_armSubsystem;
-  // private final Vision m_visionSubsystem;
+  //   private final Vision m_visionSubsystem;
   //   private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
@@ -62,7 +62,7 @@ public class RobotContainer {
   private final Wrist m_wristSubsystem;
 
   // Utilities
-  // private final PoseEstimator m_poseEstimator;
+  private final PoseEstimatorLimelight m_poseEstimator;
   // private final PathPlanner m_pathPlanner;
 
   // Controllers
@@ -145,7 +145,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+    m_poseEstimator = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
     // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
     // Adds list of autos to Shuffleboard
