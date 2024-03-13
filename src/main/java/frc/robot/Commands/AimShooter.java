@@ -33,7 +33,9 @@ public class AimShooter extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_shooter.setSetpoint(4000);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
