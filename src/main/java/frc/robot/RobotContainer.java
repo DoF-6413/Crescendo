@@ -161,6 +161,8 @@ public class RobotContainer {
         break;
     }
 
+    configureButtonBindings();
+    
     m_poseEstimator = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
     m_headingController =
         new HeadingController(() -> m_poseEstimator.AngleForSpeaker(), m_poseEstimator);
