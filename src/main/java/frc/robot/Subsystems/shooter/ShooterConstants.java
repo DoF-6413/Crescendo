@@ -47,7 +47,7 @@ public class ShooterConstants {
     // {50, 45, 30, 15, 7.5, 3.75, 675, .3375, .1682, .05, 0.005} // theta_min
 
     // from tests
-    {0, 0.5, 1, 1.5, 2, 2.5, 3}, // x in meters
+    {0 + 1, 0.5 + 1, 1 + 1, 1.5 + 1, 2 + 1, 2.5 + 1, 3 + 1}, // x in meters
     {25, 15, 13, 5, 0, -2.5, -5}, // theta_max_degrees
     {15, 10, 5, 2.5, -1, -3.5, -6} // theta_min_degrees
   };

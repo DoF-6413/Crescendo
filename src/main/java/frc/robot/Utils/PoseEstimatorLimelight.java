@@ -65,13 +65,13 @@ public class PoseEstimatorLimelight extends SubsystemBase {
 
     LimelightHelpers.PoseEstimate limelightMeasurement =
         LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+
     if (limelightMeasurement.tagCount >= 2) {
       poseEstimator.addVisionMeasurement(
           limelightMeasurement.pose,
           limelightMeasurement.timestampSeconds,
           visionMeasurementStandardDevs);
     }
-    // }
   }
 
   /**
@@ -88,6 +88,7 @@ public class PoseEstimatorLimelight extends SubsystemBase {
   public void resetPose(Pose2d currentPose2d) {
     poseEstimator.resetPosition(gyro.getYaw(), drive.getSwerveModulePositions(), currentPose2d);
   }
+
   /**
    * @return the rotation in a Rotation2d in degrees
    */

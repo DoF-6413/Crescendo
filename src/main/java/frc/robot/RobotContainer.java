@@ -22,6 +22,7 @@ import frc.robot.Commands.AutonomousCommands.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceAuto;
+import frc.robot.Commands.SpeakerAutoAlign.AimShooter;
 import frc.robot.Commands.SpeakerAutoAlign.HeadingController;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
@@ -150,8 +151,6 @@ public class RobotContainer {
         break;
     }
 
-    configureButtonBindings();
-    
     m_poseEstimator = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
     m_headingController =
         new HeadingController(() -> m_poseEstimator.AngleForSpeaker(), m_poseEstimator);
@@ -196,6 +195,7 @@ public class RobotContainer {
     //         5.2));
 
     SmartDashboard.putNumber("Delay", 0);
+    configureButtonBindings();
   }
 
   /**
@@ -233,12 +233,16 @@ public class RobotContainer {
             new RunCommand(
                 () ->
                     m_driveSubsystem.driveWithDeadband(
-                        driverController.getLeftX(), // Forward/backward
-                        -driverController
-                            .getLeftY(), // Left/Right (multiply by -1 bc controller axis inverted)
-                        m_headingController
-                            .update()), // Rotate chassis left/right automatically based on position
+                        driverController.getLeftX(),
+                        -driverController.getLeftY(), // Joystick on Xbox Controller is Inverted
+                        m_headingController.update()),
                 m_driveSubsystem));
+
+    auxController
+        .y()
+        .onTrue(
+            new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_armSubsystem, m_poseEstimator));
+    // .toggleOnFalse(new EndEffectorToZero(m_shooterSubsystem, m_feederSubsystem));
 
     // Re-enables regular driving
     driverController
@@ -317,7 +321,11 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-500), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
 
-    auxController.a().onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
+    auxController
+        .a()
+        .onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem))
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* Wrist */
     // Increases angle of the Wrist by 1 degree
@@ -352,10 +360,10 @@ public class RobotContainer {
                 m_armSubsystem));
 
     /* Climber */
-    m_climberSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_climberSubsystem.setClimberPercentSpeed(auxController.getLeftY()),
-            m_climberSubsystem));
+    // m_climberSubsystem.setDefaultCommand(
+    //     new InstantCommand(
+    //         () -> m_climberSubsystem.setClimberPercentSpeed(auxController.getLeftY()),
+    //         m_climberSubsystem));
 
     /* Scoring SPEAKER when up against it */
     auxController

@@ -47,7 +47,7 @@ public final class WristConstants {
   /** Starting angle of the Wrist for sim, same as minimum angle */
   public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD;
 
-  public static final double ABS_ENCODER_OFFSET_RADS = 0.8;
+  public static final double ABS_ENCODER_OFFSET_RADS = -0.85;
 
   // Teleop Automations
   /** AMP Score back side */
