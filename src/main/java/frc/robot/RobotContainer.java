@@ -25,6 +25,7 @@ import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceAuto;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
+import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
@@ -322,7 +323,8 @@ public class RobotContainer {
     /* Climber */
     m_climberSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> m_climberSubsystem.setClimberPercentSpeed(auxController.getLeftY()),
+            () -> m_climberSubsystem.setClimberPercentSpeed(-
+            auxController.getLeftY()),
             m_climberSubsystem));
 
     /* Scoring SPEAKER when up against it */
@@ -331,29 +333,22 @@ public class RobotContainer {
         .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 21))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+
     /* Scoring SPEAKER when up against the PODIUM */
     auxController
-    .rightTrigger()
-    .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 1.5))
-    .onFalse(
-        new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-        
-        /* Scoring SPEAKER when up against the BACK STAGE LEG (3 diff versions for easy use)*/
-    auxController
-        .y()
-        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -5.5))
+        .rightTrigger()
+        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -0.5))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    auxController
-        .start()
-        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -5.5))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+
+    /* Scoring SPEAKER when up against the BACK STAGE LEG (3 diff versions for easy use) */
+    auxController.start().onTrue(new ClimberToZero(m_climberSubsystem));
     auxController
         .back()
-        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -5.5))
+        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -9.5))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+
     /* AMP Scoring */
     // Scoring AMP from the frontside
     auxController
@@ -369,13 +364,12 @@ public class RobotContainer {
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* SOURCE Pickup */
-    // Picking up from SOURCE, backside TODO: Change button
-    // auxController
-    //     .leftBumper()
-    //     .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
-    //     .onFalse(
-    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-    // m_feederSubsystem));
+    // Picking up from SOURCE, backside
+    auxController
+        .y()
+        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
   }
 
   /**
@@ -394,7 +388,6 @@ public class RobotContainer {
     m_wristSubsystem.setBrakeMode(!isDisabled);
     m_actuatorSubsystem.setBrakeMode(!isDisabled);
     m_shooterSubsystem.setBrakeMode(!isDisabled);
-    m_climberSubsystem.setClimberBrakeMode(!isDisabled);
   }
 
   public void setAllSetpointsZero() {
