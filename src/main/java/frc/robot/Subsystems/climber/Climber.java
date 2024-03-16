@@ -48,7 +48,7 @@ public class Climber extends SubsystemBase {
     // if (percent < 0 && inputs.climberPositionMeters < -0.9) {
     //   io.setClimberPercentSpeed(0);
     // } else {
-      io.setClimberPercentSpeed(percent);
+    io.setClimberPercentSpeed(percent);
     // }
   }
 

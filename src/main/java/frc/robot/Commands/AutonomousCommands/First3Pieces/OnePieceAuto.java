@@ -28,7 +28,7 @@ public class OnePieceAuto extends SequentialCommandGroup {
         new WaitCommand(SmartDashboard.getNumber("delay", 0)),
         Commands.runOnce(
             () -> {
-              wrist.setSetpoint(Units.degreesToRadians(21));
+              wrist.setSetpoint(Units.degreesToRadians(27));
               shooter.setSetpoint(ShooterConstants.SPEAKER_RPM);
             },
             shooter,
