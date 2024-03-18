@@ -84,7 +84,7 @@ public class RobotContainer {
 
   // Utilities
   private final PoseEstimatorLimelight m_poseEstimator;
-  //   private final PathPlanner m_pathPlanner;
+  // private final PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -374,9 +374,10 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(new DefaultDriveCommand(m_driveSubsystem, driverController));
 
     // Resets robot heading to be wherever the front of the robot is facing
+
     driverController
         .a()
-        .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
+        .onTrue(new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
 
     /* UTB Intake */
     // Intake NOTE
