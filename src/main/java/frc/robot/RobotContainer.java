@@ -20,7 +20,9 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
-import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAuto;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAmpSide;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveCenter;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveCoolSide;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceReturnSub;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
@@ -160,9 +162,9 @@ public class RobotContainer {
     autoChooser.addOption(
         "One Piece", new OnePieceAuto(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
     autoChooser.addOption(
-        "One Piece and Leave",
-        new OnePieceLeaveAuto(
-            m_driveSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, 3, 1));
+        "One Piece Leave Center",
+        new OnePieceLeaveCenter(
+            m_driveSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, 3, 1, m_gyroSubsystem));
     autoChooser.addOption(
         "Better Two Piece",
         new TwoPieceReturnSub(
@@ -178,18 +180,9 @@ public class RobotContainer {
             2,
             1));
     autoChooser.addOption(
-        "Two Piece",
-        new TwoPieceAuto(
-            m_driveSubsystem,
-            m_gyroSubsystem,
-            m_wristSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
-            m_utbIntakeSubsystem,
-            3,
-            1));
+        "One Piece Leave Amp Side", new OnePieceLeaveAmpSide(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, m_driveSubsystem, 2, 1, m_gyroSubsystem));
+    autoChooser.addOption(
+        "One Piece Leave Cool Side", new OnePieceLeaveCoolSide(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, m_driveSubsystem, 2, 1, m_gyroSubsystem));
     // autoChooser.addOption(
     //     "2 middle field piece auto",
     //     new TwoMiddleFieldPieceAuto(
