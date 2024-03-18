@@ -199,4 +199,8 @@ public class Shooter extends SubsystemBase {
     topShooterPIDController.setSetpoint(setpoint);
     bottomShooterPIDController.setSetpoint(setpoint);
   }
+
+  public double getSetpoint(){
+    return topShooterPIDController.getSetpoint();
+  }
 }
