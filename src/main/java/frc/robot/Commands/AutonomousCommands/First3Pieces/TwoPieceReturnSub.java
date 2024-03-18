@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Subsystems.actuator.Actuator;
@@ -19,6 +20,7 @@ import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.otbIntake.OTBIntake;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Subsystems.wrist.Wrist;
 
@@ -60,17 +62,25 @@ public class TwoPieceReturnSub extends SequentialCommandGroup {
                   drive.setRaw(0, speed, 0);
                 },
                 drive),
-            new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
+            new UTBIntakeRun(utbIntake, feeder, true, false)),
         new WaitCommand(seconds),
-        new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
+        new ParallelCommandGroup(
+            Commands.runOnce(
+                () -> {
+                  drive.setRaw(0, -speed, 0);
+                  shooter.setTolerance(500);
+                },
+                drive),
+            new PositionToShoot(feeder, shooter, wrist, 27)),
+        new WaitCommand(seconds),
+        new UTBIntakeRun(utbIntake, feeder, false, true),
         Commands.runOnce(
             () -> {
-              drive.setRaw(0, -speed, 0);
+              drive.setRaw(0, 0, 0);
             },
             drive),
-        new WaitCommand(seconds),
-        new PositionToShoot(feeder, shooter, wrist, 27),
-        new WaitCommand(0.4),
-        new Shoot(feeder, arm, shooter));
+        new WaitUntilCommand(() -> shooter.allAtSetpoint()),
+        new Shoot(feeder, arm, shooter),
+        Commands.runOnce(() -> shooter.setTolerance(ShooterConstants.RPM_TOLERANCE), shooter));
   }
 }

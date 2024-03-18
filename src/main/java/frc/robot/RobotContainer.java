@@ -175,7 +175,7 @@ public class RobotContainer {
             m_actuatorSubsystem,
             m_otbIntakeSubsystem,
             m_utbIntakeSubsystem,
-            3,
+            2,
             1));
     autoChooser.addOption(
         "Two Piece",

@@ -44,18 +44,18 @@ public class TwoPieceAuto extends SequentialCommandGroup {
             },
             gyro),
         new OnePieceAuto(wrist, feeder, shooter),
-        Commands.runOnce(
-            () -> {
-              wrist.setSetpoint(0);
-            },
-            wrist),
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
-                  drive.setRaw(0, speed, 0);
+                  wrist.setSetpoint(0);
                 },
-                drive),
+                wrist),
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
+        Commands.runOnce(
+            () -> {
+              drive.setRaw(0, speed, 0);
+            },
+            drive),
         new WaitCommand(seconds),
         Commands.runOnce(
             () -> {

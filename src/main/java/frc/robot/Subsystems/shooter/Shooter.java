@@ -143,4 +143,9 @@ public class Shooter extends SubsystemBase {
     topShooterPIDController.setSetpoint(setpoint);
     bottomShooterPIDController.setSetpoint(setpoint);
   }
+
+  public void setTolerance(double tolerance) {
+    topShooterPIDController.setTolerance(tolerance);
+    bottomShooterPIDController.setTolerance(tolerance);
+  }
 }
