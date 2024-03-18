@@ -7,7 +7,6 @@ package frc.robot.Subsystems.arm;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -37,7 +36,6 @@ public class Arm extends SubsystemBase {
 
     // Updates Arm Speed based on PID Control
     setArmPercentSpeed(armPIDController.calculate(armInputs.armAbsolutePositionRad));
-    SmartDashboard.putNumber("ArmSetpoint", armPIDController.getSetpoint());
   }
 
   /** Updates the Outputs of the Motors based on What Mode we are In */

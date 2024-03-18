@@ -15,7 +15,7 @@ import frc.robot.Subsystems.wrist.*;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PositionToShoot extends SequentialCommandGroup {
   /** Shoots NOTE when robot is against the subwoofer (right in front of the SPEAKER) */
-  public PositionToShoot(Feeder feeder, Shooter shooter, Wrist wrist, double angle) {
+  public PositionToShoot(Feeder feeder, Shooter shooter, Wrist wrist, double angle, double RPM) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -33,13 +33,13 @@ public class PositionToShoot extends SequentialCommandGroup {
         new WaitUntilCommand(() -> wrist.atSetpoint()),
         Commands.runOnce(
             () -> {
-              feeder.setSetpoint(-1000);
+              feeder.setSetpoint(-500);
             },
             feeder),
         new WaitCommand(0.2),
         Commands.runOnce(
             () -> {
-              shooter.setSetpoint(ShooterConstants.SPEAKER_RPM);
+              shooter.setSetpoint(RPM);
               feeder.setSetpoint(0);
             },
             shooter,

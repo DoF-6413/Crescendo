@@ -20,8 +20,9 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
-import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAuto;
-import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceAuto;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAmpSide;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveCenter;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveCoolSide;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceReturnSub;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
@@ -160,9 +161,15 @@ public class RobotContainer {
     autoChooser.addOption(
         "One Piece", new OnePieceAuto(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
     autoChooser.addOption(
-        "One Piece and Leave",
-        new OnePieceLeaveAuto(
-            m_driveSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, 3, 1));
+        "One Piece Leave Center",
+        new OnePieceLeaveCenter(
+            m_driveSubsystem,
+            m_wristSubsystem,
+            m_feederSubsystem,
+            m_shooterSubsystem,
+            3,
+            1,
+            m_gyroSubsystem));
     autoChooser.addOption(
         "Better Two Piece",
         new TwoPieceReturnSub(
@@ -175,21 +182,48 @@ public class RobotContainer {
             m_actuatorSubsystem,
             m_otbIntakeSubsystem,
             m_utbIntakeSubsystem,
-            3,
+            2,
             1));
     autoChooser.addOption(
-        "Two Piece",
-        new TwoPieceAuto(
-            m_driveSubsystem,
-            m_gyroSubsystem,
+        "Blue One Piece Leave Amp Side",
+        new OnePieceLeaveAmpSide(
             m_wristSubsystem,
             m_feederSubsystem,
             m_shooterSubsystem,
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
-            m_utbIntakeSubsystem,
-            3,
-            1));
+            m_driveSubsystem,
+            2,
+            1,
+            m_gyroSubsystem));
+    autoChooser.addOption(
+        "Blue One Piece Leave Cool Side",
+        new OnePieceLeaveCoolSide(
+            m_wristSubsystem,
+            m_feederSubsystem,
+            m_shooterSubsystem,
+            m_driveSubsystem,
+            2,
+            1,
+            m_gyroSubsystem));
+    autoChooser.addOption(
+        "Red One Piece Leave Cool Side",
+        new OnePieceLeaveAmpSide(
+            m_wristSubsystem,
+            m_feederSubsystem,
+            m_shooterSubsystem,
+            m_driveSubsystem,
+            2,
+            1,
+            m_gyroSubsystem));
+    autoChooser.addOption(
+        " Red One Piece Leave Amp Side",
+        new OnePieceLeaveCoolSide(
+            m_wristSubsystem,
+            m_feederSubsystem,
+            m_shooterSubsystem,
+            m_driveSubsystem,
+            2,
+            1,
+            m_gyroSubsystem));
     // autoChooser.addOption(
     //     "2 middle field piece auto",
     //     new TwoMiddleFieldPieceAuto(
@@ -344,14 +378,17 @@ public class RobotContainer {
     /* Scoring SPEAKER when up against it */
     auxController
         .leftTrigger()
-        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 27))
+        .onTrue(
+            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 27, 4000))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* Scoring SPEAKER when up against the PODIUM */
     auxController
         .rightTrigger()
-        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -0.5))
+        .onTrue(
+            new PositionToShoot(
+                m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -0.5, 4000))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
@@ -359,7 +396,9 @@ public class RobotContainer {
     auxController.start().onTrue(new ClimberToZero(m_climberSubsystem));
     auxController
         .back()
-        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -9.5))
+        .onTrue(
+            new PositionToShoot(
+                m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -10.5, 5000))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
