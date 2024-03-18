@@ -18,16 +18,23 @@ import frc.robot.Subsystems.wrist.Wrist;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class OnePieceLeaveCoolSide extends SequentialCommandGroup {
   /** Creates a new OnePieceLeaveCoolSide. */
-  public OnePieceLeaveCoolSide(Wrist wrist, Feeder feeder, Shooter shooter, Drive drive, double seconds, double speed, Gyro gyro) {
+  public OnePieceLeaveCoolSide(
+      Wrist wrist,
+      Feeder feeder,
+      Shooter shooter,
+      Drive drive,
+      double seconds,
+      double speed,
+      Gyro gyro) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      Commands.runOnce(
+        Commands.runOnce(
             () -> {
               gyro.zeroYaw();
             },
             gyro),
-      new OnePieceAuto(wrist, feeder, shooter),
+        new OnePieceAuto(wrist, feeder, shooter),
         Commands.runOnce(
             () -> {
               drive.setRawWithAdjustedHeading(0, speed, 0, gyro.adjustedYaw(-60));

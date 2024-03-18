@@ -65,7 +65,7 @@ public class Gyro extends SubsystemBase {
     return inputs.connected;
   }
 
-  public Rotation2d adjustedYaw(double adjustedAngle){
+  public Rotation2d adjustedYaw(double adjustedAngle) {
     return inputs.yawPositionRad.plus(new Rotation2d(Units.degreesToRadians(adjustedAngle)));
   }
 }

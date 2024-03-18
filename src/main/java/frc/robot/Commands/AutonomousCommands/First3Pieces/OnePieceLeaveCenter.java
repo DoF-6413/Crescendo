@@ -19,11 +19,17 @@ import frc.robot.Subsystems.wrist.Wrist;
 public class OnePieceLeaveCenter extends SequentialCommandGroup {
   /** Creates a new OnePieceLeaveAuto. */
   public OnePieceLeaveCenter(
-      Drive drive, Wrist wrist, Feeder feeder, Shooter shooter, double seconds, double speed, Gyro gyro) {
+      Drive drive,
+      Wrist wrist,
+      Feeder feeder,
+      Shooter shooter,
+      double seconds,
+      double speed,
+      Gyro gyro) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      Commands.runOnce(
+        Commands.runOnce(
             () -> {
               gyro.zeroYaw();
             },
