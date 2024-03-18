@@ -5,6 +5,7 @@
 package frc.robot.Commands.AutonomousCommands.First3Pieces;
 
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -52,6 +53,7 @@ public class TwoPieceReturnSub extends SequentialCommandGroup {
               wrist.setSetpoint(0);
             },
             wrist),
+        new InstantCommand(() -> shooter.setSetpoint(0)),
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
