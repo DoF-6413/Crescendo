@@ -22,11 +22,12 @@ import frc.robot.Commands.AutonomousCommands.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceAuto;
-import frc.robot.Commands.SpeakerAutoAlign.AimShooter;
-import frc.robot.Commands.SpeakerAutoAlign.HeadingController;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
+import frc.robot.Commands.TeleopCommands.SpeakerAutoAlign.AimShooter;
+import frc.robot.Commands.TeleopCommands.SpeakerAutoAlign.DefaultDriveCommand;
+import frc.robot.Commands.TeleopCommands.SpeakerAutoAlign.HeadingController;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
@@ -61,7 +62,7 @@ public class RobotContainer {
 
   // Mechanisms
   private final Arm m_armSubsystem;
-  //   private final Vision m_visionSubsystem;
+  // private final Vision m_visionSubsystem;
   private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
@@ -72,7 +73,7 @@ public class RobotContainer {
 
   // Utilities
   private final PoseEstimatorLimelight m_poseEstimator;
-  //   private final PathPlanner m_pathPlanner;
+  // private final PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -180,19 +181,19 @@ public class RobotContainer {
             1));
 
     // autoChooser.addOption(
-    //     "2 middle field piece auto",
-    //     new TwoMiddleFieldPieceAuto(
-    //         m_driveSubsystem,
-    //         m_gyroSubsystem,
-    //         m_wristSubsystem,
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_actuatorSubsystem,
-    //         m_otbIntakeSubsystem,
-    //         m_utbIntakeSubsystem,
-    //         3,
-    //         1,
-    //         5.2));
+    // "2 middle field piece auto",
+    // new TwoMiddleFieldPieceAuto(
+    // m_driveSubsystem,
+    // m_gyroSubsystem,
+    // m_wristSubsystem,
+    // m_feederSubsystem,
+    // m_shooterSubsystem,
+    // m_actuatorSubsystem,
+    // m_otbIntakeSubsystem,
+    // m_utbIntakeSubsystem,
+    // 3,
+    // 1,
+    // 5.2));
 
     SmartDashboard.putNumber("Delay", 0);
     configureButtonBindings();
@@ -209,34 +210,25 @@ public class RobotContainer {
     // A default command always runs unless another command is called
 
     /** Driver Controls */
-
-    // Driving the robot
     m_driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_driveSubsystem.driveWithDeadband(
-                    driverController.getLeftX(), // Forward/backward
-                    -driverController
-                        .getLeftY(), // Left/Right (multiply by -1 bc controller axis inverted)
-                    driverController.getRightX()), // Rotate chassis left/right
-            m_driveSubsystem));
-
+        new DefaultDriveCommand(m_driveSubsystem, driverController, m_headingController));
     // Resets robot heading to be wherever the front of the robot is facing
+
     driverController
         .a()
-        .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
+        .onTrue(new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
 
     // Auto-align chassis to speaker
-    driverController
-        .b()
-        .onTrue(
-            new RunCommand(
-                () ->
-                    m_driveSubsystem.driveWithDeadband(
-                        driverController.getLeftX(),
-                        -driverController.getLeftY(), // Joystick on Xbox Controller is Inverted
-                        m_headingController.update()),
-                m_driveSubsystem));
+    // driverController
+    //         .b()
+    //         .onTrue(
+    //                 new RunCommand(
+    //                         () -> m_driveSubsystem.driveWithDeadband(
+    //                                 driverController.getLeftX(),
+    //                                 -driverController.getLeftY(), // Joystick on Xbox Controller
+    // is Inverted
+    //                                 m_headingController.update()),
+    //                         m_driveSubsystem));
 
     auxController
         .y()
@@ -361,9 +353,9 @@ public class RobotContainer {
 
     /* Climber */
     // m_climberSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_climberSubsystem.setClimberPercentSpeed(auxController.getLeftY()),
-    //         m_climberSubsystem));
+    // new InstantCommand(
+    // () -> m_climberSubsystem.setClimberPercentSpeed(auxController.getLeftY()),
+    // m_climberSubsystem));
 
     /* Scoring SPEAKER when up against it */
     auxController
@@ -394,10 +386,11 @@ public class RobotContainer {
     /* SOURCE Pickup */
     // Picking up from SOURCE, backside TODO: Change button
     // auxController
-    //     .leftBumper()
-    //     .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
-    //     .onFalse(
-    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
+    // .leftBumper()
+    // .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem,
+    // m_feederSubsystem))
+    // .onFalse(
+    // new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
     // m_feederSubsystem));
   }
 
