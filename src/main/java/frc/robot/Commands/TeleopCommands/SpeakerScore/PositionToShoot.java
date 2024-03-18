@@ -21,7 +21,7 @@ public class PositionToShoot extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
+              // feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
               wrist.setSetpoint(
                   Units.degreesToRadians(
                       angle)); // TODO: update when shooter interpolation branch is merged to

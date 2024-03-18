@@ -59,4 +59,14 @@ public class ClimberIOTalonFX implements ClimberIO {
   public void setClimberPercentSpeed(double percent) {
     climberMotor.set(percent);
   }
+
+  @Override
+  public void setClimberCurrent(int curr) {
+    final CurrentLimitsConfigs currentLimitsConfigs =
+        new CurrentLimitsConfigs().withStatorCurrentLimit(curr);
+    currentLimitsConfigs.withSupplyCurrentLimit(curr);
+    climberMotor.getConfigurator().apply(currentLimitsConfigs);
+    currentLimitsConfigs.withStatorCurrentLimitEnable(true);
+    currentLimitsConfigs.withSupplyCurrentLimitEnable(true);
+  }
 }

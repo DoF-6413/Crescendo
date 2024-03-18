@@ -45,7 +45,11 @@ public class Climber extends SubsystemBase {
    * @param percent [-1 to 1]
    */
   public void setClimberPercentSpeed(double percent) {
+    // if (percent < 0 && inputs.climberPositionMeters < -0.9) {
+    //   io.setClimberPercentSpeed(0);
+    // } else {
     io.setClimberPercentSpeed(percent);
+    // }
   }
 
   /**
@@ -56,5 +60,13 @@ public class Climber extends SubsystemBase {
    */
   public void setClimberBrakeMode(Boolean enable) {
     io.setClimberBrakeMode(enable);
+  }
+
+  public void setCurrentLimit(int curr) {
+    io.setClimberCurrent(curr);
+  }
+
+  public double getCurrentDraw() {
+    return inputs.climberCurrentAmps[0];
   }
 }

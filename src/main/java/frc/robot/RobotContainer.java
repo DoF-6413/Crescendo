@@ -22,9 +22,11 @@ import frc.robot.Commands.AutonomousCommands.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceAuto;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceReturnSub;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
+import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
@@ -154,13 +156,27 @@ public class RobotContainer {
 
     // Adds list of autos to Shuffleboard
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
-    autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 2, 1));
+    autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
     autoChooser.addOption(
         "One Piece", new OnePieceAuto(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
     autoChooser.addOption(
         "One Piece and Leave",
         new OnePieceLeaveAuto(
-            m_driveSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, 2, 1));
+            m_driveSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem, 3, 1));
+    autoChooser.addOption(
+        "Better Two Piece",
+        new TwoPieceReturnSub(
+            m_driveSubsystem,
+            m_gyroSubsystem,
+            m_wristSubsystem,
+            m_armSubsystem,
+            m_feederSubsystem,
+            m_shooterSubsystem,
+            m_actuatorSubsystem,
+            m_otbIntakeSubsystem,
+            m_utbIntakeSubsystem,
+            3,
+            1));
     autoChooser.addOption(
         "Two Piece",
         new TwoPieceAuto(
@@ -322,21 +338,31 @@ public class RobotContainer {
     /* Climber */
     m_climberSubsystem.setDefaultCommand(
         new InstantCommand(
-            () -> m_climberSubsystem.setClimberPercentSpeed(auxController.getLeftY()),
+            () -> m_climberSubsystem.setClimberPercentSpeed(-auxController.getLeftY()),
             m_climberSubsystem));
 
     /* Scoring SPEAKER when up against it */
     auxController
         .leftTrigger()
-        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 21))
+        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 27))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+
     /* Scoring SPEAKER when up against the PODIUM */
     auxController
         .rightTrigger()
-        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 1.5))
+        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -0.5))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+
+    /* Scoring SPEAKER when up against the BACK STAGE LEG (3 diff versions for easy use) */
+    auxController.start().onTrue(new ClimberToZero(m_climberSubsystem));
+    auxController
+        .back()
+        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -9.5))
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+
     /* AMP Scoring */
     // Scoring AMP from the frontside
     auxController
@@ -352,13 +378,12 @@ public class RobotContainer {
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* SOURCE Pickup */
-    // Picking up from SOURCE, backside TODO: Change button
-    // auxController
-    //     .leftBumper()
-    //     .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
-    //     .onFalse(
-    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-    // m_feederSubsystem));
+    // Picking up from SOURCE, backside
+    auxController
+        .y()
+        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
   }
 
   /**
@@ -377,7 +402,6 @@ public class RobotContainer {
     m_wristSubsystem.setBrakeMode(!isDisabled);
     m_actuatorSubsystem.setBrakeMode(!isDisabled);
     m_shooterSubsystem.setBrakeMode(!isDisabled);
-    m_climberSubsystem.setClimberBrakeMode(!isDisabled);
   }
 
   public void setAllSetpointsZero() {
