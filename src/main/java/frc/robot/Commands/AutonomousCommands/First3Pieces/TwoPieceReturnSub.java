@@ -5,29 +5,35 @@
 package frc.robot.Commands.AutonomousCommands.First3Pieces;
 
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
+import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Subsystems.actuator.Actuator;
+import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.otbIntake.OTBIntake;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.utbintake.UTBIntake;
-import frc.robot.Subsystems.wrist.*;
+import frc.robot.Subsystems.wrist.Wrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TwoPieceAuto extends SequentialCommandGroup {
-  /** Creates a new TwoPieceAuto. */
-  public TwoPieceAuto(
+public class TwoPieceReturnSub extends SequentialCommandGroup {
+  /** Creates a new TwoPieceReturnSub. */
+  public TwoPieceReturnSub(
       Drive drive,
       Gyro gyro,
       Wrist wrist,
+      Arm arm,
       Feeder feeder,
       Shooter shooter,
       Actuator actuator,
@@ -44,25 +50,37 @@ public class TwoPieceAuto extends SequentialCommandGroup {
             },
             gyro),
         new OnePieceAuto(wrist, feeder, shooter),
+        Commands.runOnce(
+            () -> {
+              wrist.setSetpoint(0);
+            },
+            wrist),
+        new InstantCommand(() -> shooter.setSetpoint(0)),
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
-                  wrist.setSetpoint(0);
+                  drive.setRaw(0, speed, 0);
                 },
-                wrist),
-            new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
-        Commands.runOnce(
-            () -> {
-              drive.setRaw(0, speed, 0);
-            },
-            drive),
+                drive),
+            new UTBIntakeRun(utbIntake, feeder, true, false)),
         new WaitCommand(seconds),
+        new ParallelCommandGroup(
+            Commands.runOnce(
+                () -> {
+                  drive.setRaw(0, -speed, 0);
+                  shooter.setTolerance(500);
+                },
+                drive),
+            new PositionToShoot(feeder, shooter, wrist, 27, 4000)),
+        new WaitCommand(seconds),
+        new UTBIntakeRun(utbIntake, feeder, false, true),
         Commands.runOnce(
             () -> {
-              drive.setRaw(0.0, 0, 0);
+              drive.setRaw(0, 0, 0);
             },
             drive),
-        new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
-        new PositionToShoot(feeder, shooter, wrist, WristConstants.PODIUM_RAD, 4000));
+        new WaitUntilCommand(() -> shooter.allAtSetpoint()),
+        new Shoot(feeder, arm, shooter),
+        Commands.runOnce(() -> shooter.setTolerance(ShooterConstants.RPM_TOLERANCE), shooter));
   }
 }

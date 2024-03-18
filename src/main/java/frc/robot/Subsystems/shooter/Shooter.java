@@ -57,11 +57,12 @@ public class Shooter extends SubsystemBase {
         bottomShooterPIDController.calculateForVoltage(
             inputs.bottomShooterMotorRPM, ShooterConstants.MAX_RPM));
 
-    SmartDashboard.putNumber("ShooterTopSetpoint", topShooterPIDController.getSetpoint());
-    SmartDashboard.putNumber("ShooterBottomSetpoint", bottomShooterPIDController.getSetpoint());
+    // SmartDashboard.putNumber("ShooterTopSetpoint", topShooterPIDController.getSetpoint());
+    // SmartDashboard.putNumber("ShooterBottomSetpoint", bottomShooterPIDController.getSetpoint());
     SmartDashboard.putBoolean("BothAtSetpoint", allAtSetpoint());
-    SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
-    SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
+    // SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
+    // SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
+
   }
 
   /** Updates the set of loggable inputs for both Shooter Motors */
@@ -200,7 +201,12 @@ public class Shooter extends SubsystemBase {
     bottomShooterPIDController.setSetpoint(setpoint);
   }
 
-  public double getSetpoint(){
+  public void setTolerance(double tolerance) {
+    topShooterPIDController.setTolerance(tolerance);
+    bottomShooterPIDController.setTolerance(tolerance);
+  }
+
+  public double getSetpoint() {
     return topShooterPIDController.getSetpoint();
   }
 }

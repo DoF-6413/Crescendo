@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.gyro;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -62,5 +63,9 @@ public class Gyro extends SubsystemBase {
    */
   public boolean isConnected() {
     return inputs.connected;
+  }
+
+  public Rotation2d adjustedYaw(double adjustedAngle) {
+    return inputs.yawPositionRad.plus(new Rotation2d(Units.degreesToRadians(adjustedAngle)));
   }
 }

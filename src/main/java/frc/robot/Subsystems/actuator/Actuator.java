@@ -5,7 +5,6 @@
 package frc.robot.Subsystems.actuator;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -35,7 +34,6 @@ public class Actuator extends SubsystemBase {
     this.updateInputs();
     // log the inputs
     Logger.processInputs("Actuator", inputs);
-    SmartDashboard.putNumber("Setpoint", actuatorSetpoint);
 
     if (actuatorPIDenable) {
       setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));

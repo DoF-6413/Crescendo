@@ -6,8 +6,8 @@ package frc.robot.Commands.TeleopCommands.SpeakerAutoAlign;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.RobotStateConstants;
@@ -26,7 +26,8 @@ public class AimShooter extends Command {
   private Timer m_timer;
 
   /** Creates a new AimShooter. */
-  public AimShooter(Shooter shooter, Wrist wrist, Arm arm, PoseEstimatorLimelight pose, Feeder feeder) {
+  public AimShooter(
+      Shooter shooter, Wrist wrist, Arm arm, PoseEstimatorLimelight pose, Feeder feeder) {
     m_shooter = shooter;
     m_wrist = wrist;
     m_arm = arm;
@@ -39,16 +40,16 @@ public class AimShooter extends Command {
   @Override
   public void initialize() {
     m_feeder.setSetpoint(-200);
-    m_timer.reset(); 
+    m_timer.reset();
     m_timer.restart();
     m_timer.start();
   }
-  
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    if (m_timer.hasElapsed(0.5) && m_shooter.getSetpoint() != 4000){
+
+    if (m_timer.hasElapsed(0.5) && m_shooter.getSetpoint() != 4000) {
       m_shooter.setSetpoint(4000);
     }
     Pose2d dtvalues = m_pose.getCurrentPose2d();

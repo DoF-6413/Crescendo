@@ -14,7 +14,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class WristIOSparkMax implements WristIO {
 
@@ -57,7 +56,6 @@ public class WristIOSparkMax implements WristIO {
         Units.rotationsPerMinuteToRadiansPerSecond(wristRelativeEncoder.getVelocity());
     inputs.wristTempCelsius = new double[] {wristMotor.getMotorTemperature()};
     inputs.wristCurrentAmps = new double[] {wristMotor.getOutputCurrent()};
-    SmartDashboard.putNumber("Absolute Encoder", wristAbsoluteEncoder.getPosition());
   }
 
   @Override

@@ -19,6 +19,7 @@ public class ShooterConstants {
   public static final double BOTTOM_KI = 0.25;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
   public static final double BOTTOM_KD = 0.0;
+
   /** Allows the RPM to be within % of the setpoint */
   public static final int RPM_TOLERANCE = 200;
   /** Max RPM achievable by the Shooter motors */

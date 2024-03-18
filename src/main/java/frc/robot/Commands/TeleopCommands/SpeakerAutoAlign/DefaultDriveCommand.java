@@ -51,7 +51,7 @@ public class DefaultDriveCommand extends Command {
     if (controller.button(10).getAsBoolean() && alreadyPressed != true) {
       index += 1;
       alreadyPressed = true;
-    } else if(!controller.button(10).getAsBoolean() && alreadyPressed == true){
+    } else if (!controller.button(10).getAsBoolean() && alreadyPressed == true) {
       alreadyPressed = false;
     }
   }
