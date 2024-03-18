@@ -73,6 +73,6 @@ public class TwoMidfieldPieceAuto extends SequentialCommandGroup {
             () -> {
               drive.setRaw(0, -speedY, 0);
             }),
-        new PositionToShoot(feeder, shooter, wrist, WristConstants.PODIUM_RAD));
+        new PositionToShoot(feeder, shooter, wrist, WristConstants.PODIUM_RAD, 4000));
   }
 }

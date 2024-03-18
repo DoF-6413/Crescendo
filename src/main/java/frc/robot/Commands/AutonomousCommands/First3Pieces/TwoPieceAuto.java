@@ -63,6 +63,6 @@ public class TwoPieceAuto extends SequentialCommandGroup {
             },
             drive),
         new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
-        new PositionToShoot(feeder, shooter, wrist, WristConstants.PODIUM_RAD));
+        new PositionToShoot(feeder, shooter, wrist, WristConstants.PODIUM_RAD, 4000));
   }
 }

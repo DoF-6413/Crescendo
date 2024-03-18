@@ -15,7 +15,6 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.RobotStateConstants;
 import java.util.Optional;
 
@@ -85,10 +84,6 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
       currentLimitsConfig.withSupplyCurrentLimitEnable(DriveConstants.ENABLE_CUR_LIM);
       currentLimitsConfig.withStatorCurrentLimit(DriveConstants.CUR_LIM_A);
       currentLimitsConfig.withStatorCurrentLimitEnable(DriveConstants.ENABLE_CUR_LIM);
-      SmartDashboard.putBoolean("StatorEnabled", currentLimitsConfig.StatorCurrentLimitEnable);
-      SmartDashboard.putBoolean("SupplyEnabled", currentLimitsConfig.SupplyCurrentLimitEnable);
-      SmartDashboard.putNumber("StatorCurr", currentLimitsConfig.StatorCurrentLimit);
-      SmartDashboard.putNumber("SupplyCurr", currentLimitsConfig.SupplyCurrentLimit);
       driveTalonFX.getConfigurator().apply(currentLimitsConfig);
       turnSparkMax.setSmartCurrentLimit(DriveConstants.CUR_LIM_A, DriveConstants.CUR_LIM_A);
 

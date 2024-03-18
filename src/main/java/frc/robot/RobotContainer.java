@@ -344,14 +344,17 @@ public class RobotContainer {
     /* Scoring SPEAKER when up against it */
     auxController
         .leftTrigger()
-        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 27))
+        .onTrue(
+            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 27, 4000))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* Scoring SPEAKER when up against the PODIUM */
     auxController
         .rightTrigger()
-        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -0.5))
+        .onTrue(
+            new PositionToShoot(
+                m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -0.5, 4000))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
@@ -359,7 +362,9 @@ public class RobotContainer {
     auxController.start().onTrue(new ClimberToZero(m_climberSubsystem));
     auxController
         .back()
-        .onTrue(new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -9.5))
+        .onTrue(
+            new PositionToShoot(
+                m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -10.5, 5000))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 

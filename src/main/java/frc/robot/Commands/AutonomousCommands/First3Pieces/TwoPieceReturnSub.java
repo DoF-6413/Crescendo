@@ -71,7 +71,7 @@ public class TwoPieceReturnSub extends SequentialCommandGroup {
                   shooter.setTolerance(500);
                 },
                 drive),
-            new PositionToShoot(feeder, shooter, wrist, 27)),
+            new PositionToShoot(feeder, shooter, wrist, 27, 4000)),
         new WaitCommand(seconds),
         new UTBIntakeRun(utbIntake, feeder, false, true),
         Commands.runOnce(
