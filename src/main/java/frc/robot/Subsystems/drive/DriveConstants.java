@@ -7,7 +7,6 @@ import java.util.Optional;
 public final class DriveConstants {
 
   // PID Constants for Kraken Drive
-  // PID values used in sim: P = 6.4, I = 1.2, D = 0.03
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
@@ -167,20 +166,26 @@ public final class DriveConstants {
   }
 
   public static enum L3_ABSOLUTE_ENCODER_OFFSET_RAD {
-    FRONT_RIGHT(-0.12879), // Module 0
-    FRONT_LEFT(2.379), // Module 1
-    BACK_LEFT(0.046), // Module 2
-    BACK_RIGHT(-2.598); // Module 3
-    // -3.039 => -2.603
+    FRONT_RIGHT(0.63), // Module 0
+    FRONT_LEFT(2.363), // Module 1
+    BACK_LEFT(0.09), // Module 2
+    BACK_RIGHT(-2.6185); // Module 3
+
     public final double OFFSET;
 
     L3_ABSOLUTE_ENCODER_OFFSET_RAD(double value) {
       OFFSET = value;
     }
   }
+  /** Set the inverted for the turn spark max */
+  public static final boolean INVERT_TURN_SPARK_MAX = true;
+  /** DON'T set the inverted for the drive TalonFX */
+  public static final boolean INVERT_DRIVE_TALONFX = false;
 
   /** Current limiting in amps */
-  public static final int CUR_LIM_A = 40;
+  public static final int CUR_LIM_A = 60;
+  /** Enebles the current limit */
+  public static final boolean ENABLE_CUR_LIM = true;
   /** Updates encoders every 10 milliseconds */
   public static final int MEASUREMENT_PERIOD_MS = 10;
   /**

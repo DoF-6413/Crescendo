@@ -11,6 +11,7 @@ import org.littletonrobotics.junction.AutoLog;
  * from Motors)
  */
 public interface ActuatorIO {
+
   @AutoLog
   public static class ActuatorIOInputs {
 
@@ -34,14 +35,14 @@ public interface ActuatorIO {
   /**
    * Sets the voltage of the Actuator motor
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public default void setActuatorVoltage(double volts) {}
 
   /**
    * Sets the Actuator motor to a percentage of its max speed
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public default void setActuatorPercentSpeed(double percent) {}
 
@@ -53,7 +54,13 @@ public interface ActuatorIO {
    */
   public default void setBrakeMode(boolean enable) {}
 
+  /**
+   * Sets the smart current limiting of the Actuator using the SPARK MAX speed contollers
+   *
+   * @param current Amps
+   */
   public default void setCurrentLimit(int current) {}
 
+  /** Resets the current position of the Actuator to be the new zero position */
   public default void zeroPosition() {}
 }

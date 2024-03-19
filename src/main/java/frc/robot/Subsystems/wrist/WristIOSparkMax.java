@@ -14,7 +14,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class WristIOSparkMax implements WristIO {
 
@@ -25,12 +24,11 @@ public class WristIOSparkMax implements WristIO {
   // private final RelativeEncoder wristEncoder;
 
   public WristIOSparkMax() {
-    /** creates a new wrist motor and encoder */
+    /** Creates a new Wrist motor and encoder */
     wristMotor = new CANSparkMax(WristConstants.CAN_ID, MotorType.kBrushless);
     wristRelativeEncoder = wristMotor.getEncoder();
-    // wristAbsoluteEncoder = new SparkMaxAlternateEncoder(wristMotor, , 8192);
     wristAbsoluteEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
-    wristAbsoluteEncoder.setInverted(true);
+    wristAbsoluteEncoder.setInverted(WristConstants.IS_INVERTED);
     wristAbsoluteEncoder.setZeroOffset(0.8);
 
     /** sets default to brake mode, which locks the motor position */
@@ -58,7 +56,6 @@ public class WristIOSparkMax implements WristIO {
         Units.rotationsPerMinuteToRadiansPerSecond(wristRelativeEncoder.getVelocity());
     inputs.wristTempCelsius = new double[] {wristMotor.getMotorTemperature()};
     inputs.wristCurrentAmps = new double[] {wristMotor.getOutputCurrent()};
-    SmartDashboard.putNumber("Absolute Encoder", wristAbsoluteEncoder.getPosition());
   }
 
   @Override
@@ -72,7 +69,7 @@ public class WristIOSparkMax implements WristIO {
   }
 
   @Override
-  public void setWristBrakeMode(boolean enable) {
+  public void setBrakeMode(boolean enable) {
     if (enable) {
       wristMotor.setIdleMode(IdleMode.kBrake);
     } else {

@@ -15,8 +15,12 @@ import frc.robot.Subsystems.drive.DriveConstants;
 
 /** Add your docs here. */
 public class PathPlanner extends SubsystemBase {
+  private Drive drive;
+  private PoseEstimator pose;
 
   public PathPlanner(Drive drive, PoseEstimator pose) {
+    this.drive = drive;
+    this.pose = pose;
 
     AutoBuilder.configureHolonomic(
         pose::getCurrentPose2d,

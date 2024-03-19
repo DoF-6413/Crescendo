@@ -18,7 +18,7 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
     utbIntakeMotor = new CANSparkMax(UTBIntakeConstants.CAN_ID, MotorType.kBrushless);
     utbIntakeEncoder = utbIntakeMotor.getEncoder();
 
-    /** defaults to brake mode on initialization */
+    /** Defaults to brake mode on initialization */
     utbIntakeMotor.setIdleMode(IdleMode.kBrake);
   }
 
@@ -43,20 +43,11 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
   }
 
   @Override
-  public void setUTBIntakeBrakeMode(boolean isEnabled) {
-    if (isEnabled) {
+  public void setUTBIntakeBrakeMode(boolean enable) {
+    if (enable) {
       utbIntakeMotor.setIdleMode(IdleMode.kBrake);
     } else {
       utbIntakeMotor.setIdleMode(IdleMode.kCoast);
-    }
-  }
-
-  @Override
-  public void enableUTB(boolean auxYIsPressed) {
-    if (auxYIsPressed == true) {
-      setUTBIntakePercentSpeed(100);
-    } else {
-      setUTBIntakePercentSpeed(100);
     }
   }
 }

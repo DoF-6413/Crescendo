@@ -5,7 +5,6 @@
 package frc.robot.Subsystems.arm;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,11 +19,11 @@ public class Arm extends SubsystemBase {
 
   /** Creates a new Arm, the Subsystem that moves the Shooter from Up and Down */
   public Arm(ArmIO io) {
-    System.out.println("[Init] Creating arm");
+    System.out.println("[Init] Creating Arm");
     this.io = io;
     armPIDController = new PIDController(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
     armPIDController.setSetpoint(0);
-    armPIDController.setTolerance(Units.degreesToRadians(1));
+    armPIDController.setTolerance(ArmConstants.ANGLE_TOLERANCE);
     armPIDController.disableContinuousInput();
 
     // TODO: Delete once final PID Numbers are Decided
@@ -42,18 +41,7 @@ public class Arm extends SubsystemBase {
     Logger.processInputs("Arm", armInputs);
 
     // Updates Arm Speed based on PID Control
-    setArmPercentSpeed(armPIDController.calculate(armInputs.armPositionRad));
-
-    // // TODO: Delete once final PID Numbers are Decided
-    // if (ArmConstants.KP != armkp.getDouble(0.0)
-    //     || ArmConstants.KI != armki.getDouble(0.0)
-    //     || ArmConstants.KD != armkd.getDouble(0.0)) {
-    //   updatePIDController();
-    // }
-
-    // if (armSetpoint != armSetpointSetter.getDouble(0.0)) {
-    //   updateSetpoint();
-    // }
+    setArmPercentSpeed(armPIDController.calculate(armInputs.armAbsolutePositionRad));
   }
 
   /** Updates the Outputs of the Motors based on What Mode we are In */
@@ -64,7 +52,7 @@ public class Arm extends SubsystemBase {
   /**
    * Sets the Arm motor to a percent of its maximum speed
    *
-   * @param percent [-1 to 1]
+   * @param percent -1 to 1
    */
   public void setArmPercentSpeed(double percent) {
     io.setArmPercentSpeed(percent);
@@ -72,7 +60,7 @@ public class Arm extends SubsystemBase {
   /**
    * Sets the voltage of the Arm motor
    *
-   * @param volts [-12 to 12]
+   * @param volts -12 to 12
    */
   public void setArmMotorVoltage(double volts) {
 
@@ -91,10 +79,22 @@ public class Arm extends SubsystemBase {
   /**
    * Updates the angle that the wrist should be at using the WPI PID controller
    *
-   * @param setpoint Radians [RANGE]
+   * @param setpoint Angle (Radians)
    */
   public void setSetpoint(double setpoint) {
     armPIDController.setSetpoint(setpoint);
+  }
+
+  public double getSetpoint() {
+    return armPIDController.getSetpoint();
+  }
+  /**
+   * Changes the angle setpoint of the Arm
+   *
+   * @param increment Angle (Radians)
+   */
+  public void incrementArmSetpoint(double increment) {
+    armPIDController.setSetpoint(armPIDController.getSetpoint() + increment);
   }
 
   /** Returns whether the arm is at its setpoint or not */

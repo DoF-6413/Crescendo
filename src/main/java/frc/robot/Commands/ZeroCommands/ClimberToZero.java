@@ -5,45 +5,40 @@
 package frc.robot.Commands.ZeroCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Subsystems.actuator.Actuator;
-import frc.robot.Subsystems.actuator.ActuatorConstants;
+import frc.robot.Subsystems.climber.Climber;
 
-public class ZeroActuator extends Command {
-  /** Creates a new ZeroActuator. */
-  private Actuator actuator;
+public class ClimberToZero extends Command {
+  /** Creates a new ClimberToZero. */
+  private Climber climb;
 
-  public ZeroActuator(Actuator actuator) {
-    this.actuator = actuator;
+  public ClimberToZero(Climber climb) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(actuator);
+    this.climb = climb;
+    addRequirements(climb);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    actuator.actuatorPIDEnable(false);
-    actuator.setCurrentLimit(10);
+    climb.setCurrentLimit(10);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    actuator.setActuatorPercentSpeed(-0.2);
-    ;
+    climb.setClimberPercentSpeed(0.5);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    actuator.setActuatorPercentSpeed(0.0);
-    actuator.setCurrentLimit(ActuatorConstants.CUR_LIM_A);
-    actuator.actuatorPIDEnable(true);
-    actuator.zeroPosition();
+    climb.setClimberPercentSpeed(0);
+    climb.setCurrentLimit(40);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return actuator.getOutputCurrent() > 10;
+    return climb.getCurrentDraw() >= 10 ? true : false;
   }
 }
