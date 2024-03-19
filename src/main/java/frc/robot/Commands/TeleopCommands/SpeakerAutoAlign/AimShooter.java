@@ -22,7 +22,7 @@ public class AimShooter extends Command {
   public Wrist m_wrist;
   public PoseEstimatorLimelight m_pose;
   public Feeder m_feeder;
-  private Timer m_timer;
+  private Timer m_timer = new Timer();
 
   /** Creates a new AimShooter. */
   public AimShooter(Shooter shooter, Wrist wrist, Arm arm, PoseEstimatorLimelight pose, Feeder feeder) {
@@ -45,8 +45,9 @@ public class AimShooter extends Command {
   @Override
   public void execute() {
     
-    if (m_timer.hasElapsed(0.5) && m_shooter.getSetpoint() != 4000){
+    if (m_timer.hasElapsed(0.5) && m_shooter.bothAtSetpoint()){
       m_shooter.setSetpoint(4000);
+      m_feeder.setSetpoint(0);
     }
     Pose2d dtvalues = m_pose.getCurrentPose2d();
     // triangle for robot angle
