@@ -31,7 +31,7 @@ public class PoseEstimatorLimelight extends SubsystemBase {
    * increase the numbers to trust the vision measurements less also in form [x, y, theta] or
    * meters, meters, radians
    */
-  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.01, 0.01, 0.01);
 
   private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;

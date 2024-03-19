@@ -23,7 +23,7 @@ public class AimShooter extends Command {
   public Arm m_arm;
   public PoseEstimatorLimelight m_pose;
   public Feeder m_feeder;
-  private Timer m_timer;
+  private Timer m_timer = new Timer();
 
   /** Creates a new AimShooter. */
   public AimShooter(
@@ -48,9 +48,10 @@ public class AimShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    System.out.println("itcrashedAFTERthispoint");
     if (m_timer.hasElapsed(0.5) && m_shooter.getSetpoint() != 4000) {
       m_shooter.setSetpoint(4000);
+      m_feeder.setSetpoint(0);
     }
     Pose2d dtvalues = m_pose.getCurrentPose2d();
     // triangle for robot angle
