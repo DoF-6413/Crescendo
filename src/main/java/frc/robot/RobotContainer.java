@@ -15,7 +15,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -63,7 +62,7 @@ public class RobotContainer {
 
   // Mechanisms
   private final Arm m_armSubsystem;
-  //   private final Vision m_visionSubsystem;
+  private final Vision m_visionSubsystem;
   private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
@@ -73,8 +72,8 @@ public class RobotContainer {
   private final Wrist m_wristSubsystem;
 
   // Utilities
-  // private final PoseEstimator m_poseEstimator;
-  // private final PathPlanner m_pathPlanner;
+  private final PoseEstimator m_poseEstimator;
+  private final PathPlanner m_pathPlanner;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -100,7 +99,7 @@ public class RobotContainer {
                 new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
-        // m_visionSubsystem = new Vision(new VisionIOArduCam());
+        m_visionSubsystem = new Vision(new VisionIOArduCam());
         m_climberSubsystem = new Climber(new ClimberIOTalonFX());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
@@ -121,7 +120,7 @@ public class RobotContainer {
                 new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
-        // m_visionSubsystem = new Vision(new VisionIOSim());
+        m_visionSubsystem = new Vision(new VisionIOSim());
         m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
@@ -142,7 +141,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
-        // m_visionSubsystem = new Vision(new VisionIO() {});
+        m_visionSubsystem = new Vision(new VisionIO() {});
         m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
@@ -153,7 +152,8 @@ public class RobotContainer {
         break;
     }
 
-    // Configure the button bindings
+    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
     NamedCommands.registerCommand("shoot", new InstantCommand());
     NamedCommands.registerCommand("pickUp", new InstantCommand());
@@ -167,18 +167,17 @@ public class RobotContainer {
     // seed
 
     /* NamedCommands.registerCommand(
-        "shooter auto aling", new InstantCommand(new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_poseEstimator))
+    "shooter auto aling", new InstantCommand(new AimShooter(m_shooterSubsystem, m_wristSubsystem, m_poseEstimator))
     );*/
     // this is how you do the auto ailing for the future in auto
 
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Auto1", new PathPlannerAuto("Auto1"));
+    autoChooser.addOption("test1", new PathPlannerAuto("test1"));
     autoChooser.addOption("test2", new PathPlannerAuto("test2"));
     autoChooser.addOption("test3", new PathPlannerAuto("test3"));
-    autoChooser.addDefaultOption("test1", new PathPlannerAuto("test1"));
+    autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
-    // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
-    // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
     // Adds list of autos to Shuffleboard
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
@@ -266,8 +265,8 @@ public class RobotContainer {
 
     SmartDashboard.putNumber("Delay", 0);
 
+    // Configure the button bindings
     configureButtonBindings();
-
   }
 
   /*

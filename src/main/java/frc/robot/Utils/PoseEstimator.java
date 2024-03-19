@@ -71,11 +71,9 @@ public class PoseEstimator extends SubsystemBase {
   public void periodic() {
     // When ran on the real robot it would overload the command scheduler, causing input delay from
     // joystick to driving
-    // if (RobotStateConstants.getMode() == Mode.SIM) {
     field2d.setRobotPose(getCurrentPose2d());
     poseEstimator.updateWithTime(
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
-    // }
 
     if (vision.getResult().hasTargets()) {
 
@@ -118,7 +116,7 @@ public class PoseEstimator extends SubsystemBase {
    * @param currentPose2d
    */
   public void resetPose(Pose2d currentPose2d) {
-    poseEstimator.resetPosition(gyro.getRawYaw(), drive.getSwerveModulePositions(), currentPose2d);
+    poseEstimator.resetPosition(gyro.getAngle(), drive.getSwerveModulePositions(), currentPose2d);
   }
   /**
    * @return the rotation in a Rotation2d in degrees
