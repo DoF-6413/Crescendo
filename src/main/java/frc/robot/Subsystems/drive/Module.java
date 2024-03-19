@@ -101,22 +101,32 @@ public class Module {
     return inputs.drivePositionRad * DriveConstants.WHEEL_RADIUS_M;
   }
 
-  /** Returns the current drive velocity of the module in meters per second. */
+  /**
+   * @return the current drive velocity of the module in meters per second
+   */
   public double getVelocityMetersPerSec() {
     return inputs.driveVelocityRadPerSec * DriveConstants.WHEEL_RADIUS_M;
   }
 
-  /** Returns the module position (turn angle and drive position). */
+  /**
+   * @return the module position (turn angle and drive position)
+   */
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(getPositionMeters(), getAngle());
   }
 
-  /** Returns the module state (turn angle and drive velocity). */
+  /**
+   * @return the module state (turn angle and drive velocity).
+   */
   public SwerveModuleState getState() {
     return new SwerveModuleState(getVelocityMetersPerSec(), getAngle());
   }
 
-  /** Sets Break Mode for Turn and Drive Motors */
+  /**
+   * Sets Break Mode for Turn and Drive Motors
+   *
+   * @param enable enables break mode on true, coast on false
+   */
   public void setBrakeModeAll(boolean enable) {
     io.setDriveBrakeMode(enable);
     io.setTurnBrakeMode(enable);
@@ -129,7 +139,6 @@ public class Module {
   public void periodic() {
     this.updateInputs();
     Logger.processInputs("Drive/Module" + Integer.toString(index), inputs);
-    // System.out.println(io.isL3());
   }
 
   /**
@@ -139,8 +148,8 @@ public class Module {
    */
   public SwerveModuleState runSetpoint(SwerveModuleState state) {
 
-    // Optimize state based on current angle (Quickest Path for Wheel to be at Desired Angle (-pi,
-    // pi rads))
+    // Optimize state based on current angle, aka take the shortest path for wheel to reach desired
+    // angle in rad (-pi,pi))
     var optimizedState = SwerveModuleState.optimize(state, getAngle());
 
     // Run turn controller

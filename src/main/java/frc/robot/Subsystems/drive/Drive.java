@@ -134,6 +134,10 @@ public class Drive extends SubsystemBase {
     runVelocity(ChassisSpeeds.fromFieldRelativeSpeeds(x, y, rot, this.getRotation()));
   }
 
+  public void setRawWithAdjustedHeading(double x, double y, double rot, Rotation2d heading) {
+    runVelocity(ChassisSpeeds.fromFieldRelativeSpeeds(x, y, rot, heading));
+  }
+
   /** returns a swerveModuleState of chassis speeds */
   public ChassisSpeeds getChassisSpeed() {
     return swerveKinematics.toChassisSpeeds(
@@ -197,7 +201,7 @@ public class Drive extends SubsystemBase {
       wheelDeltas[i] =
           new SwerveModulePosition(
               (modules[i].getPositionMeters()
-                  - lastModulePositionsMeters[i]), // This calculates the CHANGE in angle
+                  - lastModulePositionsMeters[i]), // This calculates the change in angle
               modules[i].getAngle()); // Gets individual MODULE rotation
       lastModulePositionsMeters[i] = modules[i].getPositionMeters();
     }

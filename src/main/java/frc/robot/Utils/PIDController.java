@@ -8,10 +8,11 @@ import frc.robot.Constants.RobotStateConstants;
 
 /** Custom DOF PID Control Solution */
 public class PIDController {
-  private double kP;
-  private double kI;
-  private double kD;
+  private double kP = 1.0;
+  private double kI = 0.0;
+  private double kD = 0.0;
   private double tolerance = 0.0;
+  private double tolerancePercent = 0.0;
   private double positionError = 0.0;
   private double velocityError = 0.0;
   private double totalError = 0.0;
@@ -40,9 +41,24 @@ public class PIDController {
     this.kD = kD;
   }
 
-  /** Updates Tolerance As A Decimal Percentage */
+  /**
+   * Updates tolerance as a hardcoded value
+   *
+   * @param tolerance
+   */
   public void setTolerance(double tolerance) {
     this.tolerance = tolerance;
+    this.tolerancePercent = 0.0;
+  }
+
+  /**
+   * Updates tolerance as a percent of the setpoint
+   *
+   * @param percent percentage of setpoint, -1 to 1
+   */
+  public void setTolerancePercent(double percent) {
+    this.tolerancePercent = percent;
+    this.tolerance = 0.0;
   }
 
   /** Updates kP Value */
@@ -67,8 +83,16 @@ public class PIDController {
     this.kD = kD;
   }
 
-  /** Gets Tolerance As A Decimal Percentage */
-  public double getTolerance() {
+  /**
+   * Gets tolerance
+   *
+   * @param isPercent if true, tolerance is a percentage of setpoint, if false then tolerance is
+   *     hardcoded value
+   */
+  public double getTolerance(boolean isPercent) {
+    if (isPercent) {
+      return tolerancePercent;
+    }
     return tolerance;
   }
 
@@ -109,13 +133,12 @@ public class PIDController {
    *
    * @param measurement Current Measurement (Behavior or Location) of System
    * @param maxValue The Max Value the Setpoint Could Ever Achieve
-   * @return Returns Voltage [-12 to 12]
+   * @return Returns Voltage -12 to 12
    */
   public double calculateForVoltage(double measurement, double maxValue) {
 
     // PROPORTIONAL: Current error
     positionError = setpoint - measurement;
-    // System.out.println("POSITION ERROR: " + positionError);
 
     // DERIVATIVE: Velocity error = change in position / time
     velocityError = (positionError - prevError) / RobotStateConstants.LOOP_PERIODIC_SEC;
@@ -128,22 +151,43 @@ public class PIDController {
     totalError += (positionError * RobotStateConstants.LOOP_PERIODIC_SEC);
 
     // raw voltage output + PID tuning = calculated voltage
+    /**
+     * The setpoint * volts / maxValue runs the motor at the speed it should theoretically run at
+     * and the PID gets it closer to the setpoint by adding up the errors multiplied by respective
+     * constants
+     */
     double desiredVoltage =
-        // The setpoint * volts / maxValue  runs the motor at the speed it should theoretically run
-        // at and the PID gets it closer to the setpoint by adding
         (setpoint + (kP * positionError) + (kI * totalError) + (kD * velocityError))
             * RobotStateConstants.BATTERY_VOLTAGE
             / maxValue;
 
-    // TODO: Implement tolerance
+    if (setpoint == 0) {
+      desiredVoltage = 0;
+    }
     return desiredVoltage;
   }
 
-  /** Returns whether or not the measurment is at the setpoint, including with the tolerance */
+  /** Returns whether or not the measurment is at the setpoint with tolerance */
   public boolean atSetpoint(double measurement) {
-    if ((measurement >= setpoint - tolerance) && (measurement <= setpoint + tolerance)) {
-      return true;
+    /**
+     * if the tolerance has been updated, use that value to calculate if the measurement is within
+     * the setpoint +/- the tolerance, otherwise if the tolerance has been set as a percent,
+     * calculate accordingly
+     */
+    if (tolerance != 0) {
+      if ((setpoint - tolerance <= measurement) && (measurement <= setpoint + tolerance)) {
+        atSetpoint = true;
+      } else {
+        atSetpoint = false;
+      }
+    } else if (tolerancePercent != 0) {
+      if ((setpoint * (1 - tolerancePercent) <= measurement)
+          && (measurement <= setpoint * (1 + tolerancePercent))) {
+        atSetpoint = true;
+      } else {
+        atSetpoint = false;
+      }
     }
-    return false;
+    return atSetpoint;
   }
 }

@@ -8,23 +8,21 @@ import edu.wpi.first.math.util.Units;
 
 /** Actuator Constants */
 public final class ActuatorConstants {
-
   // PID Constants for the Actuator
-  // TODO: Finalize PID values once they are tuned/determined + add 'final'
-  // modifiers
+
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static double KP = 1.0;
+  public static final double KP = 1.0;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static double KI = 0.0;
+  public static final double KI = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static double KD = 0.0;
+  public static final double KD = 0.0;
   /**
    * Updates the range of error acceptable from setpoint (The position of the Actuator can be within
    * 5% of the setpoint)
    */
-  public static final double TOLERANCE_PERCENT = 0.05;
+  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(2);
 
   // Sim Constants for the Actuator
 
@@ -47,10 +45,12 @@ public final class ActuatorConstants {
   public static final int CUR_LIM_A = 20;
 
   /** The maximum angle the actuator can rotate to */
-  public static final double MAX_ANGLE_RADS = 3.979286095381181; // 317.996298741448
+  public static final double MAX_ANGLE_RADS = Units.degreesToRadians(135);
+  // Math.atan(-7.432 / 8.253) + (2 * Math.PI); // 5.6
 
   /** The minimum angle the actuator can rotate to */
-  public static final double MIN_ANGLE_RADS = Math.atan(11.105 / .096); // 90
+  public static final double MIN_ANGLE_RADS = 0;
+  // Math.atan(11.105 / .096); // 1?
 
   /** The angle where the actuator starts */
   public static final double START_ANGLE_RADS = MIN_ANGLE_RADS;

@@ -129,7 +129,7 @@ public class ModuleIOSparkMax implements ModuleIO {
             new Rotation2d(
                     Units.rotationsToRadians(
                             turnAbsoluteEncoder.getAbsolutePosition().getValueAsDouble())
-                        + absoluteEncoderOffset // getPosition returns rotations of motor not
+                        + absoluteEncoderOffset // get Position returns rotations of motor not
                     // degrees
                     )
                 .getRadians());

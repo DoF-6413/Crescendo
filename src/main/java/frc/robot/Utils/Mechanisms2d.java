@@ -21,8 +21,7 @@ public class Mechanisms2d extends SubsystemBase {
   private final MechanismLigament2d wristMech;
   private final MechanismLigament2d armMech;
   private final MechanismLigament2d actuatorMech;
-  private final MechanismLigament2d leftClimberMech;
-  private final MechanismLigament2d rightClimberMech;
+  private final MechanismLigament2d climberMech;
 
   private final Wrist m_wristSub;
   private final Arm m_Arm;
@@ -58,10 +57,7 @@ public class Mechanisms2d extends SubsystemBase {
             new MechanismLigament2d( // done
                 "actuatorRoot", .2851, 0, 1, blue));
 
-    leftClimberMech =
-        climberRoot.append(new MechanismLigament2d("leftClimberRoot", .5, 90, 1, purple)); // done
-
-    rightClimberMech =
+    climberMech =
         climberRoot.append(new MechanismLigament2d("rightClimberRoot", .5, 90, 1, white)); // done
 
     wristMech = Wristroot.append(new MechanismLigament2d("wristRoot", .2, 0, 1, red));
@@ -81,8 +77,7 @@ public class Mechanisms2d extends SubsystemBase {
     wristMech.setAngle(Units.radiansToDegrees(m_wristSub.getAngleRads()));
     armMech.setAngle(Units.radiansToDegrees(m_Arm.getAngleRads()));
     actuatorMech.setAngle(Units.radiansToDegrees(m_Actuator.getAngleRads()));
-    leftClimberMech.setLength(m_Climber.getLeftClimberPose());
-    rightClimberMech.setLength(m_Climber.getRightClimberPose());
+    climberMech.setLength(m_Climber.getClimberPose());
 
     Logger.recordOutput("mechanism", swerveMech);
   }

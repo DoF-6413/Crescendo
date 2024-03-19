@@ -11,125 +11,66 @@ public class Climber extends SubsystemBase {
 
   private final ClimberIO io;
   private final ClimberIOInputsAutoLogged inputs = new ClimberIOInputsAutoLogged();
-  // private final PIDController climberLeftPIDController;
-  // private final PIDController climberRightPIDController;
-  // private double climberSetpoint = 0.0;
-  // private final ShuffleboardTab climberTab = Shuffleboard.getTab("Climber");
-  // private GenericEntry climberLeftkp;
-  // private GenericEntry climberLeftki;
-  // private GenericEntry climberLeftkd;
-  // private GenericEntry climberRightkp;
-  // private GenericEntry climberRightki;
-  // private GenericEntry climberRightkd;
-  // private GenericEntry climberSetpointSetter;
 
   /** Creates a new Climber. */
   public Climber(ClimberIO io) {
     System.out.println("[Init] Creating Climber");
     this.io = io;
-
-    // climberLeftPIDController =
-    //     new PIDController(
-    //         ClimberConstants.LEFT_KP, ClimberConstants.LEFT_KI, ClimberConstants.LEFT_KD);
-    // climberRightPIDController =
-    //     new PIDController(
-    //         ClimberConstants.RIGHT_KP, ClimberConstants.RIGHT_KI, ClimberConstants.RIGHT_KD);
-
-    // climberLeftPIDController.setSetpoint(climberSetpoint);
-    // climberRightPIDController.setSetpoint(climberSetpoint);
-
-    // // Set Tolerance
-    // climberLeftPIDController.setTolerance(ClimberConstants.TOLERANCE_PERCENT * climberSetpoint);
-    // climberRightPIDController.setTolerance(ClimberConstants.TOLERANCE_PERCENT * climberSetpoint);
-
-    // // TODO: Delete once final PID Numbers are Decided
-    // climberLeftkp = climberTab.add("climberLeftkp", 0.0).getEntry();
-    // climberLeftki = climberTab.add("climberLeftki", 0.0).getEntry();
-    // climberLeftkd = climberTab.add("climberLeftkd", 0.0).getEntry();
-    // climberRightkp = climberTab.add("climberRightkp", 0.0).getEntry();
-    // climberRightki = climberTab.add("climberRightki", 0.0).getEntry();
-    // climberRightkd = climberTab.add("climberRightkd", 0.0).getEntry();
-    // climberSetpointSetter = climberTab.add("climberSetpoint", 0.0).getEntry();
   }
 
-  /** Periodically updates the inputs and outputs of the Climber */
+  @Override
   public void periodic() {
+    // This method will be called once per scheduler run
     this.updateInputs();
     Logger.processInputs("Climber", inputs);
-
-    //   io.setLeftClimberPercentSpeed(
-    //       climberLeftPIDController.calculate(inputs.leftClimberPositionMeters));
-
-    //   io.setRightClimberPercentSpeed(
-    //       climberRightPIDController.calculate(inputs.rightClimberPositionMeters));
-
-    //   if (ClimberConstants.RIGHT_KP != climberRightkp.getDouble(0.0)
-    //       || ClimberConstants.RIGHT_KI != climberRightki.getDouble(0.0)
-    //       || ClimberConstants.RIGHT_KD != climberRightkd.getDouble(0.0)
-    //       || ClimberConstants.LEFT_KP != climberLeftkp.getDouble(0.0)
-    //       || ClimberConstants.LEFT_KI != climberLeftki.getDouble(0.0)
-    //       || ClimberConstants.LEFT_KD != climberLeftkd.getDouble(0.0)) {
-    //     updatePIDController();
-    //   }
-
-    //   if (climberSetpoint != climberSetpointSetter.getDouble(0.0)) {
-    //     updateSetpoint();
-    //   }
-    // }
-
-    // public void updatePIDController() {
-    //   ClimberConstants.LEFT_KP = climberLeftkp.getDouble(0.0);
-    //   ClimberConstants.LEFT_KD = climberLeftkd.getDouble(0.0);
-    //   ClimberConstants.LEFT_KI = climberLeftki.getDouble(0.0);
-    //   ClimberConstants.RIGHT_KP = climberRightkp.getDouble(0.0);
-    //   ClimberConstants.RIGHT_KI = climberRightki.getDouble(0.0);
-    //   ClimberConstants.RIGHT_KD = climberRightkd.getDouble(0.0);
-    //   climberLeftPIDController.setPID(
-    //       ClimberConstants.LEFT_KP, ClimberConstants.LEFT_KI, ClimberConstants.LEFT_KD);
-    //   climberRightPIDController.setPID(
-    //       ClimberConstants.RIGHT_KP, ClimberConstants.RIGHT_KI, ClimberConstants.RIGHT_KD);
-    // }
-
-    // public void updateSetpoint() {
-    //   climberSetpoint = climberSetpointSetter.getDouble(0.0);
-    //   climberLeftPIDController.setSetpoint(climberSetpoint);
-    //   climberRightPIDController.setSetpoint(climberSetpoint);
   }
 
-  /** Updates the inputs for the Climber */
+  /** Updates the set of loggable inputs for the Climber */
   public void updateInputs() {
     io.updateInputs(inputs);
   }
 
-  public void setBothClimberVoltage(double volts) {
-    io.setBothClimberVoltage(volts);
+  /**
+   * Sets the voltage of the Climber motor
+   *
+   * @param volts [-12 to 12]
+   */
+  public void setClimberVoltage(double volts) {
+    io.setClimberVoltage(volts);
   }
 
-  public void setLeftClimberVoltage(double volts) {
-    io.setLeftClimberVoltage(volts);
+  /**
+   * Sets the Climber motor to a percentage of its maximum speed
+   *
+   * @param percent [-1 to 1]
+   */
+  public void setClimberPercentSpeed(double percent) {
+    // if (percent < 0 && inputs.climberPositionMeters < -0.9) {
+    //   io.setClimberPercentSpeed(0);
+    // } else {
+    io.setClimberPercentSpeed(percent);
+    // }
   }
 
-  public void setRightClimberVoltage(double volts) {
-    io.setRightClimberVoltage(volts);
+  /**
+   * Sets the Brake Mode for the Climber (Brake means motor holds position, Coast means easy to
+   * move)
+   *
+   * @param enable if enable, it sets brake mode, else it sets coast mode
+   */
+  public void setClimberBrakeMode(Boolean enable) {
+    io.setClimberBrakeMode(enable);
   }
 
-  public void setBothClimberPercentSpeed(double percent) {
-    io.setBothClimberPercentSpeed(percent);
+  public void setCurrentLimit(int curr) {
+    io.setClimberCurrent(curr);
   }
 
-  public void setLeftClimberPercentSpeed(double percent) {
-    io.setLeftClimberPercentSpeed(percent);
+  public double getCurrentDraw() {
+    return inputs.climberCurrentAmps[0];
   }
 
-  public void setRightClimberPercentSpeed(double percent) {
-    io.setRightClimberPercentSpeed(percent);
-  }
-
-  public double getRightClimberPose() {
-    return io.getRightClimberPose();
-  }
-
-  public double getLeftClimberPose() {
-    return io.getLeftClimberPose();
+  public double getClimberPose() {
+    return io.getClimberPose();
   }
 }
