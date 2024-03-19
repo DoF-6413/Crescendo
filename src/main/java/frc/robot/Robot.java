@@ -13,18 +13,13 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.RobotStateConstants;
-
-import org.littletonrobotics.junction.LogFileUtil;
-import org.littletonrobotics.junction.LoggedRobot;
-import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.NT4Publisher;
-import org.littletonrobotics.junction.wpilog.WPILOGReader;
-import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.Constants.*;
+import org.littletonrobotics.junction.*;
+import org.littletonrobotics.junction.networktables.*;
+import org.littletonrobotics.junction.wpilog.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -64,7 +59,10 @@ public class Robot extends LoggedRobot {
     switch (RobotStateConstants.getMode()) {
       case REAL:
         // Running on a real robot, log to a USB stick ("/U/logs")
-        Logger.addDataReceiver(new WPILOGWriter("/Crescendo/Logs")); // The name looks like "Logs_Year-Month-Day_Hour-Minute-Second"
+        // Logger.addDataReceiver(
+        //     new WPILOGWriter(
+        //         "/Crescendo/Logs")); // The name looks like
+        // "Logs_Year-Month-Day_Hour-Minute-Second"
         Logger.addDataReceiver(new NT4Publisher());
         break;
 
@@ -82,15 +80,17 @@ public class Robot extends LoggedRobot {
         break;
     }
 
+    CameraServer.startAutomaticCapture();
     // See http://bit.ly/3YIzFZ6 for more information on timestamps in AdvantageKit.
     // Logger.disableDeterministicTimestamps()
 
     // Start AdvantageKit logger
     Logger.start();
 
-    //Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
-    //(For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2, Doesn't Build)
-    SmartDashboard.putString("Beta Number", "1.2.0.0.1");
+    // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
+    // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
+    // Build)
+    SmartDashboard.putString("Beta Number", "1.37.0.3.1");
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
@@ -110,7 +110,13 @@ public class Robot extends LoggedRobot {
 
   /** This function is called once when the robot is disabled. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    robotContainer.mechanismsCoastOnDisable(true);
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
+    }
+    robotContainer.setAllSetpointsZero();
+  }
 
   /** This function is called periodically when disabled. */
   @Override
@@ -121,7 +127,9 @@ public class Robot extends LoggedRobot {
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
 
-    // schedule the autonomous command (example)
+    robotContainer.mechanismsCoastOnDisable(false);
+
+    // Schedule the autonomous command (example)
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }
@@ -141,6 +149,9 @@ public class Robot extends LoggedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+
+    robotContainer.setAllSetpointsZero();
+    robotContainer.mechanismsCoastOnDisable(false);
   }
 
   /** This function is called periodically during operator control. */

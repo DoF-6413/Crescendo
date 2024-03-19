@@ -13,11 +13,10 @@
 
 package frc.robot;
 
-import java.util.Optional;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
+import java.util.Optional;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -30,45 +29,47 @@ import edu.wpi.first.wpilibj.RobotBase;
 public final class Constants {
 
   /** Defines State of Robot */
-  public static class RobotStateConstants{
-  public static enum Mode {
-    /** Running on a real robot. */
-    REAL,
+  public static class RobotStateConstants {
+    public static enum Mode {
+      /** Running on a real robot. */
+      REAL,
 
-    /** Running a physics simulator. */
-    SIM,
+      /** Running a physics simulator. */
+      SIM,
 
-    /** Replaying from a log file. */
-    REPLAY
-  }
-
-  /** Gets Robot Mode (Real, Sim, or Replay)*/
-    public static Mode getMode() {
-    if (RobotBase.isReal()) {
-      return Mode.REAL;
-    } else if (RobotBase.isSimulation()) {
-      return Mode.SIM;
-    } else {
-      return Mode.REPLAY;
+      /** Replaying from a log file. */
+      REPLAY
     }
+
+    /** Gets Robot Mode (Real, Sim, or Replay) */
+    public static final Mode getMode() {
+      if (RobotBase.isReal()) {
+        return Mode.REAL;
+      } else if (RobotBase.isSimulation()) {
+        return Mode.SIM;
+      } else {
+        return Mode.REPLAY;
+      }
+    }
+
+    /** Get Alliance (Blue, Red, Null) */
+    public static final Optional<Alliance> getAlliance() {
+      return DriverStation.getAlliance();
+    }
+
+    /** If CAN takes too long, it cancels */
+    public static final int CAN_CONFIG_TIMEOUT_SEC = 30;
+
+    /** Command Loop Seconds */
+    public static final double LOOP_PERIODIC_SEC = 0.02;
+
+    /** Average Battery Voltage */
+    public static final double BATTERY_VOLTAGE = 12;
   }
 
-  /** Get Alliance (Blue, Red, Null) */
-    public static Optional<Alliance> getAlliance() {
-    return DriverStation.getAlliance();
+  /** Controller Ports */
+  public static class OperatorConstants {
+    public static final int DRIVE_CONTROLLER = 0;
+    public static final int AUX_CONTROLLER = 1;
   }
-
-  /** If CAN takes too long, it cancels */
-  public static final int CAN_CONFIG_TIMEOUT = 500;
-
-  /**Command Loop Seconds */
-  public static final double LOOP_PERIODIC_SEC = 0.02;
-
-}
-
-/** Controller Ports */
-public static class OperatorConstants {
-  public static final int DRIVE_CONTROLLER = 0;
-  public static final int AUX_CONTROLLER = 1;
-}
 }
