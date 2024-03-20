@@ -49,9 +49,11 @@ public class ShooterConstants {
     // {50, 45, 30, 15, 7.5, 3.75, 675, .3375, .1682, .05, 0.005} // theta_min
 
     // from tests
-    {0 + 1, 0.5 + 1, 1 + 1, 1.5 + 1, 2 + 1, 2.5 + 1, 3 + 1}, // x in meters
-    {31, 21, 19, 11, 6, 3.5, 1}, // theta_max_degrees
-    {21, 16, 11, 8.5, 5, 1.5, 0} // theta_min_degrees
+    {1, 1.5, 2, 2.5, 3, 3.5, 4}, // x in meters
+    {27, 21, 19, 11, 6, 3.5, 1}, // theta_max_degrees
+    {20, 16, 11, 8.5, 5, 1.5, 0} // theta_min_degrees
+
+    //New Values Tested Are: 1
   };
 
   // Inverted motors
