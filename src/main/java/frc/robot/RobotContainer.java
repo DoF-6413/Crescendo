@@ -323,6 +323,9 @@ public class RobotContainer {
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
+    auxController
+        .x()
+        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(4000), m_shooterSubsystem));
     /* Auto adjusts the angle of the Wrist using Vision for accurate shooting into the SPEAKER */
     auxController
         .y()

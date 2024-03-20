@@ -10,6 +10,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -68,7 +69,10 @@ public class PoseEstimatorLimelight extends SubsystemBase {
 
     if (limelightMeasurement.tagCount >= 2) {
       poseEstimator.addVisionMeasurement(
-          limelightMeasurement.pose,
+          limelightMeasurement.pose.transformBy(
+              new Transform2d(
+                  new Translation2d(Units.inchesToMeters(3.265), Units.inchesToMeters(13.25)),
+                  new Rotation2d())),
           limelightMeasurement.timestampSeconds,
           visionMeasurementStandardDevs);
     }
