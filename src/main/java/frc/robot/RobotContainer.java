@@ -28,6 +28,7 @@ import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
+import frc.robot.Commands.TeleopCommands.SpeakerScore.OverShot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
@@ -319,8 +320,20 @@ public class RobotContainer {
                 true));
 
     // Brings Actuator back to its default position (all the way up)
-    driverController.start().onTrue(new ActuatorToZero(m_actuatorSubsystem));
+    auxController
+        .start()
+        .onTrue(
+            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -11, 6000))
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
+    auxController
+        .button(10)
+        .onTrue(
+            new PositionToShoot(
+                m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -9.5, 6000))
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     /** Aux Controls */
 
     /* Feeder */
@@ -342,32 +355,41 @@ public class RobotContainer {
     auxController
         .povLeft()
         .onTrue(
-            new InstantCommand(
+            new RunCommand(
                 () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
-                m_wristSubsystem));
+                m_wristSubsystem))
+        .onFalse(
+            new RunCommand(() -> m_wristSubsystem.incrementWristSetpoint(0), m_wristSubsystem));
+    ;
     // Decreases angle of the Wrist by 1 degree
     auxController
         .povRight()
         .onTrue(
-            new InstantCommand(
+            new RunCommand(
                 () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
-                m_wristSubsystem));
+                m_wristSubsystem))
+        .onFalse(
+            new RunCommand(() -> m_wristSubsystem.incrementWristSetpoint(0), m_wristSubsystem));
+    ;
 
     /* Arm */
     // Increases angle of the Arm by 1 degree
     auxController
         .povUp()
         .onTrue(
-            new InstantCommand(
+            new RunCommand(
                 () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(1)),
-                m_armSubsystem));
+                m_armSubsystem))
+        .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmSetpoint(0), m_armSubsystem));
     // Decreases angle of the Arm by 1 degree
     auxController
         .povDown()
         .onTrue(
-            new InstantCommand(
+            new RunCommand(
                 () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(-1)),
-                m_armSubsystem));
+                m_armSubsystem))
+        .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmSetpoint(0), m_armSubsystem));
+    ;
 
     /* Climber */
     m_climberSubsystem.setDefaultCommand(
@@ -393,14 +415,21 @@ public class RobotContainer {
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* Scoring SPEAKER when up against the BACK STAGE LEG (3 diff versions for easy use) */
-    auxController.start().onTrue(new ClimberToZero(m_climberSubsystem));
     auxController
         .back()
         .onTrue(
-            new PositionToShoot(
-                m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -10.5, 5000))
+            new OverShot(m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+    ;
+    // auxController
+    //     .back()
+    //     .onTrue(
+    //         new PositionToShoot(
+    //             m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -3.5, 4000))
+    //     .onFalse(
+    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
+    // m_feederSubsystem));
 
     /* AMP Scoring */
     // Scoring AMP from the frontside
