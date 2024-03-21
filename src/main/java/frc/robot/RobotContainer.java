@@ -23,6 +23,7 @@ import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAmpSide;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveCenter;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveCoolSide;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.ThreePieceAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceReturnSub;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
@@ -70,7 +71,7 @@ public class RobotContainer {
   private final Wrist m_wristSubsystem;
 
   // Utilities
-  // private final PoseEstimator m_poseEstimator;
+  private final PoseEstimator m_poseEstimator;
   // private final PathPlanner m_pathPlanner;
 
   // Controllers
@@ -153,7 +154,11 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+    m_poseEstimator =
+        new PoseEstimator(
+            m_driveSubsystem, m_gyroSubsystem
+            // , m_visionSubsystem
+            );
     // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
     // Adds list of autos to Shuffleboard
@@ -225,6 +230,9 @@ public class RobotContainer {
             2,
             1,
             m_gyroSubsystem));
+    autoChooser.addOption(
+        " Three Piece Leave Amp Side",
+        new ThreePieceAuto(m_driveSubsystem, m_gyroSubsystem, m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, 2, 1));
     // autoChooser.addOption(
     //     "2 middle field piece auto",
     //     new TwoMiddleFieldPieceAuto(
