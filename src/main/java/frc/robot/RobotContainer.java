@@ -233,10 +233,32 @@ public class RobotContainer {
             m_gyroSubsystem));
     autoChooser.addOption(
         " Three Piece Leave Amp Side Blue",
-        new ThreePieceAutoBlue(m_driveSubsystem, m_gyroSubsystem, m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, 2, 1));
+        new ThreePieceAutoBlue(
+            m_driveSubsystem,
+            m_gyroSubsystem,
+            m_wristSubsystem,
+            m_armSubsystem,
+            m_feederSubsystem,
+            m_shooterSubsystem,
+            m_actuatorSubsystem,
+            m_otbIntakeSubsystem,
+            m_utbIntakeSubsystem,
+            2,
+            1));
     autoChooser.addOption(
         " Three Piece Leave Amp Side Red",
-        new ThreePieceAutoRed(m_driveSubsystem, m_gyroSubsystem, m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, 2, 1));
+        new ThreePieceAutoRed(
+            m_driveSubsystem,
+            m_gyroSubsystem,
+            m_wristSubsystem,
+            m_armSubsystem,
+            m_feederSubsystem,
+            m_shooterSubsystem,
+            m_actuatorSubsystem,
+            m_otbIntakeSubsystem,
+            m_utbIntakeSubsystem,
+            2,
+            1));
     // autoChooser.addOption(
     //     "2 middle field piece auto",
     //     new TwoMiddleFieldPieceAuto(

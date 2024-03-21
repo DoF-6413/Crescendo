@@ -30,7 +30,8 @@ import frc.robot.Subsystems.wrist.Wrist;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ThreePieceAutoBlue extends SequentialCommandGroup {
   /** Creates a new ThreePieceAuto. */
-  public ThreePieceAutoBlue(Drive drive,
+  public ThreePieceAutoBlue(
+      Drive drive,
       Gyro gyro,
       Wrist wrist,
       Arm arm,
@@ -44,10 +45,12 @@ public class ThreePieceAutoBlue extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ParallelDeadlineGroup(
-        new WaitCommand(7), 
-      new TwoPieceReturnSub(drive, gyro, wrist, arm, feeder, shooter, actuator, otbIntake, utbIntake, seconds, speed)),
-      Commands.runOnce(
+        new ParallelDeadlineGroup(
+            new WaitCommand(7),
+            new TwoPieceReturnSub(
+                drive, gyro, wrist, arm, feeder, shooter, actuator, otbIntake, utbIntake, seconds,
+                speed)),
+        Commands.runOnce(
             () -> {
               wrist.setSetpoint(0);
             },
@@ -61,31 +64,30 @@ public class ThreePieceAutoBlue extends SequentialCommandGroup {
                 drive),
             new UTBIntakeRun(utbIntake, feeder, true, false)),
         new WaitCommand(seconds - 1),
-                Commands.runOnce(
-                () -> {
-                  drive.setRaw(0, speed, 0);
-                  System.out.println("running");
-                },
-                drive),
+        Commands.runOnce(
+            () -> {
+              drive.setRaw(0, speed, 0);
+              System.out.println("running");
+            },
+            drive),
         new WaitCommand(seconds),
         Commands.runOnce(
-                () -> {
-                  drive.setRaw(0, 0, 0.1);
-                  System.out.println("running");
-                },
-                drive),
-                new WaitCommand(0.1),
-                new PositionToShoot(feeder, shooter, wrist, 27, 4000),
-                new WaitCommand(seconds),
-                new UTBIntakeRun(utbIntake, feeder, false, true),
-                Commands.runOnce(
-                    () -> {
-                      drive.setRaw(0, 0, 0);
-                    },
-                    drive),
-                new WaitUntilCommand(() -> shooter.allAtSetpoint()),
-                new Shoot(feeder, arm, shooter),
-                Commands.runOnce(() -> shooter.setTolerance(ShooterConstants.RPM_TOLERANCE), shooter)
-    );
+            () -> {
+              drive.setRaw(0, 0, 0.1);
+              System.out.println("running");
+            },
+            drive),
+        new WaitCommand(0.1),
+        new PositionToShoot(feeder, shooter, wrist, 27, 4000),
+        new WaitCommand(seconds),
+        new UTBIntakeRun(utbIntake, feeder, false, true),
+        Commands.runOnce(
+            () -> {
+              drive.setRaw(0, 0, 0);
+            },
+            drive),
+        new WaitUntilCommand(() -> shooter.allAtSetpoint()),
+        new Shoot(feeder, arm, shooter),
+        Commands.runOnce(() -> shooter.setTolerance(ShooterConstants.RPM_TOLERANCE), shooter));
   }
 }

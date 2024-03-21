@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
+import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Subsystems.actuator.Actuator;
@@ -62,7 +62,7 @@ public class TwoPieceReturnSub extends SequentialCommandGroup {
                   drive.setRaw(0, speed, 0);
                 },
                 drive),
-            new UTBIntakeRun(utbIntake, feeder, true, false)),
+            new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
         new WaitCommand(seconds),
         new ParallelCommandGroup(
             Commands.runOnce(
@@ -73,7 +73,7 @@ public class TwoPieceReturnSub extends SequentialCommandGroup {
                 drive),
             new PositionToShoot(feeder, shooter, wrist, 27, 4000)),
         new WaitCommand(seconds),
-        new UTBIntakeRun(utbIntake, feeder, false, true),
+        new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
         Commands.runOnce(
             () -> {
               drive.setRaw(0, 0, 0);
