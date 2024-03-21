@@ -357,7 +357,7 @@ public class RobotContainer {
     auxController
         .start()
         .onTrue(
-            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -11, 6000))
+            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -10, 6000))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
@@ -365,7 +365,7 @@ public class RobotContainer {
         .button(10)
         .onTrue(
             new PositionToShoot(
-                m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -9.5, 6000))
+                m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -8.5, 6000))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     /** Aux Controls */
@@ -504,6 +504,8 @@ public class RobotContainer {
     m_wristSubsystem.setBrakeMode(!isDisabled);
     m_actuatorSubsystem.setBrakeMode(!isDisabled);
     m_shooterSubsystem.setBrakeMode(!isDisabled);
+    m_utbIntakeSubsystem.setUTBIntakeBrakeMode(!isDisabled);
+    m_otbIntakeSubsystem.setBrakeMode(!isDisabled);
   }
 
   public void setAllSetpointsZero() {

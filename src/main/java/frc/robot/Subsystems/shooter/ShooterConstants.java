@@ -6,7 +6,7 @@ public class ShooterConstants {
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static final double TOP_KP = 0.75;
+  public static final double TOP_KP = 1.0;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
   public static final double TOP_KI = 0.25;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
