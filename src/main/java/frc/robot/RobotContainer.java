@@ -23,7 +23,8 @@ import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAmpSide;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveCenter;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveCoolSide;
-import frc.robot.Commands.AutonomousCommands.First3Pieces.ThreePieceAuto;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.ThreePieceAutoBlue;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.ThreePieceAutoRed;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceReturnSub;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
@@ -231,8 +232,11 @@ public class RobotContainer {
             1,
             m_gyroSubsystem));
     autoChooser.addOption(
-        " Three Piece Leave Amp Side",
-        new ThreePieceAuto(m_driveSubsystem, m_gyroSubsystem, m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, 2, 1));
+        " Three Piece Leave Amp Side Blue",
+        new ThreePieceAutoBlue(m_driveSubsystem, m_gyroSubsystem, m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, 2, 1));
+    autoChooser.addOption(
+        " Three Piece Leave Amp Side Red",
+        new ThreePieceAutoRed(m_driveSubsystem, m_gyroSubsystem, m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, 2, 1));
     // autoChooser.addOption(
     //     "2 middle field piece auto",
     //     new TwoMiddleFieldPieceAuto(

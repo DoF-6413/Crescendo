@@ -28,9 +28,9 @@ import frc.robot.Subsystems.wrist.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ThreePieceAuto extends SequentialCommandGroup {
+public class ThreePieceAutoRed extends SequentialCommandGroup {
   /** Creates a new ThreePieceAuto. */
-  public ThreePieceAuto(Drive drive,
+  public ThreePieceAutoRed(Drive drive,
       Gyro gyro,
       Wrist wrist,
       Arm arm,
@@ -56,14 +56,14 @@ public class ThreePieceAuto extends SequentialCommandGroup {
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
-                  drive.setRaw(0, -speed, 0);
+                  drive.setRaw(-speed, 0, 0);
                 },
                 drive),
             new UTBIntakeRun(utbIntake, feeder, true, false)),
         new WaitCommand(seconds - 1),
                 Commands.runOnce(
                 () -> {
-                  drive.setRaw(speed, 0, 0);
+                  drive.setRaw(0, speed, 0);
                   System.out.println("running");
                 },
                 drive),
@@ -74,7 +74,7 @@ public class ThreePieceAuto extends SequentialCommandGroup {
                   System.out.println("running");
                 },
                 drive),
-                new WaitCommand(0.1),
+                new WaitCommand(-0.1),
                 new PositionToShoot(feeder, shooter, wrist, 27, 4000),
                 new WaitCommand(seconds),
                 new UTBIntakeRun(utbIntake, feeder, false, true),
