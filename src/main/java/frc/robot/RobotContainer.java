@@ -443,8 +443,7 @@ public class RobotContainer {
     auxController
         .rightTrigger()
         .onTrue(
-            new PositionToShoot(
-                m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -0.5, 4000))
+            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 0.5, 4000))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
