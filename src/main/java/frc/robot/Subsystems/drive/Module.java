@@ -39,8 +39,16 @@ public class Module {
             DriveConstants.driveKD(io.isL3()));
 
     // update drive ff values depending on neo or kraken
-    driveFeedforward =
-        new SimpleMotorFeedforward(DriveConstants.DRIVE_KS_KRAKEN, DriveConstants.DRIVE_KV_KRAKEN);
+    if (index == 3) {
+      driveFeedforward =
+          new SimpleMotorFeedforward(
+              DriveConstants.DRIVE_KS_KRAKEN + 0.05, DriveConstants.DRIVE_KV_KRAKEN);
+
+    } else {
+      driveFeedforward =
+          new SimpleMotorFeedforward(
+              DriveConstants.DRIVE_KS_KRAKEN, DriveConstants.DRIVE_KV_KRAKEN + 0.03);
+    }
 
     // fill steer pid values
     steerPID =
