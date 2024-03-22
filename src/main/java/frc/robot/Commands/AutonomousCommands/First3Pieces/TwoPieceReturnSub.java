@@ -63,6 +63,12 @@ public class TwoPieceReturnSub extends SequentialCommandGroup {
                 },
                 drive),
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
+        new WaitCommand(seconds / 2),
+        Commands.runOnce(
+            () -> {
+              drive.setRaw(0, speed / 2, 0);
+            },
+            drive),
         new WaitCommand(seconds),
         new ParallelCommandGroup(
             Commands.runOnce(

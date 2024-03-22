@@ -33,10 +33,10 @@ public class PositionToShoot extends SequentialCommandGroup {
         new WaitUntilCommand(() -> wrist.atSetpoint()),
         Commands.runOnce(
             () -> {
-              feeder.setSetpoint(-800);
+              feeder.setSetpoint(-1000);
             },
             feeder),
-        new WaitCommand(0.2),
+        new WaitCommand(0.3),
         Commands.runOnce(
             () -> {
               shooter.setSetpoint(RPM);

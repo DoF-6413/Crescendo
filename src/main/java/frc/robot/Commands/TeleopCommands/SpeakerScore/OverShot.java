@@ -7,6 +7,7 @@ package frc.robot.Commands.TeleopCommands.SpeakerScore;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.feeder.Feeder;
@@ -28,6 +29,30 @@ public class OverShot extends SequentialCommandGroup {
             },
             arm),
         new WaitUntilCommand(() -> arm.atSetpoint()),
-        new PositionToShoot(feeder, shooter, wrist, 38, 4000));
+        Commands.runOnce(
+            () -> {
+              // feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
+              wrist.setSetpoint(
+                  Units.degreesToRadians(
+                      38)); // TODO: update when shooter interpolation branch is merged to
+              // reference
+              // lookup table
+            },
+            feeder,
+            wrist),
+        new WaitUntilCommand(() -> wrist.atSetpoint()),
+        Commands.runOnce(
+            () -> {
+              feeder.setSetpoint(-600);
+            },
+            feeder),
+        new WaitCommand(0.3),
+        Commands.runOnce(
+            () -> {
+              shooter.setSetpoint(4000);
+              feeder.setSetpoint(0);
+            },
+            shooter,
+            feeder));
   }
 }
