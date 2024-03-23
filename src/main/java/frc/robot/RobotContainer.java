@@ -247,7 +247,7 @@ public class RobotContainer {
             m_utbIntakeSubsystem,
             2,
             1));
-    autoChooser.addDefaultOption(
+    autoChooser.addOption(
         " Three Piece Leave Amp Side Red",
         new ThreePieceAutoRed(
             m_driveSubsystem,
@@ -261,12 +261,34 @@ public class RobotContainer {
             m_utbIntakeSubsystem,
             2,
             1));
+    autoChooser.addDefaultOption(
+        "4 Piece Blue",
+        new FourPieceBlue(
+            m_driveSubsystem,
+            m_gyroSubsystem,
+            m_wristSubsystem,
+            m_armSubsystem,
+            m_feederSubsystem,
+            m_shooterSubsystem,
+            m_actuatorSubsystem,
+            m_otbIntakeSubsystem,
+            m_utbIntakeSubsystem,
+            2,
+            1));
     autoChooser.addOption(
-        "4 Piece Blue", 
-        new FourPieceBlue(m_driveSubsystem, m_gyroSubsystem, m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, 2, 1));
-    autoChooser.addOption(
-        "4 Piece Red", 
-        new FourPieceRed(m_driveSubsystem, m_gyroSubsystem, m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, 2, 1));
+        "4 Piece Red",
+        new FourPieceRed(
+            m_driveSubsystem,
+            m_gyroSubsystem,
+            m_wristSubsystem,
+            m_armSubsystem,
+            m_feederSubsystem,
+            m_shooterSubsystem,
+            m_actuatorSubsystem,
+            m_otbIntakeSubsystem,
+            m_utbIntakeSubsystem,
+            2,
+            1));
     // autoChooser.addOption(
     //     "2 middle field piece auto",
     //     new TwoMiddleFieldPieceAuto(

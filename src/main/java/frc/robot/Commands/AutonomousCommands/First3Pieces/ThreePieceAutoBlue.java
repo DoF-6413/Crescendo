@@ -7,12 +7,9 @@ package frc.robot.Commands.AutonomousCommands.First3Pieces;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
-import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Subsystems.actuator.Actuator;
@@ -46,7 +43,7 @@ public class ThreePieceAutoBlue extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-       
+
         // One Piece ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Commands.runOnce(
             () -> {

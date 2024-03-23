@@ -6,7 +6,6 @@ package frc.robot.Commands.AutonomousCommands.First3Pieces;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
@@ -43,11 +42,9 @@ public class FourPieceBlue extends SequentialCommandGroup {
               gyro.zeroYaw();
             },
             gyro),
-        new ParallelDeadlineGroup(
-            new WaitCommand(12),
         new ThreePieceAutoBlue(
             drive, gyro, wrist, arm, feeder, shooter, actuator, otbIntake, utbIntake, seconds,
-            speed)),
+            speed),
 
         // go back to
         Commands.runOnce(
@@ -79,11 +76,11 @@ public class FourPieceBlue extends SequentialCommandGroup {
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
-                  drive.setRaw(0.0, 0.0, -1.0);
+                  drive.setRaw(0.0, 0.0, 0.3);
                 },
                 drive),
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true)),
-        new WaitCommand(0.5),
+        new WaitCommand(0.2),
 
         // stop and shoot
         new ParallelCommandGroup(
