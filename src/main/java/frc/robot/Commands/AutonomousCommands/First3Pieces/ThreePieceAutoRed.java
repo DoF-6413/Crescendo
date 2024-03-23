@@ -101,17 +101,17 @@ public class ThreePieceAutoRed extends SequentialCommandGroup {
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
-                  drive.setRaw(-0.75, 1, -0.3);
+                  drive.setRaw(-1.0, 0.75, -0.4);
                 },
                 drive),
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
-        new WaitCommand(0.1),
+        new WaitCommand(0.6),
         Commands.runOnce(
             () -> {
-              drive.setRaw(-0.75, 1, 0.0);
+              drive.setRaw(-1.0, 0.75, 0.0);
             },
             drive),
-        new WaitCommand(1.9),
+        new WaitCommand(1.4),
         new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
         new PositionToShoot(feeder, shooter, wrist, -0.5, 4000),
         Commands.runOnce(
