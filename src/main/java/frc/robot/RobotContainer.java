@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.FourPieceBlue;
+import frc.robot.Commands.AutonomousCommands.First3Pieces.FourPieceRed;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceLeaveAmpSide;
@@ -259,6 +261,12 @@ public class RobotContainer {
             m_utbIntakeSubsystem,
             2,
             1));
+    autoChooser.addOption(
+        "4 Piece Blue", 
+        new FourPieceBlue(m_driveSubsystem, m_gyroSubsystem, m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, 2, 1));
+    autoChooser.addOption(
+        "4 Piece Red", 
+        new FourPieceRed(m_driveSubsystem, m_gyroSubsystem, m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, 2, 1));
     // autoChooser.addOption(
     //     "2 middle field piece auto",
     //     new TwoMiddleFieldPieceAuto(
