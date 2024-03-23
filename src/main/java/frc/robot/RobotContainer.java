@@ -165,7 +165,7 @@ public class RobotContainer {
     // m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
     // Adds list of autos to Shuffleboard
-    autoChooser.addOption("Do Nothing", new InstantCommand());
+    autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
     autoChooser.addOption(
         "One Piece", new OnePieceAuto(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
@@ -261,7 +261,7 @@ public class RobotContainer {
             m_utbIntakeSubsystem,
             2,
             1));
-    autoChooser.addDefaultOption(
+    autoChooser.addOption(
         "4 Piece Blue",
         new FourPieceBlue(
             m_driveSubsystem,

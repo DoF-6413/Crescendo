@@ -49,7 +49,7 @@ public class FourPieceBlue extends SequentialCommandGroup {
         // go back to
         Commands.runOnce(
             () -> {
-              drive.setRaw(-1.0, 0, 0);
+              drive.setRaw(0, -1.0, 0);
             },
             drive),
         new WaitCommand(0.5),
@@ -57,16 +57,22 @@ public class FourPieceBlue extends SequentialCommandGroup {
         // go to note and rotate to be staight
         Commands.runOnce(
             () -> {
-              drive.setRaw(0, 1.0, -0.25);
+              drive.setRaw(1.0, 0.0, -0.3);
             },
             drive),
-        new WaitCommand(2),
+        new WaitCommand(0.1),
+        Commands.runOnce(
+            () -> {
+              drive.setRaw(1.0, 0.0, 0.0);
+            },
+            drive),
+        new WaitCommand(1.9),
 
         // grab note
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
-                  drive.setRaw(1.0, 0, 0.0);
+                  drive.setRaw(0.0, 1.0, 0.0);
                 },
                 drive),
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
@@ -76,11 +82,11 @@ public class FourPieceBlue extends SequentialCommandGroup {
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
-                  drive.setRaw(0.0, 0.0, 0.3);
+                  drive.setRaw(0.0, 0.0, -0.3);
                 },
                 drive),
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true)),
-        new WaitCommand(0.2),
+        new WaitCommand(0.1),
 
         // stop and shoot
         new ParallelCommandGroup(
