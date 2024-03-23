@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
 import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
@@ -45,11 +46,56 @@ public class ThreePieceAutoBlue extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new ParallelDeadlineGroup(
-            new WaitCommand(7),
-            new TwoPieceReturnSub(
-                drive, gyro, wrist, arm, feeder, shooter, actuator, otbIntake, utbIntake, seconds,
-                speed)),
+       
+        // One Piece ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Commands.runOnce(
+            () -> {
+              gyro.zeroYaw();
+            },
+            gyro),
+        new OnePieceAuto(wrist, feeder, shooter),
+        Commands.runOnce(
+            () -> {
+              wrist.setSetpoint(0);
+            },
+            wrist),
+        new InstantCommand(() -> shooter.setSetpoint(0)),
+        // Two Piece
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        new ParallelCommandGroup(
+            Commands.runOnce(
+                () -> {
+                  drive.setRaw(speed, 0, 0);
+                },
+                drive),
+            new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
+        new WaitCommand(seconds / 2),
+        Commands.runOnce(
+            () -> {
+              drive.setRaw(speed / 2, 0, 0);
+            },
+            drive),
+        new WaitCommand(seconds),
+        new ParallelCommandGroup(
+            Commands.runOnce(
+                () -> {
+                  drive.setRaw(-speed, 0, 0);
+                  shooter.setTolerance(500);
+                },
+                drive),
+            new PositionToShoot(feeder, shooter, wrist, 27, 4000)),
+        new WaitCommand(seconds),
+        new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
+        Commands.runOnce(
+            () -> {
+              drive.setRaw(0, 0, 0);
+            },
+            drive),
+        new WaitCommand(1),
+        new Shoot(feeder, arm, shooter),
+        Commands.runOnce(() -> shooter.setTolerance(ShooterConstants.RPM_TOLERANCE), shooter),
+        // 3 Piece
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Commands.runOnce(
             () -> {
               wrist.setSetpoint(0);
@@ -59,34 +105,25 @@ public class ThreePieceAutoBlue extends SequentialCommandGroup {
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
-                  drive.setRaw(-speed, 0, 0);
+                  drive.setRaw(1, -0.75, -0.3);
                 },
                 drive),
-            new UTBIntakeRun(utbIntake, feeder, true, false)),
-        new WaitCommand(seconds - 1),
-        Commands.runOnce(
-            () -> {
-              drive.setRaw(0, speed, 0);
-              System.out.println("running");
-            },
-            drive),
-        new WaitCommand(seconds),
-        Commands.runOnce(
-            () -> {
-              drive.setRaw(0, 0, 0.1);
-              System.out.println("running");
-            },
-            drive),
+            new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
         new WaitCommand(0.1),
-        new PositionToShoot(feeder, shooter, wrist, 27, 4000),
-        new WaitCommand(seconds),
-        new UTBIntakeRun(utbIntake, feeder, false, true),
+        Commands.runOnce(
+            () -> {
+              drive.setRaw(1, -0.75, 0.0);
+            },
+            drive),
+        new WaitCommand(1.9),
+        new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
+        new PositionToShoot(feeder, shooter, wrist, -0.5, 4000),
         Commands.runOnce(
             () -> {
               drive.setRaw(0, 0, 0);
             },
             drive),
-        new WaitUntilCommand(() -> shooter.allAtSetpoint()),
+        new WaitCommand(1),
         new Shoot(feeder, arm, shooter),
         Commands.runOnce(() -> shooter.setTolerance(ShooterConstants.RPM_TOLERANCE), shooter));
   }
