@@ -35,7 +35,7 @@ public class Arm extends SubsystemBase {
     Logger.processInputs("Arm", armInputs);
 
     // Updates Arm Speed based on PID Control
-    setArmPercentSpeed(armPIDController.calculate(armInputs.armAbsolutePositionRad));
+    // setArmPercentSpeed(armPIDController.calculate(armInputs.armAbsolutePositionRad));
   }
 
   /** Updates the Outputs of the Motors based on What Mode we are In */

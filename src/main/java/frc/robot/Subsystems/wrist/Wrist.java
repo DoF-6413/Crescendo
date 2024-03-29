@@ -33,7 +33,7 @@ public class Wrist extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
 
-    setWristPercentSpeed(wristPIDController.calculate(inputs.wristAbsolutePositionRad));
+    // setWristPercentSpeed(wristPIDController.calculate(inputs.wristAbsolutePositionRad));
   }
 
   /** Updates the set of loggable inputs for the Wrist */

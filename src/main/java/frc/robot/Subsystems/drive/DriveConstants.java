@@ -32,7 +32,7 @@ public final class DriveConstants {
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
   public static final double STEER_KI_NEO = 1.2;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static final double STEER_KD_NEO = 0.03;
+  public static final double STEER_KD_NEO = 0.05;
 
   // PID Constants for Neo Drive
   /**
@@ -166,10 +166,10 @@ public final class DriveConstants {
   }
 
   public static enum L3_ABSOLUTE_ENCODER_OFFSET_RAD {
-    FRONT_RIGHT(0.606), // Module 0
-    FRONT_LEFT(2.441), // Module 1
-    BACK_LEFT(-1.191), // Module 2
-    BACK_RIGHT(-2.6055); // Module 3
+    FRONT_RIGHT(0.61819), // Module 0
+    FRONT_LEFT(2.56634), // Module 1
+    BACK_LEFT(-1.40205), // Module 2
+    BACK_RIGHT(-2.597); // Module 3
 
     public final double OFFSET;
 
