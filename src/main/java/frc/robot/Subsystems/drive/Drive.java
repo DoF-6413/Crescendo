@@ -26,6 +26,8 @@ public class Drive extends SubsystemBase {
   // chassis & swerve modules
   private ChassisSpeeds setpoint = new ChassisSpeeds();
 
+  private double steerSetpoint = 0;
+
   // Gets previous Gyro position
   Rotation2d lastGyroYaw = new Rotation2d();
 
@@ -59,6 +61,10 @@ public class Drive extends SubsystemBase {
 
     runSwerveModules(getAdjustedSpeeds());
     getMeasuredStates();
+
+  //   for (int i = 0; i < 4; i++) {
+  //     modules[i].runSetpoint(steerSetpoint);
+  //   }
   }
 
   /** Puts robot to coast mode on disable */
@@ -99,6 +105,10 @@ public class Drive extends SubsystemBase {
     // Updates setpoint logs
     Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
     Logger.recordOutput("SwerveStates/SetpointsOptimized", optimizedStates);
+  }
+
+  public void moduleSteerDirectly(double setpoint) {
+    steerSetpoint = setpoint;
   }
   /** Get Swerve Measured States */
   public SwerveModuleState[] getMeasuredStates() {

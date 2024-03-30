@@ -10,29 +10,29 @@ public final class DriveConstants {
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static final double DRIVE_KP_KRAKEN = 0.6;
+  public static double DRIVE_KP_KRAKEN = 0.0;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static final double DRIVE_KI_KRAKEN = 0.1;
+  public static double DRIVE_KI_KRAKEN = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static final double DRIVE_KD_KRAKEN = 0.4;
+  public static double DRIVE_KD_KRAKEN = 0.0;
   // Feed Forward Constants for Kraken Drive
   // Feed Forward values used in sim: S = 0.4, V = 0.4
 
   /** KS represents the voltage required to overcome static friction */
-  public static final double DRIVE_KS_KRAKEN = 0.115;
+  public static double DRIVE_KS_KRAKEN = 0.115;
 
   /** KV represents the voltage used every second per meter */
-  public static final double DRIVE_KV_KRAKEN = 0.137;
+  public static double DRIVE_KV_KRAKEN = 0.137;
 
   // PID Constants for Steer (Neos)
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static final double STEER_KP_NEO = 6.4;
+  public static double STEER_KP_NEO = 6.4;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static final double STEER_KI_NEO = 1.2;
+  public static double STEER_KI_NEO = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static final double STEER_KD_NEO = 0.05;
+  public static double STEER_KD_NEO = 0.05;
 
   // PID Constants for Neo Drive
   /**
@@ -166,8 +166,8 @@ public final class DriveConstants {
   }
 
   public static enum L3_ABSOLUTE_ENCODER_OFFSET_RAD {
-    FRONT_RIGHT(0.61819), // Module 0
-    FRONT_LEFT(2.6261), // Module 1
+    FRONT_RIGHT(0.59679), // Module 0
+    FRONT_LEFT(2.6063), // Module 1
     BACK_LEFT(-1.40205), // Module 2
     BACK_RIGHT(-2.597); // Module 3
 
