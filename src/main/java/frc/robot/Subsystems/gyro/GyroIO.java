@@ -13,7 +13,6 @@ public interface GyroIO {
 
   @AutoLog
   public static class GyroIOInputs {
-
     /** Returns whether or not the */
     public boolean connected = false;
 

@@ -138,7 +138,7 @@ public class Drive extends SubsystemBase {
   }
 
   /**
-   * Runs the drivetrain with raw values on a scale of (-1, 1)
+   * Runs the drivetrain with raw values on a scale
    *
    * @param x velociy in x direction of Entire Swerve Drive
    * @param y velocity in y direction of Entire Swerve Drive

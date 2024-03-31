@@ -186,7 +186,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "complexPaths",
+  "folder": "ComplexPaths",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

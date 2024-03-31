@@ -347,6 +347,10 @@ public class RobotContainer {
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
+        driverController.b().onTrue(new PathPlannerAuto("2 meter forwards"));
+        driverController.x().onTrue(new PathPlannerAuto("2 meter backwards"));
+
+
     // /* UTB Intake */
     // // Intake NOTE
     // driverController

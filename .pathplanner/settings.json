@@ -3,14 +3,17 @@
   "robotLength": 0.82,
   "holonomicMode": true,
   "pathFolders": [
-    "complexPaths",
     "2PieceAuto",
     "3PieceAuto",
     "4PieceAuto",
     "5PieceAuto",
-    "OnePieceAuto"
+    "Vihaan's Folder",
+    "OnePieceAuto",
+    "ComplexPaths"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Vihaan's Folder"
+  ],
   "defaultMaxVel": 5.2,
   "defaultMaxAccel": 5.2,
   "defaultMaxAngVel": 515.65,
