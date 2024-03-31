@@ -13,6 +13,7 @@ public interface GyroIO {
 
   @AutoLog
   public static class GyroIOInputs {
+
     /** Returns whether or not the */
     public boolean connected = false;
 
@@ -26,6 +27,8 @@ public interface GyroIO {
     public double pitchVelocityRadPerSec = 0.0;
     /** Gets the angular velocity of the yaw */
     public double yawVelocityRadPerSec = 0.0;
+
+    public double rateRadPerSec = 0.0;
   }
 
   /** Updates the set of loggable inputs. */

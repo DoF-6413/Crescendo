@@ -72,4 +72,9 @@ public final class Constants {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int AUX_CONTROLLER = 1;
   }
+
+  public static class HeadingControllerConstants {
+    public static final double HEADING_CONTROLLER_KP = 0.0;
+    public static final double HEADING_CONTROLLER_KD = 0.0;
+  }
 }

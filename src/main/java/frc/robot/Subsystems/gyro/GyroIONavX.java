@@ -43,6 +43,8 @@ public class GyroIONavX implements GyroIO {
         Units.degreesToRadians(
             gyro.getRawGyroZ()); // Gets the angular velocity, in degrees per second, of the yaw and
     // converts it to radians per second
+
+    inputs.rateRadPerSec = Units.degreesToRadians(gyro.getRate());
   }
 
   @Override

@@ -142,6 +142,7 @@ public class Shooter extends SubsystemBase {
   public void setSetpoint(double setpoint) {
     topShooterPIDController.setSetpoint(setpoint);
     bottomShooterPIDController.setSetpoint(setpoint);
+    SmartDashboard.putNumber("Setpoint", setpoint);
   }
 
   public void setTolerance(double tolerance) {
