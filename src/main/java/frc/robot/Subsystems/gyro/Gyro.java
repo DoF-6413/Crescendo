@@ -53,6 +53,10 @@ public class Gyro extends SubsystemBase {
     return inputs.anglePositionRad;
   }
 
+  public double getRate() {
+    return inputs.rateRadPerSec;
+  }
+
   /** Resets the Heading to the Direction the Gyro is Facing */
   public void zeroYaw() {
     io.zeroHeading();

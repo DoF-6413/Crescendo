@@ -7,8 +7,10 @@ package frc.robot.Subsystems.drive;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*; // Rotation2d and Translation2d
 import edu.wpi.first.math.kinematics.*; // ChassisSpeeds, SwerveDriveKinematics, SwerveModuleStates
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*; // Timer
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Commands.HeadingController;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
 import org.littletonrobotics.junction.Logger; // Logger
@@ -19,6 +21,7 @@ public class Drive extends SubsystemBase {
   private static final Module[] modules = new Module[4];
   private final Gyro gyro;
   private Twist2d twist = new Twist2d();
+  private final HeadingController headingController = new HeadingController();
 
   // swerve kinematics library
   public SwerveDriveKinematics swerveKinematics;
@@ -33,6 +36,7 @@ public class Drive extends SubsystemBase {
 
   // Gets previous module positions
   private double[] lastModulePositionsMeters = new double[] {0.0, 0.0, 0.0, 0.0};
+  private Rotation2d headingSetpoint = new Rotation2d(0);
 
   public Drive(
       ModuleIO FRModuleIO,
@@ -62,9 +66,9 @@ public class Drive extends SubsystemBase {
     runSwerveModules(getAdjustedSpeeds());
     getMeasuredStates();
 
-  //   for (int i = 0; i < 4; i++) {
-  //     modules[i].runSetpoint(steerSetpoint);
-  //   }
+    //   for (int i = 0; i < 4; i++) {
+    //     modules[i].runSetpoint(steerSetpoint);
+    //   }
   }
 
   /** Puts robot to coast mode on disable */
@@ -166,6 +170,9 @@ public class Drive extends SubsystemBase {
     linearMagnitude = linearMagnitude * linearMagnitude;
     omega = Math.copySign(omega * omega, omega);
 
+    if (Math.abs(omega) > 0.01) {
+      headingSetpoint = getRotation().plus(new Rotation2d(omega * Units.degreesToRadians(60)));
+    }
     // Calcaulate new linear velocity
     Translation2d linearVelocity =
         new Pose2d(new Translation2d(), linearDirection)
@@ -177,7 +184,8 @@ public class Drive extends SubsystemBase {
         ChassisSpeeds.fromFieldRelativeSpeeds(
             linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
             linearVelocity.getY() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
-            omega * DriveConstants.MAX_ANGULAR_SPEED_RAD_PER_SEC,
+            // omega * DriveConstants.MAX_ANGULAR_SPEED_RAD_PER_SEC,
+            headingController.update(headingSetpoint, getRotation(), gyro.getRate()),
             this.getRotation()));
   }
 
@@ -255,5 +263,7 @@ public class Drive extends SubsystemBase {
     } else {
       // TODO: ADD HEADING FOR SIM/NO GYRO
     }
+
+    headingSetpoint = new Rotation2d(0.0);
   }
 }

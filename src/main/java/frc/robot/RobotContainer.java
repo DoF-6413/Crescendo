@@ -13,7 +13,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -327,9 +326,9 @@ public class RobotContainer {
             m_driveSubsystem));
 
     // Resets robot heading to be wherever the front of the robot is facing
-    // driverController
-    //     .a()
-    //     .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
+    driverController
+        .a()
+        .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
     // /* UTB Intake */
     // // Intake NOTE
@@ -524,24 +523,24 @@ public class RobotContainer {
     //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
     // m_feederSubsystem));
 
-    driverController
-        .y()
-        .onTrue(
-            new InstantCommand(
-                () -> m_driveSubsystem.moduleSteerDirectly(Units.degreesToRadians(30)),
-                m_driveSubsystem));
-    driverController
-        .b()
-        .onTrue(
-            new InstantCommand(
-                () -> m_driveSubsystem.moduleSteerDirectly(Units.degreesToRadians(60)),
-                m_driveSubsystem));
-    driverController
-        .a()
-        .onTrue(
-            new InstantCommand(
-                () -> m_driveSubsystem.moduleSteerDirectly(Units.degreesToRadians(90)),
-                m_driveSubsystem));
+    // driverController
+    //     .y()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> m_driveSubsystem.moduleSteerDirectly(Units.degreesToRadians(30)),
+    //             m_driveSubsystem));
+    // driverController
+    //     .b()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> m_driveSubsystem.moduleSteerDirectly(Units.degreesToRadians(60)),
+    //             m_driveSubsystem));
+    // driverController
+    //     .a()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> m_driveSubsystem.moduleSteerDirectly(Units.degreesToRadians(90)),
+    //             m_driveSubsystem));
   }
 
   /**

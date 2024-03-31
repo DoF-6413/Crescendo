@@ -27,6 +27,8 @@ public interface GyroIO {
     public double pitchVelocityRadPerSec = 0.0;
     /** Gets the angular velocity of the yaw */
     public double yawVelocityRadPerSec = 0.0;
+
+    public double rateRadPerSec = 0.0;
   }
 
   /** Updates the set of loggable inputs. */

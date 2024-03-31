@@ -8,7 +8,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.*;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.littletonrobotics.junction.Logger;
 
@@ -153,16 +152,16 @@ public class Module {
     this.updateInputs();
     Logger.processInputs("Drive/Module" + Integer.toString(index), inputs);
 
-    steerkp = SmartDashboard.getNumber("steer kp", 6.4);
-    steerki = SmartDashboard.getNumber("steer ki", 0.0);
-    steerkd = SmartDashboard.getNumber("steer kd", 0.0);
-    steerPID.setPID(steerkp, steerki, steerkd);
+    // steerkp = SmartDashboard.getNumber("steer kp", 6.4);
+    // steerki = SmartDashboard.getNumber("steer ki", 0.0);
+    // steerkd = SmartDashboard.getNumber("steer kd", 0.0);
+    // steerPID.setPID(steerkp, steerki, steerkd);
 
-    SmartDashboard.putNumber("CurrentSteerKP", steerkp);
-    SmartDashboard.putNumber("CurrentSteerKI", steerki);
-    SmartDashboard.putNumber("CurrentSteerKD", steerkd);
+    // SmartDashboard.putNumber("CurrentSteerKP", steerkp);
+    // SmartDashboard.putNumber("CurrentSteerKI", steerki);
+    // SmartDashboard.putNumber("CurrentSteerKD", steerkd);
 
-    SmartDashboard.putNumber("Timer", Timer.getFPGATimestamp());
+    // SmartDashboard.putNumber("Timer", Timer.getFPGATimestamp());
   }
 
   /**
@@ -177,20 +176,21 @@ public class Module {
     var optimizedState = SwerveModuleState.optimize(state, getAngle());
 
     // Run turn controller
-    io.setTurnVoltage(steerPID.calculate(getAngle().getRadians(), optimizedState.angle.getRadians()));
+    io.setTurnVoltage(
+        steerPID.calculate(getAngle().getRadians(), optimizedState.angle.getRadians()));
 
     // Update velocity based on turn error
     optimizedState.speedMetersPerSecond *= Math.cos(steerPID.getPositionError());
 
     // Turn Speed m/s into Vel rad/s
-    double velocityRadPerSec = optimizedState.speedMetersPerSecond /
-    DriveConstants.WHEEL_RADIUS_M;
+    double velocityRadPerSec = optimizedState.speedMetersPerSecond / DriveConstants.WHEEL_RADIUS_M;
 
     // Run drive controller
     io.setDriveVoltage(
         driveFeedforward.calculate(velocityRadPerSec)
             + (drivePID.calculate(inputs.driveVelocityRadPerSec, velocityRadPerSec)));
 
+    SmartDashboard.putNumber("Drive Set Point" + index, velocityRadPerSec);
     return optimizedState;
   }
 }
