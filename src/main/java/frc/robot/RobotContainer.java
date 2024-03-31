@@ -29,6 +29,7 @@ import frc.robot.Commands.AutonomousCommands.First3Pieces.ThreePieceAutoRed;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.TwoPieceReturnSub;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
+import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
@@ -315,15 +316,7 @@ public class RobotContainer {
     /** Driver Controls */
 
     // Driving the robot
-    m_driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_driveSubsystem.driveWithDeadband(
-                    driverController.getLeftX(), // Forward/backward
-                    -driverController
-                        .getLeftY(), // Left/Right (multiply by -1 bc controller axis is inverted)
-                    driverController.getRightX() * (-1)), // Rotate chassis left/right
-            m_driveSubsystem));
+    m_driveSubsystem.setDefaultCommand(new DefaultDriveCommand(m_driveSubsystem, driverController));
 
     // Resets robot heading to be wherever the front of the robot is facing
     driverController

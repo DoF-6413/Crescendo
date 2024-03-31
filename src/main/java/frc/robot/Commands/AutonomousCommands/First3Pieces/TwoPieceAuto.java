@@ -12,6 +12,7 @@ import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Subsystems.actuator.Actuator;
 import frc.robot.Subsystems.drive.Drive;
+import frc.robot.Subsystems.drive.DriveConstants;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.otbIntake.OTBIntake;
@@ -53,7 +54,7 @@ public class TwoPieceAuto extends SequentialCommandGroup {
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
         Commands.runOnce(
             () -> {
-              drive.setRaw(0, speed, 0);
+              drive.setRaw(0, speed / DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, 0);
             },
             drive),
         new WaitCommand(seconds),
