@@ -127,11 +127,9 @@ public class Robot extends LoggedRobot {
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
 
-    // if (RobotStateConstants.getMode() != RobotStateConstants.Mode.SIM){
     robotContainer.mechanismsCoastOnDisable(false);
-    // }
 
-    // schedule the autonomous command (example)
+    // Schedule the autonomous command (example)
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }
