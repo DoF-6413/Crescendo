@@ -36,7 +36,7 @@ public class PositionToShoot extends SequentialCommandGroup {
               feeder.setSetpoint(-500);
             },
             feeder),
-        new WaitCommand(0.2),
+        new WaitCommand(0.3),
         Commands.runOnce(
             () -> {
               shooter.setSetpoint(RPM);

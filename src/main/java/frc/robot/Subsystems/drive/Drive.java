@@ -7,8 +7,10 @@ package frc.robot.Subsystems.drive;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*; // Rotation2d and Translation2d
 import edu.wpi.first.math.kinematics.*; // ChassisSpeeds, SwerveDriveKinematics, SwerveModuleStates
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*; // Timer
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Commands.HeadingController;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
 import org.littletonrobotics.junction.Logger; // Logger
@@ -19,6 +21,7 @@ public class Drive extends SubsystemBase {
   private static final Module[] modules = new Module[4];
   private final Gyro gyro;
   private Twist2d twist = new Twist2d();
+  private final HeadingController headingController = new HeadingController();
 
   // swerve kinematics library
   public SwerveDriveKinematics swerveKinematics;
@@ -26,11 +29,14 @@ public class Drive extends SubsystemBase {
   // chassis & swerve modules
   private ChassisSpeeds setpoint = new ChassisSpeeds();
 
+  private double steerSetpoint = 0;
+
   // Gets previous Gyro position
   Rotation2d lastGyroYaw = new Rotation2d();
 
   // Gets previous module positions
   private double[] lastModulePositionsMeters = new double[] {0.0, 0.0, 0.0, 0.0};
+  private Rotation2d headingSetpoint = new Rotation2d(-Math.PI / 2);
 
   public Drive(
       ModuleIO FRModuleIO,
@@ -59,6 +65,10 @@ public class Drive extends SubsystemBase {
 
     runSwerveModules(getAdjustedSpeeds());
     getMeasuredStates();
+
+    //   for (int i = 0; i < 4; i++) {
+    //     modules[i].runSetpoint(steerSetpoint);
+    //   }
   }
 
   /** Puts robot to coast mode on disable */
@@ -99,6 +109,10 @@ public class Drive extends SubsystemBase {
     // Updates setpoint logs
     Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
     Logger.recordOutput("SwerveStates/SetpointsOptimized", optimizedStates);
+  }
+
+  public void moduleSteerDirectly(double setpoint) {
+    steerSetpoint = setpoint;
   }
   /** Get Swerve Measured States */
   public SwerveModuleState[] getMeasuredStates() {
@@ -144,6 +158,34 @@ public class Drive extends SubsystemBase {
         new SwerveModuleState[] {
           modules[0].getState(), modules[1].getState(), modules[2].getState(), modules[3].getState()
         });
+  }
+
+  public void driveWithDeadbandPlusHeading(double x, double y, double rot) {
+    // Apply deadband
+    double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), DriveConstants.DEADBAND);
+    Rotation2d linearDirection = new Rotation2d(x, y);
+    double omega = MathUtil.applyDeadband(rot, DriveConstants.DEADBAND);
+
+    // Square values
+    linearMagnitude = linearMagnitude * linearMagnitude;
+    omega = Math.copySign(omega * omega, omega);
+
+    if (Math.abs(omega) > 0.01) {
+      headingSetpoint = getRotation().plus(new Rotation2d(omega * Units.degreesToRadians(60)));
+    }
+    // Calcaulate new linear velocity
+    Translation2d linearVelocity =
+        new Pose2d(new Translation2d(), linearDirection)
+            .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
+            .getTranslation();
+
+    // The actual run command itself
+    this.runVelocity(
+        ChassisSpeeds.fromFieldRelativeSpeeds(
+            linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            linearVelocity.getY() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            headingController.update(headingSetpoint, getRotation(), gyro.getRate()),
+            this.getRotation()));
   }
 
   public void driveWithDeadband(double x, double y, double rot) {
@@ -245,5 +287,7 @@ public class Drive extends SubsystemBase {
     } else {
       // TODO: ADD HEADING FOR SIM/NO GYRO
     }
+
+    headingSetpoint = new Rotation2d(-Math.PI / 2);
   }
 }
