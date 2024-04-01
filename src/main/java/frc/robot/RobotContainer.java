@@ -178,6 +178,7 @@ public class RobotContainer {
     autoChooser.addOption("test2", new PathPlannerAuto("test2"));
     autoChooser.addOption("test3", new PathPlannerAuto("test3"));
     autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
+    autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz3Piece"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
     // Adds list of autos to Shuffleboard

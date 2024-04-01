@@ -1,0 +1,25 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.2991794154609702,
+      "y": 5.557362183607978
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Liz3Piece"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Liz3Piece",
+  "choreoAuto": false
+}

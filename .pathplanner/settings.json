@@ -7,11 +7,13 @@
     "3PieceAuto",
     "4PieceAuto",
     "5PieceAuto",
-    "Vihaan's Folder",
+    "ComplexPaths",
+    "Liz's Folder",
     "OnePieceAuto",
-    "ComplexPaths"
+    "Vihaan's Folder"
   ],
   "autoFolders": [
+    "Liz3Piece",
     "Vihaan's Folder"
   ],
   "defaultMaxVel": 5.2,
