@@ -111,9 +111,7 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
                     driveTalonFX.getVelocity().getValueAsDouble() * 60)
                 / DriveConstants.GEAR_RATIO_L3);
 
-    inputs.driveAppliedVolts =
-        driveTalonFX.getMotorVoltage().getValueAsDouble()
-            * driveTalonFX.getSupplyVoltage().getValueAsDouble();
+    inputs.driveAppliedVolts = driveTalonFX.getMotorVoltage().getValueAsDouble();
 
     inputs.driveCurrentAmps = new double[] {driveTalonFX.getStatorCurrent().getValueAsDouble()};
     inputs.driveTempCelsius = new double[] {driveTalonFX.getDeviceTemp().getValueAsDouble()};

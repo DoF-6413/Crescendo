@@ -15,7 +15,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -347,9 +346,8 @@ public class RobotContainer {
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
-        driverController.b().onTrue(new PathPlannerAuto("2 meter forwards"));
-        driverController.x().onTrue(new PathPlannerAuto("2 meter backwards"));
-
+    driverController.b().onTrue(new PathPlannerAuto("2 meter forwards"));
+    driverController.x().onTrue(new PathPlannerAuto("2 meter backwards"));
 
     // /* UTB Intake */
     // // Intake NOTE

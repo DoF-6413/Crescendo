@@ -288,6 +288,6 @@ public class Drive extends SubsystemBase {
       // TODO: ADD HEADING FOR SIM/NO GYRO
     }
 
-    headingSetpoint = new Rotation2d(-Math.PI / 2);
+    headingSetpoint = new Rotation2d(Math.PI / 2);
   }
 }
