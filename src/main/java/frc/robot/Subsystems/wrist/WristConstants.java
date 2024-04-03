@@ -4,15 +4,25 @@ import edu.wpi.first.math.util.Units;
 
 public final class WristConstants {
   // PID Constants for the Wrist
+  // TODO: finalize
 
   /** Represents the proportional constant, multiplied by the current error */
-  public static final double KP = 1.2;
+  public static double KP = 1.2;
 
   /** Represents the integral constant, multiplied by the total error */
-  public static final double KI = 0.0;
+  public static double KI = 0.0;
 
   /** Represents the derivative constant, multiplied by the change in error */
-  public static final double KD = 0.0;
+  public static double KD = 0.0;
+
+  // FF Constants for the Wrist
+  // TODO: update and finalize
+
+  public static double KS = 0.0;
+
+  public static double KV = 0.0;
+
+  public static double KA = 0.0;
 
   /** The position of the Wrist can be within 2 degree of the setpoint */
   public static final double ANGLE_TOLERANCE = Units.degreesToRadians(2);

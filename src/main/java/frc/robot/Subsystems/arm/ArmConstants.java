@@ -7,16 +7,24 @@ package frc.robot.Subsystems.arm;
 import edu.wpi.first.math.util.Units;
 
 public final class ArmConstants {
-  // PID Constants for the arm
+  // PID & FF Constants for the arm TODO: Update and finalize
 
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static final double KP = 1.0;
+  public static double KP = 0.0;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static final double KI = 0.0;
+  public static double KI = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static final double KD = 0.0;
+  public static double KD = 0.0;
+
+  /** KS represents the voltage added to overcome static friction */
+  public static double KS = 0.0;
+  /** KV represents the */
+  public static double KV = 0.0;
+  /** KV represents the */
+  public static double KA = 0.0;
+
   /**
    * Updates the range of error acceptable from setpoint (The position of the arm can be within 3
    * degrees of the setpoint)

@@ -5,7 +5,13 @@
 package frc.robot.Subsystems.wrist;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.RobotStateConstants;
+
 import org.littletonrobotics.junction.Logger;
 
 public class Wrist extends SubsystemBase {
@@ -14,6 +20,12 @@ public class Wrist extends SubsystemBase {
 
   /** Wrist PID controller */
   private final PIDController wristPIDController;
+
+  private SimpleMotorFeedforward wristFeedforward;
+  private final ShuffleboardTab wristTab = Shuffleboard.getTab("Wrist");
+
+  private static GenericEntry wristkp, wristki, wristkd, wristks, wristkv, wristka, wristSetpoint;
+  private static double setpoint = 0.0;
 
   /** Creates a new Wrist, the second joint of the arm mechanism */
   public Wrist(WristIO io) {
@@ -25,6 +37,18 @@ public class Wrist extends SubsystemBase {
     wristPIDController.setSetpoint(0);
     wristPIDController.setTolerance(WristConstants.ANGLE_TOLERANCE);
     wristPIDController.disableContinuousInput();
+
+    wristFeedforward =
+        new SimpleMotorFeedforward(WristConstants.KS, WristConstants.KV, WristConstants.KA);
+
+    wristkp = wristTab.add("wristkp", 0.0).getEntry();
+    wristki = wristTab.add("wristki", 0.0).getEntry();
+    wristkd = wristTab.add("wristkd", 0.0).getEntry();
+    wristSetpoint = wristTab.add("wristSetpoint", 0.0).getEntry();
+
+    wristks = wristTab.add("wristks", 0.0).getEntry();
+    wristkv = wristTab.add("wristkv", 0.0).getEntry();
+    wristka = wristTab.add("wristka", 0.0).getEntry();
   }
 
   @Override
@@ -32,13 +56,54 @@ public class Wrist extends SubsystemBase {
     /** Periodically updates inputs and logs them */
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
+    setWristPercentSpeed(
+        wristPIDController.calculate(inputs.wristAbsolutePositionRad)
+            + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec) / RobotStateConstants.BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
 
-    setWristPercentSpeed(wristPIDController.calculate(inputs.wristAbsolutePositionRad));
+    if (WristConstants.KP != wristkp.getDouble(0.0)
+        || WristConstants.KI != wristki.getDouble(0.0)
+        || WristConstants.KD != wristkd.getDouble(0.0)) {
+      updatePIDController();
+    }
+
+    if (WristConstants.KS != wristks.getDouble(0.0)
+        || WristConstants.KV != wristkv.getDouble(0.0)
+        || WristConstants.KA != wristka.getDouble(0.0)) {
+      updateFFController();
+    }
+
+    if (setpoint != wristSetpoint.getDouble(0.0)) {
+      updateSetpoint();
+    }
   }
 
   /** Updates the set of loggable inputs for the Wrist */
   public void updateInputs() {
     io.updateInputs(inputs);
+  }
+
+  /** Updates the PID values from Shuffleboard */
+  public void updatePIDController() {
+    WristConstants.KP = wristkp.getDouble(0.0);
+    WristConstants.KI = wristki.getDouble(0.0);
+    WristConstants.KD = wristkd.getDouble(0.0);
+
+    wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
+  }
+
+  /** Updates the setpoint from Shuffleboard */
+  public void updateSetpoint() {
+    setpoint = wristSetpoint.getDouble(0.0);
+    wristPIDController.setSetpoint(setpoint);
+  }
+
+  /** Updates the PID values from Shuffleboard */
+  public void updateFFController() {
+    WristConstants.KS = wristks.getDouble(0.0);
+    WristConstants.KV = wristkv.getDouble(0.0);
+    WristConstants.KA = wristka.getDouble(0.0);
+    wristFeedforward =  
+        new SimpleMotorFeedforward(WristConstants.KS, WristConstants.KV, WristConstants.KA);
   }
 
   /**

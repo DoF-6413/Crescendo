@@ -15,7 +15,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -163,17 +162,32 @@ public class RobotContainer {
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
-    // 
+    //
     NamedCommands.registerCommand(
         "SpeakerShot",
         new SpeakerShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, m_armSubsystem));
-    NamedCommands.registerCommand("RevShooter", new InstantCommand(()-> m_shooterSubsystem.setSetpoint(4000), m_shooterSubsystem));
-    NamedCommands.registerCommand("Feeder", new InstantCommand(()-> m_feederSubsystem.setSetpoint(1500), m_feederSubsystem));
-    NamedCommands.registerCommand("StopFeeder", new InstantCommand(()-> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
-    NamedCommands.registerCommand("PickUp", new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false));
-    NamedCommands.registerCommand("PickUpStop", new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true));
-    NamedCommands.registerCommand("UTBPickUp", new InstantCommand(()-> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem));
-    NamedCommands.registerCommand("UTBPickUpStop", new InstantCommand(()-> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
+    NamedCommands.registerCommand(
+        "RevShooter",
+        new InstantCommand(() -> m_shooterSubsystem.setSetpoint(4000), m_shooterSubsystem));
+    NamedCommands.registerCommand(
+        "Feeder", new InstantCommand(() -> m_feederSubsystem.setSetpoint(1500), m_feederSubsystem));
+    NamedCommands.registerCommand(
+        "StopFeeder",
+        new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
+    NamedCommands.registerCommand(
+        "PickUp",
+        new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false));
+    NamedCommands.registerCommand(
+        "PickUpStop",
+        new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true));
+    NamedCommands.registerCommand(
+        "UTBPickUp",
+        new InstantCommand(
+            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem));
+    NamedCommands.registerCommand(
+        "UTBPickUpStop",
+        new InstantCommand(
+            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
 
     autoChooser.addOption("Do Nothing", new InstantCommand());
     // Test Autos
@@ -396,11 +410,9 @@ public class RobotContainer {
     auxController
         .start()
         .onTrue(
-            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -10,
-    6000))
+            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -10, 6000))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-    m_feederSubsystem));
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     auxController
         .button(10)
@@ -408,8 +420,7 @@ public class RobotContainer {
             new PositionToShoot(
                 m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -8.5, 6000))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-    m_feederSubsystem));
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     /** Aux Controls */
 
     /* Feeder */
@@ -475,31 +486,25 @@ public class RobotContainer {
     auxController
         .leftTrigger()
         .onTrue(
-            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 27,
-    4000))
+            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 27, 4000))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-    m_feederSubsystem));
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* Scoring SPEAKER when up against the PODIUM */
     auxController
         .rightTrigger()
         .onTrue(
-            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 0.5,
-    4000))
+            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 0.5, 4000))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-    m_feederSubsystem));
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* Scoring SPEAKER when up against the BACK STAGE LEG (3 diff versions for easy use) */
     auxController
         .back()
         .onTrue(
-            new OverShot(m_armSubsystem, m_feederSubsystem, m_shooterSubsystem,
-    m_wristSubsystem))
+            new OverShot(m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-    m_feederSubsystem));
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     ;
     // auxController
     //     .back()
@@ -516,15 +521,13 @@ public class RobotContainer {
         .leftBumper()
         .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-    m_feederSubsystem));
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Scoring from the backside
     auxController
         .rightBumper()
         .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-    m_feederSubsystem));
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* SOURCE Pickup */
     // Picking up from SOURCE, backside
@@ -532,8 +535,7 @@ public class RobotContainer {
         .y()
         .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-    m_feederSubsystem));
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     // driverController
     //     .y()
