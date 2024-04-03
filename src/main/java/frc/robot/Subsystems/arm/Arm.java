@@ -25,6 +25,12 @@ public class Arm extends SubsystemBase {
     armPIDController.setSetpoint(0);
     armPIDController.setTolerance(ArmConstants.ANGLE_TOLERANCE);
     armPIDController.disableContinuousInput();
+
+    // TODO: Delete once final PID Numbers are Decided
+    // armkp = armTab.add("armkp", 0.0).getEntry();
+    // armki = armTab.add("armki", 0.0).getEntry();
+    // armkd = armTab.add("armkd", 0.0).getEntry();
+    // armSetpointSetter = armTab.add("armSetpoint", 0.0).getEntry();
   }
 
   @Override
@@ -35,7 +41,7 @@ public class Arm extends SubsystemBase {
     Logger.processInputs("Arm", armInputs);
 
     // Updates Arm Speed based on PID Control
-    // setArmPercentSpeed(armPIDController.calculate(armInputs.armAbsolutePositionRad));
+    setArmPercentSpeed(armPIDController.calculate(armInputs.armAbsolutePositionRad));
   }
 
   /** Updates the Outputs of the Motors based on What Mode we are In */

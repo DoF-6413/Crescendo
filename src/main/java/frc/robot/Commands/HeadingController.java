@@ -30,7 +30,7 @@ public class HeadingController {
     kd = SmartDashboard.getNumber("Heading Controller Kd", 100.0);
     SmartDashboard.putNumber("Heading Controller", setpoint.getDegrees());
 
-    double output = -(setpoint.minus(gyroAngle).getRadians() * kp + kd * gyroRate);
+    double output = (setpoint.minus(gyroAngle).getRadians() * kp + kd * gyroRate);
 
     // Logger.recordOutput("Drive/HeadingController/HeadingError", controller.getPositionError());
     return output;

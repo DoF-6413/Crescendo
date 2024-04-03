@@ -1,0 +1,25 @@
+{
+  "robotWidth": 0.82,
+  "robotLength": 0.82,
+  "holonomicMode": true,
+  "pathFolders": [
+    "2PieceAuto",
+    "3PieceAuto",
+    "4PieceAuto",
+    "5PieceAuto",
+    "ComplexPaths",
+    "Liz's Folder",
+    "OnePieceAuto",
+    "Vihaan's Folder"
+  ],
+  "autoFolders": [
+    "Liz3Piece",
+    "2 Piece Autos",
+    "Vihaan's Folder"
+  ],
+  "defaultMaxVel": 5.2,
+  "defaultMaxAccel": 5.2,
+  "defaultMaxAngVel": 515.65,
+  "defaultMaxAngAccel": 262.825,
+  "maxModuleSpeed": 5.2
+}

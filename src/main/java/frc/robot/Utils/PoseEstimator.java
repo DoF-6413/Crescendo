@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.drive.*;
+import frc.robot.Subsystems.drive.DriveConstants;
 import frc.robot.Subsystems.gyro.*;
 import frc.robot.Subsystems.vision.*;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -72,11 +73,9 @@ public class PoseEstimator extends SubsystemBase {
   public void periodic() {
     // When ran on the real robot it would overload the command scheduler, causing input delay from
     // joystick to driving
-    // if (RobotStateConstants.getMode() == Mode.SIM) {
     field2d.setRobotPose(getCurrentPose2d());
     poseEstimator.updateWithTime(
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
-    // }
 
     // if (vision.getResult().hasTargets()) {
 
@@ -119,7 +118,7 @@ public class PoseEstimator extends SubsystemBase {
    * @param currentPose2d
    */
   public void resetPose(Pose2d currentPose2d) {
-    poseEstimator.resetPosition(gyro.getYaw(), drive.getSwerveModulePositions(), currentPose2d);
+    poseEstimator.resetPosition(gyro.getAngle(), drive.getSwerveModulePositions(), currentPose2d);
   }
   /**
    * @return the rotation in a Rotation2d in degrees

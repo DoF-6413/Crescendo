@@ -1,0 +1,223 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.45,
+        "y": 3.45
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.4291608641938436,
+        "y": 3.439381929961293
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.931126061682322,
+        "y": 0.8185908109707958
+      },
+      "prevControl": {
+        "x": 7.931126061682322,
+        "y": 0.7952025020859156
+      },
+      "nextControl": {
+        "x": 7.931126061682322,
+        "y": 0.841979119855676
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.685848408733854,
+        "y": 1.8242880930206316
+      },
+      "prevControl": {
+        "x": 5.674154254291414,
+        "y": 1.8535234791267312
+      },
+      "nextControl": {
+        "x": 5.6975425631762935,
+        "y": 1.795052706914532
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.9545143705672015,
+        "y": 2.467466587354827
+      },
+      "prevControl": {
+        "x": 7.966208525009643,
+        "y": 2.4470018170805576
+      },
+      "nextControl": {
+        "x": 7.942820216124762,
+        "y": 2.4879313576290962
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.060360941234703,
+        "y": 5.250675344655533
+      },
+      "prevControl": {
+        "x": 3.9949349937555185,
+        "y": 5.303878862385858
+      },
+      "nextControl": {
+        "x": 6.188697049758772,
+        "y": 3.5199404871744218
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.9545143705672015,
+        "y": 4.1046482092964185
+      },
+      "prevControl": {
+        "x": 7.9486672933459825,
+        "y": 4.12584386422334
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 2,
+      "rotationDegrees": -34.592288687509814,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 3,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 4,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "pickUp1",
+      "waypointRelativePos": 0.8,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pickUp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot1",
+      "waypointRelativePos": 1.75,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickUp2",
+      "waypointRelativePos": 2.6,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pickUp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot2",
+      "waypointRelativePos": 3.8,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickUp3",
+      "waypointRelativePos": 4.75,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pickUp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.2,
+    "maxAcceleration": 5.2,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "ComplexPaths",
+  "previewStartingState": {
+    "rotation": -5.355825042855093,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

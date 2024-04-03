@@ -22,7 +22,7 @@ public final class DriveConstants {
   public static double DRIVE_KS_KRAKEN = 0.115;
 
   /** KV represents the voltage used every second per meter */
-  public static double DRIVE_KV_KRAKEN = 0.137;
+  public static double DRIVE_KV_KRAKEN = 0.12978;
 
   // PID Constants for Steer (Neos)
   /**
@@ -118,7 +118,7 @@ public final class DriveConstants {
    * Chassis Width, distance between the centerline of two adjacent wheels same for length and width
    * because drivetrain is square
    */
-  public static final double TRACK_WIDTH_M = Units.inchesToMeters(32.173359);
+  public static final double TRACK_WIDTH_M = Units.inchesToMeters(22.75);
 
   /** Max Speed the Robot Can Travel in One Linear Direction (m/s) */
   public static final double MAX_LINEAR_SPEED_M_PER_SEC = 5.2;
@@ -166,10 +166,10 @@ public final class DriveConstants {
   }
 
   public static enum L3_ABSOLUTE_ENCODER_OFFSET_RAD {
-    FRONT_RIGHT(0.59518), // Module 0
-    FRONT_LEFT(2.58), // Module 1
-    BACK_LEFT(-1.97205), // Module 2
-    BACK_RIGHT(-2.597); // Module 3
+    FRONT_RIGHT(-2.169), // Module 0
+    FRONT_LEFT(0.9173), // Module 1
+    BACK_LEFT(-2.0524), // Module 2
+    BACK_RIGHT(0.5583); // Module 3
 
     public final double OFFSET;
 

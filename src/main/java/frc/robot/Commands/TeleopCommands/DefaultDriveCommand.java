@@ -35,7 +35,7 @@ public class DefaultDriveCommand extends Command {
       drive.driveWithDeadband(
           controller.getLeftX(), // Forward/backward
           -controller.getLeftY(), // Left/Right (multiply by -1 bc controller axis inverted)
-          controller.getRightX()); // Rotate chassis left/right
+          -controller.getRightX()); // Rotate chassis left/right
     } else {
 
       drive.driveWithDeadbandPlusHeading(

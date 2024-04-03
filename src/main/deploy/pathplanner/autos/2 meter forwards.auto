@@ -2,25 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.4114851648506717,
-      "y": 7.308846526524962
+      "x": 0.0,
+      "y": 0.0
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Run Flywheel"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "Example Path"
+            "pathName": "2 meter forward"
           }
         }
       ]
