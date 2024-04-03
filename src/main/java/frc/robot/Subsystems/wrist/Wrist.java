@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotStateConstants;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Wrist extends SubsystemBase {
@@ -58,7 +57,9 @@ public class Wrist extends SubsystemBase {
     Logger.processInputs("Wrist", inputs);
     setWristPercentSpeed(
         wristPIDController.calculate(inputs.wristAbsolutePositionRad)
-            + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec) / RobotStateConstants.BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
+            + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
+                / RobotStateConstants
+                    .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
 
     if (WristConstants.KP != wristkp.getDouble(0.0)
         || WristConstants.KI != wristki.getDouble(0.0)
@@ -102,7 +103,7 @@ public class Wrist extends SubsystemBase {
     WristConstants.KS = wristks.getDouble(0.0);
     WristConstants.KV = wristkv.getDouble(0.0);
     WristConstants.KA = wristka.getDouble(0.0);
-    wristFeedforward =  
+    wristFeedforward =
         new SimpleMotorFeedforward(WristConstants.KS, WristConstants.KV, WristConstants.KA);
   }
 

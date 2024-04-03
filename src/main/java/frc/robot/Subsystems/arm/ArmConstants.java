@@ -12,7 +12,7 @@ public final class ArmConstants {
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static double KP = 0.0;
+  public static double KP = 1.0;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
   public static double KI = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
