@@ -35,11 +35,9 @@ public class PickUp extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ParallelCommandGroup(
-        new InstantCommand(()-> actuator.setActuatorSetpoint(actuatorPosition)),
-        new InstantCommand(()-> otb.setOTBIntakePercentSpeed(otbIntakePercentSpeed)),
-        new InstantCommand(()-> utb.setUTBIntakePercentSpeed(utbIntakePercentSpeed))
-      )
-    );
+        new ParallelCommandGroup(
+            new InstantCommand(() -> actuator.setActuatorSetpoint(actuatorPosition)),
+            new InstantCommand(() -> otb.setOTBIntakePercentSpeed(otbIntakePercentSpeed)),
+            new InstantCommand(() -> utb.setUTBIntakePercentSpeed(utbIntakePercentSpeed))));
   }
 }

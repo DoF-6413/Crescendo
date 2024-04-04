@@ -23,7 +23,7 @@ public class SpeakerShoot extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new PositionToShoot(feeder, shooter, wrist, 27, 4000),
-        new WaitUntilCommand(()-> wrist.atSetpoint()),
-         new Shoot(feeder, arm, shooter));
+        new WaitUntilCommand(() -> wrist.atSetpoint()),
+        new Shoot(feeder, arm, shooter));
   }
 }
