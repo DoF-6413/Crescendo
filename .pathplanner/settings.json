@@ -10,12 +10,15 @@
     "ComplexPaths",
     "Liz's Folder",
     "OnePieceAuto",
+    "Puzzle Pieces",
+    "Test Paths",
     "Vihaan's Folder"
   ],
   "autoFolders": [
     "2 Piece Autos",
-    "Liz3Piece",
     "3 Piece Autos",
+    "Liz3Piece",
+    "4 Piece Autos",
     "Test Autos",
     "Vihaan's Folder"
   ],
@@ -25,4 +28,3 @@
   "defaultMaxAngAccel": 262.825,
   "maxModuleSpeed": 5.2
 }
-
