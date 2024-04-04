@@ -21,8 +21,11 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Commands.AutoCommands.LegShot;
+import frc.robot.Commands.AutoCommands.LineShot;
 import frc.robot.Commands.AutoCommands.PickUp;
-import frc.robot.Commands.AutoCommands.SpeakerShoot;
+import frc.robot.Commands.AutoCommands.PodiumShot;
+import frc.robot.Commands.AutoCommands.AutoShoot;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.FourPieceBlue;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.FourPieceRed;
 import frc.robot.Commands.AutonomousCommands.First3Pieces.LeaveAuto;
@@ -166,7 +169,19 @@ public class RobotContainer {
     // Event Marker Commands
     NamedCommands.registerCommand(
         "SpeakerShot",
-        new SpeakerShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, m_armSubsystem));
+        new AutoShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, m_armSubsystem, 27, 4000));
+    NamedCommands.registerCommand(
+        "PodiumShot",
+        new AutoShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, m_armSubsystem, 0.5, 4000));
+    NamedCommands.registerCommand(
+        "LineShot",
+        new AutoShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, m_armSubsystem, 3, 6000)); // TODO: Update angle
+    NamedCommands.registerCommand(
+        "LegShot",
+        new AutoShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, m_armSubsystem, -7, 6000)); // TODO: Update angle
+    NamedCommands.registerCommand(
+        "WingShot",
+        new AutoShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, m_armSubsystem, -8.5, 6000));
     NamedCommands.registerCommand(
         "RevShooter",
         new InstantCommand(() -> m_shooterSubsystem.setSetpoint(4000), m_shooterSubsystem));
@@ -203,8 +218,9 @@ public class RobotContainer {
     autoChooser.addOption("2 Piece Cool Side", new PathPlannerAuto("2P Cool Side"));
     // 3 Piece
     autoChooser.addOption("3 Piece Center", new PathPlannerAuto("3P Center"));
+    autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
     // 5+ Piece
-    autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
+    autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto")); 
     autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
