@@ -435,6 +435,7 @@ public class RobotContainer {
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
+
     auxController
         .button(10)
         .onTrue(
@@ -442,6 +443,7 @@ public class RobotContainer {
                 m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -8.5, 6000))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+
     /** Aux Controls */
 
     /* Feeder */
@@ -511,6 +513,7 @@ public class RobotContainer {
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
+
     /* Scoring SPEAKER when up against the PODIUM */
     auxController
         .rightTrigger()
@@ -519,6 +522,7 @@ public class RobotContainer {
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
+
     /* Scoring SPEAKER when up against the BACK STAGE LEG (3 diff versions for easy use) */
     auxController
         .back()
@@ -526,6 +530,7 @@ public class RobotContainer {
             new OverShot(m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+
     ;
     // auxController
     //     .back()
@@ -543,12 +548,14 @@ public class RobotContainer {
         .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+
     // Scoring from the backside
     auxController
         .rightBumper()
         .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+
 
     /* SOURCE Pickup */
     // Picking up from SOURCE, backside
@@ -557,6 +564,7 @@ public class RobotContainer {
         .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+
 
     // driverController
     //     .y()
