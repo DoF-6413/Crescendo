@@ -15,7 +15,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,9 +36,6 @@ import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
-import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
-import frc.robot.Commands.TeleopCommands.SpeakerScore.OverShot;
-import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
@@ -406,136 +402,153 @@ public class RobotContainer {
                 m_feederSubsystem,
                 true));
 
+    m_wristSubsystem.setDefaultCommand(
+        new InstantCommand(
+            () -> m_wristSubsystem.setWristPercentSpeed(auxController.getRightY()),
+            m_wristSubsystem));
+
     // Brings Actuator back to its default position (all the way up)
-    auxController
-        .start()
-        .onTrue(
-            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -10, 6000))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-
-    auxController
-        .button(10)
-        .onTrue(
-            new PositionToShoot(
-                m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -8.5, 6000))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    /** Aux Controls */
-
-    /* Feeder */
-    // Forward
-    auxController
-        .x()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
-    // Backward
-    auxController
-        .b()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-500), m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
-
-    /* Wrist */
-    // Increases angle of the Wrist by 1 degree
-    auxController
-        .povLeft()
-        .onTrue(
-            new RunCommand(
-                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
-                m_wristSubsystem))
-        .onFalse(
-            new RunCommand(() -> m_wristSubsystem.incrementWristSetpoint(0), m_wristSubsystem));
-    ;
-    // Decreases angle of the Wrist by 1 degree
-    auxController
-        .povRight()
-        .onTrue(
-            new RunCommand(
-                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
-                m_wristSubsystem))
-        .onFalse(
-            new RunCommand(() -> m_wristSubsystem.incrementWristSetpoint(0), m_wristSubsystem));
-    ;
-
-    /* Arm */
-    // Increases angle of the Arm by 1 degree
-    auxController
-        .povUp()
-        .onTrue(
-            new RunCommand(
-                () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(1)),
-                m_armSubsystem))
-        .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmSetpoint(0), m_armSubsystem));
-    // Decreases angle of the Arm by 1 degree
-    auxController
-        .povDown()
-        .onTrue(
-            new RunCommand(
-                () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(-1)),
-                m_armSubsystem))
-        .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmSetpoint(0), m_armSubsystem));
-    ;
-
-    /* Climber */
-    // m_climberSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_climberSubsystem.setClimberPercentSpeed(-auxController.getLeftY()),
-    //         m_climberSubsystem));
-
-    /* Scoring SPEAKER when up against it */
-    auxController
-        .leftTrigger()
-        .onTrue(
-            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 27, 4000))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-
-    /* Scoring SPEAKER when up against the PODIUM */
-    auxController
-        .rightTrigger()
-        .onTrue(
-            new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 0.5, 4000))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-
-    /* Scoring SPEAKER when up against the BACK STAGE LEG (3 diff versions for easy use) */
-    auxController
-        .back()
-        .onTrue(
-            new OverShot(m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    ;
     // auxController
-    //     .back()
+    //     .start()
     //     .onTrue(
-    //         new PositionToShoot(
-    //             m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -3.5, 4000))
+    //         new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -10,
+    // 6000))
     //     .onFalse(
     //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
     // m_feederSubsystem));
 
-    /* AMP Scoring */
-    // Scoring AMP from the frontside
-    auxController
-        .leftBumper()
-        .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    // Scoring from the backside
-    auxController
-        .rightBumper()
-        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+    // auxController
+    //     .button(10)
+    //     .onTrue(
+    //         new PositionToShoot(
+    //             m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -8.5, 6000))
+    //     .onFalse(
+    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
+    // m_feederSubsystem));
+    // /** Aux Controls */
 
-    /* SOURCE Pickup */
-    // Picking up from SOURCE, backside
-    auxController
-        .y()
-        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+    // /* Feeder */
+    // // Forward
+    // auxController
+    //     .x()
+    //     .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2500), m_feederSubsystem))
+    //     .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
+    // // Backward
+    // auxController
+    //     .b()
+    //     .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-500), m_feederSubsystem))
+    //     .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
+
+    // /* Wrist */
+    // // Increases angle of the Wrist by 1 degree
+    // auxController
+    //     .povLeft()
+    //     .onTrue(
+    //         new RunCommand(
+    //             () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
+    //             m_wristSubsystem))
+    //     .onFalse(
+    //         new RunCommand(() -> m_wristSubsystem.incrementWristSetpoint(0), m_wristSubsystem));
+    // ;
+    // // Decreases angle of the Wrist by 1 degree
+    // auxController
+    //     .povRight()
+    //     .onTrue(
+    //         new RunCommand(
+    //             () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
+    //             m_wristSubsystem))
+    //     .onFalse(
+    //         new RunCommand(() -> m_wristSubsystem.incrementWristSetpoint(0), m_wristSubsystem));
+    // ;
+
+    // /* Arm */
+    // // Increases angle of the Arm by 1 degree
+    // auxController
+    //     .povUp()
+    //     .onTrue(
+    //         new RunCommand(
+    //             () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(1)),
+    //             m_armSubsystem))
+    //     .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmSetpoint(0), m_armSubsystem));
+    // // Decreases angle of the Arm by 1 degree
+    // auxController
+    //     .povDown()
+    //     .onTrue(
+    //         new RunCommand(
+    //             () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(-1)),
+    //             m_armSubsystem))
+    //     .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmSetpoint(0), m_armSubsystem));
+    // ;
+
+    // /* Climber */
+    // // m_climberSubsystem.setDefaultCommand(
+    // //     new InstantCommand(
+    // //         () -> m_climberSubsystem.setClimberPercentSpeed(-auxController.getLeftY()),
+    // //         m_climberSubsystem));
+
+    // /* Scoring SPEAKER when up against it */
+    // auxController
+    //     .leftTrigger()
+    //     .onTrue(
+    //         new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 27,
+    // 4000))
+    //     .onFalse(
+    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
+    // m_feederSubsystem));
+
+    // /* Scoring SPEAKER when up against the PODIUM */
+    // auxController
+    //     .rightTrigger()
+    //     .onTrue(
+    //         new PositionToShoot(m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, 0.5,
+    // 4000))
+    //     .onFalse(
+    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
+    // m_feederSubsystem));
+
+    // /* Scoring SPEAKER when up against the BACK STAGE LEG (3 diff versions for easy use) */
+    // auxController
+    //     .back()
+    //     .onTrue(
+    //         new OverShot(m_armSubsystem, m_feederSubsystem, m_shooterSubsystem,
+    // m_wristSubsystem))
+    //     .onFalse(
+    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
+    // m_feederSubsystem));
+    // ;
+    // // auxController
+    // //     .back()
+    // //     .onTrue(
+    // //         new PositionToShoot(
+    // //             m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -3.5, 4000))
+    // //     .onFalse(
+    // //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
+    // // m_feederSubsystem));
+
+    // /* AMP Scoring */
+    // // Scoring AMP from the frontside
+    // auxController
+    //     .leftBumper()
+    //     .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
+    //     .onFalse(
+    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
+    // m_feederSubsystem));
+    // // Scoring from the backside
+    // auxController
+    //     .rightBumper()
+    //     .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
+    //     .onFalse(
+    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
+    // m_feederSubsystem));
+
+    // /* SOURCE Pickup */
+    // // Picking up from SOURCE, backside
+    // auxController
+    //     .y()
+    //     .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
+    //     .onFalse(
+    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
+    // m_feederSubsystem));
 
     // driverController
     //     .y()

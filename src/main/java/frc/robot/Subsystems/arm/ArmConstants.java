@@ -64,6 +64,9 @@ public final class ArmConstants {
   /** Sets if Arm Motor is Inverted */
   public static final boolean IS_INVERTED = true;
 
+  /** Offsets the Arm to be 0 at its inital position */
+  public static final double OFFSET_RAD = 1.306;
+
   // Teleop Automations
   /** AMP Score back side */
   public static final double AMP_BACK_SIDE_RAD = Units.degreesToRadians(40);

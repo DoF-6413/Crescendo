@@ -79,13 +79,13 @@ public class Shooter extends SubsystemBase {
 
     // Sets the voltage of the Shooter Motors using PID
     setTopPercentSpeed(
-        topShooterPIDController.calculate(
-            inputs.topShooterMotorRPM)
-                + (topShooterFeedforward.calculate(inputs.topShooterMotorRPM) / RobotStateConstants.BATTERY_VOLTAGE));
+        topShooterPIDController.calculate(inputs.topShooterMotorRPM)
+            + (topShooterFeedforward.calculate(inputs.topShooterMotorRPM)
+                / RobotStateConstants.BATTERY_VOLTAGE));
     setBottomPercentSpeed(
-        bottomShooterPIDController.calculate(
-            inputs.bottomShooterMotorRPM)
-                + (bottomShooterFeedforward.calculate(inputs.bottomShooterMotorRPM) / RobotStateConstants.BATTERY_VOLTAGE));
+        bottomShooterPIDController.calculate(inputs.bottomShooterMotorRPM)
+            + (bottomShooterFeedforward.calculate(inputs.bottomShooterMotorRPM)
+                / RobotStateConstants.BATTERY_VOLTAGE));
 
     if (ShooterConstants.KP != shooterkP.getDouble(0.0)
         || ShooterConstants.KI != shooterkI.getDouble(0.0)
@@ -239,8 +239,8 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
-   *  Sets the range the RPM of the Shooter motors can be within the setpoint
-   * 
+   * Sets the range the RPM of the Shooter motors can be within the setpoint
+   *
    * @param tolerance RPM
    */
   public void setTolerance(double tolerance) {
