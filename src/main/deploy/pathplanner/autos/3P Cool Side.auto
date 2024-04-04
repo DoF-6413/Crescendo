@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.48994948346191375,
-      "y": 2.0864482584072066
+      "x": 0.6849446477990359,
+      "y": 4.3678916811515345
     },
-    "rotation": 0
+    "rotation": -58.04976189472837
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "test1"
+            "pathName": "BR+BM"
           }
         }
       ]
     }
   },
-  "folder": "Test Autos",
+  "folder": "3 Piece Autos",
   "choreoAuto": false
 }

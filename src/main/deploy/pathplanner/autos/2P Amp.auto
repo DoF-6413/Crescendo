@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.48994948346191375,
-      "y": 2.0864482584072066
+      "x": 0.77,
+      "y": 6.64
     },
-    "rotation": 0
+    "rotation": 60.28233799836212
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "test1"
+            "pathName": "Sub Amp"
           }
         }
       ]
     }
   },
-  "folder": "Test Autos",
+  "folder": "2 Piece Autos",
   "choreoAuto": false
 }
