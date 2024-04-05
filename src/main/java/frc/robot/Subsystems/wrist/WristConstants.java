@@ -57,17 +57,17 @@ public final class WristConstants {
   /** Starting angle of the Wrist for sim, same as minimum angle */
   public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD;
 
-  public static final double ABS_ENCODER_OFFSET_RADS = -0.85;
+  public static final double ABS_ENCODER_OFFSET_RADS = -2.01715;
 
   // Teleop Automations
   /** AMP Score back side */
-  public static final double AMP_BACK_SIDE_DEG = 77;
-
-  public static final double AMP_BACK_SIDE_RAD = Units.degreesToRadians(77);
+  public static final double AMP_BACK_SIDE_RAD = 1.368;
   /** AMP Score front side */
-  public static final double AMP_FRONT_SIDE_RAD = 1.363;
+  public static final double AMP_FRONT_SIDE_RAD = 0.944;
   /** SOURCE Pickup back side */
   public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(155.0);
   /** SPEAKER shot from podium */
-  public static final double PODIUM_RAD = Units.degreesToRadians(-1.0);
+  public static final double PODIUM_RAD = Units.degreesToRadians(-0.5);
+  /** SPEAKER shot from subwoofer */
+  public static final double SUBWOOFER_RAD = Units.degreesToRadians(27);
 }

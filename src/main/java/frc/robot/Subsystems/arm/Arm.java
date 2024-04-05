@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotStateConstants;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Arm extends SubsystemBase {
@@ -44,7 +43,7 @@ public class Arm extends SubsystemBase {
     armFeedforward = new SimpleMotorFeedforward(ArmConstants.KS, ArmConstants.KV, ArmConstants.KA);
 
     // TODO: Delete once final PID Numbers are Decided
-    armkP = armTab.add("armkp", 0.0).getEntry();
+    armkP = armTab.add("armkp", 1.0).getEntry();
     armkI = armTab.add("armki", 0.0).getEntry();
     armkD = armTab.add("armkd", 0.0).getEntry();
     armSetpoint = armTab.add("armSetpoint", 0.0).getEntry();

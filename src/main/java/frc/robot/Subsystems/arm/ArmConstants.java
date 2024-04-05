@@ -69,9 +69,9 @@ public final class ArmConstants {
 
   // Teleop Automations
   /** AMP Score back side */
-  public static final double AMP_BACK_SIDE_RAD = Units.degreesToRadians(40);
+  public static final double AMP_BACK_SIDE_RAD = 0.880;
   /** AMP Score front side */
-  public static final double AMP_FRONT_SIDE_RAD = 1.849;
+  public static final double AMP_FRONT_SIDE_RAD = 2.244;
   /** SOURCE Pickup back side */
   public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(10.0);
 }

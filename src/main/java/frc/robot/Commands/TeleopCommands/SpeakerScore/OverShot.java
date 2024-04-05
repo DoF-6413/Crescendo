@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.wrist.Wrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -49,7 +50,7 @@ public class OverShot extends SequentialCommandGroup {
         new WaitCommand(0.3),
         Commands.runOnce(
             () -> {
-              shooter.setSetpoint(4000);
+              shooter.setSetpoint(ShooterConstants.CLOSE_RPM);
               feeder.setSetpoint(0);
             },
             shooter,

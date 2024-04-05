@@ -40,7 +40,8 @@ public class ArmIOSparkMax implements ArmIO {
     inputs.armAbsolutePositionRad =
         (1 - armAbsoluteEncoder.getAbsolutePosition()) * 2 * Math.PI - ArmConstants.OFFSET_RAD;
     inputs.armAbsolutePositionDeg =
-        (1 - armAbsoluteEncoder.getAbsolutePosition()) * 360 - Units.radiansToDegrees(ArmConstants.OFFSET_RAD);
+        (1 - armAbsoluteEncoder.getAbsolutePosition()) * 360
+            - Units.radiansToDegrees(ArmConstants.OFFSET_RAD);
     inputs.armVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(armRelativeEncoder.getVelocity())
             / ArmConstants.GEAR_RATIO;

@@ -17,6 +17,7 @@ import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.otbIntake.OTBIntake;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Subsystems.wrist.*;
 
@@ -64,6 +65,7 @@ public class TwoPieceAuto extends SequentialCommandGroup {
             },
             drive),
         new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
-        new PositionToShoot(feeder, shooter, wrist, WristConstants.PODIUM_RAD, 4000));
+        new PositionToShoot(
+            feeder, shooter, wrist, WristConstants.PODIUM_RAD, ShooterConstants.CLOSE_RPM));
   }
 }

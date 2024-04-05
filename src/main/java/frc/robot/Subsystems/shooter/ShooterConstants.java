@@ -71,5 +71,7 @@ public class ShooterConstants {
   /** AMP score speed */
   public static final double AMP_RPM = 2500;
   /** SPEAKER score speed */
-  public static final double SPEAKER_RPM = 4000;
+  public static final double CLOSE_RPM = 4000;
+
+  public static final double FAR_RPM = 6000;
 }
