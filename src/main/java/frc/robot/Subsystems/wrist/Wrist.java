@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.RobotStateConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class Wrist extends SubsystemBase {
@@ -45,7 +44,7 @@ public class Wrist extends SubsystemBase {
     this.io = io;
 
     /** Creates a new PID controller for the Wrist */
-    wristPIDController = new PIDController(WristConstants.KP, WristConstants.KI, WristConstants.KD);
+    wristPIDController = new PIDController(1.0, WristConstants.KI, WristConstants.KD);
     // wristPIDController =
     //     new ProfiledPIDController(
     //         WristConstants.KP,
@@ -64,9 +63,9 @@ public class Wrist extends SubsystemBase {
     SmartDashboard.putNumber("wristkP", 0.0);
     SmartDashboard.putNumber("wristkI", 0.0);
     SmartDashboard.putNumber("wristkD", 0.0);
-    wristkp = wristTab.add("wristkp", 1.0).getEntry();
-    wristki = wristTab.add("wristki", 0.0).getEntry();
-    wristkd = wristTab.add("wristkd", 0.0).getEntry();
+    // wristkp = wristTab.add("wristkp", 1.0).getEntry();
+    // wristki = wristTab.add("wristki", 0.0).getEntry();
+    // wristkd = wristTab.add("wristkd", 0.0).getEntry();
     wristGoal = wristTab.add("wristGoal", 0.0).getEntry();
     wristMaxAcceleration = wristTab.add("wristMaxAcceleration", 0.0).getEntry();
     wristks = wristTab.add("wristks", 0.0).getEntry();
@@ -79,11 +78,11 @@ public class Wrist extends SubsystemBase {
     /** Periodically updates inputs and logs them */
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
-    setWristPercentSpeed(
-        wristPIDController.calculate(inputs.wristAbsolutePositionRad)
-            + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
-                / RobotStateConstants
-                    .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
+    // setWristPercentSpeed(
+    //     wristPIDController.calculate(inputs.wristAbsolutePositionRad)
+    //         + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
+    //             / RobotStateConstants
+    //                 .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
 
     if (
     // kP != wristkp.getDouble(0.0)
@@ -119,14 +118,14 @@ public class Wrist extends SubsystemBase {
 
   /** Updates the PID values from Shuffleboard */
   public void updatePIDController() {
-    // kP = wristkp.getDouble(0.0);
-    // kI = wristki.getDouble(0.0);
-    // kD = wristkd.getDouble(0.0);
+    //   // kP = wristkp.getDouble(0.0);
+    //   // kI = wristki.getDouble(0.0);
+    //   // kD = wristkd.getDouble(0.0);
     kP = SmartDashboard.getNumber("wristkP", 1.0);
     kI = SmartDashboard.getNumber("wristkI", 0.0);
     kD = SmartDashboard.getNumber("wristkD", 0.0);
     wristPIDController.setPID(kP, kI, kD);
-    // wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
+    //   // wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
   }
 
   /** Updates the goal from Shuffleboard */

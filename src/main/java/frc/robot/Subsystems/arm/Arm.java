@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.RobotStateConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class Arm extends SubsystemBase {
@@ -77,11 +76,11 @@ public class Arm extends SubsystemBase {
     Logger.processInputs("Arm", armInputs);
 
     // Updates Arm Speed based on PID Control
-    setArmPercentSpeed(
-        armPIDController.calculate(armInputs.armAbsolutePositionRad)
-            + (armFeedforward.calculate(armInputs.armVelocityRadPerSec)
-                / RobotStateConstants
-                    .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
+    // setArmPercentSpeed(
+    //     armPIDController.calculate(armInputs.armAbsolutePositionRad)
+    //         + (armFeedforward.calculate(armInputs.armVelocityRadPerSec)
+    //             / RobotStateConstants
+    //                 .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
 
     if (ArmConstants.KP != armkP.getDouble(0.0)
         || ArmConstants.KI != armkI.getDouble(0.0)

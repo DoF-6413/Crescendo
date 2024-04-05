@@ -87,6 +87,8 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
   private final CommandXboxController auxController =
       new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
+  private final CommandXboxController devController =
+      new CommandXboxController(2);
 
   // Autos
   private final LoggedDashboardChooser<Command> autoChooser =
@@ -522,8 +524,16 @@ public class RobotContainer {
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
+    m_wristSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> m_wristSubsystem.setWristPercentSpeed(auxController.getLeftY()),
+            m_wristSubsystem));
+    m_armSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> m_armSubsystem.setArmPercentSpeed(auxController.getRightY()), m_armSubsystem));
+
     // /* Scoring SPEAKER when up against the BACK STAGE LEG (3 diff versions for easy use) */
-    // auxController
+    // sauxController
     //     .back()
     //     .onTrue(
     //         new OverShot(m_armSubsystem, m_feederSubsystem, m_shooterSubsystem,
