@@ -28,12 +28,12 @@ public class OnePieceAuto extends SequentialCommandGroup {
         new WaitCommand(SmartDashboard.getNumber("delay", 0)),
         Commands.runOnce(
             () -> {
-              wrist.setSetpoint(WristConstants.SUBWOOFER_RAD);
+              wrist.setGoal(WristConstants.SUBWOOFER_RAD);
               shooter.setSetpoint(ShooterConstants.CLOSE_RPM);
             },
             shooter,
             wrist),
-        new WaitUntilCommand(() -> wrist.atSetpoint()),
+        new WaitUntilCommand(() -> wrist.atGoal()),
         new WaitUntilCommand(() -> shooter.topAtSetpoint()),
         Commands.runOnce(
             () -> {

@@ -18,6 +18,7 @@ public class ShooterConstants {
   public static double KV = 0.0;
   /** KS represents the */
   public static double KA = 0.0;
+
   // /**
   //  * KP represents the constant multiplied by the current error from setpoint (Proportional
   // Error)

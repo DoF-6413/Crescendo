@@ -26,14 +26,14 @@ public class OverShot extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              arm.setSetpoint(Units.degreesToRadians(83));
+              arm.setGoal(Units.degreesToRadians(83));
             },
             arm),
-        new WaitUntilCommand(() -> arm.atSetpoint()),
+        new WaitUntilCommand(() -> arm.atGoal()),
         Commands.runOnce(
             () -> {
               // feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
-              wrist.setSetpoint(
+              wrist.setGoal(
                   Units.degreesToRadians(
                       38)); // TODO: update when shooter interpolation branch is merged to
               // reference
@@ -41,7 +41,7 @@ public class OverShot extends SequentialCommandGroup {
             },
             feeder,
             wrist),
-        new WaitUntilCommand(() -> wrist.atSetpoint()),
+        new WaitUntilCommand(() -> wrist.atGoal()),
         Commands.runOnce(
             () -> {
               feeder.setSetpoint(-600);

@@ -54,7 +54,7 @@ public class ThreePieceAutoBlue extends SequentialCommandGroup {
         new OnePieceAuto(wrist, feeder, shooter),
         Commands.runOnce(
             () -> {
-              wrist.setSetpoint(0);
+              wrist.setGoal(0);
             },
             wrist),
         new InstantCommand(() -> shooter.setSetpoint(0)),
@@ -97,7 +97,7 @@ public class ThreePieceAutoBlue extends SequentialCommandGroup {
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Commands.runOnce(
             () -> {
-              wrist.setSetpoint(0);
+              wrist.setGoal(0);
             },
             wrist),
         new InstantCommand(() -> shooter.setSetpoint(0)),

@@ -4,8 +4,9 @@
 
 package frc.robot.Subsystems.arm;
 
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -17,25 +18,33 @@ public class Arm extends SubsystemBase {
 
   private final ArmIO io;
   private final ArmIOInputsAutoLogged armInputs = new ArmIOInputsAutoLogged();
-  private final PIDController armPIDController;
+  private final ProfiledPIDController armPIDController;
   private SimpleMotorFeedforward armFeedforward;
   private final ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
   private static GenericEntry armkP;
   private static GenericEntry armkI;
   private static GenericEntry armkD;
+  private static GenericEntry armMaxVelocity;
+  private static GenericEntry armMaxAcceleration;
   private static GenericEntry armkS;
   private static GenericEntry armkV;
   private static GenericEntry armkA;
-  private static GenericEntry armSetpoint;
-  private static double setpoint = 0.0;
+  private static GenericEntry armGoal;
+  private static double goal = 0.0;
 
   public Arm(ArmIO io) {
     System.out.println("[Init] Creating Arm");
     this.io = io;
 
     // Initalizing the Arm PID Contoller
-    armPIDController = new PIDController(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
-    armPIDController.setSetpoint(0);
+    armPIDController =
+        new ProfiledPIDController(
+            ArmConstants.KP,
+            ArmConstants.KI,
+            ArmConstants.KD,
+            new TrapezoidProfile.Constraints(
+                ArmConstants.MAX_VELOCITY, ArmConstants.MAX_ACCELERATION));
+    armPIDController.setGoal(0);
     armPIDController.setTolerance(ArmConstants.ANGLE_TOLERANCE);
     armPIDController.disableContinuousInput();
 
@@ -46,7 +55,9 @@ public class Arm extends SubsystemBase {
     armkP = armTab.add("armkp", 1.0).getEntry();
     armkI = armTab.add("armki", 0.0).getEntry();
     armkD = armTab.add("armkd", 0.0).getEntry();
-    armSetpoint = armTab.add("armSetpoint", 0.0).getEntry();
+    armGoal = armTab.add("armGoal", 0.0).getEntry();
+    armMaxVelocity = armTab.add("armMaxVelocity", 0.0).getEntry();
+    armMaxAcceleration = armTab.add("armMaxAcceleration", 0.0).getEntry();
     armkS = armTab.add("armks", 0.0).getEntry();
     armkV = armTab.add("armkV", 0.0).getEntry();
     armkA = armTab.add("armkA", 0.0).getEntry();
@@ -78,8 +89,13 @@ public class Arm extends SubsystemBase {
       updateFFController();
     }
 
-    if (setpoint != armSetpoint.getDouble(0.0)) {
-      updateSetpoint();
+    if (goal != armGoal.getDouble(0.0)) {
+      updateGoal();
+    }
+
+    if (ArmConstants.MAX_VELOCITY != armMaxVelocity.getDouble(0.0)
+        || ArmConstants.MAX_ACCELERATION != armMaxAcceleration.getDouble(0.0)) {
+      updateTrapezoidalConstraints();
     }
   }
 
@@ -91,10 +107,18 @@ public class Arm extends SubsystemBase {
     armPIDController.setPID(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
   }
 
-  /** Updates the Setpoint from ShuffleBoard */
-  public void updateSetpoint() {
-    setpoint = armSetpoint.getDouble(0.0);
-    armPIDController.setSetpoint(setpoint);
+  /** Updates the Goal from ShuffleBoard */
+  public void updateGoal() {
+    goal = armGoal.getDouble(0.0);
+    armPIDController.setGoal(goal);
+  }
+
+  /** Updates the Trapezoidal Constraints from the ShuffleBoard */
+  public void updateTrapezoidalConstraints() {
+    ArmConstants.MAX_VELOCITY = armMaxVelocity.getDouble(0.0);
+    ArmConstants.MAX_ACCELERATION = armMaxAcceleration.getDouble(0.0);
+    armPIDController.setConstraints(
+        new TrapezoidProfile.Constraints(ArmConstants.MAX_VELOCITY, ArmConstants.MAX_ACCELERATION));
   }
 
   /** Updates the FF values from Shuffleboard */
@@ -138,28 +162,28 @@ public class Arm extends SubsystemBase {
   }
 
   /**
-   * Updates the angle that the wrist should be at using the WPI PID controller
+   * Updates the angle that the arm should be at using the WPI PID controller
    *
-   * @param setpoint Angle (Radians)
+   * @param goal Angle (Radians)
    */
-  public void setSetpoint(double setpoint) {
-    armPIDController.setSetpoint(setpoint);
+  public void setGoal(double goal) {
+    armPIDController.setGoal(goal);
   }
 
-  public double getSetpoint() {
-    return armPIDController.getSetpoint();
+  public double getGoal() {
+    return armPIDController.getGoal().position;
   }
   /**
-   * Changes the angle setpoint of the Arm
+   * Changes the angle goal of the Arm
    *
    * @param increment Angle (Radians)
    */
-  public void incrementArmSetpoint(double increment) {
-    armPIDController.setSetpoint(armPIDController.getSetpoint() + increment);
+  public void incrementArmGoal(double increment) {
+    armPIDController.setGoal(armPIDController.getGoal().position + increment);
   }
 
-  /** Returns whether the arm is at its setpoint or not */
-  public boolean atSetpoint() {
-    return armPIDController.atSetpoint();
+  /** Returns whether the arm is at its goal or not */
+  public boolean atGoal() {
+    return armPIDController.atGoal();
   }
 }

@@ -49,7 +49,7 @@ public class TwoPieceAuto extends SequentialCommandGroup {
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
-                  wrist.setSetpoint(0);
+                  wrist.setGoal(0);
                 },
                 wrist),
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),

@@ -4,8 +4,9 @@
 
 package frc.robot.Subsystems.wrist;
 
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -18,22 +19,36 @@ public class Wrist extends SubsystemBase {
   private final WristIOInputsAutoLogged inputs = new WristIOInputsAutoLogged();
 
   /** Wrist PID controller */
-  private final PIDController wristPIDController;
+  private final ProfiledPIDController wristPIDController;
 
   private SimpleMotorFeedforward wristFeedforward;
   private final ShuffleboardTab wristTab = Shuffleboard.getTab("Wrist");
 
-  private static GenericEntry wristkp, wristki, wristkd, wristks, wristkv, wristka, wristSetpoint;
-  private static double setpoint = 0.0;
+  private static GenericEntry wristkp,
+      wristki,
+      wristkd,
+      wristks,
+      wristkv,
+      wristka,
+      wristGoal,
+      wristMaxVelocity,
+      wristMaxAcceleration;
+  private static double goal = 0.0;
 
-  /** Creates a new Wrist, the second joint of the arm mechanism */
+  /** Creates a new Wrist, the second joint of the wrist mechanism */
   public Wrist(WristIO io) {
     System.out.println("[Init] Creating Wrist");
     this.io = io;
 
     /** Creates a new PID controller for the Wrist */
-    wristPIDController = new PIDController(WristConstants.KP, WristConstants.KI, WristConstants.KD);
-    wristPIDController.setSetpoint(0);
+    wristPIDController =
+        new ProfiledPIDController(
+            WristConstants.KP,
+            WristConstants.KI,
+            WristConstants.KD,
+            new TrapezoidProfile.Constraints(
+                WristConstants.MAX_VELOCITY, WristConstants.MAX_ACCELERATION));
+    wristPIDController.setGoal(0);
     wristPIDController.setTolerance(WristConstants.ANGLE_TOLERANCE);
     wristPIDController.disableContinuousInput();
 
@@ -43,8 +58,9 @@ public class Wrist extends SubsystemBase {
     wristkp = wristTab.add("wristkp", 1.2).getEntry();
     wristki = wristTab.add("wristki", 0.0).getEntry();
     wristkd = wristTab.add("wristkd", 0.0).getEntry();
-    wristSetpoint = wristTab.add("wristSetpoint", 0.0).getEntry();
-
+    wristGoal = wristTab.add("wristGoal", 0.0).getEntry();
+    wristMaxVelocity = wristTab.add("wristMaxVelocity", 0.0).getEntry();
+    wristMaxAcceleration = wristTab.add("wristMaxAcceleration", 0.0).getEntry();
     wristks = wristTab.add("wristks", 0.0).getEntry();
     wristkv = wristTab.add("wristkv", 0.0).getEntry();
     wristka = wristTab.add("wristka", 0.0).getEntry();
@@ -73,8 +89,13 @@ public class Wrist extends SubsystemBase {
       updateFFController();
     }
 
-    if (setpoint != wristSetpoint.getDouble(0.0)) {
-      updateSetpoint();
+    if (goal != wristGoal.getDouble(0.0)) {
+      updateGoal();
+    }
+
+    if (WristConstants.MAX_VELOCITY != wristMaxVelocity.getDouble(0.0)
+        || WristConstants.MAX_ACCELERATION != wristMaxAcceleration.getDouble(0.0)) {
+      updateTrapezoidalConstraints();
     }
   }
 
@@ -92,10 +113,19 @@ public class Wrist extends SubsystemBase {
     wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
   }
 
-  /** Updates the setpoint from Shuffleboard */
-  public void updateSetpoint() {
-    setpoint = wristSetpoint.getDouble(0.0);
-    wristPIDController.setSetpoint(setpoint);
+  /** Updates the goal from Shuffleboard */
+  public void updateGoal() {
+    goal = wristGoal.getDouble(0.0);
+    wristPIDController.setGoal(goal);
+  }
+
+  /** Updates the Trapezoidal Constraints from the ShuffleBoard */
+  public void updateTrapezoidalConstraints() {
+    WristConstants.MAX_VELOCITY = wristMaxVelocity.getDouble(0.0);
+    WristConstants.MAX_ACCELERATION = wristMaxAcceleration.getDouble(0.0);
+    wristPIDController.setConstraints(
+        new TrapezoidProfile.Constraints(
+            WristConstants.MAX_VELOCITY, WristConstants.MAX_ACCELERATION));
   }
 
   /** Updates the PID values from Shuffleboard */
@@ -137,23 +167,23 @@ public class Wrist extends SubsystemBase {
   /**
    * Updates the angle that the Wrist should be at using the WPI PID controller
    *
-   * @param setpoint Angle (Radians)
+   * @param goal Angle (Radians)
    */
-  public void setSetpoint(double setpoint) {
-    wristPIDController.setSetpoint(setpoint);
+  public void setGoal(double goal) {
+    wristPIDController.setGoal(goal);
   }
 
-  /** Returns whether the Wrist is at it's setpoint or not */
-  public boolean atSetpoint() {
-    return wristPIDController.atSetpoint();
+  /** Returns whether the Wrist is at it's goal or not */
+  public boolean atGoal() {
+    return wristPIDController.atGoal();
   }
 
   /**
-   * Changes the angle setpoint of the Wrist
+   * Changes the angle goal of the Wrist
    *
    * @param increment Angle (Radians)
    */
-  public void incrementWristSetpoint(double increment) {
-    wristPIDController.setSetpoint(wristPIDController.getSetpoint() + increment);
+  public void incrementWristGoal(double increment) {
+    wristPIDController.setGoal(wristPIDController.getGoal().position + increment);
   }
 }

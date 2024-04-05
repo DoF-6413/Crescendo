@@ -459,20 +459,18 @@ public class RobotContainer {
         .povLeft()
         .onTrue(
             new RunCommand(
-                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(1)),
+                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
                 m_wristSubsystem))
-        .onFalse(
-            new RunCommand(() -> m_wristSubsystem.incrementWristSetpoint(0), m_wristSubsystem));
+        .onFalse(new RunCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem));
     ;
     // Decreases angle of the Wrist by 1 degree
     auxController
         .povRight()
         .onTrue(
             new RunCommand(
-                () -> m_wristSubsystem.incrementWristSetpoint(Units.degreesToRadians(-1)),
+                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
                 m_wristSubsystem))
-        .onFalse(
-            new RunCommand(() -> m_wristSubsystem.incrementWristSetpoint(0), m_wristSubsystem));
+        .onFalse(new RunCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem));
     ;
 
     /* Arm */
@@ -481,17 +479,15 @@ public class RobotContainer {
         .povUp()
         .onTrue(
             new RunCommand(
-                () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(1)),
-                m_armSubsystem))
-        .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmSetpoint(0), m_armSubsystem));
+                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)), m_armSubsystem))
+        .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
     // Decreases angle of the Arm by 1 degree
     auxController
         .povDown()
         .onTrue(
             new RunCommand(
-                () -> m_armSubsystem.incrementArmSetpoint(Units.degreesToRadians(-1)),
-                m_armSubsystem))
-        .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmSetpoint(0), m_armSubsystem));
+                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)), m_armSubsystem))
+        .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
     ;
 
     /* Climber */
@@ -618,8 +614,8 @@ public class RobotContainer {
 
   public void setAllSetpointsZero() {
     m_shooterSubsystem.setSetpoint(0);
-    m_wristSubsystem.setSetpoint(0);
-    m_armSubsystem.setSetpoint(0);
+    m_wristSubsystem.setGoal(0);
+    m_armSubsystem.setGoal(0);
     m_feederSubsystem.setSetpoint(0);
   }
 }

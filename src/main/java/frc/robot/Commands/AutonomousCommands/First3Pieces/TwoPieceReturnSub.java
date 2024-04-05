@@ -45,7 +45,7 @@ public class TwoPieceReturnSub extends SequentialCommandGroup {
         // new OnePieceAuto(wrist, feeder, shooter),
         // Commands.runOnce(
         //     () -> {
-        //       wrist.setSetpoint(0);
+        //       wrist.setGoal(0);
         //     },
         //     wrist),
         // new InstantCommand(() -> shooter.setSetpoint(0)),

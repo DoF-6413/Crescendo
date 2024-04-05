@@ -20,27 +20,21 @@ public class PositionToShoot extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              // feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
-              wrist.setSetpoint(
-                  angle); // TODO: update when shooter interpolation branch is merged to
-              // reference
-              // lookup table
-            },
-            feeder,
-            wrist),
-        new WaitUntilCommand(() -> wrist.atSetpoint()),
-        Commands.runOnce(
-            () -> {
               feeder.setSetpoint(-500);
             },
             feeder),
         new WaitCommand(0.3),
         Commands.runOnce(
             () -> {
+              // feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
+              wrist.setGoal(angle); // TODO: update when shooter interpolation branch is merged to
+              // reference
+              // lookup table
               shooter.setSetpoint(RPM);
               feeder.setSetpoint(0);
             },
-            shooter,
-            feeder));
+            feeder,
+            wrist,
+            shooter));
   }
 }
