@@ -77,18 +77,18 @@ public class Shooter extends SubsystemBase {
     Logger.processInputs("Shooter", inputs);
 
     // Sets the voltage of the Shooter Motors using PID
-    setTopPercentSpeed(
-        topShooterPIDController.calculateForVoltage(
-            inputs.topShooterMotorRPM, ShooterConstants.MAX_RPM));
-    // topShooterPIDController.calculate(inputs.topShooterMotorRPM)
-    //     + (topShooterFeedforward.calculate(inputs.topShooterMotorRPM)
-    //         / RobotStateConstants.BATTERY_VOLTAGE));
-    setBottomPercentSpeed(
-        bottomShooterPIDController.calculateForVoltage(
-            inputs.bottomShooterMotorRPM, ShooterConstants.MAX_RPM));
-    // bottomShooterPIDController.calculate(inputs.bottomShooterMotorRPM)
-    //     + (bottomShooterFeedforward.calculate(inputs.bottomShooterMotorRPM)
-    //         / RobotStateConstants.BATTERY_VOLTAGE));
+    // setTopPercentSpeed(
+    //     topShooterPIDController.calculateForVoltage(
+    //         inputs.topShooterMotorRPM, ShooterConstants.MAX_RPM));
+    // // topShooterPIDController.calculate(inputs.topShooterMotorRPM)
+    // //     + (topShooterFeedforward.calculate(inputs.topShooterMotorRPM)
+    // //         / RobotStateConstants.BATTERY_VOLTAGE));
+    // setBottomPercentSpeed(
+    //     bottomShooterPIDController.calculateForVoltage(
+    //         inputs.bottomShooterMotorRPM, ShooterConstants.MAX_RPM));
+    // // bottomShooterPIDController.calculate(inputs.bottomShooterMotorRPM)
+    // //     + (bottomShooterFeedforward.calculate(inputs.bottomShooterMotorRPM)
+    // //         / RobotStateConstants.BATTERY_VOLTAGE));
 
     if (ShooterConstants.KP != shooterkP.getDouble(0.0)
         || ShooterConstants.KI != shooterkI.getDouble(0.0)

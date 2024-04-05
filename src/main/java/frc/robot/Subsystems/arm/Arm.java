@@ -4,12 +4,12 @@
 
 package frc.robot.Subsystems.arm;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotStateConstants;
 import org.littletonrobotics.junction.Logger;
@@ -18,7 +18,8 @@ public class Arm extends SubsystemBase {
 
   private final ArmIO io;
   private final ArmIOInputsAutoLogged armInputs = new ArmIOInputsAutoLogged();
-  private final ProfiledPIDController armPIDController;
+  // private final ProfiledPIDController armPIDController;
+  private final PIDController armPIDController;
   private SimpleMotorFeedforward armFeedforward;
   private final ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
   private static GenericEntry armkP;
@@ -37,14 +38,16 @@ public class Arm extends SubsystemBase {
     this.io = io;
 
     // Initalizing the Arm PID Contoller
-    armPIDController =
-        new ProfiledPIDController(
-            ArmConstants.KP,
-            ArmConstants.KI,
-            ArmConstants.KD,
-            new TrapezoidProfile.Constraints(
-                ArmConstants.MAX_VELOCITY, ArmConstants.MAX_ACCELERATION));
-    armPIDController.setGoal(0);
+    armPIDController = new PIDController(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
+    // armPIDController =
+    //     new ProfiledPIDController(
+    //         ArmConstants.KP,
+    //         ArmConstants.KI,
+    //         ArmConstants.KD,
+    //         new TrapezoidProfile.Constraints(
+    //             ArmConstants.MAX_VELOCITY, ArmConstants.MAX_ACCELERATION));
+    // armPIDController.setGoal(0);
+    armPIDController.setSetpoint(0);
     armPIDController.setTolerance(ArmConstants.ANGLE_TOLERANCE);
     armPIDController.disableContinuousInput();
 
@@ -52,6 +55,9 @@ public class Arm extends SubsystemBase {
     armFeedforward = new SimpleMotorFeedforward(ArmConstants.KS, ArmConstants.KV, ArmConstants.KA);
 
     // TODO: Delete once final PID Numbers are Decided
+    SmartDashboard.putNumber("armkP", 0.0);
+    SmartDashboard.putNumber("armkI", 0.0);
+    SmartDashboard.putNumber("armkD", 0.0);
     armkP = armTab.add("armkp", 1.0).getEntry();
     armkI = armTab.add("armki", 0.0).getEntry();
     armkD = armTab.add("armkd", 0.0).getEntry();
@@ -93,10 +99,10 @@ public class Arm extends SubsystemBase {
       updateGoal();
     }
 
-    if (ArmConstants.MAX_VELOCITY != armMaxVelocity.getDouble(0.0)
-        || ArmConstants.MAX_ACCELERATION != armMaxAcceleration.getDouble(0.0)) {
-      updateTrapezoidalConstraints();
-    }
+    // if (ArmConstants.MAX_VELOCITY != armMaxVelocity.getDouble(0.0)
+    //     || ArmConstants.MAX_ACCELERATION != armMaxAcceleration.getDouble(0.0)) {
+    //   updateTrapezoidalConstraints();
+    // }
   }
 
   /** Updates the PID values for the Arm from ShuffleBoard */
@@ -110,16 +116,18 @@ public class Arm extends SubsystemBase {
   /** Updates the Goal from ShuffleBoard */
   public void updateGoal() {
     goal = armGoal.getDouble(0.0);
-    armPIDController.setGoal(goal);
+    armPIDController.setSetpoint(goal);
+    // armPIDController.setGoal(goal);
   }
 
   /** Updates the Trapezoidal Constraints from the ShuffleBoard */
-  public void updateTrapezoidalConstraints() {
-    ArmConstants.MAX_VELOCITY = armMaxVelocity.getDouble(0.0);
-    ArmConstants.MAX_ACCELERATION = armMaxAcceleration.getDouble(0.0);
-    armPIDController.setConstraints(
-        new TrapezoidProfile.Constraints(ArmConstants.MAX_VELOCITY, ArmConstants.MAX_ACCELERATION));
-  }
+  // public void updateTrapezoidalConstraints() {
+  //   ArmConstants.MAX_VELOCITY = armMaxVelocity.getDouble(0.0);
+  //   ArmConstants.MAX_ACCELERATION = armMaxAcceleration.getDouble(0.0);
+  //   armPIDController.setConstraints(
+  //       new TrapezoidProfile.Constraints(ArmConstants.MAX_VELOCITY,
+  // ArmConstants.MAX_ACCELERATION));
+  // }
 
   /** Updates the FF values from Shuffleboard */
   public void updateFFController() {
@@ -167,11 +175,13 @@ public class Arm extends SubsystemBase {
    * @param goal Angle (Radians)
    */
   public void setGoal(double goal) {
-    armPIDController.setGoal(goal);
+    armPIDController.setSetpoint(goal);
+    // armPIDController.setGoal(goal);
   }
 
   public double getGoal() {
-    return armPIDController.getGoal().position;
+    return armPIDController.getSetpoint();
+    // return armPIDController.getGoal().position;
   }
   /**
    * Changes the angle goal of the Arm
@@ -179,11 +189,13 @@ public class Arm extends SubsystemBase {
    * @param increment Angle (Radians)
    */
   public void incrementArmGoal(double increment) {
-    armPIDController.setGoal(armPIDController.getGoal().position + increment);
+    armPIDController.setSetpoint(armPIDController.getSetpoint() + increment);
+    // armPIDController.setGoal(armPIDController.getGoal().position + increment);
   }
 
   /** Returns whether the arm is at its goal or not */
   public boolean atGoal() {
-    return armPIDController.atGoal();
+    return armPIDController.atSetpoint();
+    // return armPIDController.atGoal();
   }
 }

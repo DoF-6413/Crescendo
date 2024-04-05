@@ -582,12 +582,10 @@ public class RobotContainer {
     //         new InstantCommand(
     //             () -> m_driveSubsystem.moduleSteerDirectly(Units.degreesToRadians(90)),
     //             m_driveSubsystem));
-  }
 
-  // m_shooterSubsystem.setDefaultCommand(
-  //     new InstantCommand(
-  //         () -> m_shooterSubsystem.enableShooter(auxController.a().getAsBoolean()),
-  //         m_shooterSubsystem));
+    // driverController.getHID().setRumble(RumbleType.kRightRumble, 1);
+    // auxController.getHID().setRumble(RumbleType.kBothRumble, 1);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

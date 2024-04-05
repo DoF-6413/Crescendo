@@ -7,13 +7,12 @@ public final class WristConstants {
   // TODO: tune & finalize
 
   /** Represents the proportional constant, multiplied by the current error */
-  public static double KP = 1.2;
+  public static double KP = 0.0; // 1.15
   /** Represents the integral constant, multiplied by the total error */
   public static double KI = 0.0;
   /** Represents the derivative constant, multiplied by the change in error */
-  public static double KD = 0.0;
+  public static double KD = 0.0; // 0.15
   /** */
-  public static double MAX_VELOCITY = 0.0;
   /** */
   public static double MAX_ACCELERATION = 0.0;
 
@@ -27,7 +26,7 @@ public final class WristConstants {
   public static double KA = 0.0;
 
   /** The position of the Wrist can be within 2 degree of the setpoint */
-  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(2);
+  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(0.5);
 
   // Sim Constants
   /** Moment of inertia for the Wrist */
@@ -48,6 +47,8 @@ public final class WristConstants {
 
   /** Gear ratio of the Wrist motor */
   public static final double GEAR_RATIO = 58.33;
+
+  public static final double MAX_VELOCITY = (Units.degreesToRotations(245.65) / GEAR_RATIO);
 
   /** Length from the Wrist */
   public static final double LENGTH_M = 0.4126308486;
