@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.AutonomousCommands.First3Pieces;
+package frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -16,13 +16,13 @@ import frc.robot.Subsystems.wrist.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class OnePieceLeaveCenter extends SequentialCommandGroup {
-  /** Creates a new OnePieceLeaveAuto. */
-  public OnePieceLeaveCenter(
-      Drive drive,
+public class OnePieceLeaveCoolSide extends SequentialCommandGroup {
+  /** Creates a new OnePieceLeaveCoolSide. */
+  public OnePieceLeaveCoolSide(
       Wrist wrist,
       Feeder feeder,
       Shooter shooter,
+      Drive drive,
       double seconds,
       double speed,
       Gyro gyro) {
@@ -37,7 +37,7 @@ public class OnePieceLeaveCenter extends SequentialCommandGroup {
         new OnePieceAuto(wrist, feeder, shooter),
         Commands.runOnce(
             () -> {
-              drive.setRaw(0, speed, 0);
+              drive.setRawWithAdjustedHeading(0, speed, 0, gyro.adjustedYaw(-60));
             },
             drive),
         new WaitCommand(seconds),

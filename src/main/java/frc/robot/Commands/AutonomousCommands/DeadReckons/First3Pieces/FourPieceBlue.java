@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.AutonomousCommands.First3Pieces;
+package frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -21,9 +21,9 @@ import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Subsystems.wrist.Wrist;
 
-public class FourPieceRed extends SequentialCommandGroup {
+public class FourPieceBlue extends SequentialCommandGroup {
   /** Creates a new FourPieceBlue. */
-  public FourPieceRed(
+  public FourPieceBlue(
       Drive drive,
       Gyro gyro,
       Wrist wrist,
@@ -43,7 +43,7 @@ public class FourPieceRed extends SequentialCommandGroup {
               gyro.zeroYaw();
             },
             gyro),
-        new ThreePieceAutoRed(
+        new ThreePieceAutoBlue(
             drive, gyro, wrist, arm, feeder, shooter, actuator, otbIntake, utbIntake, seconds,
             speed),
 
@@ -58,7 +58,7 @@ public class FourPieceRed extends SequentialCommandGroup {
         // go to note and rotate to be staight
         Commands.runOnce(
             () -> {
-              drive.setRaw(1.0, 0.0, 0.3);
+              drive.setRaw(1.0, 0.0, -0.3);
             },
             drive),
         new WaitCommand(0.1),
@@ -73,7 +73,7 @@ public class FourPieceRed extends SequentialCommandGroup {
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
-                  drive.setRaw(0, 1.0, 0.0);
+                  drive.setRaw(0.0, 1.0, 0.0);
                 },
                 drive),
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
@@ -83,7 +83,7 @@ public class FourPieceRed extends SequentialCommandGroup {
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
-                  drive.setRaw(0.0, 0.0, 0.3);
+                  drive.setRaw(0.0, 0.0, -0.3);
                 },
                 drive),
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true)),
