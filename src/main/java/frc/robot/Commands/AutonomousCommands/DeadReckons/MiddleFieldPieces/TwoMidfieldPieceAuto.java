@@ -2,13 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.AutonomousCommands.MiddleFieldPieces;
+package frc.robot.Commands.AutonomousCommands.DeadReckons.MiddleFieldPieces;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Commands.AutonomousCommands.First3Pieces.OnePieceAuto;
+import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Subsystems.actuator.Actuator;
@@ -17,6 +17,7 @@ import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.otbIntake.OTBIntake;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Subsystems.wrist.*;
 
@@ -73,6 +74,7 @@ public class TwoMidfieldPieceAuto extends SequentialCommandGroup {
             () -> {
               drive.setRaw(0, -speedY, 0);
             }),
-        new PositionToShoot(feeder, shooter, wrist, WristConstants.PODIUM_RAD, 4000));
+        new PositionToShoot(
+            feeder, shooter, wrist, WristConstants.PODIUM_RAD, ShooterConstants.CLOSE_RPM));
   }
 }

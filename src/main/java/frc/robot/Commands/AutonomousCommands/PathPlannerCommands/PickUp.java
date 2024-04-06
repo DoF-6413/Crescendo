@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.AutoCommands;
+package frc.robot.Commands.AutonomousCommands.PathPlannerCommands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -35,11 +35,9 @@ public class PickUp extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ParallelCommandGroup(
-        new InstantCommand(()-> actuator.setActuatorSetpoint(actuatorPosition)),
-        new InstantCommand(()-> otb.setOTBIntakePercentSpeed(otbIntakePercentSpeed)),
-        new InstantCommand(()-> utb.setUTBIntakePercentSpeed(utbIntakePercentSpeed))
-      )
-    );
+        new ParallelCommandGroup(
+            new InstantCommand(() -> actuator.setActuatorSetpoint(actuatorPosition)),
+            new InstantCommand(() -> otb.setOTBIntakePercentSpeed(otbIntakePercentSpeed)),
+            new InstantCommand(() -> utb.setUTBIntakePercentSpeed(utbIntakePercentSpeed))));
   }
 }

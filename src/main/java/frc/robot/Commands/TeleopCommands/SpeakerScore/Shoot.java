@@ -48,8 +48,8 @@ public class Shoot extends SequentialCommandGroup {
                           feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
                         },
                         feeder),
-                    () -> arm.getSetpoint() == ArmConstants.AMP_BACK_SIDE_RAD),
-                () -> arm.getSetpoint() == ArmConstants.AMP_FRONT_SIDE_RAD),
-            () -> arm.getSetpoint() == 0));
+                    () -> arm.getGoal() == ArmConstants.AMP_BACK_SIDE_RAD),
+                () -> arm.getGoal() == ArmConstants.AMP_FRONT_SIDE_RAD),
+            () -> arm.getGoal() == 0));
   }
 }

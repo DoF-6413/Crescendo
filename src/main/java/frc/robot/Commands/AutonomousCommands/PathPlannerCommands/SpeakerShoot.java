@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.AutoCommands;
+package frc.robot.Commands.AutonomousCommands.PathPlannerCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -11,7 +11,9 @@ import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.wrist.Wrist;
+import frc.robot.Subsystems.wrist.WristConstants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,8 +24,9 @@ public class SpeakerShoot extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new PositionToShoot(feeder, shooter, wrist, 27, 4000),
-        new WaitUntilCommand(()-> wrist.atSetpoint()),
-         new Shoot(feeder, arm, shooter));
+        new PositionToShoot(
+            feeder, shooter, wrist, WristConstants.SUBWOOFER_RAD, ShooterConstants.CLOSE_RPM),
+        new WaitUntilCommand(() -> wrist.atGoal()),
+        new Shoot(feeder, arm, shooter));
   }
 }

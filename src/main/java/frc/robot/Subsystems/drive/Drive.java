@@ -10,9 +10,9 @@ import edu.wpi.first.math.kinematics.*; // ChassisSpeeds, SwerveDriveKinematics,
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*; // Timer
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Commands.HeadingController;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
+import frc.robot.Utils.HeadingController;
 import org.littletonrobotics.junction.Logger; // Logger
 
 /** This Runs the full Swerve (All Modules) for all Modes of the Robot */
@@ -65,10 +65,6 @@ public class Drive extends SubsystemBase {
 
     runSwerveModules(getAdjustedSpeeds());
     getMeasuredStates();
-
-    //   for (int i = 0; i < 4; i++) {
-    //     modules[i].runSetpoint(steerSetpoint);
-    //   }
   }
 
   /** Puts robot to coast mode on disable */
