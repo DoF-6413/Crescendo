@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.RobotStateConstants;
+
 import org.littletonrobotics.junction.Logger;
 
 public class Arm extends SubsystemBase {
@@ -20,6 +22,7 @@ public class Arm extends SubsystemBase {
   // private final ProfiledPIDController armPIDController;
   private final PIDController armPIDController;
   private SimpleMotorFeedforward armFeedforward;
+  private boolean isEnabled = true;
   private final ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
   private static GenericEntry armkP;
   private static GenericEntry armkI;
@@ -74,13 +77,15 @@ public class Arm extends SubsystemBase {
     this.updateInputs();
     // log the inputs
     Logger.processInputs("Arm", armInputs);
-
+    
     // Updates Arm Speed based on PID Control
-    // setArmPercentSpeed(
-    //     armPIDController.calculate(armInputs.armAbsolutePositionRad)
-    //         + (armFeedforward.calculate(armInputs.armVelocityRadPerSec)
-    //             / RobotStateConstants
-    //                 .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
+    if(isEnabled){  
+      setArmPercentSpeed(
+          armPIDController.calculate(armInputs.armAbsolutePositionRad)
+              + (armFeedforward.calculate(armInputs.armVelocityRadPerSec)
+                  / RobotStateConstants
+                      .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
+    }
 
     if (ArmConstants.KP != armkP.getDouble(0.0)
         || ArmConstants.KI != armkI.getDouble(0.0)
@@ -196,5 +201,12 @@ public class Arm extends SubsystemBase {
   public boolean atGoal() {
     return armPIDController.atSetpoint();
     // return armPIDController.atGoal();
+  }
+
+    /**
+   * @param enabled True = Enable, False = Disable
+   */
+  public void enablePID(boolean enabled){
+    isEnabled = enabled;
   }
 }

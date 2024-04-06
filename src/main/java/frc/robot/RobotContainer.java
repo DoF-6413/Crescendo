@@ -350,6 +350,53 @@ public class RobotContainer {
 
     /** Driver Controls */
 
+    
+
+    /** Aux Controls */
+
+    // Brings Actuator back to its default position (all the way up)
+    
+
+
+    // driverController.getHID().setRumble(RumbleType.kRightRumble, 1);
+    // auxController.getHID().setRumble(RumbleType.kBothRumble, 1);
+  }
+
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    // PathPlannerPath path = PathPlannerPath.fromPathFile("Curve");
+    // return AutoBuilder.followPath(path);
+    // return new PathPlannerAuto("Curve");
+    return autoChooser.get();
+  }
+
+  /** Either Coast or Brake mechanisms depending on Disable or Enable */
+  public void mechanismsCoastOnDisable(boolean isDisabled) {
+    m_driveSubsystem.coastOnDisable(isDisabled);
+    m_armSubsystem.setBrakeMode(!isDisabled);
+    m_wristSubsystem.setBrakeMode(!isDisabled);
+    m_actuatorSubsystem.setBrakeMode(!isDisabled);
+    m_shooterSubsystem.setBrakeMode(!isDisabled);
+    m_utbIntakeSubsystem.setUTBIntakeBrakeMode(!isDisabled);
+    m_otbIntakeSubsystem.setBrakeMode(!isDisabled);
+  }
+  public void enablePID(boolean enabe) {
+    m_armSubsystem.enablePID(enabe);
+    m_wristSubsystem.enablePID(enabe);
+  }
+
+  public void setAllSetpointsZero() {
+    m_shooterSubsystem.setSetpoint(0);
+    m_wristSubsystem.setGoal(0);
+    m_armSubsystem.setGoal(0);
+    m_feederSubsystem.setSetpoint(0);
+  }
+
+  public void driverControllerBindings(){
     // Driving the robot
     m_driveSubsystem.setDefaultCommand(new DefaultDriveCommand(m_driveSubsystem, driverController));
 
@@ -357,9 +404,6 @@ public class RobotContainer {
     driverController
         .a()
         .onTrue(new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
-
-    driverController.b().onTrue(new PathPlannerAuto("2 meter forwards"));
-    driverController.x().onTrue(new PathPlannerAuto("2 meter backwards"));
 
     /* UTB Intake */
     // Intake NOTE
@@ -408,10 +452,9 @@ public class RobotContainer {
                 m_utbIntakeSubsystem,
                 m_feederSubsystem,
                 true));
+  }
 
-    /** Aux Controls */
-
-    // Brings Actuator back to its default position (all the way up)
+  public void auxControllerBindings(){
     auxController
         .start()
         .onTrue(
@@ -573,57 +616,6 @@ public class RobotContainer {
         .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-
-    // driverController
-    //     .y()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () -> m_driveSubsystem.moduleSteerDirectly(Units.degreesToRadians(30)),
-    //             m_driveSubsystem));
-    // driverController
-    //     .b()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () -> m_driveSubsystem.moduleSteerDirectly(Units.degreesToRadians(60)),
-    //             m_driveSubsystem));
-    // driverController
-    //     .a()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () -> m_driveSubsystem.moduleSteerDirectly(Units.degreesToRadians(90)),
-    //             m_driveSubsystem));
-
-    // driverController.getHID().setRumble(RumbleType.kRightRumble, 1);
-    // auxController.getHID().setRumble(RumbleType.kBothRumble, 1);
   }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // PathPlannerPath path = PathPlannerPath.fromPathFile("Curve");
-    // return AutoBuilder.followPath(path);
-    // return new PathPlannerAuto("Curve");
-    return autoChooser.get();
-  }
-
-  /** Either Coast or Brake mechanisms depending on Disable or Enable */
-  public void mechanismsCoastOnDisable(boolean isDisabled) {
-    m_driveSubsystem.coastOnDisable(isDisabled);
-    m_armSubsystem.setBrakeMode(!isDisabled);
-    m_wristSubsystem.setBrakeMode(!isDisabled);
-    m_actuatorSubsystem.setBrakeMode(!isDisabled);
-    m_shooterSubsystem.setBrakeMode(!isDisabled);
-    m_utbIntakeSubsystem.setUTBIntakeBrakeMode(!isDisabled);
-    m_otbIntakeSubsystem.setBrakeMode(!isDisabled);
-  }
-
-  public void setAllSetpointsZero() {
-    m_shooterSubsystem.setSetpoint(0);
-    m_wristSubsystem.setGoal(0);
-    m_armSubsystem.setGoal(0);
-    m_feederSubsystem.setSetpoint(0);
-  }
+  public void devControllerBindings(){}
 }

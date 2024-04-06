@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.RobotStateConstants;
+
 import org.littletonrobotics.junction.Logger;
 
 public class Wrist extends SubsystemBase {
@@ -23,6 +25,7 @@ public class Wrist extends SubsystemBase {
   private final PIDController wristPIDController;
 
   private SimpleMotorFeedforward wristFeedforward;
+  private boolean isEnabled = true;
   private final ShuffleboardTab wristTab = Shuffleboard.getTab("Wrist");
   private static double kP = 0.0;
   private static double kI = 0.0;
@@ -78,11 +81,14 @@ public class Wrist extends SubsystemBase {
     /** Periodically updates inputs and logs them */
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
-    // setWristPercentSpeed(
-    //     wristPIDController.calculate(inputs.wristAbsolutePositionRad)
-    //         + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
-    //             / RobotStateConstants
-    //                 .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
+    if(isEnabled){
+
+      setWristPercentSpeed(
+          wristPIDController.calculate(inputs.wristAbsolutePositionRad)
+              + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
+                  / RobotStateConstants
+                      .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
+    }
 
     if (
     // kP != wristkp.getDouble(0.0)
@@ -203,5 +209,12 @@ public class Wrist extends SubsystemBase {
   public void incrementWristGoal(double increment) {
     // wristPIDController.setGoal(wristPIDController.getGoal().position + increment);
     wristPIDController.setSetpoint(wristPIDController.getSetpoint() + increment);
+  }
+
+  /**
+   * @param enabled True = Enable, False = Disable
+   */
+  public void enablePID(boolean enabled){
+    isEnabled = enabled;
   }
 }
