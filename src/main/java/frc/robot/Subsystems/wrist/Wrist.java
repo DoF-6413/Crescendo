@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotStateConstants;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Wrist extends SubsystemBase {
@@ -81,7 +80,7 @@ public class Wrist extends SubsystemBase {
     /** Periodically updates inputs and logs them */
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
-    if(isEnabled){
+    if (isEnabled) {
 
       setWristPercentSpeed(
           wristPIDController.calculate(inputs.wristAbsolutePositionRad)
@@ -214,7 +213,7 @@ public class Wrist extends SubsystemBase {
   /**
    * @param enabled True = Enable, False = Disable
    */
-  public void enablePID(boolean enabled){
+  public void enablePID(boolean enabled) {
     isEnabled = enabled;
   }
 }

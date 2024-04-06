@@ -70,7 +70,6 @@ public class RobotContainer {
   // Mechanisms
   private final Arm m_armSubsystem;
   //   private final Vision m_visionSubsystem;
-  //   private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
@@ -87,8 +86,7 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
   private final CommandXboxController auxController =
       new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
-  private final CommandXboxController devController =
-      new CommandXboxController(2);
+  private final CommandXboxController devController = new CommandXboxController(2);
 
   // Autos
   private final LoggedDashboardChooser<Command> autoChooser =
@@ -109,7 +107,6 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         // m_visionSubsystem = new Vision(new VisionIOArduCam());
-        // m_climberSubsystem = new Climber(new ClimberIOTalonFX());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
@@ -130,7 +127,6 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
         // m_visionSubsystem = new Vision(new VisionIOSim());
-        // m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
@@ -151,7 +147,6 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
         // m_visionSubsystem = new Vision(new VisionIO() {});
-        // m_climberSubsystem = new Climber(new ClimberIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
@@ -349,14 +344,10 @@ public class RobotContainer {
     // A default command always runs unless another command is called
 
     /** Driver Controls */
-
-    
+    this.driverControllerBindings();
 
     /** Aux Controls */
-
-    // Brings Actuator back to its default position (all the way up)
-    
-
+    this.auxControllerBindings();
 
     // driverController.getHID().setRumble(RumbleType.kRightRumble, 1);
     // auxController.getHID().setRumble(RumbleType.kBothRumble, 1);
@@ -384,6 +375,7 @@ public class RobotContainer {
     m_utbIntakeSubsystem.setUTBIntakeBrakeMode(!isDisabled);
     m_otbIntakeSubsystem.setBrakeMode(!isDisabled);
   }
+
   public void enablePID(boolean enabe) {
     m_armSubsystem.enablePID(enabe);
     m_wristSubsystem.enablePID(enabe);
@@ -396,7 +388,7 @@ public class RobotContainer {
     m_feederSubsystem.setSetpoint(0);
   }
 
-  public void driverControllerBindings(){
+  public void driverControllerBindings() {
     // Driving the robot
     m_driveSubsystem.setDefaultCommand(new DefaultDriveCommand(m_driveSubsystem, driverController));
 
@@ -454,7 +446,7 @@ public class RobotContainer {
                 true));
   }
 
-  public void auxControllerBindings(){
+  public void auxControllerBindings() {
     auxController
         .start()
         .onTrue(
@@ -535,12 +527,6 @@ public class RobotContainer {
         .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
     ;
 
-    /* Climber */
-    // m_climberSubsystem.setDefaultCommand(
-    //     new InstantCommand(
-    //         () -> m_climberSubsystem.setClimberPercentSpeed(-auxController.getLeftY()),
-    //         m_climberSubsystem));
-
     // /* Scoring SPEAKER when up against it */
     auxController
         .leftTrigger()
@@ -567,34 +553,6 @@ public class RobotContainer {
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
-    m_wristSubsystem.setDefaultCommand(
-        new RunCommand(
-            () -> m_wristSubsystem.setWristPercentSpeed(auxController.getLeftY()),
-            m_wristSubsystem));
-    m_armSubsystem.setDefaultCommand(
-        new RunCommand(
-            () -> m_armSubsystem.setArmPercentSpeed(auxController.getRightY()), m_armSubsystem));
-
-    // /* Scoring SPEAKER when up against the BACK STAGE LEG (3 diff versions for easy use) */
-    // sauxController
-    //     .back()
-    //     .onTrue(
-    //         new OverShot(m_armSubsystem, m_feederSubsystem, m_shooterSubsystem,
-    // m_wristSubsystem))
-    //     .onFalse(
-    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-    // m_feederSubsystem));
-    // ;
-    // // auxController
-    // //     .back()
-    // //     .onTrue(
-    // //         new PositionToShoot(
-    // //             m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem, -3.5,
-    // ShooterConstants.CLOSE_RPM))
-    // //     .onFalse(
-    // //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-    // // m_feederSubsystem));
-
     /* AMP Scoring */
     // Scoring AMP from the frontside
     auxController
@@ -617,5 +575,33 @@ public class RobotContainer {
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
   }
-  public void devControllerBindings(){}
+
+  public void devControllerBindings() {
+    devController
+        .back()
+        .onTrue(new InstantCommand(() -> this.enablePID(false), m_wristSubsystem, m_armSubsystem));
+    devController
+        .start()
+        .onTrue(new InstantCommand(() -> this.enablePID(true), m_wristSubsystem, m_armSubsystem));
+    
+    m_wristSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> m_wristSubsystem.setWristPercentSpeed(devController.getRightY()),
+            m_wristSubsystem));
+    m_armSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> m_armSubsystem.setArmPercentSpeed(devController.getLeftY()), m_armSubsystem));
+    devController.leftTrigger().onTrue(new InstantCommand(()-> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM), m_shooterSubsystem)).onFalse(getAutonomousCommand()).
+    onFalse(new InstantCommand(()-> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem)).onFalse(getAutonomousCommand());
+    devController.rightTrigger().onTrue(new InstantCommand(()-> m_shooterSubsystem.setBothPercentSpeed(0.65), m_shooterSubsystem)).onFalse(new InstantCommand(()-> m_shooterSubsystem.setBothPercentSpeed(0.0), m_shooterSubsystem));
+    devController.a().onTrue(new InstantCommand(()-> m_feederSubsystem.setFeederPercentSpeed(-0.2), m_feederSubsystem)).onFalse(new InstantCommand(()-> m_feederSubsystem.setFeederPercentSpeed(0), m_feederSubsystem));
+    devController.y().onTrue(new InstantCommand(()-> m_feederSubsystem.setFeederPercentSpeed(0.4), m_feederSubsystem)).onFalse(new InstantCommand(()-> m_feederSubsystem.setFeederPercentSpeed(0), m_feederSubsystem));
+    devController.y().onTrue(new InstantCommand(()-> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM), m_feederSubsystem)).onFalse(new InstantCommand(()-> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
+    devController.x().onTrue(new InstantCommand(()-> m_feederSubsystem.setSetpoint(-500), m_feederSubsystem)).onFalse(new InstantCommand(()-> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
+
+    //pov buttons on aux controller, switch over when best suited
+
+
+
+  }
 }

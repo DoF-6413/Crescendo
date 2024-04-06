@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotStateConstants;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Arm extends SubsystemBase {
@@ -77,9 +76,9 @@ public class Arm extends SubsystemBase {
     this.updateInputs();
     // log the inputs
     Logger.processInputs("Arm", armInputs);
-    
+
     // Updates Arm Speed based on PID Control
-    if(isEnabled){  
+    if (isEnabled) {
       setArmPercentSpeed(
           armPIDController.calculate(armInputs.armAbsolutePositionRad)
               + (armFeedforward.calculate(armInputs.armVelocityRadPerSec)
@@ -203,10 +202,10 @@ public class Arm extends SubsystemBase {
     // return armPIDController.atGoal();
   }
 
-    /**
+  /**
    * @param enabled True = Enable, False = Disable
    */
-  public void enablePID(boolean enabled){
+  public void enablePID(boolean enabled) {
     isEnabled = enabled;
   }
 }
