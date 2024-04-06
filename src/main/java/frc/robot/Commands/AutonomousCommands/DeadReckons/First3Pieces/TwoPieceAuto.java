@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.AutonomousCommands.First3Pieces;
+package frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -17,6 +17,7 @@ import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.otbIntake.OTBIntake;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Subsystems.wrist.*;
 
@@ -48,7 +49,7 @@ public class TwoPieceAuto extends SequentialCommandGroup {
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {
-                  wrist.setSetpoint(0);
+                  wrist.setGoal(0);
                 },
                 wrist),
             new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
@@ -64,6 +65,7 @@ public class TwoPieceAuto extends SequentialCommandGroup {
             },
             drive),
         new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
-        new PositionToShoot(feeder, shooter, wrist, WristConstants.PODIUM_RAD, 4000));
+        new PositionToShoot(
+            feeder, shooter, wrist, WristConstants.PODIUM_RAD, ShooterConstants.CLOSE_RPM));
   }
 }

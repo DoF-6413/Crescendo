@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.AutonomousCommands.First3Pieces;
+package frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -22,6 +22,7 @@ import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Subsystems.wrist.Wrist;
+import frc.robot.Subsystems.wrist.WristConstants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -53,7 +54,7 @@ public class ThreePieceAutoBlue extends SequentialCommandGroup {
         new OnePieceAuto(wrist, feeder, shooter),
         Commands.runOnce(
             () -> {
-              wrist.setSetpoint(0);
+              wrist.setGoal(0);
             },
             wrist),
         new InstantCommand(() -> shooter.setSetpoint(0)),
@@ -80,7 +81,8 @@ public class ThreePieceAutoBlue extends SequentialCommandGroup {
                   shooter.setTolerance(500);
                 },
                 drive),
-            new PositionToShoot(feeder, shooter, wrist, 27, 4000)),
+            new PositionToShoot(
+                feeder, shooter, wrist, WristConstants.SUBWOOFER_RAD, ShooterConstants.CLOSE_RPM)),
         new WaitCommand(seconds),
         new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
         Commands.runOnce(
@@ -95,7 +97,7 @@ public class ThreePieceAutoBlue extends SequentialCommandGroup {
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Commands.runOnce(
             () -> {
-              wrist.setSetpoint(0);
+              wrist.setGoal(0);
             },
             wrist),
         new InstantCommand(() -> shooter.setSetpoint(0)),
@@ -114,7 +116,8 @@ public class ThreePieceAutoBlue extends SequentialCommandGroup {
             drive),
         new WaitCommand(1.4),
         new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
-        new PositionToShoot(feeder, shooter, wrist, -0.5, 4000),
+        new PositionToShoot(
+            feeder, shooter, wrist, WristConstants.PODIUM_RAD, ShooterConstants.CLOSE_RPM),
         Commands.runOnce(
             () -> {
               drive.setRaw(0, 0, 0);

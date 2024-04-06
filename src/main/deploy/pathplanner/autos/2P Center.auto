@@ -30,7 +30,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "PickUp"
+                  "name": "UTB"
                 }
               },
               {
@@ -43,6 +43,12 @@
                 "type": "named",
                 "data": {
                   "name": "StopFeeder"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroWrist"
                 }
               }
             ]
@@ -75,7 +81,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Feeder"
+            "name": "SpeakerShot"
           }
         }
       ]

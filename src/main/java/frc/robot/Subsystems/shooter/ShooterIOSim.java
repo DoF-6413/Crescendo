@@ -40,24 +40,34 @@ public class ShooterIOSim implements ShooterIO {
   }
 
   @Override
-  public void setBothShooterMotorPercentSpeed(double percent) {
+  public void setBothPercentSpeed(double percent) {
     topShooterFlywheel.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
     bottomShooterFlywheel.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
   }
 
   @Override
-  public void setBothShooterMotorsVoltage(double volts) {
+  public void setTopPercentSpeed(double percent) {
+    topShooterFlywheel.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
+  }
+
+  @Override
+  public void setBottomPercentSpeed(double percent) {
+    bottomShooterFlywheel.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
+  }
+
+  @Override
+  public void setBothVoltage(double volts) {
     topShooterFlywheel.setInputVoltage(volts);
     bottomShooterFlywheel.setInputVoltage(volts);
   }
 
   @Override
-  public void setTopShooterMotorVoltage(double volts) {
+  public void setTopVoltage(double volts) {
     topShooterFlywheel.setInputVoltage(volts);
   }
 
   @Override
-  public void setBottomShooterMotorVoltage(double volts) {
+  public void setBottomVoltage(double volts) {
     bottomShooterFlywheel.setInputVoltage(volts);
   }
 }

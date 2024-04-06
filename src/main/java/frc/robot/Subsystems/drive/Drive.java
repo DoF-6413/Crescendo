@@ -10,9 +10,9 @@ import edu.wpi.first.math.kinematics.*; // ChassisSpeeds, SwerveDriveKinematics,
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*; // Timer
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Commands.HeadingController;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
+import frc.robot.Utils.HeadingController;
 import org.littletonrobotics.junction.Logger; // Logger
 
 /** This Runs the full Swerve (All Modules) for all Modes of the Robot */
@@ -65,10 +65,6 @@ public class Drive extends SubsystemBase {
 
     runSwerveModules(getAdjustedSpeeds());
     getMeasuredStates();
-
-    //   for (int i = 0; i < 4; i++) {
-    //     modules[i].runSetpoint(steerSetpoint);
-    //   }
   }
 
   /** Puts robot to coast mode on disable */
@@ -210,6 +206,19 @@ public class Drive extends SubsystemBase {
             linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
             linearVelocity.getY() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
             omega * DriveConstants.MAX_ANGULAR_SPEED_RAD_PER_SEC,
+            this.getRotation()));
+  }
+
+  public void PathplannerWithHeadingController(ChassisSpeeds chassisSpeeds) {
+    double omega = chassisSpeeds.omegaRadiansPerSecond;
+
+    headingSetpoint = getRotation().plus(new Rotation2d(omega * Units.degreesToRadians(60)));
+
+    this.runVelocity(
+        ChassisSpeeds.fromRobotRelativeSpeeds(
+            chassisSpeeds.vxMetersPerSecond,
+            chassisSpeeds.vyMetersPerSecond,
+            headingController.update(headingSetpoint, getRotation(), gyro.getRate()),
             this.getRotation()));
   }
 

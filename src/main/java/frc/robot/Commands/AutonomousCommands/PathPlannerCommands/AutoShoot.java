@@ -2,12 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.AutonomousCommands.First3Pieces;
+package frc.robot.Commands.AutonomousCommands.PathPlannerCommands;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Subsystems.drive.Drive;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
+import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Subsystems.shooter.Shooter;
@@ -16,35 +17,23 @@ import frc.robot.Subsystems.wrist.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class OnePieceLeaveCenter extends SequentialCommandGroup {
-  /** Creates a new OnePieceLeaveAuto. */
-  public OnePieceLeaveCenter(
-      Drive drive,
-      Wrist wrist,
-      Feeder feeder,
-      Shooter shooter,
-      double seconds,
-      double speed,
-      Gyro gyro) {
+public class AutoShoot extends SequentialCommandGroup {
+  /** Creates a new SpeakerShoot. */
+  public AutoShoot(
+      Feeder feeder, Shooter shooter, Wrist wrist, Arm arm, Gyro gyro, double angle, double RPM) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+        Commands.runOnce(() -> gyro.zeroYaw(), gyro),
         Commands.runOnce(
             () -> {
-              gyro.zeroYaw();
+              wrist.setGoal(angle);
+              shooter.setSetpoint(RPM);
             },
-            gyro),
-        new OnePieceAuto(wrist, feeder, shooter),
-        Commands.runOnce(
-            () -> {
-              drive.setRaw(0, speed, 0);
-            },
-            drive),
-        new WaitCommand(seconds),
-        Commands.runOnce(
-            () -> {
-              drive.setRaw(0, 0, 0);
-            },
-            drive));
+            wrist,
+            shooter),
+        new WaitUntilCommand(() -> shooter.bothAtSetpoint()),
+        // new WaitCommand(2),
+        new Shoot(feeder, arm, shooter));
   }
 }

@@ -19,15 +19,15 @@ public class PositionAmpScoreBackside extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              arm.setSetpoint(ArmConstants.AMP_BACK_SIDE_RAD);
+              arm.setGoal(ArmConstants.AMP_BACK_SIDE_RAD);
             },
             arm),
-        new WaitUntilCommand(() -> arm.atSetpoint()),
+        new WaitUntilCommand(() -> arm.atGoal()),
         Commands.runOnce(
             () -> {
-              wrist.setSetpoint(WristConstants.AMP_BACK_SIDE_RAD);
+              wrist.setGoal(WristConstants.AMP_BACK_SIDE_RAD);
             },
             wrist),
-        new WaitUntilCommand(() -> wrist.atSetpoint()));
+        new WaitUntilCommand(() -> wrist.atGoal()));
   }
 }

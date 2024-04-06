@@ -4,7 +4,6 @@
 
 package frc.robot.Commands.TeleopCommands.SpeakerScore;
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Subsystems.feeder.*;
 import frc.robot.Subsystems.shooter.*;
@@ -21,28 +20,24 @@ public class PositionToShoot extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              // feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
-              wrist.setSetpoint(
-                  Units.degreesToRadians(
-                      angle)); // TODO: update when shooter interpolation branch is merged to
-              // reference
-              // lookup table
-            },
-            feeder,
-            wrist),
-        new WaitUntilCommand(() -> wrist.atSetpoint()),
-        Commands.runOnce(
-            () -> {
               feeder.setSetpoint(-500);
+              System.out.println("Running 1");
             },
             feeder),
         new WaitCommand(0.3),
         Commands.runOnce(
             () -> {
+              // feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
+              wrist.setGoal(angle); // TODO: update when shooter interpolation branch is merged to
+
+              System.out.println("Running 2");
+              // reference
+              // lookup table
               shooter.setSetpoint(RPM);
               feeder.setSetpoint(0);
             },
-            shooter,
-            feeder));
+            feeder,
+            wrist,
+            shooter));
   }
 }

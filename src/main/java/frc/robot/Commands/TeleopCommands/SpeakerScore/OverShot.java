@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.wrist.Wrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -25,14 +26,14 @@ public class OverShot extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              arm.setSetpoint(Units.degreesToRadians(83));
+              arm.setGoal(Units.degreesToRadians(83));
             },
             arm),
-        new WaitUntilCommand(() -> arm.atSetpoint()),
+        new WaitUntilCommand(() -> arm.atGoal()),
         Commands.runOnce(
             () -> {
               // feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
-              wrist.setSetpoint(
+              wrist.setGoal(
                   Units.degreesToRadians(
                       38)); // TODO: update when shooter interpolation branch is merged to
               // reference
@@ -40,7 +41,7 @@ public class OverShot extends SequentialCommandGroup {
             },
             feeder,
             wrist),
-        new WaitUntilCommand(() -> wrist.atSetpoint()),
+        new WaitUntilCommand(() -> wrist.atGoal()),
         Commands.runOnce(
             () -> {
               feeder.setSetpoint(-600);
@@ -49,7 +50,7 @@ public class OverShot extends SequentialCommandGroup {
         new WaitCommand(0.3),
         Commands.runOnce(
             () -> {
-              shooter.setSetpoint(4000);
+              shooter.setSetpoint(ShooterConstants.CLOSE_RPM);
               feeder.setSetpoint(0);
             },
             shooter,
