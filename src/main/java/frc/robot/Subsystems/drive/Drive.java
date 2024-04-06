@@ -66,9 +66,6 @@ public class Drive extends SubsystemBase {
     runSwerveModules(getAdjustedSpeeds());
     getMeasuredStates();
 
-    //   for (int i = 0; i < 4; i++) {
-    //     modules[i].runSetpoint(steerSetpoint);
-    //   }
   }
 
   /** Puts robot to coast mode on disable */

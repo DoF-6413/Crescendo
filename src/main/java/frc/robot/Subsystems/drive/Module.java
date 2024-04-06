@@ -152,7 +152,7 @@ public class Module {
     this.updateInputs();
     Logger.processInputs("Drive/Module" + Integer.toString(index), inputs);
 
-    // steerkp = SmartDashboard.getNumber("steer kp", 6.4);
+// steerkp = SmartDashboard.getNumber("steer kp", 6.4);
     // steerki = SmartDashboard.getNumber("steer ki", 0.0);
     // steerkd = SmartDashboard.getNumber("steer kd", 0.0);
     // steerPID.setPID(steerkp, steerki, steerkd);
@@ -189,8 +189,25 @@ public class Module {
     io.setDriveVoltage(
         driveFeedforward.calculate(velocityRadPerSec)
             + (drivePID.calculate(inputs.driveVelocityRadPerSec, velocityRadPerSec)));
-
-    SmartDashboard.putNumber("Drive Set Point" + index, velocityRadPerSec);
     return optimizedState;
   }
+
+    /**
+   * Run Setpoint is what Runs a Module based on Chassis Speeds
+   *
+   * @param steerPosition the angle of the steer module in radians
+   * @param drivePosition the speed of the propulsion motor in rad/s
+   */
+  public void runRaw(double steerPosition, double driveVelocity) {
+
+    // Run turn controller
+    io.setTurnVoltage(
+        steerPID.calculate(getAngle().getRadians(), steerPosition));
+
+    // Run drive controller
+    io.setDriveVoltage(
+        driveFeedforward.calculate(driveVelocity)
+            + (drivePID.calculate(inputs.driveVelocityRadPerSec, driveVelocity)));
+  }
+
 }

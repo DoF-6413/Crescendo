@@ -21,7 +21,8 @@ public class Arm extends SubsystemBase {
   // private final ProfiledPIDController armPIDController;
   private final PIDController armPIDController;
   private SimpleMotorFeedforward armFeedforward;
-  private boolean isEnabled = true;
+  private boolean isPIDEnabled = true;
+  private boolean isTestingEnabled = true;
   private final ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
   private static GenericEntry armkP;
   private static GenericEntry armkI;
@@ -78,7 +79,7 @@ public class Arm extends SubsystemBase {
     Logger.processInputs("Arm", armInputs);
 
     // Updates Arm Speed based on PID Control
-    if (isEnabled) {
+    if (isPIDEnabled) {
       setArmPercentSpeed(
           armPIDController.calculate(armInputs.armAbsolutePositionRad)
               + (armFeedforward.calculate(armInputs.armVelocityRadPerSec)
@@ -206,6 +207,16 @@ public class Arm extends SubsystemBase {
    * @param enabled True = Enable, False = Disable
    */
   public void enablePID(boolean enabled) {
-    isEnabled = enabled;
+    isPIDEnabled = enabled;
+  }
+  /**
+   * @param enabled True = Enable, False = Disable
+   */
+  public void enableTesting(boolean enabled) {
+    isTestingEnabled = enabled;
+  }
+
+  public void testPIDValues(){
+
   }
 }
