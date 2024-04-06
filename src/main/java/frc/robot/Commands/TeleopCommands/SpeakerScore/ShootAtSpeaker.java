@@ -53,7 +53,7 @@ public class ShootAtSpeaker extends SequentialCommandGroup {
               // reference
 ========
               feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
-              wrist.setSetpoint(
+              wrist.setGoal(
                   Units.degreesToRadians(
                       21)); // TODO: update when shooter interpolation branch is merged to reference
 >>>>>>>> a4658a5 (Chore#80 clean dev (#81)):src/main/java/frc/robot/Commands/TeleopCommands/SpeakerScore/ShootAtSpeaker.java
@@ -61,7 +61,7 @@ public class ShootAtSpeaker extends SequentialCommandGroup {
             },
             feeder,
             wrist),
-        new WaitUntilCommand(() -> wrist.atSetpoint()),
+        new WaitUntilCommand(() -> wrist.atGoal()),
         Commands.runOnce(
             () -> {
 <<<<<<<< HEAD:src/main/java/frc/robot/Commands/TeleopCommands/SpeakerScore/OverShot.java

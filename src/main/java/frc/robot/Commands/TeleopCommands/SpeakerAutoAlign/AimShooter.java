@@ -67,7 +67,7 @@ public class AimShooter extends Command {
       m_shooter.setSetpoint(4000);
     }
     double speakerDist = Math.hypot(deltaX, deltaY);
-    m_wrist.setWristSetpoint(Units.degreesToRadians(m_shooter.returnDesiredAngle(speakerDist)));
+    m_wrist.setGoal(Units.degreesToRadians(m_shooter.returnDesiredAngle(speakerDist)));
   }
   // Called once the command ends or is interrupted.
   @Override
