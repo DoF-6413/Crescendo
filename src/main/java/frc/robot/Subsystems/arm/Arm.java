@@ -23,16 +23,6 @@ public class Arm extends SubsystemBase {
   private SimpleMotorFeedforward armFeedforward;
   private boolean isPIDEnabled = true;
   private boolean isTestingEnabled = true;
-  private final ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
-  private static GenericEntry armkP;
-  private static GenericEntry armkI;
-  private static GenericEntry armkD;
-  private static GenericEntry armMaxVelocity;
-  private static GenericEntry armMaxAcceleration;
-  private static GenericEntry armkS;
-  private static GenericEntry armkV;
-  private static GenericEntry armkA;
-  private static GenericEntry armGoal;
   private static double goal = 0.0;
 
   public Arm(ArmIO io) {
@@ -55,20 +45,6 @@ public class Arm extends SubsystemBase {
 
     // Initalizing the Arm FF Controller
     armFeedforward = new SimpleMotorFeedforward(ArmConstants.KS, ArmConstants.KV, ArmConstants.KA);
-
-    // TODO: Delete once final PID Numbers are Decided
-    SmartDashboard.putNumber("armkP", 0.0);
-    SmartDashboard.putNumber("armkI", 0.0);
-    SmartDashboard.putNumber("armkD", 0.0);
-    armkP = armTab.add("armkp", 1.0).getEntry();
-    armkI = armTab.add("armki", 0.0).getEntry();
-    armkD = armTab.add("armkd", 0.0).getEntry();
-    armGoal = armTab.add("armGoal", 0.0).getEntry();
-    armMaxVelocity = armTab.add("armMaxVelocity", 0.0).getEntry();
-    armMaxAcceleration = armTab.add("armMaxAcceleration", 0.0).getEntry();
-    armkS = armTab.add("armks", 0.0).getEntry();
-    armkV = armTab.add("armkV", 0.0).getEntry();
-    armkA = armTab.add("armkA", 0.0).getEntry();
   }
 
   @Override
@@ -87,39 +63,22 @@ public class Arm extends SubsystemBase {
                       .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
     }
 
-    if (ArmConstants.KP != armkP.getDouble(0.0)
-        || ArmConstants.KI != armkI.getDouble(0.0)
-        || ArmConstants.KD != armkD.getDouble(0.0)) {
-      updatePIDController();
+    if(isTestingEnabled){
+      testPIDFValues();
     }
-
-    if (ArmConstants.KS != armkS.getDouble(0.0)
-        || ArmConstants.KV != armkV.getDouble(0.0)
-        || ArmConstants.KA != armkA.getDouble(0.0)) {
-      updateFFController();
-    }
-
-    if (goal != armGoal.getDouble(0.0)) {
-      updateGoal();
-    }
-
-    // if (ArmConstants.MAX_VELOCITY != armMaxVelocity.getDouble(0.0)
-    //     || ArmConstants.MAX_ACCELERATION != armMaxAcceleration.getDouble(0.0)) {
-    //   updateTrapezoidalConstraints();
-    // }
+   
   }
 
   /** Updates the PID values for the Arm from ShuffleBoard */
-  public void updatePIDController() {
-    ArmConstants.KP = armkP.getDouble(0.0);
-    ArmConstants.KP = armkI.getDouble(0.0);
-    ArmConstants.KP = armkD.getDouble(0.0);
+  public void updatePIDController(double kp, double ki, double kd) {
+    ArmConstants.KP = kp;
+    ArmConstants.KI = ki;
+    ArmConstants.KD = kd;
     armPIDController.setPID(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
   }
 
   /** Updates the Goal from ShuffleBoard */
   public void updateGoal() {
-    goal = armGoal.getDouble(0.0);
     armPIDController.setSetpoint(goal);
     // armPIDController.setGoal(goal);
   }
@@ -134,10 +93,10 @@ public class Arm extends SubsystemBase {
   // }
 
   /** Updates the FF values from Shuffleboard */
-  public void updateFFController() {
-    ArmConstants.KS = armkS.getDouble(0.0);
-    ArmConstants.KV = armkV.getDouble(0.0);
-    ArmConstants.KA = armkA.getDouble(0.0);
+  public void updateFFController(double ks, double kv, double ka) {
+    ArmConstants.KS = ks;
+    ArmConstants.KV = kv;
+    ArmConstants.KA = ka;
     armFeedforward = new SimpleMotorFeedforward(ArmConstants.KS, ArmConstants.KV, ArmConstants.KA);
   }
 
@@ -216,7 +175,26 @@ public class Arm extends SubsystemBase {
     isTestingEnabled = enabled;
   }
 
-  public void testPIDValues(){
+  public void testPIDFValues(){
+    SmartDashboard.putNumber("armkP", 1.0);
+    SmartDashboard.putNumber("armkI", 0.0);
+    SmartDashboard.putNumber("armkD", 0.0);
+    SmartDashboard.putNumber("armkS", 0.0);
+    SmartDashboard.putNumber("armkV", 0.0);
+    SmartDashboard.putNumber("armkA", 0.0);
+    SmartDashboard.putNumber("armMaxAcceleration", 0.0);
+     if (ArmConstants.KP != SmartDashboard.getNumber("armkP", 1.0)
+        || ArmConstants.KI != SmartDashboard.getNumber("armkI", 0.0)
+        || ArmConstants.KD != SmartDashboard.getNumber("armkD", 0.0)) {
+      updatePIDController(SmartDashboard.getNumber("armkP", 1.0), SmartDashboard.getNumber("armkI", 0.0), SmartDashboard.getNumber("armkD", 0.0));
+    }
 
+    if (ArmConstants.KS != SmartDashboard.getNumber("armkS", 0.0)
+        || ArmConstants.KV != SmartDashboard.getNumber("armkV", 0.0)
+        || ArmConstants.KA != SmartDashboard.getNumber("armkA", 0.0)) {
+      updateFFController(SmartDashboard.getNumber("armkS", 0.0), SmartDashboard.getNumber("armkV", 0.0), SmartDashboard.getNumber("armkA", 0.0));
+    }
+
+    //TODO: Acceleration XD
   }
 }

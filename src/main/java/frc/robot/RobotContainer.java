@@ -380,6 +380,9 @@ public class RobotContainer {
     m_armSubsystem.enablePID(enabe);
     m_wristSubsystem.enablePID(enabe);
   }
+  public void enableTesting(boolean enabe) {
+    m_armSubsystem.enableTesting(enabe);
+  }
 
   public void setAllSetpointsZero() {
     m_shooterSubsystem.setSetpoint(0);
@@ -601,6 +604,8 @@ public class RobotContainer {
 
     //pov buttons on aux controller, switch over when best suited
 
+    devController.button(9).onTrue(new InstantCommand(()-> enableTesting(true), m_armSubsystem));
+    devController.button(10).onTrue(new InstantCommand(()-> enableTesting(false), m_armSubsystem));
 
 
   }
