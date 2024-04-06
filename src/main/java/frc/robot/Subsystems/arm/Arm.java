@@ -6,9 +6,7 @@ package frc.robot.Subsystems.arm;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotStateConstants;
@@ -22,7 +20,7 @@ public class Arm extends SubsystemBase {
   private final PIDController armPIDController;
   private SimpleMotorFeedforward armFeedforward;
   private boolean isPIDEnabled = true;
-  private boolean isTestingEnabled = true;
+  private boolean isTestingEnabled = false;
   private static double goal = 0.0;
 
   public Arm(ArmIO io) {
@@ -45,6 +43,12 @@ public class Arm extends SubsystemBase {
 
     // Initalizing the Arm FF Controller
     armFeedforward = new SimpleMotorFeedforward(ArmConstants.KS, ArmConstants.KV, ArmConstants.KA);
+    SmartDashboard.putNumber("armkP", 1.0);
+    SmartDashboard.putNumber("armkI", 0.0);
+    SmartDashboard.putNumber("armkD", 0.0);
+    SmartDashboard.putNumber("armkS", 0.0);
+    SmartDashboard.putNumber("armkV", 0.0);
+    SmartDashboard.putNumber("armkA", 0.0);
   }
 
   @Override
@@ -63,10 +67,12 @@ public class Arm extends SubsystemBase {
                       .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
     }
 
-    if(isTestingEnabled){
+    if (isTestingEnabled) {
       testPIDFValues();
     }
-   
+
+    SmartDashboard.putNumber(
+        "armSetpointDeg", Units.radiansToDegrees(armPIDController.getSetpoint()));
   }
 
   /** Updates the PID values for the Arm from ShuffleBoard */
@@ -168,6 +174,7 @@ public class Arm extends SubsystemBase {
   public void enablePID(boolean enabled) {
     isPIDEnabled = enabled;
   }
+
   /**
    * @param enabled True = Enable, False = Disable
    */
@@ -175,26 +182,34 @@ public class Arm extends SubsystemBase {
     isTestingEnabled = enabled;
   }
 
-  public void testPIDFValues(){
-    SmartDashboard.putNumber("armkP", 1.0);
-    SmartDashboard.putNumber("armkI", 0.0);
-    SmartDashboard.putNumber("armkD", 0.0);
-    SmartDashboard.putNumber("armkS", 0.0);
-    SmartDashboard.putNumber("armkV", 0.0);
-    SmartDashboard.putNumber("armkA", 0.0);
+  public void testPIDFValues() {
+    // SmartDashboard.putNumber("armkP", 0.0);
+    // SmartDashboard.putNumber("armkI", 0.0);
+    // SmartDashboard.putNumber("armkD", 0.0);
+    // SmartDashboard.putNumber("armkS", 0.0);
+    // SmartDashboard.putNumber("armkV", 0.0);
+    // SmartDashboard.putNumber("armkA", 0.0);
     SmartDashboard.putNumber("armMaxAcceleration", 0.0);
-     if (ArmConstants.KP != SmartDashboard.getNumber("armkP", 1.0)
+    if (ArmConstants.KP != SmartDashboard.getNumber("armkP", 1.0)
         || ArmConstants.KI != SmartDashboard.getNumber("armkI", 0.0)
         || ArmConstants.KD != SmartDashboard.getNumber("armkD", 0.0)) {
-      updatePIDController(SmartDashboard.getNumber("armkP", 1.0), SmartDashboard.getNumber("armkI", 0.0), SmartDashboard.getNumber("armkD", 0.0));
+      updatePIDController(
+          SmartDashboard.getNumber("armkP", 1.0),
+          SmartDashboard.getNumber("armkI", 0.0),
+          SmartDashboard.getNumber("armkD", 0.0));
     }
 
     if (ArmConstants.KS != SmartDashboard.getNumber("armkS", 0.0)
         || ArmConstants.KV != SmartDashboard.getNumber("armkV", 0.0)
         || ArmConstants.KA != SmartDashboard.getNumber("armkA", 0.0)) {
-      updateFFController(SmartDashboard.getNumber("armkS", 0.0), SmartDashboard.getNumber("armkV", 0.0), SmartDashboard.getNumber("armkA", 0.0));
+      updateFFController(
+          SmartDashboard.getNumber("armkS", 0.0),
+          SmartDashboard.getNumber("armkV", 0.0),
+          SmartDashboard.getNumber("armkA", 0.0));
     }
 
-    //TODO: Acceleration XD
+    // if (ArmConstants.MAX_ACCELERATION != SmartDashboard.getNumber("armMaxAcceleration", 0.0)) {
+    // updateTrapezoidalConstraints(SmartDashboard.getNumber("armMaxAcceleration", 0.0))
+    // }
   }
 }

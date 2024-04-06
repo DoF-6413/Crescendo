@@ -65,7 +65,6 @@ public class Drive extends SubsystemBase {
 
     runSwerveModules(getAdjustedSpeeds());
     getMeasuredStates();
-
   }
 
   /** Puts robot to coast mode on disable */

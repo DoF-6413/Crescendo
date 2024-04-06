@@ -7,7 +7,7 @@ public final class WristConstants {
   // TODO: tune & finalize
 
   /** Represents the proportional constant, multiplied by the current error */
-  public static double KP = 0.0; // 1.15
+  public static double KP = 1.2; // 1.15
   /** Represents the integral constant, multiplied by the total error */
   public static double KI = 0.0;
   /** Represents the derivative constant, multiplied by the change in error */
@@ -73,4 +73,6 @@ public final class WristConstants {
   public static final double PODIUM_RAD = Units.degreesToRadians(-0.5);
   /** SPEAKER shot from subwoofer */
   public static final double SUBWOOFER_RAD = 0.612;
+
+  public static final double DEFAULT_POSITION_DEG = 7;
 }

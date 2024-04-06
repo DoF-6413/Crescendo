@@ -7,9 +7,6 @@ package frc.robot.Subsystems.wrist;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotStateConstants;
@@ -24,20 +21,8 @@ public class Wrist extends SubsystemBase {
   private final PIDController wristPIDController;
 
   private SimpleMotorFeedforward wristFeedforward;
-  private boolean isEnabled = true;
-  private final ShuffleboardTab wristTab = Shuffleboard.getTab("Wrist");
-  private static double kP = 0.0;
-  private static double kI = 0.0;
-  private static double kD = 0.0;
-
-  private static GenericEntry wristkp,
-      wristki,
-      wristkd,
-      wristks,
-      wristkv,
-      wristka,
-      wristGoal,
-      wristMaxAcceleration;
+  private boolean isPIDEnabled = true;
+  private static boolean isTestingEnabled = false;
   private static double goal = 0.0;
 
   /** Creates a new Wrist, the second joint of the wrist mechanism */
@@ -46,7 +31,7 @@ public class Wrist extends SubsystemBase {
     this.io = io;
 
     /** Creates a new PID controller for the Wrist */
-    wristPIDController = new PIDController(1.0, WristConstants.KI, WristConstants.KD);
+    wristPIDController = new PIDController(WristConstants.KP, WristConstants.KI, WristConstants.KD);
     // wristPIDController =
     //     new ProfiledPIDController(
     //         WristConstants.KP,
@@ -55,7 +40,7 @@ public class Wrist extends SubsystemBase {
     //         new TrapezoidProfile.Constraints(
     //             WristConstants.MAX_VELOCITY, WristConstants.MAX_ACCELERATION));
     // wristPIDController.setGoal(0);
-    wristPIDController.setSetpoint(0);
+    wristPIDController.setSetpoint(WristConstants.DEFAULT_POSITION_DEG);
     wristPIDController.setTolerance(WristConstants.ANGLE_TOLERANCE);
     wristPIDController.disableContinuousInput();
 
@@ -65,14 +50,10 @@ public class Wrist extends SubsystemBase {
     SmartDashboard.putNumber("wristkP", 0.0);
     SmartDashboard.putNumber("wristkI", 0.0);
     SmartDashboard.putNumber("wristkD", 0.0);
-    // wristkp = wristTab.add("wristkp", 1.0).getEntry();
-    // wristki = wristTab.add("wristki", 0.0).getEntry();
-    // wristkd = wristTab.add("wristkd", 0.0).getEntry();
-    wristGoal = wristTab.add("wristGoal", 0.0).getEntry();
-    wristMaxAcceleration = wristTab.add("wristMaxAcceleration", 0.0).getEntry();
-    wristks = wristTab.add("wristks", 0.0).getEntry();
-    wristkv = wristTab.add("wristkv", 0.0).getEntry();
-    wristka = wristTab.add("wristka", 0.0).getEntry();
+    SmartDashboard.putNumber("wristkS", 0.0);
+    SmartDashboard.putNumber("wristkV", 0.0);
+    SmartDashboard.putNumber("wristkA", 0.0);
+    SmartDashboard.putNumber("wristMaxAcceleration", 0.0);
   }
 
   @Override
@@ -80,8 +61,7 @@ public class Wrist extends SubsystemBase {
     /** Periodically updates inputs and logs them */
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
-    if (isEnabled) {
-
+    if (isPIDEnabled) {
       setWristPercentSpeed(
           wristPIDController.calculate(inputs.wristAbsolutePositionRad)
               + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
@@ -89,29 +69,17 @@ public class Wrist extends SubsystemBase {
                       .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
     }
 
-    if (
-    // kP != wristkp.getDouble(0.0)
-    //   || kI != wristki.getDouble(0.0)
-    //   || kD != wristkd.getDouble(0.0)
-    kP != SmartDashboard.getNumber("wristkP", 1.0)
-        || kI != SmartDashboard.getNumber("wristkI", 0.0)
-        || kD != SmartDashboard.getNumber("wristkD", 0.0)) {
-      updatePIDController();
+    if (isTestingEnabled) {
+      setWristPercentSpeed(
+          wristPIDController.calculate(inputs.wristAbsolutePositionRad)
+              + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
+                  / RobotStateConstants.BATTERY_VOLTAGE));
     }
 
-    // if (WristConstants.KS != wristks.getDouble(0.0)
-    //     || WristConstants.KV != wristkv.getDouble(0.0)
-    //     || WristConstants.KA != wristka.getDouble(0.0)) {
-    //   updateFFController();
-    // }
+    if (isTestingEnabled) {
+      testPIDFValues();
+    }
 
-    // if (goal != wristGoal.getDouble(0.0)) {
-    //   updateGoal();
-    // }
-
-    // if (WristConstants.MAX_ACCELERATION != wristMaxAcceleration.getDouble(0.0)) {
-    //   updateTrapezoidalConstraints();
-    // }
     SmartDashboard.putNumber(
         "WristSetpointDeg", Units.radiansToDegrees(wristPIDController.getSetpoint()));
   }
@@ -122,40 +90,36 @@ public class Wrist extends SubsystemBase {
   }
 
   /** Updates the PID values from Shuffleboard */
-  public void updatePIDController() {
-    //   // kP = wristkp.getDouble(0.0);
-    //   // kI = wristki.getDouble(0.0);
-    //   // kD = wristkd.getDouble(0.0);
-    kP = SmartDashboard.getNumber("wristkP", 1.0);
-    kI = SmartDashboard.getNumber("wristkI", 0.0);
-    kD = SmartDashboard.getNumber("wristkD", 0.0);
-    wristPIDController.setPID(kP, kI, kD);
+  public void updatePIDController(double kp, double ki, double kd) {
+    WristConstants.KP = kp;
+    WristConstants.KI = ki;
+    WristConstants.KD = kd;
+    wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
     //   // wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
   }
 
   /** Updates the goal from Shuffleboard */
-  // public void updateGoal() {
-  //   // goal = wristGoal.getDouble(0.0);
-  //   // wristPIDController.setGoal(goal);
-  //   wristPIDController.setSetpoint(goal);
-  // }
+  public void updateGoal() {
+    wristPIDController.setSetpoint(goal);
+  }
 
-  /** Updates the Trapezoidal Constraints from the ShuffleBoard */
-  // public void updateTrapezoidalConstraints() {
-  //   WristConstants.MAX_ACCELERATION = wristMaxAcceleration.getDouble(0.0);
+  // /** Updates the Trapezoidal Constraints from the ShuffleBoard */
+  // public void updateTrapezoidalConstraints(double maxAcc) {
+  //   // WristConstants.MAX_ACCELERATION = wristMaxAcceleration.getDouble(0.0);
+  //   WristConstants.MAX_ACCELERATION = maxAcc;
   //   wristPIDController.setConstraints(
   //       new TrapezoidProfile.Constraints(
   //           WristConstants.MAX_VELOCITY, WristConstants.MAX_ACCELERATION));
   // }
 
   /** Updates the PID values from Shuffleboard */
-  // public void updateFFController() {
-  //   WristConstants.KS = wristks.getDouble(0.0);
-  //   WristConstants.KV = wristkv.getDouble(0.0);
-  //   WristConstants.KA = wristka.getDouble(0.0);
-  //   wristFeedforward =
-  //       new SimpleMotorFeedforward(WristConstants.KS, WristConstants.KV, WristConstants.KA);
-  // }
+  public void updateFFController(double ks, double kv, double ka) {
+    WristConstants.KS = ks;
+    WristConstants.KV = kv;
+    WristConstants.KA = ka;
+    wristFeedforward =
+        new SimpleMotorFeedforward(WristConstants.KS, WristConstants.KV, WristConstants.KA);
+  }
 
   /**
    * Sets Wrist to a percentage of its maximum speed
@@ -214,6 +178,44 @@ public class Wrist extends SubsystemBase {
    * @param enabled True = Enable, False = Disable
    */
   public void enablePID(boolean enabled) {
-    isEnabled = enabled;
+    isPIDEnabled = enabled;
+  }
+
+  /**
+   * @param enabled True = Enable, False = Disable
+   */
+  public void enableTesting(boolean enabled) {
+    isTestingEnabled = enabled;
+  }
+
+  public void testPIDFValues() {
+    // SmartDashboard.putNumber("wristkP", 0.0);
+    // SmartDashboard.putNumber("wristkI", 0.0);
+    // SmartDashboard.putNumber("wristkD", 0.0);
+    // SmartDashboard.putNumber("wristkS", 0.0);
+    // SmartDashboard.putNumber("wristkV", 0.0);
+    // SmartDashboard.putNumber("wristkA", 0.0);
+    // SmartDashboard.putNumber("wristMaxAcceleration", 0.0);
+    if (WristConstants.KP != SmartDashboard.getNumber("wristkP", 0.0)
+        || WristConstants.KI != SmartDashboard.getNumber("wristkI", 0.0)
+        || WristConstants.KD != SmartDashboard.getNumber("wristkD", 0.0)) {
+      updatePIDController(
+          SmartDashboard.getNumber("wristkP", 1.0),
+          SmartDashboard.getNumber("wristkI", 0.0),
+          SmartDashboard.getNumber("wristkD", 0.0));
+    }
+    if (WristConstants.KS != SmartDashboard.getNumber("wristkS", 0.0)
+        || WristConstants.KV != SmartDashboard.getNumber("wristkV", 0.0)
+        || WristConstants.KA != SmartDashboard.getNumber("wristkA", 0.0)) {
+      updateFFController(
+          SmartDashboard.getNumber("wristkS", 0.0),
+          SmartDashboard.getNumber("wristkV", 0.0),
+          SmartDashboard.getNumber("wristkA", 0.0));
+    }
+
+    // if (WristConstants.MAX_ACCELERATION != SmartDashboard.getNumber("wristMaxAcceleration", 0.0))
+    // {
+    // updateTrapezoidalConstraints(SmartDashboard.getNumber("armMaxAcceleration", 0.0));
+    // }
   }
 }

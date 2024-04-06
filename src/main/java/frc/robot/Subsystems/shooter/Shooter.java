@@ -5,11 +5,9 @@
 package frc.robot.Subsystems.shooter;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
 
@@ -17,14 +15,6 @@ import org.littletonrobotics.junction.Logger;
 public class Shooter extends SubsystemBase {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
-  private final ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
-  private final GenericEntry shooterkP;
-  private final GenericEntry shooterkI;
-  private final GenericEntry shooterkD;
-  private final GenericEntry shooterkS;
-  private final GenericEntry shooterkV;
-  private final GenericEntry shooterkA;
-  private final GenericEntry shooterSetpoint;
 
   // Creates the PID & FF Contollers for both shooter motors
   private final PIDController topShooterPIDController;
@@ -32,11 +22,13 @@ public class Shooter extends SubsystemBase {
   private SimpleMotorFeedforward topShooterFeedforward;
   private SimpleMotorFeedforward bottomShooterFeedforward;
 
+  private static boolean isPIDEnabled = true;
+  private static boolean isTestingEnabled = false;
+
   // The desired RPM for the shooter
   private double setpointRPM = 0.0;
 
   public Shooter(ShooterIO io) {
-
     System.out.println("[Init] Creating Shooter");
     this.io = io;
 
@@ -61,14 +53,12 @@ public class Shooter extends SubsystemBase {
     // bottomShooterFeedforward.maxAchievableAcceleration(
     //     RobotStateConstants.BATTERY_VOLTAGE, inputs.bottomShooterMotorRPM);
 
-    // Puts adjustable PID & FF values and setpoints onto the ShuffleBoard
-    shooterkP = shooterTab.add("shooterkP", 0.0).getEntry();
-    shooterkI = shooterTab.add("shooterkI", 0.0).getEntry();
-    shooterkD = shooterTab.add("shooterkD", 0.0).getEntry();
-    shooterSetpoint = shooterTab.add("shooterSetpoint", 0.0).getEntry();
-    shooterkS = shooterTab.add("shooterkS", 0.0).getEntry();
-    shooterkV = shooterTab.add("shooterkV", 0.0).getEntry();
-    shooterkA = shooterTab.add("shooterkA", 0.0).getEntry();
+    SmartDashboard.putNumber("shooterkP", 0.0);
+    SmartDashboard.putNumber("shooterkI", 0.0);
+    SmartDashboard.putNumber("shooterkD", 0.0);
+    SmartDashboard.putNumber("shooterkS", 0.0);
+    SmartDashboard.putNumber("shooterkV", 0.0);
+    SmartDashboard.putNumber("shooterkA", 0.0);
   }
 
   @Override
@@ -76,64 +66,56 @@ public class Shooter extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("Shooter", inputs);
 
-    // Sets the voltage of the Shooter Motors using PID
-    // setTopPercentSpeed(
-    //     topShooterPIDController.calculateForVoltage(
-    //         inputs.topShooterMotorRPM, ShooterConstants.MAX_RPM));
-    // // topShooterPIDController.calculate(inputs.topShooterMotorRPM)
-    // //     + (topShooterFeedforward.calculate(inputs.topShooterMotorRPM)
-    // //         / RobotStateConstants.BATTERY_VOLTAGE));
-    // setBottomPercentSpeed(
-    //     bottomShooterPIDController.calculateForVoltage(
-    //         inputs.bottomShooterMotorRPM, ShooterConstants.MAX_RPM));
-    // // bottomShooterPIDController.calculate(inputs.bottomShooterMotorRPM)
-    // //     + (bottomShooterFeedforward.calculate(inputs.bottomShooterMotorRPM)
-    // //         / RobotStateConstants.BATTERY_VOLTAGE));
-
-    if (ShooterConstants.KP != shooterkP.getDouble(0.0)
-        || ShooterConstants.KI != shooterkI.getDouble(0.0)
-        || ShooterConstants.KD != shooterkD.getDouble(0.0)) {
-      updatePIDController();
+    if (isPIDEnabled) {
+      // Sets the voltage of the Shooter Motors using PID
+      setTopVoltage(
+          // topShooterPIDController.calculateForVoltage(
+          //     inputs.topShooterMotorRPM, ShooterConstants.MAX_RPM));
+          topShooterPIDController.calculateForVoltage(
+                  inputs.topShooterMotorRPM, ShooterConstants.MAX_RPM)
+              + (topShooterFeedforward.calculate(inputs.topShooterMotorRPM)
+                  / RobotStateConstants.BATTERY_VOLTAGE));
+      setBottomVoltage(
+          // bottomShooterPIDController.calculateForVoltage(
+          //     inputs.bottomShooterMotorRPM, ShooterConstants.MAX_RPM));
+          bottomShooterPIDController.calculateForVoltage(
+                  inputs.bottomShooterMotorRPM, ShooterConstants.MAX_RPM)
+              + (bottomShooterFeedforward.calculate(inputs.bottomShooterMotorRPM)
+                  / RobotStateConstants.BATTERY_VOLTAGE));
     }
 
-    if (setpointRPM != shooterSetpoint.getDouble(0.0)) {
-      updateSetpoint();
-    }
-
-    if (ShooterConstants.KS != shooterkS.getDouble(0.0)
-        || ShooterConstants.KV != shooterkV.getDouble(0.0)
-        || ShooterConstants.KA != shooterkA.getDouble(0.0)) {
-      updateFFController();
-    }
-
+    SmartDashboard.putNumber("shooterSetpoint", topShooterPIDController.getSetpoint());
     SmartDashboard.putBoolean("BothAtSetpoint", bothAtSetpoint());
     // SmartDashboard.putBoolean("TopAtSetpoint", topAtSetpoint());
     // SmartDashboard.putBoolean("BottomAtSetpoint", bottomAtSetpoint());
 
+    if (isTestingEnabled) {
+      testPIDFFValues();
+    }
   }
 
   /** Updates the PID values for the Shooter from ShuffleBoard */
-  public void updatePIDController() {
-    ShooterConstants.KP = shooterkP.getDouble(0.0);
-    ShooterConstants.KI = shooterkI.getDouble(0.0);
-    ShooterConstants.KD = shooterkD.getDouble(0.0);
+  public void updatePIDController(double kp, double ki, double kd) {
+    ShooterConstants.KP = kp;
+    ShooterConstants.KI = ki;
+    ShooterConstants.KD = kd;
     topShooterPIDController.setPID(ShooterConstants.KP, ShooterConstants.KI, ShooterConstants.KD);
     bottomShooterPIDController.setPID(
         ShooterConstants.KP, ShooterConstants.KI, ShooterConstants.KD);
   }
 
   /** Updates the Setpoint for the Shooter from ShuffleBoard */
-  public void updateSetpoint() {
-    setpointRPM = shooterSetpoint.getDouble(0.0);
-    topShooterPIDController.setSetpoint(setpointRPM);
-    bottomShooterPIDController.setSetpoint(setpointRPM);
-  }
+  // public void updateSetpoint() {
+  //   setpointRPM = setpointRPM.getDouble(0.0);
+  //   topShooterPIDController.setSetpoint(setpointRPM);
+  //   bottomShooterPIDController.setSetpoint(setpointRPM);
+  // }
 
   /** Updates the Feedforward values for the Shooter from ShuffleBoard */
-  public void updateFFController() {
-    ShooterConstants.KS = shooterkS.getDouble(0.0);
-    ShooterConstants.KV = shooterkV.getDouble(0.0);
-    ShooterConstants.KA = shooterkA.getDouble(0.0);
+  public void updateFFController(double ks, double kv, double ka) {
+    ShooterConstants.KS = ks;
+    ShooterConstants.KV = kv;
+    ShooterConstants.KA = ka;
     topShooterFeedforward =
         new SimpleMotorFeedforward(ShooterConstants.KS, ShooterConstants.KV, ShooterConstants.KA);
     bottomShooterFeedforward =
@@ -251,5 +233,45 @@ public class Shooter extends SubsystemBase {
   public void setTolerance(double tolerance) {
     topShooterPIDController.setTolerance(tolerance);
     bottomShooterPIDController.setTolerance(tolerance);
+  }
+
+  /**
+   * @param enabled True = Enable, False = Disable
+   */
+  public void enablePID(boolean enable) {
+    isPIDEnabled = enable;
+  }
+
+  /**
+   * @param enabled True = Enable, False = Disable
+   */
+  public void enableTesting(boolean enable) {
+    isTestingEnabled = enable;
+  }
+
+  public void testPIDFFValues() {
+    // SmartDashboard.putNumber("shooterkP", 0.0);
+    // SmartDashboard.putNumber("shooterkI", 0.0);
+    // SmartDashboard.putNumber("shooterkD", 0.0);
+    // SmartDashboard.putNumber("shooterkS", 0.0);
+    // SmartDashboard.putNumber("shooterkV", 0.0);
+    // SmartDashboard.putNumber("shooterkA", 0.0);
+    if (ShooterConstants.KP != SmartDashboard.getNumber("shooterkP", 0.0)
+        || ShooterConstants.KI != SmartDashboard.getNumber("shooterkI", 0.0)
+        || ShooterConstants.KD != SmartDashboard.getNumber("shooterkD", 0.0)) {
+      updatePIDController(
+          SmartDashboard.getNumber("shooterkP", 0.0),
+          SmartDashboard.getNumber("shooterkI", 0.0),
+          SmartDashboard.getNumber("shooterkD", 0.0));
+    }
+
+    if (ShooterConstants.KS != SmartDashboard.getNumber("shooterkS", 0.0)
+        || ShooterConstants.KV != SmartDashboard.getNumber("shooterkV", 0.0)
+        || ShooterConstants.KA != SmartDashboard.getNumber("shooterkA", 0.0)) {
+      updateFFController(
+          SmartDashboard.getNumber("shooterkS", 0.0),
+          SmartDashboard.getNumber("shooterkV", 0.0),
+          SmartDashboard.getNumber("shooterkA", 0.0));
+    }
   }
 }
