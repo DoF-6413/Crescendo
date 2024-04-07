@@ -83,7 +83,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putBoolean("BothAtSetpoint", bothAtSetpoint());
 
     if (isTestingEnabled) {
-    testPIDFFValues();
+      testPIDFFValues();
     }
   }
 

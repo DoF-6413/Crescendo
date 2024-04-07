@@ -83,13 +83,13 @@
             {
               "type": "named",
               "data": {
-                "name": "PickUp"
+                "name": "StopFeeder"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "StopFeeder"
+                "name": "PickUp"
               }
             }
           ]

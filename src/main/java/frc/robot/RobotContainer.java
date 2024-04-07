@@ -162,11 +162,31 @@ public class RobotContainer {
 
     // Event Marker Commands
     NamedCommands.registerCommand(
-        "UTB", new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, false));
+        "UTB", new InstantCommand(()-> m_utbIntakeSubsystem.));
+    NamedCommands.registerCommand(
+        "RevShooter",
+        new InstantCommand(() -> m_shooterSubsystem.setSetpoint(4000), m_shooterSubsystem));
+    NamedCommands.registerCommand(
+        "SpeakerAngle",
+        new InstantCommand(
+            () -> m_wristSubsystem.setGoal(WristConstants.SUBWOOFER_RAD), m_wristSubsystem));
     NamedCommands.registerCommand(
         "UTBStop", new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
     NamedCommands.registerCommand(
-        "ZeroWrist", new InstantCommand(() -> m_wristSubsystem.setGoal(0), m_wristSubsystem));
+        "Feeder",
+        new InstantCommand(
+            () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM),
+    m_feederSubsystem));
+    NamedCommands.registerCommand(
+        "StopFeeder",
+        new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
+    NamedCommands.registerCommand(
+        "ZeroWrist",
+        new InstantCommand(
+            () ->
+                m_wristSubsystem.setGoal(
+                    Units.degreesToRadians(WristConstants.DEFAULT_POSITION_DEG)),
+            m_wristSubsystem));
     NamedCommands.registerCommand(
         "PickUp",
         new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false));
