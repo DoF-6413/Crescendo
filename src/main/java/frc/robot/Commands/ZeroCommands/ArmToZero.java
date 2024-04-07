@@ -26,7 +26,7 @@ public class ArmToZero extends SequentialCommandGroup {
               wrist.setGoal(Units.degreesToRadians(WristConstants.DEFAULT_POSITION_DEG));
             },
             wrist),
-        new WaitUntilCommand(() -> wrist.atGoal()),
+        new WaitUntilCommand(() -> wrist.atSetpoint()),
         Commands.runOnce(
             () -> {
               arm.setGoal(Units.degreesToRadians(0.0));

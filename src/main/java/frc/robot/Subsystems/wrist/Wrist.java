@@ -4,53 +4,53 @@
 
 package frc.robot.Subsystems.wrist;
 
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.RobotStateConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class Wrist extends SubsystemBase {
   private final WristIO io;
   private final WristIOInputsAutoLogged inputs = new WristIOInputsAutoLogged();
 
-  /** Wrist PID controller */
-  // private final ProfiledPIDController wristPIDController;
-  private final PIDController wristPIDController;
-
+  private final ProfiledPIDController wristPIDController;
   private SimpleMotorFeedforward wristFeedforward;
-  private boolean isPIDEnabled = true;
-  private static boolean isTestingEnabled = false;
+  
   private static double goal = 0.0;
+  private static boolean isPIDEnabled = true;
+  private static boolean isTestingEnabled = false;
 
   /** Creates a new Wrist, the second joint of the wrist mechanism */
   public Wrist(WristIO io) {
     System.out.println("[Init] Creating Wrist");
     this.io = io;
 
-    /** Creates a new PID controller for the Wrist */
-    wristPIDController = new PIDController(WristConstants.KP, WristConstants.KI, WristConstants.KD);
-    // wristPIDController =
-    //     new ProfiledPIDController(
-    //         WristConstants.KP,
-    //         WristConstants.KI,
-    //         WristConstants.KD,
-    //         new TrapezoidProfile.Constraints(
-    //             WristConstants.MAX_VELOCITY, WristConstants.MAX_ACCELERATION));
-    // wristPIDController.setGoal(0);
-    wristPIDController.setSetpoint(WristConstants.DEFAULT_POSITION_DEG);
+    /** Creates a new Profiled PID controller for the Wrist */
+    wristPIDController =
+        new ProfiledPIDController(
+            WristConstants.KP,
+            WristConstants.KI,
+            WristConstants.KD,
+            new TrapezoidProfile.Constraints(
+                WristConstants.MAX_VELOCITY, WristConstants.MAX_ACCELERATION));
+    wristPIDController.setGoal(WristConstants.DEFAULT_POSITION_DEG);
     wristPIDController.setTolerance(WristConstants.ANGLE_TOLERANCE);
     wristPIDController.disableContinuousInput();
 
+    /** Creates a new Feedforward Contoller for the Wrist */
     wristFeedforward =
         new SimpleMotorFeedforward(WristConstants.KS, WristConstants.KV, WristConstants.KA);
 
-    SmartDashboard.putNumber("wristkP", 0.0);
+    // Puts adjustable PPID and FF values onto the SmartDashboard for the testing mode
+    SmartDashboard.putNumber("wristkP", 0.8);
     SmartDashboard.putNumber("wristkI", 0.0);
-    SmartDashboard.putNumber("wristkD", 0.0);
-    SmartDashboard.putNumber("wristkS", 0.0);
-    SmartDashboard.putNumber("wristkV", 0.0);
+    SmartDashboard.putNumber("wristkD", 0.01);
+    SmartDashboard.putNumber("wristkS", 0.2);
+    SmartDashboard.putNumber("wristkV", 0.0001);
     SmartDashboard.putNumber("wristkA", 0.0);
     SmartDashboard.putNumber("wristMaxAcceleration", 0.0);
   }
@@ -60,58 +60,26 @@ public class Wrist extends SubsystemBase {
     /** Periodically updates inputs and logs them */
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
-    // if (isPIDEnabled) {
-    setWristPercentSpeed(wristPIDController.calculate(inputs.wristAbsolutePositionRad));
-    // + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
-    //     / RobotStateConstants
-    //         .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
-    // }
 
-    // if (isPIDEnabled) {
-    //   setWristPercentSpeed(
-    //       wristPIDController.calculate(inputs.wristAbsolutePositionRad)
-    //           + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
-    //               / RobotStateConstants.BATTERY_VOLTAGE));
-    // }
+    if (isPIDEnabled) {
+    setWristPercentSpeed(
+        wristPIDController.calculate(inputs.wristAbsolutePositionRad)
+            + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
+                / RobotStateConstants
+                    .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
+    }
 
-    // if (isTestingEnabled) {
-    //   testPIDFValues();
-    // }
+    if (isTestingEnabled) {
+    testPIDFValues();
+    }
 
     SmartDashboard.putNumber(
-        "WristSetpointDeg", Units.radiansToDegrees(wristPIDController.getSetpoint()));
+        "WristSetpointDeg", Units.radiansToDegrees(wristPIDController.getGoal().position));
   }
 
   /** Updates the set of loggable inputs for the Wrist */
   public void updateInputs() {
     io.updateInputs(inputs);
-  }
-
-  /** Updates the PID values from Shuffleboard */
-  public void updatePIDController(double kp, double ki, double kd) {
-    WristConstants.KP = kp;
-    WristConstants.KI = ki;
-    WristConstants.KD = kd;
-    wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
-    //   // wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
-  }
-
-  // /** Updates the Trapezoidal Constraints from the ShuffleBoard */
-  // public void updateTrapezoidalConstraints(double maxAcc) {
-  //   // WristConstants.MAX_ACCELERATION = wristMaxAcceleration.getDouble(0.0);
-  //   WristConstants.MAX_ACCELERATION = maxAcc;
-  //   wristPIDController.setConstraints(
-  //       new TrapezoidProfile.Constraints(
-  //           WristConstants.MAX_VELOCITY, WristConstants.MAX_ACCELERATION));
-  // }
-
-  /** Updates the PID values from Shuffleboard */
-  public void updateFFController(double ks, double kv, double ka) {
-    WristConstants.KS = ks;
-    WristConstants.KV = kv;
-    WristConstants.KA = ka;
-    wristFeedforward =
-        new SimpleMotorFeedforward(WristConstants.KS, WristConstants.KV, WristConstants.KA);
   }
 
   /**
@@ -147,14 +115,12 @@ public class Wrist extends SubsystemBase {
    * @param goal Angle (Radians)
    */
   public void setGoal(double goal) {
-    wristPIDController.setSetpoint(goal);
-    // wristPIDController.setGoal(goal);
+    wristPIDController.setGoal(goal);
   }
 
   /** Returns whether the Wrist is at it's goal or not */
-  public boolean atGoal() {
+  public boolean atSetpoint() {
     return wristPIDController.atSetpoint();
-    // return wristPIDController.atGoal();
   }
 
   /**
@@ -163,8 +129,7 @@ public class Wrist extends SubsystemBase {
    * @param increment Angle (Radians)
    */
   public void incrementWristGoal(double increment) {
-    // wristPIDController.setGoal(wristPIDController.getGoal().position + increment);
-    wristPIDController.setSetpoint(wristPIDController.getSetpoint() + increment);
+    wristPIDController.setGoal(wristPIDController.getGoal().position + increment);
   }
 
   /**
@@ -181,34 +146,52 @@ public class Wrist extends SubsystemBase {
     isTestingEnabled = enabled;
   }
 
+  /** Updates the PID values from SmartDashboard */
+  public void updatePIDController(double kp, double ki, double kd) {
+    WristConstants.KP = kp;
+    WristConstants.KI = ki;
+    WristConstants.KD = kd;
+    wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
+  }
+
+  /** Updates the Trapezoidal Constraints from the SmartDashboard */
+  public void updateTrapezoidalConstraints(double maxAcc) {
+    WristConstants.MAX_ACCELERATION = maxAcc;
+    wristPIDController.setConstraints(
+        new TrapezoidProfile.Constraints(
+            WristConstants.MAX_VELOCITY, WristConstants.MAX_ACCELERATION));
+  }
+
+  /** Updates the PID values from SmartDashboard */
+  public void updateFFController(double ks, double kv, double ka) {
+    WristConstants.KS = ks;
+    WristConstants.KV = kv;
+    WristConstants.KA = ka;
+    wristFeedforward =
+        new SimpleMotorFeedforward(WristConstants.KS, WristConstants.KV, WristConstants.KA);
+  }
+
+  /** Updates PPID and FF values from the SmartDashboard during testing mode */
   public void testPIDFValues() {
-    // SmartDashboard.putNumber("wristkP", 0.0);
-    // SmartDashboard.putNumber("wristkI", 0.0);
-    // SmartDashboard.putNumber("wristkD", 0.0);
-    // SmartDashboard.putNumber("wristkS", 0.0);
-    // SmartDashboard.putNumber("wristkV", 0.0);
-    // SmartDashboard.putNumber("wristkA", 0.0);
-    // SmartDashboard.putNumber("wristMaxAcceleration", 0.0);
-    if (WristConstants.KP != SmartDashboard.getNumber("wristkP", 1.0)
+    if (WristConstants.KP != SmartDashboard.getNumber("wristkP", 0.8)
         || WristConstants.KI != SmartDashboard.getNumber("wristkI", 0.0)
-        || WristConstants.KD != SmartDashboard.getNumber("wristkD", 0.0)) {
+        || WristConstants.KD != SmartDashboard.getNumber("wristkD", 0.01)) {
       updatePIDController(
-          SmartDashboard.getNumber("wristkP", 1.0),
+          SmartDashboard.getNumber("wristkP", 0.8),
           SmartDashboard.getNumber("wristkI", 0.0),
-          SmartDashboard.getNumber("wristkD", 0.0));
+          SmartDashboard.getNumber("wristkD", 0.01));
     }
-    if (WristConstants.KS != SmartDashboard.getNumber("wristkS", 0.0)
-        || WristConstants.KV != SmartDashboard.getNumber("wristkV", 0.0)
+    if (WristConstants.KS != SmartDashboard.getNumber("wristkS", 0.2)
+        || WristConstants.KV != SmartDashboard.getNumber("wristkV", 0.0001)
         || WristConstants.KA != SmartDashboard.getNumber("wristkA", 0.0)) {
       updateFFController(
-          SmartDashboard.getNumber("wristkS", 0.0),
-          SmartDashboard.getNumber("wristkV", 0.0),
+          SmartDashboard.getNumber("wristkS", 0.2),
+          SmartDashboard.getNumber("wristkV", 0.0001),
           SmartDashboard.getNumber("wristkA", 0.0));
     }
 
-    // if (WristConstants.MAX_ACCELERATION != SmartDashboard.getNumber("wristMaxAcceleration", 0.0))
-    // {
-    // updateTrapezoidalConstraints(SmartDashboard.getNumber("armMaxAcceleration", 0.0));
-    // }
+    if (WristConstants.MAX_ACCELERATION != SmartDashboard.getNumber("wristMaxAcceleration", 0.0)) {
+      updateTrapezoidalConstraints(SmartDashboard.getNumber("armMaxAcceleration", 0.0));
+    }
   }
 }

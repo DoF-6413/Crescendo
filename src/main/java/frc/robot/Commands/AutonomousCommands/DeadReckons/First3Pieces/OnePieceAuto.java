@@ -33,7 +33,7 @@ public class OnePieceAuto extends SequentialCommandGroup {
             },
             shooter,
             wrist),
-        new WaitUntilCommand(() -> wrist.atGoal()),
+        new WaitUntilCommand(() -> wrist.atSetpoint()),
         new WaitUntilCommand(() -> shooter.topAtSetpoint()),
         Commands.runOnce(
             () -> {
