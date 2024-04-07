@@ -59,17 +59,17 @@ public class Arm extends SubsystemBase {
     Logger.processInputs("Arm", armInputs);
 
     // Updates Arm Speed based on PID Control
-    if (isPIDEnabled) {
-      setArmPercentSpeed(
-          armPIDController.calculate(armInputs.armAbsolutePositionRad)
-              + (armFeedforward.calculate(armInputs.armVelocityRadPerSec)
-                  / RobotStateConstants
-                      .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
-    }
+    // if (isPIDEnabled) {
+    setArmPercentSpeed(
+        armPIDController.calculate(armInputs.armAbsolutePositionRad)
+            + (armFeedforward.calculate(armInputs.armVelocityRadPerSec)
+                / RobotStateConstants
+                    .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
+    // }
 
-    if (isTestingEnabled) {
-      testPIDFValues();
-    }
+    // if (isTestingEnabled) {
+    //   testPIDFValues();
+    // }
 
     SmartDashboard.putNumber(
         "armSetpointDeg", Units.radiansToDegrees(armPIDController.getSetpoint()));
@@ -81,12 +81,6 @@ public class Arm extends SubsystemBase {
     ArmConstants.KI = ki;
     ArmConstants.KD = kd;
     armPIDController.setPID(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD);
-  }
-
-  /** Updates the Goal from ShuffleBoard */
-  public void updateGoal() {
-    armPIDController.setSetpoint(goal);
-    // armPIDController.setGoal(goal);
   }
 
   /** Updates the Trapezoidal Constraints from the ShuffleBoard */

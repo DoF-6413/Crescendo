@@ -9,7 +9,6 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.RobotStateConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class Wrist extends SubsystemBase {
@@ -61,24 +60,23 @@ public class Wrist extends SubsystemBase {
     /** Periodically updates inputs and logs them */
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
-    if (isPIDEnabled) {
-      setWristPercentSpeed(
-          wristPIDController.calculate(inputs.wristAbsolutePositionRad)
-              + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
-                  / RobotStateConstants
-                      .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
-    }
+    // if (isPIDEnabled) {
+    setWristPercentSpeed(wristPIDController.calculate(inputs.wristAbsolutePositionRad));
+    // + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
+    //     / RobotStateConstants
+    //         .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
+    // }
 
-    if (isTestingEnabled) {
-      setWristPercentSpeed(
-          wristPIDController.calculate(inputs.wristAbsolutePositionRad)
-              + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
-                  / RobotStateConstants.BATTERY_VOLTAGE));
-    }
+    // if (isPIDEnabled) {
+    //   setWristPercentSpeed(
+    //       wristPIDController.calculate(inputs.wristAbsolutePositionRad)
+    //           + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
+    //               / RobotStateConstants.BATTERY_VOLTAGE));
+    // }
 
-    if (isTestingEnabled) {
-      testPIDFValues();
-    }
+    // if (isTestingEnabled) {
+    //   testPIDFValues();
+    // }
 
     SmartDashboard.putNumber(
         "WristSetpointDeg", Units.radiansToDegrees(wristPIDController.getSetpoint()));
@@ -96,11 +94,6 @@ public class Wrist extends SubsystemBase {
     WristConstants.KD = kd;
     wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
     //   // wristPIDController.setPID(WristConstants.KP, WristConstants.KI, WristConstants.KD);
-  }
-
-  /** Updates the goal from Shuffleboard */
-  public void updateGoal() {
-    wristPIDController.setSetpoint(goal);
   }
 
   // /** Updates the Trapezoidal Constraints from the ShuffleBoard */
@@ -196,7 +189,7 @@ public class Wrist extends SubsystemBase {
     // SmartDashboard.putNumber("wristkV", 0.0);
     // SmartDashboard.putNumber("wristkA", 0.0);
     // SmartDashboard.putNumber("wristMaxAcceleration", 0.0);
-    if (WristConstants.KP != SmartDashboard.getNumber("wristkP", 0.0)
+    if (WristConstants.KP != SmartDashboard.getNumber("wristkP", 1.0)
         || WristConstants.KI != SmartDashboard.getNumber("wristkI", 0.0)
         || WristConstants.KD != SmartDashboard.getNumber("wristkD", 0.0)) {
       updatePIDController(
