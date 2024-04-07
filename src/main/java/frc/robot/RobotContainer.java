@@ -652,7 +652,7 @@ public class RobotContainer {
 
     auxController
         .back()
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(3500), m_shooterSubsystem))
+        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(5500), m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
   }
 
