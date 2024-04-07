@@ -19,7 +19,7 @@ public class Wrist extends SubsystemBase {
 
   private final ProfiledPIDController wristPIDController;
   private SimpleMotorFeedforward wristFeedforward;
-  
+
   private static double goal = 0.0;
   private static boolean isPIDEnabled = true;
   private static boolean isTestingEnabled = false;
@@ -62,15 +62,15 @@ public class Wrist extends SubsystemBase {
     Logger.processInputs("Wrist", inputs);
 
     if (isPIDEnabled) {
-    setWristPercentSpeed(
-        wristPIDController.calculate(inputs.wristAbsolutePositionRad)
-            + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
-                / RobotStateConstants
-                    .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
+      setWristPercentSpeed(
+          wristPIDController.calculate(inputs.wristAbsolutePositionRad)
+              + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
+                  / RobotStateConstants
+                      .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
     }
 
     if (isTestingEnabled) {
-    testPIDFValues();
+      testPIDFValues();
     }
 
     SmartDashboard.putNumber(

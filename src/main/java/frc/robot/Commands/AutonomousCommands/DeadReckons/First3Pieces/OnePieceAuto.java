@@ -34,7 +34,7 @@ public class OnePieceAuto extends SequentialCommandGroup {
             shooter,
             wrist),
         new WaitUntilCommand(() -> wrist.atSetpoint()),
-        new WaitUntilCommand(() -> shooter.topAtSetpoint()),
+        new WaitUntilCommand(() -> shooter.bothAtSetpoint()),
         Commands.runOnce(
             () -> {
               feeder.setSetpoint(FeederConstants.SPEAKER_RPM);

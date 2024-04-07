@@ -64,11 +64,11 @@ public class Arm extends SubsystemBase {
 
     // Updates Arm Speed based on PID Control
     if (isPIDEnabled) {
-    setArmPercentSpeed(
-        armPIDController.calculate(armInputs.armAbsolutePositionRad)
-            + (armFeedforward.calculate(armInputs.armVelocityRadPerSec)
-                / RobotStateConstants
-                    .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
+      setArmPercentSpeed(
+          armPIDController.calculate(armInputs.armAbsolutePositionRad)
+              + (armFeedforward.calculate(armInputs.armVelocityRadPerSec)
+                  / RobotStateConstants
+                      .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
     }
 
     if (isTestingEnabled) {
