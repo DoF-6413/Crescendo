@@ -161,8 +161,8 @@ public class RobotContainer {
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
     // Event Marker Commands
-    NamedCommands.registerCommand(
-        "UTB", new InstantCommand(()-> m_utbIntakeSubsystem.));
+    // NamedCommands.registerCommand(
+    //     "UTB", new InstantCommand(()-> m_utbIntakeSubsystem.));
     NamedCommands.registerCommand(
         "RevShooter",
         new InstantCommand(() -> m_shooterSubsystem.setSetpoint(4000), m_shooterSubsystem));
@@ -175,8 +175,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Feeder",
         new InstantCommand(
-            () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM),
-    m_feederSubsystem));
+            () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM), m_feederSubsystem));
     NamedCommands.registerCommand(
         "StopFeeder",
         new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));

@@ -78,7 +78,7 @@ public final class ArmConstants {
   /** AMP Score front side */
   public static final double AMP_FRONT_SIDE_RAD = 2.244;
   /** SOURCE Pickup back side */
-  public static final double SOURCE_BACK_SIDE_RAD = 0.498;
+  public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(28.53329);
 
   public static final double SUBWOOFER_RAD = 0.240;
 }
