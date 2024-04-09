@@ -160,18 +160,19 @@ public class RobotContainer {
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
-    // Event Marker Commands
-    // NamedCommands.registerCommand(
-    //     "UTB", new InstantCommand(()-> m_utbIntakeSubsystem.));
+    /* Event Marker Commands */
+    // Shooter/Feeder
     NamedCommands.registerCommand(
-        "RevShooter",
-        new InstantCommand(() -> m_shooterSubsystem.setSetpoint(4000), m_shooterSubsystem));
-    NamedCommands.registerCommand(
-        "SpeakerAngle",
+        "Shooter4000",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(WristConstants.SUBWOOFER_RAD), m_wristSubsystem));
+            () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM), m_shooterSubsystem));
     NamedCommands.registerCommand(
-        "UTBStop", new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
+        "Shooter6000",
+        new InstantCommand(
+            () -> m_shooterSubsystem.setSetpoint(ShooterConstants.FAR_RPM), m_shooterSubsystem));
+    NamedCommands.registerCommand(
+        "StopShooter",
+        new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
     NamedCommands.registerCommand(
         "Feeder",
         new InstantCommand(
@@ -179,6 +180,11 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "StopFeeder",
         new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
+    // Angles
+    NamedCommands.registerCommand(
+        "SpeakerAngle",
+        new InstantCommand(
+            () -> m_wristSubsystem.setGoal(WristConstants.SUBWOOFER_RAD), m_wristSubsystem));
     NamedCommands.registerCommand(
         "ZeroWrist",
         new InstantCommand(
@@ -186,12 +192,22 @@ public class RobotContainer {
                 m_wristSubsystem.setGoal(
                     Units.degreesToRadians(WristConstants.DEFAULT_POSITION_DEG)),
             m_wristSubsystem));
+    // Pick Ups
+    NamedCommands.registerCommand(
+        "UTB",
+        new InstantCommand(
+            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem));
+    NamedCommands.registerCommand(
+        "UTBStop",
+        new InstantCommand(
+            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
     NamedCommands.registerCommand(
         "PickUp",
         new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false));
     NamedCommands.registerCommand(
         "PickUpStop",
         new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true));
+    // Shooting
     NamedCommands.registerCommand(
         "SpeakerShot",
         new AutoShoot(
@@ -242,6 +258,9 @@ public class RobotContainer {
             m_gyroSubsystem,
             -8.5,
             ShooterConstants.FAR_RPM));
+    NamedCommands.registerCommand(
+        "ZeroAll",
+        new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* PathPlanner Autos */
     autoChooser.addOption("Do Nothing", new InstantCommand());
@@ -253,6 +272,7 @@ public class RobotContainer {
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
     // 2 Piece
     autoChooser.addOption("2 Piece Center", new PathPlannerAuto("2P Center"));
+    autoChooser.addOption("2 Piece Center 2.0", new PathPlannerAuto("Center"));
     autoChooser.addOption("2 Piece Amp", new PathPlannerAuto("2P Amp"));
     autoChooser.addOption("2 Piece Cool Side", new PathPlannerAuto("2P Cool Side"));
     // 3 Piece

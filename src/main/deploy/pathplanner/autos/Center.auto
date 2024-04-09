@@ -12,70 +12,21 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "SpeakerShot"
+            "pathName": "Center to BM"
           }
         },
         {
           "type": "wait",
           "data": {
             "waitTime": 2.0
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "PickUp"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Sub Mid 1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "StopFeeder"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PickUpStop"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Sub Mid 2"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Feeder"
+            "pathName": "BM to Center"
           }
         }
       ]

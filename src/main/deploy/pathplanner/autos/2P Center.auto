@@ -62,6 +62,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "ZeroAll"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "UTB"
                 }
               },
@@ -69,18 +75,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "Sub Mid 1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "StopFeeder"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ZeroWrist"
                 }
               }
             ]
@@ -99,21 +93,28 @@
           }
         },
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpeakerAngle"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": null
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Sub Mid 2"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SpeakerShot"
           }
         }
       ]

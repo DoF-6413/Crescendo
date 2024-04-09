@@ -45,7 +45,7 @@
                   {
                     "type": "named",
                     "data": {
-                      "name": "RevShooter"
+                      "name": "Shooter4000"
                     }
                   },
                   {
@@ -68,6 +68,12 @@
               "data": {
                 "name": "Feeder"
               }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 1.0
+              }
             }
           ]
         }
@@ -83,13 +89,13 @@
             {
               "type": "named",
               "data": {
-                "name": "StopFeeder"
+                "name": "PickUp"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "PickUp"
+                "name": "ZeroAll"
               }
             }
           ]

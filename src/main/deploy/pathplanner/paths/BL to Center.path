@@ -43,6 +43,18 @@
               "data": {
                 "name": "PickUpStop"
               }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Shooter4000"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "SpeakerAngle"
+              }
             }
           ]
         }

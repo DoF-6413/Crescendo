@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.*; // Rotation2d and Translation2d
 import edu.wpi.first.math.kinematics.*; // ChassisSpeeds, SwerveDriveKinematics, SwerveModuleStates
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*; // Timer
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
@@ -218,7 +219,9 @@ public class Drive extends SubsystemBase {
     double omega = chassisSpeeds.omegaRadiansPerSecond;
 
     omegaOverTime += omega * RobotStateConstants.LOOP_PERIODIC_SEC;
-    headingSetpoint = new Rotation2d(omegaOverTime);
+    SmartDashboard.putNumber(
+        "Omega for heading controller", Units.radiansToDegrees(omegaOverTime + Math.PI / 2));
+    headingSetpoint = new Rotation2d(omegaOverTime + Math.PI / 2);
 
     this.runVelocity(
         ChassisSpeeds.fromRobotRelativeSpeeds(

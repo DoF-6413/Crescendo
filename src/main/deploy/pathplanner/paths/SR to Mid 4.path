@@ -3,54 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3135113329050188,
-        "y": 5.576267387828894
+        "x": 0.6807503073695607,
+        "y": 4.373613761472538
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3135113329050188,
-        "y": 6.5678446017343
+        "x": 3.066357813627308,
+        "y": 1.7073465485962325
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.884843695613317,
-        "y": 7.000630297556892
+        "x": 8.270256540513081,
+        "y": 2.4440782784699477
       },
       "prevControl": {
-        "x": 1.8848436956133172,
-        "y": 7.000630297556892
+        "x": 5.568906864309455,
+        "y": 1.8476764019055107
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.1,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Shoot",
+      "name": "Intake",
       "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Feeder"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Pickup",
-      "waypointRelativePos": 0.45,
       "command": {
         "type": "parallel",
         "data": {
@@ -86,7 +75,7 @@
   "reversed": false,
   "folder": "Puzzle Pieces",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -59.62087398863174,
     "velocity": 0
   },
   "useDefaultConstraints": true
