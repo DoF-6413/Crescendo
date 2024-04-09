@@ -69,7 +69,7 @@ public class RobotContainer {
 
   // Mechanisms
   private final Arm m_armSubsystem;
-  //   private final Vision m_visionSubsystem;
+  // private final Vision m_visionSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
@@ -188,10 +188,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "ZeroWrist",
         new InstantCommand(
-            () ->
-                m_wristSubsystem.setGoal(
-                    Units.degreesToRadians(WristConstants.DEFAULT_POSITION_DEG)),
-            m_wristSubsystem));
+            () -> m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD), m_wristSubsystem));
     // Pick Ups
     NamedCommands.registerCommand(
         "UTB",
@@ -217,6 +214,7 @@ public class RobotContainer {
             m_armSubsystem,
             m_gyroSubsystem,
             WristConstants.SUBWOOFER_RAD,
+            ArmConstants.SUBWOOFER_RAD,
             ShooterConstants.CLOSE_RPM));
     NamedCommands.registerCommand(
         "PodiumShot",
@@ -227,6 +225,7 @@ public class RobotContainer {
             m_armSubsystem,
             m_gyroSubsystem,
             0.5,
+            0,
             ShooterConstants.CLOSE_RPM));
     NamedCommands.registerCommand(
         "LineShot",
@@ -237,6 +236,7 @@ public class RobotContainer {
             m_armSubsystem,
             m_gyroSubsystem,
             3,
+            0,
             ShooterConstants.FAR_RPM)); // TODO: Update angle
     NamedCommands.registerCommand(
         "LegShot",
@@ -247,6 +247,7 @@ public class RobotContainer {
             m_armSubsystem,
             m_gyroSubsystem,
             -7,
+            0,
             ShooterConstants.FAR_RPM)); // TODO: Update angle
     NamedCommands.registerCommand(
         "WingShot",
@@ -257,6 +258,7 @@ public class RobotContainer {
             m_armSubsystem,
             m_gyroSubsystem,
             -8.5,
+            0,
             ShooterConstants.FAR_RPM));
     NamedCommands.registerCommand(
         "ZeroAll",
@@ -265,7 +267,6 @@ public class RobotContainer {
         "ZeroYaw", new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
     /* PathPlanner Autos */
-    autoChooser.addOption("Do Nothing", new InstantCommand());
     // Test Autos
     autoChooser.addOption("Auto1", new PathPlannerAuto("Auto1"));
     autoChooser.addOption("test1", new PathPlannerAuto("test1"));
@@ -273,7 +274,7 @@ public class RobotContainer {
     autoChooser.addOption("test3", new PathPlannerAuto("test3"));
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
     // 2 Piece
-    autoChooser.addOption("2 Piece Center", new PathPlannerAuto("2P Center"));
+    autoChooser.addDefaultOption("2 Piece Center", new PathPlannerAuto("2P Center"));
     autoChooser.addOption("2 Piece Center 2.0", new PathPlannerAuto("Center"));
     autoChooser.addOption("2 Piece Amp", new PathPlannerAuto("2P Amp"));
     autoChooser.addOption("2 Piece Cool Side", new PathPlannerAuto("2P Cool Side"));
@@ -285,10 +286,11 @@ public class RobotContainer {
     // 5+ Piece
     autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
     autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
+    // Adds auto tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
     // Adds list of deadreckond autos to Shuffleboard
-    autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
+    autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
     autoChooser.addOption(
         "One Piece", new OnePieceAuto(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
@@ -347,7 +349,7 @@ public class RobotContainer {
             1,
             m_gyroSubsystem));
     autoChooser.addOption(
-        " Red One Piece Leave Amp Side",
+        "Red One Piece Leave Amp Side",
         new OnePieceLeaveCoolSide(
             m_wristSubsystem,
             m_feederSubsystem,
@@ -357,7 +359,7 @@ public class RobotContainer {
             1,
             m_gyroSubsystem));
     autoChooser.addOption(
-        " Three Piece Leave Amp Side Blue",
+        "Three Piece Leave Amp Side Blue",
         new ThreePieceAutoBlue(
             m_driveSubsystem,
             m_gyroSubsystem,
@@ -371,7 +373,7 @@ public class RobotContainer {
             2,
             1));
     autoChooser.addOption(
-        " Three Piece Leave Amp Side Red",
+        "Three Piece Leave Amp Side Red",
         new ThreePieceAutoRed(
             m_driveSubsystem,
             m_gyroSubsystem,
@@ -413,6 +415,7 @@ public class RobotContainer {
             2,
             1));
 
+    // Adds a delay onto the deadreakoned autos
     SmartDashboard.putNumber("Delay", 0);
 
     // Configure the button bindings
@@ -444,9 +447,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // PathPlannerPath path = PathPlannerPath.fromPathFile("Curve");
-    // return AutoBuilder.followPath(path);
-    // return new PathPlannerAuto("Curve");
     return autoChooser.get();
   }
 
@@ -461,18 +461,29 @@ public class RobotContainer {
     m_otbIntakeSubsystem.setBrakeMode(!isDisabled);
   }
 
+  /**
+   * Toggles PID tuning
+   *
+   * @param enable True enables PID
+   */
   public void enablePID(boolean enable) {
     m_armSubsystem.enablePID(enable);
     m_wristSubsystem.enablePID(enable);
     m_shooterSubsystem.enablePID(enable);
   }
 
+  /**
+   * Toggles the use of SmartDashboard PIDFF values
+   *
+   * @param enable True uses the PIDFF values typed onto SmartDashboard
+   */
   public void enableTesting(boolean enable) {
     m_armSubsystem.enableTesting(enable);
     m_wristSubsystem.enableTesting(enable);
     m_shooterSubsystem.enableTesting(enable);
   }
 
+  /** Sets the setpoint/position to zero */
   public void setAllSetpointsZero() {
     m_shooterSubsystem.setSetpoint(0);
     m_wristSubsystem.setGoal(0);
@@ -480,6 +491,7 @@ public class RobotContainer {
     m_feederSubsystem.setSetpoint(0);
   }
 
+  /** Contoller keybinds for the driver contoller port */
   public void driverControllerBindings() {
     // Driving the robot
     m_driveSubsystem.setDefaultCommand(new DefaultDriveCommand(m_driveSubsystem, driverController));
@@ -538,6 +550,7 @@ public class RobotContainer {
                 true));
   }
 
+  /** Contoller keybinds for the aux contoller port */
   public void auxControllerBindings() {
     auxController
         .start()
@@ -546,6 +559,8 @@ public class RobotContainer {
                 m_feederSubsystem,
                 m_shooterSubsystem,
                 m_wristSubsystem,
+                m_armSubsystem,
+                0,
                 0,
                 ShooterConstants.FAR_RPM))
         .onFalse(
@@ -558,6 +573,8 @@ public class RobotContainer {
                 m_feederSubsystem,
                 m_shooterSubsystem,
                 m_wristSubsystem,
+                m_armSubsystem,
+                0,
                 0,
                 ShooterConstants.FAR_RPM))
         .onFalse(
@@ -591,7 +608,7 @@ public class RobotContainer {
                 () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
                 m_wristSubsystem))
         .onFalse(new RunCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem));
-    ;
+
     // Decreases angle of the Wrist by 1 degree
     auxController
         .povRight()
@@ -600,7 +617,6 @@ public class RobotContainer {
                 () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
                 m_wristSubsystem))
         .onFalse(new RunCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem));
-    ;
 
     /* Arm */
     // Increases angle of the Arm by 1 degree
@@ -617,9 +633,8 @@ public class RobotContainer {
             new RunCommand(
                 () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)), m_armSubsystem))
         .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
-    ;
 
-    // /* Scoring SPEAKER when up against it */
+    /* Scoring SPEAKER when up against it */
     auxController
         .leftTrigger()
         .onTrue(
@@ -627,10 +642,13 @@ public class RobotContainer {
                 m_feederSubsystem,
                 m_shooterSubsystem,
                 m_wristSubsystem,
+                m_armSubsystem,
                 WristConstants.SUBWOOFER_RAD,
+                ArmConstants.SUBWOOFER_RAD, // TODO: Verify angle
                 ShooterConstants.CLOSE_RPM))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+
     // auxController
     //     .button(10)
     //     .onTrue(
@@ -638,7 +656,9 @@ public class RobotContainer {
     //             m_feederSubsystem,
     //             m_shooterSubsystem,
     //             m_wristSubsystem,
+    //             m_armSubsystem,
     //             WristConstants.SUBWOOFER_RAD,
+    //             0,
     //             3000))
     //     .onFalse(
     //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
@@ -650,7 +670,9 @@ public class RobotContainer {
     //             m_feederSubsystem,
     //             m_shooterSubsystem,
     //             m_wristSubsystem,
+    //             m_armSubsystem,
     //             WristConstants.SUBWOOFER_RAD,
+    //             0,
     //             3000))
     //     .onFalse(
     //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
@@ -664,7 +686,9 @@ public class RobotContainer {
                 m_feederSubsystem,
                 m_shooterSubsystem,
                 m_wristSubsystem,
+                m_armSubsystem,
                 WristConstants.PODIUM_RAD,
+                0,
                 ShooterConstants.CLOSE_RPM))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));

@@ -12,6 +12,7 @@ import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAu
 import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Subsystems.actuator.Actuator;
+import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.gyro.Gyro;
@@ -30,6 +31,7 @@ public class TwoMidfieldPieceAuto extends SequentialCommandGroup {
       Drive drive,
       Gyro gyro,
       Wrist wrist,
+      Arm arm,
       Feeder feeder,
       Shooter shooter,
       Actuator actuator,
@@ -75,6 +77,6 @@ public class TwoMidfieldPieceAuto extends SequentialCommandGroup {
               drive.setRaw(0, -speedY, 0);
             }),
         new PositionToShoot(
-            feeder, shooter, wrist, WristConstants.PODIUM_RAD, ShooterConstants.CLOSE_RPM));
+            feeder, shooter, wrist, arm, WristConstants.PODIUM_RAD, 0, ShooterConstants.CLOSE_RPM));
   }
 }

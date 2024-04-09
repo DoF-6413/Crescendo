@@ -96,6 +96,6 @@ public class FourPieceRed extends SequentialCommandGroup {
                   drive.setRaw(0.0, 0.0, 0.0);
                 },
                 drive),
-            new PositionToShoot(feeder, shooter, wrist, 0.5, ShooterConstants.CLOSE_RPM)));
+            new PositionToShoot(feeder, shooter, wrist, arm, 0.5, 0, ShooterConstants.CLOSE_RPM)));
   }
 }

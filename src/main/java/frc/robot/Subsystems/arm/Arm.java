@@ -43,7 +43,7 @@ public class Arm extends SubsystemBase {
     armPIDController.setTolerance(ArmConstants.ANGLE_TOLERANCE);
     armPIDController.disableContinuousInput();
 
-    // Initalizing the Arm FF Controller
+    // Initalizing the Arm Feedforward Controller
     armFeedforward = new SimpleMotorFeedforward(ArmConstants.KS, ArmConstants.KV, ArmConstants.KA);
 
     // Puts the adjustable PID and FF values onto the SmartDashboard for the test mode
@@ -53,6 +53,7 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("armkS", 0.0);
     SmartDashboard.putNumber("armkV", 0.0);
     SmartDashboard.putNumber("armkA", 0.0);
+    SmartDashboard.putNumber("armMaxAcceleration", 0.0);
   }
 
   @Override
@@ -122,10 +123,18 @@ public class Arm extends SubsystemBase {
     // armPIDController.setGoal(goal);
   }
 
+  /** Returns the goal/setpoint of the Arm PID contoller */
   public double getGoal() {
     return armPIDController.getSetpoint();
     // return armPIDController.getGoal().position;
   }
+
+  /** Returns whether the arm is at its goal or not */
+  public boolean atGoal() {
+    return armPIDController.atSetpoint();
+    // return armPIDController.atGoal();
+  }
+
   /**
    * Changes the angle goal of the Arm
    *
@@ -134,12 +143,6 @@ public class Arm extends SubsystemBase {
   public void incrementArmGoal(double increment) {
     armPIDController.setSetpoint(armPIDController.getSetpoint() + increment);
     // armPIDController.setGoal(armPIDController.getGoal().position + increment);
-  }
-
-  /** Returns whether the arm is at its goal or not */
-  public boolean atGoal() {
-    return armPIDController.atSetpoint();
-    // return armPIDController.atGoal();
   }
 
   /**
@@ -183,7 +186,6 @@ public class Arm extends SubsystemBase {
 
   /** Updates PID and FF values from the SmartDashboard during testing mode */
   public void testPIDFValues() {
-    SmartDashboard.putNumber("armMaxAcceleration", 0.0);
     if (ArmConstants.KP != SmartDashboard.getNumber("armkP", 1.0)
         || ArmConstants.KI != SmartDashboard.getNumber("armkI", 0.0)
         || ArmConstants.KD != SmartDashboard.getNumber("armkD", 0.0)) {

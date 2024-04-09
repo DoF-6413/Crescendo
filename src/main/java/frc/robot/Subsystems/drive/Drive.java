@@ -23,7 +23,7 @@ public class Drive extends SubsystemBase {
   private final Gyro gyro;
   private Twist2d twist = new Twist2d();
   private final HeadingController headingController = new HeadingController();
-  double omegaOverTime = 0;
+  double omega = 0;
 
   // swerve kinematics library
   public SwerveDriveKinematics swerveKinematics;
@@ -216,12 +216,15 @@ public class Drive extends SubsystemBase {
   }
 
   public void PathplannerWithHeadingController(ChassisSpeeds chassisSpeeds) {
-    double omega = chassisSpeeds.omegaRadiansPerSecond;
+    double omegaOverTime = chassisSpeeds.omegaRadiansPerSecond;
 
-    omegaOverTime += omega * RobotStateConstants.LOOP_PERIODIC_SEC;
+    omega += omegaOverTime * RobotStateConstants.LOOP_PERIODIC_SEC;
     SmartDashboard.putNumber(
         "Omega for heading controller", Units.radiansToDegrees(omegaOverTime + Math.PI / 2));
-    headingSetpoint = new Rotation2d(omegaOverTime + Math.PI / 2);
+        headingSetpoint = new Rotation2d(omegaOverTime + Math.PI / 2);
+        SmartDashboard.putNumber(
+            "Heading Controller Update",
+            headingController.update(headingSetpoint, getRotation(), gyro.getRate()));
 
     this.runVelocity(
         ChassisSpeeds.fromRobotRelativeSpeeds(

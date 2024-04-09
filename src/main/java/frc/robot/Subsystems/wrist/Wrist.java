@@ -37,7 +37,7 @@ public class Wrist extends SubsystemBase {
             WristConstants.KD,
             new TrapezoidProfile.Constraints(
                 WristConstants.MAX_VELOCITY, WristConstants.MAX_ACCELERATION));
-    wristPIDController.setGoal(WristConstants.DEFAULT_POSITION_DEG);
+    wristPIDController.setGoal(WristConstants.DEFAULT_POSITION_RAD);
     wristPIDController.setTolerance(WristConstants.ANGLE_TOLERANCE);
     wristPIDController.disableContinuousInput();
 
@@ -189,7 +189,6 @@ public class Wrist extends SubsystemBase {
           SmartDashboard.getNumber("wristkV", 0.0001),
           SmartDashboard.getNumber("wristkA", 0.0));
     }
-
     if (WristConstants.MAX_ACCELERATION != SmartDashboard.getNumber("wristMaxAcceleration", 0.0)) {
       updateTrapezoidalConstraints(SmartDashboard.getNumber("armMaxAcceleration", 0.0));
     }

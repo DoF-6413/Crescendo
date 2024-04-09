@@ -8,7 +8,6 @@ import edu.wpi.first.math.util.Units;
 
 public final class ArmConstants {
   // Profiled PID & FF Constants for the arm
-  // TODO: Update and finalize
 
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
@@ -18,16 +17,16 @@ public final class ArmConstants {
   public static double KI = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
   public static double KD = 0.0;
-  /** */
+  /** The max velocity the Arm can run at */
   public static double MAX_VELOCITY = 0.0;
-  /** */
+  /** The max acceleration the Arm can run at */
   public static double MAX_ACCELERATION = 0.0;
 
   /** KS represents the voltage added to overcome static friction */
   public static double KS = 0.0;
-  /** KV represents the */
+  /** KV represents the velocity gain */
   public static double KV = 0.0;
-  /** KV represents the */
+  /** KV represents the acceleration gain */
   public static double KA = 0.0;
 
   /**
@@ -79,6 +78,6 @@ public final class ArmConstants {
   public static final double AMP_FRONT_SIDE_RAD = 2.244;
   /** SOURCE Pickup back side */
   public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(28.53329);
-
-  public static final double SUBWOOFER_RAD = 0.240;
+  /** Subwoofer scoring angle */
+  public static final double SUBWOOFER_RAD = 0.240; // TODO: Update, has to clear battery cover
 }

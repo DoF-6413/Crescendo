@@ -20,7 +20,14 @@ import frc.robot.Subsystems.wrist.Wrist;
 public class AutoShoot extends SequentialCommandGroup {
   /** Creates a new SpeakerShoot. */
   public AutoShoot(
-      Feeder feeder, Shooter shooter, Wrist wrist, Arm arm, Gyro gyro, double angle, double RPM) {
+      Feeder feeder,
+      Shooter shooter,
+      Wrist wrist,
+      Arm arm,
+      Gyro gyro,
+      double angleWrist,
+      double angleArm,
+      double RPM) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -31,13 +38,14 @@ public class AutoShoot extends SequentialCommandGroup {
             feeder),
         Commands.runOnce(
             () -> {
-              wrist.setGoal(angle);
+              wrist.setGoal(angleWrist);
+              arm.setGoal(angleArm);
               shooter.setSetpoint(RPM);
             },
             wrist,
+            arm,
             shooter),
         new WaitUntilCommand(() -> shooter.bothAtSetpoint()),
-        // new WaitCommand(2),
         new Shoot(feeder, arm, shooter));
   }
 }

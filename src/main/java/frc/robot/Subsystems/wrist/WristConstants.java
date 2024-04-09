@@ -12,15 +12,17 @@ public final class WristConstants {
   public static double KI = 0.0;
   /** Represents the derivative constant, multiplied by the change in error */
   public static double KD = 0.01;
-  /** */
+  /** The max velocity the Wrist can run at */
+  public static double MAX_VELOCITY = 506.8427;
+  /** The max acceleration the Wrist can run at */
   public static double MAX_ACCELERATION = 0.0;
 
   // Feedforward Constants for the Wrist
-  /** */
+  /** KS represents the voltage added to overcome static friction */
   public static double KS = 0.2;
-  /** */
+  /** KV represents the velocity gain */
   public static double KV = 0.0001;
-  /** */
+  /** KV represents the acceleration gain */
   public static double KA = 0.0;
 
   /** The position of the Wrist can be within 2 degree of the setpoint */
@@ -46,8 +48,6 @@ public final class WristConstants {
   /** Gear ratio of the Wrist motor */
   public static final double GEAR_RATIO = 58.33;
 
-  public static final double MAX_VELOCITY = 506.8427;
-
   /** Length from the Wrist */
   public static final double LENGTH_M = 0.4126308486;
   /** Minimum angle of the Wrist */
@@ -58,6 +58,7 @@ public final class WristConstants {
   /** Starting angle of the Wrist for sim, same as minimum angle */
   public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD;
 
+  /** Offset of the Arm absolute encoder */
   public static final double ABS_ENCODER_OFFSET_RADS = -2.01715;
 
   // Teleop Automations
@@ -71,6 +72,6 @@ public final class WristConstants {
   public static final double PODIUM_RAD = Units.degreesToRadians(9.5);
   /** SPEAKER shot from subwoofer */
   public static final double SUBWOOFER_RAD = Units.degreesToRadians(35);
-
-  public static final double DEFAULT_POSITION_DEG = 11;
+  /** Wrists default position for intaking NOTEs best */
+  public static final double DEFAULT_POSITION_RAD = Units.degreesToRadians(11);
 }
