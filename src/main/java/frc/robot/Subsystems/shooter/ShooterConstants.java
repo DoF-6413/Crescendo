@@ -2,7 +2,7 @@ package frc.robot.Subsystems.shooter;
 
 public class ShooterConstants {
 
-  // PID & FF Constants TODO: Update and finalize
+  // PID & FF Constants
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
@@ -48,8 +48,10 @@ public class ShooterConstants {
   // Teleop Automations
   /** AMP score speed */
   public static final double AMP_RPM = 2500;
-  /** SPEAKER score speed */
+  /** SPEAKER score speed at or near the subwoofer */
   public static final double CLOSE_RPM = 4000;
-
+  /** SPEAKER score speed from mid stage and beyond */
   public static final double FAR_RPM = 6000;
+  /** Shooter speed for sending NOTEs from the SOURCE to Midfield */
+  public static final double SOURCE_FEED_RPM = 5500;
 }

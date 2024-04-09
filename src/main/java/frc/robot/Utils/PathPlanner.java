@@ -26,7 +26,7 @@ public class PathPlanner extends SubsystemBase {
         pose::getCurrentPose2d,
         pose::resetPose,
         drive::getChassisSpeed,
-        drive::PathplannerWithHeadingController,
+        drive::runVelocity,
         new HolonomicPathFollowerConfig(
             new PIDConstants(0.0, 0, 0),
             new PIDConstants(0.0, 0, 0),

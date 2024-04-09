@@ -32,54 +32,6 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Shoot",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "parallel",
-              "data": {
-                "commands": [
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "Shooter4000"
-                    }
-                  },
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "SpeakerAngle"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "type": "wait",
-              "data": {
-                "waitTime": 0.2
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Feeder"
-              }
-            },
-            {
-              "type": "wait",
-              "data": {
-                "waitTime": 1.0
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "Pick Up",
       "waypointRelativePos": 0.2,
       "command": {
@@ -89,13 +41,13 @@
             {
               "type": "named",
               "data": {
-                "name": "PickUp"
+                "name": "ZeroAll"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "ZeroAll"
+                "name": "UTB"
               }
             }
           ]

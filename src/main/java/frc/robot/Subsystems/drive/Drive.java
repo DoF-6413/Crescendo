@@ -221,10 +221,10 @@ public class Drive extends SubsystemBase {
     omega += omegaOverTime * RobotStateConstants.LOOP_PERIODIC_SEC;
     SmartDashboard.putNumber(
         "Omega for heading controller", Units.radiansToDegrees(omegaOverTime + Math.PI / 2));
-        headingSetpoint = new Rotation2d(omegaOverTime + Math.PI / 2);
-        SmartDashboard.putNumber(
-            "Heading Controller Update",
-            headingController.update(headingSetpoint, getRotation(), gyro.getRate()));
+    headingSetpoint = new Rotation2d(omegaOverTime + Math.PI / 2);
+    SmartDashboard.putNumber(
+        "Heading Controller Update",
+        headingController.update(headingSetpoint, getRotation(), gyro.getRate()));
 
     this.runVelocity(
         ChassisSpeeds.fromRobotRelativeSpeeds(
