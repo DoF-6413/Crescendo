@@ -46,52 +46,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "shoot",
-      "waypointRelativePos": 0.0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": []
-        }
-      }
-    },
-    {
-      "name": "pickup",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "pickUp"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "shoot2",
-      "waypointRelativePos": 2.0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "shoot"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.2,
     "maxAcceleration": 5.2,

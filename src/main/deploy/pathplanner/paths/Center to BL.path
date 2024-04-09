@@ -9,18 +9,18 @@
       "prevControl": null,
       "nextControl": {
         "x": 1.3135113329050188,
-        "y": 6.5678446017343
+        "y": 7.076267387828894
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.884843695613317,
+        "x": 3.15,
         "y": 7.000630297556892
       },
       "prevControl": {
-        "x": 1.8848436956133172,
+        "x": 2.15,
         "y": 7.000630297556892
       },
       "nextControl": null,
@@ -32,25 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Shoot",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Feeder"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "Pickup",
-      "waypointRelativePos": 0.45,
+      "waypointRelativePos": 0.25,
       "command": {
         "type": "parallel",
         "data": {
@@ -58,13 +41,19 @@
             {
               "type": "named",
               "data": {
-                "name": "PickUp"
+                "name": "ZeroWrist"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "ZeroAll"
+                "name": "StopShooter"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "UTB"
               }
             }
           ]

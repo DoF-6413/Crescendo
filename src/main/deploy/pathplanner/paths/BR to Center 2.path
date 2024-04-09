@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.15,
-        "y": 7.000630297556892
+        "x": 2.94,
+        "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.158422786094594,
-        "y": 7.000630297556892
+        "x": 2.232893218813453,
+        "y": 4.8071067811865476
       },
       "isLocked": false,
       "linkedName": null
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 1.31,
-        "y": 5.58
+        "y": 5.54
       },
       "prevControl": {
-        "x": 1.31,
-        "y": 6.58
+        "x": 1.2392893218813452,
+        "y": 5.610710678118655
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,18 +32,12 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Stop Intake",
+      "name": "Subwoofer Angle",
       "waypointRelativePos": 0.4,
       "command": {
         "type": "parallel",
         "data": {
           "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "PickUpStop"
-              }
-            },
             {
               "type": "named",
               "data": {

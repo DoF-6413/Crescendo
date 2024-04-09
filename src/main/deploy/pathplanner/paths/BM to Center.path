@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.8945897891795784,
+        "x": 3.15,
         "y": 5.576267387828894
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8945897891795744,
+        "x": 2.149999999999996,
         "y": 5.576267387828894
       },
       "isLocked": false,
@@ -45,15 +45,34 @@
               }
             },
             {
-              "type": "named",
+              "type": "sequential",
               "data": {
-                "name": "Shooter4000"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "SpeakerAngle"
+                "commands": [
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "SpeakerAngle"
+                    }
+                  },
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "FeederReverse"
+                    }
+                  },
+                  {
+                    "type": "wait",
+                    "data": {
+                      "waitTime": 0.3
+                    }
+                  },
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "Shooter4000"
+                    }
+                  }
+                ]
               }
             }
           ]

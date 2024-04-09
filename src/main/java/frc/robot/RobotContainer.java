@@ -32,6 +32,7 @@ import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.ThreePiece
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.ThreePieceAutoRed;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.TwoPieceReturnSub;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.AutoShoot;
+import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootingReady;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
@@ -178,6 +179,9 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM), m_feederSubsystem));
     NamedCommands.registerCommand(
+        "FeederReverse",
+        new InstantCommand(() -> m_feederSubsystem.setSetpoint(-500), m_feederSubsystem));
+    NamedCommands.registerCommand(
         "StopFeeder",
         new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
     // Angles
@@ -198,12 +202,12 @@ public class RobotContainer {
         "UTBStop",
         new InstantCommand(
             () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
-    // NamedCommands.registerCommand(
-    //     "PickUp",
-    //     new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false));
-    // NamedCommands.registerCommand(
-    //     "PickUpStop",
-    //     new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true));
+    NamedCommands.registerCommand(
+        "PickUp",
+        new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false));
+    NamedCommands.registerCommand(
+        "PickUpStop",
+        new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true));
     // Shooting
     NamedCommands.registerCommand(
         "SpeakerShot",
@@ -285,6 +289,7 @@ public class RobotContainer {
     // 2 Piece
     autoChooser.addDefaultOption("2 Piece Center", new PathPlannerAuto("2P Center"));
     autoChooser.addOption("2 Piece Center 2.0", new PathPlannerAuto("Center"));
+    autoChooser.addOption("2 Piece Center 3.0", new PathPlannerAuto("Center 2"));
     autoChooser.addOption("2 Piece Amp", new PathPlannerAuto("2P Amp"));
     autoChooser.addOption("2 Piece Cool Side", new PathPlannerAuto("2P Cool Side"));
     // 3 Piece
@@ -292,6 +297,7 @@ public class RobotContainer {
     autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
     // 4 Piece
     autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
+    autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
     // 5+ Piece
     autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
     autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));

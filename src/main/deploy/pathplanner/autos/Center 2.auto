@@ -5,14 +5,14 @@
       "x": 1.3135113329050188,
       "y": 5.576267387828894
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "race",
+          "type": "sequential",
           "data": {
             "commands": [
               {
@@ -33,38 +33,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center to BM"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BM to Center"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootingReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Feeder"
-                }
-              }
-            ]
+            "pathName": "Center to BM (Shoot)"
           }
         }
       ]
