@@ -78,7 +78,7 @@ public class RobotContainer {
   private final Wrist m_wristSubsystem;
 
   // Utilities
-  private final PoseEstimator m_poseEstimator;
+  private final PoseEstimatorLimelight m_poseEstimator;
   private final PathPlanner m_pathPlanner;
 
   // Controllers
@@ -157,7 +157,7 @@ public class RobotContainer {
     }
 
     // Utils
-    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
+    m_poseEstimator = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
     /* Event Marker Commands */
@@ -261,6 +261,8 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "ZeroAll",
         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+    NamedCommands.registerCommand(
+        "ZeroYaw", new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
 
     /* PathPlanner Autos */
     autoChooser.addOption("Do Nothing", new InstantCommand());

@@ -24,7 +24,11 @@ public class AutoShoot extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        Commands.runOnce(() -> gyro.zeroYaw(), gyro),
+        Commands.runOnce(
+            () -> {
+              feeder.setSetpoint(-500);
+            },
+            feeder),
         Commands.runOnce(
             () -> {
               wrist.setGoal(angle);

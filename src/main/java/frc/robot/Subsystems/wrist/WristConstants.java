@@ -72,5 +72,5 @@ public final class WristConstants {
   /** SPEAKER shot from subwoofer */
   public static final double SUBWOOFER_RAD = Units.degreesToRadians(35);
 
-  public static final double DEFAULT_POSITION_DEG = 7;
+  public static final double DEFAULT_POSITION_DEG = 11;
 }

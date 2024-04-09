@@ -12,6 +12,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "ZeroYaw"
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
@@ -22,7 +28,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "RevShooter"
+                        "name": "Shooter4000"
                       }
                     },
                     {
@@ -37,7 +43,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.2
+                  "waitTime": 2.0
                 }
               },
               {
@@ -52,23 +58,30 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 0.3
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "ZeroAll"
+                  "name": "ZeroWrist"
                 }
               },
               {
-                "type": "named",
+                "type": "parallel",
                 "data": {
-                  "name": "UTB"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "UTB"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -78,43 +91,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PickUpStop"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpeakerAngle"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": null
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Sub Mid 2"
           }
         }
       ]

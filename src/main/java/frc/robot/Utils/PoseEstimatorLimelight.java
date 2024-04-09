@@ -6,23 +6,22 @@ package frc.robot.Utils;
 
 import edu.wpi.first.apriltag.*;
 import edu.wpi.first.math.*;
-import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.drive.*;
-import frc.robot.Subsystems.drive.DriveConstants;
 import frc.robot.Subsystems.gyro.*;
-import frc.robot.Subsystems.vision.*;
-import org.photonvision.targeting.PhotonPipelineResult;
+// import frc.robot.Subsystems.photonVision.*;
 
 /** This class handels the odometry and locates the robots current position */
-public class PoseEstimator extends SubsystemBase {
+public class PoseEstimatorLimelight extends SubsystemBase {
   /**
    * Increase the numbers to trust the model's state estimate less it is a matrix in form of [x, y,
    * theta] or meters, meters, radians
@@ -33,27 +32,19 @@ public class PoseEstimator extends SubsystemBase {
    * increase the numbers to trust the vision measurements less also in form [x, y, theta] or
    * meters, meters, radians
    */
-  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.01, 0.01, 0.01);
 
   private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;
-  // private Vision vision;
   private Gyro gyro;
   private Field2d field2d;
-  public PhotonPipelineResult pipelineResult;
-  public double resultsTimeStamp;
 
-  private double previousPipelineTimestamp = 0;
-  private final AprilTagFieldLayout aprilTagFieldLayout;
-
-  public PoseEstimator(Drive drive, Gyro gyro
-      // , Vision Vision
-      ) {
+  /** Pose Estimation aided by the Limelight */
+  public PoseEstimatorLimelight(Drive drive, Gyro gyro) {
 
     field2d = new Field2d();
     SmartDashboard.putData(field2d);
     this.drive = drive;
-    // this.vision = Vision;
     this.gyro = gyro;
 
     poseEstimator =
@@ -62,48 +53,29 @@ public class PoseEstimator extends SubsystemBase {
             gyro.getYaw(),
             drive.getSwerveModulePositions(),
             new Pose2d(new Translation2d(), new Rotation2d()));
-    aprilTagFieldLayout =
-        new AprilTagFieldLayout(
-            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getTags(),
-            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldLength(),
-            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldWidth());
   }
 
   @Override
   public void periodic() {
     // When ran on the real robot it would overload the command scheduler, causing input delay from
     // joystick to driving
+    // if (RobotStateConstants.getMode() == Mode.SIM) {
     field2d.setRobotPose(getCurrentPose2d());
     poseEstimator.updateWithTime(
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
 
-    // if (vision.getResult().hasTargets()) {
+    LimelightHelpers.PoseEstimate limelightMeasurement =
+        LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
 
-    //   pipelineResult = vision.getResult();
-    //   resultsTimeStamp = pipelineResult.getTimestampSeconds();
-
-    //   if (resultsTimeStamp != previousPipelineTimestamp) {
-
-    //     previousPipelineTimestamp = resultsTimeStamp;
-
-    //     var target = pipelineResult.getBestTarget();
-    //     var fiducialID = target.getFiducialId();
-    //     if (target.getPoseAmbiguity() < 0.2
-    //         && fiducialID >= 1
-    //         && fiducialID <= 16) { // 0.2 is considered ambiguous
-
-    //       Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
-    //       Transform3d camToTarget = target.getBestCameraToTarget();
-    //       Pose3d camPose = tagPose.transformBy(camToTarget);
-
-    //       Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobotOffsets);
-    //       poseEstimator.addVisionMeasurement(
-    //           visionMeasurement.toPose2d(),
-    //           Timer.getFPGATimestamp(),
-    //           visionMeasurementStandardDevs);
-    //     }
-    //   }
-    // }
+    if (limelightMeasurement.tagCount >= 2) {
+      poseEstimator.addVisionMeasurement(
+          limelightMeasurement.pose.transformBy(
+              new Transform2d(
+                  new Translation2d(Units.inchesToMeters(3.265), Units.inchesToMeters(13.25)),
+                  new Rotation2d())),
+          limelightMeasurement.timestampSeconds,
+          visionMeasurementStandardDevs);
+    }
   }
 
   /**
@@ -118,12 +90,37 @@ public class PoseEstimator extends SubsystemBase {
    * @param currentPose2d
    */
   public void resetPose(Pose2d currentPose2d) {
-    poseEstimator.resetPosition(gyro.getAngle(), drive.getSwerveModulePositions(), currentPose2d);
+    poseEstimator.resetPosition(gyro.getYaw(), drive.getSwerveModulePositions(), currentPose2d);
   }
+
   /**
    * @return the rotation in a Rotation2d in degrees
    */
   public Rotation2d getRotation() {
     return poseEstimator.getEstimatedPosition().getRotation();
+  }
+
+  public Rotation2d AngleForSpeaker() {
+    Translation2d delta;
+    if (DriverStation.getAlliance().isPresent()
+        && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+      delta = this.getCurrentPose2d().getTranslation().minus(FieldConstants.RED_SPEAKER);
+      delta =
+          delta.minus(
+              new Translation2d(
+                      0, (drive.getChassisSpeed().vyMetersPerSecond / 6) * delta.getNorm())
+                  .rotateBy(
+                      this.getCurrentPose2d().getRotation().plus(Rotation2d.fromDegrees(180))));
+      return Rotation2d.fromRadians(Math.atan(delta.getY() / delta.getX()))
+          .rotateBy(new Rotation2d(Math.PI));
+    } else {
+      delta = this.getCurrentPose2d().getTranslation().minus(FieldConstants.BLUE_SPEAKER);
+      delta =
+          delta.plus(
+              new Translation2d(
+                      0, (drive.getChassisSpeed().vyMetersPerSecond / 6) * delta.getNorm())
+                  .rotateBy(this.getCurrentPose2d().getRotation()));
+      return Rotation2d.fromRadians(Math.atan(delta.getY() / delta.getX()));
+    }
   }
 }
