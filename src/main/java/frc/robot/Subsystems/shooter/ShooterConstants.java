@@ -53,7 +53,7 @@ public class ShooterConstants {
     {27, 21, 19, 11, 6, 3.5, 1}, // theta_max_degrees
     {20, 16, 11, 8.5, 5, 1.5, 0} // theta_min_degrees
 
-    //New Values Tested Are: 1
+    // New Values Tested Are: 1
   };
 
   // Inverted motors
