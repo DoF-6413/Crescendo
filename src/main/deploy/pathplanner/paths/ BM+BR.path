@@ -133,7 +133,7 @@
             {
               "type": "named",
               "data": {
-                "name": "RevShooter"
+                "name": null
               }
             }
           ]

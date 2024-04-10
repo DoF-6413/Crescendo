@@ -3,61 +3,49 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.94,
-        "y": 4.1
+        "x": 3.15,
+        "y": 5.58
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.232893218813453,
-        "y": 4.8071067811865476
+        "x": 2.6196699141100894,
+        "y": 5.049669914110089
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.31,
-        "y": 5.54
+        "x": 3.0197318289373425,
+        "y": 7.033697400728136
       },
       "prevControl": {
-        "x": 1.2392893218813452,
-        "y": 5.610710678118655
+        "x": 1.937200074206794,
+        "y": 6.408697400728136
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
-  "constraintZones": [],
-  "eventMarkers": [
+  "rotationTargets": [
     {
-      "name": "Subwoofer Angle",
-      "waypointRelativePos": 0.4,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "SpeakerAngle"
-              }
-            }
-          ]
-        }
-      }
+      "waypointRelativePos": 0.3,
+      "rotationDegrees": 30.0,
+      "rotateFast": false
     }
   ],
+  "constraintZones": [],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 30.0,
     "rotateFast": false
   },
   "reversed": false,

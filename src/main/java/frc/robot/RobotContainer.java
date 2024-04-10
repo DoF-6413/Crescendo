@@ -161,7 +161,7 @@ public class RobotContainer {
     m_poseEstimator = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
 
-    /* Event Marker Commands */
+    /* PathPlanner Registere Commands */
     // Shooter/Feeder
     NamedCommands.registerCommand(
         "Shooter4000",
@@ -300,6 +300,7 @@ public class RobotContainer {
     // 4 Piece
     autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
     autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
+    autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
     // 5+ Piece
     autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
     autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));

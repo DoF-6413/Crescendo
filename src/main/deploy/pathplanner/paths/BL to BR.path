@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6807503073695607,
-        "y": 4.373613761472538
+        "x": 3.0197318289373425,
+        "y": 7.033697400728136
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.066357813627308,
-        "y": 1.7073465485962325
+        "x": 0.78465363951155,
+        "y": 3.5964855237625746
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.270256540513081,
-        "y": 2.4440782784699477
+        "x": 2.95,
+        "y": 4.11
       },
       "prevControl": {
-        "x": 5.568906864309455,
-        "y": 1.8476764019055107
+        "x": 2.7,
+        "y": 4.11
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,30 +30,24 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.1,
-      "rotationDegrees": 0,
+      "waypointRelativePos": 0.3,
+      "rotationDegrees": 0.0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 0,
+      "name": "Stop Shooter",
+      "waypointRelativePos": 0.25,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "PickUp"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "ZeroAll"
+                "name": "StopShooter"
               }
             }
           ]
@@ -63,20 +57,20 @@
   ],
   "globalConstraints": {
     "maxVelocity": 5.2,
-    "maxAcceleration": 5.2,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Puzzle Pieces",
   "previewStartingState": {
-    "rotation": -59.62087398863174,
+    "rotation": 29.744881296942097,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

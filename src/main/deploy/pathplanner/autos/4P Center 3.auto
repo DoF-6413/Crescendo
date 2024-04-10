@@ -24,7 +24,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.2
+                  "waitTime": 1.0
                 }
               }
             ]
@@ -39,13 +39,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.25
+            "waitTime": 0.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BM to BR"
+            "pathName": "BM to BL"
           }
         },
         {
@@ -57,38 +57,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BR to Center 2"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpeakerShot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.2
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center to BL"
+            "pathName": "BL to BR"
           }
         },
         {
@@ -100,13 +69,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BL to Center"
+            "pathName": "BR to BM"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0
+            "waitTime": 0.5
           }
         },
         {
@@ -116,7 +85,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SpeakerShot"
+                  "name": "Feeder"
                 }
               }
             ]

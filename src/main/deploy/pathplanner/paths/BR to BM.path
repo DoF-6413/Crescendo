@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.15,
-        "y": 5.576267387828894
+        "x": 2.95,
+        "y": 4.11
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.149999999999996,
-        "y": 5.576267387828894
+        "x": 2.95,
+        "y": 5.111988170026828
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.31,
-        "y": 5.576267387828894
+        "x": 2.95,
+        "y": 5.54
       },
       "prevControl": {
-        "x": 2.31,
-        "y": 5.576267387828894
+        "x": 2.95,
+        "y": 5.29
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,10 +32,10 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Retract Intake",
-      "waypointRelativePos": 0.35,
+      "name": "Prep Shot",
+      "waypointRelativePos": 0.2,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -45,15 +45,9 @@
               }
             },
             {
-              "type": "sequential",
+              "type": "race",
               "data": {
                 "commands": [
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "SpeakerAngle"
-                    }
-                  },
                   {
                     "type": "named",
                     "data": {
@@ -63,16 +57,16 @@
                   {
                     "type": "wait",
                     "data": {
-                      "waitTime": 0.3
-                    }
-                  },
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "Shooter4000"
+                      "waitTime": 0.2
                     }
                   }
                 ]
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Shooter4000"
               }
             }
           ]
@@ -81,21 +75,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.2,
-    "maxAcceleration": 5.2,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 0,
+    "velocity": 0.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Puzzle Pieces",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 0.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
