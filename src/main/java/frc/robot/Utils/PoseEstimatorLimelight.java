@@ -32,7 +32,7 @@ public class PoseEstimatorLimelight extends SubsystemBase {
    * increase the numbers to trust the vision measurements less also in form [x, y, theta] or
    * meters, meters, radians
    */
-  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.01, 0.01, 0.01);
+  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.5, 0.5, 0.5);
 
   private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;
@@ -50,7 +50,7 @@ public class PoseEstimatorLimelight extends SubsystemBase {
     poseEstimator =
         new SwerveDrivePoseEstimator(
             new SwerveDriveKinematics(DriveConstants.getModuleTranslations()),
-            gyro.getYaw(),
+            drive.getRotation(),
             drive.getSwerveModulePositions(),
             new Pose2d(new Translation2d(), new Rotation2d()));
   }
@@ -59,7 +59,6 @@ public class PoseEstimatorLimelight extends SubsystemBase {
   public void periodic() {
     // When ran on the real robot it would overload the command scheduler, causing input delay from
     // joystick to driving
-    // if (RobotStateConstants.getMode() == Mode.SIM) {
     field2d.setRobotPose(getCurrentPose2d());
     poseEstimator.updateWithTime(
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
@@ -71,8 +70,8 @@ public class PoseEstimatorLimelight extends SubsystemBase {
       poseEstimator.addVisionMeasurement(
           limelightMeasurement.pose.transformBy(
               new Transform2d(
-                  new Translation2d(Units.inchesToMeters(3.265), Units.inchesToMeters(13.25)),
-                  new Rotation2d())),
+                  new Translation2d(Units.inchesToMeters(-12.667), Units.inchesToMeters(3.626)),
+                  new Rotation2d(Math.PI))),
           limelightMeasurement.timestampSeconds,
           visionMeasurementStandardDevs);
     }
@@ -90,14 +89,15 @@ public class PoseEstimatorLimelight extends SubsystemBase {
    * @param currentPose2d
    */
   public void resetPose(Pose2d currentPose2d) {
-    poseEstimator.resetPosition(gyro.getYaw(), drive.getSwerveModulePositions(), currentPose2d);
+    poseEstimator.resetPosition(
+        drive.getRotation(), drive.getSwerveModulePositions(), currentPose2d);
   }
 
   /**
    * @return the rotation in a Rotation2d in degrees
    */
   public Rotation2d getRotation() {
-    return poseEstimator.getEstimatedPosition().getRotation();
+    return poseEstimator.getEstimatedPosition().getRotation().plus(new Rotation2d(Math.PI / 2));
   }
 
   public Rotation2d AngleForSpeaker() {

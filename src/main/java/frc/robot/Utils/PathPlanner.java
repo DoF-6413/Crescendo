@@ -28,8 +28,10 @@ public class PathPlanner extends SubsystemBase {
         drive::getChassisSpeed,
         drive::runVelocity,
         new HolonomicPathFollowerConfig(
-            new PIDConstants(1.2, 3, 0.2),
-            new PIDConstants(0.3125, 0.5, 0.025),
+            new PIDConstants(0, 0, 0),
+            new PIDConstants(0, 0, 0),
+            // new PIDConstants(1.2, 3, 0.2),
+            // new PIDConstants(0.3125, 0.5, 0.025),
             DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
             DriveConstants.TRACK_WIDTH_M
                 / 2, // Drive base radius in meters. Distance from robot center to
