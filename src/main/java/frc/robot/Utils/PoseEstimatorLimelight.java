@@ -67,7 +67,7 @@ public class PoseEstimatorLimelight extends SubsystemBase {
     LimelightHelpers.PoseEstimate limelightMeasurement =
         LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
 
-    if (limelightMeasurement.tagCount >= 2) {
+    if (limelightMeasurement.tagCount >= 1) {
       poseEstimator.addVisionMeasurement(
           limelightMeasurement.pose.transformBy(
               new Transform2d(
