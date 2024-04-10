@@ -3,37 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.94,
-        "y": 4.1
+        "x": 8.415348760522082,
+        "y": 2.499565525446841
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.232893218813453,
-        "y": 4.8071067811865476
+        "x": 7.4153487605220825,
+        "y": 2.499565525446841
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.31,
-        "y": 5.54
+        "x": 4.479722292777919,
+        "y": 4.966133265599865
       },
       "prevControl": {
-        "x": 1.2392893218813452,
-        "y": 5.610710678118655
+        "x": 4.380695485903761,
+        "y": 4.980050575695872
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4,
+      "rotationDegrees": -8.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Subwoofer Angle",
-      "waypointRelativePos": 0.4,
+      "name": "Shoot Mid 4",
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "parallel",
         "data": {
@@ -41,7 +47,13 @@
             {
               "type": "named",
               "data": {
-                "name": "SubwooferAngle"
+                "name": "StopFeeder"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "PickUpStop"
               }
             }
           ]
@@ -50,21 +62,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.2,
+    "maxAcceleration": 5.2,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -8.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Puzzle Pieces",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 25.40771810894839,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SpeakerShot"
+            "name": "SubwooferShot"
           }
         },
         {
@@ -67,7 +67,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SpeakerShot"
+                  "name": "SubwooferShot"
                 }
               }
             ]

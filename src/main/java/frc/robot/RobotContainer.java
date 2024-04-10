@@ -186,13 +186,9 @@ public class RobotContainer {
         new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
     // Angles
     NamedCommands.registerCommand(
-        "SpeakerAngle",
+        "SubwooferAngle",
         new InstantCommand(
             () -> m_wristSubsystem.setGoal(WristConstants.SUBWOOFER_RAD), m_wristSubsystem));
-    NamedCommands.registerCommand(
-        "ZeroWrist",
-        new InstantCommand(
-            () -> m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD), m_wristSubsystem));
     // Pick Ups
     NamedCommands.registerCommand(
         "UTB",
@@ -208,9 +204,9 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "PickUpStop",
         new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true));
-    // Shooting
+    // Auto Shooting
     NamedCommands.registerCommand(
-        "SpeakerShot",
+        "SubwooferShot",
         new AutoShoot(
             m_feederSubsystem,
             m_shooterSubsystem,
@@ -228,20 +224,20 @@ public class RobotContainer {
             m_wristSubsystem,
             m_armSubsystem,
             m_gyroSubsystem,
-            0.5,
+            WristConstants.PODIUM_RAD,
             0,
             ShooterConstants.CLOSE_RPM));
     NamedCommands.registerCommand(
-        "LineShot",
+        "ChainShot",
         new AutoShoot(
             m_feederSubsystem,
             m_shooterSubsystem,
             m_wristSubsystem,
             m_armSubsystem,
             m_gyroSubsystem,
-            3,
+            WristConstants.CHAIN_RAD, // TODO: Update angle
             0,
-            ShooterConstants.FAR_RPM)); // TODO: Update angle
+            ShooterConstants.CLOSE_RPM));
     NamedCommands.registerCommand(
         "LegShot",
         new AutoShoot(
@@ -250,9 +246,9 @@ public class RobotContainer {
             m_wristSubsystem,
             m_armSubsystem,
             m_gyroSubsystem,
-            -7,
+            Units.degreesToRadians(-7), // TODO: Update angle
             0,
-            ShooterConstants.FAR_RPM)); // TODO: Update angle
+            ShooterConstants.FAR_RPM));
     NamedCommands.registerCommand(
         "WingShot",
         new AutoShoot(
@@ -261,9 +257,14 @@ public class RobotContainer {
             m_wristSubsystem,
             m_armSubsystem,
             m_gyroSubsystem,
-            -8.5,
+            Units.degreesToRadians(-8.5), // TODO: Verify angle
             0,
             ShooterConstants.FAR_RPM));
+    // Zero Commands
+    NamedCommands.registerCommand(
+        "ZeroWrist",
+        new InstantCommand(
+            () -> m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD), m_wristSubsystem));
     NamedCommands.registerCommand(
         "ZeroArm", new InstantCommand(() -> m_armSubsystem.setGoal(0), m_armSubsystem));
     NamedCommands.registerCommand(
@@ -287,6 +288,7 @@ public class RobotContainer {
     autoChooser.addOption("test1", new PathPlannerAuto("test1"));
     autoChooser.addOption("test2", new PathPlannerAuto("test2"));
     autoChooser.addOption("test3", new PathPlannerAuto("test3"));
+    autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
     // 2 Piece
     autoChooser.addDefaultOption("2 Piece Center", new PathPlannerAuto("2P Center"));
@@ -297,13 +299,14 @@ public class RobotContainer {
     // 3 Piece
     autoChooser.addOption("3 Piece Center", new PathPlannerAuto("3P Center"));
     autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
+    autoChooser.addOption("3 Piece Corner to Midfield", new PathPlannerAuto("3P Corner Mid Right"));
+    autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
     // 4 Piece
     autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
     autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
     autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
     // 5+ Piece
     autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
-    autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
@@ -440,7 +443,7 @@ public class RobotContainer {
     configureButtonBindings();
   }
 
-  /*
+  /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link

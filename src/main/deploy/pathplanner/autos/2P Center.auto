@@ -34,7 +34,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "SpeakerAngle"
+                        "name": "SubwooferAngle"
                       }
                     }
                   ]

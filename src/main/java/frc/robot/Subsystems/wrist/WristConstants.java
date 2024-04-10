@@ -61,17 +61,19 @@ public final class WristConstants {
   /** Offset of the Arm absolute encoder */
   public static final double ABS_ENCODER_OFFSET_RADS = -2.01715;
 
-  // Teleop Automations
+  // Wrist positions
+  /** Wrists default position for intaking NOTEs best */
+  public static final double DEFAULT_POSITION_RAD = Units.degreesToRadians(9);
   /** AMP Score back side */
   public static final double AMP_BACK_SIDE_RAD = 1.368;
   /** AMP Score front side */
   public static final double AMP_FRONT_SIDE_RAD = 0.944;
   /** SOURCE Pickup back side */
   public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(140.7604);
-  /** SPEAKER shot from podium */
-  public static final double PODIUM_RAD = Units.degreesToRadians(9.5);
   /** SPEAKER shot from subwoofer */
   public static final double SUBWOOFER_RAD = Units.degreesToRadians(35);
-  /** Wrists default position for intaking NOTEs best */
-  public static final double DEFAULT_POSITION_RAD = Units.degreesToRadians(9);
+  /** SPEAKER shot from PODIUM */
+  public static final double PODIUM_RAD = Units.degreesToRadians(9.5);
+  /** SPEAKER shot from the chain directly in front of the subwoofer */
+  public static final double CHAIN_RAD = Units.degreesToRadians(3);
 }

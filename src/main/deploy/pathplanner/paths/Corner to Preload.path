@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.94,
-        "y": 4.1
+        "x": 0.48061797877981727,
+        "y": 2.046152337918712
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.232893218813453,
-        "y": 4.8071067811865476
+        "x": 0.9337718722981423,
+        "y": 2.2574614687890615
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.31,
-        "y": 5.54
+        "x": 2.7748887076721527,
+        "y": 3.179685306739035
       },
       "prevControl": {
-        "x": 1.2392893218813452,
-        "y": 5.610710678118655
+        "x": 2.3217348141538277,
+        "y": 2.9683761758686855
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Subwoofer Angle",
-      "waypointRelativePos": 0.4,
+      "name": "Preload",
+      "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
         "data": {
@@ -41,7 +41,13 @@
             {
               "type": "named",
               "data": {
-                "name": "SubwooferAngle"
+                "name": "Shooter4000"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "ZeroWrist"
               }
             }
           ]
@@ -50,15 +56,15 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.2,
+    "maxAcceleration": 5.2,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": -45.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Puzzle Pieces",
@@ -66,5 +72,5 @@
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

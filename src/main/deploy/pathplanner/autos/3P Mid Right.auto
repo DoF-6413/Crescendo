@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SpeakerShot"
+            "name": "SubwooferShot"
           }
         },
         {
@@ -38,19 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Mid 5 to SR"
+            "pathName": null
           }
         },
         {
           "type": "wait",
           "data": {
             "waitTime": 0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": null
           }
         }
       ]

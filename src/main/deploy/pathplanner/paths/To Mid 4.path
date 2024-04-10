@@ -3,37 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.85142851767185,
-        "y": 4.115786601943575
+        "x": 2.7748887076721527,
+        "y": 3.179685306739035
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8598513037664444,
-        "y": 4.115786601943575
+        "x": 5.2323881840746145,
+        "y": 0.6042984015792591
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.3143303323643685,
-        "y": 5.58
+        "x": 8.415348760522082,
+        "y": 2.499565525446841
       },
       "prevControl": {
-        "x": 1.3143303323643685,
-        "y": 4.58
+        "x": 7.962194867003758,
+        "y": 2.2882563945764915
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.35,
+      "rotationDegrees": 25.51,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Stop Intake",
-      "waypointRelativePos": 0.4,
+      "name": "Pick Up Mid 4",
+      "waypointRelativePos": 0.3,
       "command": {
         "type": "parallel",
         "data": {
@@ -41,32 +47,21 @@
             {
               "type": "named",
               "data": {
-                "name": "PickUpStop"
+                "name": "StopShooter"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "Shooter4000"
+                "name": "ZeroWrist"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "SubwooferAngle"
+                "name": "UTB"
               }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Shoot",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
+            },
             {
               "type": "named",
               "data": {
@@ -86,13 +81,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 25.51,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Puzzle Pieces",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -44.215175397008174,
     "velocity": 0
   },
   "useDefaultConstraints": true

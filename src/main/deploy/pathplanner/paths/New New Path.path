@@ -49,7 +49,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Midfield",
+  "folder": null,
   "previewStartingState": {
     "rotation": -58.67130713219582,
     "velocity": 0
