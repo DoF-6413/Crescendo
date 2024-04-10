@@ -79,5 +79,6 @@ public final class ArmConstants {
   /** SOURCE Pickup back side */
   public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(28.53329);
   /** Subwoofer scoring angle */
-  public static final double SUBWOOFER_RAD = 0.240; // TODO: Update, has to clear battery cover
+  public static final double SUBWOOFER_RAD =
+      Units.degreesToRadians(2); // TODO: Update, has to clear battery cover
 }

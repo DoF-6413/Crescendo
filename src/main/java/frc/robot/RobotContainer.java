@@ -265,6 +265,8 @@ public class RobotContainer {
             0,
             ShooterConstants.FAR_RPM));
     NamedCommands.registerCommand(
+        "ZeroArm", new InstantCommand(() -> m_armSubsystem.setGoal(0), m_armSubsystem));
+    NamedCommands.registerCommand(
         "ZeroAll",
         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Gyro heading reset

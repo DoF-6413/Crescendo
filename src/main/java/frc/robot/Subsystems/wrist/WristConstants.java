@@ -73,5 +73,5 @@ public final class WristConstants {
   /** SPEAKER shot from subwoofer */
   public static final double SUBWOOFER_RAD = Units.degreesToRadians(35);
   /** Wrists default position for intaking NOTEs best */
-  public static final double DEFAULT_POSITION_RAD = Units.degreesToRadians(11);
+  public static final double DEFAULT_POSITION_RAD = Units.degreesToRadians(9);
 }

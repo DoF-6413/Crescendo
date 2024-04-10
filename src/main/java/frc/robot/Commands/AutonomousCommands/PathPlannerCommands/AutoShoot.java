@@ -33,7 +33,7 @@ public class AutoShoot extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              feeder.setSetpoint(-500);
+              feeder.setSetpoint(-250);
             },
             feeder),
         Commands.runOnce(
