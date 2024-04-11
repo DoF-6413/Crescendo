@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "Pick Up and Shoot",
-      "waypointRelativePos": 0.2,
+      "waypointRelativePos": 0.1,
       "command": {
         "type": "parallel",
         "data": {

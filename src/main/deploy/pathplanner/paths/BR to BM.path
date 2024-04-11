@@ -39,12 +39,6 @@
         "data": {
           "commands": [
             {
-              "type": "named",
-              "data": {
-                "name": "PickUpStop"
-              }
-            },
-            {
               "type": "race",
               "data": {
                 "commands": [

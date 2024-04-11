@@ -261,6 +261,7 @@ public class RobotContainer {
             0,
             ShooterConstants.FAR_RPM));
     // Zero Commands
+
     NamedCommands.registerCommand(
         "ZeroWrist",
         new InstantCommand(
@@ -305,6 +306,7 @@ public class RobotContainer {
     autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
     autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
     autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
+    autoChooser.addOption("4 Piece Center 4.0", new PathPlannerAuto("4P Center 4"));
     // 5+ Piece
     autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
     // Adds an "auto" tab on ShuffleBoard
