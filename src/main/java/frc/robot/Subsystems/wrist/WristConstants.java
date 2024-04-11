@@ -7,26 +7,26 @@ public final class WristConstants {
   // TODO: tune & finalize
 
   /** Represents the proportional constant, multiplied by the current error */
-  public static double KP = 1.2; // 1.15
+  public static double KP = 0.8;
   /** Represents the integral constant, multiplied by the total error */
   public static double KI = 0.0;
   /** Represents the derivative constant, multiplied by the change in error */
-  public static double KD = 0.0; // 0.15
-  /** */
-  /** */
+  public static double KD = 0.01;
+  /** The max velocity the Wrist can run at */
+  public static double MAX_VELOCITY = 506.8427;
+  /** The max acceleration the Wrist can run at */
   public static double MAX_ACCELERATION = 0.0;
 
-  // FF Constants for the Wrist
-  // TODO: update and finalize
-  /** */
-  public static double KS = 0.0;
-  /** */
-  public static double KV = 0.0;
-  /** */
+  // Feedforward Constants for the Wrist
+  /** KS represents the voltage added to overcome static friction */
+  public static double KS = 0.2;
+  /** KV represents the velocity gain */
+  public static double KV = 0.0001;
+  /** KV represents the acceleration gain */
   public static double KA = 0.0;
 
   /** The position of the Wrist can be within 2 degree of the setpoint */
-  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(0.5);
+  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(1.0);
 
   // Sim Constants
   /** Moment of inertia for the Wrist */
@@ -48,8 +48,6 @@ public final class WristConstants {
   /** Gear ratio of the Wrist motor */
   public static final double GEAR_RATIO = 58.33;
 
-  public static final double MAX_VELOCITY = (Units.degreesToRotations(245.65) / GEAR_RATIO);
-
   /** Length from the Wrist */
   public static final double LENGTH_M = 0.4126308486;
   /** Minimum angle of the Wrist */
@@ -60,19 +58,22 @@ public final class WristConstants {
   /** Starting angle of the Wrist for sim, same as minimum angle */
   public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD;
 
+  /** Offset of the Arm absolute encoder */
   public static final double ABS_ENCODER_OFFSET_RADS = -2.01715;
 
-  // Teleop Automations
+  // Wrist positions
+  /** Wrists default position for intaking NOTEs best */
+  public static final double DEFAULT_POSITION_RAD = Units.degreesToRadians(9);
   /** AMP Score back side */
   public static final double AMP_BACK_SIDE_RAD = 1.368;
   /** AMP Score front side */
   public static final double AMP_FRONT_SIDE_RAD = 0.944;
   /** SOURCE Pickup back side */
-  public static final double SOURCE_BACK_SIDE_RAD = 2.544;
-  /** SPEAKER shot from podium */
-  public static final double PODIUM_RAD = Units.degreesToRadians(-0.5);
+  public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(140.7604);
   /** SPEAKER shot from subwoofer */
-  public static final double SUBWOOFER_RAD = 0.612;
-
-  public static final double DEFAULT_POSITION_DEG = 7;
+  public static final double SUBWOOFER_RAD = Units.degreesToRadians(30);
+  /** SPEAKER shot from PODIUM */
+  public static final double PODIUM_RAD = Units.degreesToRadians(9.5);
+  /** SPEAKER shot from the chain directly in front of the subwoofer */
+  public static final double CHAIN_RAD = Units.degreesToRadians(3); // TODO: Update
 }

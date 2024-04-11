@@ -100,12 +100,12 @@
         "y": 7.437482225391801
       },
       "prevControl": {
-        "x": 9.00114119316557,
-        "y": 7.4082468392857015
+        "x": 9.001076290685058,
+        "y": 7.4066670336466585
       },
       "nextControl": {
-        "x": 7.539371887860593,
-        "y": 7.466717611497901
+        "x": 7.539024674248874,
+        "y": 7.468314794111773
       },
       "isLocked": false,
       "linkedName": null
@@ -160,15 +160,15 @@
     },
     {
       "anchor": {
-        "x": 7.744019590603283,
+        "x": 8.270256540513081,
         "y": 4.092954054853979
       },
       "prevControl": {
-        "x": 6.282250285298291,
-        "y": 4.864768248055015
+        "x": 6.808487235208089,
+        "y": 4.864768248055016
       },
       "nextControl": {
-        "x": 7.827392874276702,
+        "x": 8.353629824186498,
         "y": 4.048932961074414
       },
       "isLocked": false,
@@ -254,7 +254,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Speaker",
+      "name": "shot1",
       "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
@@ -263,10 +263,94 @@
             {
               "type": "named",
               "data": {
-                "name": "SpeakerShot"
+                "name": "SubwooferShot"
               }
             }
           ]
+        }
+      }
+    },
+    {
+      "name": "pickup2",
+      "waypointRelativePos": 0.35,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "PickUp"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "StopFeeder"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shot2",
+      "waypointRelativePos": 2.15,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "LineShot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shot3",
+      "waypointRelativePos": 5.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "PodiumShot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shot4",
+      "waypointRelativePos": 7.199999999999999,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "LegShot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 9.05,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
         }
       }
     }

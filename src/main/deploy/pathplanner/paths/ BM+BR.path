@@ -55,8 +55,24 @@
         "x": 2.4983996761308296,
         "y": 4.046149659995033
       },
-      "nextControl": null,
+      "nextControl": {
+        "x": 2.7518933897759696,
+        "y": 4.163146758597804
+      },
       "isLocked": true,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.6849446477990359,
+        "y": 4.319142890067254
+      },
+      "prevControl": {
+        "x": 0.7440542930585055,
+        "y": 4.307462624169407
+      },
+      "nextControl": null,
+      "isLocked": false,
       "linkedName": null
     }
   ],
@@ -70,13 +86,23 @@
       "waypointRelativePos": 2.05,
       "rotationDegrees": -66.0,
       "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 2.4,
+      "rotationDegrees": 0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 2.95,
+      "rotationDegrees": 0,
+      "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "shoot",
-      "waypointRelativePos": 0,
+      "name": "shoot1",
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -84,7 +110,7 @@
             {
               "type": "named",
               "data": {
-                "name": "shoot"
+                "name": "SubwooferShot"
               }
             }
           ]
@@ -92,8 +118,8 @@
       }
     },
     {
-      "name": "pickup",
-      "waypointRelativePos": 0.95,
+      "name": "pickup1",
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "parallel",
         "data": {
@@ -101,7 +127,30 @@
             {
               "type": "named",
               "data": {
-                "name": "pickUp"
+                "name": "PickUp"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": null
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickupstop1",
+      "waypointRelativePos": 1.55,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "PickUpStop"
               }
             }
           ]
@@ -110,7 +159,7 @@
     },
     {
       "name": "shoot2",
-      "waypointRelativePos": 2.0999999999999996,
+      "waypointRelativePos": 2.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -118,7 +167,7 @@
             {
               "type": "named",
               "data": {
-                "name": "shoot"
+                "name": "Feeder"
               }
             }
           ]
@@ -126,18 +175,8 @@
       }
     },
     {
-      "name": "pickup2",
-      "waypointRelativePos": 3.0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": []
-        }
-      }
-    },
-    {
-      "name": "shoot3",
-      "waypointRelativePos": 3.0,
+      "name": "pickup3",
+      "waypointRelativePos": 2.45,
       "command": {
         "type": "parallel",
         "data": {
@@ -145,7 +184,47 @@
             {
               "type": "named",
               "data": {
-                "name": "shoot"
+                "name": "PickUp"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "StopFeeder"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickupstop3",
+      "waypointRelativePos": 3.45,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "PickUpStop"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot3",
+      "waypointRelativePos": 4.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Feeder"
               }
             }
           ]
@@ -161,7 +240,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -2.2025981617657924,
+    "rotation": -58.31675289531934,
     "rotateFast": false
   },
   "reversed": false,

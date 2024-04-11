@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Subsystems.actuator.Actuator;
+import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.DriveConstants;
 import frc.robot.Subsystems.feeder.Feeder;
@@ -30,6 +31,7 @@ public class TwoPieceAuto extends SequentialCommandGroup {
       Drive drive,
       Gyro gyro,
       Wrist wrist,
+      Arm arm,
       Feeder feeder,
       Shooter shooter,
       Actuator actuator,
@@ -66,6 +68,6 @@ public class TwoPieceAuto extends SequentialCommandGroup {
             drive),
         new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
         new PositionToShoot(
-            feeder, shooter, wrist, WristConstants.PODIUM_RAD, ShooterConstants.CLOSE_RPM));
+            feeder, shooter, wrist, arm, WristConstants.PODIUM_RAD, 0, ShooterConstants.CLOSE_RPM));
   }
 }

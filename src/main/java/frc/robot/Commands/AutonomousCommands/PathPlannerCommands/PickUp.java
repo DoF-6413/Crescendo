@@ -27,7 +27,7 @@ public class PickUp extends SequentialCommandGroup {
       utbIntakePercentSpeed = 0;
       actuatorPosition = ActuatorConstants.MIN_ANGLE_RADS;
     } else {
-      otbIntakePercentSpeed = -0.30;
+      otbIntakePercentSpeed = -0.20;
       utbIntakePercentSpeed = -1.0;
       actuatorPosition = ActuatorConstants.MAX_ANGLE_RADS;
     }

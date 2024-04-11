@@ -14,6 +14,7 @@ import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Subsystems.actuator.Actuator;
 import frc.robot.Subsystems.arm.Arm;
+import frc.robot.Subsystems.arm.ArmConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.gyro.Gyro;
@@ -81,7 +82,13 @@ public class ThreePieceAutoRed extends SequentialCommandGroup {
                 },
                 drive),
             new PositionToShoot(
-                feeder, shooter, wrist, WristConstants.SUBWOOFER_RAD, ShooterConstants.CLOSE_RPM)),
+                feeder,
+                shooter,
+                wrist,
+                arm,
+                WristConstants.SUBWOOFER_RAD,
+                ArmConstants.SUBWOOFER_RAD,
+                ShooterConstants.CLOSE_RPM)),
         new WaitCommand(seconds),
         new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
         Commands.runOnce(
@@ -116,7 +123,7 @@ public class ThreePieceAutoRed extends SequentialCommandGroup {
         new WaitCommand(1.4),
         new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
         new PositionToShoot(
-            feeder, shooter, wrist, WristConstants.PODIUM_RAD, ShooterConstants.CLOSE_RPM),
+            feeder, shooter, wrist, arm, WristConstants.PODIUM_RAD, 0, ShooterConstants.CLOSE_RPM),
         Commands.runOnce(
             () -> {
               drive.setRaw(0, 0, 0);

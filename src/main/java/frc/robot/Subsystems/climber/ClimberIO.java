@@ -3,6 +3,7 @@ package frc.robot.Subsystems.climber;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface ClimberIO {
+
   @AutoLog
   public static class ClimberIOInputs {
     /** Returns the voltage the Climber Recieves */

@@ -29,7 +29,7 @@ public class SourcePickUpBackside extends SequentialCommandGroup {
             arm,
             wrist),
         new WaitUntilCommand(() -> arm.atGoal()),
-        new WaitUntilCommand(() -> wrist.atGoal()),
+        new WaitUntilCommand(() -> wrist.atSetpoint()),
         Commands.runOnce(
             () -> {
               feeder.setSetpoint(FeederConstants.SOURCE_RPM);

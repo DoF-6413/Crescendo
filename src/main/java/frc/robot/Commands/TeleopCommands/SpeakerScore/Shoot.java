@@ -6,6 +6,7 @@ package frc.robot.Commands.TeleopCommands.SpeakerScore;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.arm.ArmConstants;
@@ -24,32 +25,35 @@ public class Shoot extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new ConditionalCommand(
-            Commands.runOnce(
-                () -> {
-                  feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
-                },
-                feeder),
             new ConditionalCommand(
                 Commands.runOnce(
                     () -> {
-                      feeder.setSetpoint(FeederConstants.AMP_RPM);
-                      shooter.setSetpoint(ShooterConstants.AMP_RPM);
+                      feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
                     },
-                    feeder,
-                    shooter),
+                    feeder),
                 new ConditionalCommand(
                     Commands.runOnce(
                         () -> {
-                          feeder.setSetpoint(-FeederConstants.AMP_RPM);
+                          feeder.setSetpoint(FeederConstants.AMP_RPM);
+                          shooter.setSetpoint(ShooterConstants.AMP_RPM);
                         },
-                        feeder),
-                    Commands.runOnce(
-                        () -> {
-                          feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
-                        },
-                        feeder),
-                    () -> arm.getGoal() == ArmConstants.AMP_BACK_SIDE_RAD),
-                () -> arm.getGoal() == ArmConstants.AMP_FRONT_SIDE_RAD),
-            () -> arm.getGoal() == 0));
+                        feeder,
+                        shooter),
+                    new ConditionalCommand(
+                        Commands.runOnce(
+                            () -> {
+                              feeder.setSetpoint(-FeederConstants.AMP_RPM);
+                            },
+                            feeder),
+                        Commands.runOnce(
+                            () -> {
+                              feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
+                            },
+                            feeder),
+                        () -> arm.getGoal() == ArmConstants.AMP_BACK_SIDE_RAD),
+                    () -> arm.getGoal() == ArmConstants.AMP_FRONT_SIDE_RAD),
+                () -> arm.getGoal() == 0),
+            new InstantCommand(),
+            () -> shooter.bothAtSetpoint()));
   }
 }

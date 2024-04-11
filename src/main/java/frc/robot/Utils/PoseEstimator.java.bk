@@ -37,7 +37,7 @@ public class PoseEstimator extends SubsystemBase {
 
   private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;
-  // private Vision vision;
+  private Vision vision;
   private Gyro gyro;
   private Field2d field2d;
   public PhotonPipelineResult pipelineResult;
@@ -46,9 +46,7 @@ public class PoseEstimator extends SubsystemBase {
   private double previousPipelineTimestamp = 0;
   private final AprilTagFieldLayout aprilTagFieldLayout;
 
-  public PoseEstimator(Drive drive, Gyro gyro
-      // , Vision Vision
-      ) {
+  public PoseEstimator(Drive drive, Gyro gyro, Vision Vision) {
 
     field2d = new Field2d();
     SmartDashboard.putData(field2d);
@@ -77,33 +75,33 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.updateWithTime(
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
 
-    // if (vision.getResult().hasTargets()) {
+    if (vision.getResult().hasTargets()) {
 
-    //   pipelineResult = vision.getResult();
-    //   resultsTimeStamp = pipelineResult.getTimestampSeconds();
+      pipelineResult = vision.getResult();
+      resultsTimeStamp = pipelineResult.getTimestampSeconds();
 
-    //   if (resultsTimeStamp != previousPipelineTimestamp) {
+      if (resultsTimeStamp != previousPipelineTimestamp) {
 
-    //     previousPipelineTimestamp = resultsTimeStamp;
+        previousPipelineTimestamp = resultsTimeStamp;
 
-    //     var target = pipelineResult.getBestTarget();
-    //     var fiducialID = target.getFiducialId();
-    //     if (target.getPoseAmbiguity() < 0.2
-    //         && fiducialID >= 1
-    //         && fiducialID <= 16) { // 0.2 is considered ambiguous
+        var target = pipelineResult.getBestTarget();
+        var fiducialID = target.getFiducialId();
+        if (target.getPoseAmbiguity() < 0.2
+            && fiducialID >= 1
+            && fiducialID <= 16) { // 0.2 is considered ambiguous
 
-    //       Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
-    //       Transform3d camToTarget = target.getBestCameraToTarget();
-    //       Pose3d camPose = tagPose.transformBy(camToTarget);
+          Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
+          Transform3d camToTarget = target.getBestCameraToTarget();
+          Pose3d camPose = tagPose.transformBy(camToTarget);
 
-    //       Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobotOffsets);
-    //       poseEstimator.addVisionMeasurement(
-    //           visionMeasurement.toPose2d(),
-    //           Timer.getFPGATimestamp(),
-    //           visionMeasurementStandardDevs);
-    //     }
-    //   }
-    // }
+          Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobotOffsets);
+          poseEstimator.addVisionMeasurement(
+              visionMeasurement.toPose2d(),
+              Timer.getFPGATimestamp(),
+              visionMeasurementStandardDevs);
+        }
+      }
+    }
   }
 
   /**

@@ -65,7 +65,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Test Paths",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.335622956146197,
-      "y": 5.5430292057165325
+      "x": 1.3135113329050188,
+      "y": 5.576267387828894
     },
     "rotation": 0.0
   },
@@ -12,70 +12,59 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "SpeakerShot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "PickUp"
+                  "name": "SubwooferShot"
                 }
               },
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "Sub Mid 1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "StopFeeder"
+                  "waitTime": 2.0
                 }
               }
             ]
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 2.0
+            "pathName": "Center to BM"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "PickUpStop"
+            "waitTime": 1.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Sub Mid 2"
+            "pathName": "BM to Center"
           }
         },
         {
-          "type": "wait",
+          "type": "sequential",
           "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Feeder"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootingReady"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Feeder"
+                }
+              }
+            ]
           }
         }
       ]

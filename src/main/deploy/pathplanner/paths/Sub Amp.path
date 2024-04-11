@@ -91,7 +91,7 @@
             {
               "type": "named",
               "data": {
-                "name": "RevShooter"
+                "name": "Shooter4000"
               }
             }
           ]
@@ -108,7 +108,7 @@
             {
               "type": "named",
               "data": {
-                "name": "SpeakerShot"
+                "name": "SubwooferShot"
               }
             },
             {

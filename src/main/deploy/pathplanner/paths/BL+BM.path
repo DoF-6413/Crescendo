@@ -89,7 +89,7 @@
             {
               "type": "named",
               "data": {
-                "name": "shoot"
+                "name": null
               }
             }
           ]
@@ -106,7 +106,7 @@
             {
               "type": "named",
               "data": {
-                "name": "pickUp"
+                "name": null
               }
             }
           ]
@@ -123,7 +123,7 @@
             {
               "type": "named",
               "data": {
-                "name": "shoot"
+                "name": null
               }
             }
           ]
@@ -140,7 +140,7 @@
             {
               "type": "named",
               "data": {
-                "name": "pickUp"
+                "name": null
               }
             }
           ]
@@ -157,7 +157,7 @@
             {
               "type": "named",
               "data": {
-                "name": "shoot"
+                "name": null
               }
             }
           ]
