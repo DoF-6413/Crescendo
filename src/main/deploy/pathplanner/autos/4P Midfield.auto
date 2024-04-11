@@ -44,7 +44,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid 1 to Wing"
           }
         }
       ]
