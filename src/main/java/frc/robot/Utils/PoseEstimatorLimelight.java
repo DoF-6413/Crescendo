@@ -32,7 +32,7 @@ public class PoseEstimatorLimelight extends SubsystemBase {
    * increase the numbers to trust the vision measurements less also in form [x, y, theta] or
    * meters, meters, radians
    */
-  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.75, 0.75, 0.75);
+  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(1, 1, 1);
 
   private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;
@@ -65,7 +65,7 @@ public class PoseEstimatorLimelight extends SubsystemBase {
 
     LimelightHelpers.PoseEstimate limelightMeasurement =
         LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
-    if (getCurrentPose2d().getX() < Units.inchesToMeters(195)
+    if (getCurrentPose2d().getX() < Units.inchesToMeters(250)
         || getCurrentPose2d().getX() > Units.inchesToMeters(649 - 195)) {
 
       if (limelightMeasurement.tagCount >= 2) {

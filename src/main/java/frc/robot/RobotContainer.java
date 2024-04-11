@@ -172,6 +172,9 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_shooterSubsystem.setSetpoint(ShooterConstants.FAR_RPM), m_shooterSubsystem));
     NamedCommands.registerCommand(
+        "Shooter1000",
+        new InstantCommand(() -> m_shooterSubsystem.setSetpoint(1000), m_shooterSubsystem));
+    NamedCommands.registerCommand(
         "StopShooter",
         new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
     NamedCommands.registerCommand(
@@ -237,7 +240,7 @@ public class RobotContainer {
             m_gyroSubsystem,
             WristConstants.CHAIN_RAD, // TODO: Update angle
             0,
-            ShooterConstants.CLOSE_RPM));
+            1000));
     NamedCommands.registerCommand(
         "LegShot",
         new AutoShoot(
@@ -261,7 +264,6 @@ public class RobotContainer {
             0,
             ShooterConstants.FAR_RPM));
     // Zero Commands
-
     NamedCommands.registerCommand(
         "ZeroWrist",
         new InstantCommand(
@@ -289,6 +291,7 @@ public class RobotContainer {
     autoChooser.addOption("test1", new PathPlannerAuto("test1"));
     autoChooser.addOption("test2", new PathPlannerAuto("test2"));
     autoChooser.addOption("test3", new PathPlannerAuto("test3"));
+    autoChooser.addOption("4M Test", new PathPlannerAuto("4M Test"));
     autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
     // 2 Piece
@@ -307,6 +310,7 @@ public class RobotContainer {
     autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
     autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
     autoChooser.addOption("4 Piece Center 4.0", new PathPlannerAuto("4P Center 4"));
+    autoChooser.addOption("4 Piece Left to Midfield", new PathPlannerAuto("4P Midfield"));
     // 5+ Piece
     autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
     // Adds an "auto" tab on ShuffleBoard

@@ -3,43 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.397212233020959,
-        "y": 4.113716473046981
+        "x": 2.855863033663389,
+        "y": 6.981410202136645
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.166202541755695,
-        "y": 3.896656250963318
+        "x": 3.7955556544492968,
+        "y": 7.323430345462313
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.48,
-        "y": 4.97
+        "x": 8.188397459416,
+        "y": 7.449176379834242
       },
       "prevControl": {
-        "x": 4.738621898896219,
-        "y": 3.590105413829062
+        "x": 7.1883974594160005,
+        "y": 7.449176379834242
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": -8.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Shoot Mid 3",
-      "waypointRelativePos": 0.4,
+      "name": "Pick up",
+      "waypointRelativePos": 0.3,
       "command": {
         "type": "parallel",
         "data": {
@@ -47,13 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "PickUpStop"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "StopFeeder"
+                "name": "StopShooter"
               }
             }
           ]
@@ -63,14 +51,14 @@
   ],
   "globalConstraints": {
     "maxVelocity": 5.2,
-    "maxAcceleration": 5.2,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -8.0,
-    "rotateFast": false
+    "rotation": 0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Puzzle Pieces",
@@ -78,5 +66,5 @@
     "rotation": 0.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

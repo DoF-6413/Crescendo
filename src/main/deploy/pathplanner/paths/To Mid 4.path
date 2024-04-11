@@ -16,12 +16,28 @@
     },
     {
       "anchor": {
-        "x": 8.415348760522082,
-        "y": 2.499565525446841
+        "x": 7.299641721790566,
+        "y": 2.502549050682148
       },
       "prevControl": {
-        "x": 7.962194867003758,
-        "y": 2.2882563945764915
+        "x": 6.799686160309963,
+        "y": 2.509215124835223
+      },
+      "nextControl": {
+        "x": 7.399632834086687,
+        "y": 2.501215835851533
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.445668857149679,
+        "y": 2.502549050682148
+      },
+      "prevControl": {
+        "x": 8.545668857149678,
+        "y": 2.502549050682148
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,8 +46,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.35,
-      "rotationDegrees": 25.51,
+      "waypointRelativePos": 0.8,
+      "rotationDegrees": -45.0,
       "rotateFast": false
     }
   ],
@@ -74,15 +90,15 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.2,
-    "maxAcceleration": 5.2,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 25.51,
-    "rotateFast": false
+    "rotation": 0.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Puzzle Pieces",
@@ -90,5 +106,5 @@
     "rotation": -44.215175397008174,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
