@@ -66,15 +66,28 @@ public class PoseEstimatorLimelight extends SubsystemBase {
 
     LimelightHelpers.PoseEstimate limelightMeasurement =
         LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+    if (getCurrentPose2d().getX() < Units.inchesToMeters(195)
+        || getCurrentPose2d().getX() > Units.inchesToMeters(649 - 195)) {
 
-    if (limelightMeasurement.tagCount >= 1) {
-      poseEstimator.addVisionMeasurement(
-          limelightMeasurement.pose.transformBy(
-              new Transform2d(
-                  new Translation2d(Units.inchesToMeters(3.265), Units.inchesToMeters(13.25)),
-                  new Rotation2d())),
-          limelightMeasurement.timestampSeconds,
-          visionMeasurementStandardDevs);
+      if (limelightMeasurement.tagCount >= 2) {
+        poseEstimator.addVisionMeasurement(
+            limelightMeasurement.pose.transformBy(
+                new Transform2d(
+                    new Translation2d(Units.inchesToMeters(3.265), Units.inchesToMeters(13.25)),
+                    new Rotation2d())),
+            limelightMeasurement.timestampSeconds,
+            visionMeasurementStandardDevs);
+      }
+    } else {
+      if (limelightMeasurement.tagCount >= 1) {
+        poseEstimator.addVisionMeasurement(
+            limelightMeasurement.pose.transformBy(
+                new Transform2d(
+                    new Translation2d(Units.inchesToMeters(3.265), Units.inchesToMeters(13.25)),
+                    new Rotation2d())),
+            limelightMeasurement.timestampSeconds,
+            visionMeasurementStandardDevs);
+      }
     }
   }
 
