@@ -47,7 +47,7 @@
             {
               "type": "named",
               "data": {
-                "name": "Shooter1000"
+                "name": "Shooter4000"
               }
             },
             {
@@ -66,6 +66,12 @@
               "type": "named",
               "data": {
                 "name": "ZeroArm"
+              }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 0
               }
             }
           ]

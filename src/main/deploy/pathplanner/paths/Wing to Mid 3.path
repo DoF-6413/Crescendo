@@ -55,6 +55,12 @@
               "data": {
                 "name": "StopShooter"
               }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 0
+              }
             }
           ]
         }

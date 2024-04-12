@@ -61,6 +61,12 @@
               "data": {
                 "name": "WingAngle"
               }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 0
+              }
             }
           ]
         }

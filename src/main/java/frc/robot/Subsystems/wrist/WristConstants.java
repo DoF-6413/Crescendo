@@ -76,4 +76,6 @@ public final class WristConstants {
   public static final double PODIUM_RAD = Units.degreesToRadians(9.5);
   /** SPEAKER shot from the chain directly in front of the subwoofer */
   public static final double CHAIN_RAD = Units.degreesToRadians(3); // TODO: Update
+  /** SPEAKER shot from the WING directly in front of the subwoofer */
+  public static final double WING_RAD = Units.degreesToRadians(-3); // TODO: Update
 }

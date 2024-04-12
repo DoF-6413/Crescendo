@@ -33,13 +33,11 @@ public class OverShot extends SequentialCommandGroup {
 public class ShootAtSpeaker extends SequentialCommandGroup {
   /** Shoots NOTE when robot is against the subwoofer (right in front of the SPEAKER) */
   public ShootAtSpeaker(Feeder feeder, Shooter shooter, Wrist wrist) {
->>>>>>>> a4658a5 (Chore#80 clean dev (#81)):src/main/java/frc/robot/Commands/TeleopCommands/SpeakerScore/ShootAtSpeaker.java
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         Commands.runOnce(
             () -> {
-<<<<<<<< HEAD:src/main/java/frc/robot/Commands/TeleopCommands/SpeakerScore/OverShot.java
               arm.setGoal(Units.degreesToRadians(83));
             },
             arm),
@@ -51,12 +49,10 @@ public class ShootAtSpeaker extends SequentialCommandGroup {
                   Units.degreesToRadians(
                       38)); // TODO: update when shooter interpolation branch is merged to
               // reference
-========
               feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
               wrist.setSetpoint(
                   Units.degreesToRadians(
                       21)); // TODO: update when shooter interpolation branch is merged to reference
->>>>>>>> a4658a5 (Chore#80 clean dev (#81)):src/main/java/frc/robot/Commands/TeleopCommands/SpeakerScore/ShootAtSpeaker.java
               // lookup table
             },
             feeder,
@@ -64,22 +60,17 @@ public class ShootAtSpeaker extends SequentialCommandGroup {
         new WaitUntilCommand(() -> wrist.atSetpoint()),
         Commands.runOnce(
             () -> {
-<<<<<<<< HEAD:src/main/java/frc/robot/Commands/TeleopCommands/SpeakerScore/OverShot.java
               feeder.setSetpoint(-600);
-========
               feeder.setSetpoint(-FeederConstants.SPEAKER_RPM);
->>>>>>>> a4658a5 (Chore#80 clean dev (#81)):src/main/java/frc/robot/Commands/TeleopCommands/SpeakerScore/ShootAtSpeaker.java
             },
             feeder),
         new WaitCommand(0.3),
         Commands.runOnce(
             () -> {
-<<<<<<<< HEAD:src/main/java/frc/robot/Commands/TeleopCommands/SpeakerScore/OverShot.java
               shooter.setSetpoint(ShooterConstants.CLOSE_RPM);
               feeder.setSetpoint(0);
             },
             shooter,
-========
               shooter.setSetpoint(ShooterConstants.SPEAKER_RPM);
               feeder.setSetpoint(0);
             },
@@ -90,7 +81,6 @@ public class ShootAtSpeaker extends SequentialCommandGroup {
             () -> {
               feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
             },
->>>>>>>> a4658a5 (Chore#80 clean dev (#81)):src/main/java/frc/robot/Commands/TeleopCommands/SpeakerScore/ShootAtSpeaker.java
             feeder));
   }
 }

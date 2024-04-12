@@ -39,7 +39,6 @@ import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
-import frc.robot.Commands.TeleopCommands.SpeakerAutoAlign.AimShooter;
 import frc.robot.Commands.TeleopCommands.SpeakerAutoAlign.HeadingController;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
@@ -200,6 +199,10 @@ public class RobotContainer {
         "SubwooferAngle",
         new InstantCommand(
             () -> m_wristSubsystem.setGoal(WristConstants.SUBWOOFER_RAD), m_wristSubsystem));
+    NamedCommands.registerCommand(
+        "WingAngle",
+        new InstantCommand(
+            () -> m_wristSubsystem.setGoal(WristConstants.WING_RAD), m_wristSubsystem));
     // Pick Ups
     NamedCommands.registerCommand(
         "UTB",
@@ -318,8 +321,9 @@ public class RobotContainer {
     autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
     autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
     autoChooser.addOption("4 Piece Center 4.0", new PathPlannerAuto("4P Center 4"));
-    autoChooser.addOption("4 Piece Left to Midfield", new PathPlannerAuto("4P Midfield"));
+    autoChooser.addOption("4 Piece Left Sub Midfield", new PathPlannerAuto("4P Midfield"));
     // 5+ Piece
+    autoChooser.addOption("5 Piece Left Sub Midfield", new PathPlannerAuto("5P Midfield"));
     autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
@@ -748,57 +752,23 @@ public class RobotContainer {
 
     /* Feeder */
     // Forward
-    auxController
-        .a()
-        .onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+    // auxController
+    //     .a()
+    //     .onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem))
+    //     .onFalse(
+    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
+    // m_feederSubsystem));
 
     /* Auto adjusts the angle of the Wrist using Vision for accurate shooting into the SPEAKER */
-    auxController
-        .y()
-        .onTrue(
-            new AimShooter(
-                m_shooterSubsystem,
-                m_wristSubsystem,
-                m_armSubsystem,
-                m_poseEstimator,
-                m_feederSubsystem));
-
-    auxController
-        .start()
-        .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    /* Wrist */
-    // Increases angle of the Wrist by 1 degree
-    auxController
-        .povLeft()
-        .onTrue(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
-                m_wristSubsystem));
-    // Decreases angle of the Wrist by 1 degree
-    auxController
-        .povRight()
-        .onTrue(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
-                m_wristSubsystem));
-
-    /* Arm */
-    // Increases angle of the Arm by 1 degree
-    auxController
-        .povUp()
-        .onTrue(
-            new InstantCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)), m_armSubsystem));
-    // Decreases angle of the Arm by 1 degree
-    auxController
-        .povDown()
-        .onTrue(
-            new InstantCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)), m_armSubsystem));
+    // auxController
+    //     .back()
+    //     .onTrue(
+    //         new AimShooter(
+    //             m_shooterSubsystem,
+    //             m_wristSubsystem,
+    //             m_armSubsystem,
+    //             m_poseEstimator,
+    //             m_feederSubsystem));
 
     /* Climber */
     // m_climberSubsystem.setDefaultCommand(
