@@ -2,23 +2,22 @@ package frc.robot.Subsystems.shooter;
 
 public class ShooterConstants {
 
-  // PID Constants
+  // PID & FF Constants
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static final double TOP_KP = 0.75;
+  public static double KP = 0.0025;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static final double TOP_KI = 0.25;
+  public static double KI = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static final double TOP_KD = 0.0;
-  /**
-   * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
-   */
-  public static final double BOTTOM_KP = 0.75;
-  /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static final double BOTTOM_KI = 0.25;
-  /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static final double BOTTOM_KD = 0.0;
+  public static double KD = 0.00002;
+
+  /** KS represents the voltage added to overcome static friction */
+  public static double KS = 0.0;
+  /** KS represents the */
+  public static double KV = 0.0225;
+  /** KS represents the */
+  public static double KA = 0.8;
 
   /** Allows the RPM to be within % of the setpoint */
   public static final int RPM_TOLERANCE = 200;
@@ -62,6 +61,10 @@ public class ShooterConstants {
   // Teleop Automations
   /** AMP score speed */
   public static final double AMP_RPM = 2500;
-  /** SPEAKER score speed */
-  public static final double SPEAKER_RPM = 4000;
+  /** SPEAKER score speed at or near the subwoofer */
+  public static final double CLOSE_RPM = 4000;
+  /** SPEAKER score speed from mid stage and beyond */
+  public static final double FAR_RPM = 6000;
+  /** Shooter speed for sending NOTEs from the SOURCE to Midfield */
+  public static final double SOURCE_FEED_RPM = 5500;
 }

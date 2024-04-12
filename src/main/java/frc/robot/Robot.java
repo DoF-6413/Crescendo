@@ -90,7 +90,7 @@ public class Robot extends LoggedRobot {
     // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
     // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
     // Build)
-    SmartDashboard.putString("Beta Number", "1.37.69.99.1");
+    SmartDashboard.putString("Beta Number", "1.40.69.97.0");
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
@@ -111,7 +111,7 @@ public class Robot extends LoggedRobot {
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
-    robotContainer.mechanismsCoastOnDisable(true);
+    robotContainer.mechanismsCoastOnDisable(false);
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
@@ -127,11 +127,9 @@ public class Robot extends LoggedRobot {
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
 
-    // if (RobotStateConstants.getMode() != RobotStateConstants.Mode.SIM){
     robotContainer.mechanismsCoastOnDisable(false);
-    // }
 
-    // schedule the autonomous command (example)
+    // Schedule the autonomous command (example)
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }

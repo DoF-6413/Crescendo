@@ -7,10 +7,13 @@ package frc.robot.Subsystems.drive;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*; // Rotation2d and Translation2d
 import edu.wpi.first.math.kinematics.*; // ChassisSpeeds, SwerveDriveKinematics, SwerveModuleStates
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*; // Timer
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
+import frc.robot.Utils.HeadingController;
 import org.littletonrobotics.junction.Logger; // Logger
 
 /** This Runs the full Swerve (All Modules) for all Modes of the Robot */
@@ -19,6 +22,8 @@ public class Drive extends SubsystemBase {
   private static final Module[] modules = new Module[4];
   private final Gyro gyro;
   private Twist2d twist = new Twist2d();
+  private final HeadingController headingController = new HeadingController();
+  double omega = 0;
 
   // swerve kinematics library
   public SwerveDriveKinematics swerveKinematics;
@@ -26,11 +31,14 @@ public class Drive extends SubsystemBase {
   // chassis & swerve modules
   private ChassisSpeeds setpoint = new ChassisSpeeds();
 
+  private double steerSetpoint = 0;
+
   // Gets previous Gyro position
   Rotation2d lastGyroYaw = new Rotation2d();
 
   // Gets previous module positions
   private double[] lastModulePositionsMeters = new double[] {0.0, 0.0, 0.0, 0.0};
+  private Rotation2d headingSetpoint = new Rotation2d(-Math.PI / 2);
 
   public Drive(
       ModuleIO FRModuleIO,
@@ -100,6 +108,10 @@ public class Drive extends SubsystemBase {
     Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
     Logger.recordOutput("SwerveStates/SetpointsOptimized", optimizedStates);
   }
+
+  public void moduleSteerDirectly(double setpoint) {
+    steerSetpoint = setpoint;
+  }
   /** Get Swerve Measured States */
   public SwerveModuleState[] getMeasuredStates() {
     // Tracks the state each module is in
@@ -124,7 +136,7 @@ public class Drive extends SubsystemBase {
   }
 
   /**
-   * Runs the drivetrain with raw values on a scale of (-1, 1)
+   * Runs the drivetrain with raw values on a scale
    *
    * @param x velociy in x direction of Entire Swerve Drive
    * @param y velocity in y direction of Entire Swerve Drive
@@ -146,6 +158,34 @@ public class Drive extends SubsystemBase {
         });
   }
 
+  public void driveWithDeadbandPlusHeading(double x, double y, double rot) {
+    // Apply deadband
+    double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), DriveConstants.DEADBAND);
+    Rotation2d linearDirection = new Rotation2d(x, y);
+    double omega = MathUtil.applyDeadband(rot, DriveConstants.DEADBAND);
+
+    // Square values
+    linearMagnitude = linearMagnitude * linearMagnitude;
+    omega = Math.copySign(omega * omega, omega);
+
+    if (Math.abs(omega) > 0.01) {
+      headingSetpoint = getRotation().plus(new Rotation2d(omega * Units.degreesToRadians(60)));
+    }
+    // Calcaulate new linear velocity
+    Translation2d linearVelocity =
+        new Pose2d(new Translation2d(), linearDirection)
+            .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
+            .getTranslation();
+
+    // The actual run command itself
+    this.runVelocity(
+        ChassisSpeeds.fromFieldRelativeSpeeds(
+            linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            linearVelocity.getY() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            headingController.update(headingSetpoint, getRotation(), gyro.getRate()),
+            this.getRotation()));
+  }
+
   public void driveWithDeadband(double x, double y, double rot) {
     // Apply deadband
     double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), DriveConstants.DEADBAND);
@@ -162,12 +202,35 @@ public class Drive extends SubsystemBase {
             .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
             .getTranslation();
 
+    if (Math.abs(omega) > 0.01) {
+      headingSetpoint = getRotation().plus(new Rotation2d(omega * Units.degreesToRadians(60)));
+    }
+
     // The actual run command itself
     this.runVelocity(
         ChassisSpeeds.fromFieldRelativeSpeeds(
             linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
             linearVelocity.getY() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
             omega * DriveConstants.MAX_ANGULAR_SPEED_RAD_PER_SEC,
+            this.getRotation()));
+  }
+
+  public void PathplannerWithHeadingController(ChassisSpeeds chassisSpeeds) {
+    double omegaOverTime = chassisSpeeds.omegaRadiansPerSecond;
+
+    omega += omegaOverTime * RobotStateConstants.LOOP_PERIODIC_SEC;
+    SmartDashboard.putNumber(
+        "Omega for heading controller", Units.radiansToDegrees(omegaOverTime + Math.PI / 2));
+    headingSetpoint = new Rotation2d(omega + Math.PI / 2);
+    SmartDashboard.putNumber(
+        "Heading Controller Update",
+        headingController.update(headingSetpoint, getRotation(), gyro.getRate()));
+
+    this.runVelocity(
+        ChassisSpeeds.fromRobotRelativeSpeeds(
+            chassisSpeeds.vxMetersPerSecond,
+            chassisSpeeds.vyMetersPerSecond,
+            headingController.update(headingSetpoint, getRotation(), gyro.getRate()),
             this.getRotation()));
   }
 
@@ -251,5 +314,7 @@ public class Drive extends SubsystemBase {
     } else {
       // TODO: ADD HEADING FOR SIM/NO GYRO
     }
+
+    headingSetpoint = new Rotation2d(Math.PI / 2);
   }
 }

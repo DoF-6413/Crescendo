@@ -3,6 +3,7 @@ package frc.robot.Subsystems.climber;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface ClimberIO {
+
   @AutoLog
   public static class ClimberIOInputs {
     /** Returns the voltage the Climber Recieves */
@@ -29,20 +30,6 @@ public interface ClimberIO {
 
   /**
    * Sets the voltage of the Left Climber Motor
-   *
-   * @param volts -12 to 12
-   */
-  public default void setLeftClimberVoltage(double volts) {}
-
-  /**
-   * Sets the voltage of the Right Climber Motor
-   *
-   * @param volts -12 to 12
-   */
-  public default void setRightClimberVoltage(double volts) {}
-
-  /**
-   * Sets BOTH Climber Motors to a percent of their maximum speed
    *
    * @param percent -1 to 1
    */

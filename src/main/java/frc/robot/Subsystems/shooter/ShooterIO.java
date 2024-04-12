@@ -51,7 +51,25 @@ public interface ShooterIO {
    *
    * @param percent -1 to 1
    */
-  public default void setBothShooterMotorPercentSpeed(double percent) {}
+  public default void setBothPercentSpeed(double percent) {}
+
+  /**
+   * Sets Top Shooter Motors at a percentage of its max speed.
+   *
+   * <p>A positve number spins the Top Shooter Motor CCW and CCW for a negative number
+   *
+   * @param percent -1 to 1
+   */
+  public default void setTopPercentSpeed(double percent) {}
+
+  /**
+   * Sets the Bottom Shooter Motor at a percentage of its max speed.
+   *
+   * <p>A positve number spins the Motor CW and CCW for a negative number
+   *
+   * @param percent -1 to 1
+   */
+  public default void setBottomPercentSpeed(double percent) {}
 
   /**
    * Sets BOTH Shooter Motors at the specified Voltage
@@ -61,19 +79,19 @@ public interface ShooterIO {
    *
    * @param volts -12 to 12
    */
-  public default void setBothShooterMotorsVoltage(double volts) {}
+  public default void setBothVoltage(double volts) {}
 
   /**
    * Sets the voltage of the Top Shooter Motor
    *
    * @param volts -12 to 12
    */
-  public default void setTopShooterMotorVoltage(double volts) {}
+  public default void setTopVoltage(double volts) {}
 
   /**
    * Sets the voltage of the Bottom Shooter Motor
    *
    * @param volts -12 to 12
    */
-  public default void setBottomShooterMotorVoltage(double volts) {}
+  public default void setBottomVoltage(double volts) {}
 }

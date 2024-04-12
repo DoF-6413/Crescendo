@@ -1,0 +1,25 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.6849446477990359,
+      "y": 4.3678916811515345
+    },
+    "rotation": -61.951592081522385
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": " BM+BR"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "3 Piece Autos",
+  "choreoAuto": false
+}

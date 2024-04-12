@@ -7,16 +7,28 @@ package frc.robot.Subsystems.arm;
 import edu.wpi.first.math.util.Units;
 
 public final class ArmConstants {
-  // PID Constants for the arm
+  // Profiled PID & FF Constants for the arm
 
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static final double KP = 1.0;
+  public static double KP = 1.0;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static final double KI = 0.0;
+  public static double KI = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static final double KD = 0.0;
+  public static double KD = 0.0;
+  /** The max velocity the Arm can run at */
+  public static double MAX_VELOCITY = 0.0;
+  /** The max acceleration the Arm can run at */
+  public static double MAX_ACCELERATION = 0.0;
+
+  /** KS represents the voltage added to overcome static friction */
+  public static double KS = 0.0;
+  /** KV represents the velocity gain */
+  public static double KV = 0.0;
+  /** KV represents the acceleration gain */
+  public static double KA = 0.0;
+
   /**
    * Updates the range of error acceptable from setpoint (The position of the arm can be within 3
    * degrees of the setpoint)
@@ -56,11 +68,17 @@ public final class ArmConstants {
   /** Sets if Arm Motor is Inverted */
   public static final boolean IS_INVERTED = true;
 
+  /** Offsets the Arm to be 0 at its inital position */
+  public static final double OFFSET_RAD = 1.306;
+
   // Teleop Automations
   /** AMP Score back side */
-  public static final double AMP_BACK_SIDE_RAD = Units.degreesToRadians(40);
+  public static final double AMP_BACK_SIDE_RAD = 0.880;
   /** AMP Score front side */
-  public static final double AMP_FRONT_SIDE_RAD = 1.849;
+  public static final double AMP_FRONT_SIDE_RAD = 2.244;
   /** SOURCE Pickup back side */
-  public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(10.0);
+  public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(28.53329);
+  /** Subwoofer scoring angle */
+  public static final double SUBWOOFER_RAD =
+      Units.degreesToRadians(6); // TODO: Update, has to clear battery cover
 }

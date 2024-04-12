@@ -17,11 +17,11 @@ public class HeadingController {
   private PoseEstimatorLimelight pose;
 
   public HeadingController(
-      Supplier<Rotation2d> goalHeadingSupplier, PoseEstimatorLimelight m_poseEstimator) {
+      Supplier<Rotation2d> rotation2d, PoseEstimatorLimelight m_poseEstimator) {
     controller = new PIDController(0.1, 0.0, 0.0);
     controller.enableContinuousInput(-Math.PI, Math.PI);
     controller.setTolerance(Units.degreesToRadians(5));
-    this.goalHeadingSupplier = goalHeadingSupplier;
+    this.goalHeadingSupplier = rotation2d;
     this.pose = m_poseEstimator;
   }
 

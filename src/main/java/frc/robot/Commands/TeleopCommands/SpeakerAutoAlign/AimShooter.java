@@ -49,9 +49,11 @@ public class AimShooter extends Command {
   @Override
   public void execute() {
 
-    if (m_timer.hasElapsed(0.5) && m_shooter.getSetpoint() != 4000) {
+    if (m_timer.hasElapsed(0.5) && m_shooter.bothAtSetpoint()) {
       m_shooter.setSetpoint(4000);
+      m_feeder.setSetpoint(0);
     }
+
     Pose2d dtvalues = m_pose.getCurrentPose2d();
     // triangle for robot angle
     double deltaX = 0.0;
@@ -62,8 +64,14 @@ public class AimShooter extends Command {
     }
 
     double deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
+    if (m_timer.hasElapsed(0.5) && deltaY > 3 && m_shooter.getSetpoint() != 5000) {
+      m_shooter.setSetpoint(5000);
+    } else if (m_timer.hasElapsed(0.5) && deltaY < 3 && m_shooter.getSetpoint() != 4000) {
+
+      m_shooter.setSetpoint(4000);
+    }
     double speakerDist = Math.hypot(deltaX, deltaY);
-    m_wrist.setWristSetpoint(Units.degreesToRadians(m_shooter.returnDesiredAngle(speakerDist)));
+    m_wrist.setGoal(Units.degreesToRadians(m_shooter.returnDesiredAngle(speakerDist)));
   }
   // Called once the command ends or is interrupted.
   @Override

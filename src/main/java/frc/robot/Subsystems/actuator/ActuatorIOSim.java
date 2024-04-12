@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.actuator;
 
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.RobotStateConstants;
 
@@ -36,7 +37,7 @@ public class ActuatorIOSim implements ActuatorIO {
 
     // inputs.actuatorAppliedVolts = 0.0;
     inputs.actuatorPositionRad = actuatorMotor.getAngleRads();
-    // inputs.actuatorPositionDeg = Units.radiansToDegrees(actuatorMotor.getAngleRads());
+    inputs.actuatorPositionDeg = Units.radiansToDegrees(actuatorMotor.getAngleRads());
     inputs.actuatorVelocityRadPerSec = actuatorMotor.getVelocityRadPerSec();
     // inputs.actuatorCurrentAmps = new double[] {actuatorMotor.getCurrentDrawAmps()};
   }

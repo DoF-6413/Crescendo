@@ -83,4 +83,9 @@ public final class Constants {
     public static final Translation2d BLUE_SPEAKER = new Translation2d(0, 5.55);
     public static final Translation2d RED_SPEAKER = new Translation2d(16.58, 5.55);
   }
+
+  public static class HeadingControllerConstants {
+    public static final double HEADING_CONTROLLER_KP = 0.0;
+    public static final double HEADING_CONTROLLER_KD = 0.0;
+  }
 }

@@ -38,9 +38,10 @@ public class ArmIOSparkMax implements ArmIO {
     // The absolute encoder, or a dut cycle encoder, rotates where a full rotation is equal to 1. If
     // 1 rotation is equal to 2pi or 360 degrees, multiply by appropriate to get value
     inputs.armAbsolutePositionRad =
-        (1 - armAbsoluteEncoder.getAbsolutePosition()) * 2 * Math.PI - 3.0;
+        (1 - armAbsoluteEncoder.getAbsolutePosition()) * 2 * Math.PI - ArmConstants.OFFSET_RAD;
     inputs.armAbsolutePositionDeg =
-        (1 - armAbsoluteEncoder.getAbsolutePosition()) * 360 - Units.radiansToDegrees(3.0);
+        (1 - armAbsoluteEncoder.getAbsolutePosition()) * 360
+            - Units.radiansToDegrees(ArmConstants.OFFSET_RAD);
     inputs.armVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(armRelativeEncoder.getVelocity())
             / ArmConstants.GEAR_RATIO;
