@@ -204,6 +204,14 @@ public class RobotContainer {
         "WingAngle",
         new InstantCommand(
             () -> m_wristSubsystem.setGoal(WristConstants.WING_RAD), m_wristSubsystem));
+    NamedCommands.registerCommand(
+        "AutoAllignWrist",
+        new AimShooter(
+            m_shooterSubsystem,
+            m_wristSubsystem,
+            m_armSubsystem,
+            m_poseEstimator,
+            m_feederSubsystem));
     // Pick Ups
     NamedCommands.registerCommand(
         "UTB",
