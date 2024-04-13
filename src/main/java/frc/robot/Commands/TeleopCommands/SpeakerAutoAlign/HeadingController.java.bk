@@ -11,12 +11,12 @@ import frc.robot.Utils.PoseEstimatorLimelight;
 import java.util.function.Supplier;
 
 /** Add your docs here. */
-public class HeadingController {
+public class HeadingControllerForSpeaker {
   private final PIDController controller;
   private Supplier<Rotation2d> goalHeadingSupplier;
   private PoseEstimatorLimelight pose;
 
-  public HeadingController(
+  public HeadingControllerForSpeaker(
       Supplier<Rotation2d> rotation2d, PoseEstimatorLimelight m_poseEstimator) {
     controller = new PIDController(0.1, 0.0, 0.0);
     controller.enableContinuousInput(-Math.PI, Math.PI);

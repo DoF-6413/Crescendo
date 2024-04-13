@@ -19,7 +19,7 @@ public final class WristConstants {
 
   // Feedforward Constants for the Wrist
   /** KS represents the voltage added to overcome static friction */
-  public static double KS = 0.2;
+  public static double KS = 0.0;
   /** KV represents the velocity gain */
   public static double KV = 0.0001;
   /** KV represents the acceleration gain */

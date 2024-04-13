@@ -85,4 +85,8 @@ public class UTBIntake extends SubsystemBase {
     utbIntakePIDController.setSetpoint(setpoint);
     utbIntakePIDController.setTolerance(setpoint * UTBIntakeConstants.TOLERANCE_PERCENT);
   }
+
+  public double getCurrentDraw() {
+    return inputs.utbIntakeCurrentAmps[0];
+  }
 }

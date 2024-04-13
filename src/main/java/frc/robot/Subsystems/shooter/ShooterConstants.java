@@ -40,6 +40,8 @@ public class ShooterConstants {
   public static final boolean ENABLE_CUR_LIM = true;
 
   /** Auto-aiming shooting */
+  public static final double SPEAKER_TO_WALL_M = 0.904;
+
   public static final double[][] LOOKUP_TABLE_X_M_VS_THETA_DEG = {
     // random
     // {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6}, // x in meters
@@ -47,7 +49,15 @@ public class ShooterConstants {
     // {50, 45, 30, 15, 7.5, 3.75, 675, .3375, .1682, .05, 0.005} // theta_min
 
     // from tests
-    {0 + 1, 0.5 + 1, 1 + 1, 1.5 + 1, 2 + 1, 2.5 + 1, 3 + 1}, // x in meters
+    {
+      0 + SPEAKER_TO_WALL_M,
+      0.5 + SPEAKER_TO_WALL_M,
+      1 + SPEAKER_TO_WALL_M,
+      1.5 + SPEAKER_TO_WALL_M,
+      2 + +SPEAKER_TO_WALL_M,
+      2.5 + +SPEAKER_TO_WALL_M,
+      3 + SPEAKER_TO_WALL_M
+    }, // x in meters
     {25, 15, 13, 5, 0, -2.5, -5}, // theta_max_degrees
     {15, 10, 5, 2.5, -1, -3.5, -6} // theta_min_degrees
   };

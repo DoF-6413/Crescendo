@@ -81,6 +81,9 @@ public class Shooter extends SubsystemBase {
 
     SmartDashboard.putNumber("shooterSetpoint", topShooterPIDController.getSetpoint());
     SmartDashboard.putBoolean("BothAtSetpoint", bothAtSetpoint());
+    SmartDashboard.putNumber(
+        "Shoot RPM Diff",
+        Math.abs(inputs.topShooterMotorRPM) - Math.abs(inputs.bottomShooterMotorRPM));
 
     if (isTestingEnabled) {
       testPIDFFValues();
