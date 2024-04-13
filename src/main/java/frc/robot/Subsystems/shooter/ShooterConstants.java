@@ -50,16 +50,19 @@ public class ShooterConstants {
 
     // from tests
     {
-      0 + SPEAKER_TO_WALL_M,
       0.5 + SPEAKER_TO_WALL_M,
       1 + SPEAKER_TO_WALL_M,
       1.5 + SPEAKER_TO_WALL_M,
       2 + +SPEAKER_TO_WALL_M,
       2.5 + +SPEAKER_TO_WALL_M,
-      3 + SPEAKER_TO_WALL_M
+      3 + SPEAKER_TO_WALL_M,
+      3.5 + SPEAKER_TO_WALL_M,
+      4 + SPEAKER_TO_WALL_M,
+      4.5 + SPEAKER_TO_WALL_M,
+      5 + SPEAKER_TO_WALL_M
     }, // x in meters
-    {25, 15, 13, 5, 0, -2.5, -5}, // theta_max_degrees
-    {15, 10, 5, 2.5, -1, -3.5, -6} // theta_min_degrees
+    {32, 20, 13, 9, 4, 2, -2, -4, -4, -6}, // theta_max_degrees
+    {24, 15, 8, 5, 2, -1, -3, -4, -4, -6} // theta_min_degrees
   };
 
   // Inverted motors

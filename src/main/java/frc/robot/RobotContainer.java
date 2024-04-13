@@ -40,6 +40,7 @@ import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
+import frc.robot.Commands.TeleopCommands.SpeakerAutoAlign.AimShooter;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.OverShot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
@@ -544,11 +545,11 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
 
     // /* Rumble */
-    // if (m_utbIntakeSubsystem.getCurrentDraw() > 10) {
-    //   driverController.getHID().setRumble(RumbleType.kBothRumble, 1);
-    // } else {
-    //   driverController.getHID().setRumble(RumbleType.kBothRumble, 0);
-    // }
+    if (m_utbIntakeSubsystem.getCurrentDraw() > 10) {
+      driverController.getHID().setRumble(RumbleType.kBothRumble, 1);
+    } else {
+      driverController.getHID().setRumble(RumbleType.kBothRumble, 0);
+    }
 
     /* Intakes */
     // All Intakes (Intake)
@@ -627,15 +628,15 @@ public class RobotContainer {
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Position to shoot with Vision
-    // auxController
-    //     .rightTrigger()
-    //     .onTrue(
-    //         new AimShooter(
-    //             m_shooterSubsystem,
-    //             m_wristSubsystem,
-    //             m_armSubsystem,
-    //             m_poseEstimator,
-    //             m_feederSubsystem));
+    auxController
+        .rightTrigger()
+        .onTrue(
+            new AimShooter(
+                m_shooterSubsystem,
+                m_wristSubsystem,
+                m_armSubsystem,
+                m_poseEstimator,
+                m_feederSubsystem));
 
     /* AMP Scoring */
     // Backside

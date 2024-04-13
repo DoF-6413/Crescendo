@@ -33,6 +33,7 @@ public class AimShooter extends Command {
     m_arm = arm;
     m_pose = pose;
     m_feeder = feeder;
+    m_timer = new Timer();
     addRequirements(shooter, wrist, arm);
   }
 

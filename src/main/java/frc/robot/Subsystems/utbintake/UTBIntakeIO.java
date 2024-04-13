@@ -12,7 +12,7 @@ public interface UTBIntakeIO {
     /** Number of volts being sent to the UTB Intake motor */
     public double utbIntakeAppliedVolts = 0.0;
     /** Number of amps being used by the UTB Intake motor */
-    public double[] utbIntakeCurrentAmps = new double[] {};
+    public double[] utbIntakeCurrentAmps = new double[] {0, 0};
     /** Tempature, in Celsius, of the UTB Intake motor */
     public double[] utbIntakeTempCelsius = new double[] {};
   }
@@ -37,11 +37,11 @@ public interface UTBIntakeIO {
    * @param volts -12 to 12
    */
   public default void setUTBIntakePercentSpeed(double percent) {}
-
-  /**
-   * Sets brake mode of the UTB Intake
-   *
-   * @param enable Enables brake mode if true, coast if false
-   */
-  public default void setUTBIntakeBrakeMode(boolean enable) {}
-}
+  
+    /**
+     * Sets brake mode of the UTB Intake
+     *
+     * @param enable Enables brake mode if true, coast if false
+     */
+    public default void setUTBIntakeBrakeMode(boolean enable) {}
+  }
