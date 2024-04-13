@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.48061797877981727,
-      "y": 2.046152337918712
+      "x": 1.3135113329050188,
+      "y": 5.576267387828894
     },
     "rotation": 0
   },
@@ -12,21 +12,34 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Shooter4000"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Corner to Preload"
-          }
-        },
-        {
           "type": "sequential",
           "data": {
             "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SubwooferAngle"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shooter4000"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -37,27 +50,21 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "To Mid 4"
+            "pathName": "Center to BM (Shoot)"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.3
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Mid 4 to Chain"
+            "pathName": "BM to BL"
           }
         },
         {
@@ -67,7 +74,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ChainShot"
+                  "name": "PodiumShot"
                 }
               }
             ]
@@ -76,35 +83,47 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 1.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Chain to Mid 3"
+            "pathName": "BL to BR"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Mid 3 to Chain"
+            "pathName": "BR to Center 2"
           }
         },
         {
-          "type": "sequential",
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "ChainShot"
+                  "name": "SubwooferShot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpStop"
                 }
               }
             ]
@@ -113,6 +132,6 @@
       ]
     }
   },
-  "folder": "3 Piece Autos",
+  "folder": "4 Piece Autos",
   "choreoAuto": false
 }

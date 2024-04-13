@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5944511585147019,
-        "y": 5.58
+        "x": 2.6196699141100894,
+        "y": 5.049669914110089
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.0197318289373425,
-        "y": 7.033697400728136
+        "x": 3.15,
+        "y": 7.226987445427883
       },
       "prevControl": {
-        "x": 0.8546683194762457,
-        "y": 5.783697400728136
+        "x": 0.9849364905389031,
+        "y": 5.976987445427883
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,16 +30,16 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.45,
-      "rotationDegrees": 30.0,
+      "waypointRelativePos": 0.3,
+      "rotationDegrees": 32.5,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Pick up Close 1",
-      "waypointRelativePos": 0.3,
+      "name": "Wrist Align",
+      "waypointRelativePos": 0.25,
       "command": {
         "type": "parallel",
         "data": {
@@ -47,7 +47,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ZeroShooting"
+                "name": "LineAngle"
               }
             }
           ]
@@ -57,9 +57,9 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 2.0,
-    "maxAngularVelocity": 50.0,
-    "maxAngularAcceleration": 50.0
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,

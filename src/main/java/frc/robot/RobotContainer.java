@@ -195,7 +195,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "SubwooferAngle",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(WristConstants.SUBWOOFER_RAD), m_wristSubsystem));
+        () -> {m_wristSubsystem.setGoal(WristConstants.SUBWOOFER_RAD); m_armSubsystem.setGoal(ArmConstants.SUBWOOFER_RAD);}, m_wristSubsystem, m_armSubsystem));
     NamedCommands.registerCommand(
         "PodiumAngle",
         new InstantCommand(
@@ -295,6 +295,8 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "ZeroArm", new InstantCommand(() -> m_armSubsystem.setGoal(0), m_armSubsystem));
     NamedCommands.registerCommand(
+        "ZeroShooting", new InstantCommand(() -> {m_armSubsystem.setGoal(0); m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD); m_shooterSubsystem.setSetpoint(0);}, m_armSubsystem, m_wristSubsystem, m_shooterSubsystem));
+    NamedCommands.registerCommand(
         "ZeroAll",
         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Gyro heading reset
@@ -337,8 +339,8 @@ public class RobotContainer {
     // autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
     // autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
     autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
-    autoChooser.addOption("4 Piece Center Vision", new PathPlannerAuto("4P Center Vision"));
     autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center 4"));
+    autoChooser.addOption("4 Piece Center 5.0", new PathPlannerAuto("4P Center 5"));
     autoChooser.addOption("4 Piece Left Sub Midfield", new PathPlannerAuto("4P Midfield"));
     autoChooser.addOption("4 Piece Center Midfield", new PathPlannerAuto("4P Center to Midfield"));
     autoChooser.addOption(

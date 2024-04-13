@@ -16,12 +16,28 @@
     },
     {
       "anchor": {
-        "x": 2.95,
-        "y": 4.11
+        "x": 1.7916949794013546,
+        "y": 4.128036518181299
       },
       "prevControl": {
-        "x": 1.6509618943233422,
-        "y": 4.86
+        "x": 1.1251281761822784,
+        "y": 4.128036518181299
+      },
+      "nextControl": {
+        "x": 2.71553318035411,
+        "y": 4.128036518181299
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.9143338058755885,
+        "y": 4.128036518181299
+      },
+      "prevControl": {
+        "x": 2.072029911033927,
+        "y": 4.128036518181299
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +47,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.3,
-      "rotationDegrees": -15.0,
+      "rotationDegrees": 0.0,
       "rotateFast": false
     }
   ],
@@ -47,7 +63,7 @@
             {
               "type": "named",
               "data": {
-                "name": "StopShooter"
+                "name": "ZeroShooting"
               }
             }
           ]
@@ -63,7 +79,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -30.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
