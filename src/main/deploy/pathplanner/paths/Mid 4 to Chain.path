@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.36410936639537,
-        "y": 2.6779613673187472
+        "x": 6.504439219704649,
+        "y": 3.2275866261134234
       },
       "isLocked": false,
       "linkedName": null
@@ -39,9 +39,9 @@
   "eventMarkers": [
     {
       "name": "Shoot Mid 4",
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.25,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -55,6 +55,12 @@
               "data": {
                 "name": "PickUpStop"
               }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "AutoAlign"
+              }
             }
           ]
         }
@@ -63,7 +69,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 5.2,
-    "maxAcceleration": 5.2,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
@@ -75,8 +81,8 @@
   "reversed": false,
   "folder": "Puzzle Pieces",
   "previewStartingState": {
-    "rotation": 25.40771810894839,
+    "rotation": 25.41,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

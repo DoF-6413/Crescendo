@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 3.15,
-        "y": 7.23
+        "y": 5.58
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.5053379907329615,
-        "y": 5.028486410249174
+        "x": 2.6196699141100894,
+        "y": 5.049669914110089
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.95,
-        "y": 4.11
+        "x": 3.031275350299988,
+        "y": 7.098351746561043
       },
       "prevControl": {
-        "x": 2.5752033270448305,
-        "y": 4.397002070357417
+        "x": 0.9227967357677738,
+        "y": 5.755102725693984
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,45 +31,27 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.3,
-      "rotationDegrees": -15.0,
+      "rotationDegrees": 32.5,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "Wrist Angle",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "AutoAlign"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 1.5,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -30.0,
+    "rotation": 32.5,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Puzzle Pieces",
+  "folder": "Puzzle Pieces Vision",
   "previewStartingState": {
-    "rotation": 32.5,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": false

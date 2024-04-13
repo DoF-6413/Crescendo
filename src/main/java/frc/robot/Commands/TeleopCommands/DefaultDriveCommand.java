@@ -24,12 +24,17 @@ public class DefaultDriveCommand extends Command {
   PoseEstimatorLimelight pose;
 
   public DefaultDriveCommand(
-      Drive drive, CommandXboxController controller, Gyro gyro, PoseEstimatorLimelight pose) {
+      Drive drive,
+      CommandXboxController controller,
+      Gyro gyro,
+      PoseEstimatorLimelight pose,
+      int startingIndex) {
     this.controller = controller;
 
     this.drive = drive;
     this.gyro = gyro;
     this.pose = pose;
+    index = startingIndex;
     headingController = new HeadingController();
     addRequirements(drive);
     // Use addRequirements() here to declare subsystem dependencies.

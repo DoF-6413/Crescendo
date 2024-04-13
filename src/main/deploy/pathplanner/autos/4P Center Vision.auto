@@ -26,12 +26,6 @@
                 "data": {
                   "waitTime": 1.0
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ChassisAutoAlign"
-                }
               }
             ]
           }
@@ -39,7 +33,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center to BM (Shoot)"
+            "pathName": "Center to BM (V)"
           }
         },
         {
@@ -63,38 +57,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BL to BR"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BR to BM"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Feeder"
-                }
-              }
-            ]
+            "pathName": "BL to BR (shoot)"
           }
         }
       ]

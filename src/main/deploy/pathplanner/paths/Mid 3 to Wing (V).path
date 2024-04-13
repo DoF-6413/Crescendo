@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.4,
-        "y": 6.35
+        "x": 8.270256540513081,
+        "y": 4.07539893464585
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.330796208373043,
-        "y": 6.174513545608288
+        "x": 7.770256540513081,
+        "y": 4.941424338430289
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.27,
-        "y": 4.08
+        "x": 5.4,
+        "y": 6.35
       },
       "prevControl": {
-        "x": 7.928758462410037,
-        "y": 4.8794801737822
+        "x": 6.4,
+        "y": 6.35
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,35 +31,23 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.6,
-      "rotationDegrees": -68.0,
+      "rotationDegrees": 5.0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Pick up Mid 3",
-      "waypointRelativePos": 0.3,
+      "name": "Prep Mid 3 Shot",
+      "waypointRelativePos": 0.0,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "ZeroWrist"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "StopShooter"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Feeder"
+                "name": "AutoAlign"
               }
             }
           ]
@@ -75,11 +63,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -68.0,
+    "rotation": 9.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Puzzle Pieces",
-  "previewStartingState": null,
+  "folder": "Puzzle Pieces Vision",
+  "previewStartingState": {
+    "rotation": -68.0,
+    "velocity": 0
+  },
   "useDefaultConstraints": false
 }

@@ -61,12 +61,6 @@
               "data": {
                 "name": "UTB"
               }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Feeder"
-              }
             }
           ]
         }

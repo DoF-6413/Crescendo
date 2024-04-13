@@ -163,7 +163,7 @@ public class RobotContainer {
 
     // Utils
     m_poseEstimator = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
-    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
+    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator, m_gyroSubsystem);
 
     /* PathPlanner Registere Commands */
     // Shooter/Feeder
@@ -197,15 +197,19 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_wristSubsystem.setGoal(WristConstants.SUBWOOFER_RAD), m_wristSubsystem));
     NamedCommands.registerCommand(
+        "PodiumAngle",
+        new InstantCommand(
+            () -> m_wristSubsystem.setGoal(WristConstants.PODIUM_RAD), m_wristSubsystem));
+    NamedCommands.registerCommand(
         "LineAngle",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(22)), m_wristSubsystem));
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(7)), m_wristSubsystem));
     NamedCommands.registerCommand(
         "WingAngle",
         new InstantCommand(
             () -> m_wristSubsystem.setGoal(WristConstants.WING_RAD), m_wristSubsystem));
     NamedCommands.registerCommand(
-        "AutoAllignWrist",
+        "AutoAlign",
         new AimShooter(
             m_shooterSubsystem,
             m_wristSubsystem,
@@ -296,6 +300,10 @@ public class RobotContainer {
     // Gyro heading reset
     NamedCommands.registerCommand(
         "ZeroYaw", new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
+    NamedCommands.registerCommand(
+        "ChassisAutoAlign",
+        new DefaultDriveCommand(
+            m_driveSubsystem, auxController, m_gyroSubsystem, m_poseEstimator, 1));
     // WaitUntil Commands
     NamedCommands.registerCommand(
         "ShooterReady",
@@ -326,12 +334,15 @@ public class RobotContainer {
     autoChooser.addOption("3 Piece Corner to Midfield", new PathPlannerAuto("3P Corner Mid Right"));
     autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
     // 4 Piece
-    autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
-    autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
+    // autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
+    // autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
     autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
-    autoChooser.addOption("4 Piece Center 4.0", new PathPlannerAuto("4P Center 4"));
+    autoChooser.addOption("4 Piece Center Vision", new PathPlannerAuto("4P Center Vision"));
+    autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center 4"));
     autoChooser.addOption("4 Piece Left Sub Midfield", new PathPlannerAuto("4P Midfield"));
     autoChooser.addOption("4 Piece Center Midfield", new PathPlannerAuto("4P Center to Midfield"));
+    autoChooser.addOption(
+        "4 Piece Center Midfield Vision", new PathPlannerAuto("4P Center to Midfield (V)"));
     // 5+ Piece
     autoChooser.addOption("5 Piece Left Sub Midfield", new PathPlannerAuto("5P Midfield"));
     autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
@@ -547,7 +558,7 @@ public class RobotContainer {
     // Normal driving by default
     m_driveSubsystem.setDefaultCommand(
         new DefaultDriveCommand(
-            m_driveSubsystem, driverController, m_gyroSubsystem, m_poseEstimator));
+            m_driveSubsystem, driverController, m_gyroSubsystem, m_poseEstimator, 1));
     // Toggle heading contoller
 
     // Rotate around SPEAKER

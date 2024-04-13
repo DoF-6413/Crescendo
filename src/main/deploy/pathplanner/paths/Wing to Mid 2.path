@@ -53,6 +53,12 @@
             {
               "type": "named",
               "data": {
+                "name": "Feeder"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
                 "name": "ZeroWrist"
               }
             }

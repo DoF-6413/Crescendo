@@ -41,7 +41,7 @@
       "name": "Shoot Mid 3",
       "waypointRelativePos": 0.4,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -54,6 +54,12 @@
               "type": "named",
               "data": {
                 "name": "StopFeeder"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "AutoAlign"
               }
             }
           ]

@@ -86,9 +86,6 @@
   },
   "reversed": false,
   "folder": "Puzzle Pieces",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
-  },
+  "previewStartingState": null,
   "useDefaultConstraints": true
 }

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.48061797877981727,
-      "y": 2.046152337918712
+      "x": 1.3135113329050188,
+      "y": 5.576267387828894
     },
     "rotation": 0
   },
@@ -12,15 +12,77 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "Shooter4000"
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SubwooferAngle"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shooter4000"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Feeder"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Corner to Preload"
+            "pathName": "Center to BM (Shoot) 2"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BM to Mid 2"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.75
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid 2 to Wing (V)"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {
@@ -39,62 +101,31 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "To Mid 4"
+            "pathName": "Wing to Mid 3"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.75
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Mid 4 to Chain"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Feeder"
-                }
-              }
-            ]
+            "pathName": "Mid 3 to Wing (V)"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Chain to Mid 3"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Mid 3 to Chain"
+            "waitTime": 0.75
           }
         },
         {
@@ -113,6 +144,6 @@
       ]
     }
   },
-  "folder": "3 Piece Autos",
+  "folder": null,
   "choreoAuto": false
 }

@@ -12,15 +12,19 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.DriveConstants;
+import frc.robot.Subsystems.gyro.Gyro;
 
 /** Add your docs here. */
 public class PathPlanner extends SubsystemBase {
   private Drive drive;
   private PoseEstimatorLimelight pose;
+  private Gyro gyro;
+  private PathPlannerDrive ppd;
 
-  public PathPlanner(Drive drive, PoseEstimatorLimelight pose) {
+  public PathPlanner(Drive drive, PoseEstimatorLimelight pose, Gyro gyro) {
     this.drive = drive;
     this.pose = pose;
+    this.ppd = new PathPlannerDrive(pose, drive, gyro);
 
     AutoBuilder.configureHolonomic(
         pose::getCurrentPose2d,
