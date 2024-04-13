@@ -187,7 +187,7 @@ public class RobotContainer {
             () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM), m_feederSubsystem));
     NamedCommands.registerCommand(
         "FeederReverse",
-        new InstantCommand(() -> m_feederSubsystem.setSetpoint(-500), m_feederSubsystem));
+        new InstantCommand(() -> m_feederSubsystem.setSetpoint(-200), m_feederSubsystem));
     NamedCommands.registerCommand(
         "StopFeeder",
         new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
@@ -196,6 +196,10 @@ public class RobotContainer {
         "SubwooferAngle",
         new InstantCommand(
             () -> m_wristSubsystem.setGoal(WristConstants.SUBWOOFER_RAD), m_wristSubsystem));
+    NamedCommands.registerCommand(
+        "LineAngle",
+        new InstantCommand(
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(22)), m_wristSubsystem));
     NamedCommands.registerCommand(
         "WingAngle",
         new InstantCommand(
@@ -319,6 +323,7 @@ public class RobotContainer {
     autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
     autoChooser.addOption("4 Piece Center 4.0", new PathPlannerAuto("4P Center 4"));
     autoChooser.addOption("4 Piece Left Sub Midfield", new PathPlannerAuto("4P Midfield"));
+    autoChooser.addOption("4 Piece Center Midfield", new PathPlannerAuto("4P Center to Midfield"));
     // 5+ Piece
     autoChooser.addOption("5 Piece Left Sub Midfield", new PathPlannerAuto("5P Midfield"));
     autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
@@ -584,12 +589,7 @@ public class RobotContainer {
   /** Contoller keybinds for the aux contoller port */
   public void auxControllerBindings() {
     /* Release piece */
-    auxController
-        .a()
-        .onTrue(
-            new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem)
-                .onlyIf(
-                    () -> m_shooterSubsystem.bothAtSetpoint() && m_wristSubsystem.atSetpoint()));
+    auxController.a().onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
 
     /* SPEAKER Scoring */
     // Subwoofer (w/o vision)
@@ -636,7 +636,9 @@ public class RobotContainer {
                 m_wristSubsystem,
                 m_armSubsystem,
                 m_poseEstimator,
-                m_feederSubsystem));
+                m_feederSubsystem))
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* AMP Scoring */
     // Backside

@@ -40,7 +40,7 @@ public class AimShooter extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_feeder.setSetpoint(-200);
+    m_feeder.setSetpoint(-1000);
     m_timer.reset();
     m_timer.restart();
     m_timer.start();
@@ -50,7 +50,7 @@ public class AimShooter extends Command {
   @Override
   public void execute() {
 
-    if (m_timer.hasElapsed(0.5) && m_shooter.bothAtSetpoint()) {
+    if (m_timer.hasElapsed(1) && m_shooter.bothAtSetpoint()) {
       m_shooter.setSetpoint(6000);
       m_feeder.setSetpoint(0);
     }
@@ -65,9 +65,9 @@ public class AimShooter extends Command {
     }
 
     double deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
-    if (m_timer.hasElapsed(0.5)) {
+    if (m_timer.hasElapsed(1)) {
       m_shooter.setSetpoint(6000);
-    } 
+    }
     double speakerDist = Math.hypot(deltaX, deltaY);
     m_wrist.setGoal(Units.degreesToRadians(m_shooter.returnDesiredAngle(speakerDist)));
   }

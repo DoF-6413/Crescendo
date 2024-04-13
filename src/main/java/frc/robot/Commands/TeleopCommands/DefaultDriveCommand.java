@@ -64,12 +64,12 @@ public class DefaultDriveCommand extends Command {
           -controller.getRightX()); // Rotate chassis left/right
     }
 
-    if (controller.button(10).getAsBoolean() && alreadyPressed != true) {
+    if (controller.button(9).getAsBoolean() && alreadyPressed != true) {
       index += 1;
       alreadyPressed = true;
-    } else if (!controller.button(10).getAsBoolean() && alreadyPressed == true) {
+    } else if (!controller.button(9).getAsBoolean() && alreadyPressed == true) {
       alreadyPressed = false;
-    } else if (controller.button(9).getAsBoolean()) {
+    } else if (controller.button(10).getAsBoolean()) {
       index = 0;
     }
   }

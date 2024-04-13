@@ -3,43 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
-        "y": 5.58
+        "x": 1.3135113329050188,
+        "y": 5.576267387828894
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.0319641814722225,
-        "y": 6.580284213200006
+        "x": 2.313511332905018,
+        "y": 5.576267387828894
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.324666123016458,
-        "y": 5.782277003150498
+        "x": 3.6,
+        "y": 5.58
       },
       "prevControl": {
-        "x": 5.311635466575775,
-        "y": 6.595503105536126
+        "x": 2.6,
+        "y": 5.58
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.65,
-      "rotationDegrees": -9.319999999999993,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Pick up Mid 2",
-      "waypointRelativePos": 0.3,
+      "name": "Pick Up and Shoot",
+      "waypointRelativePos": 0.1,
       "command": {
         "type": "parallel",
         "data": {
@@ -47,19 +41,13 @@
             {
               "type": "named",
               "data": {
-                "name": "ZeroWrist"
+                "name": "LineAngle"
               }
             },
             {
               "type": "named",
               "data": {
                 "name": "ZeroArm"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "StopShooter"
               }
             },
             {
@@ -81,7 +69,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -9.319999999999993,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,

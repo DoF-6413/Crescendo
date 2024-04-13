@@ -72,11 +72,11 @@ public class PoseEstimatorLimelight extends SubsystemBase {
       poseEstimator.addVisionMeasurement(
           limelightMeasurement.pose.transformBy(
               new Transform2d(
-                  new Translation2d(Units.inchesToMeters(-12.667), Units.inchesToMeters(3.626)),
+                  new Translation2d(Units.inchesToMeters(-18.5), Units.inchesToMeters(-3)),
                   new Rotation2d(Math.PI))),
           limelightMeasurement.timestampSeconds,
           visionMeasurementStandardDevs);
-      System.out.println("running 2");
+      // System.out.println("running 2");
     }
     // } else {
     //   if (limelightMeasurement.tagCount >= 1) {

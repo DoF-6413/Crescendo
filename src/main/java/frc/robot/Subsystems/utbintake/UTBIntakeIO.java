@@ -37,11 +37,11 @@ public interface UTBIntakeIO {
    * @param volts -12 to 12
    */
   public default void setUTBIntakePercentSpeed(double percent) {}
-  
-    /**
-     * Sets brake mode of the UTB Intake
-     *
-     * @param enable Enables brake mode if true, coast if false
-     */
-    public default void setUTBIntakeBrakeMode(boolean enable) {}
-  }
+
+  /**
+   * Sets brake mode of the UTB Intake
+   *
+   * @param enable Enables brake mode if true, coast if false
+   */
+  public default void setUTBIntakeBrakeMode(boolean enable) {}
+}

@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.563149759326534,
-        "y": 4.782505715832398
+        "x": 7.770256540513081,
+        "y": 4.941424338430289
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.86,
-        "y": 6.13
+        "x": 5.4,
+        "y": 6.35
       },
       "prevControl": {
-        "x": 6.73,
-        "y": 6.13
+        "x": 6.4,
+        "y": 6.35
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,33 +39,34 @@
   "eventMarkers": [
     {
       "name": "Prep Mid 3 Shot",
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.0,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
-              "type": "named",
+              "type": "parallel",
               "data": {
-                "name": "FeederReverse"
+                "commands": [
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "FeederReverse"
+                    }
+                  },
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "WingAngle"
+                    }
+                  }
+                ]
               }
             },
             {
               "type": "named",
               "data": {
                 "name": "Shooter6000"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "WingAngle"
-              }
-            },
-            {
-              "type": "wait",
-              "data": {
-                "waitTime": 0
               }
             }
           ]
@@ -81,7 +82,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 5.0,
+    "rotation": 9.0,
     "rotateFast": false
   },
   "reversed": false,

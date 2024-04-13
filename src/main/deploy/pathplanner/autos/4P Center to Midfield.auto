@@ -33,13 +33,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center to BM (Shoot)"
+            "pathName": "Center to BM (Shoot) 2"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.2
+            "waitTime": 0.4
           }
         },
         {
@@ -51,7 +51,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.2
+            "waitTime": 0.75
           }
         },
         {
@@ -76,7 +76,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.2
+            "waitTime": 0.75
           }
         },
         {
@@ -88,7 +88,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.2
+            "waitTime": 0.75
           }
         },
         {
