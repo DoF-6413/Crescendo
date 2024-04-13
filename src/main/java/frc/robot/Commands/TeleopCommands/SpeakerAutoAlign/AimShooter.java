@@ -51,7 +51,7 @@ public class AimShooter extends Command {
   public void execute() {
 
     if (m_timer.hasElapsed(0.5) && m_shooter.bothAtSetpoint()) {
-      m_shooter.setSetpoint(4000);
+      m_shooter.setSetpoint(6000);
       m_feeder.setSetpoint(0);
     }
 
@@ -65,12 +65,9 @@ public class AimShooter extends Command {
     }
 
     double deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
-    if (m_timer.hasElapsed(0.5) && deltaY > 3 && m_shooter.getSetpoint() != 5000) {
-      m_shooter.setSetpoint(5000);
-    } else if (m_timer.hasElapsed(0.5) && deltaY < 3 && m_shooter.getSetpoint() != 4000) {
-
-      m_shooter.setSetpoint(4000);
-    }
+    if (m_timer.hasElapsed(0.5)) {
+      m_shooter.setSetpoint(6000);
+    } 
     double speakerDist = Math.hypot(deltaX, deltaY);
     m_wrist.setGoal(Units.degreesToRadians(m_shooter.returnDesiredAngle(speakerDist)));
   }
