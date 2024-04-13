@@ -79,6 +79,7 @@ public final class ArmConstants {
   /** SOURCE Pickup back side */
   public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(28.53329);
   /** Subwoofer scoring angle */
-  public static final double SUBWOOFER_RAD =
-      Units.degreesToRadians(6); // TODO: Update, has to clear battery cover
+  public static final double SUBWOOFER_RAD = Units.degreesToRadians(6);
+  /** SPEAKER shot configuration from the PODIUM to score over "billboard-bots" */
+  public static final double OVERSHOT_RAD = 0.0; // TODO: Update
 }
