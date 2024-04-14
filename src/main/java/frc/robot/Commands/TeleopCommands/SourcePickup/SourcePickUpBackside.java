@@ -23,12 +23,12 @@ public class SourcePickUpBackside extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              arm.setSetpoint(ArmConstants.SOURCE_BACK_SIDE_RAD);
-              wrist.setSetpoint(WristConstants.SOURCE_BACK_SIDE_RAD);
+              arm.setGoal(ArmConstants.SOURCE_BACK_SIDE_RAD);
+              wrist.setGoal(WristConstants.SOURCE_BACK_SIDE_RAD);
             },
             arm,
             wrist),
-        new WaitUntilCommand(() -> arm.atSetpoint()),
+        new WaitUntilCommand(() -> arm.atGoal()),
         new WaitUntilCommand(() -> wrist.atSetpoint()),
         Commands.runOnce(
             () -> {

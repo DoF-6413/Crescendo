@@ -76,24 +76,34 @@ public class ShooterIOTalonFX implements ShooterIO {
   }
 
   @Override
-  public void setBothShooterMotorsVoltage(double volts) {
+  public void setBothVoltage(double volts) {
     topShooterMotor.setVoltage(volts);
     bottomShooterMotor.setVoltage(volts);
   }
 
   @Override
-  public void setBottomShooterMotorVoltage(double volts) {
+  public void setBottomVoltage(double volts) {
     bottomShooterMotor.setVoltage(volts);
   }
 
   @Override
-  public void setTopShooterMotorVoltage(double volts) {
+  public void setTopVoltage(double volts) {
     topShooterMotor.setVoltage(volts);
   }
 
   @Override
-  public void setBothShooterMotorPercentSpeed(double percent) {
+  public void setBothPercentSpeed(double percent) {
     topShooterMotor.set(percent);
+    bottomShooterMotor.set(percent);
+  }
+
+  @Override
+  public void setTopPercentSpeed(double percent) {
+    topShooterMotor.set(percent);
+  }
+
+  @Override
+  public void setBottomPercentSpeed(double percent) {
     bottomShooterMotor.set(percent);
   }
 }

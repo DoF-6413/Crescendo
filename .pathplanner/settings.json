@@ -1,0 +1,31 @@
+{
+  "robotWidth": 0.82,
+  "robotLength": 0.82,
+  "holonomicMode": true,
+  "pathFolders": [
+    "2PieceAuto",
+    "3PieceAuto",
+    "4PieceAuto",
+    "5PieceAuto",
+    "ComplexPaths",
+    "Liz's Folder",
+    "Midfield",
+    "OnePieceAuto",
+    "Puzzle Pieces",
+    "Test Paths",
+    "Vihaan's Folder"
+  ],
+  "autoFolders": [
+    "2 Piece Autos",
+    "3 Piece Autos",
+    "Liz3Piece",
+    "4 Piece Autos",
+    "Test Autos",
+    "Vihaan's Folder"
+  ],
+  "defaultMaxVel": 5.2,
+  "defaultMaxAccel": 5.2,
+  "defaultMaxAngVel": 515.65,
+  "defaultMaxAngAccel": 262.825,
+  "maxModuleSpeed": 5.2
+}

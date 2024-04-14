@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.wrist.Wrist;
+import frc.robot.Subsystems.wrist.WristConstants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,15 +23,15 @@ public class ArmToZero extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              wrist.setSetpoint(Units.degreesToRadians(0.0));
+              wrist.setGoal(WristConstants.DEFAULT_POSITION_RAD);
             },
             wrist),
         new WaitUntilCommand(() -> wrist.atSetpoint()),
         Commands.runOnce(
             () -> {
-              arm.setSetpoint(Units.degreesToRadians(0.0));
+              arm.setGoal(Units.degreesToRadians(0.0));
             },
             arm),
-        new WaitUntilCommand(() -> arm.atSetpoint()));
+        new WaitUntilCommand(() -> arm.atGoal()));
   }
 }

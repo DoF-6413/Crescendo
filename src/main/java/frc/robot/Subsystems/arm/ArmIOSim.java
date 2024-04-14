@@ -36,6 +36,7 @@ public class ArmIOSim implements ArmIO {
     inputs.armRelativePositionRad = armMotor.getAngleRads();
     inputs.armRelativePositionDeg = Units.radiansToDegrees(armMotor.getAngleRads());
     inputs.armAbsolutePositionRad = inputs.armRelativePositionRad;
+    inputs.armAbsolutePositionDeg = inputs.armRelativePositionDeg;
     inputs.armVelocityRadPerSec = armMotor.getVelocityRadPerSec();
     inputs.armAppliedVolts = 0.0;
     inputs.armCurrentAmps = new double[] {Math.abs(armMotor.getCurrentDrawAmps())};
