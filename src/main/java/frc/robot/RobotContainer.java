@@ -81,6 +81,7 @@ public class RobotContainer {
   // Utilities
   private final PoseEstimatorLimelight m_poseEstimator;
   private final PathPlanner m_pathPlanner;
+  private final Mechanisms2d m_Mechanisms2d;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -114,6 +115,7 @@ public class RobotContainer {
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_feederSubsystem = new Feeder(new FeederIOTalonFX());
         m_wristSubsystem = new Wrist(new WristIOSparkMax());
+        m_Mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
         break;
 
       case SIM:
@@ -134,6 +136,7 @@ public class RobotContainer {
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_feederSubsystem = new Feeder(new FeederIOSim());
         m_wristSubsystem = new Wrist(new WristIOSim());
+         m_Mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
         break;
 
       default:
@@ -154,6 +157,7 @@ public class RobotContainer {
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_feederSubsystem = new Feeder(new FeederIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
+         m_Mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
         break;
     }
 
