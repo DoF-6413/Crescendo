@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.15,
-        "y": 7.23
+        "x": 3.0197318289373425,
+        "y": 7.033697400728136
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.5053379907329615,
-        "y": 5.028486410249174
+        "x": 1.9294497853150046,
+        "y": 5.35700868025713
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 4.11
       },
       "prevControl": {
-        "x": 2.5752033270448305,
-        "y": 4.397002070357417
+        "x": 1.6509618943233422,
+        "y": 4.86
       },
       "nextControl": null,
       "isLocked": false,
@@ -38,16 +38,16 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Wrist Angle",
-      "waypointRelativePos": 0,
+      "name": "Stop Shooter",
+      "waypointRelativePos": 0.25,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "AutoAlign"
+                "name": "StopShooter"
               }
             }
           ]
@@ -56,8 +56,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 1.5,
+    "maxVelocity": 5.2,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
@@ -69,7 +69,7 @@
   "reversed": false,
   "folder": "Puzzle Pieces",
   "previewStartingState": {
-    "rotation": 32.5,
+    "rotation": 29.744881296942097,
     "velocity": 0
   },
   "useDefaultConstraints": false
