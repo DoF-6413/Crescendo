@@ -111,7 +111,7 @@ public class Robot extends LoggedRobot {
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
-    robotContainer.mechanismsCoastOnDisable(false);
+    robotContainer.mechanismsCoastOnDisable(true);
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }

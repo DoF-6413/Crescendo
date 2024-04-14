@@ -16,7 +16,7 @@ public class ArmIOSparkMax implements ArmIO {
 
   private final CANSparkMax armMotor;
   private final RelativeEncoder armRelativeEncoder;
-  private DutyCycleEncoder armAbsoluteEncoder;
+  private final DutyCycleEncoder armAbsoluteEncoder;
 
   /** Runs the real life Arm with CANSpark Speed Controllers and NEO motor */
   public ArmIOSparkMax() {
@@ -26,6 +26,7 @@ public class ArmIOSparkMax implements ArmIO {
     armMotor.setSmartCurrentLimit(ArmConstants.CUR_LIM_A);
     armMotor.setInverted(ArmConstants.IS_INVERTED);
     armAbsoluteEncoder = new DutyCycleEncoder(9);
+    armAbsoluteEncoder.setPositionOffset(0.2);
   }
 
   @Override
@@ -37,8 +38,8 @@ public class ArmIOSparkMax implements ArmIO {
     inputs.armRelativePositionDeg = Units.rotationsToDegrees(armRelativeEncoder.getPosition());
     // The absolute encoder, or a dut cycle encoder, rotates where a full rotation is equal to 1. If
     // 1 rotation is equal to 2pi or 360 degrees, multiply by appropriate to get value
-    inputs.armAbsolutePositionRad =
-        (1 - armAbsoluteEncoder.getAbsolutePosition()) * 2 * Math.PI - ArmConstants.OFFSET_RAD;
+    inputs.armAbsolutePositionRad = (1 - armAbsoluteEncoder.getAbsolutePosition());
+    // * 2 * Math.PI - ArmConstants.OFFSET_RAD;
     inputs.armAbsolutePositionDeg =
         (1 - armAbsoluteEncoder.getAbsolutePosition()) * 360
             - Units.radiansToDegrees(ArmConstants.OFFSET_RAD);

@@ -512,7 +512,7 @@ public class RobotContainer {
 
   /** Either Coast or Brake mechanisms depending on Disable or Enable */
   public void mechanismsCoastOnDisable(boolean isDisabled) {
-    m_driveSubsystem.coastOnDisable(isDisabled);
+    // m_driveSubsystem.coastOnDisable(isDisabled);
     m_armSubsystem.setBrakeMode(!isDisabled);
     m_wristSubsystem.setBrakeMode(!isDisabled);
     m_actuatorSubsystem.setBrakeMode(!isDisabled);
