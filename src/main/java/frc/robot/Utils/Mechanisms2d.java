@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Subsystems.actuator.Actuator;
 import frc.robot.Subsystems.arm.Arm;
-import frc.robot.Subsystems.climber.Climber;
 import frc.robot.Subsystems.wrist.Wrist;
 import org.littletonrobotics.junction.Logger;
 
@@ -20,7 +19,7 @@ public class Mechanisms2d extends SubsystemBase {
   private final MechanismLigament2d wristMech;
   private final MechanismLigament2d armMech;
   private final MechanismLigament2d actuatorMech;
-  
+
   private final Wrist m_wristSub;
   private final Arm m_Arm;
   private final Actuator m_Actuator;
@@ -41,10 +40,9 @@ public class Mechanisms2d extends SubsystemBase {
     // set the cordenates on the screen where it is
     armRoot = swerveMech.getRoot("armRoot", 0.57, .58985); // done
     actuatorRoot = swerveMech.getRoot("actuatorRoot", .35, .2715); // done
-    Wristroot = swerveMech.getRoot("wristRoot", .5, 0);
+    Wristroot = swerveMech.getRoot("wristRoot", 1, 22222);
 
     // set the dimentions of the mecanism in m
-
     actuatorMech =
         actuatorRoot.append(
             new MechanismLigament2d( // done
@@ -52,14 +50,12 @@ public class Mechanisms2d extends SubsystemBase {
 
     wristMech = Wristroot.append(new MechanismLigament2d("wristRoot", .2, 0, 1, red));
 
-
-       armMech =
-        armRoot
-            .append(
-                new MechanismLigament2d(
-                    "armRoot", // done
-                    .39869769, 0, 1, green));
-          
+    armMech =
+        armRoot.append(
+            new MechanismLigament2d(
+                "armRoot", // done
+                .39869769, 0, 1, green));
+    armMech.append(wristMech);
   }
 
   @Override

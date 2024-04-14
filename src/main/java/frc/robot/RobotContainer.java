@@ -136,7 +136,7 @@ public class RobotContainer {
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_feederSubsystem = new Feeder(new FeederIOSim());
         m_wristSubsystem = new Wrist(new WristIOSim());
-         m_Mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
+        m_Mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
         break;
 
       default:
@@ -157,7 +157,7 @@ public class RobotContainer {
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_feederSubsystem = new Feeder(new FeederIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
-         m_Mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
+        m_Mechanisms2d = new Mechanisms2d(m_wristSubsystem, m_armSubsystem, m_actuatorSubsystem);
         break;
     }
 

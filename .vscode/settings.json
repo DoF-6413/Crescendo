@@ -37,5 +37,6 @@
   },
   "[java]": {
     "editor.defaultFormatter": "redhat.java"
-  }
+  },
+  "java.debug.settings.onBuildFailureProceed": true
 }
