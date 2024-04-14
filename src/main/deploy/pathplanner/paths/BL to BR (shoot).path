@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.95,
-        "y": 4.11
+        "x": 2.9143338058755885,
+        "y": 4.186507290393498
       },
       "prevControl": {
-        "x": 1.6509618943233422,
-        "y": 4.86
+        "x": 1.6152957001989305,
+        "y": 4.936507290393498
       },
       "nextControl": null,
       "isLocked": false,
@@ -36,25 +36,7 @@
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "Stop Shooter",
-      "waypointRelativePos": 0.25,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "StopShooter"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.2,
     "maxAcceleration": 2.0,

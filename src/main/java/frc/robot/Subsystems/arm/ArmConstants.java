@@ -69,7 +69,7 @@ public final class ArmConstants {
   public static final boolean IS_INVERTED = true;
 
   /** Offsets the Arm to be 0 at its inital position */
-  public static final double OFFSET_RAD = 0.0;
+  public static final double OFFSET_RAD = 1.3640066793392915;
 
   // Teleop Automations
   /** AMP Score back side */
