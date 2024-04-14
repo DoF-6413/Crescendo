@@ -48,10 +48,6 @@ public class Shooter extends SubsystemBase {
         new SimpleMotorFeedforward(ShooterConstants.KS, ShooterConstants.KV, ShooterConstants.KA);
     bottomShooterFeedforward =
         new SimpleMotorFeedforward(ShooterConstants.KS, ShooterConstants.KV, ShooterConstants.KA);
-    // topShooterFeedforward.maxAchievableAcceleration(
-    //     RobotStateConstants.BATTERY_VOLTAGE, inputs.topShooterMotorRPM);
-    // bottomShooterFeedforward.maxAchievableAcceleration(
-    //     RobotStateConstants.BATTERY_VOLTAGE, inputs.bottomShooterMotorRPM);
 
     // Puts adjustable PID and FF values onto the SmartDashboard for testing mode
     SmartDashboard.putNumber("shooterkP", 0.0025);
@@ -144,7 +140,7 @@ public class Shooter extends SubsystemBase {
    *
    * @param volts -12 to 12
    */
-  public void setBothsVoltage(double volts) {
+  public void setBothVoltage(double volts) {
     io.setBothVoltage(volts);
   }
 
@@ -171,6 +167,11 @@ public class Shooter extends SubsystemBase {
     return bottomShooterPIDController.atSetpoint() && topShooterPIDController.atSetpoint();
   }
 
+  /** Returns the average velocity, in RPM, of the Shooter motors */
+  public double getAverageVelocityRPM() {
+    return (inputs.topShooterMotorRPM + inputs.bottomShooterMotorRPM) / 2;
+  }
+
   /**
    * Sets the PID setpoint of the Shooter
    *
@@ -193,46 +194,6 @@ public class Shooter extends SubsystemBase {
 
   public double getSetpoint() {
     return topShooterPIDController.getSetpoint();
-  }
-
-  public double returnDesiredAngle(double x) {
-    double closestX, closestTheta;
-    if (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][5] > x) {
-      int i = 1;
-      closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
-      closestTheta = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
-
-      // do closest theta is 0 if you are 5 m away of the speaker(you cant
-      // shoot)//TODO:when we change the max change the 5 to the new max
-
-      // since the table is sorted, find the index of the first value where the distance value
-      // exceeds
-      while (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] < x) {
-        i++;
-      }
-
-      // finds which x value in the table the actual distance is closer to and return that
-      if (Math.abs(ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i - 1] - x)
-          < Math.abs(ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] - x)) {
-        closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i - 1];
-        closestTheta =
-            (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i - 1]
-                    + ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i - 1])
-                / 2;
-      } else {
-        closestX = ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
-        closestTheta =
-            (ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i]
-                    + ShooterConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i])
-                / 2;
-      }
-
-      // returns the closest Theta based on the lookup table
-      return closestTheta;
-    } else {
-      closestTheta = 0;
-      return closestTheta;
-    }
   }
 
   /**

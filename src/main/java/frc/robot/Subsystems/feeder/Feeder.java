@@ -30,7 +30,7 @@ public class Feeder extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("Feeder", inputs);
 
-    setFeederVoltage(
+    setMotorVoltage(
         feederPIDController.calculateForVoltage(inputs.feederRPM, FeederConstants.MAX_RPM));
   }
 
@@ -44,8 +44,8 @@ public class Feeder extends SubsystemBase {
    *
    * @param volts -12 to 12
    */
-  public void setFeederVoltage(double volts) {
-    io.setFeederVoltage(volts);
+  public void setMotorVoltage(double volts) {
+    io.setMotorVoltage(volts);
   }
 
   /**
@@ -53,8 +53,8 @@ public class Feeder extends SubsystemBase {
    *
    * @param percent -1 to 1
    */
-  public void setFeederPercentSpeed(double percent) {
-    io.setFeederPercentSpeed(percent);
+  public void setPercentSpeed(double percent) {
+    io.setPercentSpeed(percent);
   }
 
   /**

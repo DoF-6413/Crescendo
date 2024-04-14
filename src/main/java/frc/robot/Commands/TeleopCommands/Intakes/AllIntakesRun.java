@@ -41,11 +41,10 @@ public class AllIntakesRun extends ParallelCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              actuator.setActuatorSetpoint(actuatorPosition);
+              actuator.setSetpoint(actuatorPosition);
             },
             actuator),
-        new InstantCommand(
-            () -> otbIntake.setOTBIntakePercentSpeed(otbIntakePercentSpeed), otbIntake),
+        new InstantCommand(() -> otbIntake.setPercentSpeed(otbIntakePercentSpeed), otbIntake),
         new InstantCommand(
             () -> utbIntake.setUTBIntakePercentSpeed(utbIntakePercentSpeed), utbIntake),
         new InstantCommand(() -> feeder.setSetpoint(feederRPM), feeder));

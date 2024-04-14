@@ -21,10 +21,10 @@ public class AllIntakesStop extends ParallelCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              actuator.setActuatorSetpoint(ActuatorConstants.MIN_ANGLE_RADS);
+              actuator.setSetpoint(ActuatorConstants.MIN_ANGLE_RADS);
             },
             actuator),
-        new InstantCommand(() -> otbIntake.setOTBIntakePercentSpeed(0.0), otbIntake),
+        new InstantCommand(() -> otbIntake.setPercentSpeed(0.0), otbIntake),
         new InstantCommand(() -> utbIntake.setUTBIntakePercentSpeed(0.0), utbIntake));
   }
 }

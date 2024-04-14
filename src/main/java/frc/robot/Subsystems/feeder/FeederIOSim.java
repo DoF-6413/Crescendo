@@ -26,12 +26,12 @@ public class FeederIOSim implements FeederIO {
   }
 
   @Override
-  public void setFeederPercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     feederFlywheelSim.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
   }
 
   @Override
-  public void setFeederVoltage(double volts) {
+  public void setMotorVoltage(double volts) {
     feederFlywheelSim.setInputVoltage(volts);
   }
 }

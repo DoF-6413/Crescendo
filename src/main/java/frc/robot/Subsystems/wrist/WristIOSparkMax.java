@@ -59,12 +59,12 @@ public class WristIOSparkMax implements WristIO {
   }
 
   @Override
-  public void setWristPercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     wristMotor.set(percent);
   }
 
   @Override
-  public void setWristVoltage(double volts) {
+  public void setVoltage(double volts) {
     wristMotor.setVoltage(volts);
   }
 

@@ -50,12 +50,12 @@ public class ArmIOSparkMax implements ArmIO {
   }
 
   @Override
-  public void setArmPercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     armMotor.setVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 
   @Override
-  public void setArmVoltage(double volts) {
+  public void setMotorVoltage(double volts) {
     armMotor.setVoltage(volts);
   }
 

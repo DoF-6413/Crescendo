@@ -22,16 +22,9 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.FourPieceBlue;
-import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.FourPieceRed;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
-import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveAmpSide;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCenter;
-import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCoolSide;
-import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.ThreePieceAutoBlue;
-import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.ThreePieceAutoRed;
-import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.TwoPieceReturnSub;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.AutoShoot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootingReady;
@@ -91,7 +84,8 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
   private final CommandXboxController auxController =
       new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
-  private final CommandXboxController devController = new CommandXboxController(2);
+  private final CommandXboxController devController =
+      new CommandXboxController(OperatorConstants.DEV_CONTROLLER);
 
   // Autos
   private final LoggedDashboardChooser<Command> autoChooser =
@@ -169,7 +163,8 @@ public class RobotContainer {
     // Shooter/Feeder
     NamedCommands.registerCommand(
         "Shooter1000",
-        new InstantCommand(() -> m_shooterSubsystem.setSetpoint(1000), m_shooterSubsystem));
+        new InstantCommand(
+            () -> m_shooterSubsystem.setSetpoint(ShooterConstants.SLOW_RPM), m_shooterSubsystem));
     NamedCommands.registerCommand(
         "Shooter4000",
         new InstantCommand(
@@ -267,9 +262,9 @@ public class RobotContainer {
             m_wristSubsystem,
             m_armSubsystem,
             m_gyroSubsystem,
-            WristConstants.CHAIN_RAD, // TODO: Update angle
+            WristConstants.CHAIN_RAD,
             0,
-            1000));
+            ShooterConstants.MID_RANGE_RPM));
     NamedCommands.registerCommand(
         "LegShot",
         new AutoShoot(
@@ -331,37 +326,37 @@ public class RobotContainer {
 
     /* PathPlanner Autos */
     // Test Autos
-    autoChooser.addOption("Auto1", new PathPlannerAuto("Auto1"));
-    autoChooser.addOption("test1", new PathPlannerAuto("test1"));
-    autoChooser.addOption("test2", new PathPlannerAuto("test2"));
-    autoChooser.addOption("test3", new PathPlannerAuto("test3"));
-    autoChooser.addOption("4M Test", new PathPlannerAuto("4M Test"));
-    autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
+    // autoChooser.addOption("Auto1", new PathPlannerAuto("Auto1"));
+    // autoChooser.addOption("test1", new PathPlannerAuto("test1"));
+    // autoChooser.addOption("test2", new PathPlannerAuto("test2"));
+    // autoChooser.addOption("test3", new PathPlannerAuto("test3"));
+    // autoChooser.addOption("4M Test", new PathPlannerAuto("4M Test"));
+    // autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
     // 2 Piece
-    autoChooser.addDefaultOption("2 Piece Center", new PathPlannerAuto("2P Center"));
-    autoChooser.addOption("2 Piece Center 2.0", new PathPlannerAuto("Center"));
-    autoChooser.addOption("2 Piece Center 3.0", new PathPlannerAuto("Center 2"));
+    // autoChooser.addDefaultOption("2 Piece Center", new PathPlannerAuto("2P Center"));
+    // autoChooser.addOption("2 Piece Center 2.0", new PathPlannerAuto("Center"));
+    autoChooser.addOption("2 Piece Center", new PathPlannerAuto("Center 2"));
     autoChooser.addOption("2 Piece Amp", new PathPlannerAuto("2P Amp"));
     autoChooser.addOption("2 Piece Cool Side", new PathPlannerAuto("2P Cool Side"));
     // 3 Piece
-    autoChooser.addOption("3 Piece Center", new PathPlannerAuto("3P Center"));
-    autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
+    // autoChooser.addOption("3 Piece Center", new PathPlannerAuto("3P Center"));
+    // autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
     autoChooser.addOption("3 Piece Corner to Midfield", new PathPlannerAuto("3P Corner Mid Right"));
-    autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
+    // autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
     // 4 Piece
     // autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
     // autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
-    autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
+    // autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
     autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center 4"));
-    autoChooser.addOption("4 Piece Center 5.0", new PathPlannerAuto("4P Center 5"));
+    // autoChooser.addOption("4 Piece Center 5.0", new PathPlannerAuto("4P Center 5"));
     autoChooser.addOption("4 Piece Left Sub Midfield", new PathPlannerAuto("4P Midfield"));
     autoChooser.addOption("4 Piece Center Midfield", new PathPlannerAuto("4P Center to Midfield"));
-    autoChooser.addOption(
-        "4 Piece Center Midfield Vision", new PathPlannerAuto("4P Center to Midfield (V)"));
+    // autoChooser.addOption(
+    //     "4 Piece Center Midfield Vision", new PathPlannerAuto("4P Center to Midfield (V)"));
     // 5+ Piece
     autoChooser.addOption("5 Piece Left Sub Midfield", new PathPlannerAuto("5P Midfield"));
-    autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
+    // autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
@@ -380,116 +375,116 @@ public class RobotContainer {
             3,
             1,
             m_gyroSubsystem));
-    autoChooser.addOption(
-        "Better Two Piece",
-        new TwoPieceReturnSub(
-            m_driveSubsystem,
-            m_gyroSubsystem,
-            m_wristSubsystem,
-            m_armSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
-            m_utbIntakeSubsystem,
-            2,
-            1));
-    autoChooser.addOption(
-        "Blue One Piece Leave Amp Side",
-        new OnePieceLeaveAmpSide(
-            m_wristSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_driveSubsystem,
-            2,
-            1,
-            m_gyroSubsystem));
-    autoChooser.addOption(
-        "Blue One Piece Leave Cool Side",
-        new OnePieceLeaveCoolSide(
-            m_wristSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_driveSubsystem,
-            2,
-            1,
-            m_gyroSubsystem));
-    autoChooser.addOption(
-        "Red One Piece Leave Cool Side",
-        new OnePieceLeaveAmpSide(
-            m_wristSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_driveSubsystem,
-            2,
-            1,
-            m_gyroSubsystem));
-    autoChooser.addOption(
-        "Red One Piece Leave Amp Side",
-        new OnePieceLeaveCoolSide(
-            m_wristSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_driveSubsystem,
-            2,
-            1,
-            m_gyroSubsystem));
-    autoChooser.addOption(
-        "Three Piece Leave Amp Side Blue",
-        new ThreePieceAutoBlue(
-            m_driveSubsystem,
-            m_gyroSubsystem,
-            m_wristSubsystem,
-            m_armSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
-            m_utbIntakeSubsystem,
-            2,
-            1));
-    autoChooser.addOption(
-        "Three Piece Leave Amp Side Red",
-        new ThreePieceAutoRed(
-            m_driveSubsystem,
-            m_gyroSubsystem,
-            m_wristSubsystem,
-            m_armSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
-            m_utbIntakeSubsystem,
-            2,
-            1));
-    autoChooser.addOption(
-        "4 Piece Blue",
-        new FourPieceBlue(
-            m_driveSubsystem,
-            m_gyroSubsystem,
-            m_wristSubsystem,
-            m_armSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
-            m_utbIntakeSubsystem,
-            2,
-            1));
-    autoChooser.addOption(
-        "4 Piece Red",
-        new FourPieceRed(
-            m_driveSubsystem,
-            m_gyroSubsystem,
-            m_wristSubsystem,
-            m_armSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
-            m_utbIntakeSubsystem,
-            2,
-            1));
+    // autoChooser.addOption(
+    //     "Better Two Piece",
+    //     new TwoPieceReturnSub(
+    //         m_driveSubsystem,
+    //         m_gyroSubsystem,
+    //         m_wristSubsystem,
+    //         m_armSubsystem,
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_actuatorSubsystem,
+    //         m_otbIntakeSubsystem,
+    //         m_utbIntakeSubsystem,
+    //         2,
+    //         1));
+    // autoChooser.addOption(
+    //     "Blue One Piece Leave Amp Side",
+    //     new OnePieceLeaveAmpSide(
+    //         m_wristSubsystem,
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_driveSubsystem,
+    //         2,
+    //         1,
+    //         m_gyroSubsystem));
+    // autoChooser.addOption(
+    //     "Blue One Piece Leave Cool Side",
+    //     new OnePieceLeaveCoolSide(
+    //         m_wristSubsystem,
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_driveSubsystem,
+    //         2,
+    //         1,
+    //         m_gyroSubsystem));
+    // autoChooser.addOption(
+    //     "Red One Piece Leave Cool Side",
+    //     new OnePieceLeaveAmpSide(
+    //         m_wristSubsystem,
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_driveSubsystem,
+    //         2,
+    //         1,
+    //         m_gyroSubsystem));
+    // autoChooser.addOption(
+    //     "Red One Piece Leave Amp Side",
+    //     new OnePieceLeaveCoolSide(
+    //         m_wristSubsystem,
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_driveSubsystem,
+    //         2,
+    //         1,
+    //         m_gyroSubsystem));
+    // autoChooser.addOption(
+    //     "Three Piece Leave Amp Side Blue",
+    //     new ThreePieceAutoBlue(
+    //         m_driveSubsystem,
+    //         m_gyroSubsystem,
+    //         m_wristSubsystem,
+    //         m_armSubsystem,
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_actuatorSubsystem,
+    //         m_otbIntakeSubsystem,
+    //         m_utbIntakeSubsystem,
+    //         2,
+    //         1));
+    // autoChooser.addOption(
+    //     "Three Piece Leave Amp Side Red",
+    //     new ThreePieceAutoRed(
+    //         m_driveSubsystem,
+    //         m_gyroSubsystem,
+    //         m_wristSubsystem,
+    //         m_armSubsystem,
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_actuatorSubsystem,
+    //         m_otbIntakeSubsystem,
+    //         m_utbIntakeSubsystem,
+    //         2,
+    //         1));
+    // autoChooser.addOption(
+    //     "4 Piece Blue",
+    //     new FourPieceBlue(
+    //         m_driveSubsystem,
+    //         m_gyroSubsystem,
+    //         m_wristSubsystem,
+    //         m_armSubsystem,
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_actuatorSubsystem,
+    //         m_otbIntakeSubsystem,
+    //         m_utbIntakeSubsystem,
+    //         2,
+    //         1));
+    // autoChooser.addOption(
+    //     "4 Piece Red",
+    //     new FourPieceRed(
+    //         m_driveSubsystem,
+    //         m_gyroSubsystem,
+    //         m_wristSubsystem,
+    //         m_armSubsystem,
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_actuatorSubsystem,
+    //         m_otbIntakeSubsystem,
+    //         m_utbIntakeSubsystem,
+    //         2,
+    //         1));
 
     // Adds a delay onto the deadreakoned autos
     SmartDashboard.putNumber("Delay", 0);
@@ -571,20 +566,16 @@ public class RobotContainer {
   /** Controller keybinds for the driver contoller port */
   public void driverControllerBindings() {
     /* Driving the robot */
-    // Normal driving by default
     m_driveSubsystem.setDefaultCommand(
         new DefaultDriveCommand(
             m_driveSubsystem, driverController, m_gyroSubsystem, m_poseEstimator, 1));
-    // Toggle heading contoller
 
-    // Rotate around SPEAKER
-
-    // Reset Gyro heading
+    /* Reset Gyro heading */
     driverController
         .a()
         .onTrue(new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
 
-    // /* Rumble */
+    /* Rumble */
     if (m_utbIntakeSubsystem.getCurrentDraw() > 10) {
       driverController.getHID().setRumble(RumbleType.kBothRumble, 1);
     } else {
@@ -693,7 +684,9 @@ public class RobotContainer {
     // Feeding
     auxController
         .x()
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(6000), m_shooterSubsystem))
+        .onTrue(
+            new InstantCommand(
+                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.FAR_RPM), m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
 
     /* Misc */
@@ -708,48 +701,54 @@ public class RobotContainer {
                 m_armSubsystem,
                 WristConstants.SUBWOOFER_RAD,
                 0,
-                3000))
+                ShooterConstants.MIDFIELD_FEEDING_RPM))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Rumble when ready to shoot
-    if (m_shooterSubsystem.bothAtSetpoint()) {
+    if (m_shooterSubsystem.bothAtSetpoint() && m_shooterSubsystem.getAverageVelocityRPM() >= 3000) {
       auxController.getHID().setRumble(RumbleType.kBothRumble, 1);
     } else {
       auxController.getHID().setRumble(RumbleType.kBothRumble, 0);
     }
 
-    // Arm (Up)
-    auxController
-        .povUp()
-        .onTrue(
-            new InstantCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)), m_armSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)), m_armSubsystem));
-    // Arm (Down)
-    auxController
-        .povDown()
-        .onTrue(
-            new InstantCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)), m_armSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)), m_armSubsystem));
-    // Wrist (In)
-    auxController
-        .povLeft()
-        .onTrue(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
-                m_wristSubsystem));
-    // Wrist (Out)
-    auxController
-        .povRight()
-        .onTrue(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
-                m_wristSubsystem));
+    // /* Arm */
+    // // Up
+    // auxController
+    //     .povUp()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)),
+    // m_armSubsystem))
+    //     .onFalse(
+    //         new InstantCommand(
+    //             () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)),
+    // m_armSubsystem));
+    // // Down
+    // auxController
+    //     .povDown()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)),
+    // m_armSubsystem))
+    //     .onFalse(
+    //         new InstantCommand(
+    //             () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)),
+    // m_armSubsystem));
+    // /* Wrist */
+    // // In
+    // auxController
+    //     .povLeft()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
+    //             m_wristSubsystem));
+    // // Out
+    // auxController
+    //     .povRight()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
+    //             m_wristSubsystem));
   }
 
   /** Backup/development button bindings for the Aux Contols */
@@ -823,9 +822,11 @@ public class RobotContainer {
   // m_armSubsystem, m_wristSubsystem, m_shooterSubsystem));
   //   }
 
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  /** Contols from prior competitions */
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /**
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * Contoller button bindings from prior competitions
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   */
 
   //   /** Contoller keybinds for the driver contoller port */
   //   public void driverControllerBindings() {

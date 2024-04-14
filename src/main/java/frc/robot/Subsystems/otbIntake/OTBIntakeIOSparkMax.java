@@ -38,12 +38,12 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
   }
 
   @Override
-  public void setOTBIntakeVoltage(double volts) {
+  public void setMotorVoltage(double volts) {
     otbIntakeMotor.setVoltage(volts);
   }
 
   @Override
-  public void setOTBIntakePercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     otbIntakeMotor.set(percent);
   }
 

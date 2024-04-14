@@ -39,32 +39,6 @@ public class ShooterConstants {
   /** Enables current limiting for TalonFX/Falcon500 motors */
   public static final boolean ENABLE_CUR_LIM = true;
 
-  /** Auto-aiming shooting */
-  public static final double SPEAKER_TO_WALL_M = 0.904;
-
-  public static final double[][] LOOKUP_TABLE_X_M_VS_THETA_DEG = {
-    // random
-    // {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6}, // x in meters
-    // {70, 60, 10, 5, 2.5, 1.25, .675, .3375, .1682, .05, 0.005}, // theta_max
-    // {50, 45, 30, 15, 7.5, 3.75, 675, .3375, .1682, .05, 0.005} // theta_min
-
-    // from tests
-    {
-      0.5 + SPEAKER_TO_WALL_M,
-      1 + SPEAKER_TO_WALL_M,
-      1.5 + SPEAKER_TO_WALL_M,
-      2 + +SPEAKER_TO_WALL_M,
-      2.5 + +SPEAKER_TO_WALL_M,
-      3 + SPEAKER_TO_WALL_M,
-      3.5 + SPEAKER_TO_WALL_M,
-      4 + SPEAKER_TO_WALL_M,
-      4.5 + SPEAKER_TO_WALL_M,
-      5 + SPEAKER_TO_WALL_M
-    }, // x in meters
-    {32, 20, 13, 9, 4, 2, -2, -4, -4, -6}, // theta_max_degrees
-    {24, 15, 8, 5, 2, -1, -3, -4, -4, -6} // theta_min_degrees
-  };
-
   // Inverted motors
   /** Sets the inversion status of the Top Shooter motor */
   public static final boolean TOP_MOTOR_IS_INVERTED = true;
@@ -74,10 +48,19 @@ public class ShooterConstants {
   // Teleop Automations
   /** AMP score speed */
   public static final double AMP_RPM = 2500;
+  /**
+   * Shooter speed that will keep the STEM Center alive in case the Wrist angle is off when testing
+   * shots :)
+   */
+  public static final double SLOW_RPM = 1000;
   /** SPEAKER score speed at or near the subwoofer */
   public static final double CLOSE_RPM = 4000;
+  /** SPEAKER score speed from mid range */
+  public static final double MID_RANGE_RPM = 5000;
   /** SPEAKER score speed from mid stage and beyond */
   public static final double FAR_RPM = 6000;
   /** Shooter speed for sending NOTEs from the SOURCE to Midfield */
   public static final double SOURCE_FEED_RPM = 5500;
+  /** Shooter speed for sending NOTES from Midfield to alliance WING */
+  public static final double MIDFIELD_FEEDING_RPM = 3000;
 }

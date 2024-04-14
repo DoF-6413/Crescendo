@@ -36,7 +36,7 @@ public class Actuator extends SubsystemBase {
     Logger.processInputs("Actuator", inputs);
 
     if (actuatorPIDenable) {
-      setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
+      setPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
     }
   }
 
@@ -50,8 +50,8 @@ public class Actuator extends SubsystemBase {
    *
    * @param percent -1 to 1
    */
-  public void setActuatorPercentSpeed(double percent) {
-    io.setActuatorPercentSpeed(percent);
+  public void setPercentSpeed(double percent) {
+    io.setPercentSpeed(percent);
   }
 
   /**
@@ -59,8 +59,8 @@ public class Actuator extends SubsystemBase {
    *
    * @param volts -12 to 12
    */
-  public void setActuatorVoltage(double volts) {
-    io.setActuatorVoltage(volts);
+  public void setMotorVoltage(double volts) {
+    io.setMotorVoltage(volts);
   }
 
   /**
@@ -78,7 +78,7 @@ public class Actuator extends SubsystemBase {
    *
    * @param setpoint Angle (Radians)
    */
-  public void setActuatorSetpoint(double setpoint) {
+  public void setSetpoint(double setpoint) {
     actuatorPIDController.setSetpoint(setpoint);
   }
 
