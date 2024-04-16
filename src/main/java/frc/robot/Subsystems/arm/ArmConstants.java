@@ -81,5 +81,5 @@ public final class ArmConstants {
   /** Subwoofer scoring angle */
   public static final double SUBWOOFER_RAD = Units.degreesToRadians(6);
   /** SPEAKER shot configuration from the PODIUM to score over "billboard-bots" */
-  public static final double OVERSHOT_RAD = 0.0; // TODO: Update
+  public static final double OVERSHOT_RAD = Units.degreesToRadians(83); // TODO: Update
 }
