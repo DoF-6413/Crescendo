@@ -26,7 +26,7 @@ public class PoseEstimatorLimelight extends SubsystemBase {
    * Increase the numbers to trust the model's state estimate less it is a matrix in form of [x, y,
    * theta] or meters, meters, radians
    */
-  public static Vector<N3> stateStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+  public static Vector<N3> stateStandardDevs = VecBuilder.fill(0.25, 0.25, 0.25);
 
   /**
    * increase the numbers to trust the vision measurements less also in form [x, y, theta] or

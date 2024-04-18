@@ -203,7 +203,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "LineAngle",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(2.5)), m_wristSubsystem));
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(11)), m_wristSubsystem));
     NamedCommands.registerCommand(
         "WingAngle",
         new InstantCommand(
@@ -363,7 +363,7 @@ public class RobotContainer {
     // Adds list of deadreckond autos to Shuffleboard
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
-    autoChooser.addOption(
+    autoChooser.addDefaultOption(
         "One Piece", new OnePieceAuto(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
     autoChooser.addOption(
         "One Piece Leave Center",
@@ -690,7 +690,7 @@ public class RobotContainer {
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
 
     /* Misc */
-    // Feeding shot from Midfield TODO: Verify this is the correct configuration
+    // Feeding shot from Midfield
     auxController
         .b()
         .onTrue(
