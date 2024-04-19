@@ -47,7 +47,7 @@ public class TwoPieceAuto extends SequentialCommandGroup {
               gyro.zeroYaw();
             },
             gyro),
-        new OnePieceAuto(wrist, feeder, shooter),
+        new OnePieceAuto(wrist, arm, feeder, shooter),
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {

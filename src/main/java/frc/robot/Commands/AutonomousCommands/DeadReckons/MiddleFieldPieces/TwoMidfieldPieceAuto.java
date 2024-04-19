@@ -48,7 +48,7 @@ public class TwoMidfieldPieceAuto extends SequentialCommandGroup {
               gyro.zeroYaw();
             },
             gyro),
-        new OnePieceAuto(wrist, feeder, shooter),
+        new OnePieceAuto(wrist, arm, feeder, shooter),
         new ParallelCommandGroup(
             Commands.runOnce(
                 () -> {

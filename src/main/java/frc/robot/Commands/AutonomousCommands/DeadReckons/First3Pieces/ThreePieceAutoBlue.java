@@ -52,7 +52,7 @@ public class ThreePieceAutoBlue extends SequentialCommandGroup {
               gyro.zeroYaw();
             },
             gyro),
-        new OnePieceAuto(wrist, feeder, shooter),
+        new OnePieceAuto(wrist, arm, feeder, shooter),
         Commands.runOnce(
             () -> {
               wrist.setGoal(0);

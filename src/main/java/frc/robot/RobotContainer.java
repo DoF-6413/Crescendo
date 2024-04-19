@@ -371,12 +371,14 @@ public class RobotContainer {
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
     autoChooser.addDefaultOption(
-        "One Piece", new OnePieceAuto(m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem));
+        "One Piece",
+        new OnePieceAuto(m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_shooterSubsystem));
     autoChooser.addOption(
         "One Piece Leave Center",
         new OnePieceLeaveCenter(
             m_driveSubsystem,
             m_wristSubsystem,
+            m_armSubsystem,
             m_feederSubsystem,
             m_shooterSubsystem,
             3,

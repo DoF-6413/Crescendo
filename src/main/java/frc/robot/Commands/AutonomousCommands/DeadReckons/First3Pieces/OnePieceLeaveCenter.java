@@ -7,6 +7,7 @@ package frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.gyro.Gyro;
@@ -21,6 +22,7 @@ public class OnePieceLeaveCenter extends SequentialCommandGroup {
   public OnePieceLeaveCenter(
       Drive drive,
       Wrist wrist,
+      Arm arm,
       Feeder feeder,
       Shooter shooter,
       double seconds,
@@ -34,7 +36,7 @@ public class OnePieceLeaveCenter extends SequentialCommandGroup {
               gyro.zeroYaw();
             },
             gyro),
-        new OnePieceAuto(wrist, feeder, shooter),
+        new OnePieceAuto(wrist, arm, feeder, shooter),
         Commands.runOnce(
             () -> {
               drive.setRaw(0, speed, 0);
