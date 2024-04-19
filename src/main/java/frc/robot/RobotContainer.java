@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCenter;
+import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.TwoPieceReturnSub;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.AutoShoot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootingReady;
@@ -205,6 +206,10 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_wristSubsystem.setGoal(Units.degreesToRadians(11)), m_wristSubsystem));
     NamedCommands.registerCommand(
+        "ChainAngle",
+        new InstantCommand(
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(4)), m_wristSubsystem));
+    NamedCommands.registerCommand(
         "WingAngle",
         new InstantCommand(
             () -> m_wristSubsystem.setGoal(WristConstants.WING_RAD), m_wristSubsystem));
@@ -342,6 +347,8 @@ public class RobotContainer {
     // 3 Piece
     // autoChooser.addOption("3 Piece Center", new PathPlannerAuto("3P Center"));
     // autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
+    autoChooser.addOption("3 Piece Close Amp", new PathPlannerAuto("3P Center Amp"));
+    autoChooser.addOption("3 Piece Close Podium", new PathPlannerAuto("3P Center Podium"));
     autoChooser.addOption("3 Piece Corner to Midfield", new PathPlannerAuto("3P Corner Mid Right"));
     // autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
     // 4 Piece
@@ -375,20 +382,20 @@ public class RobotContainer {
             3,
             1,
             m_gyroSubsystem));
-    // autoChooser.addOption(
-    //     "Better Two Piece",
-    //     new TwoPieceReturnSub(
-    //         m_driveSubsystem,
-    //         m_gyroSubsystem,
-    //         m_wristSubsystem,
-    //         m_armSubsystem,
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_actuatorSubsystem,
-    //         m_otbIntakeSubsystem,
-    //         m_utbIntakeSubsystem,
-    //         2,
-    //         1));
+    autoChooser.addOption(
+        "Better Two Piece",
+        new TwoPieceReturnSub(
+            m_driveSubsystem,
+            m_gyroSubsystem,
+            m_wristSubsystem,
+            m_armSubsystem,
+            m_feederSubsystem,
+            m_shooterSubsystem,
+            m_actuatorSubsystem,
+            m_otbIntakeSubsystem,
+            m_utbIntakeSubsystem,
+            2,
+            1));
     // autoChooser.addOption(
     //     "Blue One Piece Leave Amp Side",
     //     new OnePieceLeaveAmpSide(
@@ -704,6 +711,7 @@ public class RobotContainer {
                 ShooterConstants.MIDFIELD_FEEDING_RPM))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+
     // Rumble when ready to shoot
     if (m_shooterSubsystem.bothAtSetpoint() && m_shooterSubsystem.getAverageVelocityRPM() >= 3000) {
       auxController.getHID().setRumble(RumbleType.kBothRumble, 1);
@@ -712,7 +720,7 @@ public class RobotContainer {
     }
 
     // /* Arm */
-    // // Up
+    // // Up by 1 degree on each button press
     // auxController
     //     .povUp()
     //     .onTrue(
@@ -723,7 +731,7 @@ public class RobotContainer {
     //         new InstantCommand(
     //             () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)),
     // m_armSubsystem));
-    // // Down
+    // // Down by 1 degree on each button press
     // auxController
     //     .povDown()
     //     .onTrue(
@@ -735,20 +743,54 @@ public class RobotContainer {
     //             () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)),
     // m_armSubsystem));
     // /* Wrist */
-    // // In
+    // // In by 1 degree on each button press
     // auxController
     //     .povLeft()
     //     .onTrue(
     //         new InstantCommand(
     //             () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
     //             m_wristSubsystem));
-    // // Out
+    // // Out by 1 degree on each button press
     // auxController
     //     .povRight()
     //     .onTrue(
     //         new InstantCommand(
     //             () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
     //             m_wristSubsystem));
+
+    /* Wrist */
+    // Increases angle of the Wrist by 1 degree
+    auxController
+        .povRight()
+        .onTrue(
+            new RunCommand(
+                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
+                m_wristSubsystem))
+        .onFalse(new RunCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem));
+    // Decreases angle of the Wrist by 1 degree
+    auxController
+        .povLeft()
+        .onTrue(
+            new RunCommand(
+                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
+                m_wristSubsystem))
+        .onFalse(new RunCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem));
+
+    /* Arm */
+    // Increases angle of the Arm by 1 degree
+    auxController
+        .povUp()
+        .onTrue(
+            new RunCommand(
+                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)), m_armSubsystem))
+        .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
+    // Decreases angle of the Arm by 1 degree
+    auxController
+        .povDown()
+        .onTrue(
+            new RunCommand(
+                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)), m_armSubsystem))
+        .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
   }
 
   /** Backup/development button bindings for the Aux Contols */

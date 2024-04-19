@@ -19,12 +19,10 @@ public class PathPlanner extends SubsystemBase {
   private Drive drive;
   private PoseEstimatorLimelight pose;
   private Gyro gyro;
-  private PathPlannerDrive ppd;
 
   public PathPlanner(Drive drive, PoseEstimatorLimelight pose, Gyro gyro) {
     this.drive = drive;
     this.pose = pose;
-    this.ppd = new PathPlannerDrive(pose, drive, gyro);
 
     AutoBuilder.configureHolonomic(
         pose::getCurrentPose2d,

@@ -47,7 +47,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ZeroWrist"
+                "name": "LineAngle"
               }
             }
           ]
@@ -63,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -45.0,
+    "rotation": -40.0,
     "rotateFast": true
   },
   "reversed": false,

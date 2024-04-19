@@ -62,5 +62,5 @@ public class ShooterConstants {
   /** Shooter speed for sending NOTEs from the SOURCE to Midfield */
   public static final double SOURCE_FEED_RPM = 5500;
   /** Shooter speed for sending NOTES from Midfield to alliance WING */
-  public static final double MIDFIELD_FEEDING_RPM = 3000;
+  public static final double MIDFIELD_FEEDING_RPM = 2500;
 }

@@ -45,24 +45,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BM to BL (Shoot)"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BL to BR (shoot)"
+            "pathName": "BM to BR (Shoot)"
           }
         }
       ]
     }
   },
-  "folder": "4 Piece Autos",
+  "folder": "3 Piece Autos",
   "choreoAuto": false
 }

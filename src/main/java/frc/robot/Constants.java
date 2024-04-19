@@ -108,10 +108,10 @@ public final class Constants {
         4.5 + SPEAKER_TO_WALL_M,
         5 + SPEAKER_TO_WALL_M
       }, // x in meters
-      // {32, 20, 13, 9, 4, 2, -2, -4, -4, -6}, // theta_max_degrees
-      // {24, 15, 8, 5, 2, -1, -3, -4, -4, -6} // theta_min_degrees
-      {34, 22, 15, 11, 6, 4, 0, -2, -3, -5}, // theta_max_degrees
-      {26, 17, 10, 7, 4, 1, -1, -2, -3, -5} // theta_min_degrees
+      {32, 20, 13, 9, 4, 2, -2, -4, -4, -6}, // theta_max_degrees
+      {24, 15, 8, 5, 2, -1, -3, -4, -4, -6} // theta_min_degrees
+      // {34, 22, 15, 11, 6, 4, 0, -2, -3, -5}, // theta_max_degrees
+      // {26, 17, 10, 7, 4, 1, -1, -2, -3, -5} // theta_min_degrees
     };
   }
 }
