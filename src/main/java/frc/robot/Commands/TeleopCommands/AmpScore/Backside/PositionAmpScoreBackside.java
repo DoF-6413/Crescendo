@@ -22,7 +22,8 @@ public class PositionAmpScoreBackside extends SequentialCommandGroup {
               arm.setGoal(ArmConstants.AMP_BACK_SIDE_RAD);
             },
             arm),
-        new WaitUntilCommand(() -> arm.atGoal()),
+        // new WaitUntilCommand(() -> arm.atGoal()),
+        new WaitCommand(1),
         Commands.runOnce(
             () -> {
               wrist.setGoal(WristConstants.AMP_BACK_SIDE_RAD);

@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6807503073695607,
+        "x": 0.68,
         "y": 4.373613761472538
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.066357813627308,
+        "x": 3.0656075062577477,
         "y": 1.7073465485962325
       },
       "isLocked": false,
@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 8.270256540513081,
-        "y": 2.4440782784699477
+        "x": 8.42,
+        "y": 2.5
       },
       "prevControl": {
-        "x": 5.568906864309455,
-        "y": 1.8476764019055107
+        "x": 5.823963021295674,
+        "y": 1.3070541172360748
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,16 +30,16 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.1,
-      "rotationDegrees": 0,
-      "rotateFast": false
+      "waypointRelativePos": 0.05,
+      "rotationDegrees": 25.41,
+      "rotateFast": true
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.15,
       "command": {
         "type": "parallel",
         "data": {
@@ -47,7 +47,7 @@
             {
               "type": "named",
               "data": {
-                "name": "PickUp"
+                "name": "UTB"
               }
             },
             {
@@ -69,7 +69,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 25.41,
     "rotateFast": false
   },
   "reversed": false,
