@@ -41,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ZeroWrist"
+                "name": "2P Note"
               }
             },
             {
@@ -54,6 +54,12 @@
               "type": "named",
               "data": {
                 "name": "UTB"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Shooter5000"
               }
             }
           ]

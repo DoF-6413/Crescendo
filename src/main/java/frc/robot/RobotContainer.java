@@ -171,6 +171,9 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM), m_shooterSubsystem));
     NamedCommands.registerCommand(
+        "Shooter5000",
+        new InstantCommand(() -> m_shooterSubsystem.setSetpoint(5000), m_shooterSubsystem));
+    NamedCommands.registerCommand(
         "Shooter6000",
         new InstantCommand(
             () -> m_shooterSubsystem.setSetpoint(ShooterConstants.FAR_RPM), m_shooterSubsystem));
@@ -204,7 +207,11 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "LineAngle",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(5)), m_wristSubsystem));
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(7)), m_wristSubsystem));
+    NamedCommands.registerCommand(
+        "2P Note",
+        new InstantCommand(
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(11)), m_wristSubsystem));
     NamedCommands.registerCommand(
         "ChainAngle",
         new InstantCommand(

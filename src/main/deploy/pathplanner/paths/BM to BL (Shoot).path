@@ -20,8 +20,8 @@
         "y": 7.226987445427883
       },
       "prevControl": {
-        "x": 0.9849364905389026,
-        "y": 5.976987445427883
+        "x": 0.942631017852682,
+        "y": 6.053308538463156
       },
       "nextControl": null,
       "isLocked": false,
@@ -49,6 +49,12 @@
               "data": {
                 "name": "LineAngle"
               }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Shooter5000"
+              }
             }
           ]
         }
@@ -63,7 +69,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 30.0,
+    "rotation": 28.0,
     "rotateFast": false
   },
   "reversed": false,
