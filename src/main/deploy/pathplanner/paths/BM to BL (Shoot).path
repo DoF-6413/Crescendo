@@ -20,8 +20,8 @@
         "y": 7.226987445427883
       },
       "prevControl": {
-        "x": 1.0774060686123956,
-        "y": 5.829005186751016
+        "x": 0.9849364905389026,
+        "y": 5.976987445427883
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,7 +47,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ZeroWrist"
+                "name": "LineAngle"
               }
             }
           ]
@@ -56,14 +56,14 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.5,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 34.0,
+    "rotation": 30.0,
     "rotateFast": false
   },
   "reversed": false,

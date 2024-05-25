@@ -204,7 +204,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "LineAngle",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(11)), m_wristSubsystem));
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(5)), m_wristSubsystem));
     NamedCommands.registerCommand(
         "ChainAngle",
         new InstantCommand(
@@ -340,7 +340,8 @@ public class RobotContainer {
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
     // 2 Piece
     // autoChooser.addDefaultOption("2 Piece Center", new PathPlannerAuto("2P Center"));
-    // autoChooser.addOption("2 Piece Center 2.0", new PathPlannerAuto("Center"));
+    autoChooser.addOption("2 Piece Center 3.0", new PathPlannerAuto("Center 3"));
+    autoChooser.addOption("2 Piece Center (2x subwoofer shot)", new PathPlannerAuto("Center"));
     autoChooser.addOption("2 Piece Center", new PathPlannerAuto("Center 2"));
     autoChooser.addOption("2 Piece Amp", new PathPlannerAuto("2P Amp"));
     autoChooser.addOption("2 Piece Cool Side", new PathPlannerAuto("2P Cool Side"));
@@ -356,7 +357,7 @@ public class RobotContainer {
     // autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
     // autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
     // autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
-    autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center 4"));
+    autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center 5"));
     // autoChooser.addOption("4 Piece Center 5.0", new PathPlannerAuto("4P Center 5"));
     autoChooser.addOption("4 Piece Left Sub Midfield", new PathPlannerAuto("4P Midfield"));
     autoChooser.addOption("4 Piece Center Midfield", new PathPlannerAuto("4P Center to Midfield"));

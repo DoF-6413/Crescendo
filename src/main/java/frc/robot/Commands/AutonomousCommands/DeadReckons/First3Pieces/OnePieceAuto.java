@@ -33,6 +33,7 @@ public class OnePieceAuto extends SequentialCommandGroup {
               wrist.setGoal(WristConstants.SUBWOOFER_RAD);
               shooter.setSetpoint(ShooterConstants.CLOSE_RPM);
             },
+            arm,
             shooter,
             wrist),
         // new WaitUntilCommand(() -> wrist.atSetpoint()),
