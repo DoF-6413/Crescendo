@@ -43,14 +43,14 @@ public interface ArmIO {
    *
    * @param percent -1 to 1
    */
-  public default void setArmPercentSpeed(double percent) {}
+  public default void setPercentSpeed(double percent) {}
 
   /**
    * Sets the voltage of the Arm motor
    *
    * @param volts -12 to 12
    */
-  public default void setArmVoltage(double volts) {}
+  public default void setMotorVoltage(double volts) {}
 
   /**
    * Sets the Brake Mode for the Arm (Brake means motor holds position, Coast means easy to move)

@@ -8,24 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.2323881840746145,
-        "y": 0.6042984015792591
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.299641721790566,
-        "y": 2.502549050682148
-      },
-      "prevControl": {
-        "x": 6.799686160309963,
-        "y": 2.509215124835223
-      },
-      "nextControl": {
-        "x": 7.399632834086687,
-        "y": 2.501215835851533
+        "x": 4.972504987745018,
+        "y": 0.9823089731649555
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +20,8 @@
         "y": 2.502549050682148
       },
       "prevControl": {
-        "x": 8.545668857149678,
-        "y": 2.502549050682148
+        "x": 7.946412747981366,
+        "y": 2.2653780284928344
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,8 +30,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.8,
-      "rotationDegrees": -45.0,
+      "waypointRelativePos": 0.4,
+      "rotationDegrees": 0.0,
       "rotateFast": false
     }
   ],
@@ -55,7 +39,7 @@
   "eventMarkers": [
     {
       "name": "Pick Up Mid 4",
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.15,
       "command": {
         "type": "parallel",
         "data": {
@@ -91,13 +75,13 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 25.41,
     "rotateFast": true
   },
   "reversed": false,

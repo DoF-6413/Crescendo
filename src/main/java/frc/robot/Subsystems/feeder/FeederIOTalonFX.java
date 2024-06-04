@@ -37,12 +37,12 @@ public class FeederIOTalonFX implements FeederIO {
   }
 
   @Override
-  public void setFeederVoltage(double volts) {
+  public void setMotorVoltage(double volts) {
     feederMotor.setVoltage(volts);
   }
 
   @Override
-  public void setFeederPercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     feederMotor.set(percent);
   }
 

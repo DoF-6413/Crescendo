@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.Subsystems.arm.Arm;
+import frc.robot.Subsystems.arm.ArmConstants;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.feeder.FeederConstants;
 import frc.robot.Subsystems.shooter.Shooter;
@@ -21,20 +22,23 @@ import frc.robot.Subsystems.wrist.WristConstants;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class OnePieceAuto extends SequentialCommandGroup {
   /** Creates a new OnePieceAuto. */
-  public OnePieceAuto(Wrist wrist, Feeder feeder, Shooter shooter) {
+  public OnePieceAuto(Wrist wrist, Arm arm, Feeder feeder, Shooter shooter) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new WaitCommand(SmartDashboard.getNumber("delay", 0)),
         Commands.runOnce(
             () -> {
+              arm.setGoal(ArmConstants.SUBWOOFER_RAD);
               wrist.setGoal(WristConstants.SUBWOOFER_RAD);
               shooter.setSetpoint(ShooterConstants.CLOSE_RPM);
             },
+            arm,
             shooter,
             wrist),
-        new WaitUntilCommand(() -> wrist.atSetpoint()),
-        new WaitUntilCommand(() -> shooter.bothAtSetpoint()),
+        // new WaitUntilCommand(() -> wrist.atSetpoint()),
+        // new WaitUntilCommand(() -> shooter.bothAtSetpoint()),
+        new WaitCommand(1.5),
         Commands.runOnce(
             () -> {
               feeder.setSetpoint(FeederConstants.SPEAKER_RPM);

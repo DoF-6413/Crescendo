@@ -151,17 +151,6 @@ public class Module {
   public void periodic() {
     this.updateInputs();
     Logger.processInputs("Drive/Module" + Integer.toString(index), inputs);
-
-    // steerkp = SmartDashboard.getNumber("steer kp", 6.4);
-    // steerki = SmartDashboard.getNumber("steer ki", 0.0);
-    // steerkd = SmartDashboard.getNumber("steer kd", 0.0);
-    // steerPID.setPID(steerkp, steerki, steerkd);
-
-    // SmartDashboard.putNumber("CurrentSteerKP", steerkp);
-    // SmartDashboard.putNumber("CurrentSteerKI", steerki);
-    // SmartDashboard.putNumber("CurrentSteerKD", steerkd);
-
-    // SmartDashboard.putNumber("Timer", Timer.getFPGATimestamp());
   }
 
   /**

@@ -31,12 +31,12 @@ public class OTBIntakeIOSim implements OTBIntakeIO {
   }
 
   @Override
-  public void setOTBIntakeVoltage(double volts) {
+  public void setMotorVoltage(double volts) {
     intakeMotorSim.setInputVoltage(volts);
   }
 
   @Override
-  public void setOTBIntakePercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     intakeMotorSim.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
   }
 }

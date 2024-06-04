@@ -16,7 +16,7 @@ public class ArmIOSparkMax implements ArmIO {
 
   private final CANSparkMax armMotor;
   private final RelativeEncoder armRelativeEncoder;
-  private DutyCycleEncoder armAbsoluteEncoder;
+  private final DutyCycleEncoder armAbsoluteEncoder;
 
   /** Runs the real life Arm with CANSpark Speed Controllers and NEO motor */
   public ArmIOSparkMax() {
@@ -50,12 +50,12 @@ public class ArmIOSparkMax implements ArmIO {
   }
 
   @Override
-  public void setArmPercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     armMotor.setVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 
   @Override
-  public void setArmVoltage(double volts) {
+  public void setMotorVoltage(double volts) {
     armMotor.setVoltage(volts);
   }
 

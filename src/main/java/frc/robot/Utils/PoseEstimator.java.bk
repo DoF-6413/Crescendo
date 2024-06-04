@@ -15,10 +15,11 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.Constants.RobotStateConstants.Mode;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.drive.DriveConstants;
 import frc.robot.Subsystems.gyro.*;
-import frc.robot.Subsystems.vision.*;
+import frc.robot.Subsystems.photonVision.*;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 /** This class handels the odometry and locates the robots current position */
@@ -46,6 +47,7 @@ public class PoseEstimator extends SubsystemBase {
   private double previousPipelineTimestamp = 0;
   private final AprilTagFieldLayout aprilTagFieldLayout;
 
+  /** Pose Estimation aided by PhotonVision */
   public PoseEstimator(Drive drive, Gyro gyro, Vision Vision) {
 
     field2d = new Field2d();
@@ -75,32 +77,13 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.updateWithTime(
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
 
-    if (vision.getResult().hasTargets()) {
-
-      pipelineResult = vision.getResult();
-      resultsTimeStamp = pipelineResult.getTimestampSeconds();
-
-      if (resultsTimeStamp != previousPipelineTimestamp) {
-
-        previousPipelineTimestamp = resultsTimeStamp;
-
-        var target = pipelineResult.getBestTarget();
-        var fiducialID = target.getFiducialId();
-        if (target.getPoseAmbiguity() < 0.2
-            && fiducialID >= 1
-            && fiducialID <= 16) { // 0.2 is considered ambiguous
-
-          Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
-          Transform3d camToTarget = target.getBestCameraToTarget();
-          Pose3d camPose = tagPose.transformBy(camToTarget);
-
-          Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobotOffsets);
-          poseEstimator.addVisionMeasurement(
-              visionMeasurement.toPose2d(),
-              Timer.getFPGATimestamp(),
-              visionMeasurementStandardDevs);
-        }
-      }
+    LimelightHelpers.PoseEstimate limelightMeasurement =
+        LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+    if (limelightMeasurement.tagCount >= 2) {
+      poseEstimator.addVisionMeasurement(
+          limelightMeasurement.pose,
+          limelightMeasurement.timestampSeconds,
+          visionMeasurementStandardDevs);
     }
   }
 

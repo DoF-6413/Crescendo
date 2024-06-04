@@ -215,6 +215,29 @@ public class Drive extends SubsystemBase {
             this.getRotation()));
   }
 
+  public void driveWithDeadbandForAutoAlign(double x, double y, double rot) {
+    // Apply deadband
+    double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), DriveConstants.DEADBAND);
+    Rotation2d linearDirection = new Rotation2d(x, y);
+
+    // Square values
+    linearMagnitude = linearMagnitude * linearMagnitude;
+
+    // Calcaulate new linear velocity
+    Translation2d linearVelocity =
+        new Pose2d(new Translation2d(), linearDirection)
+            .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
+            .getTranslation();
+
+    // The actual run command itself
+    this.runVelocity(
+        ChassisSpeeds.fromFieldRelativeSpeeds(
+            linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            linearVelocity.getY() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            rot,
+            this.getRotation()));
+  }
+
   public void PathplannerWithHeadingController(ChassisSpeeds chassisSpeeds) {
     double omegaOverTime = chassisSpeeds.omegaRadiansPerSecond;
 
@@ -300,6 +323,12 @@ public class Drive extends SubsystemBase {
     }
     lastGyroYaw = gyroYaw;
     return lastGyroYaw;
+  }
+
+  public Twist2d fieldVelocity() {
+    Translation2d linearFieldVelocity =
+        new Translation2d(twist.dx, twist.dy).rotateBy(getRotation());
+    return new Twist2d(linearFieldVelocity.getX(), linearFieldVelocity.getY(), twist.dtheta);
   }
 
   public void updateHeading() {

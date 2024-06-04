@@ -65,7 +65,7 @@ public class Arm extends SubsystemBase {
 
     // Updates Arm Speed based on PID Control
     if (isPIDEnabled) {
-      setArmPercentSpeed(
+      setPercentSpeed(
           armPIDController.calculate(armInputs.armAbsolutePositionRad)
               + (armFeedforward.calculate(armInputs.armVelocityRadPerSec)
                   / RobotStateConstants
@@ -90,8 +90,8 @@ public class Arm extends SubsystemBase {
    *
    * @param percent -1 to 1
    */
-  public void setArmPercentSpeed(double percent) {
-    io.setArmPercentSpeed(percent);
+  public void setPercentSpeed(double percent) {
+    io.setPercentSpeed(percent);
   }
 
   /**
@@ -99,9 +99,8 @@ public class Arm extends SubsystemBase {
    *
    * @param volts -12 to 12
    */
-  public void setArmMotorVoltage(double volts) {
-
-    io.setArmVoltage(volts);
+  public void setMotorVoltage(double volts) {
+    io.setMotorVoltage(volts);
   }
 
   /**

@@ -8,9 +8,9 @@ public class ShooterConstants {
    */
   public static double KP = 0.0025;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
-  public static double KI = 0.00002;
+  public static double KI = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static double KD = 0.0;
+  public static double KD = 0.00002;
 
   /** KS represents the voltage added to overcome static friction */
   public static double KS = 0.0;
@@ -48,10 +48,19 @@ public class ShooterConstants {
   // Teleop Automations
   /** AMP score speed */
   public static final double AMP_RPM = 2500;
+  /**
+   * Shooter speed that will keep the STEM Center alive in case the Wrist angle is off when testing
+   * shots :)
+   */
+  public static final double SLOW_RPM = 1000;
   /** SPEAKER score speed at or near the subwoofer */
   public static final double CLOSE_RPM = 4000;
+  /** SPEAKER score speed from mid range */
+  public static final double MID_RANGE_RPM = 5000;
   /** SPEAKER score speed from mid stage and beyond */
   public static final double FAR_RPM = 6000;
   /** Shooter speed for sending NOTEs from the SOURCE to Midfield */
   public static final double SOURCE_FEED_RPM = 5500;
+  /** Shooter speed for sending NOTES from Midfield to alliance WING */
+  public static final double MIDFIELD_FEEDING_RPM = 2500;
 }

@@ -32,7 +32,7 @@ public class PoseEstimatorLimelight extends SubsystemBase {
    * increase the numbers to trust the vision measurements less also in form [x, y, theta] or
    * meters, meters, radians
    */
-  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(1, 1, 1);
+  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(1.0, 1.0, 1.0);
 
   private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;
@@ -65,31 +65,32 @@ public class PoseEstimatorLimelight extends SubsystemBase {
 
     LimelightHelpers.PoseEstimate limelightMeasurement =
         LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
-    if (getCurrentPose2d().getX() < Units.inchesToMeters(250)
-        || getCurrentPose2d().getX() > Units.inchesToMeters(649 - 195)) {
+    // if (getCurrentPose2d().getX() < Units.inchesToMeters(250)
+    //     || getCurrentPose2d().getX() > Units.inchesToMeters(649 - 195)) {
 
-      if (limelightMeasurement.tagCount >= 2) {
-        poseEstimator.addVisionMeasurement(
-            limelightMeasurement.pose.transformBy(
-                new Transform2d(
-                    new Translation2d(Units.inchesToMeters(-12.667), Units.inchesToMeters(3.626)),
-                    new Rotation2d(Math.PI))),
-            limelightMeasurement.timestampSeconds,
-            visionMeasurementStandardDevs);
-        System.out.println("running 2");
-      }
-    } else {
-      if (limelightMeasurement.tagCount >= 1) {
-        poseEstimator.addVisionMeasurement(
-            limelightMeasurement.pose.transformBy(
-                new Transform2d(
-                    new Translation2d(Units.inchesToMeters(-12.667), Units.inchesToMeters(3.626)),
-                    new Rotation2d(Math.PI))),
-            limelightMeasurement.timestampSeconds,
-            visionMeasurementStandardDevs);
-        System.out.println("running 1");
-      }
+    if (limelightMeasurement.tagCount >= 2) {
+      poseEstimator.addVisionMeasurement(
+          limelightMeasurement.pose.transformBy(
+              new Transform2d(
+                  new Translation2d(Units.inchesToMeters(-18.5), Units.inchesToMeters(-3)),
+                  new Rotation2d(Math.PI))),
+          limelightMeasurement.timestampSeconds,
+          visionMeasurementStandardDevs);
+      // System.out.println("running 2");
     }
+    // } else {
+    //   if (limelightMeasurement.tagCount >= 1) {
+    //     poseEstimator.addVisionMeasurement(
+    //         limelightMeasurement.pose.transformBy(
+    //             new Transform2d(
+    //                 new Translation2d(Units.inchesToMeters(-12.667),
+    // Units.inchesToMeters(3.626)),
+    //                 new Rotation2d(Math.PI))),
+    //         limelightMeasurement.timestampSeconds,
+    //         visionMeasurementStandardDevs);
+    //     System.out.println("running 1");
+    //   }
+    // }
   }
 
   /**

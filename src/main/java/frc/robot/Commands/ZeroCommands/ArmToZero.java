@@ -7,6 +7,7 @@ package frc.robot.Commands.ZeroCommands;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.wrist.Wrist;
@@ -26,7 +27,8 @@ public class ArmToZero extends SequentialCommandGroup {
               wrist.setGoal(WristConstants.DEFAULT_POSITION_RAD);
             },
             wrist),
-        new WaitUntilCommand(() -> wrist.atSetpoint()),
+        // new WaitUntilCommand(() -> wrist.atSetpoint()),
+        new WaitCommand(0.75), // scuffed T-T
         Commands.runOnce(
             () -> {
               arm.setGoal(Units.degreesToRadians(0.0));

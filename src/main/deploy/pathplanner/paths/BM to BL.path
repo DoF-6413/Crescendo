@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6196699141100894,
-        "y": 5.049669914110089
+        "x": 1.5944511585147019,
+        "y": 5.58
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 7.033697400728136
       },
       "prevControl": {
-        "x": 1.287681021368465,
-        "y": 6.033697400728136
+        "x": 0.8546683194762457,
+        "y": 5.783697400728136
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,18 +30,36 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.45,
       "rotationDegrees": 30.0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Pick up Close 1",
+      "waypointRelativePos": 0.3,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ZeroShooting"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.5,
-    "maxAngularVelocity": 515.65,
-    "maxAngularAcceleration": 262.825
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 50.0,
+    "maxAngularAcceleration": 50.0
   },
   "goalEndState": {
     "velocity": 0,

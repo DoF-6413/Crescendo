@@ -28,13 +28,13 @@ public class ActuatorToZero extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    actuator.setActuatorPercentSpeed(-0.2);
+    actuator.setPercentSpeed(-0.2);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    actuator.setActuatorPercentSpeed(0.0);
+    actuator.setPercentSpeed(0.0);
     actuator.setCurrentLimit(ActuatorConstants.CUR_LIM_A);
     actuator.actuatorPIDEnable(true);
     actuator.zeroPosition();

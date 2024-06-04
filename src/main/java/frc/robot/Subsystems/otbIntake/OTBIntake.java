@@ -52,8 +52,8 @@ public class OTBIntake extends SubsystemBase {
    *
    * @param volts -12 to 12
    */
-  public void setOTBIntakeVoltage(double volts) {
-    io.setOTBIntakeVoltage(volts);
+  public void setMotorVoltage(double volts) {
+    io.setMotorVoltage(volts);
   }
 
   /**
@@ -61,8 +61,8 @@ public class OTBIntake extends SubsystemBase {
    *
    * @param percent -1 to 1
    */
-  public void setOTBIntakePercentSpeed(double percent) {
-    io.setOTBIntakePercentSpeed(percent);
+  public void setPercentSpeed(double percent) {
+    io.setPercentSpeed(percent);
   }
 
   /**
@@ -88,7 +88,7 @@ public class OTBIntake extends SubsystemBase {
    *
    * @param setpoint RPM
    */
-  public void setOTBSetpoint(double setpoint) {
+  public void setSetpoint(double setpoint) {
     otbIntakePIDController.setSetpoint(setpoint);
   }
 }

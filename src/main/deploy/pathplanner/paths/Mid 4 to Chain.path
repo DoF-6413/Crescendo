@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.415348760522082,
-        "y": 2.499565525446841
+        "x": 8.42,
+        "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.36410936639537,
-        "y": 2.6779613673187472
+        "x": 6.509090459182566,
+        "y": 3.228021100666582
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 4.966133265599865
       },
       "prevControl": {
-        "x": 4.380695485903761,
-        "y": 4.980050575695872
+        "x": 4.937422524417698,
+        "y": 4.946627329152095
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,9 +39,9 @@
   "eventMarkers": [
     {
       "name": "Shoot Mid 4",
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.25,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -55,6 +55,12 @@
               "data": {
                 "name": "PickUpStop"
               }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "ChainAngle"
+              }
             }
           ]
         }
@@ -63,20 +69,20 @@
   ],
   "globalConstraints": {
     "maxVelocity": 5.2,
-    "maxAcceleration": 5.2,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -8.0,
+    "rotation": -4.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Puzzle Pieces",
   "previewStartingState": {
-    "rotation": 25.40771810894839,
+    "rotation": 25.41,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

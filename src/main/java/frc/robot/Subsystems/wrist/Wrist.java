@@ -11,6 +11,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotStateConstants;
+import frc.robot.Constants.ShootingInterpolationConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class Wrist extends SubsystemBase {
@@ -62,7 +63,7 @@ public class Wrist extends SubsystemBase {
     Logger.processInputs("Wrist", inputs);
 
     if (isPIDEnabled) {
-      setWristPercentSpeed(
+      setPercentSpeed(
           wristPIDController.calculate(inputs.wristAbsolutePositionRad)
               + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
                   / RobotStateConstants
@@ -87,8 +88,8 @@ public class Wrist extends SubsystemBase {
    *
    * @param percent -1 to 1
    */
-  public void setWristPercentSpeed(double percent) {
-    io.setWristPercentSpeed(percent);
+  public void setPercentSpeed(double percent) {
+    io.setPercentSpeed(percent);
   }
 
   /**
@@ -96,8 +97,8 @@ public class Wrist extends SubsystemBase {
    *
    * @param volts -12 to 12
    */
-  public void setWristMotorVoltage(double volts) {
-    setWristMotorVoltage(volts);
+  public void setVoltage(double volts) {
+    io.setVoltage(volts);
   }
 
   /**
@@ -130,6 +131,46 @@ public class Wrist extends SubsystemBase {
    */
   public void incrementWristGoal(double increment) {
     wristPIDController.setGoal(wristPIDController.getGoal().position + increment);
+  }
+
+  public double returnDesiredAngle(double x) {
+    double closestX, closestTheta;
+    if (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][5] > x) {
+      int i = 1;
+      closestX = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
+      closestTheta = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
+
+      // do closest theta is 0 if you are 5 m away of the speaker(you cant
+      // shoot)//TODO:when we change the max change the 5 to the new max
+
+      // since the table is sorted, find the index of the first value where the distance value
+      // exceeds
+      while (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] < x) {
+        i++;
+      }
+
+      // finds which x value in the table the actual distance is closer to and return that
+      if (Math.abs(ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i - 1] - x)
+          < Math.abs(ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] - x)) {
+        closestX = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i - 1];
+        closestTheta =
+            (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i - 1]
+                    + ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i - 1])
+                / 2;
+      } else {
+        closestX = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
+        closestTheta =
+            (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i]
+                    + ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i])
+                / 2;
+      }
+
+      // returns the closest Theta based on the lookup table
+      return closestTheta;
+    } else {
+      closestTheta = 0;
+      return closestTheta;
+    }
   }
 
   /**

@@ -48,10 +48,6 @@ public class Shooter extends SubsystemBase {
         new SimpleMotorFeedforward(ShooterConstants.KS, ShooterConstants.KV, ShooterConstants.KA);
     bottomShooterFeedforward =
         new SimpleMotorFeedforward(ShooterConstants.KS, ShooterConstants.KV, ShooterConstants.KA);
-    // topShooterFeedforward.maxAchievableAcceleration(
-    //     RobotStateConstants.BATTERY_VOLTAGE, inputs.topShooterMotorRPM);
-    // bottomShooterFeedforward.maxAchievableAcceleration(
-    //     RobotStateConstants.BATTERY_VOLTAGE, inputs.bottomShooterMotorRPM);
 
     // Puts adjustable PID and FF values onto the SmartDashboard for testing mode
     SmartDashboard.putNumber("shooterkP", 0.0025);
@@ -81,6 +77,9 @@ public class Shooter extends SubsystemBase {
 
     SmartDashboard.putNumber("shooterSetpoint", topShooterPIDController.getSetpoint());
     SmartDashboard.putBoolean("BothAtSetpoint", bothAtSetpoint());
+    SmartDashboard.putNumber(
+        "Shoot RPM Diff",
+        Math.abs(inputs.topShooterMotorRPM) - Math.abs(inputs.bottomShooterMotorRPM));
 
     if (isTestingEnabled) {
       testPIDFFValues();
@@ -141,7 +140,7 @@ public class Shooter extends SubsystemBase {
    *
    * @param volts -12 to 12
    */
-  public void setBothsVoltage(double volts) {
+  public void setBothVoltage(double volts) {
     io.setBothVoltage(volts);
   }
 
@@ -168,6 +167,11 @@ public class Shooter extends SubsystemBase {
     return bottomShooterPIDController.atSetpoint() && topShooterPIDController.atSetpoint();
   }
 
+  /** Returns the average velocity, in RPM, of the Shooter motors */
+  public double getAverageVelocityRPM() {
+    return (inputs.topShooterMotorRPM + inputs.bottomShooterMotorRPM) / 2;
+  }
+
   /**
    * Sets the PID setpoint of the Shooter
    *
@@ -186,6 +190,10 @@ public class Shooter extends SubsystemBase {
   public void setTolerance(double tolerance) {
     topShooterPIDController.setTolerance(tolerance);
     bottomShooterPIDController.setTolerance(tolerance);
+  }
+
+  public double getSetpoint() {
+    return topShooterPIDController.getSetpoint();
   }
 
   /**

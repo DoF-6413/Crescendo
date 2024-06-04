@@ -40,12 +40,12 @@ public class ActuatorIOSparkMax implements ActuatorIO {
   }
 
   @Override
-  public void setActuatorVoltage(double volts) {
+  public void setMotorVoltage(double volts) {
     actuatorMotor.setVoltage(volts);
   }
 
   @Override
-  public void setActuatorPercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     actuatorMotor.set(percent);
   }
 

@@ -69,7 +69,7 @@ public final class ArmConstants {
   public static final boolean IS_INVERTED = true;
 
   /** Offsets the Arm to be 0 at its inital position */
-  public static final double OFFSET_RAD = 1.306;
+  public static final double OFFSET_RAD = 1.3640066793392915;
 
   // Teleop Automations
   /** AMP Score back side */
@@ -79,6 +79,7 @@ public final class ArmConstants {
   /** SOURCE Pickup back side */
   public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(28.53329);
   /** Subwoofer scoring angle */
-  public static final double SUBWOOFER_RAD =
-      Units.degreesToRadians(6); // TODO: Update, has to clear battery cover
+  public static final double SUBWOOFER_RAD = Units.degreesToRadians(6);
+  /** SPEAKER shot configuration from the PODIUM to score over "billboard-bots" */
+  public static final double OVERSHOT_RAD = Units.degreesToRadians(83); // TODO: Update
 }

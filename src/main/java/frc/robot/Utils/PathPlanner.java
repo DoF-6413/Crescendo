@@ -12,13 +12,15 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.DriveConstants;
+import frc.robot.Subsystems.gyro.Gyro;
 
 /** Add your docs here. */
 public class PathPlanner extends SubsystemBase {
   private Drive drive;
   private PoseEstimatorLimelight pose;
+  private Gyro gyro;
 
-  public PathPlanner(Drive drive, PoseEstimatorLimelight pose) {
+  public PathPlanner(Drive drive, PoseEstimatorLimelight pose, Gyro gyro) {
     this.drive = drive;
     this.pose = pose;
 
@@ -28,10 +30,10 @@ public class PathPlanner extends SubsystemBase {
         drive::getChassisSpeed,
         drive::runVelocity,
         new HolonomicPathFollowerConfig(
-            // new PIDConstants(1, 0, 0),
-            // new PIDConstants(0, 0, 0),
-            new PIDConstants(1.2, 3, 0.2),
-            new PIDConstants(0.3125, 0.5, 0.025),
+            // new PIDConstants(16, 0, 0.25),
+            // new PIDConstants(0.25, 0, 0.025),
+            new PIDConstants(1.2, 0, 0.2),
+            new PIDConstants(0.3125, 0, 0.025),
             DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
             DriveConstants.TRACK_WIDTH_M
                 / 2, // Drive base radius in meters. Distance from robot center to

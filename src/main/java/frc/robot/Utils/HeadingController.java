@@ -38,8 +38,8 @@ public class HeadingController {
   }
 
   /** Returns true if within tolerance of aiming at speaker */
-  //   @AutoLogOutput(key = "Drive/HeadingController/AtGoal")
-  // public boolean atGoal() {
+  //   @AutoLogOutput(key = "Drive/HeadingController/atSetpoint")
+  // public boolean atSetpoint() {
   //   return controller.atSetpoint();
   // }
 }

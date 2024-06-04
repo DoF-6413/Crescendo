@@ -72,6 +72,7 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int AUX_CONTROLLER = 1;
+    public static final int DEV_CONTROLLER = 2;
   }
 
   public final class FieldConstants {
@@ -87,5 +88,30 @@ public final class Constants {
   public static class HeadingControllerConstants {
     public static final double HEADING_CONTROLLER_KP = 0.0;
     public static final double HEADING_CONTROLLER_KD = 0.0;
+  }
+
+  public static class ShootingInterpolationConstants {
+    /** Auto-aiming shooting */
+    public static final double SPEAKER_TO_WALL_M = 0.904;
+
+    public static final double[][] LOOKUP_TABLE_X_M_VS_THETA_DEG = {
+      // from tests
+      {
+        0.5 + SPEAKER_TO_WALL_M,
+        1 + SPEAKER_TO_WALL_M,
+        1.5 + SPEAKER_TO_WALL_M,
+        2 + SPEAKER_TO_WALL_M,
+        2.5 + SPEAKER_TO_WALL_M,
+        3 + SPEAKER_TO_WALL_M,
+        3.5 + SPEAKER_TO_WALL_M,
+        4 + SPEAKER_TO_WALL_M,
+        4.5 + SPEAKER_TO_WALL_M,
+        5 + SPEAKER_TO_WALL_M
+      }, // x in meters
+      {32, 20, 13, 9, 4, 2, -2, -4, -4, -6}, // theta_max_degrees
+      {24, 15, 8, 5, 2, -1, -3, -4, -4, -6} // theta_min_degrees
+      // {34, 22, 15, 11, 6, 4, 0, -2, -3, -5}, // theta_max_degrees
+      // {26, 17, 10, 7, 4, 1, -1, -2, -3, -5} // theta_min_degrees
+    };
   }
 }

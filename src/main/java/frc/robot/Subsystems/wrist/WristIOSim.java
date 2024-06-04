@@ -42,12 +42,12 @@ public class WristIOSim implements WristIO {
   }
 
   @Override
-  public void setWristPercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     wristMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 
   @Override
-  public void setWristVoltage(double volts) {
+  public void setVoltage(double volts) {
     wristMotor.setInputVoltage(volts);
   }
 }

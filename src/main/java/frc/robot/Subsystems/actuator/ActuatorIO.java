@@ -37,14 +37,14 @@ public interface ActuatorIO {
    *
    * @param volts -12 to 12
    */
-  public default void setActuatorVoltage(double volts) {}
+  public default void setMotorVoltage(double volts) {}
 
   /**
    * Sets the Actuator motor to a percentage of its max speed
    *
    * @param percent -1 to 1
    */
-  public default void setActuatorPercentSpeed(double percent) {}
+  public default void setPercentSpeed(double percent) {}
 
   /**
    * Sets the Brake Mode for the Actuator (Brake means motor holds position, Coast means easy to

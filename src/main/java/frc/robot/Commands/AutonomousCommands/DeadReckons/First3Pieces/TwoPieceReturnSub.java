@@ -5,8 +5,13 @@
 package frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces;
 
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
+import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Subsystems.actuator.Actuator;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.drive.Drive;
@@ -16,6 +21,7 @@ import frc.robot.Subsystems.otbIntake.OTBIntake;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Subsystems.wrist.Wrist;
+import frc.robot.Subsystems.wrist.WristConstants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -42,20 +48,20 @@ public class TwoPieceReturnSub extends SequentialCommandGroup {
               drive.updateHeading();
             },
             gyro),
-        // new OnePieceAuto(wrist, feeder, shooter),
-        // Commands.runOnce(
-        //     () -> {
-        //       wrist.setGoal(0);
-        //     },
-        //     wrist),
-        // new InstantCommand(() -> shooter.setSetpoint(0)),
-        // new ParallelCommandGroup(
+        new OnePieceAuto(wrist, arm, feeder, shooter),
         Commands.runOnce(
             () -> {
-              drive.driveWithDeadband(0, speed, 0);
+              wrist.setGoal(WristConstants.DEFAULT_POSITION_RAD);
             },
-            drive),
-        // new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, false)),
+            wrist),
+        new InstantCommand(() -> shooter.setSetpoint(0)),
+        new ParallelCommandGroup(
+            Commands.runOnce(
+                () -> {
+                  drive.driveWithDeadband(0, speed, 0);
+                },
+                drive),
+            new UTBIntakeRun(utbIntake, feeder, true, false)),
         new WaitCommand(seconds / 2),
         Commands.runOnce(
             () -> {
@@ -66,20 +72,16 @@ public class TwoPieceReturnSub extends SequentialCommandGroup {
         Commands.runOnce(
             () -> {
               drive.driveWithDeadband(0, -speed, 0);
-              // shooter.setTolerance(500);
             },
             drive),
         new WaitCommand(seconds),
-        // new AllIntakesRun(actuator, otbIntake, utbIntake, feeder, true),
+        new UTBIntakeRun(utbIntake, feeder, false, true),
         Commands.runOnce(
             () -> {
               drive.driveWithDeadband(0, 0, 0);
             },
-            drive)
-        // ,
-        // new WaitUntilCommand(() -> shooter.allAtSetpoint()),
-        // new Shoot(feeder, arm, shooter),
-        // Commands.runOnce(() -> shooter.setTolerance(ShooterConstants.RPM_TOLERANCE), shooter)
-        );
+            drive),
+        new WaitUntilCommand(() -> shooter.bothAtSetpoint()),
+        new Shoot(feeder, arm, shooter));
   }
 }

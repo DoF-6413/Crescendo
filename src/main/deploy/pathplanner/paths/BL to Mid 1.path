@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 8.188397459416,
-        "y": 7.449176379834242
+        "x": 8.25,
+        "y": 7.4
       },
       "prevControl": {
-        "x": 7.1883974594160005,
-        "y": 7.449176379834242
+        "x": 7.25,
+        "y": 7.4
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,6 +42,12 @@
               "type": "named",
               "data": {
                 "name": "StopShooter"
+              }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 0
               }
             }
           ]

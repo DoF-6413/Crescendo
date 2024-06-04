@@ -20,7 +20,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.2
+            "waitTime": 1.5
           }
         },
         {
@@ -32,19 +32,37 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.2
+            "waitTime": 0.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Mid 4 to Chain"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Chain to Mid 3"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid 3 to Chain"
           }
         }
       ]

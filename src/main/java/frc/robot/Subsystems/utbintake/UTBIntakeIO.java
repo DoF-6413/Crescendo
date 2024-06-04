@@ -12,7 +12,7 @@ public interface UTBIntakeIO {
     /** Number of volts being sent to the UTB Intake motor */
     public double utbIntakeAppliedVolts = 0.0;
     /** Number of amps being used by the UTB Intake motor */
-    public double[] utbIntakeCurrentAmps = new double[] {};
+    public double[] utbIntakeCurrentAmps = new double[] {0, 0};
     /** Tempature, in Celsius, of the UTB Intake motor */
     public double[] utbIntakeTempCelsius = new double[] {};
   }

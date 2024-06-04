@@ -41,7 +41,7 @@
       "name": "Shoot Mid 3",
       "waypointRelativePos": 0.4,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -55,6 +55,12 @@
               "data": {
                 "name": "StopFeeder"
               }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "ChainAngle"
+              }
             }
           ]
         }
@@ -63,13 +69,13 @@
   ],
   "globalConstraints": {
     "maxVelocity": 5.2,
-    "maxAcceleration": 5.2,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -8.0,
+    "rotation": -4.0,
     "rotateFast": false
   },
   "reversed": false,
@@ -78,5 +84,5 @@
     "rotation": 0.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

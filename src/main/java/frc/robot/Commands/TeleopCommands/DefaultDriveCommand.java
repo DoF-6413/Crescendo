@@ -4,21 +4,38 @@
 
 package frc.robot.Commands.TeleopCommands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Subsystems.drive.Drive;
+import frc.robot.Subsystems.gyro.Gyro;
+import frc.robot.Utils.HeadingController;
+import frc.robot.Utils.PoseEstimatorLimelight;
 
 public class DefaultDriveCommand extends Command {
   /** Creates a new DefaultDriveCommand. */
   CommandXboxController controller;
 
   Drive drive;
-  int index = 0;
+  Gyro gyro;
+  int index = 1;
   boolean alreadyPressed = false;
+  HeadingController headingController;
+  PoseEstimatorLimelight pose;
 
-  public DefaultDriveCommand(Drive drive, CommandXboxController controller) {
+  public DefaultDriveCommand(
+      Drive drive,
+      CommandXboxController controller,
+      Gyro gyro,
+      PoseEstimatorLimelight pose,
+      int startingIndex) {
     this.controller = controller;
+
     this.drive = drive;
+    this.gyro = gyro;
+    this.pose = pose;
+    index = startingIndex;
+    headingController = new HeadingController();
     addRequirements(drive);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -30,25 +47,35 @@ public class DefaultDriveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (index % 2 == 0) {
-
-      drive.driveWithDeadband(
+    if (index == 0) {
+      drive.driveWithDeadbandForAutoAlign(
           controller.getLeftX(), // Forward/backward
           -controller.getLeftY(), // Left/Right (multiply by -1 bc controller axis inverted)
-          -controller.getRightX()); // Rotate chassis left/right
-    } else {
+          headingController.update(
+              pose.AngleForSpeaker().plus(new Rotation2d(Math.PI / 2)),
+              drive.getRotation(),
+              gyro.getRate())); // Rotate chassis left/right
+    } else if (index % 2 == 0) {
 
       drive.driveWithDeadbandPlusHeading(
           controller.getLeftX(), // Forward/backward
           -controller.getLeftY(), // Left/Right (multiply by -1 bc controller axis inverted)
           -controller.getRightX()); // Rotate chassis left/right
+    } else {
+
+      drive.driveWithDeadband(
+          controller.getLeftX(), // Forward/backward
+          -controller.getLeftY(), // Left/Right (multiply by -1 bc controller a())is inverted)
+          -controller.getRightX()); // Rotate chassis left/right
     }
 
-    if (controller.button(10).getAsBoolean() && alreadyPressed != true) {
+    if (controller.button(9).getAsBoolean() && alreadyPressed != true) {
       index += 1;
       alreadyPressed = true;
-    } else if (!controller.button(10).getAsBoolean() && alreadyPressed == true) {
+    } else if (!controller.button(9).getAsBoolean() && alreadyPressed == true) {
       alreadyPressed = false;
+    } else if (controller.button(10).getAsBoolean()) {
+      index = 0;
     }
   }
 
