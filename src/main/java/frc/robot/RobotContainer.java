@@ -644,7 +644,7 @@ public class RobotContainer {
                 m_armSubsystem,
                 WristConstants.SUBWOOFER_RAD,
                 ArmConstants.SUBWOOFER_RAD,
-                2000))
+                1500))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // PODIUM (w/o vision)
