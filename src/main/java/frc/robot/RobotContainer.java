@@ -659,8 +659,22 @@ public class RobotContainer {
                 m_wristSubsystem,
                 m_armSubsystem,
                 WristConstants.PODIUM_RAD,
-                0,
+                0,//hi
                 ShooterConstants.CLOSE_RPM))
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+    // WING
+    auxController
+        .rightTrigger()
+        .onTrue(
+            new PositionToShoot(
+                m_feederSubsystem,
+                m_shooterSubsystem,
+                m_wristSubsystem,
+                m_armSubsystem,
+                WristConstants.WING_RAD,
+                0,
+                ShooterConstants.FAR_RPM))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Overshot
@@ -671,17 +685,18 @@ public class RobotContainer {
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Position to shoot with Vision
-    auxController
-        .rightTrigger()
-        .onTrue(
-            new AimShooter(
-                m_shooterSubsystem,
-                m_wristSubsystem,
-                m_armSubsystem,
-                m_poseEstimator,
-                m_feederSubsystem))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+    // auxController
+    //     .rightTrigger()
+    //     .onTrue(
+    //         new AimShooter(
+    //             m_shooterSubsystem,
+    //             m_wristSubsystem,
+    //             m_armSubsystem,
+    //             m_poseEstimator,
+    //             m_feederSubsystem))
+    //     .onFalse(
+    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
+    // m_feederSubsystem));
 
     /* AMP Scoring */
     // Backside
