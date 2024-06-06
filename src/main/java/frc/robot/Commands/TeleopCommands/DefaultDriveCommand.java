@@ -60,13 +60,13 @@ public class DefaultDriveCommand extends Command {
       drive.driveWithDeadbandPlusHeading(
           controller.getLeftX(), // Forward/backward
           -controller.getLeftY(), // Left/Right (multiply by -1 bc controller axis inverted)
-          -controller.getRightX()); // Rotate chassis left/right
+          -controller.getRightX() * 0.5); // Rotate chassis left/right
     } else {
 
       drive.driveWithDeadband(
           controller.getLeftX(), // Forward/backward
           -controller.getLeftY(), // Left/Right (multiply by -1 bc controller a())is inverted)
-          -controller.getRightX()); // Rotate chassis left/right
+          -controller.getRightX() * 0.5); // Rotate chassis left/right
     }
 
     if (controller.button(9).getAsBoolean() && alreadyPressed != true) {
