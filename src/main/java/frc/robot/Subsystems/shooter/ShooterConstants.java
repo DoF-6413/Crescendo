@@ -29,8 +29,8 @@ public class ShooterConstants {
   public static final double MOI_KG_M2 = 0.0016007389;
 
   // Real constants
-  /** Gear ratio of 1:1 for the shooter */
-  public static final double GEAR_RATIO = 1.0;
+  /** Gear ratio of 1.4:1 for the shooter */
+  public static final double GEAR_RATIO = 0.71428;
   // Motor IDs
   public static final int TOP_MOTOR_ID = 22;
   public static final int BOTTOM_MOTOR_ID = 23;
@@ -54,11 +54,11 @@ public class ShooterConstants {
    */
   public static final double SLOW_RPM = 1000;
   /** SPEAKER score speed at or near the subwoofer */
-  public static final double CLOSE_RPM = 4000;
+  public static final double CLOSE_RPM = 5600;
   /** SPEAKER score speed from mid range */
-  public static final double MID_RANGE_RPM = 5000;
+  public static final double MID_RANGE_RPM = 6300;
   /** SPEAKER score speed from mid stage and beyond */
-  public static final double FAR_RPM = 6000;
+  public static final double FAR_RPM = 7000;
   /** Shooter speed for sending NOTEs from the SOURCE to Midfield */
   public static final double SOURCE_FEED_RPM = 5500;
   /** Shooter speed for sending NOTES from Midfield to alliance WING */
