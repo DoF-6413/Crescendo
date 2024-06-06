@@ -84,6 +84,9 @@ public class Shooter extends SubsystemBase {
     if (isTestingEnabled) {
       testPIDFFValues();
     }
+
+    SmartDashboard.putNumber("TopShooter Error", topShooterPIDController.getPositionError());
+    SmartDashboard.putNumber("BottomShooter Error", bottomShooterPIDController.getPositionError());
   }
 
   /** Updates the set of loggable inputs for both Shooter Motors */

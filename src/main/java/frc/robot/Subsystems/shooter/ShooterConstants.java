@@ -54,7 +54,7 @@ public class ShooterConstants {
    */
   public static final double SLOW_RPM = 1000;
   /** SPEAKER score speed at or near the subwoofer */
-  public static final double CLOSE_RPM = 5600;
+  public static final double CLOSE_RPM = 4000;
   /** SPEAKER score speed from mid range */
   public static final double MID_RANGE_RPM = 6300;
   /** SPEAKER score speed from mid stage and beyond */
