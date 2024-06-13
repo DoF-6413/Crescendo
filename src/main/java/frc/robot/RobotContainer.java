@@ -47,11 +47,16 @@ import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.feeder.*;
 import frc.robot.Subsystems.gyro.*;
 import frc.robot.Subsystems.otbIntake.*;
+import frc.robot.Subsystems.photonVision.Vision;
+import frc.robot.Subsystems.photonVision.VisionIO;
+import frc.robot.Subsystems.photonVision.VisionIOArduCam;
+import frc.robot.Subsystems.photonVision.VisionIOSim;
 import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.wrist.*;
 import frc.robot.Utils.*;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import org.opencv.dnn.Model;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -66,8 +71,8 @@ public class RobotContainer {
 
   // Mechanisms
   private final Arm m_armSubsystem;
-  // private final Vision m_visionSubsystem;
-  //   private final Climber m_climberSubsystem;
+  private final Vision m_visionSubsystem;
+  // private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
@@ -76,7 +81,8 @@ public class RobotContainer {
   private final Wrist m_wristSubsystem;
 
   // Utilities
-  private final PoseEstimatorLimelight m_poseEstimator;
+  private final PoseEstimator m_poseEstimator;
+  private final PoseEstimatorLimelight m_poseEstimatorLimelight;
   private final PathPlanner m_pathPlanner;
 
   // Controllers
@@ -105,7 +111,7 @@ public class RobotContainer {
                 new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
-        // m_visionSubsystem = new Vision(new VisionIOArduCam());
+        m_visionSubsystem = new Vision(new VisionIOArduCam());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
@@ -125,7 +131,7 @@ public class RobotContainer {
                 new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
-        // m_visionSubsystem = new Vision(new VisionIOSim());
+        m_visionSubsystem = new Vision(new VisionIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
@@ -145,7 +151,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
-        // m_visionSubsystem = new Vision(new VisionIO() {});
+        m_visionSubsystem = new Vision(new VisionIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
@@ -156,8 +162,9 @@ public class RobotContainer {
     }
 
     // Utils
-    m_poseEstimator = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
-    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator, m_gyroSubsystem);
+    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+    m_poseEstimatorLimelight = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
+    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimatorLimelight, m_gyroSubsystem);
 
     /* PathPlanner Registere Commands */
     // Shooter/Feeder
@@ -225,7 +232,7 @@ public class RobotContainer {
             m_shooterSubsystem,
             m_wristSubsystem,
             m_armSubsystem,
-            m_poseEstimator,
+            m_poseEstimatorLimelight,
             m_feederSubsystem));
     // Pick Ups
     NamedCommands.registerCommand(
@@ -325,7 +332,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "ChassisAutoAlign",
         new DefaultDriveCommand(
-            m_driveSubsystem, auxController, m_gyroSubsystem, m_poseEstimator, 1));
+            m_driveSubsystem, auxController, m_gyroSubsystem, m_poseEstimatorLimelight, 1));
     // WaitUntil Commands
     NamedCommands.registerCommand(
         "ShooterReady",
@@ -585,7 +592,7 @@ public class RobotContainer {
     /* Driving the robot */
     m_driveSubsystem.setDefaultCommand(
         new DefaultDriveCommand(
-            m_driveSubsystem, driverController, m_gyroSubsystem, m_poseEstimator, 1));
+            m_driveSubsystem, driverController, m_gyroSubsystem, m_poseEstimatorLimelight, 1));
 
     /* Reset Gyro heading */
     driverController
@@ -678,7 +685,7 @@ public class RobotContainer {
                 m_shooterSubsystem,
                 m_wristSubsystem,
                 m_armSubsystem,
-                m_poseEstimator,
+                m_poseEstimatorLimelight,
                 m_feederSubsystem))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
