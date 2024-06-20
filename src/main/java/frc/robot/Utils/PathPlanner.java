@@ -17,10 +17,10 @@ import frc.robot.Subsystems.gyro.Gyro;
 /** Add your docs here. */
 public class PathPlanner extends SubsystemBase {
   private Drive drive;
-  private PoseEstimatorLimelight pose;
+  private PoseEstimator pose;
   private Gyro gyro;
 
-  public PathPlanner(Drive drive, PoseEstimatorLimelight pose, Gyro gyro) {
+  public PathPlanner(Drive drive, PoseEstimator pose, Gyro gyro) {
     this.drive = drive;
     this.pose = pose;
 

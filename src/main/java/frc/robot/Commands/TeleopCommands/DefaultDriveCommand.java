@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Utils.HeadingController;
-import frc.robot.Utils.PoseEstimatorLimelight;
+import frc.robot.Utils.PoseEstimator;
 
 public class DefaultDriveCommand extends Command {
   /** Creates a new DefaultDriveCommand. */
@@ -21,13 +21,13 @@ public class DefaultDriveCommand extends Command {
   int index = 1;
   boolean alreadyPressed = false;
   HeadingController headingController;
-  PoseEstimatorLimelight pose;
+  PoseEstimator pose;
 
   public DefaultDriveCommand(
       Drive drive,
       CommandXboxController controller,
       Gyro gyro,
-      PoseEstimatorLimelight pose,
+      PoseEstimator pose,
       int startingIndex) {
     this.controller = controller;
 

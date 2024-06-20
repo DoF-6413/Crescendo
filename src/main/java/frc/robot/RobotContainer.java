@@ -38,6 +38,7 @@ import frc.robot.Commands.TeleopCommands.SpeakerScore.OverShot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Commands.TeleopCommands.VisionAutomations.AimShooter;
+import frc.robot.Commands.TeleopCommands.VisionAutomations.PickUpNote;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
@@ -56,7 +57,6 @@ import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.wrist.*;
 import frc.robot.Utils.*;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-import org.opencv.dnn.Model;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -82,7 +82,6 @@ public class RobotContainer {
 
   // Utilities
   private final PoseEstimator m_poseEstimator;
-  private final PoseEstimatorLimelight m_poseEstimatorLimelight;
   private final PathPlanner m_pathPlanner;
 
   // Controllers
@@ -163,8 +162,7 @@ public class RobotContainer {
 
     // Utils
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
-    m_poseEstimatorLimelight = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
-    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimatorLimelight, m_gyroSubsystem);
+    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator, m_gyroSubsystem);
 
     /* PathPlanner Registere Commands */
     // Shooter/Feeder
@@ -232,7 +230,7 @@ public class RobotContainer {
             m_shooterSubsystem,
             m_wristSubsystem,
             m_armSubsystem,
-            m_poseEstimatorLimelight,
+            m_poseEstimator,
             m_feederSubsystem));
     // Pick Ups
     NamedCommands.registerCommand(
@@ -332,7 +330,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "ChassisAutoAlign",
         new DefaultDriveCommand(
-            m_driveSubsystem, auxController, m_gyroSubsystem, m_poseEstimatorLimelight, 1));
+            m_driveSubsystem, auxController, m_gyroSubsystem, m_poseEstimator, 1));
     // WaitUntil Commands
     NamedCommands.registerCommand(
         "ShooterReady",
@@ -592,12 +590,39 @@ public class RobotContainer {
     /* Driving the robot */
     m_driveSubsystem.setDefaultCommand(
         new DefaultDriveCommand(
-            m_driveSubsystem, driverController, m_gyroSubsystem, m_poseEstimatorLimelight, 1));
+            m_driveSubsystem, driverController, m_gyroSubsystem, m_poseEstimator, 1));
 
     /* Reset Gyro heading */
     driverController
         .a()
         .onTrue(new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
+
+    /* Align to NOTE */
+    driverController
+        .x()
+        .onTrue(
+            new PickUpNote(
+                m_driveSubsystem,
+                m_otbIntakeSubsystem,
+                m_utbIntakeSubsystem,
+                m_feederSubsystem,
+                m_actuatorSubsystem))
+        .onFalse(
+            new InstantCommand(
+                () -> {
+                  m_driveSubsystem.setRaw(0, 0, 0);
+                  new AllIntakesRun(
+                      m_actuatorSubsystem,
+                      m_otbIntakeSubsystem,
+                      m_utbIntakeSubsystem,
+                      m_feederSubsystem,
+                      true);
+                },
+                m_driveSubsystem,
+                m_actuatorSubsystem,
+                m_otbIntakeSubsystem,
+                m_utbIntakeSubsystem,
+                m_feederSubsystem));
 
     /* Rumble */
     if (m_utbIntakeSubsystem.getCurrentDraw() > 10) {
@@ -685,7 +710,7 @@ public class RobotContainer {
                 m_shooterSubsystem,
                 m_wristSubsystem,
                 m_armSubsystem,
-                m_poseEstimatorLimelight,
+                m_poseEstimator,
                 m_feederSubsystem))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));

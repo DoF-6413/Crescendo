@@ -6,27 +6,46 @@ package frc.robot.Commands.TeleopCommands.VisionAutomations;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.drive.Drive;
-import frc.robot.Subsystems.photonVision.Vision;
+import frc.robot.Utils.LimelightHelpers;
 
 public class AlignToNote extends Command {
   public final Drive drive;
-  public final Vision vision;
+  public static LimelightHelpers vision;
+
+  public double TX;
+  public double TY;
 
   /** Creates a new AlignToNote. */
-  public AlignToNote(Drive drive, Vision vision) {
+  public AlignToNote(Drive drive) {
     this.drive = drive;
-    this.vision = vision;
 
-    addRequirements(drive, vision);
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    TX = 0.0;
+    TY = 0.0;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    TX = LimelightHelpers.getTX("limelight");
+    TY = LimelightHelpers.getTY("limelight");
+
+    if (TX < -5.0) {
+      drive.setRaw(0, 0, 0.3);
+    } else if (TX > 5.0) {
+      drive.setRaw(0, 0, -0.3);
+    } else {
+      drive.updateHeading();
+      if (TY > -16) {
+        drive.setRaw(0, 0.7, 0);
+      }
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -37,6 +56,6 @@ public class AlignToNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return TX <= 5 && TX >= -5 && TY <= -16;
   }
 }
