@@ -38,6 +38,7 @@ import frc.robot.Commands.TeleopCommands.SpeakerScore.OverShot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Commands.TeleopCommands.VisionAutomations.AimShooter;
+import frc.robot.Commands.TeleopCommands.VisionAutomations.AlignToNote;
 import frc.robot.Commands.TeleopCommands.VisionAutomations.PickUpNote;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
@@ -164,7 +165,7 @@ public class RobotContainer {
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator, m_gyroSubsystem);
 
-    /* PathPlanner Registere Commands */
+    /* PathPlanner Register Commands */
     // Shooter/Feeder
     NamedCommands.registerCommand(
         "Shooter1000",
@@ -232,6 +233,18 @@ public class RobotContainer {
             m_armSubsystem,
             m_poseEstimator,
             m_feederSubsystem));
+
+    // Vision
+    NamedCommands.registerCommand("VisionAlign", new AlignToNote(m_driveSubsystem));
+    NamedCommands.registerCommand(
+        "VisionPickUp",
+        new PickUpNote(
+            m_driveSubsystem,
+            m_otbIntakeSubsystem,
+            m_utbIntakeSubsystem,
+            m_feederSubsystem,
+            m_actuatorSubsystem));
+
     // Pick Ups
     NamedCommands.registerCommand(
         "UTB",
@@ -361,6 +374,7 @@ public class RobotContainer {
     // autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
     autoChooser.addOption("3 Piece Close Amp", new PathPlannerAuto("3P Center Amp"));
     autoChooser.addOption("3 Piece Close Podium", new PathPlannerAuto("3P Center Podium"));
+    autoChooser.addOption("3 Piece (V) Close Podium", new PathPlannerAuto("3P VIS Center Podium"));
     autoChooser.addOption("3 Piece Corner to Midfield", new PathPlannerAuto("3P Corner Mid Right"));
     autoChooser.addOption("3 Piece Source Midfield", new PathPlannerAuto("3P Mid Right"));
     // autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
