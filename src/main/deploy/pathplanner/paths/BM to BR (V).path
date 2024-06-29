@@ -32,23 +32,6 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Auto-align",
-      "waypointRelativePos": 0.6,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "VisionAlign"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "Pick Up",
       "waypointRelativePos": 0.8,
       "command": {

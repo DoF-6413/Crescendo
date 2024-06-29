@@ -32,7 +32,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Pick Up and Shoot",
+      "name": "Pick Up",
       "waypointRelativePos": 0.1,
       "command": {
         "type": "parallel",
@@ -47,7 +47,7 @@
             {
               "type": "named",
               "data": {
-                "name": "UTB"
+                "name": "2P Note"
               }
             }
           ]
@@ -55,16 +55,16 @@
       }
     },
     {
-      "name": "AutoAlign",
-      "waypointRelativePos": 0,
+      "name": "Vision Pick Up",
+      "waypointRelativePos": 0.15,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "AutoAlign"
+                "name": "VisionPickUp"
               }
             }
           ]

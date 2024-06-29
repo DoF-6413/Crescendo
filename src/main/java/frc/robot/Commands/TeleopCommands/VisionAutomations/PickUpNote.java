@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
+import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
 import frc.robot.Subsystems.actuator.Actuator;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.feeder.Feeder;
@@ -31,8 +31,10 @@ public class PickUpNote extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new AlignToNote(drive),
-        new AllIntakesRun(actuator, otb, utb, feeder, false),
+        // new AllIntakesRun(actuator, otb, utb, feeder, false),
+        new UTBIntakeRun(utb, feeder, true, false),
         new ParallelRaceGroup(
             Commands.run(() -> drive.setRaw(0, 0.8, 0), drive), new WaitCommand(2)));
+    System.out.println("NOTE PICKED UP");
   }
 }
