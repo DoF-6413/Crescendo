@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Utils.HeadingController;
+import frc.robot.Utils.LimelightHelpers;
 import org.littletonrobotics.junction.Logger; // Logger
 
 /** This Runs the full Swerve (All Modules) for all Modes of the Robot */
@@ -24,6 +25,8 @@ public class Drive extends SubsystemBase {
   private Twist2d twist = new Twist2d();
   private final HeadingController headingController = new HeadingController();
   double omega = 0;
+  double TX = 0.0;
+  double TY = 0.0;
 
   // swerve kinematics library
   public SwerveDriveKinematics swerveKinematics;
@@ -67,6 +70,9 @@ public class Drive extends SubsystemBase {
 
     runSwerveModules(getAdjustedSpeeds());
     getMeasuredStates();
+
+    TX = LimelightHelpers.getTX("limelight");
+    TY = LimelightHelpers.getTY("limelight");
   }
 
   /** Puts robot to coast mode on disable */
@@ -257,6 +263,16 @@ public class Drive extends SubsystemBase {
             this.getRotation()));
   }
 
+  public void driveWithNoteDetection(double x, double y, double rot) {
+    if (TX < -5.0) {
+      this.driveWithDeadband(x, y, 0.3);
+    } else if (TX > 5.0) {
+      this.driveWithDeadband(x, y, -0.3);
+    } else {
+      this.driveWithDeadband(x, y, rot);
+    }
+  }
+
   /** stops the robot (sets velocity to 0 bu inputing empty Chassis Speeds which Default to 0) */
   public void stop() {
     runVelocity(new ChassisSpeeds());
@@ -340,4 +356,7 @@ public class Drive extends SubsystemBase {
 
     headingSetpoint = new Rotation2d(Math.PI / 2);
   }
+
+  // public Optional<Rotation2d> getRotationTargetOverride() {
+  // }
 }

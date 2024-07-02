@@ -55,13 +55,16 @@ public class DefaultDriveCommand extends Command {
               pose.AngleForSpeaker().plus(new Rotation2d(Math.PI / 2)),
               drive.getRotation(),
               gyro.getRate())); // Rotate chassis left/right
-    } else if (index % 2 == 0) {
+    } else if (index % 2 == 0 && index > 0) {
 
       drive.driveWithDeadbandPlusHeading(
           controller.getLeftX(), // Forward/backward
           -controller.getLeftY(), // Left/Right (multiply by -1 bc controller axis inverted)
-          -controller.getRightX()); // Rotate chassis left/right
-    } else {
+          -controller.getRightX()); // Rotate chassis left/rightc
+    } else if (index == -1) {
+      drive.driveWithNoteDetection(
+          controller.getLeftX(), -controller.getLeftY(), controller.getRightX());
+    } else if (index > 0) {
 
       drive.driveWithDeadband(
           controller.getLeftX(), // Forward/backward
@@ -76,6 +79,8 @@ public class DefaultDriveCommand extends Command {
       alreadyPressed = false;
     } else if (controller.button(10).getAsBoolean()) {
       index = 0;
+    } else if (controller.x().getAsBoolean()) {
+      index = -1;
     }
   }
 
