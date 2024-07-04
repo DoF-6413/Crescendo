@@ -15,6 +15,7 @@ import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Utils.HeadingController;
 import frc.robot.Utils.LimelightHelpers;
+import java.util.Optional;
 import org.littletonrobotics.junction.Logger; // Logger
 
 /** This Runs the full Swerve (All Modules) for all Modes of the Robot */
@@ -357,6 +358,13 @@ public class Drive extends SubsystemBase {
     headingSetpoint = new Rotation2d(Math.PI / 2);
   }
 
-  // public Optional<Rotation2d> getRotationTargetOverride() {
-  // }
+  public Optional<Rotation2d> getRotationTargetOverride() {
+    if (TX < -5) {
+      return Optional.of(new Rotation2d(1));
+    } else if (TX > 5) {
+      return Optional.of(new Rotation2d(-1));
+    } else {
+      return Optional.empty();
+    }
+  }
 }

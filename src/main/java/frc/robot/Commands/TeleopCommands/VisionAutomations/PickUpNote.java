@@ -35,6 +35,5 @@ public class PickUpNote extends SequentialCommandGroup {
         new UTBIntakeRun(utb, feeder, true, false),
         new ParallelRaceGroup(
             Commands.run(() -> drive.setRaw(0, 0.8, 0), drive), new WaitCommand(2)));
-    System.out.println("NOTE PICKED UP");
   }
 }

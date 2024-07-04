@@ -53,23 +53,6 @@
           ]
         }
       }
-    },
-    {
-      "name": "Vision Pick Up",
-      "waypointRelativePos": 0.15,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "VisionPickUp"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {

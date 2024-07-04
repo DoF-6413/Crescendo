@@ -372,8 +372,8 @@ public class RobotContainer {
     // autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
     autoChooser.addOption("3 Piece Close Amp", new PathPlannerAuto("3P Center Amp"));
     autoChooser.addOption("3 Piece Close Podium", new PathPlannerAuto("3P Center Podium"));
-    // autoChooser.addOption(
-    //     "3 Piece VISION Close Podium", new PathPlannerAuto("3P VIS Center Podium"));
+    autoChooser.addOption(
+        "3 Piece VISION Close Podium", new PathPlannerAuto("3P VIS Center Podium"));
     autoChooser.addOption("3 Piece Corner to Midfield", new PathPlannerAuto("3P Corner Mid Right"));
     autoChooser.addOption("3 Piece Source Midfield", new PathPlannerAuto("3P Mid Right"));
     // autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));

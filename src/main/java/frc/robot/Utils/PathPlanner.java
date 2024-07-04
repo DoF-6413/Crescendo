@@ -5,6 +5,7 @@
 package frc.robot.Utils;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -53,7 +54,7 @@ public class PathPlanner extends SubsystemBase {
         },
         drive);
 
-    // PPHolonomicDriveController.setRotationTargetOverride();
+    PPHolonomicDriveController.setRotationTargetOverride(drive::getRotationTargetOverride);
   }
 
   // public Command followPath() {
