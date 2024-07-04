@@ -39,11 +39,6 @@ public class AlignToNote extends Command {
       drive.setRaw(0, 0, 0.3);
     } else if (TX > 5.0) {
       drive.setRaw(0, 0, -0.3);
-    } else {
-      drive.updateHeading();
-      if (TY > -16) {
-        drive.setRaw(0, 0.7, 0);
-      }
     }
   }
 
@@ -56,6 +51,6 @@ public class AlignToNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return TX <= 5 && TX >= -5 && TY <= -16;
+    return TX <= 5 && TX >= -5;
   }
 }
