@@ -82,6 +82,7 @@ public class RobotContainer {
   // Utilities
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
+  int counter = 0;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -526,6 +527,8 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+
+    SmartDashboard.putBoolean("Is Note Picked Up", false);
   }
 
   /**
@@ -595,6 +598,18 @@ public class RobotContainer {
     m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD);
     m_armSubsystem.setGoal(0);
     m_feederSubsystem.setSetpoint(0);
+  }
+
+  public void isNotePickedUp() {
+    if (m_utbIntakeSubsystem.getCurrentDraw() > 20 && m_utbIntakeSubsystem.getCurrentDraw() < 55) {
+      counter += 1;
+      if (counter >= 25) {
+        SmartDashboard.putBoolean("Is Note Picked Up", true);
+      }
+    } else if (auxController.a().getAsBoolean()) {
+      counter = 0;
+      SmartDashboard.putBoolean("Is Note Picked Up", false);
+    }
   }
 
   // Ideal button mappings for Worlds

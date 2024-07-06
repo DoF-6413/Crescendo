@@ -250,4 +250,8 @@ public class Shooter extends SubsystemBase {
           SmartDashboard.getNumber("shooterkA", 0.8));
     }
   }
+
+  public double getAverageRPM() {
+    return (inputs.topShooterMotorRPM + inputs.bottomShooterMotorRPM) / 2;
+  }
 }

@@ -74,4 +74,8 @@ public class Feeder extends SubsystemBase {
   public void setSetpoint(double setpoint) {
     feederPIDController.setSetpoint(setpoint);
   }
+
+  public double getMotorRPM() {
+    return inputs.feederRPM;
+  }
 }

@@ -264,10 +264,10 @@ public class Drive extends SubsystemBase {
   }
 
   public void driveWithNoteDetection(double x, double y, double rot) {
-    if (TX < -5.0) {
-      this.driveWithDeadband(x, y, 0.3);
-    } else if (TX > 5.0) {
-      this.driveWithDeadband(x, y, -0.3);
+    if (TX < -10.0) {
+      this.driveWithDeadband(x, y, 0.4);
+    } else if (TX > 10.0) {
+      this.driveWithDeadband(x, y, -0.4);
     } else {
       this.driveWithDeadband(x, y, rot);
     }
