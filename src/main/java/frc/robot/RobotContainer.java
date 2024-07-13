@@ -620,8 +620,16 @@ public class RobotContainer {
     // UTB Intake (Intake)
     driverController
         .rightTrigger()
-        .onTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, false))
-        .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
+        .onTrue(
+            new UTBIntakeRun(
+                m_utbIntakeSubsystem, m_feederSubsystem, true, !m_shooterSubsystem.getBeamBreak()))
+        .onFalse(
+            new ShooterRev(
+                m_actuatorSubsystem,
+                m_otbIntakeSubsystem,
+                m_utbIntakeSubsystem,
+                m_feederSubsystem,
+                m_shooterSubsystem));
     // UTB Intake (Outtake)
     driverController
         .rightBumper()

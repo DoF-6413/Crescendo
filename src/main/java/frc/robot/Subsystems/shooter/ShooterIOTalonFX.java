@@ -7,12 +7,15 @@ package frc.robot.Subsystems.shooter;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /** Runs the Real Life Shooter with TalonFX Speed Controllers and Falcon500 Motors */
 public class ShooterIOTalonFX implements ShooterIO {
 
   private final TalonFX topShooterMotor;
   private final TalonFX bottomShooterMotor;
+
+  private final DigitalInput beambreak;
 
   public ShooterIOTalonFX() {
     System.out.println("[Init] Creating ShooterIOTalonFX");
@@ -37,6 +40,8 @@ public class ShooterIOTalonFX implements ShooterIO {
     bottomShooterMotor.getConfigurator().apply(currentLimitsConfig);
     currentLimitsConfig.withStatorCurrentLimitEnable(ShooterConstants.ENABLE_CUR_LIM);
     currentLimitsConfig.withSupplyCurrentLimitEnable(ShooterConstants.ENABLE_CUR_LIM);
+
+    beambreak = new DigitalInput(0);
   }
 
   @Override
@@ -62,6 +67,8 @@ public class ShooterIOTalonFX implements ShooterIO {
         new double[] {bottomShooterMotor.getStatorCurrent().getValueAsDouble()};
     inputs.bottomShooterTempCelsius =
         new double[] {bottomShooterMotor.getDeviceTemp().getValueAsDouble()};
+
+    inputs.beambreak = beambreak.get();
   }
 
   @Override
