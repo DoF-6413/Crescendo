@@ -10,7 +10,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 /** Add your docs here. */
 public class VisionIOSim implements VisionIO {
 
-  private static PhotonCamera camera = new PhotonCamera("Arducam_Shooter");
+  private static PhotonCamera camera = new PhotonCamera("USB_webcam");
 
   @Override
   public void updateInputs(VisionIOInputs inputs) {
