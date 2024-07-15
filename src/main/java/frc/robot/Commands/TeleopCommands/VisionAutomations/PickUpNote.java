@@ -30,7 +30,7 @@ public class PickUpNote extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new AlignToNote(drive),
+        new AlignToNote(drive, 0.3),
         // new AllIntakesRun(actuator, otb, utb, feeder, false),
         new UTBIntakeRun(utb, feeder, true, false),
         new ParallelRaceGroup(

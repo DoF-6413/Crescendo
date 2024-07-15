@@ -234,7 +234,7 @@ public class RobotContainer {
             m_feederSubsystem));
 
     // Vision
-    NamedCommands.registerCommand("VisionAlign", new AlignToNote(m_driveSubsystem));
+    NamedCommands.registerCommand("VisionAlign", new AlignToNote(m_driveSubsystem, 0.3));
     NamedCommands.registerCommand(
         "VisionPickUp",
         new PickUpNote(
@@ -600,19 +600,21 @@ public class RobotContainer {
     m_feederSubsystem.setSetpoint(0);
   }
 
-  public void isNotePickedUp() {
-    if (m_utbIntakeSubsystem.getCurrentDraw() > 20 && m_utbIntakeSubsystem.getCurrentDraw() < 55) {
-      counter += 1;
-      if (counter >= 25) {
-        SmartDashboard.putBoolean("Is Note Picked Up", true);
-      }
-    } else if (auxController.a().getAsBoolean()) {
-      counter = 0;
-      SmartDashboard.putBoolean("Is Note Picked Up", false);
-    }
-  }
+  /** Uses the current drawn by the UTB to determine if a NOTE has been picked up */
+  //   public void isNotePickedUp() {
+  //     if (m_utbIntakeSubsystem.getCurrentDraw() > 20 && m_utbIntakeSubsystem.getCurrentDraw() <
+  // 55) {
+  //       counter += 1;
+  //       if (counter >= 25) {
+  //         SmartDashboard.putBoolean("Is Note Picked Up", true);
+  //       }
+  //     } else if (auxController.a().getAsBoolean() || (m_shooterSubsystem.getSetpoint() > 0 &&
+  // m_feederSubsystem.getSetpoint() > 0)) {
+  //       counter = 0;
+  //       SmartDashboard.putBoolean("Is Note Picked Up", false);
+  //     }
+  //   }
 
-  // Ideal button mappings for Worlds
   /** Controller keybinds for the driver contoller port */
   public void driverControllerBindings() {
     /* Driving the robot */
@@ -625,7 +627,7 @@ public class RobotContainer {
         .a()
         .onTrue(new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
 
-    /* Align to NOTE */
+    /* Auto pickup NOTE */
     // driverController
     //     .x()
     //     .onTrue(
@@ -932,371 +934,5 @@ public class RobotContainer {
   //     // Enable
   //     devController.button(10).onTrue(new InstantCommand(()-> enableTesting(true),
   // m_armSubsystem, m_wristSubsystem, m_shooterSubsystem));
-  //   }
-
-  /**
-   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   * Contoller button bindings from prior competitions
-   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   */
-
-  //   /** Contoller keybinds for the driver contoller port */
-  //   public void driverControllerBindings() {
-  //     // Driving the robot
-  //     m_driveSubsystem.setDefaultCommand(new DefaultDriveCommand(m_driveSubsystem,
-  // driverController));
-
-  //     // Resets robot heading to be wherever the front of the robot is facing
-
-  //     driverController
-  //         .a()
-  //         .onTrue(new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
-
-  //     /* UTB Intake */
-  //     // Intake NOTE
-  //     driverController
-  //         .rightTrigger()
-  //         .onTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, false))
-  //         .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
-  //     // Outtake NOTE
-  //     driverController
-  //         .rightBumper()
-  //         .onTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, false))
-  //         .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
-
-  //     /* All Intakes */
-  //     // Intake NOTE
-  //     driverController
-  //         .leftTrigger()
-  //         .onTrue(
-  //             new AllIntakesRun(
-  //                 m_actuatorSubsystem,
-  //                 m_otbIntakeSubsystem,
-  //                 m_utbIntakeSubsystem,
-  //                 m_feederSubsystem,
-  //                 false))
-  //         .onFalse(
-  //             new AllIntakesRun(
-  //                 m_actuatorSubsystem,
-  //                 m_otbIntakeSubsystem,
-  //                 m_utbIntakeSubsystem,
-  //                 m_feederSubsystem,
-  //                 true));
-  //     // Outtake NOTE
-  //     driverController
-  //         .leftBumper()
-  //         .onTrue(
-  //             new AllIntakesRun(
-  //                 m_actuatorSubsystem,
-  //                 m_otbIntakeSubsystem,
-  //                 m_utbIntakeSubsystem,
-  //                 m_feederSubsystem,
-  //                 false))
-  //         .onFalse(
-  //             new AllIntakesRun(
-  //                 m_actuatorSubsystem,
-  //                 m_otbIntakeSubsystem,
-  //                 m_utbIntakeSubsystem,
-  //                 m_feederSubsystem,
-  //                 true));
-  //   }
-
-  //   /** Contoller keybinds for the aux contoller port */
-  //   public void auxControllerBindings() {
-
-  //     // Shoot
-  //     auxController
-  //         .a()
-  //         .onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem))
-  //         .onFalse(
-  //             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-  // m_feederSubsystem));
-
-  //     /* SPEAKER Scoring */
-  //     // Subwoofer shot
-  //     auxController
-  //         .leftTrigger()
-  //         .onTrue(
-  //             new PositionToShoot(
-  //                 m_feederSubsystem,
-  //                 m_shooterSubsystem,
-  //                 m_wristSubsystem,
-  //                 m_armSubsystem,
-  //                 WristConstants.SUBWOOFER_RAD,
-  //                 ArmConstants.SUBWOOFER_RAD,
-  //                 ShooterConstants.CLOSE_RPM))
-  //         .onFalse(
-  //             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-  // m_feederSubsystem));
-  //     // PODIUM shot
-  //     auxController
-  //         .rightTrigger()
-  //         .onTrue(
-  //             new PositionToShoot(
-  //                 m_feederSubsystem,
-  //                 m_shooterSubsystem,
-  //                 m_wristSubsystem,
-  //                 m_armSubsystem,
-  //                 WristConstants.PODIUM_RAD,
-  //                 0,
-  //                 ShooterConstants.CLOSE_RPM))
-  //         .onFalse(
-  //             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-  // m_feederSubsystem));
-  //     // Leave line? shot
-  //     auxController
-  //         .button(10)
-  //         .onTrue(
-  //             new PositionToShoot(
-  //                 m_feederSubsystem,
-  //                 m_shooterSubsystem,
-  //                 m_wristSubsystem,
-  //                 m_armSubsystem,
-  //                 WristConstants.DEFAULT_POSITION_RAD,
-  //                 0,
-  //                 ShooterConstants.FAR_RPM))
-  //         .onFalse(
-  //             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-  // m_feederSubsystem));
-  //     auxController
-  //         .start()
-  //         .onTrue(
-  //             new PositionToShoot(
-  //                 m_feederSubsystem,
-  //                 m_shooterSubsystem,
-  //                 m_wristSubsystem,
-  //                 m_armSubsystem,
-  //                 WristConstants.DEFAULT_POSITION_RAD,
-  //                 0,
-  //                 ShooterConstants.FAR_RPM))
-  //         .onFalse(
-  //             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-  // m_feederSubsystem));
-
-  //     // auxController
-  //     //     .button(10)
-  //     //     .onTrue(
-  //     //         new PositionToShoot(
-  //     //             m_feederSubsystem,
-  //     //             m_shooterSubsystem,
-  //     //             m_wristSubsystem,
-  //     //             m_armSubsystem,
-  //     //             WristConstants.SUBWOOFER_RAD,
-  //     //             0,
-  //     //             3000))
-  //     //     .onFalse(
-  //     //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-  //     // m_feederSubsystem));
-  //     // auxController
-  //     //     .button(9)
-  //     //     .onTrue(
-  //     //         new PositionToShoot(
-  //     //             m_feederSubsystem,
-  //     //             m_shooterSubsystem,
-  //     //             m_wristSubsystem,
-  //     //             m_armSubsystem,
-  //     //             WristConstants.SUBWOOFER_RAD,
-  //     //             0,
-  //     //             3000))
-  //     //     .onFalse(
-  //     //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-  //     // m_feederSubsystem));
-
-  //     /* AMP Scoring */
-  //     // Frontside
-  //     auxController
-  //         .leftBumper()
-  //         .onTrue(new PositionAmpScoreFrontSide(m_armSubsystem, m_wristSubsystem))
-  //         .onFalse(
-  //             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-  // m_feederSubsystem));
-  //     // Backside
-  //     auxController
-  //         .rightBumper()
-  //         .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
-  //         .onFalse(
-  //             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-  // m_feederSubsystem));
-
-  //     /* SOURCE */
-  //     // Picking up from SOURCE, backside
-  //     auxController
-  //         .y()
-  //         .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
-  //         .onFalse(
-  //             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-  // m_feederSubsystem));
-  //     // Shooter SOURCE feeding speed
-  //     auxController
-  //         .back()
-  //         .onTrue(
-  //             new InstantCommand(
-  //                 () -> m_shooterSubsystem.setSetpoint(ShooterConstants.SOURCE_FEED_RPM),
-  //                 m_shooterSubsystem))
-  //         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0),
-  // m_shooterSubsystem));
-
-  //     /* Wrist */
-  //     // Increases angle of the Wrist by 1 degree
-  //     auxController
-  //         .povLeft()
-  //         .onTrue(
-  //             new RunCommand(
-  //                 () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
-  //                 m_wristSubsystem))
-  //         .onFalse(new RunCommand(() -> m_wristSubsystem.incrementWristGoal(0),
-  // m_wristSubsystem));
-  //     // Decreases angle of the Wrist by 1 degree
-  //     auxController
-  //         .povRight()
-  //         .onTrue(
-  //             new RunCommand(
-  //                 () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
-  //                 m_wristSubsystem))
-  //         .onFalse(new RunCommand(() -> m_wristSubsystem.incrementWristGoal(0),
-  // m_wristSubsystem));
-
-  //     /* Arm */
-  //     // Increases angle of the Arm by 1 degree
-  //     auxController
-  //         .povUp()
-  //         .onTrue(
-  //             new RunCommand(
-  //                 () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)),
-  // m_armSubsystem))
-  //         .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
-  //     // Decreases angle of the Arm by 1 degree
-  //     auxController
-  //         .povDown()
-  //         .onTrue(
-  //             new RunCommand(
-  //                 () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)),
-  // m_armSubsystem))
-  //         .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
-
-  //     /* Feeder */
-  //     // Forward
-  //     // auxController
-  //     //     .a()
-  //     //     .onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem))
-  //     //     .onFalse(
-  //     //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-  //     // m_feederSubsystem));
-
-  //     /* Auto adjusts the angle of the Wrist using Vision for accurate shooting into the SPEAKER
-  // */
-  //     // auxController
-  //     //     .back()
-  //     //     .onTrue(
-  //     //         new AimShooter(
-  //     //             m_shooterSubsystem,
-  //     //             m_wristSubsystem,
-  //     //             m_armSubsystem,
-  //     //             m_poseEstimator,
-  //     //             m_feederSubsystem));
-
-  //     /* Climber */
-  //     // m_climberSubsystem.setDefaultCommand(
-  //     //     new InstantCommand(
-  //     //         () -> m_climberSubsystem.setClimberPercentSpeed(-auxController.getLeftY()),
-  //     //         m_climberSubsystem));
-  //   }
-
-  /** Aux Contoller binding for development or manual control purposes */
-  //   public void devControllerBindings() {
-  //     /* Enable PID for the Wrist, Arm, and Shooter */
-  //     devController
-  //         .start()
-  //         .onTrue(new InstantCommand(() -> this.enablePID(true), m_wristSubsystem,
-  // m_armSubsystem));
-  //     /* Disable PID for the Wrist, Arm, and Shooter */
-  //     devController
-  //         .back()
-  //         .onTrue(new InstantCommand(() -> this.enablePID(false), m_wristSubsystem,
-  // m_armSubsystem));
-
-  //     // Manual Wrist Control
-  //     m_wristSubsystem.setDefaultCommand(
-  //         new RunCommand(
-  //             () -> m_wristSubsystem.setWristPercentSpeed(devController.getRightY()),
-  //             m_wristSubsystem));
-  //     // Manual Arm Control
-  //     m_armSubsystem.setDefaultCommand(
-  //         new RunCommand(
-  //             () -> m_armSubsystem.setArmPercentSpeed(devController.getLeftY()),
-  // m_armSubsystem));
-
-  //     // Subwoofer Shooter RPM w/ PID
-  //     auxController
-  //         .back()
-  //         .onTrue(
-  //             new InstantCommand(
-  //                 () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM),
-  //                 m_shooterSubsystem))
-  //         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0),
-  // m_shooterSubsystem));
-
-  //     // Subwoofer Shooter RPM w/o PID
-  //     devController
-  //         .rightTrigger()
-  //         .onTrue(
-  //             new InstantCommand(
-  //                 () -> m_shooterSubsystem.setBothPercentSpeed(0.65), m_shooterSubsystem))
-  //         .onFalse(
-  //             new InstantCommand(
-  //                 () -> m_shooterSubsystem.setBothPercentSpeed(0.0), m_shooterSubsystem));
-
-  //     // Feeder backwards w/o PID
-  //     devController
-  //         .a()
-  //         .onTrue(
-  //             new InstantCommand(
-  //                 () -> m_feederSubsystem.setFeederPercentSpeed(-0.2), m_feederSubsystem))
-  //         .onFalse(
-  //             new InstantCommand(
-  //                 () -> m_feederSubsystem.setFeederPercentSpeed(0), m_feederSubsystem));
-  //     // Feeder forwards w/o PID
-  //     devController
-  //         .b()
-  //         .onTrue(
-  //             new InstantCommand(
-  //                 () -> m_feederSubsystem.setFeederPercentSpeed(0.4), m_feederSubsystem))
-  //         .onFalse(
-  //             new InstantCommand(
-  //                 () -> m_feederSubsystem.setFeederPercentSpeed(0), m_feederSubsystem));
-
-  //     // Feeder forward w/ PID
-  //     devController
-  //         .y()
-  //         .onTrue(
-  //             new InstantCommand(
-  //                 () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM),
-  //                 m_feederSubsystem))
-  //         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0),
-  // m_feederSubsystem));
-  //     // Feeder backwards w/ PID
-  //     devController
-  //         .x()
-  //         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-500),
-  // m_feederSubsystem))
-  //         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0),
-  // m_feederSubsystem));
-
-  //     // pov buttons on aux controller, switch over when best suited
-
-  //     /* Enable to use adjustable PID, FF and Tapezopid values from SmartDashboard */
-  //     devController
-  //         .button(9)
-  //         .onTrue(
-  //             new InstantCommand(
-  //                 () -> enableTesting(true), m_armSubsystem, m_wristSubsystem,
-  // m_shooterSubsystem));
-  //     /* Disable to use adjustable PID, FF and Tapezopid values from SmartDashboard */
-  //     devController
-  //         .button(10)
-  //         .onTrue(
-  //             new InstantCommand(
-  //                 () -> enableTesting(false), m_armSubsystem, m_wristSubsystem,
-  // m_shooterSubsystem));
   //   }
 }

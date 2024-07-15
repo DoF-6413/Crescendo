@@ -10,14 +10,15 @@ import frc.robot.Utils.LimelightHelpers;
 
 public class AlignToNote extends Command {
   public final Drive drive;
-  public static LimelightHelpers vision;
 
+  public double speed;
   public double TX;
   public double TY;
 
   /** Creates a new AlignToNote. */
-  public AlignToNote(Drive drive) {
+  public AlignToNote(Drive drive, double speed) {
     this.drive = drive;
+    this.speed = speed;
 
     addRequirements(drive);
   }
@@ -36,9 +37,9 @@ public class AlignToNote extends Command {
     TY = LimelightHelpers.getTY("limelight");
 
     if (TX < -5.0) {
-      drive.setRaw(0, 0, 0.3);
+      drive.setRaw(0, 0, speed);
     } else if (TX > 5.0) {
-      drive.setRaw(0, 0, -0.3);
+      drive.setRaw(0, 0, -speed);
     }
   }
 

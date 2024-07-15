@@ -75,7 +75,13 @@ public class Feeder extends SubsystemBase {
     feederPIDController.setSetpoint(setpoint);
   }
 
+  /** Returns the RPM of the Feeder */
   public double getMotorRPM() {
     return inputs.feederRPM;
+  }
+
+  /** Returns the PID Setpoint of the Feeder */
+  public double getSetpoint() {
+    return feederPIDController.getSetpoint();
   }
 }
