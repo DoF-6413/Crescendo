@@ -6,18 +6,22 @@ public class ShooterConstants {
   /**
    * KP represents the constant multiplied by the current error from setpoint (Proportional Error)
    */
-  public static double KP = 0.0025;
+  public static double KP = 0.00275;
+  // public static double KP = 0.0025;
   /** KI represents the constant multiplied by the total error from setpoint (Integrated Error) */
   public static double KI = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
-  public static double KD = 0.00002;
+  public static double KD = 0.0;
+  // public static double KD = 0.00002;
 
   /** KS represents the voltage added to overcome static friction */
   public static double KS = 0.0;
   /** KS represents the */
-  public static double KV = 0.0225;
+  public static double KV = 0.0175;
+  // public static double KV = 0.0225;
   /** KS represents the */
   public static double KA = 0.8;
+  // public static double KA = 0.8;
 
   /** Allows the RPM to be within % of the setpoint */
   public static final int RPM_TOLERANCE = 200;

@@ -667,16 +667,10 @@ public class RobotContainer {
     auxController
         .rightTrigger()
         .onTrue(
-            new PositionToShoot(
-                m_feederSubsystem,
-                m_shooterSubsystem,
-                m_wristSubsystem,
-                m_armSubsystem,
-                WristConstants.WING_RAD,
-                0,
-                ShooterConstants.FAR_RPM))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+            new InstantCommand(
+                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM),
+                m_shooterSubsystem))
+        .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
     // Overshot
     auxController
         .button(9)
