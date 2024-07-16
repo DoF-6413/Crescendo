@@ -73,11 +73,11 @@ public final class WristConstants {
   /** SPEAKER shot from subwoofer */
   public static final double SUBWOOFER_RAD = Units.degreesToRadians(29);
   /** SPEAKER shot from PODIUM */
-  public static final double PODIUM_RAD = Units.degreesToRadians(9.5);
+  public static final double PODIUM_RAD = Units.degreesToRadians(14.3886);
   /** SPEAKER shot from the chain directly in front of the subwoofer */
   public static final double CHAIN_RAD = Units.degreesToRadians(3);
   /** SPEAKER shot from the WING directly in front of the subwoofer */
-  public static final double WING_RAD = Units.degreesToRadians(-4);
+  public static final double WING_RAD = Units.degreesToRadians(-0.5);
   /** SPEAKER shot configuration from the PODIUM to score over "billboard-bots" */
   public static final double OVERSHOT_RAD = Units.degreesToRadians(38);
 }
