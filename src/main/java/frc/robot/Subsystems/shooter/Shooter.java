@@ -50,12 +50,12 @@ public class Shooter extends SubsystemBase {
         new SimpleMotorFeedforward(ShooterConstants.KS, ShooterConstants.KV, ShooterConstants.KA);
 
     // Puts adjustable PID and FF values onto the SmartDashboard for testing mode
-    SmartDashboard.putNumber("shooterkP", 0.0025);
+    SmartDashboard.putNumber("shooterkP", 0.00275);
     SmartDashboard.putNumber("shooterkI", 0.0);
-    SmartDashboard.putNumber("shooterkD", 0.00002);
+    SmartDashboard.putNumber("shooterkD", 0.0);
     SmartDashboard.putNumber("shooterkS", 0.0);
-    SmartDashboard.putNumber("shooterkV", 0.0225);
-    SmartDashboard.putNumber("shooterkA", 0.8);
+    SmartDashboard.putNumber("shooterkV", 0.0175);
+    SmartDashboard.putNumber("shooterkA", 0.0);
   }
 
   @Override
@@ -84,6 +84,14 @@ public class Shooter extends SubsystemBase {
     if (isTestingEnabled) {
       testPIDFFValues();
     }
+
+    SmartDashboard.putNumber("TopShooter Error", topShooterPIDController.getPositionError());
+    SmartDashboard.putNumber("BottomShooter Error", bottomShooterPIDController.getPositionError());
+    SmartDashboard.putNumber("ShooterAvgVel", getAverageVelocityRPM());
+    SmartDashboard.putNumber(
+        "ShooterAvgVelError",
+        (topShooterPIDController.getPositionError() + bottomShooterPIDController.getPositionError())
+            / 2);
   }
 
   /** Updates the set of loggable inputs for both Shooter Motors */
@@ -232,22 +240,22 @@ public class Shooter extends SubsystemBase {
   }
 
   public void testPIDFFValues() {
-    if (ShooterConstants.KP != SmartDashboard.getNumber("shooterkP", 0.0025)
+    if (ShooterConstants.KP != SmartDashboard.getNumber("shooterkP", 0.00275)
         || ShooterConstants.KI != SmartDashboard.getNumber("shooterkI", 0.0)
-        || ShooterConstants.KD != SmartDashboard.getNumber("shooterkD", 0.00002)) {
+        || ShooterConstants.KD != SmartDashboard.getNumber("shooterkD", 0.0)) {
       updatePIDController(
-          SmartDashboard.getNumber("shooterkP", 0.0025),
+          SmartDashboard.getNumber("shooterkP", 0.00275),
           SmartDashboard.getNumber("shooterkI", 0.0),
-          SmartDashboard.getNumber("shooterkD", 0.00002));
+          SmartDashboard.getNumber("shooterkD", 0.0));
     }
 
     if (ShooterConstants.KS != SmartDashboard.getNumber("shooterkS", 0.0)
-        || ShooterConstants.KV != SmartDashboard.getNumber("shooterkV", 0.0225)
-        || ShooterConstants.KA != SmartDashboard.getNumber("shooterkA", 0.8)) {
+        || ShooterConstants.KV != SmartDashboard.getNumber("shooterkV", 0.0175)
+        || ShooterConstants.KA != SmartDashboard.getNumber("shooterkA", 0.0)) {
       updateFFController(
           SmartDashboard.getNumber("shooterkS", 0.0),
-          SmartDashboard.getNumber("shooterkV", 0.0225),
-          SmartDashboard.getNumber("shooterkA", 0.8));
+          SmartDashboard.getNumber("shooterkV", 0.0175),
+          SmartDashboard.getNumber("shooterkA", 0.0));
     }
   }
 }
