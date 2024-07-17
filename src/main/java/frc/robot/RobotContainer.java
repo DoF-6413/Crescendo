@@ -78,6 +78,7 @@ public class RobotContainer {
   // Utilities
   private final PoseEstimatorLimelight m_poseEstimator;
   private final PathPlanner m_pathPlanner;
+  private final BeamBreak m_beamBreak;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -158,6 +159,7 @@ public class RobotContainer {
     // Utils
     m_poseEstimator = new PoseEstimatorLimelight(m_driveSubsystem, m_gyroSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator, m_gyroSubsystem);
+    m_beamBreak = new BeamBreak();
 
     /* PathPlanner Registere Commands */
     // Shooter/Feeder
@@ -579,7 +581,6 @@ public class RobotContainer {
     m_feederSubsystem.setSetpoint(0);
   }
 
-  // Ideal button mappings for Worlds
   /** Controller keybinds for the driver contoller port */
   public void driverControllerBindings() {
     /* Driving the robot */
@@ -622,24 +623,28 @@ public class RobotContainer {
         .rightTrigger()
         .onTrue(
             new UTBIntakeRun(
-                m_utbIntakeSubsystem, m_feederSubsystem, true, !m_shooterSubsystem.getBeamBreak()))
+                m_utbIntakeSubsystem, m_feederSubsystem, true, false))
         .onFalse(
             new ShooterRev(
                 m_actuatorSubsystem,
                 m_otbIntakeSubsystem,
                 m_utbIntakeSubsystem,
                 m_feederSubsystem,
-                m_shooterSubsystem));
+                m_shooterSubsystem,
+                m_beamBreak));
     // UTB Intake (Outtake)
     driverController
-        .rightBumper()
+        .leftBumper()
         .onTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, false))
         .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
+
+    /* Release NOTE */
+    driverController.rightBumper().onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
   }
 
   /** Contoller keybinds for the aux contoller port */
   public void auxControllerBindings() {
-    /* Release piece */
+    /* Release NOTE */
     auxController.a().onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
 
     /* SPEAKER Scoring */

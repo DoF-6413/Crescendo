@@ -31,7 +31,7 @@ public interface ShooterIO {
     /** Tempature, in Celsius, of the Bottom Shooter Motor */
     public double[] bottomShooterTempCelsius = new double[] {};
 
-    public boolean beambreak = false;
+    // public boolean beambreak = false;
   }
 
   /** Updates the set of loggable inputs for both Shooter Motors */

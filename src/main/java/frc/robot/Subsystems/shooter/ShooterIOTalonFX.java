@@ -15,7 +15,7 @@ public class ShooterIOTalonFX implements ShooterIO {
   private final TalonFX topShooterMotor;
   private final TalonFX bottomShooterMotor;
 
-  private final DigitalInput beambreak;
+  // private final DigitalInput beambreak;
 
   public ShooterIOTalonFX() {
     System.out.println("[Init] Creating ShooterIOTalonFX");
@@ -41,7 +41,7 @@ public class ShooterIOTalonFX implements ShooterIO {
     currentLimitsConfig.withStatorCurrentLimitEnable(ShooterConstants.ENABLE_CUR_LIM);
     currentLimitsConfig.withSupplyCurrentLimitEnable(ShooterConstants.ENABLE_CUR_LIM);
 
-    beambreak = new DigitalInput(0);
+    // beambreak = new DigitalInput(0);
   }
 
   @Override
@@ -74,7 +74,7 @@ public class ShooterIOTalonFX implements ShooterIO {
     inputs.bottomShooterTempCelsius =
         new double[] {bottomShooterMotor.getDeviceTemp().getValueAsDouble()};
 
-    inputs.beambreak = beambreak.get();
+    // inputs.beambreak = beambreak.get();
   }
 
   @Override

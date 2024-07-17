@@ -87,8 +87,8 @@ public class Shooter extends SubsystemBase {
       testPIDFFValues();
     }
 
-    getNoteStatus();
-    SmartDashboard.putBoolean("Shooter Beam Break", inputs.beambreak);
+    // getNoteStatus();
+    // SmartDashboard.putBoolean("Shooter Beam Break", inputs.beambreak);
 
     SmartDashboard.putBoolean("Note Status", noteStatus);
     SmartDashboard.putNumber("TopShooter Error", topShooterPIDController.getPositionError());
@@ -265,16 +265,16 @@ public class Shooter extends SubsystemBase {
     }
   }
 
-  public boolean getNoteStatus() {
-    if (inputs.beambreak == false) {
-      noteStatus = true;
-    } else if (getSetpoint() != 0) {
-      noteStatus = false;
-    }
-    return noteStatus;
-  }
+  // public boolean getNoteStatus() {
+  //   if (inputs.beambreak == false) {
+  //     noteStatus = true;
+  //   } else if (getSetpoint() != 0) {
+  //     noteStatus = false;
+  //   }
+  //   return noteStatus;
+  // }
 
-  public boolean getBeamBreak() {
-    return inputs.beambreak;
-  }
+  // public boolean getBeamBreak() {
+  //   return inputs.beambreak;
+  // }
 }

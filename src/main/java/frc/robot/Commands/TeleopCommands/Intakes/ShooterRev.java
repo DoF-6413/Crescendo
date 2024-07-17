@@ -12,6 +12,7 @@ import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.otbIntake.OTBIntake;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.utbintake.UTBIntake;
+import frc.robot.Utils.BeamBreak;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -20,13 +21,13 @@ public class ShooterRev extends SequentialCommandGroup {
 
   /** Creates a new ShooterRev. */
   public ShooterRev(
-      Actuator actuator, OTBIntake otb, UTBIntake utb, Feeder feeder, Shooter shooter) {
+      Actuator actuator, OTBIntake otb, UTBIntake utb, Feeder feeder, Shooter shooter, BeamBreak beamBreak) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new UTBIntakeRun(utb, feeder, false, true),
         new ParallelDeadlineGroup(
-            new InstantCommand(() -> shooter.getBeamBreak()),
+            new InstantCommand(() -> beamBreak.getShooterSensor()),
             new InstantCommand(() -> feeder.setSetpoint(-250), feeder)),
         new InstantCommand(() -> shooter.setSetpoint(4000), shooter));
   }
