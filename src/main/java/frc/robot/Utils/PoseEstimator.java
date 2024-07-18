@@ -39,10 +39,13 @@ public class PoseEstimator extends SubsystemBase {
   private Vision vision;
   private Gyro gyro;
   private Field2d field2d;
-  public PhotonPipelineResult pipelineResult;
-  public double resultsTimeStamp;
+  public PhotonPipelineResult pipelineResultBL;
+  public PhotonPipelineResult pipelineResultBR;
+  public double resultsTimeStampBL;
+  public double resultsTimeStampBR;
 
-  private double previousPipelineTimestamp = 0;
+  private double previousPipelineTimestampBL = 0;
+  private double previousPipelineTimestampBR = 0;
   private final AprilTagFieldLayout aprilTagFieldLayout;
 
   /** Pose Estimation aided by PhotonVision */
@@ -75,32 +78,76 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.updateWithTime(
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
 
-    if (vision.getResult().hasTargets()) {
+    if (vision.getResultBL().hasTargets() && vision.getResultBR().hasTargets()) {
 
-      pipelineResult = vision.getResult();
-      resultsTimeStamp = pipelineResult.getTimestampSeconds();
+      pipelineResultBL = vision.getResultBL();
+      resultsTimeStampBL = pipelineResultBL.getTimestampSeconds();
+      pipelineResultBR = vision.getResultBL();
+      resultsTimeStampBR = pipelineResultBR.getTimestampSeconds();
 
-      if (resultsTimeStamp != previousPipelineTimestamp) {
+      if (resultsTimeStampBL != previousPipelineTimestampBL && resultsTimeStampBR != previousPipelineTimestampBR) {
 
-        previousPipelineTimestamp = resultsTimeStamp;
+        previousPipelineTimestampBL = resultsTimeStampBL;
+        previousPipelineTimestampBR = resultsTimeStampBR;
 
-        var target = pipelineResult.getBestTarget();
+        var target = pipelineResultBL.getBestTarget();
         var fiducialID = target.getFiducialId();
         if (target.getPoseAmbiguity() < 0.2
             && fiducialID >= 1
             && fiducialID <= 16) { // 0.2 is considered ambiguous
 
+        var targetBR = pipelineResultBR.getBestTarget();
+        var fiducialIDBR = targetBR.getFiducialId();
+        if (targetBR.getPoseAmbiguity() < 0.2
+            && fiducialIDBR >= 1
+            && fiducialIDBR <= 16) { // 0.2 is considered ambiguous
+
           Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
           Transform3d camToTarget = target.getBestCameraToTarget();
           Pose3d camPose = tagPose.transformBy(camToTarget);
 
-          Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobotOffsets);
+          Pose3d tagPoseBR = aprilTagFieldLayout.getTagPose(fiducialIDBR).get();
+          Transform3d camToTargetBR = targetBR.getBestCameraToTarget();
+          Pose3d camPoseBR = tagPoseBR.transformBy(camToTargetBR);
+
+          Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraBLOnRobotOffsets);
+          Pose3d visionMeasurementBR = camPoseBR.transformBy(VisionConstants.cameraBROnRobotOffsets);
+
+          
           poseEstimator.addVisionMeasurement(
               visionMeasurement.toPose2d(),
               Timer.getFPGATimestamp(),
               visionMeasurementStandardDevs);
         }
       }
+    }
+
+    // if (vision.getResultBR().hasTargets()) {
+
+    //   pipelineResultBR = vision.getResultBR();
+    //   resultsTimeStampBR = pipelineResultBR.getTimestampSeconds();
+
+    //   if (resultsTimeStampBR != previousPipelineTimestampBR) {
+
+    //     previousPipelineTimestampBR = resultsTimeStampBR;
+
+    //     var target = pipelineResultBR.getBestTarget();
+    //     var fiducialID = target.getFiducialId();
+    //     if (target.getPoseAmbiguity() < 0.2
+    //         && fiducialID >= 1
+    //         && fiducialID <= 16) { // 0.2 is considered ambiguous
+
+    //       Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
+    //       Transform3d camToTarget = target.getBestCameraToTarget();
+    //       Pose3d camPose = tagPose.transformBy(camToTarget);
+
+    //       Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraBROnRobotOffsets);
+    //       poseEstimator.addVisionMeasurement(
+    //           visionMeasurement.toPose2d(),
+    //           Timer.getFPGATimestamp(),
+    //           visionMeasurementStandardDevs);
+    //     }
+    //   }
     }
   }
 

@@ -19,69 +19,75 @@ public class Vision extends SubsystemBase {
   }
 
   public void periodic() {
-    if (VisionIO.getPhotonPipelineResult() != null) {
+    if (VisionIO.getPhotonPipelineResultBL() != null
+        && VisionIO.getPhotonPipelineResultBR() != null) {
       VisionIO.updateInputs(inputs);
       Logger.processInputs("Vision", inputs);
     }
   }
+
   /** get the photon pipeline result */
-  public PhotonPipelineResult getResult() {
-    return VisionIO.getPhotonPipelineResult();
+  public PhotonPipelineResult getResultBL() {
+    return VisionIO.getPhotonPipelineResultBL();
   }
-  /**
-   * @return the x position of the AprilTag
-   */
-  public double getTargetX() {
 
-    return inputs.TargetX;
+  public PhotonPipelineResult getResultBR() {
+    return VisionIO.getPhotonPipelineResultBR();
   }
-  /**
-   * @return the y position of the AprilTag
-   */
-  public double getTargetY() {
+  // /**
+  //  * @return the x position of the AprilTag
+  //  */
+  // public double getTargetX() {
 
-    return inputs.TargetY;
-  }
-  /**
-   * @return z potition of the AprilTag
-   */
-  public double getTargetZ() {
+  //   return inputs.TargetX;
+  // }
+  // /**
+  //  * @return the y position of the AprilTag
+  //  */
+  // public double getTargetY() {
 
-    return inputs.TargetZ;
-  }
-  /**
-   * @return
-   */
-  public double getTargetPitch() {
+  //   return inputs.TargetY;
+  // }
+  // /**
+  //  * @return z potition of the AprilTag
+  //  */
+  // public double getTargetZ() {
 
-    return inputs.TargetX;
-  }
-  /**
-   * @return the yaw of the AprilTag
-   */
-  public double getTargetYaw() {
+  //   return inputs.TargetZ;
+  // }
+  // /**
+  //  * @return
+  //  */
+  // public double getTargetPitch() {
 
-    return inputs.TargetX;
-  }
-  /**
-   * @return the area that the AprilTag uses on the screen
-   */
-  public double getTargetArea() {
+  //   return inputs.TargetX;
+  // }
+  // /**
+  //  * @return the yaw of the AprilTag
+  //  */
+  // public double getTargetYaw() {
 
-    return inputs.TargetArea;
-  }
-  /***
-   *
-   * @return if has AprilTag
-   */
-  public boolean hasAprilTags() {
-    return inputs.HasTargets;
-  }
-  /***
-   *
-   * @return the fiducial ID of the AprilTag
-   */
-  public int getBestFiducialID() {
-    return inputs.BestFiducialID;
-  }
+  //   return inputs.TargetX;
+  // }
+  // /**
+  //  * @return the area that the AprilTag uses on the screen
+  //  */
+  // public double getTargetArea() {
+
+  //   return inputs.TargetArea;
+  // }
+  // /***
+  //  *
+  //  * @return if has AprilTag
+  //  */
+  // public boolean hasAprilTags() {
+  //   return inputs.HasTargets;
+  // }
+  // /***
+  //  *
+  //  * @return the fiducial ID of the AprilTag
+  //  */
+  // public int getBestFiducialID() {
+  //   return inputs.BestFiducialID;
+  // }
 }

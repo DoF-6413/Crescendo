@@ -5,7 +5,6 @@
 package frc.robot.Subsystems.photonVision;
 
 import org.photonvision.PhotonCamera;
-import org.photonvision.targeting.PhotonPipelineResult;
 
 /** Add your docs here. */
 public class VisionIOSim implements VisionIO {
@@ -14,21 +13,21 @@ public class VisionIOSim implements VisionIO {
 
   @Override
   public void updateInputs(VisionIOInputs inputs) {
-    inputs.HasTargets = getPhotonPipelineResult().hasTargets();
-    if (inputs.HasTargets == true) {
-      inputs.BestFiducialID = camera.getLatestResult().getBestTarget().getFiducialId();
-      inputs.BestCamToTarget = camera.getLatestResult().getBestTarget().getBestCameraToTarget();
-      inputs.TargetX = camera.getLatestResult().getBestTarget().getBestCameraToTarget().getX();
-      inputs.TargetY = camera.getLatestResult().getBestTarget().getBestCameraToTarget().getY();
-      inputs.TargetZ = camera.getLatestResult().getBestTarget().getBestCameraToTarget().getZ();
-      inputs.TargetYaw = camera.getLatestResult().getBestTarget().getYaw();
-      inputs.TargetPitch = camera.getLatestResult().getBestTarget().getPitch();
-      inputs.TargetArea = camera.getLatestResult().getBestTarget().getArea();
-    }
+    // inputs.HasTargets = getPhotonPipelineResult().hasTargets();
+    // if (inputs.HasTargets == true) {
+    //   inputs.BestFiducialID = camera.getLatestResult().getBestTarget().getFiducialId();
+    //   inputs.BestCamToTarget = camera.getLatestResult().getBestTarget().getBestCameraToTarget();
+    //   inputs.TargetX = camera.getLatestResult().getBestTarget().getBestCameraToTarget().getX();
+    //   inputs.TargetY = camera.getLatestResult().getBestTarget().getBestCameraToTarget().getY();
+    //   inputs.TargetZ = camera.getLatestResult().getBestTarget().getBestCameraToTarget().getZ();
+    //   inputs.TargetYaw = camera.getLatestResult().getBestTarget().getYaw();
+    //   inputs.TargetPitch = camera.getLatestResult().getBestTarget().getPitch();
+    //   inputs.TargetArea = camera.getLatestResult().getBestTarget().getArea();
+    // }
   }
 
-  @Override
-  public PhotonPipelineResult getPhotonPipelineResult() {
-    return camera.getLatestResult();
-  }
+  // @Override
+  // public PhotonPipelineResult getPhotonPipelineResult() {
+  //   return camera.getLatestResult();
+  // }
 }

@@ -741,18 +741,17 @@ public class RobotContainer {
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Position to shoot with Vision
-    // auxController
-    //     .rightTrigger()
-    //     .onTrue(
-    //         new AimShooter(
-    //             m_shooterSubsystem,
-    //             m_wristSubsystem,
-    //             m_armSubsystem,
-    //             m_poseEstimator,
-    //             m_feederSubsystem))
-    //     .onFalse(
-    //         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem,
-    // m_feederSubsystem));
+    auxController
+        .rightTrigger()
+        .onTrue(
+            new AimShooter(
+                m_shooterSubsystem,
+                m_wristSubsystem,
+                m_armSubsystem,
+                m_poseEstimator,
+                m_feederSubsystem))
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* AMP Scoring */
     // Backside
@@ -963,13 +962,13 @@ public class RobotContainer {
     // Disable
     devController.start().onTrue(new InstantCommand(() -> enablePID(false)));
 
-  //     /* Toggle Testing mode */
-  //     // Disable
-  //     devController.button(9).onTrue(new InstantCommand(()-> enableTesting(false),
-  // m_armSubsystem, m_wristSubsystem, m_shooterSubsystem));
-  //     // Enable
-  //     devController.button(10).onTrue(new InstantCommand(()-> enableTesting(true),
-  // m_armSubsystem, m_wristSubsystem, m_shooterSubsystem));
-  //   }
+    //     /* Toggle Testing mode */
+    //     // Disable
+    //     devController.button(9).onTrue(new InstantCommand(()-> enableTesting(false),
+    // m_armSubsystem, m_wristSubsystem, m_shooterSubsystem));
+    //     // Enable
+    //     devController.button(10).onTrue(new InstantCommand(()-> enableTesting(true),
+    // m_armSubsystem, m_wristSubsystem, m_shooterSubsystem));
+    //   }
   }
 }

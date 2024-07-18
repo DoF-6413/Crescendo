@@ -90,8 +90,9 @@ public final class Constants {
     public static final double HEADING_CONTROLLER_KD = 0.0;
   }
 
+  /** Auto-aiming shooting */
   public static class ShootingInterpolationConstants {
-    /** Auto-aiming shooting */
+
     public static final double SPEAKER_TO_WALL_M = 0.904;
 
     public static final double[][] LOOKUP_TABLE_X_M_VS_THETA_DEG = {
