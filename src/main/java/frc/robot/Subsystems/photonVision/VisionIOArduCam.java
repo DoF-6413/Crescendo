@@ -23,12 +23,12 @@ public class VisionIOArduCam implements VisionIO {
       inputs.BLBestFiducialID = getPhotonPipelineResultBL().getBestTarget().getFiducialId();
       inputs.BLBestCamToTarget =
           getPhotonPipelineResultBL().getBestTarget().getBestCameraToTarget();
-      inputs.BLTargetX = inputs.BLBestCamToTarget.getX();
-      inputs.BLTargetY = inputs.BLBestCamToTarget.getY();
-      inputs.BLTargetZ = inputs.BLBestCamToTarget.getZ();
-      inputs.BLTargetYaw = getPhotonPipelineResultBL().getBestTarget().getYaw();
-      inputs.BLTargetPitch = getPhotonPipelineResultBL().getBestTarget().getPitch();
-      inputs.BLTargetArea = getPhotonPipelineResultBL().getBestTarget().getArea();
+      // inputs.BLTargetX = inputs.BLBestCamToTarget.getX();
+      // inputs.BLTargetY = inputs.BLBestCamToTarget.getY();
+      // inputs.BLTargetZ = inputs.BLBestCamToTarget.getZ();
+      // inputs.BLTargetYaw = getPhotonPipelineResultBL().getBestTarget().getYaw();
+      // inputs.BLTargetPitch = getPhotonPipelineResultBL().getBestTarget().getPitch();
+      // inputs.BLTargetArea = getPhotonPipelineResultBL().getBestTarget().getArea();
     }
 
     // Camera inputs for the Back Right Camera
@@ -37,12 +37,12 @@ public class VisionIOArduCam implements VisionIO {
       inputs.BRBestFiducialID = getPhotonPipelineResultBR().getBestTarget().getFiducialId();
       inputs.BRBestCamToTarget =
           getPhotonPipelineResultBR().getBestTarget().getBestCameraToTarget();
-      inputs.BRTargetX = inputs.BRBestCamToTarget.getX();
-      inputs.BRTargetY = inputs.BRBestCamToTarget.getY();
-      inputs.BRTargetZ = inputs.BRBestCamToTarget.getZ();
-      inputs.BRTargetYaw = getPhotonPipelineResultBR().getBestTarget().getYaw();
-      inputs.BRTargetPitch = getPhotonPipelineResultBR().getBestTarget().getPitch();
-      inputs.BRTargetArea = getPhotonPipelineResultBR().getBestTarget().getArea();
+      // inputs.BRTargetX = inputs.BRBestCamToTarget.getX();
+      // inputs.BRTargetY = inputs.BRBestCamToTarget.getY();
+      // inputs.BRTargetZ = inputs.BRBestCamToTarget.getZ();
+      // inputs.BRTargetYaw = getPhotonPipelineResultBR().getBestTarget().getYaw();
+      // inputs.BRTargetPitch = getPhotonPipelineResultBR().getBestTarget().getPitch();
+      // inputs.BRTargetArea = getPhotonPipelineResultBR().getBestTarget().getArea();
     }
   }
 

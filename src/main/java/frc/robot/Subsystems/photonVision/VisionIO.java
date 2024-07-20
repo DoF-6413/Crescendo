@@ -16,23 +16,23 @@ public interface VisionIO {
     public boolean BLHasTargets = false; // checks for targets
     public int BLBestFiducialID = 0;
     public Transform3d BLBestCamToTarget = new Transform3d();
-    public double BLTargetX = 0.0;
-    public double BLTargetY = 0.0;
-    public double BLTargetZ = 0.0;
-    public double BLTargetYaw = 0.0;
-    public double BLTargetPitch = 0.0;
-    public double BLTargetArea = 0.0;
+    // public double BLTargetX = 0.0;
+    // public double BLTargetY = 0.0;
+    // public double BLTargetZ = 0.0;
+    // public double BLTargetYaw = 0.0;
+    // public double BLTargetPitch = 0.0;
+    // public double BLTargetArea = 0.0;
 
     // Camera inputs for the Back Right Camera
     public boolean BRHasTargets = false; // checks for targets
     public int BRBestFiducialID = 0;
     public Transform3d BRBestCamToTarget = new Transform3d();
-    public double BRTargetX = 0.0;
-    public double BRTargetY = 0.0;
-    public double BRTargetZ = 0.0;
-    public double BRTargetYaw = 0.0;
-    public double BRTargetPitch = 0.0;
-    public double BRTargetArea = 0.0;
+    // public double BRTargetX = 0.0;
+    // public double BRTargetY = 0.0;
+    // public double BRTargetZ = 0.0;
+    // public double BRTargetYaw = 0.0;
+    // public double BRTargetPitch = 0.0;
+    // public double BRTargetArea = 0.0;
   }
 
   public default void updateInputs(VisionIOInputs inputs) {}

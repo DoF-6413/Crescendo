@@ -50,12 +50,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Center to BM (Shoot)"
-          }
-        },
-        {
           "type": "wait",
           "data": {
             "waitTime": 0.5
@@ -64,31 +58,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BM to BL (Shoot)"
+            "pathName": "Center to BM (V)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "VisionPickUp"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 4.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BL to BR"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BR to Center 2"
+            "pathName": "BM to Center (V)"
           }
         },
         {
@@ -108,13 +96,13 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "PickUpStop"
+                        "name": "SubwooferAngle"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "FeederReverse"
+                        "name": "Shooter6000"
                       }
                     }
                   ]
@@ -123,13 +111,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.5
+                  "waitTime": 1.2
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "SubwooferShot"
+                  "name": "Feeder"
                 }
               }
             ]
@@ -138,6 +126,6 @@
       ]
     }
   },
-  "folder": "4 Piece Autos",
+  "folder": "Vision Autos",
   "choreoAuto": false
 }

@@ -17,7 +17,6 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -211,11 +210,11 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "LineAngle",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(7)), m_wristSubsystem));
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(9)), m_wristSubsystem));
     NamedCommands.registerCommand(
         "2P Note",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(11)), m_wristSubsystem));
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(15)), m_wristSubsystem));
     NamedCommands.registerCommand(
         "ChainAngle",
         new InstantCommand(
@@ -358,7 +357,7 @@ public class RobotContainer {
     // autoChooser.addOption("test1", new PathPlannerAuto("test1"));
     // autoChooser.addOption("test2", new PathPlannerAuto("test2"));
     // autoChooser.addOption("test3", new PathPlannerAuto("test3"));
-    // autoChooser.addOption("4M Test", new PathPlannerAuto("4M Test"));
+    autoChooser.addOption("2M Test", new PathPlannerAuto("2 meter forwards"));
     // autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
     // 2 Piece
@@ -368,6 +367,7 @@ public class RobotContainer {
     autoChooser.addOption("2 Piece Center", new PathPlannerAuto("Center 2"));
     autoChooser.addOption("2 Piece Amp", new PathPlannerAuto("2P Amp"));
     autoChooser.addOption("2 Piece Cool Side", new PathPlannerAuto("2P Cool Side"));
+    autoChooser.addOption("2 Piece Vision", new PathPlannerAuto("2P Vision"));
     // 3 Piece
     // autoChooser.addOption("3 Piece Center", new PathPlannerAuto("3P Center"));
     // autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
@@ -547,7 +547,7 @@ public class RobotContainer {
     /** Aux Controls */
     this.auxControllerBindings();
 
-    this.devControllerBindings();
+    // this.devControllerBindings();
   }
 
   /**
@@ -654,12 +654,12 @@ public class RobotContainer {
     //             m_utbIntakeSubsystem,
     //             m_feederSubsystem));
 
-    /* Rumble */
-    if (m_utbIntakeSubsystem.getCurrentDraw() > 10) {
-      driverController.getHID().setRumble(RumbleType.kBothRumble, 1);
-    } else {
-      driverController.getHID().setRumble(RumbleType.kBothRumble, 0);
-    }
+    // /* Rumble */
+    // if (m_utbIntakeSubsystem.getCurrentDraw() > 10) {
+    //   driverController.getHID().setRumble(RumbleType.kBothRumble, 1);
+    // } else {
+    //   driverController.getHID().setRumble(RumbleType.kBothRumble, 0);
+    // }
 
     /* Intakes */
     // All Intakes (Intake)
@@ -722,7 +722,7 @@ public class RobotContainer {
                 m_armSubsystem,
                 WristConstants.PODIUM_RAD,
                 0,
-                ShooterConstants.CLOSE_RPM))
+                ShooterConstants.MID_RANGE_RPM))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // WING
@@ -792,12 +792,13 @@ public class RobotContainer {
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
-    // Rumble when ready to shoot
-    if (m_shooterSubsystem.bothAtSetpoint() && m_shooterSubsystem.getAverageVelocityRPM() >= 3000) {
-      auxController.getHID().setRumble(RumbleType.kBothRumble, 1);
-    } else {
-      auxController.getHID().setRumble(RumbleType.kBothRumble, 0);
-    }
+    // // Rumble when ready to shoot
+    // if (m_shooterSubsystem.bothAtSetpoint() && m_shooterSubsystem.getAverageVelocityRPM() >=
+    // 3000) {
+    //   auxController.getHID().setRumble(RumbleType.kBothRumble, 1);
+    // } else {
+    //   auxController.getHID().setRumble(RumbleType.kBothRumble, 0);
+    // }
 
     // /* Arm */
     // // Up by 1 degree on each button press
@@ -874,101 +875,113 @@ public class RobotContainer {
   }
 
   /** Backup/development button bindings for the Aux Contols */
-  public void devControllerBindings() {
-    //       /* Manual Contol (No PID) */
-    //       // Arm
-    //       m_armSubsystem.setDefaultCommand(new InstantCommand(()->
-    //   m_armSubsystem.setArmPercentSpeed(devController.getLeftY()), m_armSubsystem));
-    //       // Wrist
-    //       m_wristSubsystem.setDefaultCommand(new InstantCommand(()->
-    //   m_wristSubsystem.setWristPercentSpeed(devController.getRightY()), m_wristSubsystem));
-    //       // Shooter
-    //       devController.rightTrigger().onTrue(new InstantCommand(()->
-    //   m_shooterSubsystem.setBothPercentSpeed(0.65), m_shooterSubsystem)).onFalse(new
-    //   InstantCommand(()-> m_shooterSubsystem.setBothPercentSpeed(0), m_shooterSubsystem));
-    //       // Feeder (Retract)
-    //       devController.a().onTrue(new InstantCommand(()->
-    //   m_feederSubsystem.setFeederPercentSpeed(-0.2), m_feederSubsystem)).onFalse(new
-    //   InstantCommand(()-> m_feederSubsystem.setFeederPercentSpeed(0), m_feederSubsystem));
-    //       // Feeder (Shoot out)
-    //       devController.y().onTrue(new InstantCommand(()->
-    //   m_feederSubsystem.setFeederPercentSpeed(0.4), m_feederSubsystem)).onFalse(new
-    //   InstantCommand(()-> m_feederSubsystem.setFeederPercentSpeed(0), m_feederSubsystem));
+  //   public void devControllerBindings() {
+  //     //       /* Manual Contol (No PID) */
+  //     //       // Arm
+  //     //       m_armSubsystem.setDefaultCommand(new InstantCommand(()->
+  //     //   m_armSubsystem.setArmPercentSpeed(devController.getLeftY()), m_armSubsystem));
+  //     //       // Wrist
+  //     //       m_wristSubsystem.setDefaultCommand(new InstantCommand(()->
+  //     //   m_wristSubsystem.setWristPercentSpeed(devController.getRightY()), m_wristSubsystem));
+  //     //       // Shooter
+  //     //       devController.rightTrigger().onTrue(new InstantCommand(()->
+  //     //   m_shooterSubsystem.setBothPercentSpeed(0.65), m_shooterSubsystem)).onFalse(new
+  //     //   InstantCommand(()-> m_shooterSubsystem.setBothPercentSpeed(0), m_shooterSubsystem));
+  //     //       // Feeder (Retract)
+  //     //       devController.a().onTrue(new InstantCommand(()->
+  //     //   m_feederSubsystem.setFeederPercentSpeed(-0.2), m_feederSubsystem)).onFalse(new
+  //     //   InstantCommand(()-> m_feederSubsystem.setFeederPercentSpeed(0), m_feederSubsystem));
+  //     //       // Feeder (Shoot out)
+  //     //       devController.y().onTrue(new InstantCommand(()->
+  //     //   m_feederSubsystem.setFeederPercentSpeed(0.4), m_feederSubsystem)).onFalse(new
+  //     //   InstantCommand(()-> m_feederSubsystem.setFeederPercentSpeed(0), m_feederSubsystem));
 
-    /* Controls with PID */
-    // Shooter
-    devController
-        .leftTrigger()
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(4000), m_shooterSubsystem))
-        .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
-    devController
-        .rightTrigger()
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(7000), m_shooterSubsystem))
-        .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
-    // Feeder (Retract)
-    devController
-        .x()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-500), m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
-    // Feeder (Shoot out)
-    devController
-        .b()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2000), m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
-    // Arm (Up)
-    devController
-        .povUp()
-        .onTrue(
-            new InstantCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)), m_armSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)), m_armSubsystem));
-    // Arm (Down)
-    devController
-        .povDown()
-        .onTrue(
-            new InstantCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)), m_armSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)), m_armSubsystem));
-    // Wrist (In)
-    devController
-        .povLeft()
-        .onTrue(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
-                m_wristSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(0)),
-                m_wristSubsystem));
-    // Wrist (Out)
-    devController
-        .povRight()
-        .onTrue(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
-                m_wristSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(0)),
-                m_wristSubsystem));
+  //     /* Controls with PID */
+  //     // Shooter
+  //     devController
+  //         .leftTrigger()
+  //         .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(4000),
+  // m_shooterSubsystem))
+  //         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0),
+  // m_shooterSubsystem));
+  //     devController
+  //         .rightTrigger()
+  //         .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(7000),
+  // m_shooterSubsystem))
+  //         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0),
+  // m_shooterSubsystem));
+  //     // Feeder (Retract)
+  //     devController
+  //         .x()
+  //         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(-500),
+  // m_feederSubsystem))
+  //         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0),
+  // m_feederSubsystem));
+  //     // Feeder (Shoot out)
+  //     devController
+  //         .b()
+  //         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(2000),
+  // m_feederSubsystem))
+  //         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0),
+  // m_feederSubsystem));
+  //     // Arm (Up)
+  //     devController
+  //         .povUp()
+  //         .onTrue(
+  //             new InstantCommand(
+  //                 () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)),
+  // m_armSubsystem))
+  //         .onFalse(
+  //             new InstantCommand(
+  //                 () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)),
+  // m_armSubsystem));
+  //     // Arm (Down)
+  //     devController
+  //         .povDown()
+  //         .onTrue(
+  //             new InstantCommand(
+  //                 () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)),
+  // m_armSubsystem))
+  //         .onFalse(
+  //             new InstantCommand(
+  //                 () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)),
+  // m_armSubsystem));
+  //     // Wrist (In)
+  //     devController
+  //         .povLeft()
+  //         .onTrue(
+  //             new InstantCommand(
+  //                 () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
+  //                 m_wristSubsystem))
+  //         .onFalse(
+  //             new InstantCommand(
+  //                 () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(0)),
+  //                 m_wristSubsystem));
+  //     // Wrist (Out)
+  //     devController
+  //         .povRight()
+  //         .onTrue(
+  //             new InstantCommand(
+  //                 () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
+  //                 m_wristSubsystem))
+  //         .onFalse(
+  //             new InstantCommand(
+  //                 () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(0)),
+  //                 m_wristSubsystem));
 
-    /* Toggle PID control */
-    // Enable
-    devController.back().onTrue(new InstantCommand(() -> enablePID(true)));
-    // Disable
-    devController.start().onTrue(new InstantCommand(() -> enablePID(false)));
+  //     /* Toggle PID control */
+  //     // Enable
+  //     devController.back().onTrue(new InstantCommand(() -> enablePID(true)));
+  //     // Disable
+  //     devController.start().onTrue(new InstantCommand(() -> enablePID(false)));
 
-    //     /* Toggle Testing mode */
-    //     // Disable
-    //     devController.button(9).onTrue(new InstantCommand(()-> enableTesting(false),
-    // m_armSubsystem, m_wristSubsystem, m_shooterSubsystem));
-    //     // Enable
-    //     devController.button(10).onTrue(new InstantCommand(()-> enableTesting(true),
-    // m_armSubsystem, m_wristSubsystem, m_shooterSubsystem));
-    //   }
-  }
+  //     //     /* Toggle Testing mode */
+  //     //     // Disable
+  //     //     devController.button(9).onTrue(new InstantCommand(()-> enableTesting(false),
+  //     // m_armSubsystem, m_wristSubsystem, m_shooterSubsystem));
+  //     //     // Enable
+  //     //     devController.button(10).onTrue(new InstantCommand(()-> enableTesting(true),
+  //     // m_armSubsystem, m_wristSubsystem, m_shooterSubsystem));
+  //     //   }
+  //   }
 }
