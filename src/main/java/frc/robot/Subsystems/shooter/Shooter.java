@@ -28,6 +28,8 @@ public class Shooter extends SubsystemBase {
   private static boolean isPIDEnabled = true;
   private static boolean isTestingEnabled = false;
 
+  private boolean noteStatus = false;
+
   public Shooter(ShooterIO io) {
     System.out.println("[Init] Creating Shooter");
     this.io = io;
@@ -85,6 +87,10 @@ public class Shooter extends SubsystemBase {
       testPIDFFValues();
     }
 
+    // getNoteStatus();
+    // SmartDashboard.putBoolean("Shooter Beam Break", inputs.beambreak);
+
+    SmartDashboard.putBoolean("Note Status", noteStatus);
     SmartDashboard.putNumber("TopShooter Error", topShooterPIDController.getPositionError());
     SmartDashboard.putNumber("BottomShooter Error", bottomShooterPIDController.getPositionError());
     SmartDashboard.putNumber("ShooterAvgVel", getAverageVelocityRPM());
@@ -257,9 +263,5 @@ public class Shooter extends SubsystemBase {
           SmartDashboard.getNumber("shooterkV", 0.0175),
           SmartDashboard.getNumber("shooterkA", 0.0));
     }
-  }
-
-  public double getAverageRPM() {
-    return (inputs.topShooterMotorRPM + inputs.bottomShooterMotorRPM) / 2;
   }
 }

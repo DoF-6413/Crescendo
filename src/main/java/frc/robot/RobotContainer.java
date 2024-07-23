@@ -35,6 +35,7 @@ import frc.robot.Commands.TeleopCommands.Intakes.*;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.OverShot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
+import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Commands.TeleopCommands.VisionAutomations.*; // AimShooter, AlignToNote, PickUpNote
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
@@ -80,8 +81,8 @@ public class RobotContainer {
   // Utilities
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
-  private final BeamBreak beam;
-  int counter = 0;
+  private final BeamBreak m_beamBreak;
+  // int counter = 0;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -162,7 +163,7 @@ public class RobotContainer {
     // Utils
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator, m_gyroSubsystem);
-    beam = new BeamBreak();
+    m_beamBreak = new BeamBreak();
 
     /* PathPlanner Register Commands */
     // Shooter/Feeder
@@ -232,7 +233,7 @@ public class RobotContainer {
             m_armSubsystem,
             m_poseEstimator,
             m_feederSubsystem,
-            beam));
+            m_beamBreak));
 
     // Vision
     NamedCommands.registerCommand("VisionAlign", new AlignToNote(m_driveSubsystem, 0.3));
@@ -685,12 +686,24 @@ public class RobotContainer {
     driverController
         .rightTrigger()
         .onTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, false))
-        .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
+        .onFalse(
+            new ShooterRev(
+                m_actuatorSubsystem,
+                m_otbIntakeSubsystem,
+                m_utbIntakeSubsystem,
+                m_feederSubsystem,
+                m_shooterSubsystem,
+                m_beamBreak));
     // UTB Intake (Outtake)
     driverController
-        .rightBumper()
+        .leftBumper()
         .onTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, false))
         .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
+
+    /* Release NOTE */
+    driverController
+        .rightBumper()
+        .onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
   }
 
   /** Contoller keybinds for the aux contoller port */
@@ -700,6 +713,7 @@ public class RobotContainer {
         .a()
         .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(1000), m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
+    // auxController.a().onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
 
     /* SPEAKER Scoring */
     // Subwoofer (w/o vision)
@@ -716,6 +730,19 @@ public class RobotContainer {
                 ShooterConstants.CLOSE_RPM))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+    // Position to shoot with Vision
+    auxController
+        .rightTrigger()
+        .onTrue(
+            new AimShooter(
+                m_shooterSubsystem,
+                m_wristSubsystem,
+                m_armSubsystem,
+                m_poseEstimator,
+                m_feederSubsystem,
+                m_beamBreak))
+        .onFalse(
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // PODIUM (w/o vision)
     auxController
         .leftBumper()
@@ -730,33 +757,11 @@ public class RobotContainer {
                 ShooterConstants.MID_RANGE_RPM))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    // // WING
-    // auxController
-    //     .rightTrigger()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM),
-    //             m_shooterSubsystem))
-    //     .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0),
-    // m_shooterSubsystem));
     // Overshot
     auxController
         .button(9)
         .onTrue(
             new OverShot(m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
-        .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    // Position to shoot with Vision
-    auxController
-        .rightTrigger()
-        .onTrue(
-            new AimShooter(
-                m_shooterSubsystem,
-                m_wristSubsystem,
-                m_armSubsystem,
-                m_poseEstimator,
-                m_feederSubsystem,
-                beam))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
@@ -775,7 +780,7 @@ public class RobotContainer {
         .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    // Feeding
+    // Machine gun feeding
     auxController
         .x()
         .onTrue(

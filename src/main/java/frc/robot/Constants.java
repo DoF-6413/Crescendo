@@ -114,4 +114,8 @@ public final class Constants {
       {28, 18, 13, 10, 6, 4, 2, 1, -1} // theta_min_degrees
     };
   }
+
+  public static class BeamBreakConstants {
+    public static final int SHOOTER_BEAM_BREAK_PORT = 0;
+  }
 }

@@ -2,6 +2,7 @@ package frc.robot.Utils;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.Constants.BeamBreakConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class BeamBreak implements Subsystem {
@@ -9,7 +10,7 @@ public class BeamBreak implements Subsystem {
 
   public BeamBreak() {
     System.out.println("[Init] Creating Beam Break");
-    shooterBeamBreak = new DigitalInput(0);
+    shooterBeamBreak = new DigitalInput(BeamBreakConstants.SHOOTER_BEAM_BREAK_PORT);
   }
 
   public void periodic() {
