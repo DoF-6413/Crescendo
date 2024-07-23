@@ -35,7 +35,6 @@ import frc.robot.Commands.TeleopCommands.Intakes.*;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.OverShot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
-import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
 import frc.robot.Commands.TeleopCommands.VisionAutomations.*; // AimShooter, AlignToNote, PickUpNote
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
@@ -81,6 +80,7 @@ public class RobotContainer {
   // Utilities
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
+  private final BeamBreak beam;
   int counter = 0;
 
   // Controllers
@@ -162,6 +162,7 @@ public class RobotContainer {
     // Utils
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator, m_gyroSubsystem);
+    beam = new BeamBreak();
 
     /* PathPlanner Register Commands */
     // Shooter/Feeder
@@ -230,7 +231,8 @@ public class RobotContainer {
             m_wristSubsystem,
             m_armSubsystem,
             m_poseEstimator,
-            m_feederSubsystem));
+            m_feederSubsystem,
+            beam));
 
     // Vision
     NamedCommands.registerCommand("VisionAlign", new AlignToNote(m_driveSubsystem, 0.3));
@@ -694,7 +696,10 @@ public class RobotContainer {
   /** Contoller keybinds for the aux contoller port */
   public void auxControllerBindings() {
     /* Release piece */
-    auxController.a().onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
+    auxController
+        .a()
+        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(1000), m_feederSubsystem))
+        .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
 
     /* SPEAKER Scoring */
     // Subwoofer (w/o vision)
@@ -725,14 +730,15 @@ public class RobotContainer {
                 ShooterConstants.MID_RANGE_RPM))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    // WING
-    auxController
-        .rightTrigger()
-        .onTrue(
-            new InstantCommand(
-                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM),
-                m_shooterSubsystem))
-        .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
+    // // WING
+    // auxController
+    //     .rightTrigger()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM),
+    //             m_shooterSubsystem))
+    //     .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0),
+    // m_shooterSubsystem));
     // Overshot
     auxController
         .button(9)
@@ -749,7 +755,8 @@ public class RobotContainer {
                 m_wristSubsystem,
                 m_armSubsystem,
                 m_poseEstimator,
-                m_feederSubsystem))
+                m_feederSubsystem,
+                beam))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
@@ -800,78 +807,76 @@ public class RobotContainer {
     //   auxController.getHID().setRumble(RumbleType.kBothRumble, 0);
     // }
 
-    // /* Arm */
-    // // Up by 1 degree on each button press
-    // auxController
-    //     .povUp()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)),
-    // m_armSubsystem))
-    //     .onFalse(
-    //         new InstantCommand(
-    //             () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)),
-    // m_armSubsystem));
-    // // Down by 1 degree on each button press
-    // auxController
-    //     .povDown()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)),
-    // m_armSubsystem))
-    //     .onFalse(
-    //         new InstantCommand(
-    //             () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)),
-    // m_armSubsystem));
-    // /* Wrist */
-    // // In by 1 degree on each button press
-    // auxController
-    //     .povLeft()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
-    //             m_wristSubsystem));
-    // // Out by 1 degree on each button press
-    // auxController
-    //     .povRight()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
-    //             m_wristSubsystem));
-
-    /* Wrist */
-    // Increases angle of the Wrist by 1 degree
-    auxController
-        .povRight()
-        .onTrue(
-            new RunCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
-                m_wristSubsystem))
-        .onFalse(new RunCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem));
-    // Decreases angle of the Wrist by 1 degree
-    auxController
-        .povLeft()
-        .onTrue(
-            new RunCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
-                m_wristSubsystem))
-        .onFalse(new RunCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem));
-
     /* Arm */
-    // Increases angle of the Arm by 1 degree
+    // Up by 1 degree on each button press
     auxController
         .povUp()
         .onTrue(
-            new RunCommand(
+            new InstantCommand(
                 () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)), m_armSubsystem))
-        .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
-    // Decreases angle of the Arm by 1 degree
+        .onFalse(
+            new InstantCommand(
+                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)), m_armSubsystem));
+    // Down by 1 degree on each button press
     auxController
         .povDown()
         .onTrue(
-            new RunCommand(
+            new InstantCommand(
                 () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)), m_armSubsystem))
-        .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
+        .onFalse(
+            new InstantCommand(
+                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)), m_armSubsystem));
+    /* Wrist */
+    // In by 1 degree on each button press
+    auxController
+        .povLeft()
+        .onTrue(
+            new InstantCommand(
+                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
+                m_wristSubsystem));
+    // Out by 1 degree on each button press
+    auxController
+        .povRight()
+        .onTrue(
+            new InstantCommand(
+                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
+                m_wristSubsystem));
+
+    // /* Wrist */
+    // // Increases angle of the Wrist by 1 degree
+    // auxController
+    //     .povRight()
+    //     .onTrue(
+    //         new RunCommand(
+    //             () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
+    //             m_wristSubsystem))
+    //     .onFalse(new RunCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem));
+    // // Decreases angle of the Wrist by 1 degree
+    // auxController
+    //     .povLeft()
+    //     .onTrue(
+    //         new RunCommand(
+    //             () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
+    //             m_wristSubsystem))
+    //     .onFalse(new RunCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem));
+
+    // /* Arm */
+    // // Increases angle of the Arm by 1 degree
+    // auxController
+    //     .povUp()
+    //     .onTrue(
+    //         new RunCommand(
+    //             () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)),
+    // m_armSubsystem))
+    //     .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
+    // // Decreases angle of the Arm by 1 degree
+    // auxController
+    //     .povDown()
+    //     .onTrue(
+    //         new RunCommand(
+    //             () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)),
+    // m_armSubsystem))
+    //     .onFalse(new RunCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
   }
 
   /** Backup/development button bindings for the Aux Contols */

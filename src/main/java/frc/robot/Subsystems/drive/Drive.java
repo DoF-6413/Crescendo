@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Utils.HeadingController;
-import frc.robot.Utils.LimelightHelpers;
 import org.littletonrobotics.junction.Logger; // Logger
 
 /** This Runs the full Swerve (All Modules) for all Modes of the Robot */
@@ -71,8 +70,8 @@ public class Drive extends SubsystemBase {
     runSwerveModules(getAdjustedSpeeds());
     getMeasuredStates();
 
-    TX = LimelightHelpers.getTX("limelight");
-    TY = LimelightHelpers.getTY("limelight");
+    // TX = LimelightHelpers.getTX("limelight");
+    // TY = LimelightHelpers.getTY("limelight");
   }
 
   /** Puts robot to coast mode on disable */

@@ -95,64 +95,67 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.updateWithTime(
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
 
-    if (vision.getResultBL().hasTargets() && vision.getResultBR().hasTargets()) {
+    if (vision.getResultBL().hasTargets()) {
 
       pipelineResultBL = vision.getResultBL();
-      pipelineResultBR = vision.getResultBR();
-
       resultsTimeStampBL = pipelineResultBL.getTimestampSeconds();
-      resultsTimeStampBR = pipelineResultBR.getTimestampSeconds();
 
-      if (resultsTimeStampBL != previousPipelineTimestampBL
-          && resultsTimeStampBR != previousPipelineTimestampBR) {
+      if (resultsTimeStampBL != previousPipelineTimestampBL) {
         previousPipelineTimestampBL = resultsTimeStampBL;
-        previousPipelineTimestampBR = resultsTimeStampBR;
 
-        // EstimatedRobotPose estimatedPoseBL = getBLVisionEstimation();
-        // EstimatedRobotPose estimatedPoseBR = getBRVisionEstimation();
+        if (pipelineResultBL.getBestTarget().getPoseAmbiguity() < 0.2) {
 
-        poseEstimator.addVisionMeasurement(
-            getBLVisionEstimation(pipelineResultBL).estimatedPose.toPose2d(),
-            resultsTimeStampBL,
-            visionMeasurementStandardDevs);
-        poseEstimator.addVisionMeasurement(
-            getBRVisionEstimation(pipelineResultBR).estimatedPose.toPose2d(),
-            resultsTimeStampBR,
-            visionMeasurementStandardDevs);
+          poseEstimator.addVisionMeasurement(
+              getBLVisionEstimation(pipelineResultBL).estimatedPose.toPose2d(),
+              resultsTimeStampBL,
+              visionMeasurementStandardDevs);
+        }
       }
     }
 
-    //   //   var target = pipelineResultBL.getBestTarget();
-    //   //   var fiducialID = target.getFiducialId();
-    //   //   if (target.getPoseAmbiguity() < 0.2
-    //   //       && fiducialID >= 1
-    //   //       && fiducialID <= 16) { // 0.2 is considered ambiguous
+    if (vision.getResultBR().hasTargets()) {
 
-    //   //   var targetBR = pipelineResultBR.getBestTarget();
-    //   //   var fiducialIDBR = targetBR.getFiducialId();
-    //   //   if (targetBR.getPoseAmbiguity() < 0.2
-    //   //       && fiducialIDBR >= 1
-    //   //       && fiducialIDBR <= 16) { // 0.2 is considered ambiguous
+      pipelineResultBR = vision.getResultBR();
+      resultsTimeStampBR = pipelineResultBR.getTimestampSeconds();
 
-    //   //     Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
-    //   //     Transform3d camToTarget = target.getBestCameraToTarget();
-    //   //     Pose3d camPose = tagPose.transformBy(camToTarget);
+      if (resultsTimeStampBR != previousPipelineTimestampBR) {
+        previousPipelineTimestampBR = resultsTimeStampBR;
 
-    //   //     Pose3d tagPoseBR = aprilTagFieldLayout.getTagPose(fiducialIDBR).get();
-    //   //     Transform3d camToTargetBR = targetBR.getBestCameraToTarget();
-    //   //     Pose3d camPoseBR = tagPoseBR.transformBy(camToTargetBR);
+        if (pipelineResultBR.getBestTarget().getPoseAmbiguity() < 0.2) {
+          poseEstimator.addVisionMeasurement(
+              getBRVisionEstimation(pipelineResultBR).estimatedPose.toPose2d(),
+              resultsTimeStampBR,
+              visionMeasurementStandardDevs);
+        }
+      }
+    }
 
-    //   //     Pose3d visionMeasurement =
-    // camPose.transformBy(VisionConstants.cameraBLOnRobotOffsets);
-    //   //     Pose3d visionMeasurementBR =
-    // camPoseBR.transformBy(VisionConstants.cameraBROnRobotOffsets);
+    // if (vision.getResultBL().hasTargets()) {
 
-    //   //     poseEstimator.addVisionMeasurement(
-    //   //         visionMeasurement.toPose2d(),
-    //   //         Timer.getFPGATimestamp(),
-    //   //         visionMeasurementStandardDevs);
-    //   //   }
-    // }
+    //   pipelineResultBL = vision.getResultBL();
+    //   resultsTimeStampBL = pipelineResultBL.getTimestampSeconds();
+
+    //   if (resultsTimeStampBL != previousPipelineTimestampBL) {
+
+    //     previousPipelineTimestampBL = resultsTimeStampBL;
+
+    //     var target = pipelineResultBL.getBestTarget();
+    //     var fiducialID = target.getFiducialId();
+    //     if (target.getPoseAmbiguity() < 0.2
+    //         && fiducialID >= 1
+    //         && fiducialID <= 16) { // 0.2 is considered ambiguous
+
+    //       Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
+    //       Transform3d camToTarget = target.getBestCameraToTarget();
+    //       Pose3d camPose = tagPose.transformBy(camToTarget);
+
+    //       Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraBLOnRobotOffsets);
+    //       poseEstimator.addVisionMeasurement(
+    //           visionMeasurement.toPose2d(),
+    //           Timer.getFPGATimestamp(),
+    //           visionMeasurementStandardDevs);
+    //     }
+    //   }
     // }
 
     // if (vision.getResultBR().hasTargets()) {

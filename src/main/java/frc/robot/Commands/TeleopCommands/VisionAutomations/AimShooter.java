@@ -15,6 +15,7 @@ import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.wrist.Wrist;
+import frc.robot.Utils.BeamBreak;
 import frc.robot.Utils.PoseEstimator;
 
 public class AimShooter extends Command {
@@ -23,15 +24,19 @@ public class AimShooter extends Command {
   public Arm m_arm;
   public PoseEstimator m_pose;
   public Feeder m_feeder;
+  public BeamBreak m_beam;
   private Timer m_timer;
+  private boolean noteReady;
 
   /** Creates a new AimShooter. */
-  public AimShooter(Shooter shooter, Wrist wrist, Arm arm, PoseEstimator pose, Feeder feeder) {
+  public AimShooter(
+      Shooter shooter, Wrist wrist, Arm arm, PoseEstimator pose, Feeder feeder, BeamBreak beam) {
     m_shooter = shooter;
     m_wrist = wrist;
     m_arm = arm;
     m_pose = pose;
     m_feeder = feeder;
+    m_beam = beam;
     m_timer = new Timer();
     addRequirements(shooter, wrist, arm);
   }
@@ -39,7 +44,9 @@ public class AimShooter extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_feeder.setSetpoint(-500);
+    noteReady = false;
+    m_feeder.setSetpoint(-200);
+    m_shooter.setSetpoint(0);
     m_timer.reset();
     m_timer.restart();
     m_timer.start();
@@ -48,10 +55,10 @@ public class AimShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    if (m_timer.hasElapsed(1.0) && m_shooter.bothAtSetpoint()) {
-      m_shooter.setSetpoint(5500);
+    if (m_beam.getShooterSensor() == false) {
+      noteReady = true;
       m_feeder.setSetpoint(0);
+      m_shooter.setSetpoint(5500);
     }
 
     Pose2d dtvalues = m_pose.getCurrentPose2d();
@@ -64,9 +71,9 @@ public class AimShooter extends Command {
     }
 
     double deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
-    if (m_timer.hasElapsed(1.0)) {
-      m_shooter.setSetpoint(5500);
-    }
+    // if (m_timer.hasElapsed(1.0)) {
+    //   m_shooter.setSetpoint(5500);
+    // }
     double speakerDist = Math.hypot(deltaX, deltaY);
     m_wrist.setGoal(Units.degreesToRadians(m_wrist.returnDesiredAngle(speakerDist)));
   }
