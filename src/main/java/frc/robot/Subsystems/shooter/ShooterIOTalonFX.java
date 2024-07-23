@@ -7,7 +7,6 @@ package frc.robot.Subsystems.shooter;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 /** Runs the Real Life Shooter with TalonFX Speed Controllers and Falcon500 Motors */
 public class ShooterIOTalonFX implements ShooterIO {

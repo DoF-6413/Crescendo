@@ -12,7 +12,7 @@ public class BeamBreak implements Subsystem {
     System.out.println("[Init] Creating Beam Break");
     shooterBeamBreak = new DigitalInput(BeamBreakConstants.SHOOTER_BEAM_BREAK_PORT);
   }
-  
+
   public void periodic() {
     getShooterSensor();
   }

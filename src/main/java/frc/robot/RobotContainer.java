@@ -621,9 +621,7 @@ public class RobotContainer {
     // UTB Intake (Intake)
     driverController
         .rightTrigger()
-        .onTrue(
-            new UTBIntakeRun(
-                m_utbIntakeSubsystem, m_feederSubsystem, true, false))
+        .onTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, false))
         .onFalse(
             new ShooterRev(
                 m_actuatorSubsystem,
@@ -639,7 +637,9 @@ public class RobotContainer {
         .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
 
     /* Release NOTE */
-    driverController.rightBumper().onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
+    driverController
+        .rightBumper()
+        .onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
   }
 
   /** Contoller keybinds for the aux contoller port */

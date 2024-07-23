@@ -21,7 +21,12 @@ public class ShooterRev extends SequentialCommandGroup {
 
   /** Creates a new ShooterRev. */
   public ShooterRev(
-      Actuator actuator, OTBIntake otb, UTBIntake utb, Feeder feeder, Shooter shooter, BeamBreak beamBreak) {
+      Actuator actuator,
+      OTBIntake otb,
+      UTBIntake utb,
+      Feeder feeder,
+      Shooter shooter,
+      BeamBreak beamBreak) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
