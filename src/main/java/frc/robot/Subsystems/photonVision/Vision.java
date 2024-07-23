@@ -12,28 +12,30 @@ import org.photonvision.targeting.PhotonPipelineResult;
 public class Vision extends SubsystemBase {
 
   private final VisionIOInputsAutoLogged inputs = new VisionIOInputsAutoLogged();
-  private final VisionIO VisionIO;
+  private final VisionIO io;
 
   public Vision(VisionIO io) {
-    VisionIO = io;
+    this.io = io;
   }
 
+  @Override
   public void periodic() {
-    if (VisionIO.getPhotonPipelineResultBL() != null
-        && VisionIO.getPhotonPipelineResultBR() != null) {
-      VisionIO.updateInputs(inputs);
+    if (io.getPhotonPipelineResultBL() != null && io.getPhotonPipelineResultBR() != null) {
+      io.updateInputs(inputs);
       Logger.processInputs("Vision", inputs);
     }
   }
 
-  /** get the photon pipeline result */
+  /** Returns the Photon pipeline result from the back left camera */
   public PhotonPipelineResult getResultBL() {
-    return VisionIO.getPhotonPipelineResultBL();
+    return io.getPhotonPipelineResultBL();
   }
 
+  /** Returns the Photon pipeline result from the back right camera */
   public PhotonPipelineResult getResultBR() {
-    return VisionIO.getPhotonPipelineResultBR();
+    return io.getPhotonPipelineResultBR();
   }
+
   // /**
   //  * @return the x position of the AprilTag
   //  */

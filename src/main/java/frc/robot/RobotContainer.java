@@ -180,8 +180,7 @@ public class RobotContainer {
         new InstantCommand(() -> m_shooterSubsystem.setSetpoint(5000), m_shooterSubsystem));
     NamedCommands.registerCommand(
         "Shooter6000",
-        new InstantCommand(
-            () -> m_shooterSubsystem.setSetpoint(ShooterConstants.FAR_RPM), m_shooterSubsystem));
+        new InstantCommand(() -> m_shooterSubsystem.setSetpoint(6000), m_shooterSubsystem));
     NamedCommands.registerCommand(
         "StopShooter",
         new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
@@ -526,12 +525,12 @@ public class RobotContainer {
     //         1));
 
     // Adds a delay onto the deadreakoned autos
-    SmartDashboard.putNumber("Delay", 0);
+    // SmartDashboard.putNumber("Delay", 0);
 
     // Configure the button bindings
     configureButtonBindings();
 
-    SmartDashboard.putBoolean("Is Note Picked Up", false);
+    // SmartDashboard.putBoolean("Is Note Picked Up", false);
   }
 
   /**

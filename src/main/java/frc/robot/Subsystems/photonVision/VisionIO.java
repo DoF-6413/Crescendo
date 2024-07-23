@@ -37,12 +37,12 @@ public interface VisionIO {
 
   public default void updateInputs(VisionIOInputs inputs) {}
 
-  /** Return pipeline from the back left camera */
+  /** Return the Photon pipeline from the back left camera */
   public default PhotonPipelineResult getPhotonPipelineResultBL() {
     return null;
   }
 
-  /** returns pipeline from the back right camera */
+  /** Returns the Photon pipeline from the back right camera */
   public default PhotonPipelineResult getPhotonPipelineResultBR() {
     return null;
   }

@@ -8,10 +8,11 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 public class VisionIOArduCam implements VisionIO {
-  /** Creates a camera */
-  private static PhotonCamera backLeftCam = new PhotonCamera("Back_Left");
+  /** Creates the back left camera */
+  private static final PhotonCamera backLeftCam = new PhotonCamera("Back_Left");
 
-  private static PhotonCamera backRightCam = new PhotonCamera("Back_Right");
+  /** Creates the back right camera */
+  private static final PhotonCamera backRightCam = new PhotonCamera("Back_Right");
 
   public VisionIOArduCam() {}
 

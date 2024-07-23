@@ -37,22 +37,22 @@ public class PoseEstimator extends SubsystemBase {
    */
   public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
 
-  private SwerveDrivePoseEstimator poseEstimator;
   private Drive drive;
   private Vision vision;
   private Gyro gyro;
-  private Field2d field2d;
+
+  private SwerveDrivePoseEstimator poseEstimator;
+  private PhotonPoseEstimator visionBLPoseEstimator;
+  private PhotonPoseEstimator visionBRPoseEstimator;
   public PhotonPipelineResult pipelineResultBL;
   public PhotonPipelineResult pipelineResultBR;
   public double resultsTimeStampBL;
   public double resultsTimeStampBR;
-
-  private PhotonPoseEstimator visionBLPoseEstimator;
-  private PhotonPoseEstimator visionBRPoseEstimator;
-
   private double previousPipelineTimestampBL = 0;
   private double previousPipelineTimestampBR = 0;
+  
   private final AprilTagFieldLayout aprilTagFieldLayout;
+  private Field2d field2d;
 
   /** Pose Estimation aided by PhotonVision */
   public PoseEstimator(Drive drive, Gyro gyro, Vision Vision) {
@@ -96,7 +96,6 @@ public class PoseEstimator extends SubsystemBase {
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
 
     if (vision.getResultBL().hasTargets()) {
-
       pipelineResultBL = vision.getResultBL();
       resultsTimeStampBL = pipelineResultBL.getTimestampSeconds();
 
@@ -104,7 +103,6 @@ public class PoseEstimator extends SubsystemBase {
         previousPipelineTimestampBL = resultsTimeStampBL;
 
         if (pipelineResultBL.getBestTarget().getPoseAmbiguity() < 0.2) {
-
           poseEstimator.addVisionMeasurement(
               getBLVisionEstimation(pipelineResultBL).estimatedPose.toPose2d(),
               resultsTimeStampBL,
@@ -114,7 +112,6 @@ public class PoseEstimator extends SubsystemBase {
     }
 
     if (vision.getResultBR().hasTargets()) {
-
       pipelineResultBR = vision.getResultBR();
       resultsTimeStampBR = pipelineResultBR.getTimestampSeconds();
 
@@ -188,11 +185,12 @@ public class PoseEstimator extends SubsystemBase {
   }
 
   /**
-   * @return the current pose in a Pose2d
+   * @return The current pose in a Pose2d
    */
   public Pose2d getCurrentPose2d() {
     return poseEstimator.getEstimatedPosition();
   }
+  
   /**
    * Resets the pose
    *
@@ -201,6 +199,7 @@ public class PoseEstimator extends SubsystemBase {
   public void resetPose(Pose2d currentPose2d) {
     poseEstimator.resetPosition(gyro.getAngle(), drive.getSwerveModulePositions(), currentPose2d);
   }
+
   /**
    * @return the rotation in a Rotation2d in degrees
    */
@@ -208,10 +207,20 @@ public class PoseEstimator extends SubsystemBase {
     return poseEstimator.getEstimatedPosition().getRotation();
   }
 
+  /**
+   * Returns the estimated pose from the back left camera's pipeline result 
+   * 
+   * @param result Back Left PhotonPipelineResult
+   */
   public EstimatedRobotPose getBLVisionEstimation(PhotonPipelineResult result) {
     return visionBLPoseEstimator.update(result).get();
   }
-
+  
+  /**
+   * Returns the estimated pose from the back right camera's pipeline result 
+   * 
+   * @param result Back Right PhotonPipelineResult
+   */
   public EstimatedRobotPose getBRVisionEstimation(PhotonPipelineResult result) {
     return visionBRPoseEstimator.update(result).get();
   }
