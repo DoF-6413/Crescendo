@@ -231,6 +231,7 @@ public class RobotContainer {
             m_armSubsystem,
             m_poseEstimator,
             m_feederSubsystem,
+            auxController,
             m_beamBreak));
 
     // Vision
@@ -628,33 +629,6 @@ public class RobotContainer {
         .a()
         .onTrue(new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
 
-    /* Auto pickup NOTE */
-    // driverController
-    //     .x()
-    //     .onTrue(
-    //         new PickUpNote(
-    //             m_driveSubsystem,
-    //             m_otbIntakeSubsystem,
-    //             m_utbIntakeSubsystem,
-    //             m_feederSubsystem,
-    //             m_actuatorSubsystem))
-    //     .onFalse(
-    //         new InstantCommand(
-    //             () -> {
-    //               m_driveSubsystem.setRaw(0, 0, 0);
-    //               new AllIntakesRun(
-    //                   m_actuatorSubsystem,
-    //                   m_otbIntakeSubsystem,
-    //                   m_utbIntakeSubsystem,
-    //                   m_feederSubsystem,
-    //                   true);
-    //             },
-    //             m_driveSubsystem,
-    //             m_actuatorSubsystem,
-    //             m_otbIntakeSubsystem,
-    //             m_utbIntakeSubsystem,
-    //             m_feederSubsystem));
-
     // /* Rumble */
     // if (m_utbIntakeSubsystem.getCurrentDraw() > 10) {
     //   driverController.getHID().setRumble(RumbleType.kBothRumble, 1);
@@ -679,13 +653,15 @@ public class RobotContainer {
                 m_otbIntakeSubsystem,
                 m_utbIntakeSubsystem,
                 m_feederSubsystem,
-                true));
+                true))
+        .onFalse(new ShooterRev(m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
     // UTB Intake (Intake)
     driverController
         .rightTrigger()
         .onTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, false))
         .onTrue(new AlignToNoteDrive(m_driveSubsystem, driverController))
-        .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
+        .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true))
+        .onFalse(new ShooterRev(m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
     // UTB Intake (Outtake)
     driverController
         .leftBumper()
@@ -732,6 +708,7 @@ public class RobotContainer {
                 m_armSubsystem,
                 m_poseEstimator,
                 m_feederSubsystem,
+                auxController,
                 m_beamBreak))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));

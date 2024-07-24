@@ -9,6 +9,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.arm.Arm;
@@ -24,18 +25,25 @@ public class AimShooter extends Command {
   public Arm m_arm;
   public PoseEstimator m_pose;
   public Feeder m_feeder;
+  public CommandXboxController controller;
   public BeamBreak m_beam;
   private Timer m_timer;
-  private boolean noteReady;
 
   /** Creates a new AimShooter. */
   public AimShooter(
-      Shooter shooter, Wrist wrist, Arm arm, PoseEstimator pose, Feeder feeder, BeamBreak beam) {
+      Shooter shooter,
+      Wrist wrist,
+      Arm arm,
+      PoseEstimator pose,
+      Feeder feeder,
+      CommandXboxController controller,
+      BeamBreak beam) {
     m_shooter = shooter;
     m_wrist = wrist;
     m_arm = arm;
     m_pose = pose;
     m_feeder = feeder;
+    this.controller = controller;
     m_beam = beam;
     m_timer = new Timer();
     addRequirements(shooter, wrist, arm);
@@ -44,8 +52,7 @@ public class AimShooter extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    noteReady = false;
-    m_feeder.setSetpoint(-200);
+    m_feeder.setSetpoint(-400);
     m_shooter.setSetpoint(0);
     m_timer.reset();
     m_timer.restart();
@@ -56,7 +63,6 @@ public class AimShooter extends Command {
   @Override
   public void execute() {
     if (m_beam.getShooterSensor() == false) {
-      noteReady = true;
       m_feeder.setSetpoint(0);
       m_shooter.setSetpoint(5500);
     }
@@ -79,11 +85,16 @@ public class AimShooter extends Command {
   }
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    // m_wrist.setGoal(WristConstants.DEFAULT_POSITION_RAD);
+    // m_arm.setGoal(0);
+    // m_shooter.setSetpoint(0);
+    // m_feeder.setSetpoint(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !controller.rightTrigger().getAsBoolean();
   }
 }
