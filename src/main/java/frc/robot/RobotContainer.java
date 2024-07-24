@@ -18,7 +18,6 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
@@ -685,14 +684,8 @@ public class RobotContainer {
     driverController
         .rightTrigger()
         .onTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, false))
-        .onFalse(
-            new ShooterRev(
-                m_actuatorSubsystem,
-                m_otbIntakeSubsystem,
-                m_utbIntakeSubsystem,
-                m_feederSubsystem,
-                m_shooterSubsystem,
-                m_beamBreak));
+        .onTrue(new AlignToNoteDrive(m_driveSubsystem, driverController))
+        .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
     // UTB Intake (Outtake)
     driverController
         .leftBumper()

@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.Subsystems.photonVision;
 
-import edu.wpi.first.math.geometry.Transform3d;
 import org.littletonrobotics.junction.AutoLog;
 import org.photonvision.targeting.PhotonPipelineResult;
 
@@ -13,9 +12,9 @@ public interface VisionIO {
   /** creates a vision subsystem */
   public static class VisionIOInputs {
     // Camera inputs for the Back Left Camera
-    public boolean BLHasTargets = false; // checks for targets
-    public int BLBestFiducialID = 0;
-    public Transform3d BLBestCamToTarget = new Transform3d();
+    // public boolean BLHasTargets = false; // checks for targets
+    // public int BLBestFiducialID = 0;
+    // public Transform3d BLBestCamToTarget = new Transform3d();
     // public double BLTargetX = 0.0;
     // public double BLTargetY = 0.0;
     // public double BLTargetZ = 0.0;
@@ -24,9 +23,9 @@ public interface VisionIO {
     // public double BLTargetArea = 0.0;
 
     // Camera inputs for the Back Right Camera
-    public boolean BRHasTargets = false; // checks for targets
-    public int BRBestFiducialID = 0;
-    public Transform3d BRBestCamToTarget = new Transform3d();
+    // public boolean BRHasTargets = false; // checks for targets
+    // public int BRBestFiducialID = 0;
+    // public Transform3d BRBestCamToTarget = new Transform3d();
     // public double BRTargetX = 0.0;
     // public double BRTargetY = 0.0;
     // public double BRTargetZ = 0.0;
