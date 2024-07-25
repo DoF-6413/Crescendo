@@ -47,7 +47,7 @@
             {
               "type": "named",
               "data": {
-                "name": "AutoAlign"
+                "name": "AutoAlignWrist"
               }
             }
           ]

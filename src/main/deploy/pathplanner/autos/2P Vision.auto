@@ -64,25 +64,38 @@
         {
           "type": "named",
           "data": {
+            "name": "StopShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "VisionPickUp"
           }
         },
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 4.0
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignWrist"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "FeederReverse"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "BM to Center (V)"
-          }
-        },
-        {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 1.5
           }
         },
         {
@@ -90,28 +103,15 @@
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SubwooferAngle"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Shooter6000"
-                      }
-                    }
-                  ]
+                  "name": "Shooter5000"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.2
+                  "waitTime": 0.8
                 }
               },
               {

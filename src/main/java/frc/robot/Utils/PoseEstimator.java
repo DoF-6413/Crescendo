@@ -18,6 +18,7 @@ import frc.robot.Constants.*;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.gyro.*;
 import frc.robot.Subsystems.photonVision.*;
+import java.util.Optional;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
@@ -50,6 +51,8 @@ public class PoseEstimator extends SubsystemBase {
   public double resultsTimeStampBR;
   private double previousPipelineTimestampBL = 0;
   private double previousPipelineTimestampBR = 0;
+
+  private boolean enable = false;
 
   private final AprilTagFieldLayout aprilTagFieldLayout;
   private Field2d field2d;
@@ -95,41 +98,44 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.updateWithTime(
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
 
-    if (vision.getResultBL().hasTargets() == true && vision.getResultBL() != null) {
-      pipelineResultBL = vision.getResultBL();
-      resultsTimeStampBL = pipelineResultBL.getTimestampSeconds();
+    if (enable) {
 
-      if (resultsTimeStampBL != previousPipelineTimestampBL && pipelineResultBL != null) {
-        previousPipelineTimestampBL = resultsTimeStampBL;
+      if (vision.getResultBL().hasTargets() == true && vision.getResultBL() != null) {
+        pipelineResultBL = vision.getResultBL();
+        resultsTimeStampBL = pipelineResultBL.getTimestampSeconds();
 
-        if (pipelineResultBL.getBestTarget() != null
-            && pipelineResultBL.getBestTarget().getPoseAmbiguity() < 0.2
-            && pipelineResultBL.getBestTarget().getFiducialId() >= 1
-            && pipelineResultBL.getBestTarget().getFiducialId() <= 16) {
-          poseEstimator.addVisionMeasurement(
-              getBLVisionEstimation(pipelineResultBL).estimatedPose.toPose2d(),
-              resultsTimeStampBL,
-              visionMeasurementStandardDevs);
+        if (resultsTimeStampBL != previousPipelineTimestampBL && pipelineResultBL != null) {
+          previousPipelineTimestampBL = resultsTimeStampBL;
+
+          if (pipelineResultBL.getBestTarget() != null
+              && pipelineResultBL.getBestTarget().getPoseAmbiguity() < 0.2
+              && pipelineResultBL.getBestTarget().getFiducialId() >= 1
+              && pipelineResultBL.getBestTarget().getFiducialId() <= 16) {
+            poseEstimator.addVisionMeasurement(
+                getBLVisionEstimation(pipelineResultBL).estimatedPose.toPose2d(),
+                resultsTimeStampBL,
+                visionMeasurementStandardDevs);
+          }
         }
       }
-    }
 
-    if (vision.getResultBR().hasTargets() && vision.getResultBR() != null) {
-      pipelineResultBR = vision.getResultBR();
-      resultsTimeStampBR = pipelineResultBR.getTimestampSeconds();
+      if (vision.getResultBR().hasTargets() && vision.getResultBR() != null) {
+        pipelineResultBR = vision.getResultBR();
+        resultsTimeStampBR = pipelineResultBR.getTimestampSeconds();
 
-      if (resultsTimeStampBR != previousPipelineTimestampBR && pipelineResultBR != null) {
-        previousPipelineTimestampBR = resultsTimeStampBR;
+        if (resultsTimeStampBR != previousPipelineTimestampBR && pipelineResultBR != null) {
+          previousPipelineTimestampBR = resultsTimeStampBR;
 
-        if (pipelineResultBR.getBestTarget() != null
-            && pipelineResultBR.getBestTarget().getPoseAmbiguity() < 0.2
-            && vision.getResultBR() != null
-            && pipelineResultBR.getBestTarget().getFiducialId() >= 1
-            && pipelineResultBR.getBestTarget().getFiducialId() <= 16) {
-          poseEstimator.addVisionMeasurement(
-              getBRVisionEstimation(pipelineResultBR).estimatedPose.toPose2d(),
-              resultsTimeStampBR,
-              visionMeasurementStandardDevs);
+          if (pipelineResultBR.getBestTarget() != null
+              && pipelineResultBR.getBestTarget().getPoseAmbiguity() < 0.2
+              && vision.getResultBR() != null
+              && pipelineResultBR.getBestTarget().getFiducialId() >= 1
+              && pipelineResultBR.getBestTarget().getFiducialId() <= 16) {
+            poseEstimator.addVisionMeasurement(
+                getBRVisionEstimation(pipelineResultBR).estimatedPose.toPose2d(),
+                resultsTimeStampBR,
+                visionMeasurementStandardDevs);
+          }
         }
       }
     }
@@ -223,6 +229,10 @@ public class PoseEstimator extends SubsystemBase {
     return visionBLPoseEstimator.update(result).get();
   }
 
+  public void enableVision(boolean enable) {
+    this.enable = enable;
+  }
+
   /**
    * Returns the estimated pose from the back right camera's pipeline result
    *
@@ -254,5 +264,9 @@ public class PoseEstimator extends SubsystemBase {
                   .rotateBy(this.getCurrentPose2d().getRotation()));
       return Rotation2d.fromRadians(Math.atan(delta.getY() / delta.getX()));
     }
+  }
+
+  public Optional<Rotation2d> AlignToSpeakerPathPlanner() {
+    return Optional.of(AngleForSpeaker());
   }
 }

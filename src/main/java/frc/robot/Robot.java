@@ -116,6 +116,7 @@ public class Robot extends LoggedRobot {
       autonomousCommand.cancel();
     }
     robotContainer.setAllSetpointsZero();
+    robotContainer.enableVision(false);
   }
 
   /** This function is called periodically when disabled. */
@@ -152,11 +153,14 @@ public class Robot extends LoggedRobot {
 
     robotContainer.setAllSetpointsZero();
     robotContainer.mechanismsCoastOnDisable(false);
+    robotContainer.enablePID(true);
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    robotContainer.isNotePickedUp();
+  }
 
   /** This function is called once when test mode is enabled. */
   @Override

@@ -87,10 +87,6 @@ public class Shooter extends SubsystemBase {
       testPIDFFValues();
     }
 
-    // getNoteStatus();
-    // SmartDashboard.putBoolean("Shooter Beam Break", inputs.beambreak);
-
-    SmartDashboard.putBoolean("Note Status", noteStatus);
     SmartDashboard.putNumber("TopShooter Error", topShooterPIDController.getPositionError());
     SmartDashboard.putNumber("BottomShooter Error", bottomShooterPIDController.getPositionError());
     SmartDashboard.putNumber("ShooterAvgVel", getAverageVelocityRPM());

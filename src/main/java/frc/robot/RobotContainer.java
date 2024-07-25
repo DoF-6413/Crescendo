@@ -18,6 +18,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
@@ -25,12 +26,14 @@ import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAu
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCenter;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.TwoPieceReturnSub;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.AutoShoot;
+import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.BeamBreakPickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootingReady;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
+import frc.robot.Commands.TeleopCommands.ReverseFeeder;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.OverShot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
@@ -81,7 +84,7 @@ public class RobotContainer {
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
   private final BeamBreak m_beamBreak;
-  // int counter = 0;
+  int counter = 0;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -188,8 +191,7 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM), m_feederSubsystem));
     NamedCommands.registerCommand(
-        "FeederReverse",
-        new InstantCommand(() -> m_feederSubsystem.setSetpoint(-200), m_feederSubsystem));
+        "FeederReverse", new ReverseFeeder(m_feederSubsystem, m_beamBreak));
     NamedCommands.registerCommand(
         "StopFeeder",
         new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
@@ -223,18 +225,10 @@ public class RobotContainer {
         "WingAngle",
         new InstantCommand(
             () -> m_wristSubsystem.setGoal(WristConstants.WING_RAD), m_wristSubsystem));
-    NamedCommands.registerCommand(
-        "AutoAlign",
-        new AimShooter(
-            m_shooterSubsystem,
-            m_wristSubsystem,
-            m_armSubsystem,
-            m_poseEstimator,
-            m_feederSubsystem,
-            auxController,
-            m_beamBreak));
 
     // Vision
+    NamedCommands.registerCommand(
+        "AutoAlignWrist", new AimWrist(m_wristSubsystem, m_armSubsystem, m_poseEstimator));
     NamedCommands.registerCommand("VisionAlign", new AlignToNote(m_driveSubsystem, 0.3));
     NamedCommands.registerCommand(
         "VisionPickUp",
@@ -243,7 +237,19 @@ public class RobotContainer {
             m_otbIntakeSubsystem,
             m_utbIntakeSubsystem,
             m_feederSubsystem,
-            m_actuatorSubsystem));
+            m_actuatorSubsystem,
+            m_shooterSubsystem,
+            m_armSubsystem,
+            m_wristSubsystem,
+            m_pathPlanner,
+            m_poseEstimator,
+            m_beamBreak));
+    NamedCommands.registerCommand(
+        "EnableSpeakerRotationOverride",
+        new InstantCommand(() -> m_pathPlanner.setSpeakerRotOverrideEnable(true), m_pathPlanner));
+    NamedCommands.registerCommand(
+        "DisableSpeakerRotationOverride",
+        new InstantCommand(() -> m_pathPlanner.setSpeakerRotOverrideEnable(false), m_pathPlanner));
 
     // Pick Ups
     NamedCommands.registerCommand(
@@ -260,6 +266,11 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "PickUpStop",
         new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true));
+    NamedCommands.registerCommand(
+        "BeamBreakPickUp",
+        new BeamBreakPickUp(
+            m_utbIntakeSubsystem, m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
+
     // Auto Shooting
     NamedCommands.registerCommand(
         "SubwooferShot",
@@ -602,20 +613,23 @@ public class RobotContainer {
     m_feederSubsystem.setSetpoint(0);
   }
 
+  public void enableVision(boolean enable) {
+    m_poseEstimator.enableVision(enable);
+  }
+
   /** Uses the current drawn by the UTB to determine if a NOTE has been picked up */
-  //   public void isNotePickedUp() {
-  //     if (m_utbIntakeSubsystem.getCurrentDraw() > 20 && m_utbIntakeSubsystem.getCurrentDraw() <
-  // 55) {
-  //       counter += 1;
-  //       if (counter >= 25) {
-  //         SmartDashboard.putBoolean("Is Note Picked Up", true);
-  //       }
-  //     } else if (auxController.a().getAsBoolean() || (m_shooterSubsystem.getSetpoint() > 0 &&
-  // m_feederSubsystem.getSetpoint() > 0)) {
-  //       counter = 0;
-  //       SmartDashboard.putBoolean("Is Note Picked Up", false);
-  //     }
-  //   }
+  public void isNotePickedUp() {
+    if (m_utbIntakeSubsystem.getCurrentDraw() > 20 && m_utbIntakeSubsystem.getCurrentDraw() < 55) {
+      counter += 1;
+      if (counter >= 15) {
+        SmartDashboard.putBoolean("Is Note Picked Up", true);
+      }
+    } else if (auxController.a().getAsBoolean()
+        || (m_shooterSubsystem.getSetpoint() > 0 && m_feederSubsystem.getSetpoint() > 0)) {
+      counter = 0;
+      SmartDashboard.putBoolean("Is Note Picked Up", false);
+    }
+  }
 
   /** Controller keybinds for the driver contoller port */
   public void driverControllerBindings() {

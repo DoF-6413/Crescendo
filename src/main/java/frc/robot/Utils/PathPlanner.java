@@ -5,6 +5,7 @@
 package frc.robot.Utils;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -19,6 +20,8 @@ public class PathPlanner extends SubsystemBase {
   private Drive drive;
   private PoseEstimator pose;
   private Gyro gyro;
+
+  private boolean speakerRotOverride = false;
 
   public PathPlanner(Drive drive, PoseEstimator pose, Gyro gyro) {
     this.drive = drive;
@@ -53,7 +56,13 @@ public class PathPlanner extends SubsystemBase {
         },
         drive);
 
-    // PPHolonomicDriveController.setRotationTargetOverride(drive::getRotationTargetOverride);
+    if (speakerRotOverride) {
+      PPHolonomicDriveController.setRotationTargetOverride(pose::AlignToSpeakerPathPlanner);
+    }
+  }
+
+  public void setSpeakerRotOverrideEnable(boolean enable) {
+    speakerRotOverride = enable;
   }
 
   // public Command followPath() {
