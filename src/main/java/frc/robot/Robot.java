@@ -156,6 +156,7 @@ public class Robot extends LoggedRobot {
     robotContainer.setAllSetpointsZero();
     robotContainer.mechanismsCoastOnDisable(false);
     robotContainer.enablePID(true);
+    robotContainer.enableVision(true);
   }
 
   /** This function is called periodically during operator control. */

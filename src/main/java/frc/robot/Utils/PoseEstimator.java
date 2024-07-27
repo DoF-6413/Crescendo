@@ -52,7 +52,7 @@ public class PoseEstimator extends SubsystemBase {
   private double previousPipelineTimestampBL = 0;
   private double previousPipelineTimestampBR = 0;
 
-  private boolean enable = false;
+  private boolean enable = true;
 
   private final AprilTagFieldLayout aprilTagFieldLayout;
   private Field2d field2d;

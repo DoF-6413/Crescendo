@@ -58,8 +58,6 @@ public class DriveToNote extends Command {
     } else {
       drive.driveWithDeadband(x, y, 0);
     }
-
-    System.out.println("[][][][][][]DRIVING[][][][][][][]");
   }
 
   // Called once the command ends or is interrupted.
