@@ -12,20 +12,24 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.arm.Arm;
+import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.wrist.Wrist;
+import frc.robot.Subsystems.wrist.WristConstants;
 import frc.robot.Utils.PoseEstimator;
 
 public class AimWrist extends Command {
   public Wrist m_wrist;
   public Arm m_arm;
   public PoseEstimator m_pose;
+  public Feeder m_feeder;
   private Timer m_timer;
 
   /** Creates a new AimShooter. */
-  public AimWrist(Wrist wrist, Arm arm, PoseEstimator pose) {
+  public AimWrist(Wrist wrist, Arm arm, Feeder feeder, PoseEstimator pose) {
     m_wrist = wrist;
     m_arm = arm;
     m_pose = pose;
+    m_feeder = feeder;
     m_timer = new Timer();
     addRequirements(wrist, arm);
   }
@@ -54,15 +58,18 @@ public class AimWrist extends Command {
     double speakerDist = Math.hypot(deltaX, deltaY);
     m_wrist.setGoal(Units.degreesToRadians(m_wrist.returnDesiredAngle(speakerDist)));
 
-    System.out.println("-------------------AIMING----------------");
+    System.out.println("-------------------AIMING----------------"); // TODO: Remove
+    System.out.println(m_wrist.getGoal()); // TODO: Remove
   }
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("~~~~~~~~~~~~~AIMING ENDED~~~~~~~~~~~~~~~~~~");
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_wrist.atSetpoint() && m_wrist.getGoal() != WristConstants.DEFAULT_POSITION_RAD;
   }
 }

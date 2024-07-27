@@ -33,7 +33,7 @@ import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
-import frc.robot.Commands.TeleopCommands.ReverseFeeder;
+import frc.robot.Commands.TeleopCommands.ReverseNote;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.OverShot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
@@ -179,7 +179,8 @@ public class RobotContainer {
             () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM), m_shooterSubsystem));
     NamedCommands.registerCommand(
         "Shooter5000",
-        new InstantCommand(() -> m_shooterSubsystem.setSetpoint(5000), m_shooterSubsystem));
+        new RunCommand(() -> m_shooterSubsystem.setSetpoint(5000), m_shooterSubsystem)
+            .until(() -> m_shooterSubsystem.bothAtSetpoint()));
     NamedCommands.registerCommand(
         "Shooter6000",
         new InstantCommand(() -> m_shooterSubsystem.setSetpoint(6000), m_shooterSubsystem));
@@ -191,7 +192,7 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM), m_feederSubsystem));
     NamedCommands.registerCommand(
-        "FeederReverse", new ReverseFeeder(m_feederSubsystem, m_beamBreak));
+        "FeederReverse", new ReverseNote(m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
     NamedCommands.registerCommand(
         "StopFeeder",
         new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
@@ -228,7 +229,8 @@ public class RobotContainer {
 
     // Vision
     NamedCommands.registerCommand(
-        "AutoAlignWrist", new AimWrist(m_wristSubsystem, m_armSubsystem, m_poseEstimator));
+        "AutoAlignWrist",
+        new AimWrist(m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_poseEstimator));
     NamedCommands.registerCommand("VisionAlign", new AlignToNote(m_driveSubsystem, 0.3));
     NamedCommands.registerCommand(
         "VisionPickUp",
@@ -241,8 +243,6 @@ public class RobotContainer {
             m_shooterSubsystem,
             m_armSubsystem,
             m_wristSubsystem,
-            m_pathPlanner,
-            m_poseEstimator,
             m_beamBreak));
     NamedCommands.registerCommand(
         "EnableSpeakerRotationOverride",
@@ -371,6 +371,7 @@ public class RobotContainer {
     // autoChooser.addOption("test2", new PathPlannerAuto("test2"));
     // autoChooser.addOption("test3", new PathPlannerAuto("test3"));
     autoChooser.addOption("2M Test", new PathPlannerAuto("2 meter forwards"));
+    autoChooser.addOption("Override Test", new PathPlannerAuto("Speaker"));
     // autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
     // 2 Piece
@@ -390,6 +391,7 @@ public class RobotContainer {
         "3 Piece VISION Close Podium", new PathPlannerAuto("3P VIS Center Podium"));
     autoChooser.addOption("3 Piece Corner to Midfield", new PathPlannerAuto("3P Corner Mid Right"));
     autoChooser.addOption("3 Piece Source Midfield", new PathPlannerAuto("3P Mid Right"));
+    autoChooser.addOption("3 Piece Vision", new PathPlannerAuto("3P Vision"));
     // autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
     // 4 Piece
     // autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
@@ -621,7 +623,7 @@ public class RobotContainer {
   public void isNotePickedUp() {
     if (m_utbIntakeSubsystem.getCurrentDraw() > 20 && m_utbIntakeSubsystem.getCurrentDraw() < 55) {
       counter += 1;
-      if (counter >= 15) {
+      if (counter >= 20) {
         SmartDashboard.putBoolean("Is Note Picked Up", true);
       }
     } else if (auxController.a().getAsBoolean()

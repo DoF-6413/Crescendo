@@ -110,8 +110,8 @@ public final class Constants {
       }, // x in meters
       // {32, 20, 13, 9, 4, 2, -2, -4, -4, -6}, // theta_max_degrees
       // {24, 15, 8, 5, 2, -1, -3, -4, -4, -6} // theta_min_degrees
-      {38, 24, 17, 12, 8, 7, 4, 2, 0}, // theta_max_degrees
-      {28, 18, 13, 10, 6, 4, 2, 1, -1} // theta_min_degrees
+      {38, 24, 17, 15, 10, 8, 5, 8, 1}, // theta_max_degrees
+      {28, 18, 15, 13, 8, 5, 3, 6, -1} // theta_min_degrees
     };
   }
 

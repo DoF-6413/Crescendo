@@ -234,4 +234,8 @@ public class Wrist extends SubsystemBase {
       updateTrapezoidalConstraints(SmartDashboard.getNumber("armMaxAcceleration", 0.0));
     }
   }
+
+  public double getGoal() {
+    return wristPIDController.getGoal().position;
+  }
 }

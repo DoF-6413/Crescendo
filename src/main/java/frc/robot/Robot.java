@@ -116,7 +116,6 @@ public class Robot extends LoggedRobot {
       autonomousCommand.cancel();
     }
     robotContainer.setAllSetpointsZero();
-    robotContainer.enableVision(false);
   }
 
   /** This function is called periodically when disabled. */
@@ -129,6 +128,7 @@ public class Robot extends LoggedRobot {
     autonomousCommand = robotContainer.getAutonomousCommand();
 
     robotContainer.mechanismsCoastOnDisable(false);
+    robotContainer.enableVision(false);
 
     // Schedule the autonomous command (example)
     if (autonomousCommand != null) {
@@ -138,7 +138,9 @@ public class Robot extends LoggedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    robotContainer.isNotePickedUp();
+  }
 
   /** This function is called once when teleop is enabled. */
   @Override

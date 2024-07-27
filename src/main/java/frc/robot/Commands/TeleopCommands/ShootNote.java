@@ -5,24 +5,22 @@
 package frc.robot.Commands.TeleopCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Subsystems.feeder.Feeder;
-import frc.robot.Utils.BeamBreak;
+import frc.robot.Subsystems.shooter.Shooter;
 
-public class ReverseFeeder extends Command {
-  private Feeder feeder;
-  private BeamBreak beamBreak;
-  /** Creates a new ReverseFeeder. */
-  public ReverseFeeder(Feeder feeder, BeamBreak beamBreak) {
-    this.feeder = feeder;
-    this.beamBreak = beamBreak;
-    addRequirements(feeder, beamBreak);
+public class ShootNote extends Command {
+  private Shooter shooter;
+  double speed;
+  /** Creates a new ShootNote. */
+  public ShootNote(Shooter shooter, double shooterSpeed) {
+    this.shooter = shooter;
+    addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    feeder.setSetpoint(-500);
+    shooter.setSetpoint(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,13 +29,11 @@ public class ReverseFeeder extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    feeder.setSetpoint(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !beamBreak.getShooterSensor();
+    return shooter.bothAtSetpoint();
   }
 }
