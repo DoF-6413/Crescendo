@@ -16,7 +16,7 @@ public class ShootingReady extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              wrist.atSetpoint();
+              wrist.atGoal();
               arm.atGoal();
               shooter.bothAtSetpoint();
             },

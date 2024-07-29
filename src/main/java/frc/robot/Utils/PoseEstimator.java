@@ -99,7 +99,7 @@ public class PoseEstimator extends SubsystemBase {
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
 
     if (enable) {
-
+      // Adds pose estimated from Back Left camera to Swerve Pose Estimator
       if (vision.getResultBL().hasTargets() == true && vision.getResultBL() != null) {
         pipelineResultBL = vision.getResultBL();
         resultsTimeStampBL = pipelineResultBL.getTimestampSeconds();
@@ -118,7 +118,7 @@ public class PoseEstimator extends SubsystemBase {
           }
         }
       }
-
+      // Adds pose estimated from Back Right camera to Swerve Pose Estimator
       if (vision.getResultBR().hasTargets() && vision.getResultBR() != null) {
         pipelineResultBR = vision.getResultBR();
         resultsTimeStampBR = pipelineResultBR.getTimestampSeconds();

@@ -20,12 +20,12 @@ public class UTBIntakeRun extends ParallelCommandGroup {
 
   /** Lowers OTB Intake and runs both Intakes to intake/outtake depending on isInwards */
   public UTBIntakeRun(UTBIntake utbIntake, Feeder feeder, boolean isInwards, boolean stop) {
-    if (isInwards) {
-      feederRPM = 1500;
-      utbIntakePercentSpeed = -1.0;
-    } else if (stop) {
+    if (stop) {
       feederRPM = 0;
       utbIntakePercentSpeed = 0;
+    } else if (stop) {
+      feederRPM = 1500;
+      utbIntakePercentSpeed = -1.0;
     } else {
       feederRPM = -1500;
       utbIntakePercentSpeed = 1.0;

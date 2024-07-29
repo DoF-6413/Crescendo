@@ -25,7 +25,7 @@ public final class WristConstants {
   /** KV represents the acceleration gain */
   public static double KA = 0.0;
 
-  /** The position of the Wrist can be within 2 degree of the setpoint */
+  /** The position of the Wrist can be within 1 degree of the setpoint */
   public static final double ANGLE_TOLERANCE = Units.degreesToRadians(1.0);
 
   // Sim Constants
