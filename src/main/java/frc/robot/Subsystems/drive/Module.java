@@ -8,7 +8,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.*;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.littletonrobotics.junction.Logger;
 
 /** This Runs Each Individual Module of a Swerve Drive for all Modes of the Robot */
@@ -17,16 +16,10 @@ public class Module {
   private final ModuleIO io;
   private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
   private final int index;
-  private double drivekp = 0;
-  private double driveki = 0;
-  private double drivekd = 0;
-  private double steerkp = 6.4;
-  private double steerki = 0;
-  private double steerkd = 0;
 
   // initialize PID controllers
-  private PIDController drivePID = new PIDController(drivekp, driveki, drivekd);
-  private PIDController steerPID = new PIDController(steerkp, steerki, steerkd);
+  private PIDController drivePID;
+  private PIDController steerPID;
 
   // initialize feedforward
   private SimpleMotorFeedforward driveFeedforward =
@@ -38,18 +31,14 @@ public class Module {
     this.io = io;
     this.index = index;
 
-    SmartDashboard.putNumber("steer kp", 6.4);
-    SmartDashboard.putNumber("steer ki", 0.0);
-    SmartDashboard.putNumber("steer kd", 0.0);
-    // update drive pid values depending on neo or kraken
+    // SmartDashboard.putNumber("steer kp", 6.4);
+    // SmartDashboard.putNumber("steer ki", 0.0);
+    // SmartDashboard.putNumber("steer kd", 0.0);
     drivePID =
         new PIDController(
-            DriveConstants
-                .DRIVE_KP_KRAKEN, // Directly used Kraken PID and FF values in a different commit
+            DriveConstants.DRIVE_KP_KRAKEN,
             DriveConstants.DRIVE_KI_KRAKEN,
             DriveConstants.DRIVE_KD_KRAKEN);
-
-    // update drive ff values depending on neo or kraken
 
     driveFeedforward =
         new SimpleMotorFeedforward(DriveConstants.DRIVE_KS_KRAKEN, DriveConstants.DRIVE_KV_KRAKEN);

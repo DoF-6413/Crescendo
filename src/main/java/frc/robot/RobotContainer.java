@@ -28,9 +28,7 @@ import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.TwoPieceRe
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.AutoShoot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.BeamBreakPickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
-import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootingReady;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
-import frc.robot.Commands.TeleopCommands.AmpScore.Frontside.*;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
 import frc.robot.Commands.TeleopCommands.ReverseNote;
@@ -38,12 +36,11 @@ import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.OverShot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
-import frc.robot.Commands.TeleopCommands.VisionAutomations.*; // AimShooter, AlignToNote, PickUpNote
+import frc.robot.Commands.VisionCommands.*;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
-import frc.robot.Subsystems.climber.*;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.feeder.*;
 import frc.robot.Subsystems.gyro.*;
@@ -167,8 +164,8 @@ public class RobotContainer {
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator, m_gyroSubsystem);
     m_beamBreak = new BeamBreak();
 
-    /* PathPlanner Register Commands */
-    // Shooter/Feeder
+    /* PathPlanner Commands */
+    // Shooter
     NamedCommands.registerCommand(
         "Shooter1000",
         new InstantCommand(
@@ -187,6 +184,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "StopShooter",
         new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
+    // Feeder
     NamedCommands.registerCommand(
         "Feeder",
         new InstantCommand(
@@ -262,10 +260,18 @@ public class RobotContainer {
             () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
     NamedCommands.registerCommand(
         "PickUp",
-        new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, false));
+        new PickUp(
+            m_actuatorSubsystem,
+            m_otbIntakeSubsystem,
+            m_utbIntakeSubsystem,
+            UTBIntakeConstants.RUN));
     NamedCommands.registerCommand(
         "PickUpStop",
-        new PickUp(m_actuatorSubsystem, m_otbIntakeSubsystem, m_utbIntakeSubsystem, true));
+        new PickUp(
+            m_actuatorSubsystem,
+            m_otbIntakeSubsystem,
+            m_utbIntakeSubsystem,
+            UTBIntakeConstants.STOP));
     NamedCommands.registerCommand(
         "BeamBreakPickUp",
         new BeamBreakPickUp(
@@ -303,7 +309,7 @@ public class RobotContainer {
             m_armSubsystem,
             m_gyroSubsystem,
             WristConstants.CHAIN_RAD,
-            0,
+            ArmConstants.DEFAULT_POSITION_RAD,
             ShooterConstants.MID_RANGE_RPM));
     NamedCommands.registerCommand(
         "LegShot",
@@ -333,12 +339,14 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD), m_wristSubsystem));
     NamedCommands.registerCommand(
-        "ZeroArm", new InstantCommand(() -> m_armSubsystem.setGoal(0), m_armSubsystem));
+        "ZeroArm",
+        new InstantCommand(
+            () -> m_armSubsystem.setGoal(ArmConstants.DEFAULT_POSITION_RAD), m_armSubsystem));
     NamedCommands.registerCommand(
         "ZeroShooting",
         new InstantCommand(
             () -> {
-              m_armSubsystem.setGoal(0);
+              m_armSubsystem.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
               m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD);
               m_shooterSubsystem.setSetpoint(0);
             },
@@ -348,21 +356,9 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "ZeroAll",
         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    // Gyro heading reset
+    // Gyro heading update
     NamedCommands.registerCommand(
         "ZeroYaw", new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
-    NamedCommands.registerCommand(
-        "ChassisAutoAlign",
-        new DefaultDriveCommand(
-            m_driveSubsystem, auxController, m_gyroSubsystem, m_poseEstimator, 1));
-    // WaitUntil Commands
-    NamedCommands.registerCommand(
-        "ShooterReady",
-        new InstantCommand(() -> m_shooterSubsystem.bothAtSetpoint(), m_shooterSubsystem));
-    NamedCommands.registerCommand(
-        "WristReady", new InstantCommand(() -> m_wristSubsystem.atSetpoint(), m_wristSubsystem));
-    NamedCommands.registerCommand(
-        "ShootingReady", new ShootingReady(m_shooterSubsystem, m_wristSubsystem, m_armSubsystem));
 
     /* PathPlanner Autos */
     // Test Autos
@@ -537,13 +533,13 @@ public class RobotContainer {
     //         2,
     //         1));
 
-    // Adds a delay onto the deadreakoned autos
-    // SmartDashboard.putNumber("Delay", 0);
+    // Adds a delay to the deadreakoned autos
+    SmartDashboard.putNumber("Delay", 0);
 
     // Configure the button bindings
     configureButtonBindings();
 
-    // SmartDashboard.putBoolean("Is Note Picked Up", false);
+    SmartDashboard.putBoolean("Is Note Picked Up", false);
   }
 
   /**
@@ -611,7 +607,7 @@ public class RobotContainer {
   public void setAllSetpointsZero() {
     m_shooterSubsystem.setSetpoint(0);
     m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD);
-    m_armSubsystem.setGoal(0);
+    m_armSubsystem.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
     m_feederSubsystem.setSetpoint(0);
   }
 
@@ -662,27 +658,47 @@ public class RobotContainer {
                 m_otbIntakeSubsystem,
                 m_utbIntakeSubsystem,
                 m_feederSubsystem,
-                false))
+                UTBIntakeConstants.RUN))
         .onFalse(
             new AllIntakesRun(
                 m_actuatorSubsystem,
                 m_otbIntakeSubsystem,
                 m_utbIntakeSubsystem,
                 m_feederSubsystem,
-                true))
+                UTBIntakeConstants.STOP))
         .onFalse(new ShooterRev(m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
     // UTB Intake (Intake)
     driverController
         .rightTrigger()
-        .onTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, true, false))
+        .onTrue(
+            new UTBIntakeRun(
+                m_utbIntakeSubsystem,
+                m_feederSubsystem,
+                UTBIntakeConstants.INWARDS,
+                UTBIntakeConstants.RUN))
         .onTrue(new AlignToNoteDrive(m_driveSubsystem, driverController))
-        .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true))
+        .onFalse(
+            new UTBIntakeRun(
+                m_utbIntakeSubsystem,
+                m_feederSubsystem,
+                UTBIntakeConstants.INWARDS,
+                UTBIntakeConstants.STOP))
         .onFalse(new ShooterRev(m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
     // UTB Intake (Outtake)
     driverController
         .leftBumper()
-        .onTrue(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, false))
-        .onFalse(new UTBIntakeRun(m_utbIntakeSubsystem, m_feederSubsystem, false, true));
+        .onTrue(
+            new UTBIntakeRun(
+                m_utbIntakeSubsystem,
+                m_feederSubsystem,
+                UTBIntakeConstants.OUTWARDS,
+                UTBIntakeConstants.RUN))
+        .onFalse(
+            new UTBIntakeRun(
+                m_utbIntakeSubsystem,
+                m_feederSubsystem,
+                UTBIntakeConstants.OUTWARDS,
+                UTBIntakeConstants.STOP));
 
     /* Release NOTE */
     driverController
@@ -693,11 +709,16 @@ public class RobotContainer {
   /** Contoller keybinds for the aux contoller port */
   public void auxControllerBindings() {
     /* Release piece */
+    // auxController.a().onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
+
+    /* Feeder */
     auxController
         .a()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(1000), m_feederSubsystem))
+        .onTrue(
+            new InstantCommand(
+                () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM),
+                m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
-    // auxController.a().onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
 
     /* SPEAKER Scoring */
     // Subwoofer (w/o vision)
@@ -738,7 +759,7 @@ public class RobotContainer {
                 m_wristSubsystem,
                 m_armSubsystem,
                 WristConstants.PODIUM_RAD,
-                0,
+                ArmConstants.DEFAULT_POSITION_RAD,
                 ShooterConstants.MID_RANGE_RPM))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));

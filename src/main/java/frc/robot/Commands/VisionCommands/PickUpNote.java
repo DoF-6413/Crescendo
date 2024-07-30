@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.TeleopCommands.VisionAutomations;
+package frc.robot.Commands.VisionCommands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -15,6 +15,7 @@ import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.otbIntake.OTBIntake;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.utbintake.UTBIntake;
+import frc.robot.Subsystems.utbintake.UTBIntakeConstants;
 import frc.robot.Subsystems.wrist.Wrist;
 import frc.robot.Subsystems.wrist.WristConstants;
 import frc.robot.Utils.BeamBreak;
@@ -39,7 +40,7 @@ public class PickUpNote extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new ParallelCommandGroup(
-            new AllIntakesRun(actuator, otb, utb, feeder, false),
+            new AllIntakesRun(actuator, otb, utb, feeder, UTBIntakeConstants.RUN),
             // new BeamBreakPickUp(utb, feeder, shooter, beamBreak),
             new InstantCommand(
                 () -> {
@@ -48,7 +49,7 @@ public class PickUpNote extends SequentialCommandGroup {
                 },
                 wrist,
                 arm)),
-        // new UTBIntakeRun(utb, feeder, true, false),
+        // new UTBIntakeRun(utb, feeder, UTBIntakeConstants.INWARDS, UTBIntakeConstants.RUN),
         new DriveToNote(drive, beamBreak, 0, 0.5, 0.3)
         // .until(() -> !beamBreak.getShooterSensor()),
         // new InstantCommand(() -> drive.setRaw(0, 0, 0), drive)

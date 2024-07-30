@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.TeleopCommands.VisionAutomations;
+package frc.robot.Commands.VisionCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
@@ -65,6 +65,6 @@ public class AimWrist extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_wrist.atSetpoint() && m_wrist.getGoal() != WristConstants.DEFAULT_POSITION_RAD;
+    return m_wrist.atGoal() && m_wrist.getGoal() != WristConstants.DEFAULT_POSITION_RAD;
   }
 }

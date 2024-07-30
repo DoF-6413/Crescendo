@@ -38,7 +38,7 @@ public class OverShot extends SequentialCommandGroup {
             },
             feeder,
             wrist),
-        new WaitUntilCommand(() -> wrist.atSetpoint()),
+        new WaitUntilCommand(() -> wrist.atGoal()),
         Commands.runOnce(
             () -> {
               feeder.setSetpoint(-600);

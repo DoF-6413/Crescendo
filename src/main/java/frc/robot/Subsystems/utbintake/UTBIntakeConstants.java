@@ -32,4 +32,14 @@ public final class UTBIntakeConstants {
   public static final double GEAR_RATIO = 2.0;
   /** Sets the inversion status of the UTB Intake motor */
   public static final boolean IS_INVERTED = false;
+
+  // Command Constants
+  /** Runs the Intake(s) to intake NOTEs into the robot */
+  public static final boolean INWARDS = true;
+  /** Runs the Intake(s) to eject NOTEs out of the robot */
+  public static final boolean OUTWARDS = false;
+  /** Starts the Intake(s) */
+  public static final boolean RUN = false;
+  /** Stops the Intake(s) */
+  public static final boolean STOP = true;
 }
