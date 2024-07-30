@@ -118,4 +118,9 @@ public final class Constants {
   public static class BeamBreakConstants {
     public static final int SHOOTER_BEAM_BREAK_PORT = 0;
   }
+
+  public static class CommandConstants {
+    public static final double VISION_PICKUP_TIMEOUT_SEC = 3; // TODO: Test and Update
+    public static final double FEEDER_REVERSE_TIMEOUT_SEC = 3; // TODO: Test and Update
+  }
 }

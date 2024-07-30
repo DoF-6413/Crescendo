@@ -25,13 +25,13 @@ import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCenter;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.TwoPieceReturnSub;
-import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.AutoShoot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.BeamBreakPickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
+import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
+import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ReverseNote;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
-import frc.robot.Commands.TeleopCommands.ReverseNote;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.OverShot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
@@ -280,59 +280,56 @@ public class RobotContainer {
     // Auto Shooting
     NamedCommands.registerCommand(
         "SubwooferShot",
-        new AutoShoot(
+        new PreloadShot(
             m_feederSubsystem,
             m_shooterSubsystem,
             m_wristSubsystem,
             m_armSubsystem,
-            m_gyroSubsystem,
-            WristConstants.SUBWOOFER_RAD,
-            ArmConstants.SUBWOOFER_RAD,
-            ShooterConstants.CLOSE_RPM));
-    NamedCommands.registerCommand(
-        "PodiumShot",
-        new AutoShoot(
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_wristSubsystem,
-            m_armSubsystem,
-            m_gyroSubsystem,
-            WristConstants.PODIUM_RAD,
-            0,
-            ShooterConstants.CLOSE_RPM));
-    NamedCommands.registerCommand(
-        "ChainShot",
-        new AutoShoot(
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_wristSubsystem,
-            m_armSubsystem,
-            m_gyroSubsystem,
-            WristConstants.CHAIN_RAD,
-            ArmConstants.DEFAULT_POSITION_RAD,
-            ShooterConstants.MID_RANGE_RPM));
-    NamedCommands.registerCommand(
-        "LegShot",
-        new AutoShoot(
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_wristSubsystem,
-            m_armSubsystem,
-            m_gyroSubsystem,
-            Units.degreesToRadians(-7), // TODO: Update angle
-            0,
-            ShooterConstants.FAR_RPM));
-    NamedCommands.registerCommand(
-        "WingShot",
-        new AutoShoot(
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_wristSubsystem,
-            m_armSubsystem,
-            m_gyroSubsystem,
-            Units.degreesToRadians(-8.5), // TODO: Verify angle
-            0,
-            ShooterConstants.FAR_RPM));
+            WristConstants.SUBWOOFER_RAD));
+    // NamedCommands.registerCommand(
+    //     "PodiumShot",
+    //     new PreloadShot(
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_wristSubsystem,
+    //         m_armSubsystem,
+    //         m_gyroSubsystem,
+    //         WristConstants.PODIUM_RAD,
+    //         0,
+    //         ShooterConstants.CLOSE_RPM));
+    // NamedCommands.registerCommand(
+    //     "ChainShot",
+    //     new PreloadShot(
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_wristSubsystem,
+    //         m_armSubsystem,
+    //         m_gyroSubsystem,
+    //         WristConstants.CHAIN_RAD,
+    //         ArmConstants.DEFAULT_POSITION_RAD,
+    //         ShooterConstants.MID_RANGE_RPM));
+    // NamedCommands.registerCommand(
+    //     "LegShot",
+    //     new PreloadShot(
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_wristSubsystem,
+    //         m_armSubsystem,
+    //         m_gyroSubsystem,
+    //         Units.degreesToRadians(-7), // TODO: Update angle
+    //         0,
+    //         ShooterConstants.FAR_RPM));
+    // NamedCommands.registerCommand(
+    //     "WingShot",
+    //     new PreloadShot(
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_wristSubsystem,
+    //         m_armSubsystem,
+    //         m_gyroSubsystem,
+    //         Units.degreesToRadians(-8.5), // TODO: Verify angle
+    //         0,
+    //         ShooterConstants.FAR_RPM));
     // Zero Commands
     NamedCommands.registerCommand(
         "ZeroWrist",

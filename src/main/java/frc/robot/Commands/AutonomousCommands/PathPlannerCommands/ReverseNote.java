@@ -2,9 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.TeleopCommands;
+package frc.robot.Commands.AutonomousCommands.PathPlannerCommands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.CommandConstants;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Utils.BeamBreak;
@@ -13,6 +15,7 @@ public class ReverseNote extends Command {
   private Feeder feeder;
   private Shooter shooter;
   private BeamBreak beamBreak;
+  private Timer timer;
   /** Creates a new ReverseFeeder. */
   public ReverseNote(Feeder feeder, Shooter shooter, BeamBreak beamBreak) {
     this.feeder = feeder;
@@ -27,6 +30,10 @@ public class ReverseNote extends Command {
   public void initialize() {
     feeder.setSetpoint(-500);
     shooter.setSetpoint(-300);
+    timer = new Timer();
+    timer.reset();
+    timer.restart();
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,6 +50,7 @@ public class ReverseNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !beamBreak.getShooterSensor();
+    return !beamBreak.getShooterSensor()
+        || timer.hasElapsed(CommandConstants.FEEDER_REVERSE_TIMEOUT_SEC);
   }
 }

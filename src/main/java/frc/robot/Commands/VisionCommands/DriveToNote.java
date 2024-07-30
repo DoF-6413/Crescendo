@@ -4,20 +4,22 @@
 
 package frc.robot.Commands.VisionCommands;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.CommandConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Utils.BeamBreak;
 import frc.robot.Utils.LimelightHelpers;
 
 public class DriveToNote extends Command {
-  public final Drive drive;
-  public BeamBreak beamBreak;
+  private Drive drive;
+  private BeamBreak beamBreak;
+  private Timer timer;
   double TX;
   double x;
   double y;
   double rot;
-  boolean end;
-  // public double TY;
 
   /** Creates a new AlignToNote. */
   public DriveToNote(Drive drive, BeamBreak beamBreak, double x, double y, double rotSpeed) {
@@ -33,8 +35,8 @@ public class DriveToNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    end = false;
     TX = 0.0;
+    timer = new Timer();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,13 +44,9 @@ public class DriveToNote extends Command {
   public void execute() {
     TX = LimelightHelpers.getTX("limelight");
 
-    // if (SmartDashboard.getBoolean("Is Note Picked Up", false)) {
-    //   x = 0;
-    //   y = 0;
-    // }
-
-    if (beamBreak.getShooterSensor() == false) {
-      end = true;
+    if (SmartDashboard.getBoolean("Is Note Picked Up", false)) {
+      timer.reset();
+      timer.start();
     }
 
     if (TX < -5.0) {
@@ -69,6 +67,7 @@ public class DriveToNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !beamBreak.getShooterSensor() || end == true;
+    return !beamBreak.getShooterSensor()
+        || timer.hasElapsed(CommandConstants.VISION_PICKUP_TIMEOUT_SEC);
   }
 }
