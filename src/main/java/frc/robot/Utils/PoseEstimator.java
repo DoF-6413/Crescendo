@@ -82,12 +82,12 @@ public class PoseEstimator extends SubsystemBase {
         new PhotonPoseEstimator(
             aprilTagFieldLayout,
             PoseStrategy.LOWEST_AMBIGUITY,
-            VisionConstants.cameraBLOnRobotOffsets);
+            VisionConstants.BL_CAMERA_ROBOT_OFFSET);
     visionBRPoseEstimator =
         new PhotonPoseEstimator(
             aprilTagFieldLayout,
             PoseStrategy.LOWEST_AMBIGUITY,
-            VisionConstants.cameraBROnRobotOffsets);
+            VisionConstants.BR_CAMERA_ROBOT_OFFSET);
   }
 
   @Override

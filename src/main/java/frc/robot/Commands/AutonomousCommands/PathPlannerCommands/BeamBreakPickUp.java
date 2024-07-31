@@ -6,7 +6,9 @@ package frc.robot.Commands.AutonomousCommands.PathPlannerCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.feeder.Feeder;
+import frc.robot.Subsystems.feeder.FeederConstants;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Utils.BeamBreak;
 
@@ -15,7 +17,7 @@ public class BeamBreakPickUp extends Command {
   private Feeder feeder;
   private Shooter shooter;
   private BeamBreak beamBreak;
-  private boolean end;
+
   /** Creates a new BeamBreakPickUp. */
   public BeamBreakPickUp(UTBIntake utb, Feeder feeder, Shooter shooter, BeamBreak beamBreak) {
     this.utb = utb;
@@ -31,8 +33,8 @@ public class BeamBreakPickUp extends Command {
   @Override
   public void initialize() {
     utb.setUTBIntakePercentSpeed(-1);
-    feeder.setSetpoint(1000);
-    shooter.setSetpoint(5000);
+    feeder.setSetpoint(FeederConstants.INTAKE_RPM);
+    shooter.setSetpoint(ShooterConstants.MID_RANGE_RPM);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

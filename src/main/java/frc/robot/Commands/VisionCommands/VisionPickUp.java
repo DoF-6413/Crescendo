@@ -8,31 +8,31 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
+import frc.robot.Constants.CommandConstants;
 import frc.robot.Subsystems.actuator.Actuator;
 import frc.robot.Subsystems.arm.Arm;
+import frc.robot.Subsystems.arm.ArmConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.otbIntake.OTBIntake;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.utbintake.UTBIntake;
-import frc.robot.Subsystems.utbintake.UTBIntakeConstants;
 import frc.robot.Subsystems.wrist.Wrist;
 import frc.robot.Subsystems.wrist.WristConstants;
 import frc.robot.Utils.BeamBreak;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
+// information, sVisionPickUpee:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PickUpNote extends SequentialCommandGroup {
+public class VisionPickUp extends SequentialCommandGroup {
 
-  /** Creates a new PickUpNote. */
-  public PickUpNote(
+  /** Creates a new VisionPickUp. */
+  public VisionPickUp(
       Drive drive,
       OTBIntake otb,
       UTBIntake utb,
       Feeder feeder,
       Actuator actuator,
-      Shooter shooter,
       Arm arm,
       Wrist wrist,
       BeamBreak beamBreak) {
@@ -40,19 +40,18 @@ public class PickUpNote extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new ParallelCommandGroup(
-            new AllIntakesRun(actuator, otb, utb, feeder, UTBIntakeConstants.RUN),
+            new AllIntakesRun(actuator, otb, utb, feeder, CommandConstants.RUN_INTAKE),
             // new BeamBreakPickUp(utb, feeder, shooter, beamBreak),
+            // new UTBIntakeRun(utb, feeder, CommandConstants.INTAKE_INWARDS,
+            // CommandConstants.RUN_INTAKE),
             new InstantCommand(
                 () -> {
-                  arm.setGoal(0);
+                  arm.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
                   wrist.setGoal(WristConstants.DEFAULT_POSITION_RAD);
                 },
                 wrist,
                 arm)),
-        // new UTBIntakeRun(utb, feeder, UTBIntakeConstants.INWARDS, UTBIntakeConstants.RUN),
         new DriveToNote(drive, beamBreak, 0, 0.5, 0.3)
-        // .until(() -> !beamBreak.getShooterSensor()),
-        // new InstantCommand(() -> drive.setRaw(0, 0, 0), drive)
         );
   }
 }

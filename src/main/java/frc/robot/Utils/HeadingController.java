@@ -5,12 +5,13 @@
 package frc.robot.Utils;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.Constants.HeadingControllerConstants;
 
 /** Add your docs here. */
 public class HeadingController {
 
-  public double kp = 5.0;
-  public double kd = 100.0;
+  // public double kp = 5.0;
+  // public double kd = 100.0;
 
   public HeadingController() {
     // SmartDashboard.putNumber("Heading Controller Kp", 5.0);
@@ -29,7 +30,9 @@ public class HeadingController {
     // kd = SmartDashboard.getNumber("Heading Controller Kd", 100.0);
     // SmartDashboard.putNumber("Heading Controller", setpoint.getDegrees());
 
-    double output = (setpoint.minus(gyroAngle).getRadians() * kp + kd * gyroRate);
+    double output =
+        (setpoint.minus(gyroAngle).getRadians() * HeadingControllerConstants.KP
+            + HeadingControllerConstants.KD * gyroRate);
 
     // Logger.recordOutput("Drive/HeadingController/HeadingError", controller.getPositionError());
     return output;

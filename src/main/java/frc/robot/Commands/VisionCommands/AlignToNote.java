@@ -6,6 +6,7 @@ package frc.robot.Commands.VisionCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.drive.Drive;
+import frc.robot.Subsystems.photonVision.VisionConstants;
 import frc.robot.Utils.LimelightHelpers;
 
 public class AlignToNote extends Command {
@@ -13,7 +14,7 @@ public class AlignToNote extends Command {
 
   public double speed;
   public double TX;
-  public double TY;
+  // public double TY;
 
   /** Creates a new AlignToNote. */
   public AlignToNote(Drive drive, double speed) {
@@ -27,18 +28,18 @@ public class AlignToNote extends Command {
   @Override
   public void initialize() {
     TX = 0.0;
-    TY = 0.0;
+    // TY = 0.0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    TX = LimelightHelpers.getTX("limelight");
-    TY = LimelightHelpers.getTY("limelight");
+    TX = LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME);
+    // TY = LimelightHelpers.getTY(VisionConstants.LIME_LIGHT_NAME);
 
-    if (TX < -5.0) {
+    if (TX < -VisionConstants.LL_AUTONOMOUS_NOTE_RANGE) {
       drive.setRaw(0, 0, speed);
-    } else if (TX > 5.0) {
+    } else if (TX > VisionConstants.LL_AUTONOMOUS_NOTE_RANGE) {
       drive.setRaw(0, 0, -speed);
     }
   }
@@ -52,6 +53,7 @@ public class AlignToNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return TX <= 5 && TX >= -5;
+    return TX <= VisionConstants.LL_AUTONOMOUS_NOTE_RANGE
+        && TX >= -VisionConstants.LL_AUTONOMOUS_NOTE_RANGE;
   }
 }

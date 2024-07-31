@@ -69,4 +69,6 @@ public class ShooterConstants {
   public static final double MIDFIELD_FEEDING_RPM = 2500;
   /** Shooter speed for pre-revving the shooter after intaking */
   public static final double PRE_REV_RPM = 1500;
+  /** Speed for backing NOTE up inside the Shooter */
+  public static final double REVERSE_RPM = -300;
 }

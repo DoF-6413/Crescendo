@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.Subsystems.feeder.Feeder;
+import frc.robot.Subsystems.feeder.FeederConstants;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Utils.BeamBreak;
 
 public class ReverseNote extends Command {
@@ -21,15 +23,16 @@ public class ReverseNote extends Command {
     this.feeder = feeder;
     this.shooter = shooter;
     this.beamBreak = beamBreak;
-    addRequirements(feeder, beamBreak);
+
+    addRequirements(feeder, shooter, beamBreak);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    feeder.setSetpoint(-500);
-    shooter.setSetpoint(-300);
+    feeder.setSetpoint(FeederConstants.REVERSE_RPM);
+    shooter.setSetpoint(ShooterConstants.REVERSE_RPM);
     timer = new Timer();
     timer.reset();
     timer.restart();

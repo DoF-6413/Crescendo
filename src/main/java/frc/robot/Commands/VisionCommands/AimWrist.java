@@ -21,15 +21,13 @@ public class AimWrist extends Command {
   public Wrist m_wrist;
   public Arm m_arm;
   public PoseEstimator m_pose;
-  public Feeder m_feeder;
   private Timer m_timer;
 
-  /** Creates a new AimShooter. */
-  public AimWrist(Wrist wrist, Arm arm, Feeder feeder, PoseEstimator pose) {
+  /** Creates a new AimWrist. */
+  public AimWrist(Wrist wrist, Arm arm, PoseEstimator pose) {
     m_wrist = wrist;
     m_arm = arm;
     m_pose = pose;
-    m_feeder = feeder;
     m_timer = new Timer();
     addRequirements(wrist, arm);
   }

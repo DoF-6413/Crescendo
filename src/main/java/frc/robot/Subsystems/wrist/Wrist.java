@@ -21,7 +21,7 @@ public class Wrist extends SubsystemBase {
   private final ProfiledPIDController wristPIDController;
   private SimpleMotorFeedforward wristFeedforward;
 
-  /** Used to toggle PID calculations for RPM */
+  /** Used to toggle PID calculations for the angle */
   private static boolean isPIDEnabled = true;
   /** Used to toggle test features */
   private static boolean isTestingEnabled = false;
@@ -181,8 +181,8 @@ public class Wrist extends SubsystemBase {
   }
 
   /**
-   * Toggles whether the PID controller is used to for setting the voltage of the Shooter motors
-   * based on an RPM setpoint
+   * Toggles whether the PID controller is used to for setting the voltage of the Wrist
+   * based on an angle setpoint
    *
    * @param enabled True = Enable, False = Disable
    */

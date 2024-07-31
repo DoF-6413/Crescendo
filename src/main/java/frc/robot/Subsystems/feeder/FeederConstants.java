@@ -30,10 +30,16 @@ public class FeederConstants {
   public static final boolean IS_INVERTED = false;
 
   // Teleop Automations
+  /** Intaking speed */
+  public static final double INTAKE_RPM = 1000;
+  /** Outtaking speed */
+  public static final double OUTTAKE_RPM = -1000;
+  /** SPEAKER score speed */
+  public static final double SPEAKER_RPM = 1500;
   /** AMP score speed */
   public static final double AMP_RPM = 1500;
   /** SOURCE pickup speed */
   public static final double SOURCE_RPM = 1500;
-  /** SPEAKER score speed */
-  public static final double SPEAKER_RPM = 1500;
+  /** Speed for backing NOTE up inside the Shooter */
+  public static final double REVERSE_RPM = -400;
 }

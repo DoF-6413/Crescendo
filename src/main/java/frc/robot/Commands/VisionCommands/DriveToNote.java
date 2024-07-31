@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.Subsystems.drive.Drive;
+import frc.robot.Subsystems.photonVision.VisionConstants;
 import frc.robot.Utils.BeamBreak;
 import frc.robot.Utils.LimelightHelpers;
 
@@ -21,7 +22,7 @@ public class DriveToNote extends Command {
   double y;
   double rot;
 
-  /** Creates a new AlignToNote. */
+  /** Creates a new DriveToNote. */
   public DriveToNote(Drive drive, BeamBreak beamBreak, double x, double y, double rotSpeed) {
     this.drive = drive;
     this.beamBreak = beamBreak;
@@ -42,16 +43,16 @@ public class DriveToNote extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    TX = LimelightHelpers.getTX("limelight");
+    TX = LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME);
 
-    if (SmartDashboard.getBoolean("Is Note Picked Up", false)) {
+    if (SmartDashboard.getBoolean("Is Note Picked Up", false) == true) {
       timer.reset();
       timer.start();
     }
 
-    if (TX < -5.0) {
+    if (TX < -VisionConstants.LL_AUTONOMOUS_NOTE_RANGE) {
       drive.driveWithDeadband(x, y, rot);
-    } else if (TX > 5.0) {
+    } else if (TX > VisionConstants.LL_AUTONOMOUS_NOTE_RANGE) {
       drive.driveWithDeadband(x, y, -rot);
     } else {
       drive.driveWithDeadband(x, y, 0);

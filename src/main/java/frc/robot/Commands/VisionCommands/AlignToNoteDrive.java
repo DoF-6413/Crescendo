@@ -7,6 +7,7 @@ package frc.robot.Commands.VisionCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Subsystems.drive.Drive;
+import frc.robot.Subsystems.photonVision.VisionConstants;
 import frc.robot.Utils.LimelightHelpers;
 
 public class AlignToNoteDrive extends Command {
@@ -33,8 +34,8 @@ public class AlignToNoteDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    TX = LimelightHelpers.getTX("limelight");
-    // TY = LimelightHelpers.getTY("limelight");
+    TX = LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME);
+    // TY = LimelightHelpers.getTY(VisionConstants.LIME_LIGHT_NAME);
 
     if (TX < -5.0) {
       drive.driveWithDeadband(controller.getLeftX(), -controller.getLeftY(), 0.3);

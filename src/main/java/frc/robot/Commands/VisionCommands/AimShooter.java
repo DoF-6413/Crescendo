@@ -87,7 +87,7 @@ public class AimShooter extends Command {
   @Override
   public void end(boolean interrupted) {
     // m_wrist.setGoal(WristConstants.DEFAULT_POSITION_RAD);
-    // m_arm.setGoal(0);
+    // m_arm.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
     // m_shooter.setSetpoint(0);
     // m_feeder.setSetpoint(0);
   }

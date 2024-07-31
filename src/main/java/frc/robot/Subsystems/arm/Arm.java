@@ -38,8 +38,8 @@ public class Arm extends SubsystemBase {
     //         ArmConstants.KD,
     //         new TrapezoidProfile.Constraints(
     //             ArmConstants.MAX_VELOCITY, ArmConstants.MAX_ACCELERATION));
-    // armPIDController.setGoal(0);
-    armPIDController.setSetpoint(0);
+    // armPIDController.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
+    armPIDController.setSetpoint(ArmConstants.DEFAULT_POSITION_RAD);
     armPIDController.setTolerance(ArmConstants.ANGLE_TOLERANCE);
     armPIDController.disableContinuousInput();
 

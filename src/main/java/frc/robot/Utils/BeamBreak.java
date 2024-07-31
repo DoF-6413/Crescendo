@@ -17,8 +17,8 @@ public class BeamBreak implements Subsystem {
     getShooterSensor();
   }
 
-  @AutoLogOutput(key = "BeamBreaks/ShooterSensor")
   /** Returns true if nothing is blocking the Shooter Beam Break, false if there is */
+  @AutoLogOutput(key = "BeamBreaks/ShooterSensor")
   public boolean getShooterSensor() {
     return shooterBeamBreak.get();
   }

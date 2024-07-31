@@ -12,7 +12,10 @@ import edu.wpi.first.wpilibj.*; // Timer
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
+import frc.robot.Subsystems.photonVision.VisionConstants;
 import frc.robot.Utils.HeadingController;
+import frc.robot.Utils.LimelightHelpers;
+import java.util.Optional;
 import org.littletonrobotics.junction.Logger; // Logger
 
 /** This Runs the full Swerve (All Modules) for all Modes of the Robot */
@@ -23,8 +26,6 @@ public class Drive extends SubsystemBase {
   private Twist2d twist = new Twist2d();
   private final HeadingController headingController = new HeadingController();
   double omega = 0;
-  double TX = 0.0;
-  double TY = 0.0;
 
   // swerve kinematics library
   public SwerveDriveKinematics swerveKinematics;
@@ -68,9 +69,6 @@ public class Drive extends SubsystemBase {
 
     runSwerveModules(getAdjustedSpeeds());
     getMeasuredStates();
-
-    // TX = LimelightHelpers.getTX("limelight");
-    // TY = LimelightHelpers.getTY("limelight");
   }
 
   /** Puts robot to coast mode on disable */
@@ -262,9 +260,9 @@ public class Drive extends SubsystemBase {
   }
 
   public void driveWithNoteDetection(double x, double y, double rot) {
-    if (TX < -10.0) {
+    if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) < -VisionConstants.LL_TELEOP_NOTE_RANGE) {
       this.driveWithDeadband(x, y, 0.4);
-    } else if (TX > 10.0) {
+    } else if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) > VisionConstants.LL_TELEOP_NOTE_RANGE) {
       this.driveWithDeadband(x, y, -0.4);
     } else {
       this.driveWithDeadband(x, y, rot);
@@ -355,13 +353,14 @@ public class Drive extends SubsystemBase {
     headingSetpoint = new Rotation2d(Math.PI / 2);
   }
 
-  // public Optional<Rotation2d> getRotationTargetOverride() {
-  //   if (TX < -5) {
-  //     return Optional.of(new Rotation2d(1));
-  //   } else if (TX > 5) {
-  //     return Optional.of(new Rotation2d(-1));
-  //   } else {
-  //     return Optional.empty();
-  //   }
-  // }
+  /** Used in Path Planner's rotation target override to align to a NOTE while following a path */
+  public Optional<Rotation2d> noteAlignmentRotationOverride() {
+    if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) < -5) {
+      return Optional.of(new Rotation2d(1));
+    } else if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) > 5) {
+      return Optional.of(new Rotation2d(-1));
+    } else {
+      return Optional.empty();
+    }
+  }
 }

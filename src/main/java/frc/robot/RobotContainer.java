@@ -29,6 +29,8 @@ import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.BeamBreakPickUp
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ReverseNote;
+import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootAtAngle;
+import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootWhenReady;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
@@ -176,7 +178,7 @@ public class RobotContainer {
             () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM), m_shooterSubsystem));
     NamedCommands.registerCommand(
         "Shooter5000",
-        new RunCommand(() -> m_shooterSubsystem.setSetpoint(5000), m_shooterSubsystem)
+        new RunCommand(() -> m_shooterSubsystem.setSetpoint(ShooterConstants.MID_RANGE_RPM), m_shooterSubsystem)
             .until(() -> m_shooterSubsystem.bothAtSetpoint()));
     NamedCommands.registerCommand(
         "Shooter6000",
@@ -184,6 +186,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "StopShooter",
         new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
+
     // Feeder
     NamedCommands.registerCommand(
         "Feeder",
@@ -194,6 +197,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "StopFeeder",
         new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
+        
     // Angles
     NamedCommands.registerCommand(
         "SubwooferAngle",
@@ -211,15 +215,15 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "LineAngle",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(9)), m_wristSubsystem));
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(9)), m_wristSubsystem)); // TODO: Update?
     NamedCommands.registerCommand(
         "2P Note",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(15)), m_wristSubsystem));
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(15)), m_wristSubsystem)); // TODO: Update?
     NamedCommands.registerCommand(
         "ChainAngle",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(4)), m_wristSubsystem));
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(4)), m_wristSubsystem)); // TODO: Update?
     NamedCommands.registerCommand(
         "WingAngle",
         new InstantCommand(
@@ -228,26 +232,27 @@ public class RobotContainer {
     // Vision
     NamedCommands.registerCommand(
         "AutoAlignWrist",
-        new AimWrist(m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_poseEstimator));
-    NamedCommands.registerCommand("VisionAlign", new AlignToNote(m_driveSubsystem, 0.3));
+        new AimWrist(m_wristSubsystem, m_armSubsystem, m_poseEstimator));
+    NamedCommands.registerCommand("NoteAlign", new AlignToNote(m_driveSubsystem, 0.3));
     NamedCommands.registerCommand(
         "VisionPickUp",
-        new PickUpNote(
+        new VisionPickUp(
             m_driveSubsystem,
             m_otbIntakeSubsystem,
             m_utbIntakeSubsystem,
             m_feederSubsystem,
             m_actuatorSubsystem,
-            m_shooterSubsystem,
             m_armSubsystem,
             m_wristSubsystem,
             m_beamBreak));
+    NamedCommands.registerCommand("EnableNOTERotationOverride", new InstantCommand(()-> m_pathPlanner.enableNOTEAlignment(CommandConstants.NOTE_ROTATION_OVERRIDE_ENABLE), m_pathPlanner));
+    NamedCommands.registerCommand("DisableNOTERotationOverride", new InstantCommand(()-> m_pathPlanner.enableNOTEAlignment(CommandConstants.NOTE_ROTATION_OVERRIDE_DISABLE), m_pathPlanner));
     NamedCommands.registerCommand(
         "EnableSpeakerRotationOverride",
-        new InstantCommand(() -> m_pathPlanner.setSpeakerRotOverrideEnable(true), m_pathPlanner));
+        new InstantCommand(() -> m_pathPlanner.setSpeakerRotOverrideEnable(CommandConstants.SPEAKER_ROTATION_OVERRIDE_ENABLE), m_pathPlanner));
     NamedCommands.registerCommand(
         "DisableSpeakerRotationOverride",
-        new InstantCommand(() -> m_pathPlanner.setSpeakerRotOverrideEnable(false), m_pathPlanner));
+        new InstantCommand(() -> m_pathPlanner.setSpeakerRotOverrideEnable(CommandConstants.SPEAKER_ROTATION_OVERRIDE_DISABLE), m_pathPlanner));
 
     // Pick Ups
     NamedCommands.registerCommand(
@@ -264,14 +269,14 @@ public class RobotContainer {
             m_actuatorSubsystem,
             m_otbIntakeSubsystem,
             m_utbIntakeSubsystem,
-            UTBIntakeConstants.RUN));
+            CommandConstants.RUN_INTAKE));
     NamedCommands.registerCommand(
         "PickUpStop",
         new PickUp(
             m_actuatorSubsystem,
             m_otbIntakeSubsystem,
             m_utbIntakeSubsystem,
-            UTBIntakeConstants.STOP));
+            CommandConstants.STOP_INTAKE));
     NamedCommands.registerCommand(
         "BeamBreakPickUp",
         new BeamBreakPickUp(
@@ -279,57 +284,70 @@ public class RobotContainer {
 
     // Auto Shooting
     NamedCommands.registerCommand(
-        "SubwooferShot",
+        "PreloadShot",
         new PreloadShot(
             m_feederSubsystem,
             m_shooterSubsystem,
             m_wristSubsystem,
             m_armSubsystem,
             WristConstants.SUBWOOFER_RAD));
-    // NamedCommands.registerCommand(
-    //     "PodiumShot",
-    //     new PreloadShot(
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_wristSubsystem,
-    //         m_armSubsystem,
-    //         m_gyroSubsystem,
-    //         WristConstants.PODIUM_RAD,
-    //         0,
-    //         ShooterConstants.CLOSE_RPM));
-    // NamedCommands.registerCommand(
-    //     "ChainShot",
-    //     new PreloadShot(
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_wristSubsystem,
-    //         m_armSubsystem,
-    //         m_gyroSubsystem,
-    //         WristConstants.CHAIN_RAD,
-    //         ArmConstants.DEFAULT_POSITION_RAD,
-    //         ShooterConstants.MID_RANGE_RPM));
-    // NamedCommands.registerCommand(
-    //     "LegShot",
-    //     new PreloadShot(
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_wristSubsystem,
-    //         m_armSubsystem,
-    //         m_gyroSubsystem,
-    //         Units.degreesToRadians(-7), // TODO: Update angle
-    //         0,
-    //         ShooterConstants.FAR_RPM));
-    // NamedCommands.registerCommand(
-    //     "WingShot",
-    //     new PreloadShot(
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_wristSubsystem,
-    //         m_armSubsystem,
-    //         m_gyroSubsystem,
-    //         Units.degreesToRadians(-8.5), // TODO: Verify angle
-    //         0,
-    //         ShooterConstants.FAR_RPM));
+    NamedCommands.registerCommand(
+        "SubwooferShot",
+        new ShootAtAngle(
+            m_shooterSubsystem,
+            m_feederSubsystem,
+            m_armSubsystem,
+            m_wristSubsystem,
+            m_beamBreak,
+            ShooterConstants.CLOSE_RPM,
+            ArmConstants.SUBWOOFER_RAD,
+            WristConstants.SUBWOOFER_RAD));
+    NamedCommands.registerCommand(
+        "PodiumShot",
+        new ShootAtAngle(
+            m_shooterSubsystem,
+            m_feederSubsystem,
+            m_armSubsystem,
+            m_wristSubsystem,
+            m_beamBreak,
+            ShooterConstants.CLOSE_RPM,
+            ArmConstants.DEFAULT_POSITION_RAD,
+            WristConstants.PODIUM_RAD));
+    NamedCommands.registerCommand(
+        "ChainShot",
+        new ShootAtAngle(
+            m_shooterSubsystem,
+            m_feederSubsystem,
+            m_armSubsystem,
+            m_wristSubsystem,
+            m_beamBreak,
+            ShooterConstants.MID_RANGE_RPM,
+            ArmConstants.DEFAULT_POSITION_RAD,
+            WristConstants.CHAIN_RAD)); // TODO: Update
+    NamedCommands.registerCommand( 
+        "LegShot",
+        new ShootAtAngle(
+            m_shooterSubsystem,
+            m_feederSubsystem,
+            m_armSubsystem,
+            m_wristSubsystem,
+            m_beamBreak,
+            ShooterConstants.MID_RANGE_RPM,
+            ArmConstants.DEFAULT_POSITION_RAD,
+            Units.degreesToRadians(-7))); // TODO: Update
+    NamedCommands.registerCommand(
+        "WingShot",
+        new ShootAtAngle(
+            m_shooterSubsystem,
+            m_feederSubsystem,
+            m_armSubsystem,
+            m_wristSubsystem,
+            m_beamBreak,
+            ShooterConstants.MID_RANGE_RPM,
+            ArmConstants.DEFAULT_POSITION_RAD,
+            Units.degreesToRadians(-8.5))); // TODO: Update
+    NamedCommands.registerCommand("ShootWhenReady", new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_beamBreak, ShooterConstants.MID_RANGE_RPM));
+
     // Zero Commands
     NamedCommands.registerCommand(
         "ZeroWrist",
@@ -655,14 +673,14 @@ public class RobotContainer {
                 m_otbIntakeSubsystem,
                 m_utbIntakeSubsystem,
                 m_feederSubsystem,
-                UTBIntakeConstants.RUN))
+                CommandConstants.RUN_INTAKE))
         .onFalse(
             new AllIntakesRun(
                 m_actuatorSubsystem,
                 m_otbIntakeSubsystem,
                 m_utbIntakeSubsystem,
                 m_feederSubsystem,
-                UTBIntakeConstants.STOP))
+                CommandConstants.STOP_INTAKE))
         .onFalse(new ShooterRev(m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
     // UTB Intake (Intake)
     driverController
@@ -671,15 +689,15 @@ public class RobotContainer {
             new UTBIntakeRun(
                 m_utbIntakeSubsystem,
                 m_feederSubsystem,
-                UTBIntakeConstants.INWARDS,
-                UTBIntakeConstants.RUN))
+                CommandConstants.INTAKE_INWARDS,
+                CommandConstants.RUN_INTAKE))
         .onTrue(new AlignToNoteDrive(m_driveSubsystem, driverController))
         .onFalse(
             new UTBIntakeRun(
                 m_utbIntakeSubsystem,
                 m_feederSubsystem,
-                UTBIntakeConstants.INWARDS,
-                UTBIntakeConstants.STOP))
+                CommandConstants.INTAKE_INWARDS,
+                CommandConstants.STOP_INTAKE))
         .onFalse(new ShooterRev(m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
     // UTB Intake (Outtake)
     driverController
@@ -688,14 +706,14 @@ public class RobotContainer {
             new UTBIntakeRun(
                 m_utbIntakeSubsystem,
                 m_feederSubsystem,
-                UTBIntakeConstants.OUTWARDS,
-                UTBIntakeConstants.RUN))
+                CommandConstants.INTAKE_OUTWARDS,
+                CommandConstants.RUN_INTAKE))
         .onFalse(
             new UTBIntakeRun(
                 m_utbIntakeSubsystem,
                 m_feederSubsystem,
-                UTBIntakeConstants.OUTWARDS,
-                UTBIntakeConstants.STOP));
+                CommandConstants.INTAKE_OUTWARDS,
+                CommandConstants.STOP_INTAKE));
 
     /* Release NOTE */
     driverController

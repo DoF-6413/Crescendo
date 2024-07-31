@@ -86,13 +86,14 @@ public final class Constants {
   }
 
   public static class HeadingControllerConstants {
-    public static final double HEADING_CONTROLLER_KP = 0.0;
-    public static final double HEADING_CONTROLLER_KD = 0.0;
+    public static final double KP = 5.0;
+    public static final double KD = 100.0;
   }
 
   /** Auto-aiming shooting */
   public static class ShootingInterpolationConstants {
 
+    /** Distance from the center subwoofer to the wall */
     public static final double SPEAKER_TO_WALL_M = 0.904;
 
     public static final double[][] LOOKUP_TABLE_X_M_VS_THETA_DEG = {
@@ -120,7 +121,29 @@ public final class Constants {
   }
 
   public static class CommandConstants {
+    // Intakes Run
+    /** Runs the Intake(s) to intake NOTEs into the robot */
+    public static final boolean INTAKE_INWARDS = true;
+    /** Runs the Intake(s) to eject NOTEs out of the robot */
+    public static final boolean INTAKE_OUTWARDS = false;
+    /** Starts the Intake(s) */
+    public static final boolean RUN_INTAKE = false;
+    /** Stops the Intake(s) */
+    public static final boolean STOP_INTAKE = true;
+
+    // Vision Pick Up
     public static final double VISION_PICKUP_TIMEOUT_SEC = 3; // TODO: Test and Update
+
+    // Feeder Reverse
     public static final double FEEDER_REVERSE_TIMEOUT_SEC = 3; // TODO: Test and Update
+
+    // SPEAKER Rotation Target Override
+    public static final boolean SPEAKER_ROTATION_OVERRIDE_ENABLE = true;
+    public static final boolean SPEAKER_ROTATION_OVERRIDE_DISABLE = false;
+    
+    // NOTE Rotation Target Override
+    public static final boolean NOTE_ROTATION_OVERRIDE_ENABLE = true;
+    public static final boolean NOTE_ROTATION_OVERRIDE_DISABLE = false;
+
   }
 }

@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SubwooferShot"
+            "name": "PreloadShot"
           }
         },
         {
@@ -67,7 +67,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SubwooferShot"
+                  "name": "PreloadShot"
                 }
               }
             ]

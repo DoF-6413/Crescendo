@@ -22,6 +22,7 @@ public class PathPlanner extends SubsystemBase {
   private Gyro gyro;
 
   private boolean speakerRotOverride = false;
+  private boolean noteRotOverride = false;
 
   public PathPlanner(Drive drive, PoseEstimator pose, Gyro gyro) {
     this.drive = drive;
@@ -59,6 +60,14 @@ public class PathPlanner extends SubsystemBase {
     if (speakerRotOverride) {
       PPHolonomicDriveController.setRotationTargetOverride(pose::AlignToSpeakerPathPlanner);
     }
+
+    if (noteRotOverride) {
+      PPHolonomicDriveController.setRotationTargetOverride(drive::noteAlignmentRotationOverride);
+    }
+  }
+
+  public void enableNOTEAlignment(boolean enable) {
+    noteRotOverride = enable;
   }
 
   public void setSpeakerRotOverrideEnable(boolean enable) {
