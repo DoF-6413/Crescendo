@@ -259,13 +259,15 @@ public class Drive extends SubsystemBase {
             this.getRotation()));
   }
 
-  public void driveWithNoteDetection(double x, double y, double rot) {
-    if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) < -VisionConstants.LL_TELEOP_NOTE_RANGE) {
-      this.driveWithDeadband(x, y, 0.4);
-    } else if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) > VisionConstants.LL_TELEOP_NOTE_RANGE) {
-      this.driveWithDeadband(x, y, -0.4);
+  public void driveWithNoteDetection(double x, double y, double alignmentRotSpeed) {
+    if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME)
+        < -VisionConstants.LL_NOTE_RANGE) {
+      this.driveWithDeadband(x, y, alignmentRotSpeed);
+    } else if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME)
+        > VisionConstants.LL_NOTE_RANGE) {
+      this.driveWithDeadband(x, y, -alignmentRotSpeed);
     } else {
-      this.driveWithDeadband(x, y, rot);
+      this.driveWithDeadband(x, y, 0);
     }
   }
 

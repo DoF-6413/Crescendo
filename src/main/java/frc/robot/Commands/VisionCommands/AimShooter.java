@@ -7,14 +7,15 @@ package frc.robot.Commands.VisionCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.feeder.Feeder;
+import frc.robot.Subsystems.feeder.FeederConstants;
 import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.wrist.Wrist;
 import frc.robot.Utils.BeamBreak;
 import frc.robot.Utils.PoseEstimator;
@@ -27,7 +28,6 @@ public class AimShooter extends Command {
   public Feeder m_feeder;
   public CommandXboxController controller;
   public BeamBreak m_beam;
-  private Timer m_timer;
 
   /** Creates a new AimShooter. */
   public AimShooter(
@@ -41,22 +41,18 @@ public class AimShooter extends Command {
     m_shooter = shooter;
     m_wrist = wrist;
     m_arm = arm;
-    m_pose = pose;
     m_feeder = feeder;
-    this.controller = controller;
     m_beam = beam;
-    m_timer = new Timer();
-    addRequirements(shooter, wrist, arm);
+    m_pose = pose;
+    this.controller = controller;
+    addRequirements(shooter, wrist, arm, feeder, beam);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_feeder.setSetpoint(-400);
+    m_feeder.setSetpoint(FeederConstants.REVERSE_RPM);
     m_shooter.setSetpoint(0);
-    m_timer.reset();
-    m_timer.restart();
-    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -64,7 +60,7 @@ public class AimShooter extends Command {
   public void execute() {
     if (m_beam.getShooterSensor() == false) {
       m_feeder.setSetpoint(0);
-      m_shooter.setSetpoint(5500);
+      m_shooter.setSetpoint(ShooterConstants.MID_RANGE_RPM);
     }
 
     Pose2d dtvalues = m_pose.getCurrentPose2d();
@@ -77,12 +73,10 @@ public class AimShooter extends Command {
     }
 
     double deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
-    // if (m_timer.hasElapsed(1.0)) {
-    //   m_shooter.setSetpoint(5500);
-    // }
     double speakerDist = Math.hypot(deltaX, deltaY);
     m_wrist.setGoal(Units.degreesToRadians(m_wrist.returnDesiredAngle(speakerDist)));
   }
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {

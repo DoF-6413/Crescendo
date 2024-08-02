@@ -177,8 +177,10 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM), m_shooterSubsystem));
     NamedCommands.registerCommand(
-        "Shooter5000",
-        new RunCommand(() -> m_shooterSubsystem.setSetpoint(ShooterConstants.MID_RANGE_RPM), m_shooterSubsystem)
+        "Shooter5500",
+        new RunCommand(
+                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.MID_RANGE_RPM),
+                m_shooterSubsystem)
             .until(() -> m_shooterSubsystem.bothAtSetpoint()));
     NamedCommands.registerCommand(
         "Shooter6000",
@@ -197,7 +199,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "StopFeeder",
         new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
-        
+
     // Angles
     NamedCommands.registerCommand(
         "SubwooferAngle",
@@ -215,24 +217,27 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "LineAngle",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(9)), m_wristSubsystem)); // TODO: Update?
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(9)),
+            m_wristSubsystem)); // TODO: Update?
     NamedCommands.registerCommand(
         "2P Note",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(15)), m_wristSubsystem)); // TODO: Update?
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(15)),
+            m_wristSubsystem)); // TODO: Update?
     NamedCommands.registerCommand(
         "ChainAngle",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(4)), m_wristSubsystem)); // TODO: Update?
+            () -> m_wristSubsystem.setGoal(Units.degreesToRadians(4)),
+            m_wristSubsystem)); // TODO: Update?
     NamedCommands.registerCommand(
         "WingAngle",
         new InstantCommand(
-            () -> m_wristSubsystem.setGoal(WristConstants.WING_RAD), m_wristSubsystem));
+            () -> m_wristSubsystem.setGoal(WristConstants.WING_RAD),
+            m_wristSubsystem)); // TODO: Update?
 
     // Vision
     NamedCommands.registerCommand(
-        "AutoAlignWrist",
-        new AimWrist(m_wristSubsystem, m_armSubsystem, m_poseEstimator));
+        "AutoAlignWrist", new AimWrist(m_wristSubsystem, m_armSubsystem, m_poseEstimator));
     NamedCommands.registerCommand("NoteAlign", new AlignToNote(m_driveSubsystem, 0.3));
     NamedCommands.registerCommand(
         "VisionPickUp",
@@ -245,14 +250,31 @@ public class RobotContainer {
             m_armSubsystem,
             m_wristSubsystem,
             m_beamBreak));
-    NamedCommands.registerCommand("EnableNOTERotationOverride", new InstantCommand(()-> m_pathPlanner.enableNOTEAlignment(CommandConstants.NOTE_ROTATION_OVERRIDE_ENABLE), m_pathPlanner));
-    NamedCommands.registerCommand("DisableNOTERotationOverride", new InstantCommand(()-> m_pathPlanner.enableNOTEAlignment(CommandConstants.NOTE_ROTATION_OVERRIDE_DISABLE), m_pathPlanner));
+    NamedCommands.registerCommand(
+        "EnableNOTERotationOverride",
+        new InstantCommand(
+            () -> m_pathPlanner.enableNOTEAlignment(CommandConstants.NOTE_ROTATION_OVERRIDE_ENABLE),
+            m_pathPlanner));
+    NamedCommands.registerCommand(
+        "DisableNOTERotationOverride",
+        new InstantCommand(
+            () ->
+                m_pathPlanner.enableNOTEAlignment(CommandConstants.NOTE_ROTATION_OVERRIDE_DISABLE),
+            m_pathPlanner));
     NamedCommands.registerCommand(
         "EnableSpeakerRotationOverride",
-        new InstantCommand(() -> m_pathPlanner.setSpeakerRotOverrideEnable(CommandConstants.SPEAKER_ROTATION_OVERRIDE_ENABLE), m_pathPlanner));
+        new InstantCommand(
+            () ->
+                m_pathPlanner.setSpeakerRotOverrideEnable(
+                    CommandConstants.SPEAKER_ROTATION_OVERRIDE_ENABLE),
+            m_pathPlanner));
     NamedCommands.registerCommand(
         "DisableSpeakerRotationOverride",
-        new InstantCommand(() -> m_pathPlanner.setSpeakerRotOverrideEnable(CommandConstants.SPEAKER_ROTATION_OVERRIDE_DISABLE), m_pathPlanner));
+        new InstantCommand(
+            () ->
+                m_pathPlanner.setSpeakerRotOverrideEnable(
+                    CommandConstants.SPEAKER_ROTATION_OVERRIDE_DISABLE),
+            m_pathPlanner));
 
     // Pick Ups
     NamedCommands.registerCommand(
@@ -324,7 +346,7 @@ public class RobotContainer {
             ShooterConstants.MID_RANGE_RPM,
             ArmConstants.DEFAULT_POSITION_RAD,
             WristConstants.CHAIN_RAD)); // TODO: Update
-    NamedCommands.registerCommand( 
+    NamedCommands.registerCommand(
         "LegShot",
         new ShootAtAngle(
             m_shooterSubsystem,
@@ -346,7 +368,10 @@ public class RobotContainer {
             ShooterConstants.MID_RANGE_RPM,
             ArmConstants.DEFAULT_POSITION_RAD,
             Units.degreesToRadians(-8.5))); // TODO: Update
-    NamedCommands.registerCommand("ShootWhenReady", new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_beamBreak, ShooterConstants.MID_RANGE_RPM));
+    NamedCommands.registerCommand(
+        "ShootWhenReady",
+        new ShootWhenReady(
+            m_shooterSubsystem, m_feederSubsystem, m_beamBreak, ShooterConstants.MID_RANGE_RPM));
 
     // Zero Commands
     NamedCommands.registerCommand(
@@ -393,6 +418,7 @@ public class RobotContainer {
     autoChooser.addOption("2 Piece Amp", new PathPlannerAuto("2P Amp"));
     autoChooser.addOption("2 Piece Cool Side", new PathPlannerAuto("2P Cool Side"));
     autoChooser.addOption("2 Piece Vision", new PathPlannerAuto("2P Vision"));
+    autoChooser.addOption("2 Piece Vision 2", new PathPlannerAuto("2P Vision 2.0"));
     // 3 Piece
     // autoChooser.addOption("3 Piece Center", new PathPlannerAuto("3P Center"));
     // autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
@@ -637,7 +663,7 @@ public class RobotContainer {
       if (counter >= 20) {
         SmartDashboard.putBoolean("Is Note Picked Up", true);
       }
-    } else if (auxController.a().getAsBoolean()
+    } else if (driverController.rightBumper().getAsBoolean() || auxController.a().getAsBoolean()
         || (m_shooterSubsystem.getSetpoint() > 0 && m_feederSubsystem.getSetpoint() > 0)) {
       counter = 0;
       SmartDashboard.putBoolean("Is Note Picked Up", false);
@@ -691,7 +717,6 @@ public class RobotContainer {
                 m_feederSubsystem,
                 CommandConstants.INTAKE_INWARDS,
                 CommandConstants.RUN_INTAKE))
-        .onTrue(new AlignToNoteDrive(m_driveSubsystem, driverController))
         .onFalse(
             new UTBIntakeRun(
                 m_utbIntakeSubsystem,

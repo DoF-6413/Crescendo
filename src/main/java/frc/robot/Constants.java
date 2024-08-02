@@ -140,10 +140,9 @@ public final class Constants {
     // SPEAKER Rotation Target Override
     public static final boolean SPEAKER_ROTATION_OVERRIDE_ENABLE = true;
     public static final boolean SPEAKER_ROTATION_OVERRIDE_DISABLE = false;
-    
+
     // NOTE Rotation Target Override
     public static final boolean NOTE_ROTATION_OVERRIDE_ENABLE = true;
     public static final boolean NOTE_ROTATION_OVERRIDE_DISABLE = false;
-
   }
 }

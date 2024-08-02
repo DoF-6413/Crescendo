@@ -20,7 +20,7 @@ public class DriveToNote extends Command {
   double TX;
   double x;
   double y;
-  double rot;
+  double rotSpeed;
 
   /** Creates a new DriveToNote. */
   public DriveToNote(Drive drive, BeamBreak beamBreak, double x, double y, double rotSpeed) {
@@ -28,9 +28,9 @@ public class DriveToNote extends Command {
     this.beamBreak = beamBreak;
     this.x = x;
     this.y = y;
-    rot = rotSpeed;
+    this.rotSpeed = rotSpeed;
 
-    addRequirements(drive);
+    addRequirements(drive, beamBreak);
   }
 
   // Called when the command is initially scheduled.
@@ -50,13 +50,7 @@ public class DriveToNote extends Command {
       timer.start();
     }
 
-    if (TX < -VisionConstants.LL_AUTONOMOUS_NOTE_RANGE) {
-      drive.driveWithDeadband(x, y, rot);
-    } else if (TX > VisionConstants.LL_AUTONOMOUS_NOTE_RANGE) {
-      drive.driveWithDeadband(x, y, -rot);
-    } else {
-      drive.driveWithDeadband(x, y, 0);
-    }
+    drive.driveWithNoteDetection(x, y, rotSpeed);
   }
 
   // Called once the command ends or is interrupted.

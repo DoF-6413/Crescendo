@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.arm.Arm;
-import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.wrist.Wrist;
 import frc.robot.Subsystems.wrist.WristConstants;
 import frc.robot.Utils.PoseEstimator;
@@ -23,7 +22,7 @@ public class AimWrist extends Command {
   public PoseEstimator m_pose;
   private Timer m_timer;
 
-  /** Creates a new AimWrist. */
+  /** Updates the angle of the Wrist based on the robot's distance from the SPEAKER */
   public AimWrist(Wrist wrist, Arm arm, PoseEstimator pose) {
     m_wrist = wrist;
     m_arm = arm;
@@ -56,6 +55,7 @@ public class AimWrist extends Command {
     double speakerDist = Math.hypot(deltaX, deltaY);
     m_wrist.setGoal(Units.degreesToRadians(m_wrist.returnDesiredAngle(speakerDist)));
   }
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}

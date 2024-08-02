@@ -70,14 +70,14 @@
                 "data": {
                   "name": "VisionPickUp"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "UTB"
-                }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PickUpStop"
           }
         },
         {
@@ -88,12 +88,6 @@
                 "type": "named",
                 "data": {
                   "name": "AutoAlignWrist"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "PickUpStop"
                 }
               },
               {

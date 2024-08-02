@@ -181,8 +181,8 @@ public class Wrist extends SubsystemBase {
   }
 
   /**
-   * Toggles whether the PID controller is used to for setting the voltage of the Wrist
-   * based on an angle setpoint
+   * Toggles whether the PID controller is used to for setting the voltage of the Wrist based on an
+   * angle setpoint
    *
    * @param enabled True = Enable, False = Disable
    */

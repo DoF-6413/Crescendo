@@ -12,15 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "2M Test Side"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "EnableSpeakerRotationOverride"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2M Test Side"
           }
         }
       ]

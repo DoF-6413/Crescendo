@@ -37,11 +37,7 @@ public class AlignToNote extends Command {
     TX = LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME);
     // TY = LimelightHelpers.getTY(VisionConstants.LIME_LIGHT_NAME);
 
-    if (TX < -VisionConstants.LL_AUTONOMOUS_NOTE_RANGE) {
-      drive.setRaw(0, 0, speed);
-    } else if (TX > VisionConstants.LL_AUTONOMOUS_NOTE_RANGE) {
-      drive.setRaw(0, 0, -speed);
-    }
+    drive.driveWithNoteDetection(0, 0, speed);
   }
 
   // Called once the command ends or is interrupted.
@@ -53,7 +49,7 @@ public class AlignToNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return TX <= VisionConstants.LL_AUTONOMOUS_NOTE_RANGE
-        && TX >= -VisionConstants.LL_AUTONOMOUS_NOTE_RANGE;
+    return TX <= VisionConstants.LL_NOTE_RANGE
+        && TX >= -VisionConstants.LL_NOTE_RANGE;
   }
 }

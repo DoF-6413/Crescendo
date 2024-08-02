@@ -6,6 +6,7 @@ package frc.robot.Commands.TeleopCommands.Intakes;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.feeder.Feeder;
+import frc.robot.Subsystems.feeder.FeederConstants;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Utils.BeamBreak;
@@ -28,7 +29,7 @@ public class ShooterRev extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    feeder.setSetpoint(-400);
+    feeder.setSetpoint(FeederConstants.REVERSE_RPM);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
