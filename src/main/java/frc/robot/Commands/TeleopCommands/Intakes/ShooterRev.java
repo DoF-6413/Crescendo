@@ -4,36 +4,50 @@
 
 package frc.robot.Commands.TeleopCommands.Intakes;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Subsystems.actuator.Actuator;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.feeder.Feeder;
-import frc.robot.Subsystems.otbIntake.OTBIntake;
+import frc.robot.Subsystems.feeder.FeederConstants;
 import frc.robot.Subsystems.shooter.Shooter;
-import frc.robot.Subsystems.utbintake.UTBIntake;
+import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Utils.BeamBreak;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShooterRev extends SequentialCommandGroup {
+public class ShooterRev extends Command {
+  public Feeder feeder;
+  public Shooter shooter;
+  public BeamBreak beamBreak;
 
-  /** Creates a new ShooterRev. */
-  public ShooterRev(
-      Actuator actuator,
-      OTBIntake otb,
-      UTBIntake utb,
-      Feeder feeder,
-      Shooter shooter,
-      BeamBreak beamBreak) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-        new UTBIntakeRun(utb, feeder, false, true),
-        new ParallelDeadlineGroup(
-            new InstantCommand(() -> beamBreak.getShooterSensor()),
-            new InstantCommand(() -> feeder.setSetpoint(-250), feeder)),
-        new InstantCommand(() -> shooter.setSetpoint(4000), shooter));
+  /** Creates a new IntakeShooterRev. */
+  public ShooterRev(Feeder feeder, Shooter shooter, BeamBreak beamBreak) {
+    this.feeder = feeder;
+    this.shooter = shooter;
+    this.beamBreak = beamBreak;
+
+    addRequirements(feeder, shooter, beamBreak);
+    // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    feeder.setSetpoint(FeederConstants.REVERSE_RPM);
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    if (beamBreak.getShooterSensor() == false) {
+      feeder.setSetpoint(0);
+      shooter.setSetpoint(ShooterConstants.PRE_REV_RPM);
+    }
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return shooter.getSetpoint() > 0;
   }
 }

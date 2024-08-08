@@ -15,7 +15,7 @@ import org.littletonrobotics.junction.Logger;
 public class Arm extends SubsystemBase {
 
   private final ArmIO io;
-  private final ArmIOInputsAutoLogged armInputs = new ArmIOInputsAutoLogged();
+  private final ArmIOInputsAutoLogged inputs = new ArmIOInputsAutoLogged();
 
   // private final ProfiledPIDController armPIDController;
   private final PIDController armPIDController;
@@ -38,8 +38,8 @@ public class Arm extends SubsystemBase {
     //         ArmConstants.KD,
     //         new TrapezoidProfile.Constraints(
     //             ArmConstants.MAX_VELOCITY, ArmConstants.MAX_ACCELERATION));
-    // armPIDController.setGoal(0);
-    armPIDController.setSetpoint(0);
+    // armPIDController.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
+    armPIDController.setSetpoint(ArmConstants.DEFAULT_POSITION_RAD);
     armPIDController.setTolerance(ArmConstants.ANGLE_TOLERANCE);
     armPIDController.disableContinuousInput();
 
@@ -61,13 +61,13 @@ public class Arm extends SubsystemBase {
     // updates the inputs
     this.updateInputs();
     // log the inputs
-    Logger.processInputs("Arm", armInputs);
+    Logger.processInputs("Arm", inputs);
 
     // Updates Arm Speed based on PID Control
     if (isPIDEnabled) {
       setPercentSpeed(
-          armPIDController.calculate(armInputs.armAbsolutePositionRad)
-              + (armFeedforward.calculate(armInputs.armVelocityRadPerSec)
+          armPIDController.calculate(inputs.armAbsolutePositionRad)
+              + (armFeedforward.calculate(inputs.armVelocityRadPerSec)
                   / RobotStateConstants
                       .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
     }
@@ -75,14 +75,11 @@ public class Arm extends SubsystemBase {
     if (isTestingEnabled) {
       testPIDFValues();
     }
-
-    SmartDashboard.putNumber(
-        "armSetpointDeg", Units.radiansToDegrees(armPIDController.getSetpoint()));
   }
 
   /** Updates the Outputs of the Motors based on What Mode we are In */
   public void updateInputs() {
-    io.updateInputs(armInputs);
+    io.updateInputs(inputs);
   }
 
   /**
@@ -119,6 +116,8 @@ public class Arm extends SubsystemBase {
    */
   public void setGoal(double goal) {
     armPIDController.setSetpoint(goal);
+    SmartDashboard.putNumber(
+        "armSetpointDeg", Units.radiansToDegrees(armPIDController.getSetpoint()));
     // armPIDController.setGoal(goal);
   }
 

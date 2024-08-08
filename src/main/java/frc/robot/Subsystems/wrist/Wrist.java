@@ -21,11 +21,12 @@ public class Wrist extends SubsystemBase {
   private final ProfiledPIDController wristPIDController;
   private SimpleMotorFeedforward wristFeedforward;
 
-  private static double goal = 0.0;
+  /** Used to toggle PID calculations for the angle */
   private static boolean isPIDEnabled = true;
+  /** Used to toggle test features */
   private static boolean isTestingEnabled = false;
 
-  /** Creates a new Wrist, the second joint of the wrist mechanism */
+  /** Creates a new Wrist, the second joint of the entire Arm mechanism */
   public Wrist(WristIO io) {
     System.out.println("[Init] Creating Wrist");
     this.io = io;
@@ -73,9 +74,6 @@ public class Wrist extends SubsystemBase {
     if (isTestingEnabled) {
       testPIDFValues();
     }
-
-    SmartDashboard.putNumber(
-        "WristSetpointDeg", Units.radiansToDegrees(wristPIDController.getGoal().position));
   }
 
   /** Updates the set of loggable inputs for the Wrist */
@@ -117,10 +115,17 @@ public class Wrist extends SubsystemBase {
    */
   public void setGoal(double goal) {
     wristPIDController.setGoal(goal);
+    SmartDashboard.putNumber(
+        "WristSetpointDeg", Units.radiansToDegrees(wristPIDController.getGoal().position));
   }
 
-  /** Returns whether the Wrist is at it's goal or not */
-  public boolean atSetpoint() {
+  /** Returns the angle setpoint of the Wrist */
+  public double getGoal() {
+    return wristPIDController.getGoal().position;
+  }
+
+  /** Returns whether the Wrist is at it's angle goal or not */
+  public boolean atGoal() {
     return wristPIDController.atSetpoint();
   }
 
@@ -135,7 +140,9 @@ public class Wrist extends SubsystemBase {
 
   public double returnDesiredAngle(double x) {
     double closestX, closestTheta;
-    if (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][5] > x) {
+    if (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][
+            ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0].length - 1]
+        > x) {
       int i = 1;
       closestX = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
       closestTheta = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
@@ -174,6 +181,9 @@ public class Wrist extends SubsystemBase {
   }
 
   /**
+   * Toggles whether the PID controller is used to for setting the voltage of the Wrist based on an
+   * angle setpoint
+   *
    * @param enabled True = Enable, False = Disable
    */
   public void enablePID(boolean enabled) {
@@ -181,6 +191,8 @@ public class Wrist extends SubsystemBase {
   }
 
   /**
+   * Toggles whether the PID values are used from Constants or SmartDashboard inputs
+   *
    * @param enabled True = Enable, False = Disable
    */
   public void enableTesting(boolean enabled) {

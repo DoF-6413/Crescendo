@@ -7,6 +7,7 @@ package frc.robot.Commands.TeleopCommands.Intakes;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.feeder.Feeder;
+import frc.robot.Subsystems.feeder.FeederConstants;
 import frc.robot.Subsystems.otbIntake.*;
 import frc.robot.Subsystems.utbintake.*;
 
@@ -32,7 +33,7 @@ public class AllIntakesRun extends ParallelCommandGroup {
       otbIntakePercentSpeed = -0.30;
       utbIntakePercentSpeed = -1.0;
 
-      feederRPM = 1500;
+      feederRPM = FeederConstants.INTAKE_RPM;
       actuatorPosition = ActuatorConstants.MAX_ANGLE_RADS;
     }
 

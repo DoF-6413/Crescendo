@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Utils.HeadingController;
-import frc.robot.Utils.PoseEstimatorLimelight;
+import frc.robot.Utils.PoseEstimator;
 
 public class DefaultDriveCommand extends Command {
   /** Creates a new DefaultDriveCommand. */
@@ -19,15 +19,17 @@ public class DefaultDriveCommand extends Command {
   Drive drive;
   Gyro gyro;
   int index = 1;
-  boolean alreadyPressed = false;
+  int prevIndex = index;
+  boolean alreadyPressedL3 = false;
+  boolean alreadyPressedTrigger = false;
   HeadingController headingController;
-  PoseEstimatorLimelight pose;
+  PoseEstimator pose;
 
   public DefaultDriveCommand(
       Drive drive,
       CommandXboxController controller,
       Gyro gyro,
-      PoseEstimatorLimelight pose,
+      PoseEstimator pose,
       int startingIndex) {
     this.controller = controller;
 
@@ -55,27 +57,40 @@ public class DefaultDriveCommand extends Command {
               pose.AngleForSpeaker().plus(new Rotation2d(Math.PI / 2)),
               drive.getRotation(),
               gyro.getRate())); // Rotate chassis left/right
-    } else if (index % 2 == 0) {
 
+    } else if (index % 2 == 0 && index > 0) {
       drive.driveWithDeadbandPlusHeading(
           controller.getLeftX(), // Forward/backward
           -controller.getLeftY(), // Left/Right (multiply by -1 bc controller axis inverted)
-          -controller.getRightX()); // Rotate chassis left/right
-    } else {
+          -controller.getRightX()); // Rotate chassis left/rightc
 
+    } else if (index == -1) {
+      drive.driveWithNoteDetection(controller.getLeftX(), -controller.getLeftY(), 0.3);
+
+    } else if (index > 0) {
       drive.driveWithDeadband(
           controller.getLeftX(), // Forward/backward
           -controller.getLeftY(), // Left/Right (multiply by -1 bc controller a())is inverted)
           -controller.getRightX()); // Rotate chassis left/right
     }
 
-    if (controller.button(9).getAsBoolean() && alreadyPressed != true) {
+    if (controller.button(9).getAsBoolean() && alreadyPressedL3 != true) {
       index += 1;
-      alreadyPressed = true;
-    } else if (!controller.button(9).getAsBoolean() && alreadyPressed == true) {
-      alreadyPressed = false;
+      alreadyPressedL3 = true;
+    } else if (!controller.button(9).getAsBoolean() && alreadyPressedL3 == true) {
+      alreadyPressedL3 = false;
     } else if (controller.button(10).getAsBoolean()) {
       index = 0;
+    } else if ((controller.leftTrigger().getAsBoolean() || controller.rightTrigger().getAsBoolean())
+        && alreadyPressedTrigger != true) {
+      prevIndex = index;
+      index = -1;
+      alreadyPressedTrigger = true;
+    } else if (!controller.leftTrigger().getAsBoolean()
+        && !controller.rightTrigger().getAsBoolean()
+        && alreadyPressedTrigger == true) {
+      index = prevIndex;
+      alreadyPressedTrigger = false;
     }
   }
 

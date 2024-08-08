@@ -11,25 +11,25 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotStateConstants;
 import org.littletonrobotics.junction.Logger;
 
-/** Add your docs here. */
 public class Shooter extends SubsystemBase {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
 
-  // Creates the PID & FF Contollers for both shooter motors
+  // Creates the PID & FF Contollers for both Shooter Motors
   private final PIDController topShooterPIDController;
   private final PIDController bottomShooterPIDController;
   private SimpleMotorFeedforward topShooterFeedforward;
   private SimpleMotorFeedforward bottomShooterFeedforward;
 
-  // The desired RPM for the shooter
+  /** The desired RPM for the Shooter */
   private double setpointRPM = 0.0;
 
+  /** Used to toggle PID calculations for RPM */
   private static boolean isPIDEnabled = true;
+  /** Used to toggle test features */
   private static boolean isTestingEnabled = false;
 
-  private boolean noteStatus = false;
-
+  /** Creates a new Shooter Subsystem */
   public Shooter(ShooterIO io) {
     System.out.println("[Init] Creating Shooter");
     this.io = io;
@@ -65,8 +65,8 @@ public class Shooter extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("Shooter", inputs);
 
+    // Sets the voltage of the Shooter Motors using PID
     if (isPIDEnabled) {
-      // Sets the voltage of the Shooter Motors using PID
       setTopVoltage(
           topShooterPIDController.calculate(inputs.topShooterMotorRPM)
               + (topShooterFeedforward.calculate(inputs.topShooterMotorRPM)
@@ -77,27 +77,23 @@ public class Shooter extends SubsystemBase {
                   / RobotStateConstants.BATTERY_VOLTAGE));
     }
 
-    SmartDashboard.putNumber("shooterSetpoint", topShooterPIDController.getSetpoint());
-    SmartDashboard.putBoolean("BothAtSetpoint", bothAtSetpoint());
-    SmartDashboard.putNumber(
-        "Shoot RPM Diff",
-        Math.abs(inputs.topShooterMotorRPM) - Math.abs(inputs.bottomShooterMotorRPM));
-
+    // Enables test values along with printing other useful measurements for testing
     if (isTestingEnabled) {
       testPIDFFValues();
+      SmartDashboard.putNumber(
+          "Shoot RPM Diff",
+          Math.abs(inputs.topShooterMotorRPM) - Math.abs(inputs.bottomShooterMotorRPM));
+      SmartDashboard.putNumber("TopShooter Error", topShooterPIDController.getPositionError());
+      SmartDashboard.putNumber(
+          "BottomShooter Error", bottomShooterPIDController.getPositionError());
+      SmartDashboard.putNumber("ShooterAvgVel", getAverageVelocityRPM());
+      SmartDashboard.putNumber(
+          "ShooterAvgVelError",
+          (topShooterPIDController.getPositionError()
+                  + bottomShooterPIDController.getPositionError())
+              / 2);
+      SmartDashboard.putBoolean("BothAtSetpoint", bothAtSetpoint());
     }
-
-    // getNoteStatus();
-    // SmartDashboard.putBoolean("Shooter Beam Break", inputs.beambreak);
-
-    SmartDashboard.putBoolean("Note Status", noteStatus);
-    SmartDashboard.putNumber("TopShooter Error", topShooterPIDController.getPositionError());
-    SmartDashboard.putNumber("BottomShooter Error", bottomShooterPIDController.getPositionError());
-    SmartDashboard.putNumber("ShooterAvgVel", getAverageVelocityRPM());
-    SmartDashboard.putNumber(
-        "ShooterAvgVelError",
-        (topShooterPIDController.getPositionError() + bottomShooterPIDController.getPositionError())
-            / 2);
   }
 
   /** Updates the set of loggable inputs for both Shooter Motors */
@@ -206,11 +202,15 @@ public class Shooter extends SubsystemBase {
     bottomShooterPIDController.setTolerance(tolerance);
   }
 
+  /** Returns the current RPM setpoint of the Shooter */
   public double getSetpoint() {
     return topShooterPIDController.getSetpoint();
   }
 
   /**
+   * Toggles whether the PID controller is used to for setting the voltage of the Shooter motors
+   * based on an RPM setpoint
+   *
    * @param enable True = Enable, False = Disable
    */
   public void enablePID(boolean enable) {
@@ -218,13 +218,15 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
+   * Toggles whether the PID values are used from Constants or SmartDashboard inputs
+   *
    * @param enable True = Enable, False = Disable
    */
   public void enableTesting(boolean enable) {
     isTestingEnabled = enable;
   }
 
-  /** Updates the PID values for the Shooter from ShuffleBoard */
+  /** Updates the PID values for the Shooter from SmartDashboard */
   public void updatePIDController(double kp, double ki, double kd) {
     ShooterConstants.KP = kp;
     ShooterConstants.KI = ki;
@@ -234,7 +236,7 @@ public class Shooter extends SubsystemBase {
         ShooterConstants.KP, ShooterConstants.KI, ShooterConstants.KD);
   }
 
-  /** Updates the Feedforward values for the Shooter from ShuffleBoard */
+  /** Updates the Feedforward values for the Shooter from SmartDashboard */
   public void updateFFController(double ks, double kv, double ka) {
     ShooterConstants.KS = ks;
     ShooterConstants.KV = kv;
@@ -245,6 +247,7 @@ public class Shooter extends SubsystemBase {
         new SimpleMotorFeedforward(ShooterConstants.KS, ShooterConstants.KV, ShooterConstants.KA);
   }
 
+  /** Updates PID and FF values from SmartDashboard */
   public void testPIDFFValues() {
     if (ShooterConstants.KP != SmartDashboard.getNumber("shooterkP", 0.00275)
         || ShooterConstants.KI != SmartDashboard.getNumber("shooterkI", 0.0)
@@ -264,17 +267,4 @@ public class Shooter extends SubsystemBase {
           SmartDashboard.getNumber("shooterkA", 0.0));
     }
   }
-
-  // public boolean getNoteStatus() {
-  //   if (inputs.beambreak == false) {
-  //     noteStatus = true;
-  //   } else if (getSetpoint() != 0) {
-  //     noteStatus = false;
-  //   }
-  //   return noteStatus;
-  // }
-
-  // public boolean getBeamBreak() {
-  //   return inputs.beambreak;
-  // }
 }

@@ -28,7 +28,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Shooter4000"
+                        "name": "Shooter5500"
                       }
                     }
                   ]
@@ -37,7 +37,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
+                  "waitTime": 1.2
                 }
               },
               {
@@ -129,7 +129,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SubwooferShot"
+                  "name": "PreloadShot"
                 }
               }
             ]

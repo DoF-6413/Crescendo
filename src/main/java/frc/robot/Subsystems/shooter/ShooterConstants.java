@@ -60,11 +60,15 @@ public class ShooterConstants {
   /** SPEAKER score speed at or near the subwoofer */
   public static final double CLOSE_RPM = 4000;
   /** SPEAKER score speed from mid range */
-  public static final double MID_RANGE_RPM = 6300;
+  public static final double MID_RANGE_RPM = 5500;
   /** SPEAKER score speed from mid stage and beyond */
   public static final double FAR_RPM = 7000;
   /** Shooter speed for sending NOTEs from the SOURCE to Midfield */
   public static final double SOURCE_FEED_RPM = 5500;
   /** Shooter speed for sending NOTES from Midfield to alliance WING */
   public static final double MIDFIELD_FEEDING_RPM = 2500;
+  /** Shooter speed for pre-revving the shooter after intaking */
+  public static final double PRE_REV_RPM = 1500;
+  /** Speed for backing NOTE up inside the Shooter */
+  public static final double REVERSE_RPM = -300;
 }

@@ -86,12 +86,14 @@ public final class Constants {
   }
 
   public static class HeadingControllerConstants {
-    public static final double HEADING_CONTROLLER_KP = 0.0;
-    public static final double HEADING_CONTROLLER_KD = 0.0;
+    public static final double KP = 5.0;
+    public static final double KD = 100.0;
   }
 
+  /** Auto-aiming shooting */
   public static class ShootingInterpolationConstants {
-    /** Auto-aiming shooting */
+
+    /** Distance from the center subwoofer to the wall */
     public static final double SPEAKER_TO_WALL_M = 0.904;
 
     public static final double[][] LOOKUP_TABLE_X_M_VS_THETA_DEG = {
@@ -105,17 +107,42 @@ public final class Constants {
         3 + SPEAKER_TO_WALL_M,
         3.5 + SPEAKER_TO_WALL_M,
         4 + SPEAKER_TO_WALL_M,
-        4.5 + SPEAKER_TO_WALL_M,
-        5 + SPEAKER_TO_WALL_M
+        4.5 + SPEAKER_TO_WALL_M
       }, // x in meters
-      {32, 20, 13, 9, 4, 2, -2, -4, -4, -6}, // theta_max_degrees
-      {24, 15, 8, 5, 2, -1, -3, -4, -4, -6} // theta_min_degrees
-      // {34, 22, 15, 11, 6, 4, 0, -2, -3, -5}, // theta_max_degrees
-      // {26, 17, 10, 7, 4, 1, -1, -2, -3, -5} // theta_min_degrees
+      // {32, 20, 13, 9, 4, 2, -2, -4, -4, -6}, // theta_max_degrees
+      // {24, 15, 8, 5, 2, -1, -3, -4, -4, -6} // theta_min_degrees
+      {38, 24, 17, 15, 10, 8, 5, 8, 1}, // theta_max_degrees
+      {28, 18, 15, 13, 8, 5, 3, 6, -1} // theta_min_degrees
     };
   }
 
   public static class BeamBreakConstants {
     public static final int SHOOTER_BEAM_BREAK_PORT = 0;
+  }
+
+  public static class CommandConstants {
+    // Intakes Run
+    /** Runs the Intake(s) to intake NOTEs into the robot */
+    public static final boolean INTAKE_INWARDS = true;
+    /** Runs the Intake(s) to eject NOTEs out of the robot */
+    public static final boolean INTAKE_OUTWARDS = false;
+    /** Starts the Intake(s) */
+    public static final boolean RUN_INTAKE = false;
+    /** Stops the Intake(s) */
+    public static final boolean STOP_INTAKE = true;
+
+    // Vision Pick Up
+    public static final double VISION_PICKUP_TIMEOUT_SEC = 3; // TODO: Test and Update
+
+    // Feeder Reverse
+    public static final double FEEDER_REVERSE_TIMEOUT_SEC = 3; // TODO: Test and Update
+
+    // SPEAKER Rotation Target Override
+    public static final boolean SPEAKER_ROTATION_OVERRIDE_ENABLE = true;
+    public static final boolean SPEAKER_ROTATION_OVERRIDE_DISABLE = false;
+
+    // NOTE Rotation Target Override
+    public static final boolean NOTE_ROTATION_OVERRIDE_ENABLE = true;
+    public static final boolean NOTE_ROTATION_OVERRIDE_DISABLE = false;
   }
 }

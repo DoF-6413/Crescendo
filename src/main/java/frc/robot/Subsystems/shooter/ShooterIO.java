@@ -58,7 +58,7 @@ public interface ShooterIO {
   /**
    * Sets Top Shooter Motors at a percentage of its max speed.
    *
-   * <p>A positve number spins the Top Shooter Motor CCW and CCW for a negative number
+   * <p>A positve number spins the Top Shooter Motor CCW and CW for a negative number
    *
    * @param percent -1 to 1
    */

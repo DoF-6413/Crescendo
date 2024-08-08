@@ -90,7 +90,7 @@ public class Robot extends LoggedRobot {
     // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
     // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
     // Build)
-    SmartDashboard.putString("Beta Number", "1.43.0.64.0");
+    SmartDashboard.putString("Beta Number", "1.64.0.64.1");
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
@@ -128,6 +128,7 @@ public class Robot extends LoggedRobot {
     autonomousCommand = robotContainer.getAutonomousCommand();
 
     robotContainer.mechanismsCoastOnDisable(false);
+    robotContainer.enableVision(false);
 
     // Schedule the autonomous command (example)
     if (autonomousCommand != null) {
@@ -137,7 +138,9 @@ public class Robot extends LoggedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    robotContainer.isNotePickedUp();
+  }
 
   /** This function is called once when teleop is enabled. */
   @Override
@@ -152,11 +155,15 @@ public class Robot extends LoggedRobot {
 
     robotContainer.setAllSetpointsZero();
     robotContainer.mechanismsCoastOnDisable(false);
+    robotContainer.enablePID(true);
+    robotContainer.enableVision(true);
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    robotContainer.isNotePickedUp();
+  }
 
   /** This function is called once when test mode is enabled. */
   @Override

@@ -3,50 +3,68 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.15,
+        "x": 2.5,
         "y": 5.58
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6196699141100894,
-        "y": 5.049669914110089
+        "x": 1.7804534917728816,
+        "y": 5.58
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.031275350299988,
-        "y": 7.098351746561043
+        "x": 2.5,
+        "y": 6.80533123536556
       },
       "prevControl": {
-        "x": 0.9227967357677738,
-        "y": 5.755102725693984
+        "x": 1.6129891668217784,
+        "y": 6.343582622130526
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
     {
-      "waypointRelativePos": 0.3,
-      "rotationDegrees": 32.5,
-      "rotateFast": false
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ZeroShooting"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "StopFeeder"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
-  "constraintZones": [],
-  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 32.5,
-    "rotateFast": false
+    "rotation": 25.5,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Puzzle Pieces Vision",
