@@ -34,8 +34,7 @@ public class PositionToShoot extends SequentialCommandGroup {
         new WaitCommand(0.3),
         Commands.runOnce(
             () -> {
-              wrist.setGoal(
-                  angleWrist);
+              wrist.setGoal(angleWrist);
               arm.setGoal(angleArm);
               shooter.setSetpoint(RPM);
               feeder.setSetpoint(0);

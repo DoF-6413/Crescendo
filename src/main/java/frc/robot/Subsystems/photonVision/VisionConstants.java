@@ -19,6 +19,8 @@ public final class VisionConstants {
   /** The name of the Lime Light camera */
   public static final String LIME_LIGHT_NAME = "limelight";
 
-  /** The range a NOTE is allowed to be within to stop the robot from rotating during NOTE alignment */
-  public static final double LL_NOTE_RANGE = 7;
+  /**
+   * The range a NOTE is allowed to be within to stop the robot from rotating during NOTE alignment
+   */
+  public static final double LL_NOTE_RANGE = 10;
 }

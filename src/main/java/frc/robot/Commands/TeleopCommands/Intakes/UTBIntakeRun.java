@@ -24,7 +24,7 @@ public class UTBIntakeRun extends ParallelCommandGroup {
     if (stop) {
       feederRPM = 0;
       utbIntakePercentSpeed = 0;
-    } else if (stop) {
+    } else if (isInwards) {
       feederRPM = FeederConstants.INTAKE_RPM;
       utbIntakePercentSpeed = -1.0;
     } else {

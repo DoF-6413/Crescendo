@@ -49,7 +49,6 @@ public class AlignToNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return TX <= VisionConstants.LL_NOTE_RANGE
-        && TX >= -VisionConstants.LL_NOTE_RANGE;
+    return TX <= VisionConstants.LL_NOTE_RANGE && TX >= -VisionConstants.LL_NOTE_RANGE;
   }
 }

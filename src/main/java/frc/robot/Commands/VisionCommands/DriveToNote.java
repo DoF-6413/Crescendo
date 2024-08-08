@@ -51,6 +51,7 @@ public class DriveToNote extends Command {
     }
 
     drive.driveWithNoteDetection(x, y, rotSpeed);
+    System.out.println("{}{}{}{}{}DRIVING{}{}{}{}{}");
   }
 
   // Called once the command ends or is interrupted.

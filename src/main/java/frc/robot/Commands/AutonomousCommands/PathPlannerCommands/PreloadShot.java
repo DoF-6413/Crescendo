@@ -6,7 +6,10 @@ package frc.robot.Commands.AutonomousCommands.PathPlannerCommands;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.arm.ArmConstants;
@@ -37,7 +40,11 @@ public class PreloadShot extends SequentialCommandGroup {
             wrist,
             arm,
             shooter),
-        new WaitUntilCommand(() -> shooter.bothAtSetpoint() && wrist.atGoal()),
+        new ParallelRaceGroup(
+            new ParallelCommandGroup(
+                new WaitUntilCommand(() -> wrist.atGoal()),
+                new WaitUntilCommand(() -> shooter.bothAtSetpoint())),
+            new WaitCommand(3)),
         new InstantCommand(() -> feeder.setSetpoint(FeederConstants.SPEAKER_RPM), feeder));
   }
 }

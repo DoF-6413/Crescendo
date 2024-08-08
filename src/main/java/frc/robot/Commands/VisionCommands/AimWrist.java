@@ -54,6 +54,8 @@ public class AimWrist extends Command {
     double deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
     double speakerDist = Math.hypot(deltaX, deltaY);
     m_wrist.setGoal(Units.degreesToRadians(m_wrist.returnDesiredAngle(speakerDist)));
+
+    System.out.println("::::::AIMING::::::");
   }
 
   // Called once the command ends or is interrupted.

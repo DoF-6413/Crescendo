@@ -65,8 +65,7 @@ public class DefaultDriveCommand extends Command {
           -controller.getRightX()); // Rotate chassis left/rightc
 
     } else if (index == -1) {
-      drive.driveWithNoteDetection(
-          controller.getLeftX(), -controller.getLeftY(), 0.4);
+      drive.driveWithNoteDetection(controller.getLeftX(), -controller.getLeftY(), 0.3);
 
     } else if (index > 0) {
       drive.driveWithDeadband(
@@ -82,18 +81,17 @@ public class DefaultDriveCommand extends Command {
       alreadyPressedL3 = false;
     } else if (controller.button(10).getAsBoolean()) {
       index = 0;
-    } else if ((controller.leftTrigger().getAsBoolean()
-        || controller.rightTrigger().getAsBoolean()) && alreadyPressedTrigger != true) {
+    } else if ((controller.leftTrigger().getAsBoolean() || controller.rightTrigger().getAsBoolean())
+        && alreadyPressedTrigger != true) {
       prevIndex = index;
       index = -1;
       alreadyPressedTrigger = true;
     } else if (!controller.leftTrigger().getAsBoolean()
-        && !controller.rightTrigger().getAsBoolean() && alreadyPressedTrigger == true) {
+        && !controller.rightTrigger().getAsBoolean()
+        && alreadyPressedTrigger == true) {
       index = prevIndex;
       alreadyPressedTrigger = false;
     }
-
-    System.out.println(index);
   }
 
   // Called once the command ends or is interrupted.

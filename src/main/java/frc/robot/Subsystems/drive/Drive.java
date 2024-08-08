@@ -260,12 +260,13 @@ public class Drive extends SubsystemBase {
   }
 
   public void driveWithNoteDetection(double x, double y, double alignmentRotSpeed) {
-    if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME)
-        < -VisionConstants.LL_NOTE_RANGE) {
+    if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) < -VisionConstants.LL_NOTE_RANGE) {
       this.driveWithDeadband(x, y, alignmentRotSpeed);
+      System.out.println(">>>>>>>ALIGNRIGHT>>>>>>");
     } else if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME)
         > VisionConstants.LL_NOTE_RANGE) {
       this.driveWithDeadband(x, y, -alignmentRotSpeed);
+      System.out.println("<<<<<<ALIGNLEFT<<<<<<");
     } else {
       this.driveWithDeadband(x, y, 0);
     }

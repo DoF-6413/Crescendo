@@ -312,7 +312,7 @@ public class RobotContainer {
             m_shooterSubsystem,
             m_wristSubsystem,
             m_armSubsystem,
-            WristConstants.SUBWOOFER_RAD));
+            ShooterConstants.CLOSE_RPM));
     NamedCommands.registerCommand(
         "SubwooferShot",
         new ShootAtAngle(
@@ -408,6 +408,7 @@ public class RobotContainer {
     // autoChooser.addOption("test3", new PathPlannerAuto("test3"));
     autoChooser.addOption("2M Test", new PathPlannerAuto("2 meter forwards"));
     autoChooser.addOption("Override Test", new PathPlannerAuto("Speaker"));
+    autoChooser.addOption("Square Test", new PathPlannerAuto("Square"));
     // autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
     // 2 Piece
@@ -663,7 +664,8 @@ public class RobotContainer {
       if (counter >= 20) {
         SmartDashboard.putBoolean("Is Note Picked Up", true);
       }
-    } else if (driverController.rightBumper().getAsBoolean() || auxController.a().getAsBoolean()
+    } else if (driverController.rightBumper().getAsBoolean()
+        || auxController.a().getAsBoolean()
         || (m_shooterSubsystem.getSetpoint() > 0 && m_feederSubsystem.getSetpoint() > 0)) {
       counter = 0;
       SmartDashboard.putBoolean("Is Note Picked Up", false);
