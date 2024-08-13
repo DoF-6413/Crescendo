@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.Constants.CommandConstants;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.arm.ArmConstants;
 import frc.robot.Subsystems.feeder.Feeder;
@@ -44,7 +45,7 @@ public class PreloadShot extends SequentialCommandGroup {
             new ParallelCommandGroup(
                 new WaitUntilCommand(() -> wrist.atGoal()),
                 new WaitUntilCommand(() -> shooter.bothAtSetpoint())),
-            new WaitCommand(3)),
+            new WaitCommand(CommandConstants.PRELOAD_SHOT_TIMEOUT_SEC)),
         new InstantCommand(() -> feeder.setSetpoint(FeederConstants.SPEAKER_RPM), feeder));
   }
 }

@@ -144,5 +144,8 @@ public final class Constants {
     // NOTE Rotation Target Override
     public static final boolean NOTE_ROTATION_OVERRIDE_ENABLE = true;
     public static final boolean NOTE_ROTATION_OVERRIDE_DISABLE = false;
+
+    // Preload Shot
+    public static final double PRELOAD_SHOT_TIMEOUT_SEC = 2.0;
   }
 }

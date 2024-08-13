@@ -26,7 +26,7 @@ public final class WristConstants {
   public static double KA = 0.0;
 
   /** The position of the Wrist can be within 1 degree of the setpoint */
-  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(1.0);
+  public static final double ANGLE_TOLERANCE = Units.degreesToRadians(1.5);
 
   // Sim Constants
   /** Moment of inertia for the Wrist */

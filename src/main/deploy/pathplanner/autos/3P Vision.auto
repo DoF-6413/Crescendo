@@ -12,44 +12,19 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SubwooferAngle"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Shooter6000"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ZeroYaw"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.2
+                  "name": "PreloadShot"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Feeder"
+                  "name": "ZeroYaw"
                 }
               }
             ]
@@ -62,21 +37,41 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Center to BM (V)"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Center to BM (V)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "StopShooter"
+            "waitTime": 0
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "VisionPickUp"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "VisionPickUp"
+                }
+              }
+            ]
           }
         },
         {
@@ -86,7 +81,7 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -105,90 +100,21 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shooter5500"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.4
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Feeder"
-                }
-              }
-            ]
+            "name": "ShootWhenReady"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "BM to BL (V)"
+            "waitTime": 0.25
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "VisionPickUp"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "PickUpStop"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoAlignWrist"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "FeederReverse"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shooter5500"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.4
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Feeder"
-                }
-              }
-            ]
+            "commands": []
           }
         }
       ]

@@ -781,14 +781,15 @@ public class RobotContainer {
     auxController
         .rightTrigger()
         .onTrue(
-            new AimShooter(
-                m_shooterSubsystem,
-                m_wristSubsystem,
-                m_armSubsystem,
-                m_poseEstimator,
-                m_feederSubsystem,
-                auxController,
-                m_beamBreak))
+            // new AimShooter(
+            //     m_shooterSubsystem,
+            //     m_wristSubsystem,
+            //     m_armSubsystem,
+            //     m_poseEstimator,
+            //     m_feederSubsystem,
+            //     auxController,
+            //     m_beamBreak))
+            new AimWrist(m_wristSubsystem, m_armSubsystem, m_poseEstimator))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // PODIUM (w/o vision)
