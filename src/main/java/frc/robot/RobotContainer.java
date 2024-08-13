@@ -656,9 +656,9 @@ public class RobotContainer {
                 m_shooterSubsystem,
                 m_wristSubsystem,
                 m_armSubsystem,
-                WristConstants.PODIUM_RAD,
+                WristConstants.SUBWOOFER_RAD,
                 0,
-                ShooterConstants.CLOSE_RPM))
+                500))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Overshot
@@ -672,12 +672,14 @@ public class RobotContainer {
     auxController
         .rightTrigger()
         .onTrue(
-            new AimShooter(
+            new PositionToShoot(
+                m_feederSubsystem,
                 m_shooterSubsystem,
                 m_wristSubsystem,
                 m_armSubsystem,
-                m_poseEstimator,
-                m_feederSubsystem))
+                WristConstants.SUBWOOFER_RAD,
+                0,
+                1500))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
