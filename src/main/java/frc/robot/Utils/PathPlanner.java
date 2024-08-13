@@ -56,7 +56,9 @@ public class PathPlanner extends SubsystemBase {
           return false;
         },
         drive);
+  }
 
+  public void periodic() {
     if (speakerRotOverride) {
       PPHolonomicDriveController.setRotationTargetOverride(pose::AlignToSpeakerPathPlanner);
     }

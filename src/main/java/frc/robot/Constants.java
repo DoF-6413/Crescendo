@@ -132,7 +132,7 @@ public final class Constants {
     public static final boolean STOP_INTAKE = true;
 
     // Vision Pick Up
-    public static final double VISION_PICKUP_TIMEOUT_SEC = 3; // TODO: Test and Update
+    public static final double VISION_PICKUP_TIMEOUT_SEC = 1.5; // TODO: Test and Update
 
     // Feeder Reverse
     public static final double FEEDER_REVERSE_TIMEOUT_SEC = 3; // TODO: Test and Update

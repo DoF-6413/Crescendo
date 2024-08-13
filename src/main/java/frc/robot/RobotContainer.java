@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCenter;
-import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.TwoPieceReturnSub;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.BeamBreakPickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
@@ -412,42 +411,13 @@ public class RobotContainer {
     // autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
     // 2 Piece
-    // autoChooser.addDefaultOption("2 Piece Center", new PathPlannerAuto("2P Center"));
-    autoChooser.addOption("2 Piece Center 3.0", new PathPlannerAuto("Center 3"));
-    autoChooser.addOption("2 Piece Center (2x subwoofer shot)", new PathPlannerAuto("Center"));
-    autoChooser.addOption("2 Piece Center", new PathPlannerAuto("Center 2"));
-    autoChooser.addOption("2 Piece Amp", new PathPlannerAuto("2P Amp"));
-    autoChooser.addOption("2 Piece Cool Side", new PathPlannerAuto("2P Cool Side"));
-    autoChooser.addOption("2 Piece Vision", new PathPlannerAuto("2P Vision"));
-    autoChooser.addOption("2 Piece Vision 2", new PathPlannerAuto("2P Vision 2.0"));
+    // autoChooser.addOption("2 Piece Vision", new PathPlannerAuto("2P Vision"));
+    autoChooser.addOption("2 Piece Vision", new PathPlannerAuto("2P Vision 2.0"));
     // 3 Piece
-    // autoChooser.addOption("3 Piece Center", new PathPlannerAuto("3P Center"));
-    // autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
-    autoChooser.addOption("3 Piece Close Amp", new PathPlannerAuto("3P Center Amp"));
-    autoChooser.addOption("3 Piece Close Podium", new PathPlannerAuto("3P Center Podium"));
-    autoChooser.addOption(
-        "3 Piece VISION Close Podium", new PathPlannerAuto("3P VIS Center Podium"));
-    autoChooser.addOption("3 Piece Corner to Midfield", new PathPlannerAuto("3P Corner Mid Right"));
-    autoChooser.addOption("3 Piece Source Midfield", new PathPlannerAuto("3P Mid Right"));
     autoChooser.addOption("3 Piece Vision", new PathPlannerAuto("3P Vision"));
-    // autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
     // 4 Piece
-    // autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
-    // autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
-    // autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
     autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center 5"));
-    // autoChooser.addOption("4 Piece Center 5.0", new PathPlannerAuto("4P Center 5"));
-    autoChooser.addOption("4 Piece Left Sub Midfield", new PathPlannerAuto("4P Midfield"));
-    autoChooser.addOption("4 Piece Center Midfield", new PathPlannerAuto("4P Center to Midfield"));
-    // autoChooser.addOption(
-    //     "4 Piece Center Midfield Vision", new PathPlannerAuto("4P Center to Midfield (V)"));
-    // 5+ Piece
-    autoChooser.addOption("5 Piece Left Sub Midfield", new PathPlannerAuto("5P Midfield"));
-    // autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
-    // Adds an "auto" tab on ShuffleBoard
-    Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
-
-    // Adds list of deadreckond autos to Shuffleboard
+    // Deadreckoned
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
     autoChooser.addDefaultOption(
@@ -464,20 +434,52 @@ public class RobotContainer {
             3,
             1,
             m_gyroSubsystem));
+
+    /* Following autos have not been tested since Worlds */
+    // 2 Piece
+    // autoChooser.addDefaultOption("2 Piece Center", new PathPlannerAuto("2P Center"));
+    autoChooser.addOption("2 Piece Center 3.0", new PathPlannerAuto("Center 3"));
+    autoChooser.addOption("2 Piece Center (2x subwoofer shot)", new PathPlannerAuto("Center"));
+    autoChooser.addOption("2 Piece Center", new PathPlannerAuto("Center 2"));
+    autoChooser.addOption("2 Piece Amp", new PathPlannerAuto("2P Amp"));
+    autoChooser.addOption("2 Piece Cool Side", new PathPlannerAuto("2P Cool Side"));
+    // 3 Piece
+    // autoChooser.addOption("3 Piece Center", new PathPlannerAuto("3P Center"));
+    // autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
+    autoChooser.addOption("3 Piece Close Amp", new PathPlannerAuto("3P Center Amp"));
+    autoChooser.addOption("3 Piece Close Podium", new PathPlannerAuto("3P Center Podium"));
     autoChooser.addOption(
-        "Better Two Piece",
-        new TwoPieceReturnSub(
-            m_driveSubsystem,
-            m_gyroSubsystem,
-            m_wristSubsystem,
-            m_armSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
-            m_utbIntakeSubsystem,
-            2,
-            1));
+        "3 Piece VISION Close Podium", new PathPlannerAuto("3P VIS Center Podium"));
+    autoChooser.addOption("3 Piece Corner to Midfield", new PathPlannerAuto("3P Corner Mid Right"));
+    autoChooser.addOption("3 Piece Source Midfield", new PathPlannerAuto("3P Mid Right"));
+    // autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
+    // 4 Piece
+    // autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
+    // autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
+    // autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
+    // autoChooser.addOption("4 Piece Center 5.0", new PathPlannerAuto("4P Center 5"));
+    autoChooser.addOption("4 Piece Left Sub Midfield", new PathPlannerAuto("4P Midfield"));
+    autoChooser.addOption("4 Piece Center Midfield", new PathPlannerAuto("4P Center to Midfield"));
+    // autoChooser.addOption(
+    //     "4 Piece Center Midfield Vision", new PathPlannerAuto("4P Center to Midfield (V)"));
+    // 5+ Piece
+    autoChooser.addOption("5 Piece Left Sub Midfield", new PathPlannerAuto("5P Midfield"));
+    // autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
+    // Deadreckoned
+    // autoChooser.addOption(
+    //     "Better Two Piece",
+    //     new TwoPieceReturnSub(
+    //         m_driveSubsystem,
+    //         m_gyroSubsystem,
+    //         m_wristSubsystem,
+    //         m_armSubsystem,
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_actuatorSubsystem,
+    //         m_otbIntakeSubsystem,
+    //         m_utbIntakeSubsystem,
+    //         2,
+    //         1));
     // autoChooser.addOption(
     //     "Blue One Piece Leave Amp Side",
     //     new OnePieceLeaveAmpSide(
@@ -575,12 +577,16 @@ public class RobotContainer {
     //         2,
     //         1));
 
+    // Adds an "auto" tab on ShuffleBoard
+    Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
+
     // Adds a delay to the deadreakoned autos
-    SmartDashboard.putNumber("Delay", 0);
+    // SmartDashboard.putNumber("Delay", 0);
 
     // Configure the button bindings
     configureButtonBindings();
 
+    // SmartDashboard variable that uses the UTB current to determine if a NOTE has been intaked
     SmartDashboard.putBoolean("Is Note Picked Up", false);
   }
 

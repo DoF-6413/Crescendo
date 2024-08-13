@@ -26,6 +26,12 @@
                 "data": {
                   "name": "ZeroYaw"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DisableSpeakerRotationOverride"
+                }
               }
             ]
           }
@@ -53,12 +59,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0
           }
         },
         {
@@ -114,7 +114,76 @@
         {
           "type": "parallel",
           "data": {
-            "commands": []
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BM to BL (V)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroYaw"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "VisionPickUp"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PickUpStop"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignWrist"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "FeederReverse"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EnableSpeakerRotationOverride"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootWhenReady"
           }
         }
       ]
