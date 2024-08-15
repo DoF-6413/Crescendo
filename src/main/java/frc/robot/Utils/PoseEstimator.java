@@ -100,6 +100,25 @@ public class PoseEstimator extends SubsystemBase {
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
 
     if (enable && RobotBase.isReal()) {
+
+      if (vision.getResultBL().hasTargets() == true && vision.getResultBL() != null &&
+      vision.getResultBR().hasTargets() && vision.getResultBR() != null) {
+        pipelineResultBL = vision.getResultBL();
+        resultsTimeStampBL = pipelineResultBL.getTimestampSeconds();
+        pipelineResultBR = vision.getResultBR();
+        resultsTimeStampBR = pipelineResultBR.getTimestampSeconds();
+
+        if (resultsTimeStampBL != previousPipelineTimestampBL && pipelineResultBL != null &&
+      resultsTimeStampBR != previousPipelineTimestampBR && pipelineResultBR != null) {
+          previousPipelineTimestampBL = resultsTimeStampBL;
+          previousPipelineTimestampBR = resultsTimeStampBR;
+
+          Pose2d leftPose2d = getBLVisionEstimation(pipelineResultBL).estimatedPose.toPose2d();
+          Pose2d rightPose2d = getBRVisionEstimation(pipelineResultBR).estimatedPose.toPose2d();
+
+        }
+      } else {
+
       // Adds pose estimated from Back Left camera to Swerve Pose Estimator
       if (vision.getResultBL().hasTargets() == true && vision.getResultBL() != null) {
         pipelineResultBL = vision.getResultBL();
@@ -107,6 +126,7 @@ public class PoseEstimator extends SubsystemBase {
 
         if (resultsTimeStampBL != previousPipelineTimestampBL && pipelineResultBL != null) {
           previousPipelineTimestampBL = resultsTimeStampBL;
+          // System.out.println("Updated Back Left Timestamp");
 
           if (pipelineResultBL.getBestTarget() != null
               && pipelineResultBL.getBestTarget().getPoseAmbiguity() < 0.2
@@ -126,10 +146,10 @@ public class PoseEstimator extends SubsystemBase {
 
         if (resultsTimeStampBR != previousPipelineTimestampBR && pipelineResultBR != null) {
           previousPipelineTimestampBR = resultsTimeStampBR;
+          // System.out.println("Updated Back Right Timestamp");
 
           if (pipelineResultBR.getBestTarget() != null
               && pipelineResultBR.getBestTarget().getPoseAmbiguity() < 0.2
-              && vision.getResultBR() != null
               && pipelineResultBR.getBestTarget().getFiducialId() >= 1
               && pipelineResultBR.getBestTarget().getFiducialId() <= 16) {
             poseEstimator.addVisionMeasurement(
@@ -138,6 +158,7 @@ public class PoseEstimator extends SubsystemBase {
                 visionMeasurementStandardDevs);
           }
         }
+      }
       }
     }
 
