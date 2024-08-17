@@ -64,6 +64,7 @@ public class PoseEstimator extends SubsystemBase {
 
   private boolean enable = true;
 
+  /** Used to count how many times the vision part of the periodic has ran. Every 5th run it will run the vision part of the robot pose updating */
   private int counter = 0;
 
   private final AprilTagFieldLayout aprilTagFieldLayout;
@@ -224,6 +225,11 @@ public class PoseEstimator extends SubsystemBase {
     return poseEstimator.getEstimatedPosition().getRotation();
   }
 
+  /**
+   * Toggles the use of Vision/Cameras to update the robot's position
+   * 
+   * @param enable True = enable, False = disable
+   */
   public void enableVision(boolean enable) {
     this.enable = enable;
   }
@@ -270,28 +276,34 @@ public class PoseEstimator extends SubsystemBase {
     }
   }
 
+  /** Returns an optional 2d variation of the angle for Speaker method to be used for PathPlanner's rotation target override */
   public Optional<Rotation2d> AlignToSpeakerPathPlanner() {
     return Optional.of(AngleForSpeaker());
   }
 
+  /**
+   * Calculates the average position between the Estimated Pose of the Left and Right Cameras
+   * 
+   * @param leftEstimatedPose
+   * @param rightEstimatedPose
+   * @return Pose2d with the averaged position 
+   */
   private Pose2d averageVisionPoses(Pose2d leftEstimatedPose, Pose2d rightEstimatedPose) {
-    System.out.println("Start");
-
+    // Breaks down componets of the Estimated Pose from the Left Camera
     double leftX = leftEstimatedPose.getX();
     double leftY = leftEstimatedPose.getY();
     Rotation2d leftRot = leftEstimatedPose.getRotation();
-
-    System.out.println("Broke down left Pose");
-
+    
+    // Breaks down componets of the Estimated Pose from the Right Camera
     double rightX = rightEstimatedPose.getX();
     double rightY = rightEstimatedPose.getY();
     Rotation2d rightRot = rightEstimatedPose.getRotation();
-    System.out.println("Broke down right Pose");
 
+    // Averages rotation
     leftRot.plus(rightRot);
     leftRot.div(2);
-    System.out.println("Averaged Rotation");
 
+    // Averages x and y components and returns the values in a new Pose2d
     return new Pose2d(new Translation2d((leftX + rightX) / 2, (leftY + rightY) / 2), leftRot);
   }
 }
