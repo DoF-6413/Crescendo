@@ -13,7 +13,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -147,5 +151,31 @@ public final class Constants {
 
     // Preload Shot
     public static final double PRELOAD_SHOT_TIMEOUT_SEC = 2.0;
+  }
+
+  public final class VisionConstants {
+    /** Offsets the back left camera's position to the center of the robot */
+    public static final Transform3d BL_CAMERA_ROBOT_OFFSET =
+        new Transform3d(
+            new Translation3d(-Units.inchesToMeters(10.541), Units.inchesToMeters(11.695), 0),
+            new Rotation3d(Math.PI, 0, Math.PI - Units.degreesToRadians(10.881)));
+
+    /** Offsets the back right camera's position to the center of the robot */
+    public static final Transform3d BR_CAMERA_ROBOT_OFFSET =
+        new Transform3d(
+            new Translation3d(-Units.inchesToMeters(10.541), -Units.inchesToMeters(11.695), 0),
+            new Rotation3d(Math.PI, 0, Math.PI + Units.degreesToRadians(14.881)));
+
+    /** The name of the Lime Light camera */
+    public static final String LIME_LIGHT_NAME = "limelight";
+
+    public static final String LEFT_CAMERA_NAME = "Back_Left";
+    public static final String RIGHT_CAMERA_NAME = "Back_Right";
+
+    /**
+     * The range a NOTE is allowed to be within to stop the robot from rotating during NOTE
+     * alignment
+     */
+    public static final double LL_NOTE_RANGE = 10;
   }
 }

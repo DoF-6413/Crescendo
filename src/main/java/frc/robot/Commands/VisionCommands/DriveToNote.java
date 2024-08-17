@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.CommandConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.Subsystems.drive.Drive;
-import frc.robot.Subsystems.photonVision.VisionConstants;
 import frc.robot.Utils.BeamBreak;
 import frc.robot.Utils.LimelightHelpers;
 

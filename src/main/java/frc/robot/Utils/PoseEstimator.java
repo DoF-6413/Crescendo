@@ -11,19 +11,19 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.gyro.*;
-import frc.robot.Subsystems.photonVision.*;
 import java.util.Optional;
 import org.photonvision.EstimatedRobotPose;
+import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 /** This class handels the odometry and locates the robots current position */
 public class PoseEstimator extends SubsystemBase {
@@ -40,31 +40,41 @@ public class PoseEstimator extends SubsystemBase {
   public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
 
   private Drive drive;
-  private Vision vision;
   private Gyro gyro;
 
   private SwerveDrivePoseEstimator poseEstimator;
   private PhotonPoseEstimator visionBLPoseEstimator;
   private PhotonPoseEstimator visionBRPoseEstimator;
-  public PhotonPipelineResult pipelineResultBL;
-  public PhotonPipelineResult pipelineResultBR;
+
+  private PhotonCamera cameraLeft;
+  private PhotonCamera cameraRight;
+
+  public PhotonPipelineResult tempPipelineResult;
   public double resultsTimeStampBL;
   public double resultsTimeStampBR;
+  private PhotonTrackedTarget tempTarget;
   private double previousPipelineTimestampBL = 0;
   private double previousPipelineTimestampBR = 0;
+  private double poseAmbiguityLeft = 0;
+  private double poseAmbiguityRight = 0;
+  private int fiducialIDLeft = 0;
+  private int fiducialIDRight = 0;
+  private boolean hasTargetsLeft = false;
+  private boolean hasTargetsRight = false;
 
   private boolean enable = true;
+
+  private int counter = 0;
 
   private final AprilTagFieldLayout aprilTagFieldLayout;
   private Field2d field2d;
 
   /** Pose Estimation aided by PhotonVision */
-  public PoseEstimator(Drive drive, Gyro gyro, Vision Vision) {
+  public PoseEstimator(Drive drive, Gyro gyro) {
 
     field2d = new Field2d();
     SmartDashboard.putData(field2d);
     this.drive = drive;
-    this.vision = Vision;
     this.gyro = gyro;
 
     poseEstimator =
@@ -79,15 +89,20 @@ public class PoseEstimator extends SubsystemBase {
             AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldLength(),
             AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldWidth());
 
+    cameraLeft = new PhotonCamera(VisionConstants.LEFT_CAMERA_NAME);
+    cameraRight = new PhotonCamera(VisionConstants.RIGHT_CAMERA_NAME);
+
     visionBLPoseEstimator =
         new PhotonPoseEstimator(
             aprilTagFieldLayout,
             PoseStrategy.LOWEST_AMBIGUITY,
+            cameraLeft,
             VisionConstants.BL_CAMERA_ROBOT_OFFSET);
     visionBRPoseEstimator =
         new PhotonPoseEstimator(
             aprilTagFieldLayout,
             PoseStrategy.LOWEST_AMBIGUITY,
+            cameraRight,
             VisionConstants.BR_CAMERA_ROBOT_OFFSET);
   }
 
@@ -99,124 +114,91 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.updateWithTime(
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
 
-    if (enable && RobotBase.isReal()) {
+    if (enable && counter % 5 == 0) {
 
-      if (vision.getResultBL().hasTargets() == true && vision.getResultBL() != null &&
-      vision.getResultBR().hasTargets() && vision.getResultBR() != null) {
-        pipelineResultBL = vision.getResultBL();
-        resultsTimeStampBL = pipelineResultBL.getTimestampSeconds();
-        pipelineResultBR = vision.getResultBR();
-        resultsTimeStampBR = pipelineResultBR.getTimestampSeconds();
+      Optional<EstimatedRobotPose> leftPose = getBLVisionEstimation();
+      Optional<EstimatedRobotPose> rightPose = getBRVisionEstimation();
 
-        if (resultsTimeStampBL != previousPipelineTimestampBL && pipelineResultBL != null &&
-      resultsTimeStampBR != previousPipelineTimestampBR && pipelineResultBR != null) {
+      if (cameraLeft.getLatestResult().hasTargets()) {
+        tempPipelineResult = cameraLeft.getLatestResult();
+        tempTarget = tempPipelineResult.getBestTarget();
+        hasTargetsLeft = tempPipelineResult.hasTargets();
+        fiducialIDLeft = tempTarget.getFiducialId();
+        poseAmbiguityLeft = tempTarget.getPoseAmbiguity();
+        resultsTimeStampBL = tempPipelineResult.getTimestampSeconds();
+      }
+
+      if (cameraRight.getLatestResult().hasTargets()) {
+        tempPipelineResult = cameraRight.getLatestResult();
+        tempTarget = tempPipelineResult.getBestTarget();
+        hasTargetsRight = tempPipelineResult.hasTargets();
+        fiducialIDRight = tempTarget.getFiducialId();
+        poseAmbiguityRight = tempTarget.getPoseAmbiguity();
+        resultsTimeStampBR = tempPipelineResult.getTimestampSeconds();
+      }
+
+      if (!hasTargetsLeft || !hasTargetsRight) {
+
+      } else if (hasTargetsLeft && hasTargetsRight) {
+        if (previousPipelineTimestampBL != resultsTimeStampBL
+            && previousPipelineTimestampBR != resultsTimeStampBR) {
           previousPipelineTimestampBL = resultsTimeStampBL;
           previousPipelineTimestampBR = resultsTimeStampBR;
 
-          Pose2d leftPose2d = getBLVisionEstimation(pipelineResultBL).estimatedPose.toPose2d();
-          Pose2d rightPose2d = getBRVisionEstimation(pipelineResultBR).estimatedPose.toPose2d();
-
+          if (poseAmbiguityLeft < 0.2
+              && poseAmbiguityLeft > 0.0
+              && fiducialIDLeft >= 1
+              && fiducialIDLeft <= 16
+              && poseAmbiguityRight < 0.2
+              && poseAmbiguityRight > 0.0
+              && fiducialIDRight >= 1
+              && fiducialIDRight <= 16
+              && leftPose.isPresent()
+              && rightPose.isPresent()) {
+            // System.out.println(
+            //     "Left Position: " + getBLVisionEstimation().estimatedPose.toPose2d().toString());
+            // System.out.println(
+            //     "Right Position: " +
+            // getBRVisionEstimation().estimatedPose.toPose2d().toString());
+            // System.out.println("Average Poition: " + averageVisionPoses().toString());
+            poseEstimator.addVisionMeasurement(
+                averageVisionPoses(
+                    leftPose.get().estimatedPose.toPose2d(),
+                    rightPose.get().estimatedPose.toPose2d()),
+                resultsTimeStampBL);
+          }
         }
+
+      } else if (hasTargetsLeft) {
+        if (previousPipelineTimestampBL != resultsTimeStampBL) {
+          previousPipelineTimestampBL = resultsTimeStampBL;
+
+          if (poseAmbiguityLeft < 0.2
+              && poseAmbiguityLeft > 0.0
+              && fiducialIDLeft >= 1
+              && fiducialIDLeft <= 16
+              && leftPose.isPresent()) {
+            poseEstimator.addVisionMeasurement(
+                leftPose.get().estimatedPose.toPose2d(), resultsTimeStampBL);
+          }
+        }
+
       } else {
-
-      // Adds pose estimated from Back Left camera to Swerve Pose Estimator
-      if (vision.getResultBL().hasTargets() == true && vision.getResultBL() != null) {
-        pipelineResultBL = vision.getResultBL();
-        resultsTimeStampBL = pipelineResultBL.getTimestampSeconds();
-
-        if (resultsTimeStampBL != previousPipelineTimestampBL && pipelineResultBL != null) {
-          previousPipelineTimestampBL = resultsTimeStampBL;
-          // System.out.println("Updated Back Left Timestamp");
-
-          if (pipelineResultBL.getBestTarget() != null
-              && pipelineResultBL.getBestTarget().getPoseAmbiguity() < 0.2
-              && pipelineResultBL.getBestTarget().getFiducialId() >= 1
-              && pipelineResultBL.getBestTarget().getFiducialId() <= 16) {
-            poseEstimator.addVisionMeasurement(
-                getBLVisionEstimation(pipelineResultBL).estimatedPose.toPose2d(),
-                resultsTimeStampBL,
-                visionMeasurementStandardDevs);
-          }
-        }
-      }
-      // Adds pose estimated from Back Right camera to Swerve Pose Estimator
-      if (vision.getResultBR().hasTargets() && vision.getResultBR() != null) {
-        pipelineResultBR = vision.getResultBR();
-        resultsTimeStampBR = pipelineResultBR.getTimestampSeconds();
-
-        if (resultsTimeStampBR != previousPipelineTimestampBR && pipelineResultBR != null) {
+        if (previousPipelineTimestampBR != resultsTimeStampBR) {
           previousPipelineTimestampBR = resultsTimeStampBR;
-          // System.out.println("Updated Back Right Timestamp");
 
-          if (pipelineResultBR.getBestTarget() != null
-              && pipelineResultBR.getBestTarget().getPoseAmbiguity() < 0.2
-              && pipelineResultBR.getBestTarget().getFiducialId() >= 1
-              && pipelineResultBR.getBestTarget().getFiducialId() <= 16) {
+          if (poseAmbiguityRight < 0.2
+              && poseAmbiguityRight > 0.0
+              && fiducialIDRight >= 1
+              && fiducialIDRight <= 16
+              && rightPose.isPresent()) {
             poseEstimator.addVisionMeasurement(
-                getBRVisionEstimation(pipelineResultBR).estimatedPose.toPose2d(),
-                resultsTimeStampBR,
-                visionMeasurementStandardDevs);
+                rightPose.get().estimatedPose.toPose2d(), resultsTimeStampBL);
           }
         }
-      }
       }
     }
-
-    // if (vision.getResultBL().hasTargets()) {
-
-    //   pipelineResultBL = vision.getResultBL();
-    //   resultsTimeStampBL = pipelineResultBL.getTimestampSeconds();
-
-    //   if (resultsTimeStampBL != previousPipelineTimestampBL) {
-
-    //     previousPipelineTimestampBL = resultsTimeStampBL;
-
-    //     var target = pipelineResultBL.getBestTarget();
-    //     var fiducialID = target.getFiducialId();
-    //     if (target.getPoseAmbiguity() < 0.2
-    //         && fiducialID >= 1
-    //         && fiducialID <= 16) { // 0.2 is considered ambiguous
-
-    //       Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
-    //       Transform3d camToTarget = target.getBestCameraToTarget();
-    //       Pose3d camPose = tagPose.transformBy(camToTarget);
-
-    //       Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraBLOnRobotOffsets);
-    //       poseEstimator.addVisionMeasurement(
-    //           visionMeasurement.toPose2d(),
-    //           Timer.getFPGATimestamp(),
-    //           visionMeasurementStandardDevs);
-    //     }
-    //   }
-    // }
-
-    // if (vision.getResultBR().hasTargets()) {
-
-    //   pipelineResultBR = vision.getResultBR();
-    //   resultsTimeStampBR = pipelineResultBR.getTimestampSeconds();
-
-    //   if (resultsTimeStampBR != previousPipelineTimestampBR) {
-
-    //     previousPipelineTimestampBR = resultsTimeStampBR;
-
-    //     var target = pipelineResultBR.getBestTarget();
-    //     var fiducialID = target.getFiducialId();
-    //     if (target.getPoseAmbiguity() < 0.2
-    //         && fiducialID >= 1
-    //         && fiducialID <= 16) { // 0.2 is considered ambiguous
-
-    //       Pose3d tagPose = aprilTagFieldLayout.getTagPose(fiducialID).get();
-    //       Transform3d camToTarget = target.getBestCameraToTarget();
-    //       Pose3d camPose = tagPose.transformBy(camToTarget);
-
-    //       Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraBROnRobotOffsets);
-    //       poseEstimator.addVisionMeasurement(
-    //           visionMeasurement.toPose2d(),
-    //           Timer.getFPGATimestamp(),
-    //           visionMeasurementStandardDevs);
-    //     }
-    //   }
-    // }
+    counter++;
   }
 
   /**
@@ -242,17 +224,17 @@ public class PoseEstimator extends SubsystemBase {
     return poseEstimator.getEstimatedPosition().getRotation();
   }
 
+  public void enableVision(boolean enable) {
+    this.enable = enable;
+  }
+
   /**
    * Returns the estimated pose from the back left camera's pipeline result
    *
    * @param result Back Left PhotonPipelineResult
    */
-  public EstimatedRobotPose getBLVisionEstimation(PhotonPipelineResult result) {
-    return visionBLPoseEstimator.update(result).get();
-  }
-
-  public void enableVision(boolean enable) {
-    this.enable = enable;
+  public Optional<EstimatedRobotPose> getBLVisionEstimation() {
+    return visionBLPoseEstimator.update();
   }
 
   /**
@@ -260,8 +242,8 @@ public class PoseEstimator extends SubsystemBase {
    *
    * @param result Back Right PhotonPipelineResult
    */
-  public EstimatedRobotPose getBRVisionEstimation(PhotonPipelineResult result) {
-    return visionBRPoseEstimator.update(result).get();
+  public Optional<EstimatedRobotPose> getBRVisionEstimation() {
+    return visionBRPoseEstimator.update();
   }
 
   public Rotation2d AngleForSpeaker() {
@@ -290,5 +272,26 @@ public class PoseEstimator extends SubsystemBase {
 
   public Optional<Rotation2d> AlignToSpeakerPathPlanner() {
     return Optional.of(AngleForSpeaker());
+  }
+
+  private Pose2d averageVisionPoses(Pose2d leftEstimatedPose, Pose2d rightEstimatedPose) {
+    System.out.println("Start");
+
+    double leftX = leftEstimatedPose.getX();
+    double leftY = leftEstimatedPose.getY();
+    Rotation2d leftRot = leftEstimatedPose.getRotation();
+
+    System.out.println("Broke down left Pose");
+
+    double rightX = rightEstimatedPose.getX();
+    double rightY = rightEstimatedPose.getY();
+    Rotation2d rightRot = rightEstimatedPose.getRotation();
+    System.out.println("Broke down right Pose");
+
+    leftRot.plus(rightRot);
+    leftRot.div(2);
+    System.out.println("Averaged Rotation");
+
+    return new Pose2d(new Translation2d((leftX + rightX) / 2, (leftY + rightY) / 2), leftRot);
   }
 }

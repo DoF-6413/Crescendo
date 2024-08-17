@@ -39,8 +39,8 @@ public class PathPlanner extends SubsystemBase {
             new PIDConstants(1.2, 0, 0.2),
             new PIDConstants(0.3125, 0, 0.025),
             DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
-            DriveConstants.TRACK_WIDTH_M
-                / 2, // Drive base radius in meters. Distance from robot center to
+            DriveConstants
+                .DRIVE_BASE_RADIUS_M, // Drive base radius in meters. Distance from robot center to
             // furthest module.
             new ReplanningConfig()),
         () -> {

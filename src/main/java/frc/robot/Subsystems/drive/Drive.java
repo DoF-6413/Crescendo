@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.*; // Timer
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
-import frc.robot.Subsystems.photonVision.VisionConstants;
 import frc.robot.Utils.HeadingController;
 import frc.robot.Utils.LimelightHelpers;
 import java.util.Optional;
