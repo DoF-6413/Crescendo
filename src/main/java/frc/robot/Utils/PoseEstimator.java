@@ -42,12 +42,12 @@ public class PoseEstimator extends SubsystemBase {
   private Drive drive;
   private Gyro gyro;
 
-  private SwerveDrivePoseEstimator poseEstimator;
-  private PhotonPoseEstimator visionBLPoseEstimator;
-  private PhotonPoseEstimator visionBRPoseEstimator;
+  private final SwerveDrivePoseEstimator poseEstimator;
+  private final PhotonPoseEstimator visionBLPoseEstimator;
+  private final PhotonPoseEstimator visionBRPoseEstimator;
 
-  private PhotonCamera cameraLeft;
-  private PhotonCamera cameraRight;
+  private final PhotonCamera cameraLeft;
+  private final PhotonCamera cameraRight;
 
   public PhotonPipelineResult tempPipelineResult;
   public double resultsTimeStampBL;
@@ -64,8 +64,17 @@ public class PoseEstimator extends SubsystemBase {
 
   private boolean enable = true;
 
-  /** Used to count how many times the vision part of the periodic has ran. Every 5th run it will run the vision part of the robot pose updating */
+  /**
+   * Used to count how many times the vision part of the periodic has ran. Every 5th run it will run
+   * the vision part of the robot pose updating
+   */
   private int counter = 0;
+
+  /**
+   * The amount of cycle of the periodic that need to run before Vision is allowed to update the
+   * Pose Estimator
+   */
+  private int cyclesPerUpdate = 5;
 
   private final AprilTagFieldLayout aprilTagFieldLayout;
   private Field2d field2d;
@@ -115,10 +124,12 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.updateWithTime(
         Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
 
-    if (enable && counter % 5 == 0) {
+    // counter++;
+    // if (enable && counter % cyclesPerUpdate == 0) {
+    if (enable) {
 
-      Optional<EstimatedRobotPose> leftPose = getBLVisionEstimation();
-      Optional<EstimatedRobotPose> rightPose = getBRVisionEstimation();
+      Optional<EstimatedRobotPose> leftPose = visionBLPoseEstimator.update();
+      Optional<EstimatedRobotPose> rightPose = visionBRPoseEstimator.update();
 
       if (cameraLeft.getLatestResult().hasTargets()) {
         tempPipelineResult = cameraLeft.getLatestResult();
@@ -138,7 +149,8 @@ public class PoseEstimator extends SubsystemBase {
         resultsTimeStampBR = tempPipelineResult.getTimestampSeconds();
       }
 
-      if (!hasTargetsLeft || !hasTargetsRight) {
+      if (!hasTargetsLeft && !hasTargetsRight) {
+        return;
 
       } else if (hasTargetsLeft && hasTargetsRight) {
         if (previousPipelineTimestampBL != resultsTimeStampBL
@@ -156,12 +168,6 @@ public class PoseEstimator extends SubsystemBase {
               && fiducialIDRight <= 16
               && leftPose.isPresent()
               && rightPose.isPresent()) {
-            // System.out.println(
-            //     "Left Position: " + getBLVisionEstimation().estimatedPose.toPose2d().toString());
-            // System.out.println(
-            //     "Right Position: " +
-            // getBRVisionEstimation().estimatedPose.toPose2d().toString());
-            // System.out.println("Average Poition: " + averageVisionPoses().toString());
             poseEstimator.addVisionMeasurement(
                 averageVisionPoses(
                     leftPose.get().estimatedPose.toPose2d(),
@@ -199,7 +205,6 @@ public class PoseEstimator extends SubsystemBase {
         }
       }
     }
-    counter++;
   }
 
   /**
@@ -227,29 +232,11 @@ public class PoseEstimator extends SubsystemBase {
 
   /**
    * Toggles the use of Vision/Cameras to update the robot's position
-   * 
+   *
    * @param enable True = enable, False = disable
    */
   public void enableVision(boolean enable) {
     this.enable = enable;
-  }
-
-  /**
-   * Returns the estimated pose from the back left camera's pipeline result
-   *
-   * @param result Back Left PhotonPipelineResult
-   */
-  public Optional<EstimatedRobotPose> getBLVisionEstimation() {
-    return visionBLPoseEstimator.update();
-  }
-
-  /**
-   * Returns the estimated pose from the back right camera's pipeline result
-   *
-   * @param result Back Right PhotonPipelineResult
-   */
-  public Optional<EstimatedRobotPose> getBRVisionEstimation() {
-    return visionBRPoseEstimator.update();
   }
 
   public Rotation2d AngleForSpeaker() {
@@ -276,24 +263,27 @@ public class PoseEstimator extends SubsystemBase {
     }
   }
 
-  /** Returns an optional 2d variation of the angle for Speaker method to be used for PathPlanner's rotation target override */
+  /**
+   * Returns an optional 2d variation of the angle for Speaker method to be used for PathPlanner's
+   * rotation target override
+   */
   public Optional<Rotation2d> AlignToSpeakerPathPlanner() {
     return Optional.of(AngleForSpeaker());
   }
 
   /**
    * Calculates the average position between the Estimated Pose of the Left and Right Cameras
-   * 
+   *
    * @param leftEstimatedPose
    * @param rightEstimatedPose
-   * @return Pose2d with the averaged position 
+   * @return Pose2d with the averaged position
    */
   private Pose2d averageVisionPoses(Pose2d leftEstimatedPose, Pose2d rightEstimatedPose) {
     // Breaks down componets of the Estimated Pose from the Left Camera
     double leftX = leftEstimatedPose.getX();
     double leftY = leftEstimatedPose.getY();
     Rotation2d leftRot = leftEstimatedPose.getRotation();
-    
+
     // Breaks down componets of the Estimated Pose from the Right Camera
     double rightX = rightEstimatedPose.getX();
     double rightY = rightEstimatedPose.getY();

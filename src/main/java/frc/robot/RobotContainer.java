@@ -836,7 +836,8 @@ public class RobotContainer {
         .x()
         .onTrue(
             new InstantCommand(
-                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.FAR_RPM), m_shooterSubsystem))
+                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.MID_RANGE_RPM),
+                m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
 
     /* Misc */

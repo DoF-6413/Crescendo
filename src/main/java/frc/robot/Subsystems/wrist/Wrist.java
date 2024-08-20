@@ -135,7 +135,7 @@ public class Wrist extends SubsystemBase {
    * @param increment Angle (Radians)
    */
   public void incrementWristGoal(double increment) {
-    wristPIDController.setGoal(wristPIDController.getGoal().position + increment);
+    this.setGoal(wristPIDController.getGoal().position + increment);
   }
 
   public double returnDesiredAngle(double x) {

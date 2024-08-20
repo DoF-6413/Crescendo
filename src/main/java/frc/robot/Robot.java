@@ -13,7 +13,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.*;
@@ -80,7 +79,7 @@ public class Robot extends LoggedRobot {
         break;
     }
 
-    CameraServer.startAutomaticCapture();
+    // CameraServer.startAutomaticCapture();
     // See http://bit.ly/3YIzFZ6 for more information on timestamps in AdvantageKit.
     // Logger.disableDeterministicTimestamps()
 
@@ -90,7 +89,7 @@ public class Robot extends LoggedRobot {
     // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
     // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
     // Build)
-    SmartDashboard.putString("Beta Number", "1.64.106.69.0");
+    SmartDashboard.putString("Beta Number", "1.64.106.70.0");
     SmartDashboard.putString("Last Deployed at: ", BuildConstants.BUILD_DATE);
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
@@ -117,7 +116,7 @@ public class Robot extends LoggedRobot {
       autonomousCommand.cancel();
     }
     robotContainer.setAllSetpointsZero();
-    // robotContainer.enableVision(false);
+    robotContainer.enableVision(false);
   }
 
   /** This function is called periodically when disabled. */
