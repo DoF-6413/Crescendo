@@ -54,7 +54,7 @@ public class DefaultDriveCommand extends Command {
           controller.getLeftX(), // Forward/backward
           -controller.getLeftY(), // Left/Right (multiply by -1 bc controller axis inverted)
           headingController.update(
-              pose.AngleForSpeaker().plus(new Rotation2d(Math.PI / 2)),
+              pose.angleForSpeaker().plus(new Rotation2d(Math.PI / 2)),
               drive.getRotation(),
               gyro.getRate())); // Rotate chassis left/right
 

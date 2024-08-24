@@ -78,7 +78,7 @@ public class RobotContainer {
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
   private final BeamBreak m_beamBreak;
-  int counter = 0;
+  int notePickUpCounter = 0;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -431,7 +431,7 @@ public class RobotContainer {
             1,
             m_gyroSubsystem));
 
-    /* Following autos have not been tested since Worlds */
+    /* Following autos have not been tested since at least Worlds */
     // 2 Piece
     // autoChooser.addDefaultOption("2 Piece Center", new PathPlannerAuto("2P Center"));
     autoChooser.addOption("2 Piece Center 3.0", new PathPlannerAuto("Center 3"));
@@ -625,6 +625,14 @@ public class RobotContainer {
     m_otbIntakeSubsystem.setBrakeMode(!isDisabled);
   }
 
+  /** Sets the setpoint/position to zero */
+  public void setAllSetpointsZero() {
+    m_shooterSubsystem.setSetpoint(0);
+    m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD);
+    m_armSubsystem.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
+    m_feederSubsystem.setSetpoint(0);
+  }
+
   /**
    * Toggles PID tuning
    *
@@ -647,14 +655,11 @@ public class RobotContainer {
     m_shooterSubsystem.enableTesting(enable);
   }
 
-  /** Sets the setpoint/position to zero */
-  public void setAllSetpointsZero() {
-    m_shooterSubsystem.setSetpoint(0);
-    m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD);
-    m_armSubsystem.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
-    m_feederSubsystem.setSetpoint(0);
-  }
-
+  /**
+   * Toggles the use of the back cameras in the Pose Estimator
+   *
+   * @param enable True = enable, False = disable
+   */
   public void enableVision(boolean enable) {
     m_poseEstimator.enableVision(enable);
   }
@@ -662,14 +667,14 @@ public class RobotContainer {
   /** Uses the current drawn by the UTB to determine if a NOTE has been picked up */
   public void isNotePickedUp() {
     if (m_utbIntakeSubsystem.getCurrentDraw() > 20 && m_utbIntakeSubsystem.getCurrentDraw() < 55) {
-      counter += 1;
-      if (counter >= 20) {
+      notePickUpCounter += 1;
+      if (notePickUpCounter >= 20) {
         SmartDashboard.putBoolean("Is Note Picked Up", true);
       }
     } else if (driverController.rightBumper().getAsBoolean()
         || auxController.a().getAsBoolean()
         || (m_shooterSubsystem.getSetpoint() > 0 && m_feederSubsystem.getSetpoint() > 0)) {
-      counter = 0;
+      notePickUpCounter = 0;
       SmartDashboard.putBoolean("Is Note Picked Up", false);
     }
   }
@@ -851,7 +856,7 @@ public class RobotContainer {
                 m_wristSubsystem,
                 m_armSubsystem,
                 WristConstants.SUBWOOFER_RAD,
-                0,
+                ArmConstants.DEFAULT_POSITION_RAD,
                 ShooterConstants.MIDFIELD_FEEDING_RPM))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));

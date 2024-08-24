@@ -10,6 +10,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.networktables.TimestampedRaw;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -43,18 +44,17 @@ public class PoseEstimator extends SubsystemBase {
   private Gyro gyro;
 
   private final SwerveDrivePoseEstimator poseEstimator;
-  private final PhotonPoseEstimator visionBLPoseEstimator;
-  private final PhotonPoseEstimator visionBRPoseEstimator;
+  private final PhotonPoseEstimator visionPoseEstimatorLeft;
+  private final PhotonPoseEstimator visionPoseEstimatorRight;
 
   private final PhotonCamera cameraLeft;
   private final PhotonCamera cameraRight;
 
-  public PhotonPipelineResult tempPipelineResult;
-  public double resultsTimeStampBL;
-  public double resultsTimeStampBR;
+  private double timestamp;
+  private double prevTimestamp = 0;
+
+  private PhotonPipelineResult tempPipelineResult;
   private PhotonTrackedTarget tempTarget;
-  private double previousPipelineTimestampBL = 0;
-  private double previousPipelineTimestampBR = 0;
   private double poseAmbiguityLeft = 0;
   private double poseAmbiguityRight = 0;
   private int fiducialIDLeft = 0;
@@ -68,13 +68,13 @@ public class PoseEstimator extends SubsystemBase {
    * Used to count how many times the vision part of the periodic has ran. Every 5th run it will run
    * the vision part of the robot pose updating
    */
-  private int counter = 0;
+  // private int counter = 0;
 
   /**
    * The amount of cycle of the periodic that need to run before Vision is allowed to update the
    * Pose Estimator
    */
-  private int cyclesPerUpdate = 5;
+  // private int cyclesPerUpdate = 5;
 
   private final AprilTagFieldLayout aprilTagFieldLayout;
   private Field2d field2d;
@@ -102,34 +102,37 @@ public class PoseEstimator extends SubsystemBase {
     cameraLeft = new PhotonCamera(VisionConstants.LEFT_CAMERA_NAME);
     cameraRight = new PhotonCamera(VisionConstants.RIGHT_CAMERA_NAME);
 
-    visionBLPoseEstimator =
+    visionPoseEstimatorLeft =
         new PhotonPoseEstimator(
             aprilTagFieldLayout,
             PoseStrategy.LOWEST_AMBIGUITY,
             cameraLeft,
-            VisionConstants.BL_CAMERA_ROBOT_OFFSET);
-    visionBRPoseEstimator =
+            VisionConstants.LEFT_CAMERA_ROBOT_OFFSET);
+    visionPoseEstimatorRight =
         new PhotonPoseEstimator(
             aprilTagFieldLayout,
             PoseStrategy.LOWEST_AMBIGUITY,
             cameraRight,
-            VisionConstants.BR_CAMERA_ROBOT_OFFSET);
+            VisionConstants.RIGHT_CAMERA_ROBOT_OFFSET);
   }
 
   @Override
   public void periodic() {
+
+    timestamp = Timer.getFPGATimestamp();
+
     // When ran on the real robot it would overload the command scheduler, causing input delay from
     // joystick to driving
     field2d.setRobotPose(getCurrentPose2d());
     poseEstimator.updateWithTime(
-        Timer.getFPGATimestamp(), drive.getRotation(), drive.getSwerveModulePositions());
+        timestamp, drive.getRotation(), drive.getSwerveModulePositions());
 
     // counter++;
     // if (enable && counter % cyclesPerUpdate == 0) {
     if (enable) {
 
-      Optional<EstimatedRobotPose> leftPose = visionBLPoseEstimator.update();
-      Optional<EstimatedRobotPose> rightPose = visionBRPoseEstimator.update();
+      Optional<EstimatedRobotPose> leftPose = visionPoseEstimatorLeft.update();
+      Optional<EstimatedRobotPose> rightPose = visionPoseEstimatorRight.update();
 
       if (cameraLeft.getLatestResult().hasTargets()) {
         tempPipelineResult = cameraLeft.getLatestResult();
@@ -137,7 +140,6 @@ public class PoseEstimator extends SubsystemBase {
         hasTargetsLeft = tempPipelineResult.hasTargets();
         fiducialIDLeft = tempTarget.getFiducialId();
         poseAmbiguityLeft = tempTarget.getPoseAmbiguity();
-        resultsTimeStampBL = tempPipelineResult.getTimestampSeconds();
       }
 
       if (cameraRight.getLatestResult().hasTargets()) {
@@ -146,61 +148,59 @@ public class PoseEstimator extends SubsystemBase {
         hasTargetsRight = tempPipelineResult.hasTargets();
         fiducialIDRight = tempTarget.getFiducialId();
         poseAmbiguityRight = tempTarget.getPoseAmbiguity();
-        resultsTimeStampBR = tempPipelineResult.getTimestampSeconds();
       }
 
       if (!hasTargetsLeft && !hasTargetsRight) {
         return;
 
       } else if (hasTargetsLeft && hasTargetsRight) {
-        if (previousPipelineTimestampBL != resultsTimeStampBL
-            && previousPipelineTimestampBR != resultsTimeStampBR) {
-          previousPipelineTimestampBL = resultsTimeStampBL;
-          previousPipelineTimestampBR = resultsTimeStampBR;
+        if (prevTimestamp != timestamp) {
+          prevTimestamp = timestamp;
 
-          if (poseAmbiguityLeft < 0.2
+          if (leftPose.isPresent()
+              && rightPose.isPresent()
+              && poseAmbiguityLeft < 0.2
               && poseAmbiguityLeft > 0.0
-              && fiducialIDLeft >= 1
-              && fiducialIDLeft <= 16
               && poseAmbiguityRight < 0.2
               && poseAmbiguityRight > 0.0
+              && fiducialIDLeft >= 1
+              && fiducialIDLeft <= 16
               && fiducialIDRight >= 1
-              && fiducialIDRight <= 16
-              && leftPose.isPresent()
-              && rightPose.isPresent()) {
+              && fiducialIDRight <= 16) {
             poseEstimator.addVisionMeasurement(
                 averageVisionPoses(
                     leftPose.get().estimatedPose.toPose2d(),
                     rightPose.get().estimatedPose.toPose2d()),
-                resultsTimeStampBL);
+                timestamp);
           }
         }
 
       } else if (hasTargetsLeft) {
-        if (previousPipelineTimestampBL != resultsTimeStampBL) {
-          previousPipelineTimestampBL = resultsTimeStampBL;
+        if (prevTimestamp != timestamp) {
+          prevTimestamp = timestamp;
 
-          if (poseAmbiguityLeft < 0.2
+          if (leftPose.isPresent()
+              && poseAmbiguityLeft < 0.2
               && poseAmbiguityLeft > 0.0
               && fiducialIDLeft >= 1
-              && fiducialIDLeft <= 16
-              && leftPose.isPresent()) {
+              && fiducialIDLeft <= 16) {
             poseEstimator.addVisionMeasurement(
-                leftPose.get().estimatedPose.toPose2d(), resultsTimeStampBL);
+                leftPose.get().estimatedPose.toPose2d(), timestamp);
           }
         }
 
       } else {
-        if (previousPipelineTimestampBR != resultsTimeStampBR) {
-          previousPipelineTimestampBR = resultsTimeStampBR;
+        if (prevTimestamp != timestamp) {
+          prevTimestamp = timestamp;
 
-          if (poseAmbiguityRight < 0.2
+          if (rightPose.isPresent()
+              && poseAmbiguityRight < 0.2
               && poseAmbiguityRight > 0.0
               && fiducialIDRight >= 1
               && fiducialIDRight <= 16
-              && rightPose.isPresent()) {
+              ) {
             poseEstimator.addVisionMeasurement(
-                rightPose.get().estimatedPose.toPose2d(), resultsTimeStampBL);
+                rightPose.get().estimatedPose.toPose2d(), timestamp);
           }
         }
       }
@@ -239,7 +239,7 @@ public class PoseEstimator extends SubsystemBase {
     this.enable = enable;
   }
 
-  public Rotation2d AngleForSpeaker() {
+  public Rotation2d angleForSpeaker() {
     Translation2d delta;
     if (DriverStation.getAlliance().isPresent()
         && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
@@ -267,33 +267,29 @@ public class PoseEstimator extends SubsystemBase {
    * Returns an optional 2d variation of the angle for Speaker method to be used for PathPlanner's
    * rotation target override
    */
-  public Optional<Rotation2d> AlignToSpeakerPathPlanner() {
-    return Optional.of(AngleForSpeaker());
+  public Optional<Rotation2d> alignToSpeakerPathPlanner() {
+    return Optional.of(angleForSpeaker());
   }
 
   /**
-   * Calculates the average position between the Estimated Pose of the Left and Right Cameras
+   * Calculates the average position between the Estimated Poses from the Vision
    *
-   * @param leftEstimatedPose
-   * @param rightEstimatedPose
+   * @param estimatedPoses Poses to average
    * @return Pose2d with the averaged position
    */
-  private Pose2d averageVisionPoses(Pose2d leftEstimatedPose, Pose2d rightEstimatedPose) {
-    // Breaks down componets of the Estimated Pose from the Left Camera
-    double leftX = leftEstimatedPose.getX();
-    double leftY = leftEstimatedPose.getY();
-    Rotation2d leftRot = leftEstimatedPose.getRotation();
+  private Pose2d averageVisionPoses(Pose2d... estimatedPoses) {
+    double x = 0;
+    double y = 0;
+    double theta = 0;
+    for (Pose2d pose : estimatedPoses) {
+      x += pose.getX();
+      y += pose.getY();
+      theta += pose.getRotation().getRadians();
+    }
 
-    // Breaks down componets of the Estimated Pose from the Right Camera
-    double rightX = rightEstimatedPose.getX();
-    double rightY = rightEstimatedPose.getY();
-    Rotation2d rightRot = rightEstimatedPose.getRotation();
-
-    // Averages rotation
-    leftRot.plus(rightRot);
-    leftRot.div(2);
-
-    // Averages x and y components and returns the values in a new Pose2d
-    return new Pose2d(new Translation2d((leftX + rightX) / 2, (leftY + rightY) / 2), leftRot);
+    // Averages x, y and theta components and returns the values in a new Pose2d
+    return new Pose2d(
+        new Translation2d(x / estimatedPoses.length, y / estimatedPoses.length),
+        new Rotation2d(theta / estimatedPoses.length));
   }
 }

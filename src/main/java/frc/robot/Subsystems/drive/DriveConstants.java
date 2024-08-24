@@ -120,6 +120,7 @@ public final class DriveConstants {
    */
   public static final double TRACK_WIDTH_M = Units.inchesToMeters(22.75);
 
+  /** Distance from center of the Robot to the center of one of the wheels */
   public static final double DRIVE_BASE_RADIUS_M =
       Math.sqrt(
           ((TRACK_WIDTH_M / 2) * (TRACK_WIDTH_M / 2))
