@@ -10,7 +10,6 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.networktables.TimestampedRaw;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -77,6 +76,7 @@ public class PoseEstimator extends SubsystemBase {
   // private int cyclesPerUpdate = 5;
 
   private final AprilTagFieldLayout aprilTagFieldLayout;
+
   private Field2d field2d;
 
   /** Pose Estimation aided by PhotonVision */
@@ -124,8 +124,7 @@ public class PoseEstimator extends SubsystemBase {
     // When ran on the real robot it would overload the command scheduler, causing input delay from
     // joystick to driving
     field2d.setRobotPose(getCurrentPose2d());
-    poseEstimator.updateWithTime(
-        timestamp, drive.getRotation(), drive.getSwerveModulePositions());
+    poseEstimator.updateWithTime(timestamp, drive.getRotation(), drive.getSwerveModulePositions());
 
     // counter++;
     // if (enable && counter % cyclesPerUpdate == 0) {
@@ -184,8 +183,7 @@ public class PoseEstimator extends SubsystemBase {
               && poseAmbiguityLeft > 0.0
               && fiducialIDLeft >= 1
               && fiducialIDLeft <= 16) {
-            poseEstimator.addVisionMeasurement(
-                leftPose.get().estimatedPose.toPose2d(), timestamp);
+            poseEstimator.addVisionMeasurement(leftPose.get().estimatedPose.toPose2d(), timestamp);
           }
         }
 
@@ -197,10 +195,8 @@ public class PoseEstimator extends SubsystemBase {
               && poseAmbiguityRight < 0.2
               && poseAmbiguityRight > 0.0
               && fiducialIDRight >= 1
-              && fiducialIDRight <= 16
-              ) {
-            poseEstimator.addVisionMeasurement(
-                rightPose.get().estimatedPose.toPose2d(), timestamp);
+              && fiducialIDRight <= 16) {
+            poseEstimator.addVisionMeasurement(rightPose.get().estimatedPose.toPose2d(), timestamp);
           }
         }
       }

@@ -722,18 +722,33 @@ public class RobotContainer {
     driverController
         .rightTrigger()
         .onTrue(
-            new UTBIntakeRun(
-                m_utbIntakeSubsystem,
-                m_feederSubsystem,
-                CommandConstants.INTAKE_INWARDS,
-                CommandConstants.RUN_INTAKE))
+            // new AimShooter(
+            //     m_shooterSubsystem,
+            //     m_wristSubsystem,
+            //     m_armSubsystem,
+            //     m_poseEstimator,
+            //     m_feederSubsystem,
+            //     auxController,
+            //     m_beamBreak))
+            new RunCommand(
+                () -> m_wristSubsystem.calculateWristAngle(m_poseEstimator.getCurrentPose2d()),
+                m_wristSubsystem))
         .onFalse(
-            new UTBIntakeRun(
-                m_utbIntakeSubsystem,
-                m_feederSubsystem,
-                CommandConstants.INTAKE_INWARDS,
-                CommandConstants.STOP_INTAKE))
-        .onFalse(new ShooterRev(m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
+            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+    // .rightTrigger()
+    // .onTrue(
+    //     new UTBIntakeRun(
+    //         m_utbIntakeSubsystem,
+    //         m_feederSubsystem,
+    //         CommandConstants.INTAKE_INWARDS,
+    //         CommandConstants.RUN_INTAKE))
+    // .onFalse(
+    //     new UTBIntakeRun(
+    //         m_utbIntakeSubsystem,
+    //         m_feederSubsystem,
+    //         CommandConstants.INTAKE_INWARDS,
+    //         CommandConstants.STOP_INTAKE))
+    // .onFalse(new ShooterRev(m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
     // UTB Intake (Outtake)
     driverController
         .leftBumper()
@@ -797,7 +812,9 @@ public class RobotContainer {
             //     m_feederSubsystem,
             //     auxController,
             //     m_beamBreak))
-            new AimWrist(m_wristSubsystem, m_armSubsystem, m_poseEstimator))
+            new RunCommand(
+                () -> m_wristSubsystem.calculateWristAngle(m_poseEstimator.getCurrentPose2d()),
+                m_wristSubsystem))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // PODIUM (w/o vision)

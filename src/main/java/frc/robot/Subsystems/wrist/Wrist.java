@@ -6,10 +6,13 @@ package frc.robot.Subsystems.wrist;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Constants.ShootingInterpolationConstants;
 import org.littletonrobotics.junction.Logger;
@@ -178,6 +181,29 @@ public class Wrist extends SubsystemBase {
       closestTheta = 0;
       return closestTheta;
     }
+  }
+
+  /**
+   * Calculates the angle of the Wrist based on the robot's distance away from the SPEAKER
+   *
+   * <p>Data collected to create the line of best fit equation used to calculate Wrist angle can be
+   * found at {@link ShootingInterpolationConstants}
+   *
+   * @param robotPose Robot's current pose
+   */
+  public void calculateWristAngle(Pose2d robotPose) {
+    // triangle for robot angle
+    double deltaX = 0.0;
+    if (RobotStateConstants.getAlliance().get() == Alliance.Red) {
+      deltaX = Math.abs(robotPose.getX() - FieldConstants.RED_SPEAKER_X);
+    } else if (RobotStateConstants.getAlliance().get() == Alliance.Blue) {
+      deltaX = Math.abs(robotPose.getX() - FieldConstants.BLUE_SPEAKER_X);
+    }
+
+    double deltaY = Math.abs(robotPose.getY() - FieldConstants.SPEAKER_Y);
+    double speakerDist = Math.hypot(deltaX, deltaY);
+    System.out.println(-9.37857 * speakerDist + 37.1616);
+    // wristPIDController.setGoal(-9.37857 * speakerDist + 37.1616);
   }
 
   /**
