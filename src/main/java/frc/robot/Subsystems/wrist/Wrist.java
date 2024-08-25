@@ -141,6 +141,14 @@ public class Wrist extends SubsystemBase {
     this.setGoal(wristPIDController.getGoal().position + increment);
   }
 
+  /**
+   * Returns the closest angle to set the Wrist to based on the lookup table. The angle is the
+   * average of the upper and lower limits tested for the inputed to the table found in {@link
+   * ShootingInterpolationConstants}
+   *
+   * @param x Distance from SPEAKER
+   * @return Best angle to set the Wrist to (Radians)
+   */
   public double returnDesiredAngle(double x) {
     double closestX, closestTheta;
     if (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][
@@ -149,9 +157,6 @@ public class Wrist extends SubsystemBase {
       int i = 1;
       closestX = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
       closestTheta = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
-
-      // do closest theta is 0 if you are 5 m away of the speaker(you cant
-      // shoot)//TODO:when we change the max change the 5 to the new max
 
       // since the table is sorted, find the index of the first value where the distance value
       // exceeds
@@ -178,8 +183,7 @@ public class Wrist extends SubsystemBase {
       // returns the closest Theta based on the lookup table
       return closestTheta;
     } else {
-      closestTheta = 0;
-      return closestTheta;
+      return 0;
     }
   }
 
@@ -191,7 +195,7 @@ public class Wrist extends SubsystemBase {
    *
    * @param robotPose Robot's current pose
    */
-  public void calculateWristAngle(Pose2d robotPose) {
+  public void autoAlignWrist(Pose2d robotPose) {
     // triangle for robot angle
     double deltaX = 0.0;
     if (RobotStateConstants.getAlliance().get() == Alliance.Red) {
@@ -199,11 +203,18 @@ public class Wrist extends SubsystemBase {
     } else if (RobotStateConstants.getAlliance().get() == Alliance.Blue) {
       deltaX = Math.abs(robotPose.getX() - FieldConstants.BLUE_SPEAKER_X);
     }
-
     double deltaY = Math.abs(robotPose.getY() - FieldConstants.SPEAKER_Y);
     double speakerDist = Math.hypot(deltaX, deltaY);
-    System.out.println(-9.37857 * speakerDist + 37.1616);
-    // wristPIDController.setGoal(-9.37857 * speakerDist + 37.1616);
+
+    // Defaults angle to 0 degrees if robot's distance is outside the range of tested values in the
+    // lookup table
+    if (speakerDist
+        > ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][
+            ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0].length - 1]) {
+      this.setGoal(0);
+    } else {
+      this.setGoal(Units.degreesToRadians(-9.37857 * speakerDist + 37.1616));
+    }
   }
 
   /**

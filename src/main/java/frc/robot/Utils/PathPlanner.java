@@ -9,8 +9,11 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.PathFindingConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.DriveConstants;
 import frc.robot.Subsystems.gyro.Gyro;
@@ -19,7 +22,7 @@ import frc.robot.Subsystems.gyro.Gyro;
 public class PathPlanner extends SubsystemBase {
   private Drive drive;
   private PoseEstimator pose;
-  private Gyro gyro;
+  // private Gyro gyro;
 
   private boolean speakerRotOverride = false;
   private boolean noteRotOverride = false;
@@ -48,7 +51,6 @@ public class PathPlanner extends SubsystemBase {
           // alliance
           // This will flip the path being followed to the red side of the field.
           // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
           var alliance = DriverStation.getAlliance();
           if (alliance.isPresent()) {
             return alliance.get() == DriverStation.Alliance.Red;
@@ -68,15 +70,35 @@ public class PathPlanner extends SubsystemBase {
     }
   }
 
+  /**
+   * Toggles the rotation target override for a NOTE during PathPlanner paths
+   * 
+   * @param enable True to enable, False to disable
+   */
   public void enableNOTEAlignment(boolean enable) {
     noteRotOverride = enable;
   }
 
-  public void setSpeakerRotOverrideEnable(boolean enable) {
+  /**
+   * Toggles the rotation target override for the SPEAKER during PathPlanner paths
+   * 
+   * @param enable True to enable, False to disable
+   */
+  public void enableSpeakerAlignment(boolean enable) {
     speakerRotOverride = enable;
   }
 
-  // public Command followPath() {
-  //   return AutoBuilder.followPath(m_path);
+  // public Command followPath(PathPlannerPath path) {
+  //   return AutoBuilder.followPath(path);
   // }
+
+  /**
+   *  Creates a command that drives the robot to the inputed position
+   * 
+   * @param targetPose Pose2d of where the robot should end up
+   */
+  public Command pathFindToPose(Pose2d targetPose) {
+      return AutoBuilder.pathfindToPose(
+          targetPose, PathFindingConstants.DEFAULT_PATH_CONSTRAINTS, 0);
+  }
 }

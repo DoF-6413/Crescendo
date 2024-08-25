@@ -52,7 +52,7 @@ public class Shoot extends SequentialCommandGroup {
                             feeder),
                         () -> arm.getGoal() == ArmConstants.AMP_BACK_SIDE_RAD),
                     () -> arm.getGoal() == ArmConstants.AMP_FRONT_SIDE_RAD),
-                () -> arm.getGoal() == 0),
+                () -> arm.getGoal() == ArmConstants.DEFAULT_POSITION_RAD),
             new InstantCommand(),
             () -> shooter.bothAtSetpoint()));
   }

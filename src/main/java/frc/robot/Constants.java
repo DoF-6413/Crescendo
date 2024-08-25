@@ -13,6 +13,9 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.path.PathConstraints;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -114,6 +117,7 @@ public final class Constants {
       // {24, 15, 8, 5, 2, -1, -3, -4, -4, -6} // theta_min_degrees
       // {38, 24, 17, 15, 10, 8, 5, 8, 1}, // theta_max_degrees
       // {28, 18, 15, 13, 8, 5, 3, 6, -1} // theta_min_degrees
+      /* Angles tested and collected 8-24-2024 */
       {31, 21, 15.5, 11, 8, 2}, // theta_max_degrees
       {23, 15, 10.5, 8, 4.25, 0} // theta_min_degrees
     };
@@ -177,5 +181,15 @@ public final class Constants {
      * alignment
      */
     public static final double LL_NOTE_RANGE = 10;
+  }
+
+  /** Contants for PathPlanner Path Finding */
+  public static class PathFindingConstants {
+    public static final PathConstraints DEFAULT_PATH_CONSTRAINTS =
+        new PathConstraints(3, 3, Units.degreesToRadians(515.65), Units.degreesToRadians(262.82));
+    public static final Pose2d AMP_BLUE_END_POSE =
+        new Pose2d(1.85, 7.69, new Rotation2d(Units.degreesToRadians(90)));
+    public static final Pose2d AMP_RED_END_POSE =
+        new Pose2d(14.69, 7.69, new Rotation2d(Units.degreesToRadians(90)));
   }
 }

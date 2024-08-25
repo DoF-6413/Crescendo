@@ -260,14 +260,14 @@ public class RobotContainer {
         "EnableSpeakerRotationOverride",
         new InstantCommand(
             () ->
-                m_pathPlanner.setSpeakerRotOverrideEnable(
+                m_pathPlanner.enableSpeakerAlignment(
                     CommandConstants.SPEAKER_ROTATION_OVERRIDE_ENABLE),
             m_pathPlanner));
     NamedCommands.registerCommand(
         "DisableSpeakerRotationOverride",
         new InstantCommand(
             () ->
-                m_pathPlanner.setSpeakerRotOverrideEnable(
+                m_pathPlanner.enableSpeakerAlignment(
                     CommandConstants.SPEAKER_ROTATION_OVERRIDE_DISABLE),
             m_pathPlanner));
 
@@ -722,16 +722,8 @@ public class RobotContainer {
     driverController
         .rightTrigger()
         .onTrue(
-            // new AimShooter(
-            //     m_shooterSubsystem,
-            //     m_wristSubsystem,
-            //     m_armSubsystem,
-            //     m_poseEstimator,
-            //     m_feederSubsystem,
-            //     auxController,
-            //     m_beamBreak))
             new RunCommand(
-                () -> m_wristSubsystem.calculateWristAngle(m_poseEstimator.getCurrentPose2d()),
+                () -> m_wristSubsystem.autoAlignWrist(m_poseEstimator.getCurrentPose2d()),
                 m_wristSubsystem))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
@@ -769,6 +761,9 @@ public class RobotContainer {
     driverController
         .rightBumper()
         .onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
+
+    /* Align to AMP */
+    driverController.b().onTrue(new ConditionalCommand(m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_RED_END_POSE), m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_BLUE_END_POSE), ()-> RobotStateConstants.getAlliance().get() == DriverStation.Alliance.Red));
   }
 
   /** Contoller keybinds for the aux contoller port */
@@ -813,7 +808,7 @@ public class RobotContainer {
             //     auxController,
             //     m_beamBreak))
             new RunCommand(
-                () -> m_wristSubsystem.calculateWristAngle(m_poseEstimator.getCurrentPose2d()),
+                () -> m_wristSubsystem.autoAlignWrist(m_poseEstimator.getCurrentPose2d()),
                 m_wristSubsystem))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));

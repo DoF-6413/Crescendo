@@ -13,6 +13,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.*;
@@ -89,12 +90,14 @@ public class Robot extends LoggedRobot {
     // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
     // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
     // Build)
-    SmartDashboard.putString("Beta Number", "1.64.106.73.0");
+    SmartDashboard.putString("Beta Number", "1.64.106.74.0");
     SmartDashboard.putString("Last Deployed at: ", BuildConstants.BUILD_DATE);
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
+
+    PathfindingCommand.warmupCommand().schedule();
   }
 
   /** This function is called periodically during all modes. */
