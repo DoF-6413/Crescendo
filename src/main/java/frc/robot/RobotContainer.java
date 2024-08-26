@@ -763,7 +763,14 @@ public class RobotContainer {
         .onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
 
     /* Align to AMP */
-    driverController.b().onTrue(new ConditionalCommand(m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_RED_END_POSE), m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_BLUE_END_POSE), ()-> RobotStateConstants.getAlliance().get() == DriverStation.Alliance.Red));
+    driverController
+        .b()
+        .onTrue(
+            new ConditionalCommand(
+                m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_RED_END_POSE),
+                m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_BLUE_END_POSE),
+                () -> RobotStateConstants.getAlliance().get() == DriverStation.Alliance.Red))
+                .onFalse(m_pathPlanner.pathFindToPose(m_poseEstimator.getCurrentPose2d()));
   }
 
   /** Contoller keybinds for the aux contoller port */

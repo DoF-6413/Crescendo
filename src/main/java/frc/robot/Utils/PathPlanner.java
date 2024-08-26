@@ -72,7 +72,7 @@ public class PathPlanner extends SubsystemBase {
 
   /**
    * Toggles the rotation target override for a NOTE during PathPlanner paths
-   * 
+   *
    * @param enable True to enable, False to disable
    */
   public void enableNOTEAlignment(boolean enable) {
@@ -81,7 +81,7 @@ public class PathPlanner extends SubsystemBase {
 
   /**
    * Toggles the rotation target override for the SPEAKER during PathPlanner paths
-   * 
+   *
    * @param enable True to enable, False to disable
    */
   public void enableSpeakerAlignment(boolean enable) {
@@ -93,12 +93,11 @@ public class PathPlanner extends SubsystemBase {
   // }
 
   /**
-   *  Creates a command that drives the robot to the inputed position
-   * 
+   * Creates a command that drives the robot to the inputed position
+   *
    * @param targetPose Pose2d of where the robot should end up
    */
   public Command pathFindToPose(Pose2d targetPose) {
-      return AutoBuilder.pathfindToPose(
-          targetPose, PathFindingConstants.DEFAULT_PATH_CONSTRAINTS, 0);
+    return AutoBuilder.pathfindToPose(targetPose, PathFindingConstants.DEFAULT_PATH_CONSTRAINTS, 0);
   }
 }

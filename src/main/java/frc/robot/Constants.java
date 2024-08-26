@@ -181,6 +181,13 @@ public final class Constants {
      * alignment
      */
     public static final double LL_NOTE_RANGE = 10;
+
+    public static enum VisionUpdatePlan {
+      BOTH,
+      LEFT,
+      RIGHT,
+      NONE
+    }
   }
 
   /** Contants for PathPlanner Path Finding */

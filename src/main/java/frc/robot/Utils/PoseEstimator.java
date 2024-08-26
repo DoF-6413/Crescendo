@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.Constants.VisionConstants.VisionUpdatePlan;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.gyro.*;
 import java.util.Optional;
@@ -60,6 +61,7 @@ public class PoseEstimator extends SubsystemBase {
   private int fiducialIDRight = 0;
   private boolean hasTargetsLeft = false;
   private boolean hasTargetsRight = false;
+  // private VisionUpdatePlan visionUpdatePlan;
 
   private boolean enable = true;
 
@@ -199,6 +201,74 @@ public class PoseEstimator extends SubsystemBase {
             poseEstimator.addVisionMeasurement(rightPose.get().estimatedPose.toPose2d(), timestamp);
           }
         }
+
+      // if (!hasTargetsLeft && !hasTargetsRight) {
+      //   visionUpdatePlan = VisionUpdatePlan.NONE;
+      // } else if (hasTargetsLeft && hasTargetsRight) {
+      //   visionUpdatePlan = VisionUpdatePlan.BOTH;
+      // } else if (hasTargetsLeft) {
+      //   visionUpdatePlan = VisionUpdatePlan.LEFT;
+      // } else {
+      //   visionUpdatePlan = VisionUpdatePlan.RIGHT;
+      // }
+
+      // switch (visionUpdatePlan) {
+      //   case BOTH:
+      //     if (prevTimestamp != timestamp) {
+      //       prevTimestamp = timestamp;
+
+      //       if (leftPose.isPresent()
+      //           && rightPose.isPresent()
+      //           && poseAmbiguityLeft < 0.2
+      //           && poseAmbiguityLeft > 0.0
+      //           && poseAmbiguityRight < 0.2
+      //           && poseAmbiguityRight > 0.0
+      //           && fiducialIDLeft >= 1
+      //           && fiducialIDLeft <= 16
+      //           && fiducialIDRight >= 1
+      //           && fiducialIDRight <= 16) {
+      //         poseEstimator.addVisionMeasurement(
+      //             averageVisionPoses(
+      //                 leftPose.get().estimatedPose.toPose2d(),
+      //                 rightPose.get().estimatedPose.toPose2d()),
+      //             timestamp);
+      //       }
+      //     }
+      //     break;
+
+      //   case LEFT:
+      //     if (prevTimestamp != timestamp) {
+      //       prevTimestamp = timestamp;
+
+      //       if (leftPose.isPresent()
+      //           && poseAmbiguityLeft < 0.2
+      //           && poseAmbiguityLeft > 0.0
+      //           && fiducialIDLeft >= 1
+      //           && fiducialIDLeft <= 16) {
+      //         poseEstimator.addVisionMeasurement(
+      //             leftPose.get().estimatedPose.toPose2d(), timestamp);
+      //       }
+      //     }
+      //     break;
+
+      //   case RIGHT:
+      //     if (prevTimestamp != timestamp) {
+      //       prevTimestamp = timestamp;
+
+      //       if (rightPose.isPresent()
+      //           && poseAmbiguityRight < 0.2
+      //           && poseAmbiguityRight > 0.0
+      //           && fiducialIDRight >= 1
+      //           && fiducialIDRight <= 16) {
+      //         poseEstimator.addVisionMeasurement(
+      //             rightPose.get().estimatedPose.toPose2d(), timestamp);
+      //       }
+      //     }
+      //     break;
+
+      //   case NONE:
+      //     break;
+      //   }
       }
     }
   }
