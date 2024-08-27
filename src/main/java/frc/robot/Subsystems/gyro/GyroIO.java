@@ -5,7 +5,6 @@
 package frc.robot.Subsystems.gyro;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.Subsystems.gyro.GyroIO.GyroIOInputs;
 import org.littletonrobotics.junction.AutoLog;
 
 /** All the Loggable Inputs and Outputs of the Gyro in Every Mode */

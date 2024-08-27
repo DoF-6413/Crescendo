@@ -8,14 +8,11 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
-import frc.robot.Subsystems.gyro.GyroIO.GyroIOInputs;
 
 /** Runs Real NavX Gyroscope */
 public class GyroIONavX implements GyroIO {
 
   private AHRS gyro;
-
-  private double lastYawAngle = 0;
 
   public GyroIONavX() {
     System.out.println("[Init] Creating GyroIONavX");
@@ -34,7 +31,7 @@ public class GyroIONavX implements GyroIO {
             Units.degreesToRadians(
                 -gyro.getYaw()
                     + GyroConstants.HEADING_OFFSET_DEGREES
-                    - lastYawAngle)); // TODO: Make -90 constant
+                    )); // TODO: Make -90 constant
     inputs.rawYawPositionRad = new Rotation2d(Units.degreesToRadians(gyro.getYaw()));
     inputs.anglePositionRad = new Rotation2d(Units.degreesToRadians(gyro.getAngle()));
     inputs.rollVelocityRadPerSec =
@@ -55,7 +52,6 @@ public class GyroIONavX implements GyroIO {
 
   @Override
   public void zeroHeading() {
-    lastYawAngle = gyro.getYaw();
     gyro.zeroYaw();
   }
 }
