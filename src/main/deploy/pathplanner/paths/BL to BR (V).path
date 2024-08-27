@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.9,
-        "y": 6.3
+        "x": 2.5,
+        "y": 6.80533123536556
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9,
-        "y": 5.300000000000001
+        "x": 2.03129108012602,
+        "y": 5.845754849404436
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.9,
-        "y": 4.3
+        "x": 1.8952671238675813,
+        "y": 4.966133265599865
       },
       "prevControl": {
-        "x": 1.9,
-        "y": 5.3
+        "x": 1.9567223128552396,
+        "y": 5.780414519686336
+      },
+      "nextControl": {
+        "x": 1.8227210138630805,
+        "y": 4.00489730804023
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.5,
+        "y": 4.13
+      },
+      "prevControl": {
+        "x": 1.6838562624493671,
+        "y": 4.148136527501125
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,20 +48,20 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": 0.0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "Test Paths",
+  "folder": "Puzzle Pieces Vision",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 25.5,
     "velocity": 0
   },
   "useDefaultConstraints": false

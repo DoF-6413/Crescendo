@@ -6,10 +6,13 @@ package frc.robot.Subsystems.wrist;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Constants.ShootingInterpolationConstants;
 import org.littletonrobotics.junction.Logger;
@@ -135,9 +138,17 @@ public class Wrist extends SubsystemBase {
    * @param increment Angle (Radians)
    */
   public void incrementWristGoal(double increment) {
-    wristPIDController.setGoal(wristPIDController.getGoal().position + increment);
+    this.setGoal(wristPIDController.getGoal().position + increment);
   }
 
+  /**
+   * Returns the closest angle to set the Wrist to based on the lookup table. The angle is the
+   * average of the upper and lower limits tested for the inputed to the table found in {@link
+   * ShootingInterpolationConstants}
+   *
+   * @param x Distance from SPEAKER
+   * @return Best angle to set the Wrist to (Radians)
+   */
   public double returnDesiredAngle(double x) {
     double closestX, closestTheta;
     if (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][
@@ -146,9 +157,6 @@ public class Wrist extends SubsystemBase {
       int i = 1;
       closestX = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
       closestTheta = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
-
-      // do closest theta is 0 if you are 5 m away of the speaker(you cant
-      // shoot)//TODO:when we change the max change the 5 to the new max
 
       // since the table is sorted, find the index of the first value where the distance value
       // exceeds
@@ -175,8 +183,37 @@ public class Wrist extends SubsystemBase {
       // returns the closest Theta based on the lookup table
       return closestTheta;
     } else {
-      closestTheta = 0;
-      return closestTheta;
+      return 0;
+    }
+  }
+
+  /**
+   * Calculates the angle of the Wrist based on the robot's distance away from the SPEAKER
+   *
+   * <p>Data collected to create the line of best fit equation used to calculate Wrist angle can be
+   * found at {@link ShootingInterpolationConstants}
+   *
+   * @param robotPose Robot's current pose
+   */
+  public void autoAlignWrist(Pose2d robotPose) {
+    // triangle for robot angle
+    double deltaX = 0.0;
+    if (RobotStateConstants.getAlliance().get() == Alliance.Red) {
+      deltaX = Math.abs(robotPose.getX() - FieldConstants.RED_SPEAKER_X);
+    } else if (RobotStateConstants.getAlliance().get() == Alliance.Blue) {
+      deltaX = Math.abs(robotPose.getX() - FieldConstants.BLUE_SPEAKER_X);
+    }
+    double deltaY = Math.abs(robotPose.getY() - FieldConstants.SPEAKER_Y);
+    double speakerDist = Math.hypot(deltaX, deltaY);
+
+    // Defaults angle to 0 degrees if robot's distance is outside the range of tested values in the
+    // lookup table
+    if (speakerDist
+        > ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][
+            ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0].length - 1]) {
+      this.setGoal(0);
+    } else {
+      this.setGoal(Units.degreesToRadians(-9.37857 * speakerDist + 37.1616));
     }
   }
 

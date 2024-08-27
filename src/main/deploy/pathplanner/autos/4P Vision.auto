@@ -137,9 +137,91 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ZeroYaw"
+                  "name": "VisionPickUp"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PickUpStop"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignWrist"
                 }
               },
+              {
+                "type": "named",
+                "data": {
+                  "name": "FeederReverse"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "EnableSpeakerRotationOverride"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootWhenReady"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BL to BR (V)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DisableSpeakerRotationOverride"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
               {
                 "type": "named",
                 "data": {
@@ -153,6 +235,12 @@
           "type": "named",
           "data": {
             "name": "PickUpStop"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BR to Shoot (V)"
           }
         },
         {

@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCenter;
-import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.TwoPieceReturnSub;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.BeamBreakPickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
@@ -47,10 +46,6 @@ import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.feeder.*;
 import frc.robot.Subsystems.gyro.*;
 import frc.robot.Subsystems.otbIntake.*;
-import frc.robot.Subsystems.photonVision.Vision;
-import frc.robot.Subsystems.photonVision.VisionIO;
-import frc.robot.Subsystems.photonVision.VisionIOArduCam;
-import frc.robot.Subsystems.photonVision.VisionIOSim;
 import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.wrist.*;
@@ -70,7 +65,7 @@ public class RobotContainer {
 
   // Mechanisms
   private final Arm m_armSubsystem;
-  private final Vision m_visionSubsystem;
+  //   private final Vision m_visionSubsystem;
   // private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
@@ -83,7 +78,7 @@ public class RobotContainer {
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
   private final BeamBreak m_beamBreak;
-  int counter = 0;
+  int notePickUpCounter = 0;
 
   // Controllers
   private final CommandXboxController driverController =
@@ -111,7 +106,7 @@ public class RobotContainer {
                 new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
-        m_visionSubsystem = new Vision(new VisionIOArduCam());
+        // m_visionSubsystem = new Vision(new VisionIOArduCam());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
@@ -131,7 +126,7 @@ public class RobotContainer {
                 new ModuleIOSimNeoKraken(),
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
-        m_visionSubsystem = new Vision(new VisionIOSim());
+        // m_visionSubsystem = new Vision(new VisionIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
         m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
@@ -151,7 +146,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
-        m_visionSubsystem = new Vision(new VisionIO() {});
+        // m_visionSubsystem = new Vision(new VisionIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
         m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
         m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
@@ -162,7 +157,7 @@ public class RobotContainer {
     }
 
     // Utils
-    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem, m_visionSubsystem);
+    m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator, m_gyroSubsystem);
     m_beamBreak = new BeamBreak();
 
@@ -265,16 +260,34 @@ public class RobotContainer {
         "EnableSpeakerRotationOverride",
         new InstantCommand(
             () ->
-                m_pathPlanner.setSpeakerRotOverrideEnable(
+                m_pathPlanner.enableSpeakerAlignment(
                     CommandConstants.SPEAKER_ROTATION_OVERRIDE_ENABLE),
             m_pathPlanner));
     NamedCommands.registerCommand(
         "DisableSpeakerRotationOverride",
         new InstantCommand(
             () ->
-                m_pathPlanner.setSpeakerRotOverrideEnable(
+                m_pathPlanner.enableSpeakerAlignment(
                     CommandConstants.SPEAKER_ROTATION_OVERRIDE_DISABLE),
             m_pathPlanner));
+    NamedCommands.registerCommand(
+        "EnableHeadingControllerOverride",
+        new InstantCommand(() -> m_pathPlanner.enableHeadingAlignment(true), m_pathPlanner));
+    NamedCommands.registerCommand(
+        "DisableHeadingControllerOverride",
+        new InstantCommand(() -> m_pathPlanner.enableHeadingAlignment(false), m_pathPlanner));
+
+    // Heading
+    NamedCommands.registerCommand(
+        "HeadingNegative45Deg",
+        new InstantCommand(
+            () -> m_gyroSubsystem.setHeadingControllerSetpoint(Units.degreesToRadians(-45)),
+            m_gyroSubsystem));
+    NamedCommands.registerCommand(
+        "Heading45Deg",
+        new InstantCommand(
+            () -> m_gyroSubsystem.setHeadingControllerSetpoint(Units.degreesToRadians(45)),
+            m_gyroSubsystem));
 
     // Pick Ups
     NamedCommands.registerCommand(
@@ -398,7 +411,7 @@ public class RobotContainer {
         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Gyro heading update
     NamedCommands.registerCommand(
-        "ZeroYaw", new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
+        "ZeroYaw", new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
 
     /* PathPlanner Autos */
     // Test Autos
@@ -412,42 +425,14 @@ public class RobotContainer {
     // autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
     // 2 Piece
-    // autoChooser.addDefaultOption("2 Piece Center", new PathPlannerAuto("2P Center"));
-    autoChooser.addOption("2 Piece Center 3.0", new PathPlannerAuto("Center 3"));
-    autoChooser.addOption("2 Piece Center (2x subwoofer shot)", new PathPlannerAuto("Center"));
-    autoChooser.addOption("2 Piece Center", new PathPlannerAuto("Center 2"));
-    autoChooser.addOption("2 Piece Amp", new PathPlannerAuto("2P Amp"));
-    autoChooser.addOption("2 Piece Cool Side", new PathPlannerAuto("2P Cool Side"));
-    autoChooser.addOption("2 Piece Vision", new PathPlannerAuto("2P Vision"));
-    autoChooser.addOption("2 Piece Vision 2", new PathPlannerAuto("2P Vision 2.0"));
+    // autoChooser.addOption("2 Piece Vision", new PathPlannerAuto("2P Vision"));
+    autoChooser.addOption("2 Piece Vision", new PathPlannerAuto("2P Vision 2.0"));
     // 3 Piece
-    // autoChooser.addOption("3 Piece Center", new PathPlannerAuto("3P Center"));
-    // autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
-    autoChooser.addOption("3 Piece Close Amp", new PathPlannerAuto("3P Center Amp"));
-    autoChooser.addOption("3 Piece Close Podium", new PathPlannerAuto("3P Center Podium"));
-    autoChooser.addOption(
-        "3 Piece VISION Close Podium", new PathPlannerAuto("3P VIS Center Podium"));
-    autoChooser.addOption("3 Piece Corner to Midfield", new PathPlannerAuto("3P Corner Mid Right"));
-    autoChooser.addOption("3 Piece Source Midfield", new PathPlannerAuto("3P Mid Right"));
     autoChooser.addOption("3 Piece Vision", new PathPlannerAuto("3P Vision"));
-    // autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
     // 4 Piece
-    // autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
-    // autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
-    // autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
+    autoChooser.addOption("4 Piece Vision", new PathPlannerAuto("4P Vision"));
     autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center 5"));
-    // autoChooser.addOption("4 Piece Center 5.0", new PathPlannerAuto("4P Center 5"));
-    autoChooser.addOption("4 Piece Left Sub Midfield", new PathPlannerAuto("4P Midfield"));
-    autoChooser.addOption("4 Piece Center Midfield", new PathPlannerAuto("4P Center to Midfield"));
-    // autoChooser.addOption(
-    //     "4 Piece Center Midfield Vision", new PathPlannerAuto("4P Center to Midfield (V)"));
-    // 5+ Piece
-    autoChooser.addOption("5 Piece Left Sub Midfield", new PathPlannerAuto("5P Midfield"));
-    // autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
-    // Adds an "auto" tab on ShuffleBoard
-    Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
-
-    // Adds list of deadreckond autos to Shuffleboard
+    // Deadreckoned
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
     autoChooser.addDefaultOption(
@@ -464,20 +449,52 @@ public class RobotContainer {
             3,
             1,
             m_gyroSubsystem));
+
+    /* Following autos have not been tested since at least Worlds */
+    // 2 Piece
+    // autoChooser.addDefaultOption("2 Piece Center", new PathPlannerAuto("2P Center"));
+    autoChooser.addOption("2 Piece Center 3.0", new PathPlannerAuto("Center 3"));
+    autoChooser.addOption("2 Piece Center (2x subwoofer shot)", new PathPlannerAuto("Center"));
+    autoChooser.addOption("2 Piece Center", new PathPlannerAuto("Center 2"));
+    autoChooser.addOption("2 Piece Amp", new PathPlannerAuto("2P Amp"));
+    autoChooser.addOption("2 Piece Cool Side", new PathPlannerAuto("2P Cool Side"));
+    // 3 Piece
+    // autoChooser.addOption("3 Piece Center", new PathPlannerAuto("3P Center"));
+    // autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
+    autoChooser.addOption("3 Piece Close Amp", new PathPlannerAuto("3P Center Amp"));
+    autoChooser.addOption("3 Piece Close Podium", new PathPlannerAuto("3P Center Podium"));
     autoChooser.addOption(
-        "Better Two Piece",
-        new TwoPieceReturnSub(
-            m_driveSubsystem,
-            m_gyroSubsystem,
-            m_wristSubsystem,
-            m_armSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
-            m_utbIntakeSubsystem,
-            2,
-            1));
+        "3 Piece VISION Close Podium", new PathPlannerAuto("3P VIS Center Podium"));
+    autoChooser.addOption("3 Piece Corner to Midfield", new PathPlannerAuto("3P Corner Mid Right"));
+    autoChooser.addOption("3 Piece Source Midfield", new PathPlannerAuto("3P Mid Right"));
+    // autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
+    // 4 Piece
+    // autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
+    // autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
+    // autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
+    // autoChooser.addOption("4 Piece Center 5.0", new PathPlannerAuto("4P Center 5"));
+    autoChooser.addOption("4 Piece Left Sub Midfield", new PathPlannerAuto("4P Midfield"));
+    autoChooser.addOption("4 Piece Center Midfield", new PathPlannerAuto("4P Center to Midfield"));
+    // autoChooser.addOption(
+    //     "4 Piece Center Midfield Vision", new PathPlannerAuto("4P Center to Midfield (V)"));
+    // 5+ Piece
+    autoChooser.addOption("5 Piece Left Sub Midfield", new PathPlannerAuto("5P Midfield"));
+    // autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
+    // Deadreckoned
+    // autoChooser.addOption(
+    //     "Better Two Piece",
+    //     new TwoPieceReturnSub(
+    //         m_driveSubsystem,
+    //         m_gyroSubsystem,
+    //         m_wristSubsystem,
+    //         m_armSubsystem,
+    //         m_feederSubsystem,
+    //         m_shooterSubsystem,
+    //         m_actuatorSubsystem,
+    //         m_otbIntakeSubsystem,
+    //         m_utbIntakeSubsystem,
+    //         2,
+    //         1));
     // autoChooser.addOption(
     //     "Blue One Piece Leave Amp Side",
     //     new OnePieceLeaveAmpSide(
@@ -575,12 +592,16 @@ public class RobotContainer {
     //         2,
     //         1));
 
+    // Adds an "auto" tab on ShuffleBoard
+    Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
+
     // Adds a delay to the deadreakoned autos
-    SmartDashboard.putNumber("Delay", 0);
+    // SmartDashboard.putNumber("Delay", 0);
 
     // Configure the button bindings
     configureButtonBindings();
 
+    // SmartDashboard variable that uses the UTB current to determine if a NOTE has been intaked
     SmartDashboard.putBoolean("Is Note Picked Up", false);
   }
 
@@ -623,6 +644,14 @@ public class RobotContainer {
     m_otbIntakeSubsystem.setBrakeMode(!isDisabled);
   }
 
+  /** Sets the setpoint/position to zero */
+  public void setAllSetpointsZero() {
+    m_shooterSubsystem.setSetpoint(0);
+    m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD);
+    m_armSubsystem.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
+    m_feederSubsystem.setSetpoint(0);
+  }
+
   /**
    * Toggles PID tuning
    *
@@ -645,14 +674,11 @@ public class RobotContainer {
     m_shooterSubsystem.enableTesting(enable);
   }
 
-  /** Sets the setpoint/position to zero */
-  public void setAllSetpointsZero() {
-    m_shooterSubsystem.setSetpoint(0);
-    m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD);
-    m_armSubsystem.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
-    m_feederSubsystem.setSetpoint(0);
-  }
-
+  /**
+   * Toggles the use of the back cameras in the Pose Estimator
+   *
+   * @param enable True = enable, False = disable
+   */
   public void enableVision(boolean enable) {
     m_poseEstimator.enableVision(enable);
   }
@@ -660,14 +686,14 @@ public class RobotContainer {
   /** Uses the current drawn by the UTB to determine if a NOTE has been picked up */
   public void isNotePickedUp() {
     if (m_utbIntakeSubsystem.getCurrentDraw() > 20 && m_utbIntakeSubsystem.getCurrentDraw() < 55) {
-      counter += 1;
-      if (counter >= 20) {
+      notePickUpCounter += 1;
+      if (notePickUpCounter >= 20) {
         SmartDashboard.putBoolean("Is Note Picked Up", true);
       }
     } else if (driverController.rightBumper().getAsBoolean()
         || auxController.a().getAsBoolean()
         || (m_shooterSubsystem.getSetpoint() > 0 && m_feederSubsystem.getSetpoint() > 0)) {
-      counter = 0;
+      notePickUpCounter = 0;
       SmartDashboard.putBoolean("Is Note Picked Up", false);
     }
   }
@@ -746,6 +772,16 @@ public class RobotContainer {
     driverController
         .rightBumper()
         .onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
+
+    /* Align to AMP */
+    driverController
+        .b()
+        .onTrue(
+            new ConditionalCommand(
+                m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_RED_END_POSE),
+                m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_BLUE_END_POSE),
+                () -> RobotStateConstants.getAlliance().get() == DriverStation.Alliance.Red));
+    // .onFalse(m_pathPlanner.pathFindToPose(m_poseEstimator.getCurrentPose2d()));
   }
 
   /** Contoller keybinds for the aux contoller port */
@@ -833,7 +869,8 @@ public class RobotContainer {
         .x()
         .onTrue(
             new InstantCommand(
-                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.FAR_RPM), m_shooterSubsystem))
+                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.MID_RANGE_RPM),
+                m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
 
     /* Misc */
@@ -847,7 +884,7 @@ public class RobotContainer {
                 m_wristSubsystem,
                 m_armSubsystem,
                 WristConstants.SUBWOOFER_RAD,
-                0,
+                ArmConstants.DEFAULT_POSITION_RAD,
                 ShooterConstants.MIDFIELD_FEEDING_RPM))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));

@@ -5,8 +5,8 @@
 package frc.robot.Commands.VisionCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.Subsystems.drive.Drive;
-import frc.robot.Subsystems.photonVision.VisionConstants;
 import frc.robot.Utils.LimelightHelpers;
 
 public class AlignToNote extends Command {

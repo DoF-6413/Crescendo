@@ -13,7 +13,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
+import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.*;
@@ -80,7 +80,7 @@ public class Robot extends LoggedRobot {
         break;
     }
 
-    CameraServer.startAutomaticCapture();
+    // CameraServer.startAutomaticCapture();
     // See http://bit.ly/3YIzFZ6 for more information on timestamps in AdvantageKit.
     // Logger.disableDeterministicTimestamps()
 
@@ -90,11 +90,14 @@ public class Robot extends LoggedRobot {
     // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
     // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
     // Build)
-    SmartDashboard.putString("Beta Number", "1.64.0.64.1");
+    SmartDashboard.putString("Beta Number", "1.65.0.65.1");
+    SmartDashboard.putString("Last Deployed at: ", BuildConstants.BUILD_DATE);
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
+
+    PathfindingCommand.warmupCommand().schedule();
   }
 
   /** This function is called periodically during all modes. */
@@ -178,7 +181,9 @@ public class Robot extends LoggedRobot {
 
   /** This function is called once when the robot is first started up. */
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+    robotContainer.enableVision(false);
+  }
 
   /** This function is called periodically whilst in simulation. */
   @Override

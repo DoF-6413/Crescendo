@@ -13,7 +13,14 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.path.PathConstraints;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -104,15 +111,15 @@ public final class Constants {
         1.5 + SPEAKER_TO_WALL_M,
         2 + SPEAKER_TO_WALL_M,
         2.5 + SPEAKER_TO_WALL_M,
-        3 + SPEAKER_TO_WALL_M,
-        3.5 + SPEAKER_TO_WALL_M,
-        4 + SPEAKER_TO_WALL_M,
-        4.5 + SPEAKER_TO_WALL_M
+        3 + SPEAKER_TO_WALL_M
       }, // x in meters
       // {32, 20, 13, 9, 4, 2, -2, -4, -4, -6}, // theta_max_degrees
       // {24, 15, 8, 5, 2, -1, -3, -4, -4, -6} // theta_min_degrees
-      {38, 24, 17, 15, 10, 8, 5, 8, 1}, // theta_max_degrees
-      {28, 18, 15, 13, 8, 5, 3, 6, -1} // theta_min_degrees
+      // {38, 24, 17, 15, 10, 8, 5, 8, 1}, // theta_max_degrees
+      // {28, 18, 15, 13, 8, 5, 3, 6, -1} // theta_min_degrees
+      /* Angles tested and collected 8-24-2024 */
+      {31, 21, 15.5, 11, 8, 2}, // theta_max_degrees
+      {23, 15, 10.5, 8, 4.25, 0} // theta_min_degrees
     };
   }
 
@@ -132,7 +139,7 @@ public final class Constants {
     public static final boolean STOP_INTAKE = true;
 
     // Vision Pick Up
-    public static final double VISION_PICKUP_TIMEOUT_SEC = 3; // TODO: Test and Update
+    public static final double VISION_PICKUP_TIMEOUT_SEC = 1.5; // TODO: Test and Update
 
     // Feeder Reverse
     public static final double FEEDER_REVERSE_TIMEOUT_SEC = 3; // TODO: Test and Update
@@ -144,5 +151,52 @@ public final class Constants {
     // NOTE Rotation Target Override
     public static final boolean NOTE_ROTATION_OVERRIDE_ENABLE = true;
     public static final boolean NOTE_ROTATION_OVERRIDE_DISABLE = false;
+
+    // Preload Shot
+    public static final double PRELOAD_SHOT_TIMEOUT_SEC = 2.0;
+  }
+
+  /** Constants for all Vision systems */
+  public final class VisionConstants {
+    /** Offsets the back left camera's position to the center of the robot */
+    public static final Transform3d LEFT_CAMERA_ROBOT_OFFSET =
+        new Transform3d(
+            new Translation3d(-Units.inchesToMeters(10.541), Units.inchesToMeters(11.695), 0),
+            new Rotation3d(Math.PI, 0, Math.PI - Units.degreesToRadians(10.881)));
+
+    /** Offsets the back right camera's position to the center of the robot */
+    public static final Transform3d RIGHT_CAMERA_ROBOT_OFFSET =
+        new Transform3d(
+            new Translation3d(-Units.inchesToMeters(10.541), -Units.inchesToMeters(11.695), 0),
+            new Rotation3d(Math.PI, 0, Math.PI + Units.degreesToRadians(14.881)));
+
+    /** The name of the Lime Light camera */
+    public static final String LIME_LIGHT_NAME = "limelight";
+
+    public static final String LEFT_CAMERA_NAME = "Back_Left";
+    public static final String RIGHT_CAMERA_NAME = "Back_Right";
+
+    /**
+     * The range a NOTE is allowed to be within to stop the robot from rotating during NOTE
+     * alignment
+     */
+    public static final double LL_NOTE_RANGE = 10;
+
+    public static enum VisionUpdatePlan {
+      BOTH,
+      LEFT,
+      RIGHT,
+      NONE
+    }
+  }
+
+  /** Contants for PathPlanner Path Finding */
+  public static class PathFindingConstants {
+    public static final PathConstraints DEFAULT_PATH_CONSTRAINTS =
+        new PathConstraints(3, 3, Units.degreesToRadians(515.65), Units.degreesToRadians(262.82));
+    public static final Pose2d AMP_BLUE_END_POSE =
+        new Pose2d(1.85, 7.69, new Rotation2d(Units.degreesToRadians(-90)));
+    public static final Pose2d AMP_RED_END_POSE =
+        new Pose2d(14.69, 7.69, new Rotation2d(Units.degreesToRadians(-90)));
   }
 }

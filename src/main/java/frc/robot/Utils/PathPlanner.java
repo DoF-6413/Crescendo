@@ -9,8 +9,11 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.PathFindingConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.DriveConstants;
 import frc.robot.Subsystems.gyro.Gyro;
@@ -23,6 +26,7 @@ public class PathPlanner extends SubsystemBase {
 
   private boolean speakerRotOverride = false;
   private boolean noteRotOverride = false;
+  private boolean headingControllerOverride = false;
 
   public PathPlanner(Drive drive, PoseEstimator pose, Gyro gyro) {
     this.drive = drive;
@@ -39,8 +43,8 @@ public class PathPlanner extends SubsystemBase {
             new PIDConstants(1.2, 0, 0.2),
             new PIDConstants(0.3125, 0, 0.025),
             DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
-            DriveConstants.TRACK_WIDTH_M
-                / 2, // Drive base radius in meters. Distance from robot center to
+            DriveConstants
+                .DRIVE_BASE_RADIUS_M, // Drive base radius in meters. Distance from robot center to
             // furthest module.
             new ReplanningConfig()),
         () -> {
@@ -48,7 +52,6 @@ public class PathPlanner extends SubsystemBase {
           // alliance
           // This will flip the path being followed to the red side of the field.
           // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
           var alliance = DriverStation.getAlliance();
           if (alliance.isPresent()) {
             return alliance.get() == DriverStation.Alliance.Red;
@@ -56,25 +59,54 @@ public class PathPlanner extends SubsystemBase {
           return false;
         },
         drive);
+  }
 
+  public void periodic() {
     if (speakerRotOverride) {
-      PPHolonomicDriveController.setRotationTargetOverride(pose::AlignToSpeakerPathPlanner);
+      PPHolonomicDriveController.setRotationTargetOverride(pose::alignToSpeakerPathPlanner);
     }
 
     if (noteRotOverride) {
       PPHolonomicDriveController.setRotationTargetOverride(drive::noteAlignmentRotationOverride);
     }
+
+    if (headingControllerOverride) {
+      PPHolonomicDriveController.setRotationTargetOverride(gyro::updateRotation2d);
+    }
   }
 
+  /**
+   * Toggles the rotation target override for a NOTE during PathPlanner paths
+   *
+   * @param enable True to enable, False to disable
+   */
   public void enableNOTEAlignment(boolean enable) {
     noteRotOverride = enable;
   }
 
-  public void setSpeakerRotOverrideEnable(boolean enable) {
+  /**
+   * Toggles the rotation target override for the SPEAKER during PathPlanner paths
+   *
+   * @param enable True to enable, False to disable
+   */
+  public void enableSpeakerAlignment(boolean enable) {
     speakerRotOverride = enable;
   }
 
-  // public Command followPath() {
-  //   return AutoBuilder.followPath(m_path);
+  public void enableHeadingAlignment(boolean enable) {
+    headingControllerOverride = enable;
+  }
+
+  // public Command followPath(PathPlannerPath path) {
+  //   return AutoBuilder.followPath(path);
   // }
+
+  /**
+   * Creates a command that drives the robot to the inputed position
+   *
+   * @param targetPose Pose2d of where the robot should end up
+   */
+  public Command pathFindToPose(Pose2d targetPose) {
+    return AutoBuilder.pathfindToPose(targetPose, PathFindingConstants.DEFAULT_PATH_CONSTRAINTS, 0);
+  }
 }

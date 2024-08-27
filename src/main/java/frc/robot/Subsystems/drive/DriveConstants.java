@@ -120,6 +120,12 @@ public final class DriveConstants {
    */
   public static final double TRACK_WIDTH_M = Units.inchesToMeters(22.75);
 
+  /** Distance from center of the Robot to the center of one of the wheels */
+  public static final double DRIVE_BASE_RADIUS_M =
+      Math.sqrt(
+          ((TRACK_WIDTH_M / 2) * (TRACK_WIDTH_M / 2))
+              + ((TRACK_WIDTH_M / 2) * (TRACK_WIDTH_M / 2)));
+
   /** Max Speed the Robot Can Travel in One Linear Direction (m/s) */
   public static final double MAX_LINEAR_SPEED_M_PER_SEC = 5.2;
 

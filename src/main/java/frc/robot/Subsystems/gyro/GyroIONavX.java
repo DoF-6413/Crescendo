@@ -15,6 +15,8 @@ public class GyroIONavX implements GyroIO {
 
   private AHRS gyro;
 
+  private double lastYawAngle = 0;
+
   public GyroIONavX() {
     System.out.println("[Init] Creating GyroIONavX");
     gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
@@ -30,7 +32,9 @@ public class GyroIONavX implements GyroIO {
     inputs.yawPositionRad =
         new Rotation2d(
             Units.degreesToRadians(
-                -gyro.getYaw() + GyroConstants.HEADING_OFFSET_DEGREES)); // TODO: Make -90 constant
+                -gyro.getYaw()
+                    + GyroConstants.HEADING_OFFSET_DEGREES
+                    - lastYawAngle)); // TODO: Make -90 constant
     inputs.rawYawPositionRad = new Rotation2d(Units.degreesToRadians(gyro.getYaw()));
     inputs.anglePositionRad = new Rotation2d(Units.degreesToRadians(gyro.getAngle()));
     inputs.rollVelocityRadPerSec =
@@ -51,6 +55,7 @@ public class GyroIONavX implements GyroIO {
 
   @Override
   public void zeroHeading() {
+    lastYawAngle = gyro.getYaw();
     gyro.zeroYaw();
   }
 }
