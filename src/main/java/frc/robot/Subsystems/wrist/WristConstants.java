@@ -4,8 +4,6 @@ import edu.wpi.first.math.util.Units;
 
 public final class WristConstants {
   // Profiled PID Constants for the Wrist
-  // TODO: tune & finalize
-
   /** Represents the proportional constant, multiplied by the current error */
   public static double KP = 0.8;
   /** Represents the integral constant, multiplied by the total error */
@@ -74,10 +72,6 @@ public final class WristConstants {
   public static final double SUBWOOFER_RAD = Units.degreesToRadians(32);
   /** SPEAKER shot from PODIUM */
   public static final double PODIUM_RAD = Units.degreesToRadians(14.3886);
-  /** SPEAKER shot from the chain directly in front of the subwoofer */
-  public static final double CHAIN_RAD = Units.degreesToRadians(3);
-  /** SPEAKER shot from the WING directly in front of the subwoofer */
-  public static final double WING_RAD = Units.degreesToRadians(-0.5);
   /** SPEAKER shot configuration from the PODIUM to score over "billboard-bots" */
   public static final double OVERSHOT_RAD = Units.degreesToRadians(38);
 }

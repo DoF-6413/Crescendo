@@ -25,7 +25,7 @@ public class ArmIOSparkMax implements ArmIO {
     armMotor.setIdleMode(IdleMode.kBrake);
     armMotor.setSmartCurrentLimit(ArmConstants.CUR_LIM_A);
     armMotor.setInverted(ArmConstants.IS_INVERTED);
-    armAbsoluteEncoder = new DutyCycleEncoder(9);
+    armAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.ENCODER_CHANNEL);
   }
 
   @Override

@@ -4,13 +4,7 @@
 
 package frc.robot.Commands.VisionCommands;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.FieldConstants;
-import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.wrist.Wrist;
 import frc.robot.Subsystems.wrist.WristConstants;
@@ -20,40 +14,29 @@ public class AimWrist extends Command {
   public Wrist m_wrist;
   public Arm m_arm;
   public PoseEstimator m_pose;
-  private Timer m_timer;
+  // private Timer m_timer;
 
   /** Updates the angle of the Wrist based on the robot's distance from the SPEAKER */
   public AimWrist(Wrist wrist, Arm arm, PoseEstimator pose) {
     m_wrist = wrist;
     m_arm = arm;
     m_pose = pose;
-    m_timer = new Timer();
+    // m_timer = new Timer();
     addRequirements(wrist, arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_timer.reset();
-    m_timer.restart();
-    m_timer.start();
+    // m_timer.reset();
+    // m_timer.restart();
+    // m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Pose2d dtvalues = m_pose.getCurrentPose2d();
-    // triangle for robot angle
-    double deltaX = 0.0;
-    if (RobotStateConstants.getAlliance().get() == Alliance.Red) {
-      deltaX = Math.abs(dtvalues.getX() - FieldConstants.RED_SPEAKER_X);
-    } else if (RobotStateConstants.getAlliance().get() == Alliance.Blue) {
-      deltaX = Math.abs(dtvalues.getX() - FieldConstants.BLUE_SPEAKER_X);
-    }
-
-    double deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
-    double speakerDist = Math.hypot(deltaX, deltaY);
-    m_wrist.setGoal(Units.degreesToRadians(m_wrist.returnDesiredAngle(speakerDist)));
+    m_wrist.autoAlignWrist(m_pose.getCurrentPose2d());
 
     System.out.println("::::::AIMING::::::");
   }

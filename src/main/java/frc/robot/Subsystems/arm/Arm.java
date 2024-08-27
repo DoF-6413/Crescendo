@@ -139,7 +139,7 @@ public class Arm extends SubsystemBase {
    * @param increment Angle (Radians)
    */
   public void incrementArmGoal(double increment) {
-    armPIDController.setSetpoint(armPIDController.getSetpoint() + increment);
+    this.setGoal(armPIDController.getSetpoint() + increment);
     // armPIDController.setGoal(armPIDController.getGoal().position + increment);
   }
 

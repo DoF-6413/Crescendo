@@ -39,8 +39,8 @@ public class PoseEstimator extends SubsystemBase {
    */
   public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
 
-  private Drive drive;
-  private Gyro gyro;
+  private final Drive drive;
+  private final Gyro gyro;
 
   private final SwerveDrivePoseEstimator poseEstimator;
   private final PhotonPoseEstimator visionPoseEstimatorLeft;

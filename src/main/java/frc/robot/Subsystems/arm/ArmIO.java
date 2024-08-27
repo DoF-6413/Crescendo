@@ -31,8 +31,6 @@ public interface ArmIO {
     public double[] armCurrentAmps = new double[] {};
     /** The Temperature from the Actuator in Celsius */
     public double[] armTempCelsius = new double[] {};
-
-    public double armPositionRad;
   }
 
   /** Updates the set of loggable inputs for the Arm */

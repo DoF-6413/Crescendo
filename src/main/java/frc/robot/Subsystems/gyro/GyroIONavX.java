@@ -29,9 +29,7 @@ public class GyroIONavX implements GyroIO {
     inputs.yawPositionRad =
         new Rotation2d(
             Units.degreesToRadians(
-                -gyro.getYaw()
-                    + GyroConstants.HEADING_OFFSET_DEGREES
-                    )); // TODO: Make -90 constant
+                -gyro.getYaw() + GyroConstants.HEADING_OFFSET_DEGREES)); // TODO: Make -90 constant
     inputs.rawYawPositionRad = new Rotation2d(Units.degreesToRadians(gyro.getYaw()));
     inputs.anglePositionRad = new Rotation2d(Units.degreesToRadians(gyro.getAngle()));
     inputs.rollVelocityRadPerSec =
