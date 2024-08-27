@@ -6,9 +6,11 @@ package frc.robot.Utils;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants.HeadingControllerConstants;
+import frc.robot.Subsystems.gyro.Gyro;
 
 /** Add your docs here. */
 public class HeadingController {
+  Gyro gyro;
 
   // public double kp = 5.0;
   // public double kd = 100.0;

@@ -137,12 +137,6 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ZeroYaw"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "VisionPickUp"
                 }
               }
@@ -172,9 +166,16 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "EnableSpeakerRotationOverride"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "EnableSpeakerRotationOverride"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -184,6 +185,12 @@
           "type": "named",
           "data": {
             "name": "ShootWhenReady"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
           }
         },
         {
@@ -215,12 +222,6 @@
           "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ZeroYaw"
-                }
-              },
               {
                 "type": "named",
                 "data": {

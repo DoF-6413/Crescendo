@@ -4,13 +4,8 @@
 
 package frc.robot.Commands.VisionCommands;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.FieldConstants;
-import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.feeder.FeederConstants;
@@ -63,18 +58,7 @@ public class AimShooter extends Command {
       m_shooter.setSetpoint(ShooterConstants.MID_RANGE_RPM);
     }
 
-    Pose2d dtvalues = m_pose.getCurrentPose2d();
-    // triangle for robot angle
-    double deltaX = 0.0;
-    if (RobotStateConstants.getAlliance().get() == Alliance.Red) {
-      deltaX = Math.abs(dtvalues.getX() - FieldConstants.RED_SPEAKER_X);
-    } else if (RobotStateConstants.getAlliance().get() == Alliance.Blue) {
-      deltaX = Math.abs(dtvalues.getX() - FieldConstants.BLUE_SPEAKER_X);
-    }
-
-    double deltaY = Math.abs(dtvalues.getY() - FieldConstants.SPEAKER_Y);
-    double speakerDist = Math.hypot(deltaX, deltaY);
-    m_wrist.setGoal(Units.degreesToRadians(m_wrist.returnDesiredAngle(speakerDist)));
+    m_wrist.autoAlignWrist(m_pose.getCurrentPose2d());
   }
 
   // Called once the command ends or is interrupted.

@@ -7,6 +7,8 @@ package frc.robot.Subsystems.gyro;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.HeadingControllerConstants;
+import java.util.Optional;
 import org.littletonrobotics.junction.Logger;
 
 /** This Runs the Gyro for all Modes of the Robot */
@@ -14,6 +16,8 @@ public class Gyro extends SubsystemBase {
 
   private final GyroIO io;
   private final GyroIOInputsAutoLogged inputs = new GyroIOInputsAutoLogged();
+
+  private Rotation2d headingSetpoint = new Rotation2d();
 
   public Gyro(GyroIO io) {
     System.out.println("[Init] Creating Gyro");
@@ -76,5 +80,16 @@ public class Gyro extends SubsystemBase {
 
   public Rotation2d adjustedYaw(double adjustedAngle) {
     return inputs.yawPositionRad.plus(new Rotation2d(Units.degreesToRadians(adjustedAngle)));
+  }
+
+  public void setHeadingControllerSetpoint(double setpoint) {
+    headingSetpoint = Rotation2d.fromRadians(setpoint);
+  }
+
+  public Optional<Rotation2d> updateRotation2d() {
+    return Optional.of(
+        Rotation2d.fromRadians(
+            headingSetpoint.minus(this.getAngle()).getRadians() * HeadingControllerConstants.KP
+                + HeadingControllerConstants.KD * this.getRate()));
   }
 }

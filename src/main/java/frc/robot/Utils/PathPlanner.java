@@ -22,10 +22,11 @@ import frc.robot.Subsystems.gyro.Gyro;
 public class PathPlanner extends SubsystemBase {
   private Drive drive;
   private PoseEstimator pose;
-  // private Gyro gyro;
+  private Gyro gyro;
 
   private boolean speakerRotOverride = false;
   private boolean noteRotOverride = false;
+  private boolean headingControllerOverride = false;
 
   public PathPlanner(Drive drive, PoseEstimator pose, Gyro gyro) {
     this.drive = drive;
@@ -68,6 +69,10 @@ public class PathPlanner extends SubsystemBase {
     if (noteRotOverride) {
       PPHolonomicDriveController.setRotationTargetOverride(drive::noteAlignmentRotationOverride);
     }
+
+    if (headingControllerOverride) {
+      PPHolonomicDriveController.setRotationTargetOverride(gyro::updateRotation2d);
+    }
   }
 
   /**
@@ -86,6 +91,10 @@ public class PathPlanner extends SubsystemBase {
    */
   public void enableSpeakerAlignment(boolean enable) {
     speakerRotOverride = enable;
+  }
+
+  public void enableHeadingAlignment(boolean enable) {
+    headingControllerOverride = enable;
   }
 
   // public Command followPath(PathPlannerPath path) {

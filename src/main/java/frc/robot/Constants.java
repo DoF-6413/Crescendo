@@ -195,8 +195,8 @@ public final class Constants {
     public static final PathConstraints DEFAULT_PATH_CONSTRAINTS =
         new PathConstraints(3, 3, Units.degreesToRadians(515.65), Units.degreesToRadians(262.82));
     public static final Pose2d AMP_BLUE_END_POSE =
-        new Pose2d(1.85, 7.69, new Rotation2d(Units.degreesToRadians(90)));
+        new Pose2d(1.85, 7.69, new Rotation2d(Units.degreesToRadians(-90)));
     public static final Pose2d AMP_RED_END_POSE =
-        new Pose2d(14.69, 7.69, new Rotation2d(Units.degreesToRadians(90)));
+        new Pose2d(14.69, 7.69, new Rotation2d(Units.degreesToRadians(-90)));
   }
 }

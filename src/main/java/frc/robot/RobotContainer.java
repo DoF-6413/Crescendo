@@ -270,6 +270,24 @@ public class RobotContainer {
                 m_pathPlanner.enableSpeakerAlignment(
                     CommandConstants.SPEAKER_ROTATION_OVERRIDE_DISABLE),
             m_pathPlanner));
+    NamedCommands.registerCommand(
+        "EnableHeadingControllerOverride",
+        new InstantCommand(() -> m_pathPlanner.enableHeadingAlignment(true), m_pathPlanner));
+    NamedCommands.registerCommand(
+        "DisableHeadingControllerOverride",
+        new InstantCommand(() -> m_pathPlanner.enableHeadingAlignment(false), m_pathPlanner));
+
+    // Heading
+    NamedCommands.registerCommand(
+        "HeadingNegative45Deg",
+        new InstantCommand(
+            () -> m_gyroSubsystem.setHeadingControllerSetpoint(Units.degreesToRadians(-45)),
+            m_gyroSubsystem));
+    NamedCommands.registerCommand(
+        "Heading45Deg",
+        new InstantCommand(
+            () -> m_gyroSubsystem.setHeadingControllerSetpoint(Units.degreesToRadians(45)),
+            m_gyroSubsystem));
 
     // Pick Ups
     NamedCommands.registerCommand(
@@ -393,7 +411,7 @@ public class RobotContainer {
         new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Gyro heading update
     NamedCommands.registerCommand(
-        "ZeroYaw", new InstantCommand(() -> m_driveSubsystem.updateHeading(), m_driveSubsystem));
+        "ZeroYaw", new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
 
     /* PathPlanner Autos */
     // Test Autos
@@ -722,25 +740,18 @@ public class RobotContainer {
     driverController
         .rightTrigger()
         .onTrue(
-            new RunCommand(
-                () -> m_wristSubsystem.autoAlignWrist(m_poseEstimator.getCurrentPose2d()),
-                m_wristSubsystem))
+            new UTBIntakeRun(
+                m_utbIntakeSubsystem,
+                m_feederSubsystem,
+                CommandConstants.INTAKE_INWARDS,
+                CommandConstants.RUN_INTAKE))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    // .rightTrigger()
-    // .onTrue(
-    //     new UTBIntakeRun(
-    //         m_utbIntakeSubsystem,
-    //         m_feederSubsystem,
-    //         CommandConstants.INTAKE_INWARDS,
-    //         CommandConstants.RUN_INTAKE))
-    // .onFalse(
-    //     new UTBIntakeRun(
-    //         m_utbIntakeSubsystem,
-    //         m_feederSubsystem,
-    //         CommandConstants.INTAKE_INWARDS,
-    //         CommandConstants.STOP_INTAKE))
-    // .onFalse(new ShooterRev(m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
+            new UTBIntakeRun(
+                m_utbIntakeSubsystem,
+                m_feederSubsystem,
+                CommandConstants.INTAKE_INWARDS,
+                CommandConstants.STOP_INTAKE))
+        .onFalse(new ShooterRev(m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
     // UTB Intake (Outtake)
     driverController
         .leftBumper()
@@ -769,8 +780,8 @@ public class RobotContainer {
             new ConditionalCommand(
                 m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_RED_END_POSE),
                 m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_BLUE_END_POSE),
-                () -> RobotStateConstants.getAlliance().get() == DriverStation.Alliance.Red))
-                .onFalse(m_pathPlanner.pathFindToPose(m_poseEstimator.getCurrentPose2d()));
+                () -> RobotStateConstants.getAlliance().get() == DriverStation.Alliance.Red));
+    // .onFalse(m_pathPlanner.pathFindToPose(m_poseEstimator.getCurrentPose2d()));
   }
 
   /** Contoller keybinds for the aux contoller port */
@@ -806,17 +817,14 @@ public class RobotContainer {
     auxController
         .rightTrigger()
         .onTrue(
-            // new AimShooter(
-            //     m_shooterSubsystem,
-            //     m_wristSubsystem,
-            //     m_armSubsystem,
-            //     m_poseEstimator,
-            //     m_feederSubsystem,
-            //     auxController,
-            //     m_beamBreak))
-            new RunCommand(
-                () -> m_wristSubsystem.autoAlignWrist(m_poseEstimator.getCurrentPose2d()),
-                m_wristSubsystem))
+            new AimShooter(
+                m_shooterSubsystem,
+                m_wristSubsystem,
+                m_armSubsystem,
+                m_poseEstimator,
+                m_feederSubsystem,
+                auxController,
+                m_beamBreak))
         .onFalse(
             new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // PODIUM (w/o vision)
