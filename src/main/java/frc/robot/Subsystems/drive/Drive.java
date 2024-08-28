@@ -8,7 +8,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*; // Rotation2d and Translation2d
 import edu.wpi.first.math.kinematics.*; // ChassisSpeeds, SwerveDriveKinematics, SwerveModuleStates
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.*; // Timer
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
@@ -19,7 +18,6 @@ import org.littletonrobotics.junction.Logger; // Logger
 
 /** This Runs the full Swerve (All Modules) for all Modes of the Robot */
 public class Drive extends SubsystemBase {
-  private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
   private static final Module[] modules = new Module[4];
   private final Gyro gyro;
   private Twist2d twist = new Twist2d();
@@ -261,11 +259,9 @@ public class Drive extends SubsystemBase {
   public void driveWithNoteDetection(double x, double y, double alignmentRotSpeed) {
     if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) < -VisionConstants.LL_NOTE_RANGE) {
       this.driveWithDeadband(x, y, alignmentRotSpeed);
-      System.out.println(">>>>>>>ALIGNRIGHT>>>>>>");
     } else if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME)
         > VisionConstants.LL_NOTE_RANGE) {
       this.driveWithDeadband(x, y, -alignmentRotSpeed);
-      System.out.println("<<<<<<ALIGNLEFT<<<<<<");
     } else {
       this.driveWithDeadband(x, y, 0);
     }
@@ -278,8 +274,12 @@ public class Drive extends SubsystemBase {
 
   /** stops the robot and sets wheels in the shape of an x */
   public void stopWithX() {
+    Rotation2d[] headings = new Rotation2d[4];
+    for (int i = 0; i < 4; i++) {
+      headings[i] = DriveConstants.getModuleTranslations()[i].getAngle();
+    }
+    swerveKinematics.resetHeadings(headings);
     stop();
-    // TODO: Update
   }
 
   /**

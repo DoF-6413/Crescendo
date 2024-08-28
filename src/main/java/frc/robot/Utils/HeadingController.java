@@ -16,9 +16,14 @@ public class HeadingController {
     // SmartDashboard.putNumber("Heading Controller Kd", 100.0);
   }
 
-  /** Returns the rotation rate to turn to aim at speaker */
+  /**
+   * Returns the output of the heading heading controller with the given Setpoint
+   * 
+   * @param setpoint Target angle
+   * @param gyroAngle Current angle of the Gyro
+   * @param gyroRate Current angular velocity of the Gyro
+   */
   public double update(Rotation2d setpoint, Rotation2d gyroAngle, double gyroRate) {
-  /**output of the heading controller*/
     double output =
         (setpoint.minus(gyroAngle).getRadians() * HeadingControllerConstants.KP + HeadingControllerConstants.KD * gyroRate);
     // kp = SmartDashboard.getNumber("Heading Controller Kp", 5.0);

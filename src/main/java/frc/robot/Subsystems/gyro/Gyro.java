@@ -17,8 +17,6 @@ public class Gyro extends SubsystemBase {
   private final GyroIO io;
   private final GyroIOInputsAutoLogged inputs = new GyroIOInputsAutoLogged();
 
-  private Rotation2d headingSetpoint = new Rotation2d();
-
   public Gyro(GyroIO io) {
     System.out.println("[Init] Creating Gyro");
     this.io = io;
@@ -80,16 +78,5 @@ public class Gyro extends SubsystemBase {
 
   public Rotation2d adjustedYaw(double adjustedAngle) {
     return inputs.yawPositionRad.plus(new Rotation2d(Units.degreesToRadians(adjustedAngle)));
-  }
-
-  public void setHeadingControllerSetpoint(double setpoint) {
-    headingSetpoint = Rotation2d.fromRadians(setpoint);
-  }
-
-  public Optional<Rotation2d> updateRotation2d() {
-    return Optional.of(
-        Rotation2d.fromRadians(
-            headingSetpoint.minus(this.getAngle()).getRadians() * HeadingControllerConstants.KP
-                + HeadingControllerConstants.KD * this.getRate()));
   }
 }
