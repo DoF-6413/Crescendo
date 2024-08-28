@@ -6,44 +6,23 @@ package frc.robot.Utils;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants.HeadingControllerConstants;
-import frc.robot.Subsystems.gyro.Gyro;
 
 /** Add your docs here. */
 public class HeadingController {
-  Gyro gyro;
 
-  // public double kp = 5.0;
-  // public double kd = 100.0;
-
-  public HeadingController() {
+  public HeadingController() { 
+    /**developer tools  */
     // SmartDashboard.putNumber("Heading Controller Kp", 5.0);
     // SmartDashboard.putNumber("Heading Controller Kd", 100.0);
   }
 
   /** Returns the rotation rate to turn to aim at speaker */
   public double update(Rotation2d setpoint, Rotation2d gyroAngle, double gyroRate) {
-
-    // var output =
-    //     controller.calculate(
-    //         pose.getCurrentPose2d().getRotation().getRadians(),
-    //         goalHeadingSupplier.get().getRadians());
-
+  /**output of the heading controller*/
+    double output =
+        (setpoint.minus(gyroAngle).getRadians() * HeadingControllerConstants.KP + HeadingControllerConstants.KD * gyroRate);
     // kp = SmartDashboard.getNumber("Heading Controller Kp", 5.0);
     // kd = SmartDashboard.getNumber("Heading Controller Kd", 100.0);
-    // SmartDashboard.putNumber("Heading Controller", setpoint.getDegrees());
-
-    double output =
-        (setpoint.minus(gyroAngle).getRadians() * HeadingControllerConstants.KP
-            + HeadingControllerConstants.KD * gyroRate);
-
-    // Logger.recordOutput("Drive/HeadingController/HeadingError", controller.getPositionError());
-    return output;
-    // return 0.0;
+        return output;
   }
-
-  /** Returns true if within tolerance of aiming at speaker */
-  //   @AutoLogOutput(key = "Drive/HeadingController/atSetpoint")
-  // public boolean atSetpoint() {
-  //   return controller.atSetpoint();
-  // }
 }

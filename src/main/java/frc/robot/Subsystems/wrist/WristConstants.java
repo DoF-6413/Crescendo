@@ -29,33 +29,26 @@ public final class WristConstants {
   // Sim Constants
   /** Moment of inertia for the Wrist */
   public static final double MOI_KG_M2 = 0.000271862238;
-
   /** If the Wrist simulation is simulating gravity */
   public static final boolean IS_SIMULATING_GRAVITY = false;
 
   // Real constants
   /** CAN ID of the Wrist motor */
   public static final int CAN_ID = 20;
-
   /** Current limiting for Wrist */
   public static final int CUR_LIM_A = 30;
-
   /** Sets the inversion status of the Wrist motor */
   public static final boolean IS_INVERTED = true;
-
   /** Gear ratio of the Wrist motor */
   public static final double GEAR_RATIO = 58.33;
-
   /** Length from the Wrist */
   public static final double LENGTH_M = 0.4126308486;
   /** Minimum angle of the Wrist */
   public static final double MIN_ANGLE_RAD = 0.0;
   /** Maximum angle of the Wrist */
   public static final double MAX_ANGLE_RAD = 1.8675;
-
   /** Starting angle of the Wrist for sim, same as minimum angle */
   public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD;
-
   /** Offset of the Arm absolute encoder */
   public static final double ABS_ENCODER_OFFSET_RADS = -2.01715;
 

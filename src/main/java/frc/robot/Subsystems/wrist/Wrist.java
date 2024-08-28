@@ -20,12 +20,12 @@ import org.littletonrobotics.junction.Logger;
 public class Wrist extends SubsystemBase {
   private final WristIO io;
   private final WristIOInputsAutoLogged inputs = new WristIOInputsAutoLogged();
-
   private final ProfiledPIDController wristPIDController;
   private SimpleMotorFeedforward wristFeedforward;
 
   /** Used to toggle PID calculations for the angle */
   private static boolean isPIDEnabled = true;
+
   /** Used to toggle test features */
   private static boolean isTestingEnabled = false;
 
@@ -41,7 +41,8 @@ public class Wrist extends SubsystemBase {
             WristConstants.KI,
             WristConstants.KD,
             new TrapezoidProfile.Constraints(
-                WristConstants.MAX_VELOCITY, WristConstants.MAX_ACCELERATION));
+                WristConstants.MAX_VELOCITY,
+                WristConstants.MAX_ACCELERATION));
     wristPIDController.setGoal(WristConstants.DEFAULT_POSITION_RAD);
     wristPIDController.setTolerance(WristConstants.ANGLE_TOLERANCE);
     wristPIDController.disableContinuousInput();
@@ -50,6 +51,7 @@ public class Wrist extends SubsystemBase {
     wristFeedforward =
         new SimpleMotorFeedforward(WristConstants.KS, WristConstants.KV, WristConstants.KA);
 
+    /** Developer tools */
     // Puts adjustable PPID and FF values onto the SmartDashboard for the testing mode
     SmartDashboard.putNumber("wristkP", 0.8);
     SmartDashboard.putNumber("wristkI", 0.0);
@@ -73,7 +75,7 @@ public class Wrist extends SubsystemBase {
                   / RobotStateConstants
                       .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
     }
-
+ 
     if (isTestingEnabled) {
       testPIDFValues();
     }
