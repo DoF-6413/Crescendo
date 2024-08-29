@@ -7,8 +7,6 @@ package frc.robot.Subsystems.gyro;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.HeadingControllerConstants;
-import java.util.Optional;
 import org.littletonrobotics.junction.Logger;
 
 /** This Runs the Gyro for all Modes of the Robot */

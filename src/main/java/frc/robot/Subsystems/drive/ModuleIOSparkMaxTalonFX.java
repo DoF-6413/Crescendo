@@ -27,10 +27,8 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
   private final CANcoder turnAbsoluteEncoder;
 
   private final double absoluteEncoderOffsetRad;
-  private final int swerveModuleNumber;
 
   public ModuleIOSparkMaxTalonFX(int index) {
-    this.swerveModuleNumber = index;
     System.out.println("[Init] Creating ModuleIOSparkMaxTalonFX");
 
     // sets drive & turn SPARK MAXes, turn encoder, and absolute encoder offset

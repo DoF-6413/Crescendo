@@ -40,7 +40,9 @@ public class PathPlanner extends SubsystemBase {
             new PIDConstants(1.2, 0, 0.2),
             new PIDConstants(0.3125, 0, 0.025),
             DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
-            DriveConstants.DRIVE_BASE_RADIUS_M, // Drive base radius in meters. Distance from robot center to furthest module.
+            DriveConstants
+                .DRIVE_BASE_RADIUS_M, // Drive base radius in meters. Distance from robot center to
+            // furthest module.
             new ReplanningConfig()),
         () -> {
           // Boolean supplier that controls when the path will be mirrored for the red
@@ -56,7 +58,7 @@ public class PathPlanner extends SubsystemBase {
         drive);
   }
 
-  public void periodic() { 
+  public void periodic() {
     if (speakerRotOverride) {
       PPHolonomicDriveController.setRotationTargetOverride(pose::alignToSpeakerPathPlanner);
     }
@@ -90,9 +92,9 @@ public class PathPlanner extends SubsystemBase {
    * @param targetPose Pose2d of where the robot should end up
    */
   public Command pathFindToPose(Pose2d targetPose) {
-  // The pose to pathfind to
-  // The constraints to use while pathfinding
-  // The goal end velocity of the robot when reaching the target pose
+    // The pose to pathfind to
+    // The constraints to use while pathfinding
+    // The goal end velocity of the robot when reaching the target pose
     return AutoBuilder.pathfindToPose(targetPose, PathFindingConstants.DEFAULT_PATH_CONSTRAINTS, 0);
   }
 }

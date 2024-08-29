@@ -41,8 +41,7 @@ public class Wrist extends SubsystemBase {
             WristConstants.KI,
             WristConstants.KD,
             new TrapezoidProfile.Constraints(
-                WristConstants.MAX_VELOCITY,
-                WristConstants.MAX_ACCELERATION));
+                WristConstants.MAX_VELOCITY, WristConstants.MAX_ACCELERATION));
     wristPIDController.setGoal(WristConstants.DEFAULT_POSITION_RAD);
     wristPIDController.setTolerance(WristConstants.ANGLE_TOLERANCE);
     wristPIDController.disableContinuousInput();
@@ -75,7 +74,7 @@ public class Wrist extends SubsystemBase {
                   / RobotStateConstants
                       .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
     }
- 
+
     if (isTestingEnabled) {
       testPIDFValues();
     }

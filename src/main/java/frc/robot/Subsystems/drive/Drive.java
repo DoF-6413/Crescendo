@@ -237,25 +237,6 @@ public class Drive extends SubsystemBase {
             this.getRotation()));
   }
 
-  public void PathplannerWithHeadingController(ChassisSpeeds chassisSpeeds) {
-    double omegaOverTime = chassisSpeeds.omegaRadiansPerSecond;
-
-    omega += omegaOverTime * RobotStateConstants.LOOP_PERIODIC_SEC;
-    // SmartDashboard.putNumber(
-    //     "Omega for heading controller", Units.radiansToDegrees(omegaOverTime + Math.PI / 2));
-    headingSetpoint = new Rotation2d(omega + Math.PI / 2);
-    // SmartDashboard.putNumber(
-    //     "Heading Controller Update",
-    //     headingController.update(headingSetpoint, getRotation(), gyro.getRate()));
-
-    this.runVelocity(
-        ChassisSpeeds.fromRobotRelativeSpeeds(
-            chassisSpeeds.vxMetersPerSecond,
-            chassisSpeeds.vyMetersPerSecond,
-            headingController.update(headingSetpoint, getRotation(), gyro.getRate()),
-            this.getRotation()));
-  }
-
   public void driveWithNoteDetection(double x, double y, double alignmentRotSpeed) {
     if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) < -VisionConstants.LL_NOTE_RANGE) {
       this.driveWithDeadband(x, y, alignmentRotSpeed);
@@ -267,12 +248,12 @@ public class Drive extends SubsystemBase {
     }
   }
 
-  /** stops the robot (sets velocity to 0 bu inputing empty Chassis Speeds which Default to 0) */
+  /** Stops the robot (sets velocity to 0 bu inputing empty Chassis Speeds which Default to 0) */
   public void stop() {
     runVelocity(new ChassisSpeeds());
   }
 
-  /** stops the robot and sets wheels in the shape of an x */
+  /** Stops the robot and sets wheels in the shape of an X */
   public void stopWithX() {
     Rotation2d[] headings = new Rotation2d[4];
     for (int i = 0; i < 4; i++) {
@@ -280,6 +261,18 @@ public class Drive extends SubsystemBase {
     }
     swerveKinematics.resetHeadings(headings);
     stop();
+  }
+
+  /**
+   * Sets the positions of the Swerve wheels to be an X. This makes the robot much more difficult to
+   * push by another robot.
+   */
+  public void wheelsToX() {
+    Rotation2d[] headings = new Rotation2d[4];
+    for (int i = 0; i < 4; i++) {
+      headings[i] = DriveConstants.getModuleTranslations()[i].getAngle();
+    }
+    swerveKinematics.resetHeadings(headings);
   }
 
   /**

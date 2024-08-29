@@ -31,13 +31,13 @@ public class PoseEstimator extends SubsystemBase {
    * Increase the numbers to trust the model's state estimate less it is a matrix in form of [x, y,
    * theta] or meters, meters, radians
    */
-  public static Vector<N3> stateStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+  public static final Vector<N3> stateStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
 
   /**
    * increase the numbers to trust the vision measurements less also in form [x, y, theta] or
    * meters, meters, radians
    */
-  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+  public static final Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
 
   private final Drive drive;
   private final Gyro gyro;
@@ -128,8 +128,8 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.updateWithTime(timestamp, drive.getRotation(), drive.getSwerveModulePositions());
 
     // counter++;
-    // if (enable && counter % cyclesPerUpdate == 0) {
-    if (enable) {
+    // if (enable && counter % cyclesPerUpdate == 0 && RobotStateConstants.getMode() == RobotStateConstants.Mode.REAL) {
+    if (enable && RobotStateConstants.getMode() == RobotStateConstants.Mode.REAL) {
 
       Optional<EstimatedRobotPose> leftPose = visionPoseEstimatorLeft.update();
       Optional<EstimatedRobotPose> rightPose = visionPoseEstimatorRight.update();
@@ -282,7 +282,7 @@ public class PoseEstimator extends SubsystemBase {
   /**
    * Resets the pose
    *
-   * @param currentPose2d Position to set the robot to 
+   * @param currentPose2d Position to set the robot to
    */
   public void resetPose(Pose2d currentPose2d) {
     poseEstimator.resetPosition(gyro.getAngle(), drive.getSwerveModulePositions(), currentPose2d);

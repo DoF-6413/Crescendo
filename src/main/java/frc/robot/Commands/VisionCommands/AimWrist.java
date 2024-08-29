@@ -38,7 +38,6 @@ public class AimWrist extends Command {
   public void execute() {
     m_wrist.autoAlignWrist(m_pose.getCurrentPose2d());
 
-    System.out.println("::::::AIMING::::::");
   }
 
   // Called once the command ends or is interrupted.

@@ -5,9 +5,10 @@
 package frc.robot.Commands.AutonomousCommands.DeadReckons;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.drive.Drive;
 
-public class quickAuto {
+public class QuickAuto extends Command {
   public Drive drive;
   public Timer timer;
   private double time;
@@ -16,7 +17,7 @@ public class quickAuto {
   private double RotationSpeed;
 
   /** Creates a new QuickAuto. */
-  public void QuickAuto(Drive drive, double xSpeed, double ySpeed, double rotSpeed, double time) {
+  public QuickAuto(Drive drive, double xSpeed, double ySpeed, double rotSpeed, double time) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.drive = drive;
@@ -39,7 +40,6 @@ public class quickAuto {
   // Called every time the scheduler runs while the command is scheduled.
 
   public void execute() {
-    System.out.println("running");
     // new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0.0, ()-> 0.0);
     drive.setRaw(xSpeed, ySpeed, RotationSpeed);
   }
@@ -47,8 +47,6 @@ public class quickAuto {
   // Called once the command ends or is interrupted.
 
   public void end(boolean interrupted) {
-    // new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.0, ()-> 0.0, ()-> 0.0);
-    System.out.println("end running");
     drive.setRaw(0.0, 0.0, 0.0);
   }
 
