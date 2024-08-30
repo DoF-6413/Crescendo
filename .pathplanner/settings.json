@@ -8,23 +8,19 @@
     "4PieceAuto",
     "5PieceAuto",
     "ComplexPaths",
-    "Liz's Folder",
     "Midfield",
     "OnePieceAuto",
     "Puzzle Pieces",
     "Puzzle Pieces Vision",
-    "Test Paths",
-    "Vihaan's Folder"
+    "Test Paths"
   ],
   "autoFolders": [
     "2 Piece Autos",
     "3 Piece Autos",
     "4 Piece Autos",
     "5 Piece Autos",
-    "Liz3Piece",
-    "Vision Autos",
     "Test Autos",
-    "Vihaan's Folder"
+    "Vision Autos"
   ],
   "defaultMaxVel": 5.2,
   "defaultMaxAccel": 5.2,

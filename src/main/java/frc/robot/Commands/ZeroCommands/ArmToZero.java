@@ -28,7 +28,7 @@ public class ArmToZero extends SequentialCommandGroup {
             },
             wrist),
         // new WaitUntilCommand(() -> wrist.atGoal()),
-        new WaitCommand(0.75), // scuffed T-T
+        new WaitCommand(0.75), // TODO: Test with atGoal
         Commands.runOnce(
             () -> {
               arm.setGoal(Units.degreesToRadians(0.0));

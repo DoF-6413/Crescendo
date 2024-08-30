@@ -65,7 +65,6 @@ public class RobotContainer {
 
   // Mechanisms
   private final Arm m_armSubsystem;
-  // private final Climber m_climberSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
   private final OTBIntake m_otbIntakeSubsystem;
   private final Actuator m_actuatorSubsystem;
