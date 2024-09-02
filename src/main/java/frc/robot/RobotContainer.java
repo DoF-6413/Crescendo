@@ -16,11 +16,15 @@ package frc.robot;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.*;
-import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCenter;
@@ -30,13 +34,11 @@ import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ReverseNote;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootAtAngle;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootWhenReady;
-import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
+import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
-import frc.robot.Commands.TeleopCommands.SpeakerScore.OverShot;
-import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
-import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
+import frc.robot.Commands.TeleopCommands.SpeakerScore.*; // Position to Shoot, Overshot, Shoot
 import frc.robot.Commands.VisionCommands.*;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
@@ -83,8 +85,8 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
   private final CommandXboxController auxController =
       new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
-  private final CommandXboxController devController =
-      new CommandXboxController(OperatorConstants.DEV_CONTROLLER);
+  //   private final CommandXboxController devController =
+  //       new CommandXboxController(OperatorConstants.DEV_CONTROLLER);
 
   // Autos
   private final LoggedDashboardChooser<Command> autoChooser =
@@ -384,6 +386,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // The front of the robot is the side where the intakes are located
     // A default command always runs unless another command is called
+
+    CommandScheduler.getInstance().getActiveButtonLoop().clear();
 
     /** Driver Controls */
     this.driverControllerBindings();

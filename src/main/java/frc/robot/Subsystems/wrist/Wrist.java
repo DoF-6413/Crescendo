@@ -151,12 +151,11 @@ public class Wrist extends SubsystemBase {
    * @return Best angle to set the Wrist to (Radians)
    */
   public double returnDesiredAngle(double x) {
-    double closestX, closestTheta;
+    double closestTheta;
     if (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][
             ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0].length - 1]
         > x) {
       int i = 1;
-      closestX = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
       closestTheta = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
 
       // since the table is sorted, find the index of the first value where the distance value
@@ -168,13 +167,11 @@ public class Wrist extends SubsystemBase {
       // finds which x value in the table the actual distance is closer to and return that
       if (Math.abs(ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i - 1] - x)
           < Math.abs(ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] - x)) {
-        closestX = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i - 1];
         closestTheta =
             (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i - 1]
                     + ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i - 1])
                 / 2;
       } else {
-        closestX = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i];
         closestTheta =
             (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i]
                     + ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i])

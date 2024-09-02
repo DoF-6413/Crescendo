@@ -128,7 +128,8 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.updateWithTime(timestamp, drive.getRotation(), drive.getSwerveModulePositions());
 
     // counter++;
-    // if (enable && counter % cyclesPerUpdate == 0 && RobotStateConstants.getMode() == RobotStateConstants.Mode.REAL) {
+    // if (enable && counter % cyclesPerUpdate == 0 && RobotStateConstants.getMode() ==
+    // RobotStateConstants.Mode.REAL) {
     if (enable && RobotStateConstants.getMode() == RobotStateConstants.Mode.REAL) {
 
       Optional<EstimatedRobotPose> leftPose = visionPoseEstimatorLeft.update();

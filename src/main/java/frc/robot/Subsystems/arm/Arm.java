@@ -21,7 +21,6 @@ public class Arm extends SubsystemBase {
   private final PIDController armPIDController;
   private SimpleMotorFeedforward armFeedforward;
 
-  private static double goal = 0.0;
   private static boolean isPIDEnabled = true;
   private static boolean isTestingEnabled = false;
 

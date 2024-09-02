@@ -37,7 +37,6 @@ public class AimWrist extends Command {
   @Override
   public void execute() {
     m_wrist.autoAlignWrist(m_pose.getCurrentPose2d());
-
   }
 
   // Called once the command ends or is interrupted.
