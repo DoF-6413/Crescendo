@@ -27,20 +27,6 @@ public class Gyro extends SubsystemBase {
   }
 
   /**
-   * @return the Roll (Y Axis) in Radians (-pi, pi)
-   */
-  public Rotation2d getRoll() {
-    return inputs.rollPositionRad;
-  }
-
-  /**
-   * @return the Pitch (X Axis) in Radians (-pi, pi)
-   */
-  public Rotation2d getPitch() {
-    return inputs.pitchPositionRad;
-  }
-
-  /**
    * @return returns the Yaw (Z Axis) in Radians (-pi, pi)
    */
   public Rotation2d getYaw() {

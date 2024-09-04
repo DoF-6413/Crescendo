@@ -15,21 +15,13 @@ public interface GyroIO {
     /** Returns whether or not the */
     public boolean connected = false;
 
-    public Rotation2d rollPositionRad = new Rotation2d();
-    public Rotation2d pitchPositionRad = new Rotation2d();
     public Rotation2d yawPositionRad = new Rotation2d();
     public Rotation2d rawYawPositionRad = new Rotation2d();
     public Rotation2d anglePositionRad = new Rotation2d();
-    /** Gets the angular velocity of the roll */
-    public double rollVelocityRadPerSec = 0.0;
-    /** Gets the angular velocity of the pitch */
-    public double pitchVelocityRadPerSec = 0.0;
     /** Gets the angular velocity of the yaw */
     public double yawVelocityRadPerSec = 0.0;
 
     public double rateRadPerSec = 0.0;
-
-    public double currentYawRad = 0.0;
   }
 
   /** Updates the set of loggable inputs. */

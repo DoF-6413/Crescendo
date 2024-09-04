@@ -11,7 +11,7 @@ public final class WristConstants {
   /** Represents the derivative constant, multiplied by the change in error */
   public static double KD = 0.01;
   /** The max velocity the Wrist can run at */
-  public static double MAX_VELOCITY = 506.8427;
+  public static final double MAX_VELOCITY = 506.8427;
   /** The max acceleration the Wrist can run at */
   public static double MAX_ACCELERATION = 0.0;
 

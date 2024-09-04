@@ -5,16 +5,11 @@
 package frc.robot.Subsystems.otbIntake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Utils.PIDController;
 import org.littletonrobotics.junction.Logger;
 
 public class OTBIntake extends SubsystemBase {
   private final OTBIntakeIO io;
   private final OTBIntakeIOInputsAutoLogged inputs = new OTBIntakeIOInputsAutoLogged();
-
-  private final PIDController otbIntakePIDController;
-
-  private double setpointRPM = 0.0;
 
   /**
    * Runs the real life motor for the Over the Bumper (OTB) Intake with CAN SPARKMAX Speed
@@ -23,10 +18,6 @@ public class OTBIntake extends SubsystemBase {
   public OTBIntake(OTBIntakeIO io) {
     System.out.println("[Init] Creating OTB Intake");
     this.io = io;
-    otbIntakePIDController =
-        new PIDController(OTBIntakeConstants.KP, OTBIntakeConstants.KI, OTBIntakeConstants.KD);
-    otbIntakePIDController.setSetpoint(setpointRPM);
-    otbIntakePIDController.setTolerance(setpointRPM * OTBIntakeConstants.TOLERANCE_PERCENT);
   }
 
   /** Periodically updates the inputs and outputs of the OTB Intake */
@@ -34,12 +25,6 @@ public class OTBIntake extends SubsystemBase {
   public void periodic() {
     this.updateInputs();
     Logger.processInputs("OTBIntake", inputs);
-
-    // setOTBIntakeVoltage(
-    //     otbIntakePIDController.calculateForVoltage(
-    //         inputs.otbIntakeVelocityRPM, OTBIntakeConstants.MAX_RPM));
-
-    // SmartDashboard.putBoolean("OTBIntakeAtSetpoint", atSetpoint());
   }
 
   /** Updates inputs for the OTB Intake */
@@ -74,21 +59,5 @@ public class OTBIntake extends SubsystemBase {
    */
   public void setBrakeMode(boolean enabled) {
     io.setBrakeMode(enabled);
-  }
-
-  /**
-   * @return Returns true if the OTB Roller is at its RPM setpoint
-   */
-  public boolean atSetpoint() {
-    return otbIntakePIDController.atSetpoint(inputs.otbIntakeVelocityRPM);
-  }
-
-  /**
-   * Sets the PID setpoint for the OTB Rollers
-   *
-   * @param setpoint RPM
-   */
-  public void setSetpoint(double setpoint) {
-    otbIntakePIDController.setSetpoint(setpoint);
   }
 }

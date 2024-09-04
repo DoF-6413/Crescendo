@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.SPI;
 /** Runs Real NavX Gyroscope */
 public class GyroIONavX implements GyroIO {
 
-  private AHRS gyro;
+  private final AHRS gyro;
 
   public GyroIONavX() {
     System.out.println("[Init] Creating GyroIONavX");
@@ -23,8 +23,6 @@ public class GyroIONavX implements GyroIO {
   @Override
   public void updateInputs(GyroIOInputs inputs) {
     inputs.connected = gyro.isConnected();
-    inputs.rollPositionRad = new Rotation2d(Units.degreesToRadians(gyro.getRoll()));
-    inputs.pitchPositionRad = new Rotation2d(Units.degreesToRadians(gyro.getPitch()));
     // Value is Negative because NavX reads CW and everything else runs CCW
     inputs.yawPositionRad =
         new Rotation2d(
@@ -32,19 +30,10 @@ public class GyroIONavX implements GyroIO {
                 -gyro.getYaw() + GyroConstants.HEADING_OFFSET_DEGREES)); // TODO: Make -90 constant
     inputs.rawYawPositionRad = new Rotation2d(Units.degreesToRadians(gyro.getYaw()));
     inputs.anglePositionRad = new Rotation2d(Units.degreesToRadians(gyro.getAngle()));
-    inputs.rollVelocityRadPerSec =
-        Units.degreesToRadians(
-            gyro.getRawGyroY()); // Gets the angular velocity, in degrees per second, of the roll
-    // and converts it to radians per second
-    inputs.pitchVelocityRadPerSec =
-        Units.degreesToRadians(
-            gyro.getRawGyroX()); // Gets the angular velocity, in degrees per second, of the pitch
-    // and converts it to radians per second
     inputs.yawVelocityRadPerSec =
         Units.degreesToRadians(
             gyro.getRawGyroZ()); // Gets the angular velocity, in degrees per second, of the yaw and
     // converts it to radians per second
-
     inputs.rateRadPerSec = Units.degreesToRadians(gyro.getRate());
   }
 

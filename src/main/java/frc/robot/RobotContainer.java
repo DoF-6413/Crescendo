@@ -34,8 +34,8 @@ import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ReverseNote;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootAtAngle;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootWhenReady;
-import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
+import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.*; // Position to Shoot, Overshot, Shoot
@@ -702,14 +702,14 @@ public class RobotContainer {
     //             m_wristSubsystem));
 
     /* Arm */
-    // Increases angle of the Arm by 1 degree
+    // Continuously increases angle of the Arm by 1 degree
     auxController
         .povUp()
         .onTrue(
             new RunCommand(
                 () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)), m_armSubsystem))
         .onFalse(new InstantCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
-    // Decreases angle of the Arm by 1 degree
+    // Continuously decreases angle of the Arm by 1 degree
     auxController
         .povDown()
         .onTrue(
@@ -717,7 +717,7 @@ public class RobotContainer {
                 () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)), m_armSubsystem))
         .onFalse(new InstantCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem));
     /* Wrist */
-    // Increases angle of the Wrist by 1 degree
+    // Continuously increases angle of the Wrist by 1 degree
     auxController
         .povRight()
         .onTrue(
@@ -726,7 +726,7 @@ public class RobotContainer {
                 m_wristSubsystem))
         .onFalse(
             new InstantCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem));
-    // Decreases angle of the Wrist by 1 degree
+    // Continuously decreases angle of the Wrist by 1 degree
     auxController
         .povLeft()
         .onTrue(
