@@ -32,7 +32,6 @@ public class AllIntakesRun extends ParallelCommandGroup {
     } else {
       otbIntakePercentSpeed = -0.30;
       utbIntakePercentSpeed = -1.0;
-
       feederRPM = FeederConstants.INTAKE_RPM;
       actuatorPosition = ActuatorConstants.MAX_ANGLE_RADS;
     }

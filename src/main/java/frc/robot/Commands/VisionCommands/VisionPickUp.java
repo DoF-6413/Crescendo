@@ -47,6 +47,6 @@ public class VisionPickUp extends ParallelCommandGroup {
             },
             wrist,
             arm),
-        new DriveToNote(drive, beamBreak, 0, 0.5, 0.3));
+        new DriveToNote(drive, beamBreak, 0, 0.6, 0.3));
   }
 }

@@ -41,5 +41,5 @@ public class FeederConstants {
   /** SOURCE pickup speed */
   public static final double SOURCE_RPM = 1500;
   /** Speed for backing NOTE up inside the Shooter */
-  public static final double REVERSE_RPM = -400;
+  public static final double REVERSE_RPM = -600;
 }
