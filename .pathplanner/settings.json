@@ -10,10 +10,11 @@
     "ComplexPaths",
     "Liz's Folder",
     "Midfield",
-    "SubAmp C1",
+    "2PieceVision",
     "OnePieceAuto",
     "Puzzle Pieces",
     "Puzzle Pieces Vision",
+    "SubAmp C1",
     "Test Paths",
     "Vihaan's Folder"
   ],
@@ -23,9 +24,11 @@
     "4 Piece Autos",
     "5 Piece Autos",
     "Liz3Piece",
-    "Vision Autos",
+    "Midfield",
+    "2P Vision Autos",
     "Test Autos",
-    "Vihaan's Folder"
+    "Vihaan's Folder",
+    "Vision Autos"
   ],
   "defaultMaxVel": 5.2,
   "defaultMaxAccel": 5.2,

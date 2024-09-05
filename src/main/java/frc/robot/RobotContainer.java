@@ -479,6 +479,10 @@ public class RobotContainer {
     //     "4 Piece Center Midfield Vision", new PathPlannerAuto("4P Center to Midfield (V)"));
     // 5+ Piece
     autoChooser.addOption("5 Piece Left Sub Midfield", new PathPlannerAuto("5P Midfield"));
+
+    autoChooser.addOption("2 Piece Source Sub Midfield", new PathPlannerAuto("2P SubSource Preload+M5"))
+
+    autoChooser.addOption("3 Piece Source Sub Mid Field", new PathPlannerAUto("3P SubSource Midfield"))
     // autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
     // Deadreckoned
     // autoChooser.addOption(
