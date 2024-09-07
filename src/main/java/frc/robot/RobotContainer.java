@@ -13,14 +13,26 @@
 
 package frc.robot;
 
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.*;
-import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.CommandConstants;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.PathFindingConstants;
+import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCenter;
@@ -30,27 +42,63 @@ import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ReverseNote;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootAtAngle;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootWhenReady;
-import frc.robot.Commands.TeleopCommands.AmpScore.Backside.*;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
-import frc.robot.Commands.TeleopCommands.Intakes.*;
+import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
+import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
+import frc.robot.Commands.TeleopCommands.Intakes.ShooterRev;
+import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.OverShot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.PositionToShoot;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.Shoot;
-import frc.robot.Commands.VisionCommands.*;
-import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
-import frc.robot.Constants.*;
-import frc.robot.Subsystems.actuator.*;
-import frc.robot.Subsystems.arm.*;
-import frc.robot.Subsystems.drive.*;
-import frc.robot.Subsystems.feeder.*;
-import frc.robot.Subsystems.gyro.*;
-import frc.robot.Subsystems.otbIntake.*;
-import frc.robot.Subsystems.shooter.*;
-import frc.robot.Subsystems.utbintake.*;
-import frc.robot.Subsystems.wrist.*;
-import frc.robot.Utils.*;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import frc.robot.Commands.VisionCommands.AimShooter;
+import frc.robot.Commands.VisionCommands.AimWrist;
+import frc.robot.Commands.VisionCommands.AlignToNote;
+import frc.robot.Commands.VisionCommands.VisionPickUp;
+// Actuator, Arm, Wrist, Shooter, and Feeder
+import frc.robot.Commands.ZeroCommands.ZeroAll;
+import frc.robot.Subsystems.actuator.Actuator;
+import frc.robot.Subsystems.actuator.ActuatorIO;
+import frc.robot.Subsystems.actuator.ActuatorIOSim;
+import frc.robot.Subsystems.actuator.ActuatorIOSparkMax;
+import frc.robot.Subsystems.arm.Arm;
+import frc.robot.Subsystems.arm.ArmConstants;
+import frc.robot.Subsystems.arm.ArmIO;
+import frc.robot.Subsystems.arm.ArmIOSim;
+import frc.robot.Subsystems.arm.ArmIOSparkMax;
+import frc.robot.Subsystems.drive.Drive;
+import frc.robot.Subsystems.drive.ModuleIO;
+import frc.robot.Subsystems.drive.ModuleIOSimNeoKraken;
+import frc.robot.Subsystems.drive.ModuleIOSparkMaxTalonFX;
+import frc.robot.Subsystems.feeder.Feeder;
+import frc.robot.Subsystems.feeder.FeederConstants;
+import frc.robot.Subsystems.feeder.FeederIO;
+import frc.robot.Subsystems.feeder.FeederIOSim;
+import frc.robot.Subsystems.feeder.FeederIOTalonFX;
+import frc.robot.Subsystems.gyro.Gyro;
+import frc.robot.Subsystems.gyro.GyroIO;
+import frc.robot.Subsystems.gyro.GyroIONavX;
+import frc.robot.Subsystems.otbIntake.OTBIntake;
+import frc.robot.Subsystems.otbIntake.OTBIntakeIO;
+import frc.robot.Subsystems.otbIntake.OTBIntakeIOSim;
+import frc.robot.Subsystems.otbIntake.OTBIntakeIOSparkMax;
+import frc.robot.Subsystems.shooter.Shooter;
+import frc.robot.Subsystems.shooter.ShooterConstants;
+import frc.robot.Subsystems.shooter.ShooterIO;
+import frc.robot.Subsystems.shooter.ShooterIOSim;
+import frc.robot.Subsystems.shooter.ShooterIOTalonFX;
+import frc.robot.Subsystems.utbintake.UTBIntake;
+import frc.robot.Subsystems.utbintake.UTBIntakeIO;
+import frc.robot.Subsystems.utbintake.UTBIntakeIOSim;
+import frc.robot.Subsystems.utbintake.UTBIntakeIOSparkMax;
+import frc.robot.Subsystems.wrist.Wrist;
+import frc.robot.Subsystems.wrist.WristConstants;
+import frc.robot.Subsystems.wrist.WristIO;
+import frc.robot.Subsystems.wrist.WristIOSim;
+import frc.robot.Subsystems.wrist.WristIOSparkMax;
+import frc.robot.Utils.BeamBreak;
+import frc.robot.Utils.PathPlanner;
+import frc.robot.Utils.PoseEstimator;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -483,6 +531,10 @@ public class RobotContainer {
     autoChooser.addOption("2 Piece Source Sub Midfield", new PathPlannerAuto("2P SubSource Preload+M5"));
 
     autoChooser.addOption("3 Piece Source Sub Mid Field", new PathPlannerAuto("3P SubSource Midfield"));
+
+    autoChooser.addOption("2 Piece Amp Sub Midfield", new PathPlannerAuto("SubAmp-M1"));
+
+    autoChooser.addOption("3 Piece Amp sub Midfield", new PathPlannerAuto("3P SubAmp Midfield"));
     // autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
     // Deadreckoned
     // autoChooser.addOption(
