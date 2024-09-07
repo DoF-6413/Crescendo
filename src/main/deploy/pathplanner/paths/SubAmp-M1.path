@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7626093884666401,
-        "y": 4.443778688127177
+        "x": 0.6573619984846805,
+        "y": 6.69
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.130525867889342,
-        "y": 0.4209895599278392
+        "x": 7.1476177140391535,
+        "y": 5.07526302802204
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.012985142779401,
-        "y": 0.7367317298737166
+        "x": 7.907737752797442,
+        "y": 7.226987445427883
       },
       "prevControl": {
-        "x": 7.012985142779401,
-        "y": 0.7367317298737166
+        "x": 7.474321019012408,
+        "y": 7.322940443031884
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.6,
-      "rotationDegrees": 0.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -44,14 +38,14 @@
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "velocity": 0.0,
+    "rotation": 20.749207172321942,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "Vihaan's Folder",
+  "folder": "SubAmp Midfield",
   "previewStartingState": {
-    "rotation": -58.67130713219582,
+    "rotation": 60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

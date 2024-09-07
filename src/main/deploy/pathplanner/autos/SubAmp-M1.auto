@@ -2,29 +2,36 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7,
-      "y": 4.42
+      "x": 0.6924444618120005,
+      "y": 6.642279723305886
     },
-    "rotation": -60.0
+    "rotation": 59.536648499650724
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "PreloadShot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "DisableSpeakerRotationOverride"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "PreloadShot"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "DisableSpeakerRotationOverride"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -43,7 +50,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SubSource-M5"
+                  "pathName": "SubAmp-M1"
                 }
               },
               {
@@ -74,7 +81,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M5-Score"
+                  "pathName": "Score-M1"
                 }
               },
               {

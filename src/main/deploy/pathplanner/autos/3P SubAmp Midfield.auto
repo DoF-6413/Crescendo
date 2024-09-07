@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7,
-      "y": 4.42
+      "x": 0.6573619984846805,
+      "y": 6.69
     },
-    "rotation": -60.0
+    "rotation": 58.98517347604325
   },
   "command": {
     "type": "sequential",
@@ -43,7 +43,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SubSource-M5"
+                  "pathName": "SubAmp-M1"
                 }
               },
               {
@@ -74,7 +74,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M5-Score"
+                  "pathName": "Score-M1"
                 }
               },
               {
@@ -87,9 +87,103 @@
           }
         },
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignWrist"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "FeederReverse"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EnableSpeakerRotationOverride"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "ZeroYaw"
+            "name": "ShootWhenReady"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DisableSpeakerRotationOverride"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SubAmp-M2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "VisionPickUp"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PickUpStop"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Score-M2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              }
+            ]
           }
         },
         {
