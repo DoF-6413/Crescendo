@@ -139,16 +139,28 @@ public class PoseEstimator extends SubsystemBase {
         tempPipelineResult = cameraLeft.getLatestResult();
         tempTarget = tempPipelineResult.getBestTarget();
         hasTargetsLeft = tempPipelineResult.hasTargets();
-        fiducialIDLeft = tempTarget.getFiducialId();
-        poseAmbiguityLeft = tempTarget.getPoseAmbiguity();
+        if (tempTarget != null) {
+          fiducialIDLeft = tempTarget.getFiducialId();
+          poseAmbiguityLeft = tempTarget.getPoseAmbiguity();
+        } else {
+          hasTargetsLeft = false;
+          fiducialIDLeft = 0;
+          poseAmbiguityLeft = 0;
+        }
       }
 
       if (cameraRight.getLatestResult().hasTargets()) {
         tempPipelineResult = cameraRight.getLatestResult();
         tempTarget = tempPipelineResult.getBestTarget();
         hasTargetsRight = tempPipelineResult.hasTargets();
-        fiducialIDRight = tempTarget.getFiducialId();
-        poseAmbiguityRight = tempTarget.getPoseAmbiguity();
+        if (tempTarget != null) {
+          fiducialIDRight = tempTarget.getFiducialId();
+          poseAmbiguityRight = tempTarget.getPoseAmbiguity();
+        } else {
+          hasTargetsRight = false;
+          fiducialIDRight = 0;
+          poseAmbiguityRight = 0;
+        }
       }
 
       if (!hasTargetsLeft && !hasTargetsRight) {

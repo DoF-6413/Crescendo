@@ -4,6 +4,7 @@
 
 package frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -30,7 +31,7 @@ public class OnePieceAuto extends SequentialCommandGroup {
         Commands.runOnce(
             () -> {
               arm.setGoal(ArmConstants.SUBWOOFER_RAD);
-              wrist.setGoal(WristConstants.SUBWOOFER_RAD);
+              wrist.setGoal(WristConstants.SUBWOOFER_RAD + Units.degreesToRadians(1));
               shooter.setSetpoint(ShooterConstants.CLOSE_RPM);
             },
             arm,

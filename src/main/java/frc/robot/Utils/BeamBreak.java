@@ -22,4 +22,8 @@ public final class BeamBreak implements Subsystem {
   public boolean getShooterSensor() {
     return shooterBeamBreak.get();
   }
+
+  public boolean isNoteDetected() {
+    return !shooterBeamBreak.get();
+  }
 }
