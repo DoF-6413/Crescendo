@@ -200,8 +200,16 @@ public final class DriveConstants {
   public static final double DEADBAND = 0.1;
 
   /**
-   * CAN IDs for motors and encoders /* 1: PDH, 2-5: Absolute Encoders, 6-9: Krakens (Drive), 10-13:
-   * Neos (Turn) 14: UTB 15: OTB 16: Actuator 17 & 18: Climbers left and right 19: Indexer
+   * CAN IDs for motors and encoders:
+   * 1: PDH,
+   * 2-5: Absolute Encoders,
+   * 6-9: Krakens (Drive),
+   * 10-13: Neos (Turn)
+   * 14: UTB
+   * 15: OTB
+   * 16: Actuator
+   * 17 & 18: AVAILABLE (formerly used by  the removed Climber)
+   * 19: Indexer
    */
   public static enum ABSOLUTE_ENCODER {
     FRONT_RIGHT(3), // Module 0
