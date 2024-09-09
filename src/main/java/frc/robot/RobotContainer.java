@@ -35,8 +35,8 @@ import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ReverseNote;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootAtAngle;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootWhenReady;
-import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
+import frc.robot.Commands.TeleopCommands.AmpScore.PositionAmpScoreBackside;
 import frc.robot.Commands.TeleopCommands.Intakes.*;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.*; // Position to Shoot, Overshot, Shoot
@@ -156,7 +156,7 @@ public class RobotContainer {
 
     // Utils
     m_poseEstimator = new PoseEstimator(m_driveSubsystem, m_gyroSubsystem);
-    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator, m_gyroSubsystem);
+    m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     m_beamBreak = new BeamBreak();
 
     /* PathPlanner Commands */
@@ -188,7 +188,7 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM), m_feederSubsystem));
     NamedCommands.registerCommand(
-        "FeederReverse", new ReverseNote(m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
+        "FeederReverse", new ReverseNote(m_shooterSubsystem, m_feederSubsystem, m_beamBreak));
     NamedCommands.registerCommand(
         "StopFeeder",
         new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
@@ -204,28 +204,28 @@ public class RobotContainer {
             m_wristSubsystem,
             m_armSubsystem));
     NamedCommands.registerCommand(
-        "AutoAlignWrist", new AimWrist(m_wristSubsystem, m_armSubsystem, m_poseEstimator));
+        "AutoAlignWrist", new AimWrist(m_armSubsystem, m_wristSubsystem, m_poseEstimator));
 
     // Auto Shooting
     NamedCommands.registerCommand(
         "PreloadShot",
         new PreloadShot(
-            m_feederSubsystem,
-            m_shooterSubsystem,
-            m_wristSubsystem,
             m_armSubsystem,
+            m_wristSubsystem,
+            m_shooterSubsystem,
+            m_feederSubsystem,
             ShooterConstants.CLOSE_RPM));
     NamedCommands.registerCommand(
         "SubwooferShot",
         new ShootAtAngle(
-            m_shooterSubsystem,
-            m_feederSubsystem,
             m_armSubsystem,
             m_wristSubsystem,
+            m_shooterSubsystem,
+            m_feederSubsystem,
             m_beamBreak,
-            ShooterConstants.CLOSE_RPM,
             ArmConstants.SUBWOOFER_RAD,
-            WristConstants.SUBWOOFER_RAD));
+            WristConstants.SUBWOOFER_RAD,
+            ShooterConstants.CLOSE_RPM));
     NamedCommands.registerCommand(
         "ShootWhenReady",
         new ShootWhenReady(
@@ -237,12 +237,12 @@ public class RobotContainer {
         "VisionPickUp",
         new VisionPickUp(
             m_driveSubsystem,
+            m_actuatorSubsystem,
             m_otbIntakeSubsystem,
             m_utbIntakeSubsystem,
-            m_feederSubsystem,
-            m_actuatorSubsystem,
             m_armSubsystem,
             m_wristSubsystem,
+            m_feederSubsystem,
             m_beamBreak));
 
     // Rotation Override
@@ -298,7 +298,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "BeamBreakPickUp",
         new BeamBreakPickUp(
-            m_utbIntakeSubsystem, m_feederSubsystem, m_shooterSubsystem, m_beamBreak));
+            m_utbIntakeSubsystem, m_shooterSubsystem, m_feederSubsystem, m_beamBreak));
 
     // Zero Commands
     NamedCommands.registerCommand(
@@ -322,7 +322,7 @@ public class RobotContainer {
             m_shooterSubsystem));
     NamedCommands.registerCommand(
         "ZeroAll",
-        new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+        new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Gyro heading update
     NamedCommands.registerCommand(
         "ZeroYaw", new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
@@ -346,13 +346,13 @@ public class RobotContainer {
         new TwoPieceReturnSub(
             m_driveSubsystem,
             m_gyroSubsystem,
-            m_wristSubsystem,
-            m_armSubsystem,
-            m_feederSubsystem,
-            m_shooterSubsystem,
             m_actuatorSubsystem,
             m_otbIntakeSubsystem,
             m_utbIntakeSubsystem,
+            m_armSubsystem,
+            m_wristSubsystem,
+            m_shooterSubsystem,
+            m_feederSubsystem,
             2,
             1));
     // 3 Piece
@@ -366,18 +366,18 @@ public class RobotContainer {
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
     autoChooser.addDefaultOption(
         "One Piece",
-        new OnePieceAuto(m_wristSubsystem, m_armSubsystem, m_feederSubsystem, m_shooterSubsystem));
+        new OnePieceAuto(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
     autoChooser.addOption(
         "One Piece Leave Center",
         new OnePieceLeaveCenter(
             m_driveSubsystem,
-            m_wristSubsystem,
+            m_gyroSubsystem,
             m_armSubsystem,
-            m_feederSubsystem,
+            m_wristSubsystem,
             m_shooterSubsystem,
+            m_feederSubsystem,
             3,
-            1,
-            m_gyroSubsystem));
+            1));
 
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
@@ -491,8 +491,7 @@ public class RobotContainer {
   public void driverControllerBindings() {
     /* Driving the robot */
     m_driveSubsystem.setDefaultCommand(
-        new DefaultDriveCommand(
-            m_driveSubsystem, driverController, m_gyroSubsystem, m_poseEstimator, 1));
+        new DefaultDriveCommand(m_driveSubsystem, m_gyroSubsystem, m_poseEstimator, driverController, 1));
 
     /* Reset Gyro heading */
     driverController
@@ -555,7 +554,7 @@ public class RobotContainer {
     /* Release NOTE */
     driverController
         .rightBumper()
-        .onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
+        .onTrue(new Shoot(m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     driverController.start().onTrue(new ActuatorToZero(m_actuatorSubsystem));
     driverController
@@ -570,19 +569,12 @@ public class RobotContainer {
     //             m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_RED_END_POSE),
     //             m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_BLUE_END_POSE),
     //             () -> RobotStateConstants.getAlliance().get() == DriverStation.Alliance.Red));
-
-    // /* Rumble */
-    // if (m_utbIntakeSubsystem.getCurrentDraw() > 10) {
-    //   driverController.getHID().setRumble(RumbleType.kBothRumble, 1);
-    // } else {
-    //   driverController.getHID().setRumble(RumbleType.kBothRumble, 0);
-    // }
   }
 
   /** Contoller keybinds for the aux contoller port */
   public void auxControllerBindings() {
     /* Release piece */
-    // auxController.a().onTrue(new Shoot(m_feederSubsystem, m_armSubsystem, m_shooterSubsystem));
+    // auxController.a().onTrue(new Shoot(m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* Feeder */
     auxController
@@ -599,50 +591,44 @@ public class RobotContainer {
         .leftTrigger()
         .onTrue(
             new PositionToShoot(
-                m_feederSubsystem,
-                m_shooterSubsystem,
-                m_wristSubsystem,
                 m_armSubsystem,
+                m_wristSubsystem,
+                m_shooterSubsystem,
+                m_feederSubsystem,
                 WristConstants.SUBWOOFER_RAD,
                 ArmConstants.SUBWOOFER_RAD,
                 ShooterConstants.CLOSE_RPM))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+            new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Position to shoot with Vision
     auxController
         .rightTrigger()
         .onTrue(
-            new AimShooter(
-                m_shooterSubsystem,
-                m_wristSubsystem,
-                m_armSubsystem,
-                m_poseEstimator,
-                m_feederSubsystem,
-                auxController,
-                m_beamBreak))
+            new AimShooter(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem, m_poseEstimator, m_beamBreak, auxController
+                ))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+            new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // PODIUM (w/o vision)
     auxController
         .leftBumper()
         .onTrue(
             new PositionToShoot(
-                m_feederSubsystem,
-                m_shooterSubsystem,
-                m_wristSubsystem,
                 m_armSubsystem,
+                m_wristSubsystem,
+                m_shooterSubsystem,
+                m_feederSubsystem,
                 WristConstants.PODIUM_RAD,
                 ArmConstants.DEFAULT_POSITION_RAD,
                 ShooterConstants.MID_RANGE_RPM))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+            new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Overshot
     auxController
         .button(9)
         .onTrue(
-            new OverShot(m_armSubsystem, m_feederSubsystem, m_shooterSubsystem, m_wristSubsystem))
+            new OverShot(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+            new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* AMP Scoring */
     // Backside
@@ -651,7 +637,7 @@ public class RobotContainer {
         .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
         .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+            new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     /* SOURCE */
     // Pick up configuration
@@ -659,11 +645,14 @@ public class RobotContainer {
         .y()
         .onTrue(new SourcePickUpBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+            new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // Machine gun feeding
     auxController
         .x()
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(2000), m_shooterSubsystem))
+        .onTrue(
+            new InstantCommand(
+                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.MACHINE_GUN_FEEDING_RPM),
+                m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
 
     /* Misc */
@@ -672,15 +661,15 @@ public class RobotContainer {
         .b()
         .onTrue(
             new PositionToShoot(
-                m_feederSubsystem,
-                m_shooterSubsystem,
-                m_wristSubsystem,
                 m_armSubsystem,
+                m_wristSubsystem,
+                m_shooterSubsystem,
+                m_feederSubsystem,
                 WristConstants.SUBWOOFER_RAD,
                 ArmConstants.DEFAULT_POSITION_RAD,
                 ShooterConstants.MIDFIELD_FEEDING_RPM))
         .onFalse(
-            new ZeroAll(m_wristSubsystem, m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
+            new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     // /* Arm */
     // // Up by 1 degree on each button press
@@ -755,14 +744,6 @@ public class RobotContainer {
                 m_wristSubsystem))
         .onFalse(
             new InstantCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem));
-
-    // // Rumble when ready to shoot
-    // if (m_shooterSubsystem.bothAtSetpoint() && m_shooterSubsystem.getAverageVelocityRPM() >=
-    // 3000) {
-    //   auxController.getHID().setRumble(RumbleType.kBothRumble, 1);
-    // } else {
-    //   auxController.getHID().setRumble(RumbleType.kBothRumble, 0);
-    // }
   }
 
   /** Backup/development button bindings for the Aux Contols */

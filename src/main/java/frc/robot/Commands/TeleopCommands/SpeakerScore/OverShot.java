@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.arm.ArmConstants;
 import frc.robot.Subsystems.feeder.Feeder;
+import frc.robot.Subsystems.feeder.FeederConstants;
 import frc.robot.Subsystems.shooter.Shooter;
 import frc.robot.Subsystems.shooter.ShooterConstants;
 import frc.robot.Subsystems.wrist.Wrist;
@@ -21,7 +22,7 @@ import frc.robot.Subsystems.wrist.WristConstants;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class OverShot extends SequentialCommandGroup {
   /** Creates a new OverShot. */
-  public OverShot(Arm arm, Feeder feeder, Shooter shooter, Wrist wrist) {
+  public OverShot(Arm arm, Wrist wrist, Feeder feeder, Shooter shooter) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -41,7 +42,7 @@ public class OverShot extends SequentialCommandGroup {
         new WaitUntilCommand(() -> wrist.atGoal()),
         Commands.runOnce(
             () -> {
-              feeder.setSetpoint(-600);
+              feeder.setSetpoint(FeederConstants.REVERSE_RPM);
             },
             feeder),
         new WaitCommand(0.3),

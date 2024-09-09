@@ -21,13 +21,13 @@ public class OnePieceLeaveCenter extends SequentialCommandGroup {
   /** Creates a new OnePieceLeaveAuto. */
   public OnePieceLeaveCenter(
       Drive drive,
-      Wrist wrist,
+      Gyro gyro,
       Arm arm,
-      Feeder feeder,
+      Wrist wrist,
       Shooter shooter,
+      Feeder feeder,
       double seconds,
-      double speed,
-      Gyro gyro) {
+      double speed) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -36,7 +36,7 @@ public class OnePieceLeaveCenter extends SequentialCommandGroup {
               gyro.zeroYaw();
             },
             gyro),
-        new OnePieceAuto(wrist, arm, feeder, shooter),
+        new OnePieceAuto(arm, wrist, shooter, feeder),
         Commands.runOnce(
             () -> {
               drive.setRaw(0, speed, 0);

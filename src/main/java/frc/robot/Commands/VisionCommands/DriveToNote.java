@@ -27,7 +27,7 @@ public class DriveToNote extends Command {
     this.y = y;
     this.rotSpeed = rotSpeed;
 
-    addRequirements(drive, beamBreak);
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.

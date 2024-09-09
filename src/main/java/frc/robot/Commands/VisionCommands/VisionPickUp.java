@@ -27,12 +27,12 @@ public class VisionPickUp extends ParallelCommandGroup {
   /** Creates a new VisionPickUp. */
   public VisionPickUp(
       Drive drive,
+      Actuator actuator,
       OTBIntake otb,
       UTBIntake utb,
-      Feeder feeder,
-      Actuator actuator,
       Arm arm,
       Wrist wrist,
+      Feeder feeder,
       BeamBreak beamBreak) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

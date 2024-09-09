@@ -16,10 +16,10 @@ import frc.robot.Subsystems.wrist.*;
 public class PositionToShoot extends SequentialCommandGroup {
   /** Shoots NOTE when robot is against the subwoofer (right in front of the SPEAKER) */
   public PositionToShoot(
-      Feeder feeder,
-      Shooter shooter,
-      Wrist wrist,
       Arm arm,
+      Wrist wrist,
+      Shooter shooter,
+      Feeder feeder,
       double angleWrist,
       double angleArm,
       double RPM) {

@@ -4,7 +4,9 @@
 
 package frc.robot.Commands.TeleopCommands.Intakes;
 
-import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.feeder.FeederConstants;

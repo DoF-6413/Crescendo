@@ -19,7 +19,7 @@ public class BeamBreakPickUp extends Command {
   private BeamBreak beamBreak;
 
   /** Creates a new BeamBreakPickUp. */
-  public BeamBreakPickUp(UTBIntake utb, Feeder feeder, Shooter shooter, BeamBreak beamBreak) {
+  public BeamBreakPickUp(UTBIntake utb, Shooter shooter, Feeder feeder, BeamBreak beamBreak) {
     this.utb = utb;
     this.feeder = feeder;
     this.shooter = shooter;

@@ -32,13 +32,13 @@ public class TwoPieceReturnSub extends SequentialCommandGroup {
   public TwoPieceReturnSub(
       Drive drive,
       Gyro gyro,
-      Wrist wrist,
-      Arm arm,
-      Feeder feeder,
-      Shooter shooter,
       Actuator actuator,
       OTBIntake otbIntake,
       UTBIntake utbIntake,
+      Arm arm,
+      Wrist wrist,
+      Shooter shooter,
+      Feeder feeder,
       double seconds,
       double speed) {
     // Add your commands in the addCommands() call, e.g.
@@ -49,7 +49,7 @@ public class TwoPieceReturnSub extends SequentialCommandGroup {
               drive.updateHeading();
             },
             gyro),
-        new OnePieceAuto(wrist, arm, feeder, shooter),
+        new OnePieceAuto(arm, wrist, shooter, feeder),
         Commands.runOnce(
             () -> {
               wrist.setGoal(WristConstants.DEFAULT_POSITION_RAD);
@@ -83,6 +83,6 @@ public class TwoPieceReturnSub extends SequentialCommandGroup {
             },
             drive),
         new WaitUntilCommand(() -> shooter.bothAtSetpoint()),
-        new Shoot(feeder, arm, shooter));
+        new Shoot(arm, shooter, feeder));
   }
 }

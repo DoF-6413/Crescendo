@@ -18,7 +18,7 @@ import frc.robot.Subsystems.wrist.WristConstants;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ArmToZero extends SequentialCommandGroup {
   /** Creates a new ArmToZero. */
-  public ArmToZero(Wrist wrist, Arm arm) {
+  public ArmToZero(Arm arm, Wrist wrist) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

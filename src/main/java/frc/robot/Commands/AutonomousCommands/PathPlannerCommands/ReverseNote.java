@@ -19,7 +19,7 @@ public class ReverseNote extends Command {
   private BeamBreak beamBreak;
   private Timer timer;
   /** Creates a new ReverseFeeder. */
-  public ReverseNote(Feeder feeder, Shooter shooter, BeamBreak beamBreak) {
+  public ReverseNote(Shooter shooter, Feeder feeder, BeamBreak beamBreak) {
     this.feeder = feeder;
     this.shooter = shooter;
     this.beamBreak = beamBreak;

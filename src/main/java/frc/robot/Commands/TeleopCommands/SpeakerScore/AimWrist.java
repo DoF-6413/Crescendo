@@ -11,16 +11,16 @@ import frc.robot.Subsystems.wrist.WristConstants;
 import frc.robot.Utils.PoseEstimator;
 
 public class AimWrist extends Command {
-  public Wrist m_wrist;
-  public Arm m_arm;
-  public PoseEstimator m_pose;
+  public Wrist wrist;
+  public Arm arm;
+  public PoseEstimator pose;
   // private Timer m_timer;
 
   /** Updates the angle of the Wrist based on the robot's distance from the SPEAKER */
-  public AimWrist(Wrist wrist, Arm arm, PoseEstimator pose) {
-    m_wrist = wrist;
-    m_arm = arm;
-    m_pose = pose;
+  public AimWrist(Arm arm, Wrist wrist, PoseEstimator pose) {
+    this.wrist = wrist;
+    this.arm = arm;
+    this.pose = pose;
     // m_timer = new Timer();
     addRequirements(wrist, arm);
   }
@@ -36,7 +36,7 @@ public class AimWrist extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_wrist.autoAlignWrist(m_pose.getCurrentPose2d());
+    wrist.autoAlignWrist(pose.getCurrentPose2d());
   }
 
   // Called once the command ends or is interrupted.
@@ -46,6 +46,6 @@ public class AimWrist extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_wrist.atGoal() && m_wrist.getGoal() != WristConstants.DEFAULT_POSITION_RAD;
+    return wrist.atGoal() && wrist.getGoal() != WristConstants.DEFAULT_POSITION_RAD;
   }
 }

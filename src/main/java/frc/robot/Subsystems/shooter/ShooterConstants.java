@@ -71,4 +71,6 @@ public class ShooterConstants {
   public static final double PRE_REV_RPM = 1500;
   /** Speed for backing NOTE up inside the Shooter */
   public static final double REVERSE_RPM = -300;
+  /** Speed for machine gun feeding at the SOURCE */
+  public static final double MACHINE_GUN_FEEDING_RPM = 5000;
 }

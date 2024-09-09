@@ -16,58 +16,59 @@ import frc.robot.Utils.BeamBreak;
 import frc.robot.Utils.PoseEstimator;
 
 public class AimShooter extends Command {
-  public Shooter m_shooter;
-  public Wrist m_wrist;
-  public Arm m_arm;
-  public PoseEstimator m_pose;
-  public Feeder m_feeder;
+  public Shooter shooter;
+  public Wrist wrist;
+  public Arm arm;
+  public PoseEstimator pose;
+  public Feeder feeder;
   public CommandXboxController controller;
-  public BeamBreak m_beam;
+  public BeamBreak beamBreak;
 
   /** Creates a new AimShooter. */
   public AimShooter(
-      Shooter shooter,
-      Wrist wrist,
       Arm arm,
-      PoseEstimator pose,
+      Wrist wrist,
+      Shooter shooter,
       Feeder feeder,
-      CommandXboxController controller,
-      BeamBreak beam) {
-    m_shooter = shooter;
-    m_wrist = wrist;
-    m_arm = arm;
-    m_feeder = feeder;
-    m_beam = beam;
-    m_pose = pose;
+      PoseEstimator pose,
+      BeamBreak beamBreak,
+      CommandXboxController controller
+      ) {
+    this.shooter = shooter;
+    this.wrist = wrist;
+    this.arm = arm;
+    this.feeder = feeder;
+    this.beamBreak = beamBreak;
+    this.pose = pose;
     this.controller = controller;
-    addRequirements(shooter, wrist, arm, feeder, beam);
+    addRequirements(shooter, wrist, arm, feeder);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_feeder.setSetpoint(FeederConstants.REVERSE_RPM);
-    m_shooter.setSetpoint(0);
+    feeder.setSetpoint(FeederConstants.REVERSE_RPM);
+    shooter.setSetpoint(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_beam.getShooterSensor() == false) {
-      m_feeder.setSetpoint(0);
-      m_shooter.setSetpoint(ShooterConstants.MID_RANGE_RPM);
+    if (beamBreak.getShooterSensor() == false) {
+      feeder.setSetpoint(0);
+      shooter.setSetpoint(ShooterConstants.MID_RANGE_RPM);
     }
 
-    m_wrist.autoAlignWrist(m_pose.getCurrentPose2d());
+    wrist.autoAlignWrist(pose.getCurrentPose2d());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // m_wrist.setGoal(WristConstants.DEFAULT_POSITION_RAD);
-    // m_arm.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
-    // m_shooter.setSetpoint(0);
-    // m_feeder.setSetpoint(0);
+    // wrist.setGoal(WristConstants.DEFAULT_POSITION_RAD);
+    // arm.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
+    // shooter.setSetpoint(0);
+    // feeder.setSetpoint(0);
   }
 
   // Returns true when the command should end.

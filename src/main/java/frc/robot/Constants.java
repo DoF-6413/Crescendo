@@ -194,12 +194,23 @@ public final class Constants {
     }
   }
 
-  /** Contants for PathPlanner Path Finding */
-  public static class PathFindingConstants {
+  /** Contants for PathPlanner and Path Finding */
+  public static class PathPlannerConstants {
+    public static final double TRANSLATION_KP = 1.2;
+    public static final double TRANSLATION_KD = 0.2;
+    public static final double ROTATION_KP = 0.3125;
+    public static final double ROTATION_KD = 0.025;
+
+    // PathFinding
+    /**
+     * Max translational and rotational speed and acceleration used for PathPlanner's PathFinding
+     */
     public static final PathConstraints DEFAULT_PATH_CONSTRAINTS =
         new PathConstraints(3, 3, Units.degreesToRadians(515.65), Units.degreesToRadians(262.82));
+    /** Position to align the robot with the AMP in the Blue Wing */
     public static final Pose2d AMP_BLUE_END_POSE =
         new Pose2d(1.85, 7.69, new Rotation2d(Units.degreesToRadians(-90)));
+    /** Position to align the robot with the AMP in the Red Wing */
     public static final Pose2d AMP_RED_END_POSE =
         new Pose2d(14.69, 7.69, new Rotation2d(Units.degreesToRadians(-90)));
   }
