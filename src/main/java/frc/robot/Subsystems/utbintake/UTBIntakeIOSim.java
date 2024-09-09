@@ -20,7 +20,7 @@ public class UTBIntakeIOSim implements UTBIntakeIO {
     utbFlywheelSim.update(RobotStateConstants.LOOP_PERIODIC_SEC);
     inputs.utbIntakeRPM = utbFlywheelSim.getAngularVelocityRPM();
     inputs.utbIntakeAppliedVolts = 0.0;
-    inputs.utbIntakeCurrentAmps = new double[] {Math.abs(utbFlywheelSim.getCurrentDrawAmps())};
+    inputs.utbIntakeCurrentAmps = Math.abs(utbFlywheelSim.getCurrentDrawAmps());
   }
 
   @Override

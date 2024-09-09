@@ -111,8 +111,8 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
 
     inputs.driveAppliedVolts = driveTalonFX.getMotorVoltage().getValueAsDouble();
 
-    inputs.driveCurrentAmps = new double[] {driveTalonFX.getStatorCurrent().getValueAsDouble()};
-    inputs.driveTempCelsius = new double[] {driveTalonFX.getDeviceTemp().getValueAsDouble()};
+    inputs.driveCurrentAmps = driveTalonFX.getStatorCurrent().getValueAsDouble();
+    inputs.driveTempCelsius = driveTalonFX.getDeviceTemp().getValueAsDouble();
 
     // getPosition returns rotations of motor, not the turn angle
     inputs.turnAbsolutePositionRad =
@@ -124,8 +124,8 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
                 .getRadians());
 
     inputs.turnAppliedVolts = turnSparkMax.getAppliedOutput() * turnSparkMax.getBusVoltage();
-    inputs.turnCurrentAmps = new double[] {turnSparkMax.getOutputCurrent()};
-    inputs.turnTempCelsius = new double[] {turnSparkMax.getMotorTemperature()};
+    inputs.turnCurrentAmps = turnSparkMax.getOutputCurrent();
+    inputs.turnTempCelsius = turnSparkMax.getMotorTemperature();
   }
 
   @Override

@@ -24,7 +24,7 @@ public class AimShooter extends Command {
   public CommandXboxController controller;
   public BeamBreak beamBreak;
 
-  /** Creates a new AimShooter. */
+  /** Auto Aligns the Wrist to the SPEAKER while also activating the Shooter. This command should only be used in teleop since it ends based on a controller input */
   public AimShooter(
       Arm arm,
       Wrist wrist,
@@ -64,12 +64,7 @@ public class AimShooter extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    // wrist.setGoal(WristConstants.DEFAULT_POSITION_RAD);
-    // arm.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
-    // shooter.setSetpoint(0);
-    // feeder.setSetpoint(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

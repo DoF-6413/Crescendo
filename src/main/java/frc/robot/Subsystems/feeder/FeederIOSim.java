@@ -22,7 +22,7 @@ public class FeederIOSim implements FeederIO {
     // Updates logged inputs of the simulated Feeder Flywheels
     inputs.feederRPM = feederFlywheelSim.getAngularVelocityRPM();
     inputs.feederAppliedVolts = 0.0;
-    inputs.feederCurrentAmps = new double[] {Math.abs(feederFlywheelSim.getCurrentDrawAmps())};
+    inputs.feederCurrentAmps = Math.abs(feederFlywheelSim.getCurrentDrawAmps());
   }
 
   @Override

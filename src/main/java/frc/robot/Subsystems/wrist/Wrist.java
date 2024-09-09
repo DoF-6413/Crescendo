@@ -143,49 +143,6 @@ public class Wrist extends SubsystemBase {
   }
 
   /**
-   * Returns the closest angle to set the Wrist to based on the lookup table. The angle is the
-   * average of the upper and lower limits tested for the inputed to the table found in {@link
-   * ShootingInterpolationConstants}
-   *
-   * @param x Distance from SPEAKER
-   * @return Best angle to set the Wrist to (Radians)
-   */
-  public double returnDesiredAngle(double x) {
-    double closestTheta;
-    if (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][
-            ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0].length - 1]
-        > x) {
-      int i = 1;
-      closestTheta = ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i];
-
-      // since the table is sorted, find the index of the first value where the distance value
-      // exceeds
-      while (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] < x) {
-        i++;
-      }
-
-      // finds which x value in the table the actual distance is closer to and return that
-      if (Math.abs(ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i - 1] - x)
-          < Math.abs(ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[0][i] - x)) {
-        closestTheta =
-            (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i - 1]
-                    + ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i - 1])
-                / 2;
-      } else {
-        closestTheta =
-            (ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[1][i]
-                    + ShootingInterpolationConstants.LOOKUP_TABLE_X_M_VS_THETA_DEG[2][i])
-                / 2;
-      }
-
-      // returns the closest Theta based on the lookup table
-      return closestTheta;
-    } else {
-      return 0;
-    }
-  }
-
-  /**
    * Calculates the angle of the Wrist based on the robot's distance away from the SPEAKER
    *
    * <p>Data collected to create the line of best fit equation used to calculate Wrist angle can be
@@ -194,14 +151,16 @@ public class Wrist extends SubsystemBase {
    * @param robotPose Robot's current pose
    */
   public void autoAlignWrist(Pose2d robotPose) {
-    // triangle for robot angle
+    // X Distance from the center of the SPEAKER
     double deltaX = 0.0;
     if (RobotStateConstants.getAlliance().get() == Alliance.Red) {
       deltaX = Math.abs(robotPose.getX() - FieldConstants.RED_SPEAKER_X);
     } else if (RobotStateConstants.getAlliance().get() == Alliance.Blue) {
       deltaX = Math.abs(robotPose.getX() - FieldConstants.BLUE_SPEAKER_X);
     }
+    // Y Distance from the center of the SPEAKER
     double deltaY = Math.abs(robotPose.getY() - FieldConstants.SPEAKER_Y);
+    // Hypotenuse of the x and y components to find the actual distance from the center of the SPEAKER
     double speakerDist = Math.hypot(deltaX, deltaY);
 
     // Defaults angle to 0 degrees if robot's distance is outside the range of tested values in the

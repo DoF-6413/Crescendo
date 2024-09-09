@@ -24,9 +24,9 @@ public interface ActuatorIO {
     /** Returns the velocity of the Actuator in Rad/s */
     public double actuatorVelocityRadPerSec = 0.0;
     /** The Current Drawn from the Actuator in Amps */
-    public double[] actuatorCurrentAmps = new double[] {};
+    public double actuatorCurrentAmps = 0;
     /** The Temperature from the Actuator in Celsius */
-    public double[] actuatorTempCelsius = new double[] {};
+    public double actuatorTempCelsius = 0;
   }
 
   /** Updates inputs for the Actuator */

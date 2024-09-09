@@ -557,9 +557,6 @@ public class RobotContainer {
         .onTrue(new Shoot(m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
 
     driverController.start().onTrue(new ActuatorToZero(m_actuatorSubsystem));
-    driverController
-        .start()
-        .onTrue(new InstantCommand(() -> m_actuatorSubsystem.zeroPosition(), m_actuatorSubsystem));
 
     // /* Align to AMP */
     // driverController
@@ -595,8 +592,8 @@ public class RobotContainer {
                 m_wristSubsystem,
                 m_shooterSubsystem,
                 m_feederSubsystem,
-                WristConstants.SUBWOOFER_RAD,
                 ArmConstants.SUBWOOFER_RAD,
+                WristConstants.SUBWOOFER_RAD,
                 ShooterConstants.CLOSE_RPM))
         .onFalse(
             new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
@@ -617,8 +614,8 @@ public class RobotContainer {
                 m_wristSubsystem,
                 m_shooterSubsystem,
                 m_feederSubsystem,
-                WristConstants.PODIUM_RAD,
                 ArmConstants.DEFAULT_POSITION_RAD,
+                WristConstants.PODIUM_RAD,
                 ShooterConstants.MID_RANGE_RPM))
         .onFalse(
             new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
@@ -665,8 +662,8 @@ public class RobotContainer {
                 m_wristSubsystem,
                 m_shooterSubsystem,
                 m_feederSubsystem,
-                WristConstants.SUBWOOFER_RAD,
                 ArmConstants.DEFAULT_POSITION_RAD,
+                WristConstants.SUBWOOFER_RAD,
                 ShooterConstants.MIDFIELD_FEEDING_RPM))
         .onFalse(
             new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));

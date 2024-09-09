@@ -28,9 +28,9 @@ public interface ArmIO {
     /** Returns the velocity of the Actuator in Rad/s */
     public double armVelocityRadPerSec = 0.0;
     /** The Current Drawn from the Atuator in Amps */
-    public double[] armCurrentAmps = new double[] {};
+    public double armCurrentAmps = 0;
     /** The Temperature from the Actuator in Celsius */
-    public double[] armTempCelsius = new double[] {};
+    public double armTempCelsius = 0;
   }
 
   /** Updates the set of loggable inputs for the Arm */

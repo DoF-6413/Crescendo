@@ -62,6 +62,6 @@ public class UTBIntake extends SubsystemBase {
   }
 
   public double getCurrentDraw() {
-    return inputs.utbIntakeCurrentAmps[0];
+    return inputs.utbIntakeCurrentAmps;
   }
 }

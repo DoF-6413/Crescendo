@@ -20,8 +20,8 @@ public class PositionToShoot extends SequentialCommandGroup {
       Wrist wrist,
       Shooter shooter,
       Feeder feeder,
-      double angleWrist,
       double angleArm,
+      double angleWrist,
       double RPM) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

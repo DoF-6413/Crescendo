@@ -27,12 +27,12 @@ public class ShooterIOSim implements ShooterIO {
     // Updates logged inputs of the simulated Shooter Flywheels
     inputs.topShooterMotorRPM = topShooterFlywheel.getAngularVelocityRPM();
     inputs.topShooterAppliedVolts = 0.0;
-    inputs.topShooterCurrentAmps = new double[] {Math.abs(topShooterFlywheel.getCurrentDrawAmps())};
+    inputs.topShooterCurrentAmps = Math.abs(topShooterFlywheel.getCurrentDrawAmps());
 
     inputs.bottomShooterMotorRPM = bottomShooterFlywheel.getAngularVelocityRPM();
     inputs.bottomShooterAppliedVolts = 0.0;
     inputs.bottomShooterCurrentAmps =
-        new double[] {Math.abs(bottomShooterFlywheel.getCurrentDrawAmps())};
+        Math.abs(bottomShooterFlywheel.getCurrentDrawAmps());
   }
 
   @Override

@@ -33,8 +33,8 @@ public class OTBIntakeIOSparkMax implements OTBIntakeIO {
     // to obtain the speed of the OTB Intake Rollers
     inputs.otbIntakeAppliedVolts =
         otbIntakeMotor.getAppliedOutput() * otbIntakeMotor.getBusVoltage();
-    inputs.otbIntakeCurrentAmps = new double[] {otbIntakeMotor.getOutputCurrent()};
-    inputs.otbIntakeTempCelsius = new double[] {otbIntakeMotor.getMotorTemperature()};
+    inputs.otbIntakeCurrentAmps = otbIntakeMotor.getOutputCurrent();
+    inputs.otbIntakeTempCelsius = otbIntakeMotor.getMotorTemperature();
   }
 
   @Override

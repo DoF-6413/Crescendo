@@ -52,9 +52,9 @@ public class ShooterIOTalonFX implements ShooterIO {
     // (Gear ratio is 1 so no need to divide the RPM by it)
     inputs.topShooterAppliedVolts = topShooterMotor.getMotorVoltage().getValueAsDouble();
     inputs.topShooterCurrentAmps =
-        new double[] {topShooterMotor.getStatorCurrent().getValueAsDouble()};
+        topShooterMotor.getStatorCurrent().getValueAsDouble();
     inputs.topShooterTempCelsius =
-        new double[] {topShooterMotor.getDeviceTemp().getValueAsDouble()};
+        topShooterMotor.getDeviceTemp().getValueAsDouble();
     // Bottom Shooter Motor Inputs
     inputs.bottomShooterMotorRPM =
         bottomShooterMotor.getRotorVelocity().getValueAsDouble()
@@ -65,9 +65,9 @@ public class ShooterIOTalonFX implements ShooterIO {
     // (Gear ratio is 1 so no need to divide the RPM by it)
     inputs.bottomShooterAppliedVolts = bottomShooterMotor.getMotorVoltage().getValueAsDouble();
     inputs.bottomShooterCurrentAmps =
-        new double[] {bottomShooterMotor.getStatorCurrent().getValueAsDouble()};
+        bottomShooterMotor.getStatorCurrent().getValueAsDouble();
     inputs.bottomShooterTempCelsius =
-        new double[] {bottomShooterMotor.getDeviceTemp().getValueAsDouble()};
+        bottomShooterMotor.getDeviceTemp().getValueAsDouble();
   }
 
   @Override
