@@ -7,7 +7,6 @@ package frc.robot.Commands.VisionCommands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
-import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.Subsystems.actuator.Actuator;
 import frc.robot.Subsystems.arm.Arm;
@@ -40,7 +39,8 @@ public class VisionPickUp extends ParallelCommandGroup {
     addCommands(
         new AllIntakesRun(actuator, otb, utb, feeder, CommandConstants.RUN_INTAKE),
         // new BeamBreakPickUp(utb, feeder, shooter, beamBreak),
-        // new UTBIntakeRun(utb, feeder, CommandConstants.INTAKE_INWARDS, CommandConstants.RUN_INTAKE),
+        // new UTBIntakeRun(utb, feeder, CommandConstants.INTAKE_INWARDS,
+        // CommandConstants.RUN_INTAKE),
         new InstantCommand(
             () -> {
               arm.setGoal(ArmConstants.DEFAULT_POSITION_RAD);

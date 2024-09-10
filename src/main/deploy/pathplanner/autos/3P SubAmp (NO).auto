@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7041386162544403,
-      "y": 4.42
+      "x": 0.7167669684840067,
+      "y": 6.640044321458116
     },
-    "rotation": -60.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -43,7 +43,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SubSource-M5"
+                  "pathName": "SubAmp - M2"
                 }
               },
               {
@@ -74,7 +74,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M5-Score"
+                  "pathName": "M2-Score"
                 }
               },
               {
@@ -136,7 +136,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Score-M4"
+                  "pathName": "Score - M3"
                 }
               },
               {
@@ -146,75 +146,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "VisionPickUp"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PickUpStop"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "M4-Shoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ZeroAll"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoAlignWrist"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "FeederReverse"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EnableSpeakerRotationOverride"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootWhenReady"
           }
         }
       ]

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.927389037678735,
-        "y": 7.0198259161342
+        "x": 0.7694657329400232,
+        "y": 6.628333484912334
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8460156905574707,
-        "y": 6.961702096763117
+        "x": 2.397272012803653,
+        "y": 5.925683292165444
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.271155311541392,
-        "y": 6.501949869996606
+        "x": 7.819389333500492,
+        "y": 5.843707436344972
       },
       "prevControl": {
-        "x": 2.294543620426272,
-        "y": 6.5136440244390466
+        "x": 6.9879199387500055,
+        "y": 6.686887667641241
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 30.0,
+    "rotation": -9.926245506651878,
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "SubAmp C1",
+  "folder": "SubAmp Midfield",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 59.23728046576106,
     "velocity": 0
   },
   "useDefaultConstraints": true

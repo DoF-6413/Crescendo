@@ -13,11 +13,8 @@
 
 package frc.robot;
 
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -29,10 +26,6 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.CommandConstants;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.PathFindingConstants;
-import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCenter;
@@ -42,8 +35,8 @@ import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ReverseNote;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootAtAngle;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootWhenReady;
-import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
 import frc.robot.Commands.TeleopCommands.AmpScore.Backside.PositionAmpScoreBackside;
+import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
 import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
 import frc.robot.Commands.TeleopCommands.Intakes.ShooterRev;
 import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
@@ -57,6 +50,10 @@ import frc.robot.Commands.VisionCommands.AlignToNote;
 import frc.robot.Commands.VisionCommands.VisionPickUp;
 // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Commands.ZeroCommands.ZeroAll;
+import frc.robot.Constants.CommandConstants;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.PathFindingConstants;
+import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.actuator.Actuator;
 import frc.robot.Subsystems.actuator.ActuatorIO;
 import frc.robot.Subsystems.actuator.ActuatorIOSim;
@@ -99,6 +96,7 @@ import frc.robot.Subsystems.wrist.WristIOSparkMax;
 import frc.robot.Utils.BeamBreak;
 import frc.robot.Utils.PathPlanner;
 import frc.robot.Utils.PoseEstimator;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -528,9 +526,11 @@ public class RobotContainer {
     // 5+ Piece
     autoChooser.addOption("5 Piece Left Sub Midfield", new PathPlannerAuto("5P Midfield"));
 
-    autoChooser.addOption("2 Piece Source Sub Midfield", new PathPlannerAuto("2P SubSource Preload+M5"));
+    autoChooser.addOption(
+        "2 Piece Source Sub Midfield", new PathPlannerAuto("2P SubSource Preload+M5"));
 
-    autoChooser.addOption("3 Piece Source Sub Mid Field", new PathPlannerAuto("3P SubSource Midfield"));
+    autoChooser.addOption(
+        "3 Piece Source Sub Mid Field", new PathPlannerAuto("3P SubSource Midfield"));
 
     autoChooser.addOption("2 Piece Amp Sub Midfield", new PathPlannerAuto("SubAmp-M1"));
 
