@@ -532,14 +532,14 @@ public class RobotContainer {
     autoChooser.addOption("5 Piece Left Sub Midfield", new PathPlannerAuto("5P Midfield"));
 
     autoChooser.addOption(
-        "2 Piece Source Sub Midfield", new PathPlannerAuto("2P SubSource Preload+M5"));
+        "2 Piece Source Sub Midfield", new PathPlannerAuto("2P SubSource-M5 (V)"));
 
     autoChooser.addOption(
-        "3 Piece Source Sub Mid Field", new PathPlannerAuto("3P SubSource Midfield"));
+        "3 Piece Source Sub Mid Field", new PathPlannerAuto("3P SubSource-M4-M5 (V)"));
 
-    autoChooser.addOption("2 Piece Amp Sub Midfield", new PathPlannerAuto("SubAmp-M1"));
+    autoChooser.addOption("2 Piece Amp Sub Midfield", new PathPlannerAuto("2P SubAmp-M1 (V)"));
 
-    autoChooser.addOption("3 Piece Amp sub Midfield", new PathPlannerAuto("3P SubAmp Midfield"));
+    autoChooser.addOption("3 Piece Amp sub Midfield", new PathPlannerAuto("3P SubAmp-M1-M2 (V)"));
     // autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
     // Deadreckoned
     // autoChooser.addOption(
