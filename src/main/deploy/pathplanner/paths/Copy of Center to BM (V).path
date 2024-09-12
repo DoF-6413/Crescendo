@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5,
+        "x": 1.3135113329050188,
         "y": 5.576267387828894
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5,
-        "y": 5.576267387828894
+        "x": 1.353279718095596,
+        "y": 5.606573749196334
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.35,
-        "y": 5.58
+        "x": 2.7272273347965497,
+        "y": 6.653973877748326
       },
       "prevControl": {
-        "x": 2.35,
-        "y": 5.58
+        "x": 2.6880444300114297,
+        "y": 6.622914258101585
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,8 +39,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": 60.376251248826144,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Puzzle Pieces Vision",
