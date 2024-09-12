@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3135113329050188,
-      "y": 5.576267387828894
+      "x": 0.7167669684840067,
+      "y": 4.438407050851191
     },
-    "rotation": 0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
@@ -43,7 +43,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Center to BL (V)"
+                  "pathName": "Source to BL (V)"
                 }
               },
               {
@@ -83,7 +83,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BL to Center (V)"
+            "pathName": "BL to Source (V)"
           }
         },
         {

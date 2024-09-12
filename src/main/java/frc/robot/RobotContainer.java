@@ -431,6 +431,10 @@ public class RobotContainer {
         "ShootWhenReady",
         new ShootWhenReady(
             m_shooterSubsystem, m_feederSubsystem, m_beamBreak, ShooterConstants.MID_RANGE_RPM));
+    NamedCommands.registerCommand(
+        "SpitNote",
+        new ShootWhenReady(
+            m_shooterSubsystem, m_feederSubsystem, m_beamBreak, ShooterConstants.MIDFIELD_FEEDING_RPM));
 
     // Zero Commands
     NamedCommands.registerCommand(
