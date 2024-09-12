@@ -133,7 +133,7 @@ public class PoseEstimator extends SubsystemBase {
 
       Optional<EstimatedRobotPose> leftPose = visionPoseEstimatorLeft.update();
       Optional<EstimatedRobotPose> rightPose = visionPoseEstimatorRight.update();
-      
+
       // Saves pipeline results from left camera if present
       tempPipelineResult = cameraLeft.getLatestResult();
       if (tempPipelineResult.hasTargets()) {
@@ -142,14 +142,14 @@ public class PoseEstimator extends SubsystemBase {
         fiducialIDLeft = tempTarget.getFiducialId();
         poseAmbiguityLeft = tempTarget.getPoseAmbiguity();
       }
-      
+
       // Saves pipeline results from right camera if present
       tempPipelineResult = cameraRight.getLatestResult();
       if (tempPipelineResult.hasTargets()) {
         hasTargetsRight = tempPipelineResult.hasTargets();
         tempTarget = tempPipelineResult.getBestTarget();
-          fiducialIDRight = tempTarget.getFiducialId();
-          poseAmbiguityRight = tempTarget.getPoseAmbiguity();
+        fiducialIDRight = tempTarget.getFiducialId();
+        poseAmbiguityRight = tempTarget.getPoseAmbiguity();
       }
 
       if (!hasTargetsLeft && !hasTargetsRight) {

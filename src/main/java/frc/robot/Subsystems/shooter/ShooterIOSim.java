@@ -31,8 +31,7 @@ public class ShooterIOSim implements ShooterIO {
 
     inputs.bottomShooterMotorRPM = bottomShooterFlywheel.getAngularVelocityRPM();
     inputs.bottomShooterAppliedVolts = 0.0;
-    inputs.bottomShooterCurrentAmps =
-        Math.abs(bottomShooterFlywheel.getCurrentDrawAmps());
+    inputs.bottomShooterCurrentAmps = Math.abs(bottomShooterFlywheel.getCurrentDrawAmps());
   }
 
   @Override

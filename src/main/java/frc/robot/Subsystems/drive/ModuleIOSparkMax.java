@@ -40,7 +40,8 @@
 //             new CANSparkMax(DriveConstants.DRIVE_MOTOR.FRONT_RIGHT.CAN_ID, MotorType.kBrushless);
 //         turnSparkMax =
 //             new CANSparkMax(DriveConstants.TURN_MOTOR.FRONT_RIGHT.CAN_ID, MotorType.kBrushless);
-//         turnAbsoluteEncoder = new CANcoder(DriveConstants.ABSOLUTE_ENCODER.FRONT_RIGHT.ENCODER_ID);
+//         turnAbsoluteEncoder = new
+// CANcoder(DriveConstants.ABSOLUTE_ENCODER.FRONT_RIGHT.ENCODER_ID);
 //         absoluteEncoderOffset = DriveConstants.L2_ABSOLUTE_ENCODER_OFFSET_RAD.FRONT_RIGHT.OFFSET;
 //         break;
 //       case 1:
@@ -48,7 +49,8 @@
 //             new CANSparkMax(DriveConstants.DRIVE_MOTOR.FRONT_LEFT.CAN_ID, MotorType.kBrushless);
 //         turnSparkMax =
 //             new CANSparkMax(DriveConstants.TURN_MOTOR.FRONT_LEFT.CAN_ID, MotorType.kBrushless);
-//         turnAbsoluteEncoder = new CANcoder(DriveConstants.ABSOLUTE_ENCODER.FRONT_LEFT.ENCODER_ID);
+//         turnAbsoluteEncoder = new
+// CANcoder(DriveConstants.ABSOLUTE_ENCODER.FRONT_LEFT.ENCODER_ID);
 //         absoluteEncoderOffset = DriveConstants.L2_ABSOLUTE_ENCODER_OFFSET_RAD.FRONT_LEFT.OFFSET;
 //         break;
 //       case 2:
@@ -64,7 +66,8 @@
 //             new CANSparkMax(DriveConstants.DRIVE_MOTOR.BACK_RIGHT.CAN_ID, MotorType.kBrushless);
 //         turnSparkMax =
 //             new CANSparkMax(DriveConstants.TURN_MOTOR.BACK_RIGHT.CAN_ID, MotorType.kBrushless);
-//         turnAbsoluteEncoder = new CANcoder(DriveConstants.ABSOLUTE_ENCODER.BACK_RIGHT.ENCODER_ID);
+//         turnAbsoluteEncoder = new
+// CANcoder(DriveConstants.ABSOLUTE_ENCODER.BACK_RIGHT.ENCODER_ID);
 //         absoluteEncoderOffset = DriveConstants.L2_ABSOLUTE_ENCODER_OFFSET_RAD.BACK_RIGHT.OFFSET;
 //         break;
 //       default:
@@ -113,7 +116,8 @@
 //    */
 //   public void updateInputs(ModuleIOInputs inputs) {
 //     inputs.drivePositionRad =
-//         Units.rotationsToRadians(driveRelativeEncoder.getPosition() / DriveConstants.GEAR_RATIO_L2);
+//         Units.rotationsToRadians(driveRelativeEncoder.getPosition() /
+// DriveConstants.GEAR_RATIO_L2);
 
 //     inputs.driveVelocityRadPerSec =
 //         Units.rotationsPerMinuteToRadiansPerSecond(driveRelativeEncoder.getVelocity())

@@ -24,7 +24,10 @@ public class AimShooter extends Command {
   public CommandXboxController controller;
   public BeamBreak beamBreak;
 
-  /** Auto Aligns the Wrist to the SPEAKER while also activating the Shooter. This command should only be used in teleop since it ends based on a controller input */
+  /**
+   * Auto Aligns the Wrist to the SPEAKER while also activating the Shooter. This command should
+   * only be used in teleop since it ends based on a controller input
+   */
   public AimShooter(
       Arm arm,
       Wrist wrist,
@@ -32,8 +35,7 @@ public class AimShooter extends Command {
       Feeder feeder,
       PoseEstimator pose,
       BeamBreak beamBreak,
-      CommandXboxController controller
-      ) {
+      CommandXboxController controller) {
     this.shooter = shooter;
     this.wrist = wrist;
     this.arm = arm;

@@ -160,7 +160,8 @@ public class Wrist extends SubsystemBase {
     }
     // Y Distance from the center of the SPEAKER
     double deltaY = Math.abs(robotPose.getY() - FieldConstants.SPEAKER_Y);
-    // Hypotenuse of the x and y components to find the actual distance from the center of the SPEAKER
+    // Hypotenuse of the x and y components to find the actual distance from the center of the
+    // SPEAKER
     double speakerDist = Math.hypot(deltaX, deltaY);
 
     // Defaults angle to 0 degrees if robot's distance is outside the range of tested values in the
