@@ -482,6 +482,7 @@ public class RobotContainer {
     // 4 Piece
     autoChooser.addOption("4 Piece Vision", new PathPlannerAuto("4P Vision"));
     autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center 5"));
+    autoChooser.addOption("2 Piece Test", new PathPlannerAuto("Copy of 2P Center"));
     // Deadreckoned
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
