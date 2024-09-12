@@ -28,7 +28,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCenter;
-import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.TwoPieceReturnSub;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.BeamBreakPickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
@@ -341,20 +340,6 @@ public class RobotContainer {
     // 2 Piece
     // autoChooser.addOption("2 Piece Vision", new PathPlannerAuto("2P Vision"));
     autoChooser.addOption("2 Piece (Vision)", new PathPlannerAuto("2P Vision 2.0"));
-    autoChooser.addOption(
-        "2 Piece (Return Sub)",
-        new TwoPieceReturnSub(
-            m_driveSubsystem,
-            m_gyroSubsystem,
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
-            m_utbIntakeSubsystem,
-            m_armSubsystem,
-            m_wristSubsystem,
-            m_shooterSubsystem,
-            m_feederSubsystem,
-            2,
-            1));
     // 3 Piece
     autoChooser.addOption("3 Piece (Vision)", new PathPlannerAuto("3P Vision"));
     // 4 Piece
