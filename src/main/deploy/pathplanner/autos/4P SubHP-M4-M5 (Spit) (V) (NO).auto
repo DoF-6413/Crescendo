@@ -12,9 +12,16 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "DisableSpeakerRotationOverride"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpitNote"
+                }
+              }
+            ]
           }
         },
         {
@@ -24,7 +31,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SubHumanPlayer - M5"
+                  "pathName": "SubHP - M4"
                 }
               },
               {
@@ -55,7 +62,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M5 - Spit"
+                  "pathName": "M4 - Spit"
                 }
               },
               {
@@ -65,6 +72,37 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpitNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M4Spit - M3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M3 - Spit"
           }
         },
         {
@@ -87,25 +125,31 @@
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 0.1
+            "pathName": "M3Spit - M2"
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
+          "data": {
+            "pathName": "M2 - Spit"
+          }
+        },
+        {
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "M5Spit - M4"
+                  "name": "FeederReverse"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "ZeroAll"
+                  "name": "SpitNote"
                 }
               }
             ]
