@@ -28,7 +28,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCenter;
-import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.BeamBreakPickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ReverseNote;
@@ -294,10 +293,6 @@ public class RobotContainer {
             m_otbIntakeSubsystem,
             m_utbIntakeSubsystem,
             CommandConstants.STOP_INTAKE));
-    NamedCommands.registerCommand(
-        "BeamBreakPickUp",
-        new BeamBreakPickUp(
-            m_utbIntakeSubsystem, m_shooterSubsystem, m_feederSubsystem, m_beamBreak));
 
     // Zero Commands
     NamedCommands.registerCommand(

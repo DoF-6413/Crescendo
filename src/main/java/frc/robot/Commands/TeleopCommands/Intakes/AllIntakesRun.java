@@ -7,11 +7,14 @@ package frc.robot.Commands.TeleopCommands.Intakes;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.Subsystems.actuator.*;
+import frc.robot.Subsystems.actuator.Actuator;
+import frc.robot.Subsystems.actuator.ActuatorConstants;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.feeder.FeederConstants;
-import frc.robot.Subsystems.otbIntake.*;
-import frc.robot.Subsystems.utbintake.*;
+import frc.robot.Subsystems.otbIntake.OTBIntake;
+import frc.robot.Subsystems.otbIntake.OTBIntakeConstants;
+import frc.robot.Subsystems.utbintake.UTBIntake;
+import frc.robot.Subsystems.utbintake.UTBIntakeConstants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,7 +25,7 @@ public class AllIntakesRun extends ParallelCommandGroup {
   private double feederRPM;
   private double actuatorPosition;
 
-  /** Lowers OTB Intake and runs both Intakes to intake/outtake depending on isInwards */
+  /** Lowers OTB Intake and runs both Intakes to intake a NOTE */
   public AllIntakesRun(
       Actuator actuator, OTBIntake otbIntake, UTBIntake utbIntake, Feeder feeder, boolean stop) {
 
@@ -32,8 +35,8 @@ public class AllIntakesRun extends ParallelCommandGroup {
       feederRPM = 0;
       actuatorPosition = ActuatorConstants.MIN_ANGLE_RADS;
     } else {
-      otbIntakePercentSpeed = -0.30;
-      utbIntakePercentSpeed = -1.0;
+      otbIntakePercentSpeed = OTBIntakeConstants.INTAKE_PERCENT_SPEED;
+      utbIntakePercentSpeed = UTBIntakeConstants.INTAKE_PERCENT_SPEED;
       feederRPM = FeederConstants.INTAKE_RPM;
       actuatorPosition = ActuatorConstants.MAX_ANGLE_RADS;
     }

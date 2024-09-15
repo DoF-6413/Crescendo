@@ -14,4 +14,8 @@ public final class UTBIntakeConstants {
   public static final double GEAR_RATIO = 2.0;
   /** Sets the inversion status of the UTB Intake motor */
   public static final boolean IS_INVERTED = false;
+  /** Speed of the UTB Intake when intaking */
+  public static final double INTAKE_PERCENT_SPEED = -1;
+  /** Speed of the UTB Intake when outtaking */
+  public static final double OUTTAKE_PERCENT_SPEED = 1;
 }

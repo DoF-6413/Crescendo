@@ -31,7 +31,7 @@ public class OnePieceAuto extends SequentialCommandGroup {
         Commands.runOnce(
             () -> {
               arm.setGoal(ArmConstants.SUBWOOFER_RAD);
-              wrist.setGoal(WristConstants.SUBWOOFER_RAD + Units.degreesToRadians(1));
+              wrist.setGoal(WristConstants.SUBWOOFER_RAD);
               shooter.setSetpoint(ShooterConstants.CLOSE_RPM);
             },
             arm,

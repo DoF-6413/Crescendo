@@ -62,7 +62,7 @@ public final class WristConstants {
   /** SOURCE Pickup back side */
   public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(140.7604);
   /** SPEAKER shot from subwoofer */
-  public static final double SUBWOOFER_RAD = Units.degreesToRadians(32);
+  public static final double SUBWOOFER_RAD = Units.degreesToRadians(33);
   /** SPEAKER shot from PODIUM */
   public static final double PODIUM_RAD = Units.degreesToRadians(14.3886);
   /** SPEAKER shot configuration from the PODIUM to score over "billboard-bots" */
