@@ -18,7 +18,7 @@ import frc.robot.Subsystems.wrist.WristConstants;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ArmToZero extends SequentialCommandGroup {
   /** Creates a new ArmToZero. */
-  public ArmToZero(Wrist wrist, Arm arm) {
+  public ArmToZero(Arm arm, Wrist wrist) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -28,7 +28,7 @@ public class ArmToZero extends SequentialCommandGroup {
             },
             wrist),
         // new WaitUntilCommand(() -> wrist.atGoal()),
-        new WaitCommand(0.75), // scuffed T-T
+        new WaitCommand(0.75), // TODO: Test with atGoal
         Commands.runOnce(
             () -> {
               arm.setGoal(Units.degreesToRadians(0.0));

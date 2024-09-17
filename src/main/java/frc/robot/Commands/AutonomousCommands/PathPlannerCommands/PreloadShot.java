@@ -28,7 +28,7 @@ public class PreloadShot extends SequentialCommandGroup {
    * Squential Command Group used to shoot preloaded NOTEs at the beginning of autos at the
    * subwoofer. This assumes the NOTE is clear of the Shooter Flywheels
    */
-  public PreloadShot(Feeder feeder, Shooter shooter, Wrist wrist, Arm arm, double RPM) {
+  public PreloadShot(Arm arm, Wrist wrist, Shooter shooter, Feeder feeder, double RPM) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

@@ -4,6 +4,7 @@
 
 package frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -22,7 +23,7 @@ import frc.robot.Subsystems.wrist.WristConstants;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class OnePieceAuto extends SequentialCommandGroup {
   /** Creates a new OnePieceAuto. */
-  public OnePieceAuto(Wrist wrist, Arm arm, Feeder feeder, Shooter shooter) {
+  public OnePieceAuto(Arm arm, Wrist wrist, Shooter shooter, Feeder feeder) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

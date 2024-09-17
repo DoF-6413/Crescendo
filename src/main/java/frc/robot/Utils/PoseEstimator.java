@@ -31,16 +31,16 @@ public class PoseEstimator extends SubsystemBase {
    * Increase the numbers to trust the model's state estimate less it is a matrix in form of [x, y,
    * theta] or meters, meters, radians
    */
-  public static Vector<N3> stateStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+  public static final Vector<N3> stateStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
 
   /**
    * increase the numbers to trust the vision measurements less also in form [x, y, theta] or
    * meters, meters, radians
    */
-  public static Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+  public static final Vector<N3> visionMeasurementStandardDevs = VecBuilder.fill(0.1, 0.1, 0.1);
 
-  private Drive drive;
-  private Gyro gyro;
+  private final Drive drive;
+  private final Gyro gyro;
 
   private final SwerveDrivePoseEstimator poseEstimator;
   private final PhotonPoseEstimator visionPoseEstimatorLeft;
@@ -60,7 +60,6 @@ public class PoseEstimator extends SubsystemBase {
   private int fiducialIDRight = 0;
   private boolean hasTargetsLeft = false;
   private boolean hasTargetsRight = false;
-  // private VisionUpdatePlan visionUpdatePlan;
 
   private boolean enable = true;
 
@@ -128,24 +127,27 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.updateWithTime(timestamp, drive.getRotation(), drive.getSwerveModulePositions());
 
     // counter++;
-    // if (enable && counter % cyclesPerUpdate == 0) {
-    if (enable) {
+    // if (enable && counter % cyclesPerUpdate == 0 && RobotStateConstants.getMode() ==
+    // RobotStateConstants.Mode.REAL) {
+    if (enable && RobotStateConstants.getMode() == RobotStateConstants.Mode.REAL) {
 
       Optional<EstimatedRobotPose> leftPose = visionPoseEstimatorLeft.update();
       Optional<EstimatedRobotPose> rightPose = visionPoseEstimatorRight.update();
 
-      if (cameraLeft.getLatestResult().hasTargets()) {
-        tempPipelineResult = cameraLeft.getLatestResult();
-        tempTarget = tempPipelineResult.getBestTarget();
+      // Saves pipeline results from left camera if present
+      tempPipelineResult = cameraLeft.getLatestResult();
+      if (tempPipelineResult.hasTargets()) {
         hasTargetsLeft = tempPipelineResult.hasTargets();
+        tempTarget = tempPipelineResult.getBestTarget();
         fiducialIDLeft = tempTarget.getFiducialId();
         poseAmbiguityLeft = tempTarget.getPoseAmbiguity();
       }
 
-      if (cameraRight.getLatestResult().hasTargets()) {
-        tempPipelineResult = cameraRight.getLatestResult();
-        tempTarget = tempPipelineResult.getBestTarget();
+      // Saves pipeline results from right camera if present
+      tempPipelineResult = cameraRight.getLatestResult();
+      if (tempPipelineResult.hasTargets()) {
         hasTargetsRight = tempPipelineResult.hasTargets();
+        tempTarget = tempPipelineResult.getBestTarget();
         fiducialIDRight = tempTarget.getFiducialId();
         poseAmbiguityRight = tempTarget.getPoseAmbiguity();
       }
@@ -200,74 +202,6 @@ public class PoseEstimator extends SubsystemBase {
             poseEstimator.addVisionMeasurement(rightPose.get().estimatedPose.toPose2d(), timestamp);
           }
         }
-
-        // if (!hasTargetsLeft && !hasTargetsRight) {
-        //   visionUpdatePlan = VisionUpdatePlan.NONE;
-        // } else if (hasTargetsLeft && hasTargetsRight) {
-        //   visionUpdatePlan = VisionUpdatePlan.BOTH;
-        // } else if (hasTargetsLeft) {
-        //   visionUpdatePlan = VisionUpdatePlan.LEFT;
-        // } else {
-        //   visionUpdatePlan = VisionUpdatePlan.RIGHT;
-        // }
-
-        // switch (visionUpdatePlan) {
-        //   case BOTH:
-        //     if (prevTimestamp != timestamp) {
-        //       prevTimestamp = timestamp;
-
-        //       if (leftPose.isPresent()
-        //           && rightPose.isPresent()
-        //           && poseAmbiguityLeft < 0.2
-        //           && poseAmbiguityLeft > 0.0
-        //           && poseAmbiguityRight < 0.2
-        //           && poseAmbiguityRight > 0.0
-        //           && fiducialIDLeft >= 1
-        //           && fiducialIDLeft <= 16
-        //           && fiducialIDRight >= 1
-        //           && fiducialIDRight <= 16) {
-        //         poseEstimator.addVisionMeasurement(
-        //             averageVisionPoses(
-        //                 leftPose.get().estimatedPose.toPose2d(),
-        //                 rightPose.get().estimatedPose.toPose2d()),
-        //             timestamp);
-        //       }
-        //     }
-        //     break;
-
-        //   case LEFT:
-        //     if (prevTimestamp != timestamp) {
-        //       prevTimestamp = timestamp;
-
-        //       if (leftPose.isPresent()
-        //           && poseAmbiguityLeft < 0.2
-        //           && poseAmbiguityLeft > 0.0
-        //           && fiducialIDLeft >= 1
-        //           && fiducialIDLeft <= 16) {
-        //         poseEstimator.addVisionMeasurement(
-        //             leftPose.get().estimatedPose.toPose2d(), timestamp);
-        //       }
-        //     }
-        //     break;
-
-        //   case RIGHT:
-        //     if (prevTimestamp != timestamp) {
-        //       prevTimestamp = timestamp;
-
-        //       if (rightPose.isPresent()
-        //           && poseAmbiguityRight < 0.2
-        //           && poseAmbiguityRight > 0.0
-        //           && fiducialIDRight >= 1
-        //           && fiducialIDRight <= 16) {
-        //         poseEstimator.addVisionMeasurement(
-        //             rightPose.get().estimatedPose.toPose2d(), timestamp);
-        //       }
-        //     }
-        //     break;
-
-        //   case NONE:
-        //     break;
-        //   }
       }
     }
   }
@@ -282,7 +216,7 @@ public class PoseEstimator extends SubsystemBase {
   /**
    * Resets the pose
    *
-   * @param currentPose2d
+   * @param currentPose2d Position to set the robot to
    */
   public void resetPose(Pose2d currentPose2d) {
     poseEstimator.resetPosition(gyro.getAngle(), drive.getSwerveModulePositions(), currentPose2d);

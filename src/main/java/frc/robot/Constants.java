@@ -82,6 +82,7 @@ public final class Constants {
     public static final int DEV_CONTROLLER = 2;
   }
 
+  /** Field Measurements */
   public final class FieldConstants {
     // all in meters
     public static final double BLUE_SPEAKER_X = 0.23;
@@ -97,12 +98,16 @@ public final class Constants {
     public static final double KD = 100.0;
   }
 
-  /** Auto-aiming shooting */
+  /** Wrist to SPEAKER alignment lookup table */
   public static class ShootingInterpolationConstants {
 
     /** Distance from the center subwoofer to the wall */
     public static final double SPEAKER_TO_WALL_M = 0.904;
 
+    /**
+     * Creates a table with distance from the SPEAKER as the x variable and the Wrist angle as the
+     * output
+     */
     public static final double[][] LOOKUP_TABLE_X_M_VS_THETA_DEG = {
       // from tests
       {
@@ -113,20 +118,18 @@ public final class Constants {
         2.5 + SPEAKER_TO_WALL_M,
         3 + SPEAKER_TO_WALL_M
       }, // x in meters
-      // {32, 20, 13, 9, 4, 2, -2, -4, -4, -6}, // theta_max_degrees
-      // {24, 15, 8, 5, 2, -1, -3, -4, -4, -6} // theta_min_degrees
-      // {38, 24, 17, 15, 10, 8, 5, 8, 1}, // theta_max_degrees
-      // {28, 18, 15, 13, 8, 5, 3, 6, -1} // theta_min_degrees
       /* Angles tested and collected 8-24-2024 */
       {31, 21, 15.5, 11, 8, 2}, // theta_max_degrees
       {23, 15, 10.5, 8, 4.25, 0} // theta_min_degrees
     };
   }
 
+  /** Beam Break DIO Ports */
   public static class BeamBreakConstants {
     public static final int SHOOTER_BEAM_BREAK_PORT = 0;
   }
 
+  /** Constants used for various commands */
   public static class CommandConstants {
     // Intakes Run
     /** Runs the Intake(s) to intake NOTEs into the robot */
@@ -173,6 +176,7 @@ public final class Constants {
     /** The name of the Lime Light camera */
     public static final String LIME_LIGHT_NAME = "limelight";
 
+    // Photon Camera names
     public static final String LEFT_CAMERA_NAME = "Back_Left";
     public static final String RIGHT_CAMERA_NAME = "Back_Right";
 
@@ -181,21 +185,25 @@ public final class Constants {
      * alignment
      */
     public static final double LL_NOTE_RANGE = 10;
-
-    public static enum VisionUpdatePlan {
-      BOTH,
-      LEFT,
-      RIGHT,
-      NONE
-    }
   }
 
-  /** Contants for PathPlanner Path Finding */
-  public static class PathFindingConstants {
+  /** Contants for PathPlanner and Path Finding */
+  public static class PathPlannerConstants {
+    public static final double TRANSLATION_KP = 1.2;
+    public static final double TRANSLATION_KD = 0.2;
+    public static final double ROTATION_KP = 0.3125;
+    public static final double ROTATION_KD = 0.025;
+
+    // PathFinding
+    /**
+     * Max translational and rotational speed and acceleration used for PathPlanner's PathFinding
+     */
     public static final PathConstraints DEFAULT_PATH_CONSTRAINTS =
         new PathConstraints(3, 3, Units.degreesToRadians(515.65), Units.degreesToRadians(262.82));
+    /** Position to align the robot with the AMP in the Blue Wing */
     public static final Pose2d AMP_BLUE_END_POSE =
         new Pose2d(1.85, 7.69, new Rotation2d(Units.degreesToRadians(-90)));
+    /** Position to align the robot with the AMP in the Red Wing */
     public static final Pose2d AMP_RED_END_POSE =
         new Pose2d(14.69, 7.69, new Rotation2d(Units.degreesToRadians(-90)));
   }

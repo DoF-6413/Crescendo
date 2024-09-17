@@ -8,16 +8,13 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.CommandConstants;
-import frc.robot.Constants.VisionConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Utils.BeamBreak;
-import frc.robot.Utils.LimelightHelpers;
 
 public class DriveToNote extends Command {
   private Drive drive;
   private BeamBreak beamBreak;
   private Timer timer;
-  double TX;
   double x;
   double y;
   double rotSpeed;
@@ -30,28 +27,24 @@ public class DriveToNote extends Command {
     this.y = y;
     this.rotSpeed = rotSpeed;
 
-    addRequirements(drive, beamBreak);
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    TX = 0.0;
     timer = new Timer();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    TX = LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME);
-
     if (SmartDashboard.getBoolean("Is Note Picked Up", false) == true) {
       timer.reset();
       timer.start();
     }
 
     drive.driveWithNoteDetection(x, y, rotSpeed);
-    System.out.println("{}{}{}{}{}DRIVING{}{}{}{}{}");
   }
 
   // Called once the command ends or is interrupted.

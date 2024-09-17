@@ -13,22 +13,19 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.PathFindingConstants;
+import frc.robot.Constants.PathPlannerConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.DriveConstants;
-import frc.robot.Subsystems.gyro.Gyro;
 
 /** Add your docs here. */
 public class PathPlanner extends SubsystemBase {
   private Drive drive;
   private PoseEstimator pose;
-  private Gyro gyro;
 
   private boolean speakerRotOverride = false;
   private boolean noteRotOverride = false;
-  private boolean headingControllerOverride = false;
 
-  public PathPlanner(Drive drive, PoseEstimator pose, Gyro gyro) {
+  public PathPlanner(Drive drive, PoseEstimator pose) {
     this.drive = drive;
     this.pose = pose;
 
@@ -38,10 +35,9 @@ public class PathPlanner extends SubsystemBase {
         drive::getChassisSpeed,
         drive::runVelocity,
         new HolonomicPathFollowerConfig(
-            // new PIDConstants(16, 0, 0.25),
-            // new PIDConstants(0.25, 0, 0.025),
-            new PIDConstants(1.2, 0, 0.2),
-            new PIDConstants(0.3125, 0, 0.025),
+            new PIDConstants(
+                PathPlannerConstants.TRANSLATION_KD, 0, PathPlannerConstants.TRANSLATION_KD),
+            new PIDConstants(PathPlannerConstants.ROTATION_KP, 0, PathPlannerConstants.ROTATION_KD),
             DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
             DriveConstants
                 .DRIVE_BASE_RADIUS_M, // Drive base radius in meters. Distance from robot center to
@@ -69,10 +65,6 @@ public class PathPlanner extends SubsystemBase {
     if (noteRotOverride) {
       PPHolonomicDriveController.setRotationTargetOverride(drive::noteAlignmentRotationOverride);
     }
-
-    if (headingControllerOverride) {
-      PPHolonomicDriveController.setRotationTargetOverride(gyro::updateRotation2d);
-    }
   }
 
   /**
@@ -93,20 +85,15 @@ public class PathPlanner extends SubsystemBase {
     speakerRotOverride = enable;
   }
 
-  public void enableHeadingAlignment(boolean enable) {
-    headingControllerOverride = enable;
-  }
-
-  // public Command followPath(PathPlannerPath path) {
-  //   return AutoBuilder.followPath(path);
-  // }
-
   /**
    * Creates a command that drives the robot to the inputed position
    *
    * @param targetPose Pose2d of where the robot should end up
    */
   public Command pathFindToPose(Pose2d targetPose) {
-    return AutoBuilder.pathfindToPose(targetPose, PathFindingConstants.DEFAULT_PATH_CONSTRAINTS, 0);
+    // The pose to pathfind to
+    // The constraints to use while pathfinding
+    // The goal end velocity of the robot when reaching the target pose
+    return AutoBuilder.pathfindToPose(targetPose, PathPlannerConstants.DEFAULT_PATH_CONSTRAINTS, 0);
   }
 }

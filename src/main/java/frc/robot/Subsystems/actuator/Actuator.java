@@ -95,7 +95,7 @@ public class Actuator extends SubsystemBase {
    * @return The current ouputs of the Actuator in amps
    */
   public double getOutputCurrent() {
-    return inputs.actuatorCurrentAmps[0];
+    return inputs.actuatorCurrentAmps;
   }
 
   /** Resets the current position of the Actuator to be the new zero position */

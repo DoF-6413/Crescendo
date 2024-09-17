@@ -26,9 +26,9 @@ public interface ModuleIO {
      */
     public double driveVelocityRadPerSecAbs = Math.abs(0.0);
     /** The Current Drawn from the Propulsion Motor in Amps */
-    public double[] driveCurrentAmps = new double[] {};
+    public double driveCurrentAmps = 0;
     /** The tempature of the Propulsion Motor in Celsius */
-    public double[] driveTempCelsius = new double[] {};
+    public double driveTempCelsius = 0;
 
     /** This returns the voltage the Steer Motor Recieves */
     public double turnAppliedVolts = 0.0;
@@ -42,9 +42,9 @@ public interface ModuleIO {
     /** Returns the velocity of the Steer Motor by how many radians per second it has rotated */
     public double turnVelocityRadPerSec = 0.0;
     /** The Current Drawn from the Steer Motor in Amps */
-    public double[] turnCurrentAmps = new double[] {};
+    public double turnCurrentAmps = 0;
     /** The tempature of the Steer Motor in Celsius */
-    public double[] turnTempCelsius = new double[] {};
+    public double turnTempCelsius = 0;
   }
 
   /** Updates the set of loggable inputs. */

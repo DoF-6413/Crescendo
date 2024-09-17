@@ -45,6 +45,9 @@ public final class ArmConstants {
   /** The CAN ID of the Arm so it can be Identified on the CAN bus */
   public static final int CAN_ID = 19;
 
+  /** The Channel number of the Duty Cycle Encoder */
+  public static final int ENCODER_CHANNEL = 9;
+
   /** The Current Limit for the arm in Amps */
   public static final int CUR_LIM_A = 30;
 

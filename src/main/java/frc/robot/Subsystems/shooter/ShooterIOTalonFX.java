@@ -14,8 +14,6 @@ public class ShooterIOTalonFX implements ShooterIO {
   private final TalonFX topShooterMotor;
   private final TalonFX bottomShooterMotor;
 
-  // private final DigitalInput beambreak;
-
   public ShooterIOTalonFX() {
     System.out.println("[Init] Creating ShooterIOTalonFX");
 
@@ -39,8 +37,6 @@ public class ShooterIOTalonFX implements ShooterIO {
     bottomShooterMotor.getConfigurator().apply(currentLimitsConfig);
     currentLimitsConfig.withStatorCurrentLimitEnable(ShooterConstants.ENABLE_CUR_LIM);
     currentLimitsConfig.withSupplyCurrentLimitEnable(ShooterConstants.ENABLE_CUR_LIM);
-
-    // beambreak = new DigitalInput(0);
   }
 
   @Override
@@ -55,10 +51,8 @@ public class ShooterIOTalonFX implements ShooterIO {
     // Per Min
     // (Gear ratio is 1 so no need to divide the RPM by it)
     inputs.topShooterAppliedVolts = topShooterMotor.getMotorVoltage().getValueAsDouble();
-    inputs.topShooterCurrentAmps =
-        new double[] {topShooterMotor.getStatorCurrent().getValueAsDouble()};
-    inputs.topShooterTempCelsius =
-        new double[] {topShooterMotor.getDeviceTemp().getValueAsDouble()};
+    inputs.topShooterCurrentAmps = topShooterMotor.getStatorCurrent().getValueAsDouble();
+    inputs.topShooterTempCelsius = topShooterMotor.getDeviceTemp().getValueAsDouble();
     // Bottom Shooter Motor Inputs
     inputs.bottomShooterMotorRPM =
         bottomShooterMotor.getRotorVelocity().getValueAsDouble()
@@ -68,12 +62,8 @@ public class ShooterIOTalonFX implements ShooterIO {
     // Per Min
     // (Gear ratio is 1 so no need to divide the RPM by it)
     inputs.bottomShooterAppliedVolts = bottomShooterMotor.getMotorVoltage().getValueAsDouble();
-    inputs.bottomShooterCurrentAmps =
-        new double[] {bottomShooterMotor.getStatorCurrent().getValueAsDouble()};
-    inputs.bottomShooterTempCelsius =
-        new double[] {bottomShooterMotor.getDeviceTemp().getValueAsDouble()};
-
-    // inputs.beambreak = beambreak.get();
+    inputs.bottomShooterCurrentAmps = bottomShooterMotor.getStatorCurrent().getValueAsDouble();
+    inputs.bottomShooterTempCelsius = bottomShooterMotor.getDeviceTemp().getValueAsDouble();
   }
 
   @Override
