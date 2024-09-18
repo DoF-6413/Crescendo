@@ -454,19 +454,20 @@ public class RobotContainer {
   }
 
   /** Uses the current drawn by the UTB to determine if a NOTE has been picked up */
-  public void isNotePickedUp() {
-    if (m_utbIntakeSubsystem.getCurrentDraw() > 20 && m_utbIntakeSubsystem.getCurrentDraw() < 55) {
-      notePickUpCounter += 1;
-      if (notePickUpCounter >= 20) {
-        SmartDashboard.putBoolean("Is Note Picked Up", true);
-      }
-    } else if (driverController.rightBumper().getAsBoolean()
-        || auxController.a().getAsBoolean()
-        || (m_shooterSubsystem.getSetpoint() > 0 && m_feederSubsystem.getSetpoint() > 0)) {
-      notePickUpCounter = 0;
-      SmartDashboard.putBoolean("Is Note Picked Up", false);
-    }
-  }
+  //   public void isNotePickedUp() {
+  //     if (m_utbIntakeSubsystem.getCurrentDraw() > 20 && m_utbIntakeSubsystem.getCurrentDraw() <
+  // 55) {
+  //       notePickUpCounter += 1;
+  //       if (notePickUpCounter >= 20) {
+  //         SmartDashboard.putBoolean("Is Note Picked Up", true);
+  //       }
+  //     } else if (driverController.rightBumper().getAsBoolean()
+  //         || auxController.a().getAsBoolean()
+  //         || (m_shooterSubsystem.getSetpoint() > 0 && m_feederSubsystem.getSetpoint() > 0)) {
+  //       notePickUpCounter = 0;
+  //       SmartDashboard.putBoolean("Is Note Picked Up", false);
+  //     }
+  //   }
 
   /** Controller keybinds for the driver contoller port */
   public void driverControllerBindings() {
@@ -619,7 +620,7 @@ public class RobotContainer {
     // Backside
     auxController
         .rightBumper()
-        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem))
+        .onTrue(new PositionAmpScoreBackside(m_armSubsystem, m_wristSubsystem, m_feederSubsystem))
         .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem))
         .onFalse(
             new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
@@ -767,21 +768,33 @@ public class RobotContainer {
     // Shooter
     devController
         .leftTrigger()
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM), m_shooterSubsystem))
+        .onTrue(
+            new InstantCommand(
+                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM),
+                m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
     devController
         .rightTrigger()
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(ShooterConstants.MID_RANGE_RPM), m_shooterSubsystem))
+        .onTrue(
+            new InstantCommand(
+                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.MID_RANGE_RPM),
+                m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
     // Feeder (Retract)
     devController
         .x()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(FeederConstants.REVERSE_RPM), m_feederSubsystem))
+        .onTrue(
+            new InstantCommand(
+                () -> m_feederSubsystem.setSetpoint(FeederConstants.REVERSE_RPM),
+                m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
     // Feeder (Shoot out)
     devController
         .b()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM), m_feederSubsystem))
+        .onTrue(
+            new InstantCommand(
+                () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM),
+                m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
     // Arm (Up)
     devController
