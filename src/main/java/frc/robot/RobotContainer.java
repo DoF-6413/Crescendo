@@ -27,7 +27,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
-import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCenter;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ReverseNote;
@@ -327,9 +326,8 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "ZeroYaw", new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
 
-    /* PathPlanner Autos */
-    // Test Autos
-    // autoChooser.addOption("Auto1", new PathPlannerAuto("Auto1"));
+    /* Autos */
+    // ----------Test Autos----------
     // autoChooser.addOption("test1", new PathPlannerAuto("test1"));
     // autoChooser.addOption("test2", new PathPlannerAuto("test2"));
     // autoChooser.addOption("test3", new PathPlannerAuto("test3"));
@@ -338,192 +336,33 @@ public class RobotContainer {
     // autoChooser.addOption("Square Test", new PathPlannerAuto("Square"));
     // autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
-    // 2 Piece
-    // autoChooser.addOption("2 Piece Vision", new PathPlannerAuto("2P Vision"));
-    autoChooser.addOption("2 Piece (Vision)", new PathPlannerAuto("2P Vision 2.0"));
-    // 3 Piece
-    autoChooser.addOption("3 Piece (Vision)", new PathPlannerAuto("3P Vision"));
-    // 4 Piece
-    autoChooser.addOption("4 Piece (Vision)", new PathPlannerAuto("4P Vision"));
-    autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center 5"));
-    autoChooser.addOption("2 Piece Test", new PathPlannerAuto("Copy of 2P Center"));
-    /* Deadreckoned Autos */
+    // ----------0 Piece----------
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
+    // ----------1 Piece----------
     autoChooser.addDefaultOption(
         "One Piece",
         new OnePieceAuto(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    autoChooser.addOption(
-        "One Piece Leave Center",
-        new OnePieceLeaveCenter(
-            m_driveSubsystem,
-            m_gyroSubsystem,
-            m_armSubsystem,
-            m_wristSubsystem,
-            m_shooterSubsystem,
-            m_feederSubsystem,
-            3,
-            1
-            ));
-
-    /* Following autos have not been tested since at least Worlds */
-    // 2 Piece
-    // autoChooser.addDefaultOption("2 Piece Center", new PathPlannerAuto("2P Center"));
-    autoChooser.addOption("2 Piece Center 3.0", new PathPlannerAuto("Center 3"));
-    autoChooser.addOption("2 Piece Center (2x subwoofer shot)", new PathPlannerAuto("Center"));
-    autoChooser.addOption("2 Piece Center", new PathPlannerAuto("Center 2"));
-    autoChooser.addOption("2 Piece Amp", new PathPlannerAuto("2P Amp"));
-    autoChooser.addOption("2 Piece Cool Side", new PathPlannerAuto("2P Cool Side"));
+    // ----------2 Piece----------
+    autoChooser.addOption("2 Piece Center (V) (Return)", new PathPlannerAuto("2P SubCenter-C2-Sub (V)"));    
     autoChooser.addOption(
         "2 Piece Spit SubHP", new PathPlannerAuto("2P SubHP-M4-M5 (Spit) (V) (NO)"));
-    // 3 Piece
-    // autoChooser.addOption("3 Piece Center", new PathPlannerAuto("3P Center"));
-    // autoChooser.addOption("3 Piece Cool Side", new PathPlannerAuto("3P Cool Side"));
-    autoChooser.addOption("3 Piece Close Amp", new PathPlannerAuto("3P Center Amp"));
-    autoChooser.addOption("3 Piece Close Podium", new PathPlannerAuto("3P Center Podium"));
-
-    autoChooser.addOption(
-        "3 Piece SubSource Spit", new PathPlannerAuto("3P SubHP-M4-M5 (Spit) (V) (NO)"));
-    autoChooser.addOption("3 Piece Corner to Midfield", new PathPlannerAuto("3P Corner Mid Right"));
-    autoChooser.addOption("3 Piece Source Midfield", new PathPlannerAuto("3P Mid Right"));
-    autoChooser.addOption(
-        "3 Piece VISION Close Podium", new PathPlannerAuto("3P VIS Center Podium"));
-    
-    // autoChooser.addOption("Liz3Piece", new PathPlannerAuto("Liz2Piece"));
-    // 4 Piece
-    // autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center"));
-    // autoChooser.addOption("4 Piece Center 2.0", new PathPlannerAuto("4P Center 2"));
-    // autoChooser.addOption("4 Piece Center 3.0", new PathPlannerAuto("4P Center 3"));
-    // autoChooser.addOption("4 Piece Center 5.0", new PathPlannerAuto("4P Center 5"));
-    autoChooser.addOption("4 Piece Left Sub Midfield", new PathPlannerAuto("4P Midfield"));
-    autoChooser.addOption("4 Piece Center Midfield", new PathPlannerAuto("4P Center to Midfield"));
-    autoChooser.addOption("4 Piece SubSource Midfield M2-M5 (Displacement)", new PathPlannerAuto("4P SubSource M2-M5 (Displace)"));
-    // autoChooser.addOption(
-    //     "4 Piece Center Midfield Vision", new PathPlannerAuto("4P Center to Midfield (V)"));
-    // 5+ Piece
-    autoChooser.addOption("5 Piece Left Sub Midfield", new PathPlannerAuto("5P Midfield"));
-
     autoChooser.addOption(
         "2 Piece Source Sub Midfield", new PathPlannerAuto("2P SubSource-M5 (V)"));
-
+    autoChooser.addOption("2 Piece Amp Sub Midfield", new PathPlannerAuto("2P SubAmp-M1 (V)"));
+    // ----------3 Piece----------
+    autoChooser.addOption("3 Piece (Vision)", new PathPlannerAuto("3P Vision"));
+    autoChooser.addOption(
+        "3 Piece SubSource Spit", new PathPlannerAuto("3P SubHP-M4-M5 (Spit) (V) (NO)"));
     autoChooser.addOption(
         "3 Piece Source Sub Mid Field", new PathPlannerAuto("3P SubSource-M4-M5 (V)"));
-
-    autoChooser.addOption("2 Piece Amp Sub Midfield", new PathPlannerAuto("2P SubAmp-M1 (V)"));
-
     autoChooser.addOption("3 Piece Amp sub Midfield", new PathPlannerAuto("3P SubAmp-M1-M2 (V)"));
-    // autoChooser.addOption("5.5PieceAuto", new PathPlannerAuto("5.5PieceAuto"));
-    // Deadreckoned
-    // autoChooser.addOption(
-    //     "Better Two Piece",
-    //     new TwoPieceReturnSub(
-    //         m_driveSubsystem,
-    //         m_gyroSubsystem,
-    //         m_wristSubsystem,
-    //         m_armSubsystem,
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_actuatorSubsystem,
-    //         m_otbIntakeSubsystem,
-    //         m_utbIntakeSubsystem,
-    //         2,
-    //         1));
-    // autoChooser.addOption(
-    //     "Blue One Piece Leave Amp Side",
-    //     new OnePieceLeaveAmpSide(
-    //         m_wristSubsystem,
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_driveSubsystem,
-    //         2,
-    //         1,
-    //         m_gyroSubsystem));
-    // autoChooser.addOption(
-    //     "Blue One Piece Leave Cool Side",
-    //     new OnePieceLeaveCoolSide(
-    //         m_wristSubsystem,
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_driveSubsystem,
-    //         2,
-    //         1,
-    //         m_gyroSubsystem));
-    // autoChooser.addOption(
-    //     "Red One Piece Leave Cool Side",
-    //     new OnePieceLeaveAmpSide(
-    //         m_wristSubsystem,
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_driveSubsystem,
-    //         2,
-    //         1,
-    //         m_gyroSubsystem));
-    // autoChooser.addOption(
-    //     "Red One Piece Leave Amp Side",
-    //     new OnePieceLeaveCoolSide(
-    //         m_wristSubsystem,
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_driveSubsystem,
-    //         2,
-    //         1,
-    //         m_gyroSubsystem));
-    // autoChooser.addOption(
-    //     "Three Piece Leave Amp Side Blue",
-    //     new ThreePieceAutoBlue(
-    //         m_driveSubsystem,
-    //         m_gyroSubsystem,
-    //         m_wristSubsystem,
-    //         m_armSubsystem,
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_actuatorSubsystem,
-    //         m_otbIntakeSubsystem,
-    //         m_utbIntakeSubsystem,
-    //         2,
-    //         1));
-    // autoChooser.addOption(
-    //     "Three Piece Leave Amp Side Red",
-    //     new ThreePieceAutoRed(
-    //         m_driveSubsystem,
-    //         m_gyroSubsystem,
-    //         m_wristSubsystem,
-    //         m_armSubsystem,
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_actuatorSubsystem,
-    //         m_otbIntakeSubsystem,
-    //         m_utbIntakeSubsystem,
-    //         2,
-    //         1));
-    // autoChooser.addOption(
-    //     "4 Piece Blue",
-    //     new FourPieceBlue(
-    //         m_driveSubsystem,
-    //         m_gyroSubsystem,
-    //         m_wristSubsystem,
-    //         m_armSubsystem,
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_actuatorSubsystem,
-    //         m_otbIntakeSubsystem,
-    //         m_utbIntakeSubsystem,
-    //         2,
-    //         1));
-    // autoChooser.addOption(
-    //     "4 Piece Red",
-    //     new FourPieceRed(
-    //         m_driveSubsystem,
-    //         m_gyroSubsystem,
-    //         m_wristSubsystem,
-    //         m_armSubsystem,
-    //         m_feederSubsystem,
-    //         m_shooterSubsystem,
-    //         m_actuatorSubsystem,
-    //         m_otbIntakeSubsystem,
-    //         m_utbIntakeSubsystem,
-    //         2,
-    //         1));
+    // ----------4 Piece----------
+    autoChooser.addOption("4 Piece (Vision)", new PathPlannerAuto("4P Vision"));
+    autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center 5"));
+    autoChooser.addOption("4 Piece SubSource Midfield M2-M5 (Displacement)", new PathPlannerAuto("4P SubSource M2-M5 (Displace)"));
+
+
 
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
