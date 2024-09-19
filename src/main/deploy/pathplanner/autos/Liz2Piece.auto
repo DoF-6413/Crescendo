@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.43,
-      "y": 4.02665014356157
+      "x": 1.2991794154609702,
+      "y": 5.557362183607978
     },
     "rotation": 0
   },
@@ -14,18 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "5.5PieceAuto"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0
+            "pathName": "Liz3Piece"
           }
         }
       ]
     }
   },
-  "folder": "Miscellaneous",
+  "folder": null,
   "choreoAuto": false
 }

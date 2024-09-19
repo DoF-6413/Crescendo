@@ -3,32 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.89,
-        "y": 2.435854001522554
+        "x": 8.15,
+        "y": 6.62
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.9799999999999995,
-        "y": 2.435854001522554
+        "x": 8.200000000000001,
+        "y": 6.62
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.9,
-        "y": 4.0
+        "x": 8.281950694955519,
+        "y": 3.6836586493685815
       },
       "prevControl": {
-        "x": 5.8100000000000005,
-        "y": 4.0
+        "x": 8.390390107532113,
+        "y": 5.203907503589126
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.25,
+      "rotationDegrees": -45.0,
+      "rotateFast": true
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -39,11 +45,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": -90.0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "SubHP Midfield (Temp)",
+  "folder": "Midfield Displacement SubAmp",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
