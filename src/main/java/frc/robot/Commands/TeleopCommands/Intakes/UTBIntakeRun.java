@@ -5,7 +5,6 @@
 package frc.robot.Commands.TeleopCommands.Intakes;
 
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.feeder.Feeder;
 import frc.robot.Subsystems.feeder.FeederConstants;
 import frc.robot.Subsystems.utbintake.*;
@@ -26,10 +25,10 @@ public class UTBIntakeRun extends ParallelCommandGroup {
       utbIntakePercentSpeed = 0;
     } else if (isInwards) {
       feederRPM = FeederConstants.INTAKE_RPM;
-      utbIntakePercentSpeed = -1.0;
+      utbIntakePercentSpeed = UTBIntakeConstants.INTAKE_PERCENT_SPEED;
     } else {
       feederRPM = FeederConstants.OUTTAKE_RPM;
-      utbIntakePercentSpeed = 1.0;
+      utbIntakePercentSpeed = UTBIntakeConstants.OUTTAKE_PERCENT_SPEED;
     }
 
     // Add your commands in the addCommands() call, e.g.

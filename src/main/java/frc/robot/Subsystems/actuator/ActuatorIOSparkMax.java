@@ -35,8 +35,8 @@ public class ActuatorIOSparkMax implements ActuatorIO {
         Units.rotationsPerMinuteToRadiansPerSecond(actuatorEncoder.getVelocity())
             / ActuatorConstants.GEAR_RATIO;
     inputs.actuatorAppliedVolts = actuatorMotor.getAppliedOutput() * actuatorMotor.getBusVoltage();
-    inputs.actuatorCurrentAmps = new double[] {actuatorMotor.getOutputCurrent()};
-    inputs.actuatorTempCelsius = new double[] {actuatorMotor.getMotorTemperature()};
+    inputs.actuatorCurrentAmps = actuatorMotor.getOutputCurrent();
+    inputs.actuatorTempCelsius = actuatorMotor.getMotorTemperature();
   }
 
   @Override

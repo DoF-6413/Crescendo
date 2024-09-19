@@ -20,7 +20,7 @@ import frc.robot.Subsystems.shooter.ShooterConstants;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Shoot extends SequentialCommandGroup {
   /** Creates a new Shoot. */
-  public Shoot(Feeder feeder, Arm arm, Shooter shooter) {
+  public Shoot(Arm arm, Shooter shooter, Feeder feeder) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

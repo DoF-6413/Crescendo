@@ -27,9 +27,9 @@ public class DefaultDriveCommand extends Command {
 
   public DefaultDriveCommand(
       Drive drive,
-      CommandXboxController controller,
       Gyro gyro,
       PoseEstimator pose,
+      CommandXboxController controller,
       int startingIndex) {
     this.controller = controller;
 

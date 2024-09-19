@@ -14,7 +14,6 @@ public class ActuatorToZero extends Command {
 
   public ActuatorToZero(Actuator actuator) {
     this.actuator = actuator;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(actuator);
   }
 

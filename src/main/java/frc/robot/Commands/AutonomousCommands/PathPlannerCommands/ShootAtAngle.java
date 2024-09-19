@@ -22,14 +22,14 @@ public class ShootAtAngle extends SequentialCommandGroup {
 
   /** Creates a new ShootNote. */
   public ShootAtAngle(
-      Shooter shooter,
-      Feeder feeder,
       Arm arm,
       Wrist wrist,
+      Shooter shooter,
+      Feeder feeder,
       BeamBreak beamBreak,
-      double shooterSpeed,
       double armAngle,
-      double wristAngle) {
+      double wristAngle,
+      double shooterSpeed) {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
@@ -42,7 +42,7 @@ public class ShootAtAngle extends SequentialCommandGroup {
                 },
                 arm,
                 wrist),
-            new ReverseNote(feeder, shooter, beamBreak)),
+            new ReverseNote(shooter, feeder, beamBreak)),
         new InstantCommand(() -> shooter.setSetpoint(shooterSpeed), shooter),
         new WaitUntilCommand(() -> shooter.bothAtSetpoint() && wrist.atGoal()),
         new InstantCommand(() -> feeder.setSetpoint(FeederConstants.SPEAKER_RPM), feeder));

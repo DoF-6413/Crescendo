@@ -27,20 +27,17 @@ public class VisionPickUp extends ParallelCommandGroup {
   /** Creates a new VisionPickUp. */
   public VisionPickUp(
       Drive drive,
+      Actuator actuator,
       OTBIntake otb,
       UTBIntake utb,
-      Feeder feeder,
-      Actuator actuator,
       Arm arm,
       Wrist wrist,
+      Feeder feeder,
       BeamBreak beamBreak) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new AllIntakesRun(actuator, otb, utb, feeder, CommandConstants.RUN_INTAKE),
-        // new BeamBreakPickUp(utb, feeder, shooter, beamBreak),
-        // new UTBIntakeRun(utb, feeder, CommandConstants.INTAKE_INWARDS,
-        // CommandConstants.RUN_INTAKE),
         new InstantCommand(
             () -> {
               arm.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
@@ -48,6 +45,6 @@ public class VisionPickUp extends ParallelCommandGroup {
             },
             wrist,
             arm),
-        new DriveToNote(drive, beamBreak, 0, 0.5, 0.3));
+        new DriveToNote(drive, beamBreak, 0, 0.6, 0.3));
   }
 }

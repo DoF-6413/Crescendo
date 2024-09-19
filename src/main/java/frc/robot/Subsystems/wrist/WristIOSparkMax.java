@@ -54,8 +54,8 @@ public class WristIOSparkMax implements WristIO {
             + Units.radiansToDegrees(WristConstants.ABS_ENCODER_OFFSET_RADS);
     inputs.wristVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(wristRelativeEncoder.getVelocity());
-    inputs.wristTempCelsius = new double[] {wristMotor.getMotorTemperature()};
-    inputs.wristCurrentAmps = new double[] {wristMotor.getOutputCurrent()};
+    inputs.wristTempCelsius = wristMotor.getMotorTemperature();
+    inputs.wristCurrentAmps = wristMotor.getOutputCurrent();
   }
 
   @Override

@@ -21,7 +21,6 @@ public class Arm extends SubsystemBase {
   private final PIDController armPIDController;
   private SimpleMotorFeedforward armFeedforward;
 
-  private static double goal = 0.0;
   private static boolean isPIDEnabled = true;
   private static boolean isTestingEnabled = false;
 
@@ -139,7 +138,7 @@ public class Arm extends SubsystemBase {
    * @param increment Angle (Radians)
    */
   public void incrementArmGoal(double increment) {
-    armPIDController.setSetpoint(armPIDController.getSetpoint() + increment);
+    this.setGoal(armPIDController.getSetpoint() + increment);
     // armPIDController.setGoal(armPIDController.getGoal().position + increment);
   }
 

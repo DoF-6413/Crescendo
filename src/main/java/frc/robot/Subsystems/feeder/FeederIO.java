@@ -12,9 +12,9 @@ public interface FeederIO {
     /** Number of volts being sent to the Feeder Motor */
     public double feederAppliedVolts = 0.0;
     /** Number of amps used by the Feeder motor */
-    public double[] feederCurrentAmps = new double[] {};
+    public double feederCurrentAmps = 0;
     /** Tempature of the Feeder motor in Celsius */
-    public double[] feederTempCelsius = new double[] {};
+    public double feederTempCelsius = 0;
   }
 
   /** Updates the set of loggable inputs for both Feeder motors */

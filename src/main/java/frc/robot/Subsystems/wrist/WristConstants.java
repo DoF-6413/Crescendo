@@ -4,8 +4,6 @@ import edu.wpi.first.math.util.Units;
 
 public final class WristConstants {
   // Profiled PID Constants for the Wrist
-  // TODO: tune & finalize
-
   /** Represents the proportional constant, multiplied by the current error */
   public static double KP = 0.8;
   /** Represents the integral constant, multiplied by the total error */
@@ -13,7 +11,7 @@ public final class WristConstants {
   /** Represents the derivative constant, multiplied by the change in error */
   public static double KD = 0.01;
   /** The max velocity the Wrist can run at */
-  public static double MAX_VELOCITY = 506.8427;
+  public static final double MAX_VELOCITY = 506.8427;
   /** The max acceleration the Wrist can run at */
   public static double MAX_ACCELERATION = 0.0;
 
@@ -31,33 +29,26 @@ public final class WristConstants {
   // Sim Constants
   /** Moment of inertia for the Wrist */
   public static final double MOI_KG_M2 = 0.000271862238;
-
   /** If the Wrist simulation is simulating gravity */
   public static final boolean IS_SIMULATING_GRAVITY = false;
 
   // Real constants
   /** CAN ID of the Wrist motor */
   public static final int CAN_ID = 20;
-
   /** Current limiting for Wrist */
   public static final int CUR_LIM_A = 30;
-
   /** Sets the inversion status of the Wrist motor */
   public static final boolean IS_INVERTED = true;
-
   /** Gear ratio of the Wrist motor */
   public static final double GEAR_RATIO = 58.33;
-
   /** Length from the Wrist */
   public static final double LENGTH_M = 0.4126308486;
   /** Minimum angle of the Wrist */
   public static final double MIN_ANGLE_RAD = 0.0;
   /** Maximum angle of the Wrist */
   public static final double MAX_ANGLE_RAD = 1.8675;
-
   /** Starting angle of the Wrist for sim, same as minimum angle */
   public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD;
-
   /** Offset of the Arm absolute encoder */
   public static final double ABS_ENCODER_OFFSET_RADS = -2.01715;
 
@@ -71,13 +62,9 @@ public final class WristConstants {
   /** SOURCE Pickup back side */
   public static final double SOURCE_BACK_SIDE_RAD = Units.degreesToRadians(140.7604);
   /** SPEAKER shot from subwoofer */
-  public static final double SUBWOOFER_RAD = Units.degreesToRadians(32);
+  public static final double SUBWOOFER_RAD = Units.degreesToRadians(33);
   /** SPEAKER shot from PODIUM */
   public static final double PODIUM_RAD = Units.degreesToRadians(14.3886);
-  /** SPEAKER shot from the chain directly in front of the subwoofer */
-  public static final double CHAIN_RAD = Units.degreesToRadians(3);
-  /** SPEAKER shot from the WING directly in front of the subwoofer */
-  public static final double WING_RAD = Units.degreesToRadians(-0.5);
   /** SPEAKER shot configuration from the PODIUM to score over "billboard-bots" */
   public static final double OVERSHOT_RAD = Units.degreesToRadians(38);
 }

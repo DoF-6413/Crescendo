@@ -15,9 +15,9 @@ import frc.robot.Subsystems.wrist.Wrist;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ZeroAll extends ParallelCommandGroup {
   /** Creates a new ZeroAll. */
-  public ZeroAll(Wrist wrist, Arm arm, Shooter shooter, Feeder feeder) {
+  public ZeroAll(Arm arm, Wrist wrist, Shooter shooter, Feeder feeder) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ArmToZero(wrist, arm), new EndEffectorToZero(shooter, feeder));
+    addCommands(new ArmToZero(arm, wrist), new EndEffectorToZero(shooter, feeder));
   }
 }

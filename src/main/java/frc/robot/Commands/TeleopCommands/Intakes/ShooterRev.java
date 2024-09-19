@@ -22,7 +22,7 @@ public class ShooterRev extends Command {
     this.shooter = shooter;
     this.beamBreak = beamBreak;
 
-    addRequirements(feeder, shooter, beamBreak);
+    addRequirements(feeder, shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

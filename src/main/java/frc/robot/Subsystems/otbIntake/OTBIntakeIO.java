@@ -16,9 +16,9 @@ public interface OTBIntakeIO {
     /** Number of volts being sent to the OTB Intake motor */
     public double otbIntakeAppliedVolts = 0.0;
     /** Number of Amps being used by the OTB Intake motor */
-    public double[] otbIntakeCurrentAmps = new double[] {};
+    public double otbIntakeCurrentAmps = 0;
     /** Tempature of the OTB Intake motor */
-    public double[] otbIntakeTempCelsius = new double[] {};
+    public double otbIntakeTempCelsius = 0;
   }
 
   /** Updates inputs for the OTB Intake */
