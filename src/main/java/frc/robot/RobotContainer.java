@@ -246,6 +246,7 @@ public class RobotContainer {
             m_armSubsystem,
             m_wristSubsystem,
             m_feederSubsystem,
+            m_poseEstimator,
             m_beamBreak));
 
     // Rotation Override
@@ -344,7 +345,8 @@ public class RobotContainer {
         "One Piece",
         new OnePieceAuto(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
     // ----------2 Piece----------
-    autoChooser.addOption("2 Piece Center (V) (Return)", new PathPlannerAuto("2P SubCenter-C2-Sub (V)"));    
+    autoChooser.addOption(
+        "2 Piece Center (V) (Return)", new PathPlannerAuto("2P SubCenter-C2-Sub (V)"));
     autoChooser.addOption(
         "2 Piece Spit SubHP", new PathPlannerAuto("2P SubHP-M4-M5 (Spit) (V) (NO)"));
     autoChooser.addOption(
@@ -352,17 +354,18 @@ public class RobotContainer {
     autoChooser.addOption("2 Piece Amp Sub Midfield", new PathPlannerAuto("2P SubAmp-M1 (V)"));
     // ----------3 Piece----------
     autoChooser.addOption("3 Piece (Vision)", new PathPlannerAuto("3P Vision"));
+    autoChooser.addOption("3 Piece SC-C2-C1 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C1-Sub (V)"));
+    autoChooser.addOption("3 Piece SC-C2-C3 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C3-Sub (V)"));
     autoChooser.addOption(
         "3 Piece SubSource Spit", new PathPlannerAuto("3P SubHP-M4-M5 (Spit) (V) (NO)"));
     autoChooser.addOption(
         "3 Piece Source Sub Mid Field", new PathPlannerAuto("3P SubSource-M4-M5 (V)"));
     autoChooser.addOption("3 Piece Amp sub Midfield", new PathPlannerAuto("3P SubAmp-M1-M2 (V)"));
     // ----------4 Piece----------
-    autoChooser.addOption("4 Piece (Vision)", new PathPlannerAuto("4P Vision"));
-    autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center 5"));
-    autoChooser.addOption("4 Piece SubSource Midfield M2-M5 (Displacement)", new PathPlannerAuto("4P SubSource M2-M5 (Displace)"));
-
-
+    autoChooser.addOption("4 Piece (V) (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
+    autoChooser.addOption(
+        "4 Piece SubSource Midfield M2-M5 (Displacement)",
+        new PathPlannerAuto("4P SubSource M2-M5 (Displace)"));
 
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
@@ -772,21 +775,33 @@ public class RobotContainer {
     // Shooter
     devController
         .leftTrigger()
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM), m_shooterSubsystem))
+        .onTrue(
+            new InstantCommand(
+                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM),
+                m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
     devController
         .rightTrigger()
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(ShooterConstants.MID_RANGE_RPM), m_shooterSubsystem))
+        .onTrue(
+            new InstantCommand(
+                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.MID_RANGE_RPM),
+                m_shooterSubsystem))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
     // Feeder (Retract)
     devController
         .x()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(FeederConstants.REVERSE_RPM), m_feederSubsystem))
+        .onTrue(
+            new InstantCommand(
+                () -> m_feederSubsystem.setSetpoint(FeederConstants.REVERSE_RPM),
+                m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
     // Feeder (Shoot out)
     devController
         .b()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM), m_feederSubsystem))
+        .onTrue(
+            new InstantCommand(
+                () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM),
+                m_feederSubsystem))
         .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
     // Arm (Up)
     devController

@@ -26,12 +26,6 @@
                 "data": {
                   "name": "ZeroYaw"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "DisableSpeakerRotationOverride"
-                }
               }
             ]
           }
@@ -39,7 +33,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.25
           }
         },
         {
@@ -85,21 +79,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "AutoAlignWrist"
+                  "pathName": "BM to Center (V)"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "FeederReverse"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EnableSpeakerRotationOverride"
+                  "name": "ZeroAll"
                 }
               }
             ]
@@ -108,13 +96,69 @@
         {
           "type": "named",
           "data": {
-            "name": "DisableSpeakerRotationOverride"
+            "name": "SubwooferShot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.3
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Center to BL (V)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootWhenReady"
+            "name": "VisionPickUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PickUpStop"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BL to Center (V)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SubwooferShot"
           }
         },
         {
@@ -130,7 +174,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BM to BL (V)"
+                  "pathName": "Center to BR (V)"
                 }
               },
               {
@@ -143,22 +187,9 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ZeroYaw"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "VisionPickUp"
-                }
-              }
-            ]
+            "name": "VisionPickUp"
           }
         },
         {
@@ -172,21 +203,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "AutoAlignWrist"
+                  "pathName": "BR to Center (V)"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "FeederReverse"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EnableSpeakerRotationOverride"
+                  "name": "ZeroAll"
                 }
               }
             ]
@@ -195,7 +220,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootWhenReady"
+            "name": "SubwooferShot"
           }
         }
       ]

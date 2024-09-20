@@ -18,6 +18,7 @@ import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Subsystems.wrist.Wrist;
 import frc.robot.Subsystems.wrist.WristConstants;
 import frc.robot.Utils.BeamBreak;
+import frc.robot.Utils.PoseEstimator;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, sVisionPickUpee:
@@ -33,6 +34,7 @@ public class VisionPickUp extends ParallelCommandGroup {
       Arm arm,
       Wrist wrist,
       Feeder feeder,
+      PoseEstimator pose,
       BeamBreak beamBreak) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
