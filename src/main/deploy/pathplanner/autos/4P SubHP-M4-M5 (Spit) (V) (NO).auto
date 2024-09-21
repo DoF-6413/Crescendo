@@ -1,0 +1,163 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.4766948192954855,
+      "y": 2.072818068603326
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpitNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SubHP - M4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "VisionPickUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PickUpStop"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "M4 - Spit"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpitNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M4Spit - M3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M3 - Spit"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "FeederReverse"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpitNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M3Spit - M2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M2 - Spit"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "FeederReverse"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpitNote"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Midfield Vision (Temp)",
+  "choreoAuto": false
+}

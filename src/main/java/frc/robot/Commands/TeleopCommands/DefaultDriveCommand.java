@@ -4,7 +4,6 @@
 
 package frc.robot.Commands.TeleopCommands;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Subsystems.drive.Drive;
@@ -49,22 +48,23 @@ public class DefaultDriveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (index == 0) {
-      drive.driveWithDeadbandForAutoAlign(
-          controller.getLeftX(), // Forward/backward
-          -controller.getLeftY(), // Left/Right (multiply by -1 bc controller axis inverted)
-          headingController.update(
-              pose.angleForSpeaker().plus(new Rotation2d(Math.PI / 2)),
-              drive.getRotation(),
-              gyro.getRate())); // Rotate chassis left/right
+    // if (index == 0) {
+    //   drive.driveWithDeadbandForAutoAlign(
+    //       controller.getLeftX(), // Forward/backward
+    //       -controller.getLeftY(), // Left/Right (multiply by -1 bc controller axis inverted)
+    //       headingController.update(
+    //           pose.angleForSpeaker().plus(new Rotation2d(Math.PI / 2)),
+    //           drive.getRotation(),
+    //           gyro.getRate())); // Rotate chassis left/right
 
-    } else if (index % 2 == 0 && index > 0) {
-      drive.driveWithDeadbandPlusHeading(
-          controller.getLeftX(), // Forward/backward
-          -controller.getLeftY(), // Left/Right (multiply by -1 bc controller axis inverted)
-          -controller.getRightX()); // Rotate chassis left/rightc
+    // } else if (index % 2 == 0 && index > 0) {
+    //   drive.driveWithDeadbandPlusHeading(
+    //       controller.getLeftX(), // Forward/backward
+    //       -controller.getLeftY(), // Left/Right (multiply by -1 bc controller axis inverted)
+    //       -controller.getRightX()); // Rotate chassis left/rightc
 
-    } else if (index == -1) {
+    // } else
+    if (index == -1) {
       drive.driveWithNoteDetection(controller.getLeftX(), -controller.getLeftY(), 0.3);
 
     } else if (index > 0) {
@@ -74,14 +74,15 @@ public class DefaultDriveCommand extends Command {
           -controller.getRightX()); // Rotate chassis left/right
     }
 
-    if (controller.button(9).getAsBoolean() && alreadyPressedL3 != true) {
-      index += 1;
-      alreadyPressedL3 = true;
-    } else if (!controller.button(9).getAsBoolean() && alreadyPressedL3 == true) {
-      alreadyPressedL3 = false;
-    } else if (controller.button(10).getAsBoolean()) {
-      index = 0;
-    } else if ((controller.leftTrigger().getAsBoolean() || controller.rightTrigger().getAsBoolean())
+    // if (controller.button(9).getAsBoolean() && alreadyPressedL3 != true) {
+    //   index += 1;
+    //   alreadyPressedL3 = true;
+    // } else if (!controller.button(9).getAsBoolean() && alreadyPressedL3 == true) {
+    //   alreadyPressedL3 = false;
+    // } else if (controller.button(10).getAsBoolean()) {
+    //   index = 0;
+    // } else
+    if ((controller.leftTrigger().getAsBoolean() || controller.rightTrigger().getAsBoolean())
         && alreadyPressedTrigger != true) {
       prevIndex = index;
       index = -1;

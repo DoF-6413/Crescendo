@@ -43,8 +43,10 @@ public class Shoot extends SequentialCommandGroup {
                         Commands.runOnce(
                             () -> {
                               feeder.setSetpoint(-FeederConstants.AMP_RPM);
+                              shooter.setSetpoint(-750);
                             },
-                            feeder),
+                            feeder,
+                            shooter),
                         Commands.runOnce(
                             () -> {
                               feeder.setSetpoint(FeederConstants.SPEAKER_RPM);

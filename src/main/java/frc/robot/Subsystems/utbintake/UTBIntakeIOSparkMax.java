@@ -17,6 +17,7 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
     /** Creates the Motor and Encoder for the UTB Intake */
     utbIntakeMotor = new CANSparkMax(UTBIntakeConstants.CAN_ID, MotorType.kBrushless);
     utbIntakeEncoder = utbIntakeMotor.getEncoder();
+    utbIntakeMotor.setInverted(UTBIntakeConstants.IS_INVERTED);
 
     /** Defaults to brake mode on initialization */
     utbIntakeMotor.setIdleMode(IdleMode.kBrake);

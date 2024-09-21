@@ -79,7 +79,6 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int AUX_CONTROLLER = 1;
-    public static final int DEV_CONTROLLER = 2;
   }
 
   /** Field Measurements */

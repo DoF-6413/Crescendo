@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.7239436806692566,
+        "y": 6.6200858292431
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.143183283994069,
+        "y": 6.66883462032738
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.927389037678735,
+        "y": 7.0198259161342
+      },
+      "prevControl": {
+        "x": 1.9816624906436937,
+        "y": 6.824830751797077
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.2,
+    "maxAcceleration": 5.2,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "SubAmp C1",
+  "previewStartingState": {
+    "rotation": 61.389540334034805,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

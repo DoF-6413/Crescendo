@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.4351730640783217,
-      "y": 1.9997004096572308
+      "x": 1.4454257887138118,
+      "y": 5.537862667174266
     },
     "rotation": 0
   },
@@ -16,15 +16,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "shootPreLoad"
+                  "name": "PreloadShot"
                 }
               },
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "pickUp3+Shoot2"
+                  "waitTime": 0.25
                 }
               }
             ]
@@ -33,6 +33,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "2 Piece Autos",
   "choreoAuto": false
 }

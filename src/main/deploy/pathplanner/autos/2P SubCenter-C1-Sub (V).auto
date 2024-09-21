@@ -1,0 +1,100 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3135113329050188,
+      "y": 5.576267387828894
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "PreloadShot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroYaw"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Center to BL (V)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "VisionPickUp"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PickUpStop"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BL to Center (V)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SubwooferShot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Vision Autos",
+  "choreoAuto": false
+}
