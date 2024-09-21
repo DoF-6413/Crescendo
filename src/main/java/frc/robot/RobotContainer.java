@@ -85,8 +85,6 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.DRIVE_CONTROLLER);
   private final CommandXboxController auxController =
       new CommandXboxController(OperatorConstants.AUX_CONTROLLER);
-  private final CommandXboxController devController =
-      new CommandXboxController(OperatorConstants.DEV_CONTROLLER);
 
   // Autos
   private final LoggedDashboardChooser<Command> autoChooser =
@@ -400,9 +398,6 @@ public class RobotContainer {
 
     /** Aux Controls */
     this.auxControllerBindings();
-
-    /** Development/Backup Aux Controls */
-    this.devControllerBindings();
   }
 
   /**
@@ -464,27 +459,14 @@ public class RobotContainer {
     m_poseEstimator.enableVision(enable);
   }
 
-  /** Uses the current drawn by the UTB to determine if a NOTE has been picked up */
-//   public void isNotePickedUp() {
-//     if (m_utbIntakeSubsystem.getCurrentDraw() > 20 && m_utbIntakeSubsystem.getCurrentDraw() < 55) {
-//       notePickUpCounter += 1;
-//       if (notePickUpCounter >= 20) {
-//         SmartDashboard.putBoolean("Is Note Picked Up", true);
-//       }
-//     } else if (driverController.rightBumper().getAsBoolean()
-//         || auxController.a().getAsBoolean()
-//         || (m_shooterSubsystem.getSetpoint() > 0 && m_feederSubsystem.getSetpoint() > 0)) {
-//       notePickUpCounter = 0;
-//       SmartDashboard.putBoolean("Is Note Picked Up", false);
-//     }
-//   }
 
   /** Controller keybinds for the driver contoller port */
   public void driverControllerBindings() {
     /* Driving the robot */
     m_driveSubsystem.setDefaultCommand(
         new DefaultDriveCommand(
-            m_driveSubsystem, m_gyroSubsystem, m_poseEstimator, driverController, 1).withName("DefaultDriveCommand"));
+                m_driveSubsystem, m_gyroSubsystem, m_poseEstimator, driverController, 1)
+            .withName("DefaultDriveCommand"));
 
     /* Reset Gyro heading */
     driverController
@@ -740,131 +722,5 @@ public class RobotContainer {
                 m_wristSubsystem))
         .onFalse(
             new InstantCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem));
-  }
-
-  /** Backup/development button bindings for the Aux Contols */
-  public void devControllerBindings() {
-    /* Manual Contol (No PID) */
-    // Arm
-    m_armSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_armSubsystem.setPercentSpeed(devController.getLeftY()), m_armSubsystem));
-    // Wrist
-    m_wristSubsystem.setDefaultCommand(
-        new InstantCommand(
-            () -> m_wristSubsystem.setPercentSpeed(devController.getRightY()), m_wristSubsystem));
-    // Shooter
-    // devController
-    //     .rightTrigger()
-    //     .onTrue(
-    //         new InstantCommand(
-    //             () -> m_shooterSubsystem.setBothPercentSpeed(0.65), m_shooterSubsystem))
-    //     .onFalse(
-    //         new InstantCommand(
-    //             () -> m_shooterSubsystem.setBothPercentSpeed(0), m_shooterSubsystem));
-    // Feeder (Retract)
-    devController
-        .a()
-        .onTrue(
-            new InstantCommand(() -> m_feederSubsystem.setPercentSpeed(-0.2), m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.setPercentSpeed(0), m_feederSubsystem));
-    // Feeder (Shoot out)
-    devController
-        .y()
-        .onTrue(new InstantCommand(() -> m_feederSubsystem.setPercentSpeed(0.4), m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.setPercentSpeed(0), m_feederSubsystem));
-
-    /* Controls with PID */
-    // Shooter
-    devController
-        .leftTrigger()
-        .onTrue(
-            new InstantCommand(
-                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM),
-                m_shooterSubsystem))
-        .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
-    devController
-        .rightTrigger()
-        .onTrue(
-            new InstantCommand(
-                () -> m_shooterSubsystem.setSetpoint(ShooterConstants.MID_RANGE_RPM),
-                m_shooterSubsystem))
-        .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
-    // Feeder (Retract)
-    devController
-        .x()
-        .onTrue(
-            new InstantCommand(
-                () -> m_feederSubsystem.setSetpoint(FeederConstants.REVERSE_RPM),
-                m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
-    // Feeder (Shoot out)
-    devController
-        .b()
-        .onTrue(
-            new InstantCommand(
-                () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM),
-                m_feederSubsystem))
-        .onFalse(new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
-    // Arm (Up)
-    devController
-        .povUp()
-        .onTrue(
-            new RunCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)), m_armSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)), m_armSubsystem));
-    // Arm (Down)
-    devController
-        .povDown()
-        .onTrue(
-            new RunCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)), m_armSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(0)), m_armSubsystem));
-    // Wrist (In)
-    devController
-        .povLeft()
-        .onTrue(
-            new RunCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
-                m_wristSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(0)),
-                m_wristSubsystem));
-    // Wrist (Out)
-    devController
-        .povRight()
-        .onTrue(
-            new RunCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
-                m_wristSubsystem))
-        .onFalse(
-            new InstantCommand(
-                () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(0)),
-                m_wristSubsystem));
-
-    /* Toggle PID control */
-    // Enable
-    devController.start().onTrue(new InstantCommand(() -> enablePID(true)));
-    // Disable
-    devController.back().onTrue(new InstantCommand(() -> enablePID(false)));
-
-    /* Toggle Testing mode */
-    // Disable
-    devController
-        .button(9)
-        .onTrue(
-            new InstantCommand(
-                () -> enableTesting(false), m_armSubsystem, m_wristSubsystem, m_shooterSubsystem));
-    // Enable
-    devController
-        .button(10)
-        .onTrue(
-            new InstantCommand(
-                () -> enableTesting(true), m_armSubsystem, m_wristSubsystem, m_shooterSubsystem));
   }
 }
