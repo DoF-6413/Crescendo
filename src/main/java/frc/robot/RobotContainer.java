@@ -27,7 +27,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
-import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceLeaveCenter;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ReverseNote;
@@ -35,7 +34,9 @@ import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootAtAngle;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootWhenReady;
 import frc.robot.Commands.TeleopCommands.AmpScore.PositionAmpScoreBackside;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
-import frc.robot.Commands.TeleopCommands.Intakes.*;
+import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
+import frc.robot.Commands.TeleopCommands.Intakes.ShooterRev;
+import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
 import frc.robot.Commands.TeleopCommands.SpeakerScore.*; // Position to Shoot, Overshot, Shoot
 import frc.robot.Commands.VisionCommands.*;
@@ -223,6 +224,10 @@ public class RobotContainer {
             WristConstants.SUBWOOFER_RAD,
             ShooterConstants.CLOSE_RPM));
     NamedCommands.registerCommand(
+        "SpitNote",
+        new ShootWhenReady(
+            m_shooterSubsystem, m_feederSubsystem, m_beamBreak, ShooterConstants.SLOW_RPM));
+    NamedCommands.registerCommand(
         "ShootWhenReady",
         new ShootWhenReady(
             m_shooterSubsystem, m_feederSubsystem, m_beamBreak, ShooterConstants.MID_RANGE_RPM));
@@ -239,6 +244,7 @@ public class RobotContainer {
             m_armSubsystem,
             m_wristSubsystem,
             m_feederSubsystem,
+            m_poseEstimator,
             m_beamBreak));
 
     // Rotation Override
@@ -319,9 +325,8 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "ZeroYaw", new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
 
-    /* PathPlanner Autos */
-    // Test Autos
-    // autoChooser.addOption("Auto1", new PathPlannerAuto("Auto1"));
+    /* Autos */
+    // ----------Test Autos----------
     // autoChooser.addOption("test1", new PathPlannerAuto("test1"));
     // autoChooser.addOption("test2", new PathPlannerAuto("test2"));
     // autoChooser.addOption("test3", new PathPlannerAuto("test3"));
@@ -330,32 +335,38 @@ public class RobotContainer {
     // autoChooser.addOption("Square Test", new PathPlannerAuto("Square"));
     // autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
-    // 2 Piece
-    // autoChooser.addOption("2 Piece Vision", new PathPlannerAuto("2P Vision"));
-    autoChooser.addOption("2 Piece (Vision)", new PathPlannerAuto("2P Vision 2.0"));
-    // 3 Piece
-    autoChooser.addOption("3 Piece (Vision)", new PathPlannerAuto("3P Vision"));
-    // 4 Piece
-    autoChooser.addOption("4 Piece (Vision)", new PathPlannerAuto("4P Vision"));
-    autoChooser.addOption("4 Piece Center", new PathPlannerAuto("4P Center 5"));
-
-    /* Deadreckoned Autos */
+    // ----------0 Piece----------
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
+    // ----------1 Piece----------
     autoChooser.addDefaultOption(
         "One Piece",
         new OnePieceAuto(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
+    // ----------2 Piece----------
     autoChooser.addOption(
-        "One Piece Leave Center",
-        new OnePieceLeaveCenter(
-            m_driveSubsystem,
-            m_gyroSubsystem,
-            m_armSubsystem,
-            m_wristSubsystem,
-            m_shooterSubsystem,
-            m_feederSubsystem,
-            3,
-            1));
+        "2 Piece Center (V) (Return)", new PathPlannerAuto("2P SubCenter-C2-Sub (V)"));
+    autoChooser.addOption(
+        "2 Piece Spit SubHP", new PathPlannerAuto("2P SubHP-M4-M5 (Spit) (V) (NO)"));
+    autoChooser.addOption(
+        "2 Piece Source Sub Midfield", new PathPlannerAuto("2P SubSource-M5 (V)"));
+    autoChooser.addOption("2 Piece Amp Sub Midfield", new PathPlannerAuto("2P SubAmp-M1 (V)"));
+    // ----------3 Piece----------
+    autoChooser.addOption("3 Piece (Vision)", new PathPlannerAuto("3P Vision"));
+    autoChooser.addOption(
+        "3 Piece SC-C2-C1 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C1-Sub (V)"));
+    autoChooser.addOption(
+        "3 Piece SC-C2-C3 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C3-Sub (V)"));
+    autoChooser.addOption(
+        "3 Piece SubSource Spit", new PathPlannerAuto("3P SubHP-M4-M5 (Spit) (V) (NO)"));
+    autoChooser.addOption(
+        "3 Piece Source Sub Mid Field", new PathPlannerAuto("3P SubSource-M4-M5 (V)"));
+    autoChooser.addOption("3 Piece Amp sub Midfield", new PathPlannerAuto("3P SubAmp-M1-M2 (V)"));
+    // ----------4 Piece----------
+    autoChooser.addOption(
+        "4 Piece (V) (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
+    autoChooser.addOption(
+        "4 Piece SubSource Midfield M2-M5 (Displacement)",
+        new PathPlannerAuto("4P SubSource M2-M5 (Displace)"));
 
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
@@ -447,22 +458,6 @@ public class RobotContainer {
   public void enableVision(boolean enable) {
     m_poseEstimator.enableVision(enable);
   }
-
-  /** Uses the current drawn by the UTB to determine if a NOTE has been picked up */
-  //   public void isNotePickedUp() {
-  //     if (m_utbIntakeSubsystem.getCurrentDraw() > 20 && m_utbIntakeSubsystem.getCurrentDraw() <
-  // 55) {
-  //       notePickUpCounter += 1;
-  //       if (notePickUpCounter >= 20) {
-  //         SmartDashboard.putBoolean("Is Note Picked Up", true);
-  //       }
-  //     } else if (driverController.rightBumper().getAsBoolean()
-  //         || auxController.a().getAsBoolean()
-  //         || (m_shooterSubsystem.getSetpoint() > 0 && m_feederSubsystem.getSetpoint() > 0)) {
-  //       notePickUpCounter = 0;
-  //       SmartDashboard.putBoolean("Is Note Picked Up", false);
-  //     }
-  //   }
 
   /** Controller keybinds for the driver contoller port */
   public void driverControllerBindings() {

@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.49,
+        "y": 7.01
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.7855292419114674,
+        "y": 6.5167242647381
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.72,
+        "y": 4.44
+      },
+      "prevControl": {
+        "x": 2.06,
+        "y": 4.44
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -60.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Puzzle Pieces Vision",
+  "previewStartingState": {
+    "rotation": 0.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

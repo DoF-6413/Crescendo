@@ -26,12 +26,6 @@
                 "data": {
                   "name": "ZeroYaw"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "DisableSpeakerRotationOverride"
-                }
               }
             ]
           }
@@ -39,7 +33,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.25
           }
         },
         {
@@ -81,34 +75,21 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoAlignWrist"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "FeederReverse"
-                }
-              }
-            ]
+            "pathName": "BM to Center (V)"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootWhenReady"
+            "name": "SubwooferShot"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.25
+            "waitTime": 0.3
           }
         },
         {
@@ -118,7 +99,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BM to BL (V)"
+                  "pathName": "Center to BR (V)"
                 }
               },
               {
@@ -131,22 +112,9 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ZeroYaw"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "VisionPickUp"
-                }
-              }
-            ]
+            "name": "VisionPickUp"
           }
         },
         {
@@ -156,34 +124,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoAlignWrist"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "FeederReverse"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EnableSpeakerRotationOverride"
-                }
-              }
-            ]
+            "pathName": "BR to Center (V)"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootWhenReady"
+            "name": "SubwooferShot"
           }
         }
       ]
