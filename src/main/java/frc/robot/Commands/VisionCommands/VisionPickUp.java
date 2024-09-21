@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
 import frc.robot.Constants.CommandConstants;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Subsystems.actuator.Actuator;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.arm.ArmConstants;
@@ -21,7 +22,7 @@ import frc.robot.Utils.BeamBreak;
 import frc.robot.Utils.PoseEstimator;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, sVisionPickUpee:
+// information, VisionPickUp:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class VisionPickUp extends ParallelCommandGroup {
 
@@ -47,6 +48,10 @@ public class VisionPickUp extends ParallelCommandGroup {
             },
             wrist,
             arm),
-        new DriveToNote(drive, beamBreak, 0, 0.6, 0.3));
+        new DriveToNote(drive, beamBreak, 0, 0.6, 0.3)
+            .until(
+                () ->
+                    (pose.getCurrentPose2d().getX() > 4.5
+                        && pose.getCurrentPose2d().getX() < FieldConstants.RED_SPEAKER_X - 4.5)));
   }
 }
