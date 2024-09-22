@@ -9,12 +9,10 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.Constants.FieldConstants;
-import frc.robot.Subsystems.actuator.Actuator;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.arm.ArmConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.feeder.Feeder;
-import frc.robot.Subsystems.otbIntake.OTBIntake;
 import frc.robot.Subsystems.utbintake.UTBIntake;
 import frc.robot.Subsystems.wrist.Wrist;
 import frc.robot.Subsystems.wrist.WristConstants;
@@ -29,8 +27,6 @@ public class VisionPickUp extends ParallelCommandGroup {
   /** Creates a new VisionPickUp. */
   public VisionPickUp(
       Drive drive,
-      Actuator actuator,
-      OTBIntake otb,
       UTBIntake utb,
       Arm arm,
       Wrist wrist,
