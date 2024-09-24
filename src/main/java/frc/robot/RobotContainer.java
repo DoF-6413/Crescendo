@@ -34,7 +34,6 @@ import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootAtAngle;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootWhenReady;
 import frc.robot.Commands.TeleopCommands.AmpScore.PositionAmpScoreBackside;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
-import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
 import frc.robot.Commands.TeleopCommands.Intakes.ShooterRev;
 import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
@@ -42,12 +41,10 @@ import frc.robot.Commands.TeleopCommands.SpeakerScore.*; // Position to Shoot, O
 import frc.robot.Commands.VisionCommands.*;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
-import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.arm.*;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.feeder.*;
 import frc.robot.Subsystems.gyro.*;
-import frc.robot.Subsystems.otbIntake.*;
 import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.wrist.*;
@@ -68,8 +65,6 @@ public class RobotContainer {
   // Mechanisms
   private final Arm m_armSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
-  private final OTBIntake m_otbIntakeSubsystem;
-  private final Actuator m_actuatorSubsystem;
   private final Shooter m_shooterSubsystem;
   private final Feeder m_feederSubsystem;
   private final Wrist m_wristSubsystem;
@@ -105,8 +100,6 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSparkMax());
-        m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_feederSubsystem = new Feeder(new FeederIOTalonFX());
         m_wristSubsystem = new Wrist(new WristIOSparkMax());
@@ -124,8 +117,6 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIOSim());
-        m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_feederSubsystem = new Feeder(new FeederIOSim());
         m_wristSubsystem = new Wrist(new WristIOSim());
@@ -143,8 +134,6 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
-        m_otbIntakeSubsystem = new OTBIntake(new OTBIntakeIO() {});
-        m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_feederSubsystem = new Feeder(new FeederIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
@@ -238,8 +227,6 @@ public class RobotContainer {
         "VisionPickUp",
         new VisionPickUp(
             m_driveSubsystem,
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
             m_utbIntakeSubsystem,
             m_armSubsystem,
             m_wristSubsystem,
@@ -284,19 +271,9 @@ public class RobotContainer {
         new InstantCommand(
             () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
     NamedCommands.registerCommand(
-        "PickUp",
-        new PickUp(
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
-            m_utbIntakeSubsystem,
-            CommandConstants.RUN_INTAKE));
+        "PickUp", new PickUp(m_utbIntakeSubsystem, CommandConstants.RUN_INTAKE));
     NamedCommands.registerCommand(
-        "PickUpStop",
-        new PickUp(
-            m_actuatorSubsystem,
-            m_otbIntakeSubsystem,
-            m_utbIntakeSubsystem,
-            CommandConstants.STOP_INTAKE));
+        "PickUpStop", new PickUp(m_utbIntakeSubsystem, CommandConstants.STOP_INTAKE));
 
     // Zero Commands
     NamedCommands.registerCommand(
@@ -351,7 +328,6 @@ public class RobotContainer {
         "2 Piece Source Sub Midfield", new PathPlannerAuto("2P SubSource-M5 (V)"));
     autoChooser.addOption("2 Piece Amp Sub Midfield", new PathPlannerAuto("2P SubAmp-M1 (V)"));
     // ----------3 Piece----------
-    autoChooser.addOption("3 Piece (Vision)", new PathPlannerAuto("3P Vision"));
     autoChooser.addOption(
         "3 Piece SC-C2-C1 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C1-Sub (V)"));
     autoChooser.addOption(
@@ -366,7 +342,7 @@ public class RobotContainer {
         "4 Piece (V) (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
     autoChooser.addOption(
         "4 Piece SubSource Midfield M2-M5 (Displacement)",
-        new PathPlannerAuto("4P SubSource M2-M5 (Displace)"));
+        new PathPlannerAuto("4P SubHP M2-M5 (Displace)"));
 
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
@@ -414,10 +390,8 @@ public class RobotContainer {
     m_driveSubsystem.coastOnDisable(isDisabled);
     m_armSubsystem.setBrakeMode(!isDisabled);
     m_wristSubsystem.setBrakeMode(!isDisabled);
-    m_actuatorSubsystem.setBrakeMode(!isDisabled);
     m_shooterSubsystem.setBrakeMode(!isDisabled);
     m_utbIntakeSubsystem.setUTBIntakeBrakeMode(!isDisabled);
-    m_otbIntakeSubsystem.setBrakeMode(!isDisabled);
   }
 
   /** Sets the setpoint/position to zero */
@@ -474,30 +448,6 @@ public class RobotContainer {
             new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem)
                 .withName("ZeroYaw"));
 
-    /* Intakes */
-    // All Intakes (Intake)
-    driverController
-        .leftTrigger()
-        .onTrue(
-            new AllIntakesRun(
-                    m_actuatorSubsystem,
-                    m_otbIntakeSubsystem,
-                    m_utbIntakeSubsystem,
-                    m_feederSubsystem,
-                    CommandConstants.RUN_INTAKE)
-                .unless(m_beamBreak::isNoteDetected)
-                .withName("AllIntakes"))
-        .onFalse(
-            new AllIntakesRun(
-                    m_actuatorSubsystem,
-                    m_otbIntakeSubsystem,
-                    m_utbIntakeSubsystem,
-                    m_feederSubsystem,
-                    CommandConstants.STOP_INTAKE)
-                .withName("IntakesStop"))
-        .onFalse(
-            new ShooterRev(m_feederSubsystem, m_shooterSubsystem, m_beamBreak)
-                .withName("ShooterRev"));
     // UTB Intake (Intake)
     driverController
         .rightTrigger()
@@ -543,10 +493,6 @@ public class RobotContainer {
         .onTrue(
             new Shoot(m_armSubsystem, m_shooterSubsystem, m_feederSubsystem)
                 .withName("ShootCommand"));
-
-    driverController
-        .start()
-        .onTrue(new ActuatorToZero(m_actuatorSubsystem).withName("ZeroActuator"));
 
     // /* Align to AMP */
     // driverController
