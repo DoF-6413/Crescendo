@@ -21,6 +21,9 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
 
     /** Defaults to brake mode on initialization */
     utbIntakeMotor.setIdleMode(IdleMode.kBrake);
+
+    /** Saves the configuration to the SPARKMAX */
+    utbIntakeMotor.burnFlash();
   }
 
   /** Updates the printed values for the UTB Intake */

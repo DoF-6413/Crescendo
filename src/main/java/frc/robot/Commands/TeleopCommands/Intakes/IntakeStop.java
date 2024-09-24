@@ -5,28 +5,18 @@
 package frc.robot.Commands.TeleopCommands.Intakes;
 
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.Subsystems.actuator.*;
-import frc.robot.Subsystems.otbIntake.*;
 import frc.robot.Subsystems.utbintake.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AllIntakesStop extends ParallelCommandGroup {
+public class IntakeStop extends ParallelCommandGroup {
   /** Raises OTB Intake and stops all intakes */
-  public AllIntakesStop(Actuator actuator, OTBIntake otbIntake, UTBIntake utbIntake) {
+  public IntakeStop(UTBIntake utbIntake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addRequirements();
-    addCommands(
-        Commands.runOnce(
-            () -> {
-              actuator.setSetpoint(ActuatorConstants.MIN_ANGLE_RADS);
-            },
-            actuator),
-        new InstantCommand(() -> otbIntake.setPercentSpeed(0.0), otbIntake),
-        new InstantCommand(() -> utbIntake.setUTBIntakePercentSpeed(0.0), utbIntake));
+    addCommands(Commands.runOnce(() -> utbIntake.setUTBIntakePercentSpeed(0.0), utbIntake));
   }
 }

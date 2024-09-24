@@ -9,7 +9,7 @@ public final class UTBIntakeConstants {
   /** CAN ID of the UTB Intake motor */
   public static final int CAN_ID = 14;
   /** Current limiting for the UTB Intake */
-  public static final int CUR_LIM_A = 30; // TODO: Verify
+  public static final int CUR_LIM_A = 30;
   /** Gear ratio of the UTB Intake */
   public static final double GEAR_RATIO = 2.0;
   /** Sets the inversion status of the UTB Intake motor */
