@@ -73,7 +73,6 @@ public class RobotContainer {
   private final PoseEstimator m_poseEstimator;
   private final PathPlanner m_pathPlanner;
   private final BeamBreak m_beamBreak;
-  int notePickUpCounter = 0;
 
   // Controllers
   private final CommandXboxController driverController =
