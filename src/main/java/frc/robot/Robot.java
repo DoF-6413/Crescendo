@@ -88,7 +88,7 @@ public class Robot extends LoggedRobot {
     // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
     // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
     // Build)
-    SmartDashboard.putString("Beta Number", "1.67.117.68.0");
+    SmartDashboard.putString("Beta Number", "1.68.0.68.1");
     SmartDashboard.putString("Last Deployed at: ", BuildConstants.BUILD_DATE);
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
@@ -157,7 +157,7 @@ public class Robot extends LoggedRobot {
     robotContainer.setAllSetpointsZero();
     robotContainer.mechanismsCoastOnDisable(false);
     robotContainer.enablePID(true);
-    robotContainer.enableVision(true);
+    robotContainer.enableVision(false);
   }
 
   /** This function is called periodically during operator control. */
