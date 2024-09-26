@@ -437,7 +437,12 @@ public class RobotContainer {
     /* Driving the robot */
     m_driveSubsystem.setDefaultCommand(
         new DefaultDriveCommand(
-                m_driveSubsystem, m_gyroSubsystem, m_poseEstimator, driverController, 1)
+                m_driveSubsystem,
+                m_gyroSubsystem,
+                m_poseEstimator,
+                driverController,
+                1,
+                () -> m_armSubsystem.getGoal() >= ArmConstants.SOURCE_BACK_SIDE_RAD)
             .withName("DefaultDriveCommand"));
 
     /* Reset Gyro heading */

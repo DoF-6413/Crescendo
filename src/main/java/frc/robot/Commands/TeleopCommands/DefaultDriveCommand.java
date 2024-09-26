@@ -10,6 +10,7 @@ import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Utils.HeadingController;
 import frc.robot.Utils.PoseEstimator;
+import java.util.function.BooleanSupplier;
 
 public class DefaultDriveCommand extends Command {
   /** Creates a new DefaultDriveCommand. */
@@ -17,24 +18,29 @@ public class DefaultDriveCommand extends Command {
 
   Drive drive;
   Gyro gyro;
+  HeadingController headingController;
+  PoseEstimator pose;
+
   int index = 1;
   int prevIndex = index;
   boolean alreadyPressedL3 = false;
   boolean alreadyPressedTrigger = false;
-  HeadingController headingController;
-  PoseEstimator pose;
+  BooleanSupplier ampSlowdown;
+  double velocityScaler = 1.0;
 
   public DefaultDriveCommand(
       Drive drive,
       Gyro gyro,
       PoseEstimator pose,
       CommandXboxController controller,
-      int startingIndex) {
+      int startingIndex,
+      BooleanSupplier ampSlowdown) {
     this.controller = controller;
 
     this.drive = drive;
     this.gyro = gyro;
     this.pose = pose;
+    this.ampSlowdown = ampSlowdown;
     index = startingIndex;
     headingController = new HeadingController();
     addRequirements(drive);
@@ -44,19 +50,28 @@ public class DefaultDriveCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
-
   // Called every time the scheduler runs while the command is scheduled.
+
   @Override
   public void execute() {
+
+    if (ampSlowdown.getAsBoolean()) {
+      velocityScaler = 0.5;
+    } else {
+      velocityScaler = 1;
+    }
     if (index == -1) {
-      drive.driveWithNoteDetection(controller.getLeftX(), -controller.getLeftY(), 0.3);
+      drive.driveWithNoteDetection(
+          controller.getLeftX() * velocityScaler, -controller.getLeftY() * velocityScaler, 0.3);
 
     } else if (index > 0) {
       drive.driveWithDeadband(
-          controller.getLeftX(), // Forward/backward
-          -controller.getLeftY(), // Left/Right (multiply by -1 bc controller a())is inverted)
-          -controller.getRightX()); // Rotate chassis left/right
+          controller.getLeftX() * velocityScaler, // Forward/backward
+          -controller.getLeftY()
+              * velocityScaler, // Left/Right (multiply by -1 bc controller a())is inverted)
+          -controller.getRightX() * velocityScaler); // Rotate chassis left/right
     }
+
     if ((controller.leftTrigger().getAsBoolean() || controller.rightTrigger().getAsBoolean())
         && alreadyPressedTrigger != true) {
       prevIndex = index;
