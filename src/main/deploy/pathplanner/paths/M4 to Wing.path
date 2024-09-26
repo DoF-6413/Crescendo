@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.3,
-        "y": 5.0
+        "x": 8.35,
+        "y": 2.41
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.3,
-        "y": 5.1
+        "x": 7.404273452964959,
+        "y": 2.2442541103134466
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.3,
-        "y": 6.349925862244887
+        "x": 5.823067228082201,
+        "y": 1.9304521269375086
       },
       "prevControl": {
-        "x": 8.3,
-        "y": 6.249925862244887
+        "x": 6.944289423020653,
+        "y": 2.1254472912746296
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,21 +32,21 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.2,
-    "maxAcceleration": 5.2,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Midfield Displacement Source",
+  "folder": "Midfield Displace Source (M2-M4)",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -33.110000000000014,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
