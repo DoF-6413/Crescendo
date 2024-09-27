@@ -12,19 +12,6 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpitNote"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -37,7 +24,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ZeroAll"
+                  "name": "ZeroYaw"
                 }
               }
             ]
@@ -100,6 +87,18 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "VisionPickUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PickUpStop"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "M3 - Spit"
@@ -109,12 +108,6 @@
           "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "FeederReverse"
-                }
-              },
               {
                 "type": "named",
                 "data": {

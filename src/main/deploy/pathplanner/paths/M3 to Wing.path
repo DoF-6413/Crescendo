@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.51,
-        "y": 7.014791090923124
+        "x": 8.33,
+        "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.545355339059327,
-        "y": 7.050146429982451
+        "x": 7.330000000000007,
+        "y": 4.1
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.31,
-        "y": 5.58
+        "x": 5.793817953431632,
+        "y": 4.1
       },
       "prevControl": {
-        "x": 1.9467332013245253,
-        "y": 6.338829080202515
+        "x": 6.793817953431632,
+        "y": 4.1
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,20 +32,20 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
     "rotation": 0.0,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "Puzzle Pieces Vision",
+  "folder": "Midfield Displace Source (M2-M4)",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 0.0,
     "velocity": 0
   },
   "useDefaultConstraints": false
