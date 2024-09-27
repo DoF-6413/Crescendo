@@ -39,7 +39,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "SubSource- M4 ll M5"
+            "pathName": "Source- M4 ll M5"
           }
         },
         {
@@ -105,6 +105,6 @@
       ]
     }
   },
-  "folder": "Midfield SubSource Displacement",
+  "folder": "Midfield Source Displacement",
   "choreoAuto": false
 }
