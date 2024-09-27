@@ -18,11 +18,13 @@ public class GyroIONavX implements GyroIO {
     System.out.println("[Init] Creating GyroIONavX");
     gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
     gyro.setAngleAdjustment(GyroConstants.HEADING_OFFSET_DEGREES);
+    // gyro.enableBoardlevelYawReset(false);
   }
 
   @Override
   public void updateInputs(GyroIOInputs inputs) {
     inputs.connected = gyro.isConnected();
+    inputs.isCalibrating = gyro.isCalibrating();
     // Value is Negative because NavX reads CW and everything else runs CCW
     inputs.yawPositionRad =
         new Rotation2d(

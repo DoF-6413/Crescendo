@@ -55,16 +55,20 @@ public class DefaultDriveCommand extends Command {
   @Override
   public void execute() {
 
+    // If the Arm is over 28 degrees than half the max speed of the robot
     if (ampSlowdown.getAsBoolean()) {
       velocityScaler = 0.5;
     } else {
       velocityScaler = 1;
     }
-    if (index == -1) {
+
+    if (controller.rightTrigger().getAsBoolean()) {
+      /* Auto Rotates Chassis to Align With a NOTE */
       drive.driveWithNoteDetection(
           controller.getLeftX() * velocityScaler, -controller.getLeftY() * velocityScaler, 0.3);
 
-    } else if (index > 0) {
+    } else {
+      /* Normal Drive Mode */
       drive.driveWithDeadband(
           controller.getLeftX() * velocityScaler, // Forward/backward
           -controller.getLeftY()
@@ -72,17 +76,17 @@ public class DefaultDriveCommand extends Command {
           -controller.getRightX() * velocityScaler); // Rotate chassis left/right
     }
 
-    if ((controller.leftTrigger().getAsBoolean() || controller.rightTrigger().getAsBoolean())
-        && alreadyPressedTrigger != true) {
-      prevIndex = index;
-      index = -1;
-      alreadyPressedTrigger = true;
-    } else if (!controller.leftTrigger().getAsBoolean()
-        && !controller.rightTrigger().getAsBoolean()
-        && alreadyPressedTrigger == true) {
-      index = prevIndex;
-      alreadyPressedTrigger = false;
-    }
+    // if ((controller.leftTrigger().getAsBoolean() || controller.rightTrigger().getAsBoolean())
+    //     && alreadyPressedTrigger != true) {
+    //   prevIndex = index;
+    //   index = -1;
+    //   alreadyPressedTrigger = true;
+    // } else if (!controller.leftTrigger().getAsBoolean()
+    //     && !controller.rightTrigger().getAsBoolean()
+    //     && alreadyPressedTrigger == true) {
+    //   index = prevIndex;
+    //   alreadyPressedTrigger = false;
+    // }
   }
 
   // Called once the command ends or is interrupted.

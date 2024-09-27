@@ -321,16 +321,13 @@ public class RobotContainer {
     // ----------2 Piece----------
     autoChooser.addOption(
         "2 Piece Center (V) (Return)", new PathPlannerAuto("2P SubCenter-C2-Sub (V)"));
-    autoChooser.addOption(
-        "2 Piece Source Sub Midfield", new PathPlannerAuto("2P SubSource-M5 (V)"));
-    autoChooser.addOption("2 Piece Amp Sub Midfield", new PathPlannerAuto("2P SubAmp-M1 (V)"));
     // ----------3 Piece----------
     autoChooser.addOption(
         "3 Piece SC-C2-C1 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C1-Sub (V)"));
     autoChooser.addOption(
         "3 Piece SC-C2-C3 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C3-Sub (V)"));
     autoChooser.addOption(
-        "3 Piece SubSource Spit", new PathPlannerAuto("3P SubHP-M4-M5 (Spit) (V) (NO)"));
+        "3 Piece SubSource Spit", new PathPlannerAuto("3P Source-M4-M5 (Spit) (V)"));
     autoChooser.addOption(
         "3 Piece Source Sub Mid Field", new PathPlannerAuto("3P SubSource-M4-M5 (V)"));
     autoChooser.addOption("3 Piece Amp sub Midfield", new PathPlannerAuto("3P SubAmp-M1-M2 (V)"));
@@ -341,8 +338,8 @@ public class RobotContainer {
     autoChooser.addOption(
         "4 Piece (V) (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
     autoChooser.addOption(
-        "4 Piece SubSource Midfield M2-M5 (Displacement)",
-        new PathPlannerAuto("4P SubHP M2-M5 (Displace)"));
+        "4 Piece SubAmp Midfield M2-M5 (Displacement)",
+        new PathPlannerAuto("4P Source M2-M5 (Displace)"));
 
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
@@ -498,22 +495,10 @@ public class RobotContainer {
         .onTrue(
             new Shoot(m_armSubsystem, m_shooterSubsystem, m_feederSubsystem)
                 .withName("ShootCommand"));
-
-    // /* Align to AMP */
-    // driverController
-    //     .b()
-    //     .onTrue(
-    //         new ConditionalCommand(
-    //             m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_RED_END_POSE),
-    //             m_pathPlanner.pathFindToPose(PathFindingConstants.AMP_BLUE_END_POSE),
-    //             () -> RobotStateConstants.getAlliance().get() == DriverStation.Alliance.Red));
   }
 
   /** Contoller keybinds for the aux contoller port */
   public void auxControllerBindings() {
-    /* Release piece */
-    // auxController.a().onTrue(new Shoot(m_armSubsystem, m_shooterSubsystem, m_feederSubsystem));
-
     /* Feeder */
     auxController
         .a()

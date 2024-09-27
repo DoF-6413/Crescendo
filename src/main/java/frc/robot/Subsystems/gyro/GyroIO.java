@@ -15,6 +15,8 @@ public interface GyroIO {
     /** Returns whether or not the */
     public boolean connected = false;
 
+    public boolean isCalibrating = false;
+
     public Rotation2d yawPositionRad = new Rotation2d();
     public Rotation2d rawYawPositionRad = new Rotation2d();
     public Rotation2d anglePositionRad = new Rotation2d();

@@ -24,12 +24,10 @@
     "2 Piece Autos",
     "3 Piece Autos",
     "4 Piece Autos",
-    "Midfield SubAmp Displacement",
     "Midfield Source Displacement",
+    "Midfield SubAmp Displacement",
     "Midfield Vision (Temp)",
-    "Miscellaneous",
-    "Test Autos",
-    "Vision Autos"
+    "Test Autos"
   ],
   "defaultMaxVel": 5.2,
   "defaultMaxAccel": 5.2,

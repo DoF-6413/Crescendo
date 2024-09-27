@@ -32,12 +32,6 @@
                 "data": {
                   "name": "PickUp"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EnableSpeakerRotationOverride"
-                }
               }
             ]
           }
@@ -60,12 +54,6 @@
                       "type": "named",
                       "data": {
                         "name": "PickUpStop"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "DisableSpeakerRotationOverride"
                       }
                     }
                   ]
@@ -101,12 +89,6 @@
                 "data": {
                   "name": "StopShooter"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EnableSpeakerRotationOverride"
-                }
               }
             ]
           }
@@ -129,12 +111,6 @@
                       "type": "named",
                       "data": {
                         "name": "PickUpStop"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "DisableSpeakerRotationOverride"
                       }
                     }
                   ]
@@ -170,12 +146,6 @@
                 "data": {
                   "name": "StopShooter"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EnableSpeakerRotationOverride"
-                }
               }
             ]
           }
@@ -198,12 +168,6 @@
                       "type": "named",
                       "data": {
                         "name": "PickUpStop"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "DisableSpeakerRotationOverride"
                       }
                     }
                   ]

@@ -18,7 +18,6 @@ import frc.robot.Constants.*;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.gyro.*;
 import java.util.Optional;
-import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
@@ -129,81 +128,83 @@ public class PoseEstimator extends SubsystemBase {
     // counter++;
     // if (enable && counter % cyclesPerUpdate == 0 && RobotStateConstants.getMode() ==
     // RobotStateConstants.Mode.REAL) {
-    if (enable && RobotStateConstants.getMode() == RobotStateConstants.Mode.REAL) {
+    // if (enable && RobotStateConstants.getMode() == RobotStateConstants.Mode.REAL) {
 
-      Optional<EstimatedRobotPose> leftPose = visionPoseEstimatorLeft.update();
-      Optional<EstimatedRobotPose> rightPose = visionPoseEstimatorRight.update();
+    //   Optional<EstimatedRobotPose> leftPose = visionPoseEstimatorLeft.update();
+    //   Optional<EstimatedRobotPose> rightPose = visionPoseEstimatorRight.update();
 
-      // Saves pipeline results from left camera if present
-      tempPipelineResult = cameraLeft.getLatestResult();
-      if (tempPipelineResult.hasTargets()) {
-        hasTargetsLeft = tempPipelineResult.hasTargets();
-        tempTarget = tempPipelineResult.getBestTarget();
-        fiducialIDLeft = tempTarget.getFiducialId();
-        poseAmbiguityLeft = tempTarget.getPoseAmbiguity();
-      }
+    //   // Saves pipeline results from left camera if present
+    //   tempPipelineResult = cameraLeft.getLatestResult();
+    //   if (tempPipelineResult.hasTargets()) {
+    //     hasTargetsLeft = tempPipelineResult.hasTargets();
+    //     tempTarget = tempPipelineResult.getBestTarget();
+    //     fiducialIDLeft = tempTarget.getFiducialId();
+    //     poseAmbiguityLeft = tempTarget.getPoseAmbiguity();
+    //   }
 
-      // Saves pipeline results from right camera if present
-      tempPipelineResult = cameraRight.getLatestResult();
-      if (tempPipelineResult.hasTargets()) {
-        hasTargetsRight = tempPipelineResult.hasTargets();
-        tempTarget = tempPipelineResult.getBestTarget();
-        fiducialIDRight = tempTarget.getFiducialId();
-        poseAmbiguityRight = tempTarget.getPoseAmbiguity();
-      }
+    //   // Saves pipeline results from right camera if present
+    //   tempPipelineResult = cameraRight.getLatestResult();
+    //   if (tempPipelineResult.hasTargets()) {
+    //     hasTargetsRight = tempPipelineResult.hasTargets();
+    //     tempTarget = tempPipelineResult.getBestTarget();
+    //     fiducialIDRight = tempTarget.getFiducialId();
+    //     poseAmbiguityRight = tempTarget.getPoseAmbiguity();
+    //   }
 
-      if (!hasTargetsLeft && !hasTargetsRight) {
-        return;
+    //   if (!hasTargetsLeft && !hasTargetsRight) {
+    //     return;
 
-      } else if (hasTargetsLeft && hasTargetsRight) {
-        if (prevTimestamp != timestamp) {
-          prevTimestamp = timestamp;
+    //   } else if (hasTargetsLeft && hasTargetsRight) {
+    //     if (prevTimestamp != timestamp) {
+    //       prevTimestamp = timestamp;
 
-          if (leftPose.isPresent()
-              && rightPose.isPresent()
-              && poseAmbiguityLeft < 0.2
-              && poseAmbiguityLeft > 0.0
-              && poseAmbiguityRight < 0.2
-              && poseAmbiguityRight > 0.0
-              && fiducialIDLeft >= 1
-              && fiducialIDLeft <= 16
-              && fiducialIDRight >= 1
-              && fiducialIDRight <= 16) {
-            poseEstimator.addVisionMeasurement(
-                averageVisionPoses(
-                    leftPose.get().estimatedPose.toPose2d(),
-                    rightPose.get().estimatedPose.toPose2d()),
-                timestamp);
-          }
-        }
+    //       if (leftPose.isPresent()
+    //           && rightPose.isPresent()
+    //           && poseAmbiguityLeft < 0.2
+    //           && poseAmbiguityLeft > 0.0
+    //           && poseAmbiguityRight < 0.2
+    //           && poseAmbiguityRight > 0.0
+    //           && fiducialIDLeft >= 1
+    //           && fiducialIDLeft <= 16
+    //           && fiducialIDRight >= 1
+    //           && fiducialIDRight <= 16) {
+    //         poseEstimator.addVisionMeasurement(
+    //             averageVisionPoses(
+    //                 leftPose.get().estimatedPose.toPose2d(),
+    //                 rightPose.get().estimatedPose.toPose2d()),
+    //             timestamp);
+    //       }
+    //     }
 
-      } else if (hasTargetsLeft) {
-        if (prevTimestamp != timestamp) {
-          prevTimestamp = timestamp;
+    //   } else if (hasTargetsLeft) {
+    //     if (prevTimestamp != timestamp) {
+    //       prevTimestamp = timestamp;
 
-          if (leftPose.isPresent()
-              && poseAmbiguityLeft < 0.2
-              && poseAmbiguityLeft > 0.0
-              && fiducialIDLeft >= 1
-              && fiducialIDLeft <= 16) {
-            poseEstimator.addVisionMeasurement(leftPose.get().estimatedPose.toPose2d(), timestamp);
-          }
-        }
+    //       if (leftPose.isPresent()
+    //           && poseAmbiguityLeft < 0.2
+    //           && poseAmbiguityLeft > 0.0
+    //           && fiducialIDLeft >= 1
+    //           && fiducialIDLeft <= 16) {
+    //         poseEstimator.addVisionMeasurement(leftPose.get().estimatedPose.toPose2d(),
+    // timestamp);
+    //       }
+    //     }
 
-      } else {
-        if (prevTimestamp != timestamp) {
-          prevTimestamp = timestamp;
+    //   } else {
+    //     if (prevTimestamp != timestamp) {
+    //       prevTimestamp = timestamp;
 
-          if (rightPose.isPresent()
-              && poseAmbiguityRight < 0.2
-              && poseAmbiguityRight > 0.0
-              && fiducialIDRight >= 1
-              && fiducialIDRight <= 16) {
-            poseEstimator.addVisionMeasurement(rightPose.get().estimatedPose.toPose2d(), timestamp);
-          }
-        }
-      }
-    }
+    //       if (rightPose.isPresent()
+    //           && poseAmbiguityRight < 0.2
+    //           && poseAmbiguityRight > 0.0
+    //           && fiducialIDRight >= 1
+    //           && fiducialIDRight <= 16) {
+    //         poseEstimator.addVisionMeasurement(rightPose.get().estimatedPose.toPose2d(),
+    // timestamp);
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   /**

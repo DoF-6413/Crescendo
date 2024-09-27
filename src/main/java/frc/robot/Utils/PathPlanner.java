@@ -36,7 +36,7 @@ public class PathPlanner extends SubsystemBase {
         drive::runVelocity,
         new HolonomicPathFollowerConfig(
             new PIDConstants(
-                PathPlannerConstants.TRANSLATION_KD, 0, PathPlannerConstants.TRANSLATION_KD),
+                PathPlannerConstants.TRANSLATION_KP, 0, PathPlannerConstants.TRANSLATION_KD),
             new PIDConstants(PathPlannerConstants.ROTATION_KP, 0, PathPlannerConstants.ROTATION_KD),
             DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
             DriveConstants
