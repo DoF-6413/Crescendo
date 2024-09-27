@@ -511,6 +511,11 @@ public class RobotContainer {
             new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem)
                 .withName("FeederStop"));
 
+    auxController
+        .start()
+        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(-500), m_shooterSubsystem))
+        .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
+
     /* SPEAKER Scoring */
     // Subwoofer (w/o vision)
     auxController
