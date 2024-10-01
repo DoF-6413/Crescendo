@@ -51,12 +51,16 @@ public final class WristConstants {
   public static final double STARTING_ANGLE_RAD = MIN_ANGLE_RAD;
   /** Offset of the Arm absolute encoder */
   public static final double ABS_ENCODER_OFFSET_RADS = -2.01715;
+  /** The multipler of the Wrist speed when brining the Wrist up */
+  public static final double DEFAULT_SPEED_SCALAR = 1;
+  /** 50% multipler of the Wrist speed when brining the Wrist down due to extra acceleration from gravity*/
+  public static final double HALF_SPEED_SCALAR = 0.5;
 
   // Wrist positions
   /** Wrists default position for intaking NOTEs best */
   public static final double DEFAULT_POSITION_RAD = Units.degreesToRadians(9);
   /** AMP Score back side */
-  public static final double AMP_BACK_SIDE_RAD = Units.degreesToRadians(66.38062); // -4, -2
+  public static final double AMP_BACK_SIDE_RAD = Units.degreesToRadians(69);
   /** AMP Score front side */
   public static final double AMP_FRONT_SIDE_RAD = 0.944;
   /** SOURCE Pickup back side */
@@ -64,7 +68,7 @@ public final class WristConstants {
   /** SPEAKER shot from subwoofer */
   public static final double SUBWOOFER_RAD = Units.degreesToRadians(33);
   /** SPEAKER shot from PODIUM */
-  public static final double PODIUM_RAD = Units.degreesToRadians(14.3886);
+  public static final double PODIUM_RAD = Units.degreesToRadians(13.3886);
   /** SPEAKER shot configuration from the PODIUM to score over "billboard-bots" */
   public static final double OVERSHOT_RAD = Units.degreesToRadians(38);
 }

@@ -4,12 +4,11 @@
 
 package frc.robot.Commands.ZeroCommands;
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Subsystems.arm.Arm;
+import frc.robot.Subsystems.arm.ArmConstants;
 import frc.robot.Subsystems.wrist.Wrist;
 import frc.robot.Subsystems.wrist.WristConstants;
 
@@ -24,16 +23,13 @@ public class ArmToZero extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
+              arm.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
+              wrist.setSpeedScalar(WristConstants.HALF_SPEED_SCALAR);
               wrist.setGoal(WristConstants.DEFAULT_POSITION_RAD);
             },
+            arm,
             wrist),
-        // new WaitUntilCommand(() -> wrist.atGoal()),
-        new WaitCommand(0.75), // TODO: Test with atGoal
-        Commands.runOnce(
-            () -> {
-              arm.setGoal(Units.degreesToRadians(0.0));
-            },
-            arm),
-        new WaitUntilCommand(() -> arm.atGoal()));
+        new WaitUntilCommand(() -> wrist.getPositionDeg() < 12),
+        Commands.runOnce(() -> wrist.setSpeedScalar(WristConstants.DEFAULT_SPEED_SCALAR), wrist));
   }
 }
