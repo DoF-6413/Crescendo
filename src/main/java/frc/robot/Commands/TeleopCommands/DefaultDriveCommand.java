@@ -55,9 +55,9 @@ public class DefaultDriveCommand extends Command {
   @Override
   public void execute() {
 
-    // If the Arm is over 28 degrees than half the max speed of the robot
+    // If the Arm is over 28 degrees then reduce the max speed of the robot
     if (ampSlowdown.getAsBoolean()) {
-      velocityScaler = 0.5;
+      velocityScaler = 0.65;
     } else {
       velocityScaler = 1;
     }

@@ -80,7 +80,7 @@ public final class ArmConstants {
   /** Subwoofer scoring angle */
   public static final double SUBWOOFER_RAD = Units.degreesToRadians(6);
   /** AMP Score back side */
-  public static final double AMP_BACK_SIDE_RAD = 0.880;
+  public static final double AMP_BACK_SIDE_RAD = 1.01;
   /** AMP Score front side */
   public static final double AMP_FRONT_SIDE_RAD = 2.244;
   /** SOURCE Pickup back side */
