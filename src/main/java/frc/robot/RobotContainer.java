@@ -318,6 +318,7 @@ public class RobotContainer {
     autoChooser.addDefaultOption(
         "One Piece",
         new OnePieceAuto(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
+    autoChooser.addOption("One Piece SubSource Leave", new PathPlannerAuto("SubSource Leave"));
     // ----------2 Piece----------
     autoChooser.addOption(
         "2 Piece Center (V) (Return)", new PathPlannerAuto("2P SubCenter-C2-Sub (V)"));
