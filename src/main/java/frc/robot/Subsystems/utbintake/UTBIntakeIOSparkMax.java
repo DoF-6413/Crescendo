@@ -42,7 +42,7 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
   }
 
   @Override
-  public void setUTBIntakePercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     utbIntakeMotor.set(percent);
   }
 

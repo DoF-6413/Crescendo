@@ -17,6 +17,6 @@ public class IntakeStop extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addRequirements();
-    addCommands(Commands.runOnce(() -> utbIntake.setUTBIntakePercentSpeed(0.0), utbIntake));
+    addCommands(Commands.runOnce(() -> utbIntake.setPercentSpeed(0.0), utbIntake));
   }
 }

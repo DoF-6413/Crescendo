@@ -1,0 +1,64 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.89,
+        "y": 5.55
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.611482108047351,
+        "y": 6.766332202498135
+      },
+      "isLocked": false,
+      "linkedName": "Score (3.89 m)"
+    },
+    {
+      "anchor": {
+        "x": 8.25075702407937,
+        "y": 5.791356380812524
+      },
+      "prevControl": {
+        "x": 6.339804413575574,
+        "y": 6.269094533438474
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Curve",
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 0.0,
+      "constraints": {
+        "maxVelocity": 5.2,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 515.65,
+        "maxAngularAcceleration": 262.825
+      }
+    }
+  ],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.2,
+    "maxAcceleration": 5.2,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -8.746162262555057,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "SubAmp M1-M2",
+  "previewStartingState": {
+    "rotation": 0.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

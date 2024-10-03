@@ -48,8 +48,8 @@ public class UTBIntake extends SubsystemBase {
    *
    * @param percent -1 to 1
    */
-  public void setUTBIntakePercentSpeed(double percent) {
-    io.setUTBIntakePercentSpeed(percent);
+  public void setPercentSpeed(double percent) {
+    io.setPercentSpeed(percent);
   }
 
   /**

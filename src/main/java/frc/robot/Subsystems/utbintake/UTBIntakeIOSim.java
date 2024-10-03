@@ -29,7 +29,7 @@ public class UTBIntakeIOSim implements UTBIntakeIO {
   }
 
   @Override
-  public void setUTBIntakePercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     utbFlywheelSim.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 }

@@ -53,7 +53,10 @@ public final class WristConstants {
   public static final double ABS_ENCODER_OFFSET_RADS = -2.01715;
   /** The multipler of the Wrist speed when brining the Wrist up */
   public static final double DEFAULT_SPEED_SCALAR = 1;
-  /** 50% multipler of the Wrist speed when brining the Wrist down due to extra acceleration from gravity*/
+  /**
+   * 50% multipler of the Wrist speed when brining the Wrist down due to extra acceleration from
+   * gravity
+   */
   public static final double HALF_SPEED_SCALAR = 0.5;
 
   // Wrist positions

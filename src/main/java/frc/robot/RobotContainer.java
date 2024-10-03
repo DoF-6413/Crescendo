@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
+import frc.robot.Commands.AutonomousCommands.PathPlannerAutos;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ReverseNote;
@@ -263,12 +264,10 @@ public class RobotContainer {
     // Pick Ups
     NamedCommands.registerCommand(
         "UTB",
-        new InstantCommand(
-            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem));
+        new InstantCommand(() -> m_utbIntakeSubsystem.setPercentSpeed(-1), m_utbIntakeSubsystem));
     NamedCommands.registerCommand(
         "UTBStop",
-        new InstantCommand(
-            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
+        new InstantCommand(() -> m_utbIntakeSubsystem.setPercentSpeed(0), m_utbIntakeSubsystem));
     NamedCommands.registerCommand(
         "PickUp", new PickUp(m_utbIntakeSubsystem, CommandConstants.RUN_INTAKE));
     NamedCommands.registerCommand(
@@ -327,6 +326,18 @@ public class RobotContainer {
         "3 Piece SC-C2-C1 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C1-Sub (V)"));
     autoChooser.addOption(
         "3 Piece SC-C2-C3 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C3-Sub (V)"));
+    autoChooser.addOption("3 Piece SA-C1-C2", new PathPlannerAuto("SubAmp C1-C2"));
+    autoChooser.addOption(
+        "3 Piece Midfield SA-C1-C2",
+        PathPlannerAutos.SubAmp_C1_C2_Smart(
+            m_driveSubsystem,
+            m_utbIntakeSubsystem,
+            m_armSubsystem,
+            m_wristSubsystem,
+            m_shooterSubsystem,
+            m_feederSubsystem,
+            m_beamBreak,
+            m_poseEstimator));
     autoChooser.addOption(
         "3 Piece SubSource Spit", new PathPlannerAuto("3P Source-M4-M5 (Spit) (V)"));
     autoChooser.addOption(

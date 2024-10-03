@@ -75,18 +75,6 @@ public class DefaultDriveCommand extends Command {
               * velocityScaler, // Left/Right (multiply by -1 bc controller a())is inverted)
           -controller.getRightX() * velocityScaler); // Rotate chassis left/right
     }
-
-    // if ((controller.leftTrigger().getAsBoolean() || controller.rightTrigger().getAsBoolean())
-    //     && alreadyPressedTrigger != true) {
-    //   prevIndex = index;
-    //   index = -1;
-    //   alreadyPressedTrigger = true;
-    // } else if (!controller.leftTrigger().getAsBoolean()
-    //     && !controller.rightTrigger().getAsBoolean()
-    //     && alreadyPressedTrigger == true) {
-    //   index = prevIndex;
-    //   alreadyPressedTrigger = false;
-    // }
   }
 
   // Called once the command ends or is interrupted.
