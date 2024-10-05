@@ -13,8 +13,11 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -310,6 +313,7 @@ public class RobotContainer {
     // autoChooser.addOption("Square Test", new PathPlannerAuto("Square"));
     // autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
+    autoChooser.addOption("Load Path Test", AutoBuilder.followPath(PathPlannerPath.fromPathFile("test2")));
     // ----------0 Piece----------
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
@@ -328,7 +332,7 @@ public class RobotContainer {
         "3 Piece SC-C2-C3 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C3-Sub (V)"));
     autoChooser.addOption("3 Piece SA-C1-C2", new PathPlannerAuto("SubAmp C1-C2"));
     autoChooser.addOption(
-        "3 Piece Midfield SA-C1-C2",
+        "3 Piece Midfield SA-C1-C2 (Smart)",
         PathPlannerAutos.SubAmp_C1_C2_Smart(
             m_driveSubsystem,
             m_utbIntakeSubsystem,
