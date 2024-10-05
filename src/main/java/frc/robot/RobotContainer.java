@@ -45,6 +45,10 @@ import frc.robot.Subsystems.arm.*;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.feeder.*;
 import frc.robot.Subsystems.gyro.*;
+import frc.robot.Subsystems.otbroller.OTBRoller;
+import frc.robot.Subsystems.otbroller.OTBRollerIO;
+import frc.robot.Subsystems.otbroller.OTBRollerIOSim;
+import frc.robot.Subsystems.otbroller.OTBRollerIOSparkMax;
 import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.wrist.*;
@@ -65,6 +69,7 @@ public class RobotContainer {
   // Mechanisms
   private final Arm m_armSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
+  private final OTBRoller m_otbRollerSubsystem;
   private final Shooter m_shooterSubsystem;
   private final Feeder m_feederSubsystem;
   private final Wrist m_wristSubsystem;
@@ -99,6 +104,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
+        m_otbRollerSubsystem = new OTBRoller(new OTBRollerIOSparkMax());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_feederSubsystem = new Feeder(new FeederIOTalonFX());
         m_wristSubsystem = new Wrist(new WristIOSparkMax());
@@ -116,6 +122,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
+        m_otbRollerSubsystem = new OTBRoller(new OTBRollerIOSim());
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_feederSubsystem = new Feeder(new FeederIOSim());
         m_wristSubsystem = new Wrist(new WristIOSim());
@@ -133,6 +140,7 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
+        m_otbRollerSubsystem = new OTBRoller(new OTBRollerIO() {});
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_feederSubsystem = new Feeder(new FeederIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
@@ -350,9 +358,6 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
-
-    // SmartDashboard variable that uses the UTB current to determine if a NOTE has been intaked
-    SmartDashboard.putBoolean("Is Note Picked Up", false);
   }
 
   /**
