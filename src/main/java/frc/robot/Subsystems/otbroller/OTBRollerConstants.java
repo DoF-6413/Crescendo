@@ -27,4 +27,8 @@ public class OTBRollerConstants {
   public static final int CUR_LIM_A = 40; // TODO: Verify
   /** Ensure the OTB Roller wont be inverted on startup */
   public static final boolean IS_INVERTED = false; // TODO: Verify
+  /** Percent speed for intaking */
+  public static final double INTAKE_PERCENT_SPEED = -0.30;
+  /** Percent speed for outtaking */
+  public static final double OUTTAKE_PERCENT_SPEED = 0.30;
 }

@@ -33,6 +33,7 @@ import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootAtAngle;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootWhenReady;
 import frc.robot.Commands.TeleopCommands.AmpScore.PositionAmpScoreBackside;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
+import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
 import frc.robot.Commands.TeleopCommands.Intakes.ShooterRev;
 import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
@@ -278,12 +279,10 @@ public class RobotContainer {
     // Pick Ups
     NamedCommands.registerCommand(
         "UTB",
-        new InstantCommand(
-            () -> m_utbIntakeSubsystem.setPercentSpeed(-1), m_utbIntakeSubsystem));
+        new InstantCommand(() -> m_utbIntakeSubsystem.setPercentSpeed(-1), m_utbIntakeSubsystem));
     NamedCommands.registerCommand(
         "UTBStop",
-        new InstantCommand(
-            () -> m_utbIntakeSubsystem.setPercentSpeed(0), m_utbIntakeSubsystem));
+        new InstantCommand(() -> m_utbIntakeSubsystem.setPercentSpeed(0), m_utbIntakeSubsystem));
     NamedCommands.registerCommand(
         "PickUp", new PickUp(m_utbIntakeSubsystem, CommandConstants.RUN_INTAKE));
     NamedCommands.registerCommand(
@@ -463,6 +462,30 @@ public class RobotContainer {
         .onTrue(
             new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem)
                 .withName("ZeroYaw"));
+
+    // All Intakes (Intake)
+    driverController
+        .rightTrigger()
+        .onTrue(
+            new AllIntakesRun(
+                    m_actuatorSubsystem,
+                    m_otbRollerSubsystem,
+                    m_utbIntakeSubsystem,
+                    m_feederSubsystem,
+                    CommandConstants.RUN_INTAKE)
+                .unless(m_beamBreak::isNoteDetected)
+                .withName("AllIntakeRun"))
+        .onFalse(
+            new AllIntakesRun(
+                    m_actuatorSubsystem,
+                    m_otbRollerSubsystem,
+                    m_utbIntakeSubsystem,
+                    m_feederSubsystem,
+                    CommandConstants.STOP_INTAKE)
+                .withName("AllIntakesStop"))
+        .onFalse(
+            new ShooterRev(m_feederSubsystem, m_shooterSubsystem, m_beamBreak)
+                .withName("ShooterRev"));
 
     // UTB Intake (Intake)
     driverController

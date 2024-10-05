@@ -15,7 +15,7 @@ public interface UTBIntakeIO {
     public double topUTBIntakeCurrentAmps = 0.0;
     /** Tempature, in Celsius, of the UTB Intake motor */
     public double topUTBIntakeTempCelsius = 0.0;
-    
+
     /** The velocity of the UTB Intake in Rotations per Minute */
     public double bottomUTBIntakeRPM = 0.0;
     /** Number of volts being sent to the UTB Intake motor */

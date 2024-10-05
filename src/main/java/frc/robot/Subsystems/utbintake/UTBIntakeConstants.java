@@ -27,7 +27,8 @@ public final class UTBIntakeConstants {
   /** Gear ratio of 30:24 for the UTB Intake */
   public static final double GEAR_RATIO = 0.8;
   /** Sets the inversion status of the Top UTB Intake motor */
-  public static final boolean IS_TOP_INVERTED = true; // TODO: Verify, top should be opposite of bottom
+  public static final boolean IS_TOP_INVERTED =
+      true; // TODO: Verify, top should be opposite of bottom
   /** Sets the inversion status of the Bottom UTB Intake motor */
   public static final boolean IS_BOTTOM_INVERTED = false; // TODO: Verify
   /** Speed of the UTB Intake when intaking */

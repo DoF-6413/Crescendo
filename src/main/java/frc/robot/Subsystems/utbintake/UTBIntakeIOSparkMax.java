@@ -42,8 +42,9 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
         topUTBIntakeMotor.getAppliedOutput() * topUTBIntakeMotor.getBusVoltage();
     inputs.topUTBIntakeCurrentAmps = topUTBIntakeMotor.getOutputCurrent();
     inputs.topUTBIntakeTempCelsius = topUTBIntakeMotor.getMotorTemperature();
-    
-    inputs.bottomUTBIntakeRPM = bottomUTBIntakeEncoder.getVelocity() / UTBIntakeConstants.GEAR_RATIO;
+
+    inputs.bottomUTBIntakeRPM =
+        bottomUTBIntakeEncoder.getVelocity() / UTBIntakeConstants.GEAR_RATIO;
     inputs.bottomUTBIntakeAppliedVolts =
         bottomUTBIntakeMotor.getAppliedOutput() * bottomUTBIntakeMotor.getBusVoltage();
     inputs.bottomUTBIntakeCurrentAmps = bottomUTBIntakeMotor.getOutputCurrent();

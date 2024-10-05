@@ -78,7 +78,7 @@ public class Actuator extends SubsystemBase {
    *
    * @param setpoint Angle (Radians)
    */
-  public void setActuatorSetpoint(double setpoint) {
+  public void setSetpoint(double setpoint) {
     actuatorPIDController.setSetpoint(setpoint);
   }
 

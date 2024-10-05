@@ -7,6 +7,7 @@ import frc.robot.Constants.RobotStateConstants;
 public class UTBIntakeIOSim implements UTBIntakeIO {
   /** creates a flywheel simulation for the UTB intake motor */
   private final FlywheelSim topUTBFlywheelSim;
+
   private final FlywheelSim bottomUTBFlywheelSim;
 
   public UTBIntakeIOSim() {

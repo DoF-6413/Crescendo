@@ -27,6 +27,6 @@ public class PickUp extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new ParallelCommandGroup(
-            new InstantCommand(() -> utb.setUTBIntakePercentSpeed(utbIntakePercentSpeed))));
+            new InstantCommand(() -> utb.setPercentSpeed(utbIntakePercentSpeed))));
   }
 }
