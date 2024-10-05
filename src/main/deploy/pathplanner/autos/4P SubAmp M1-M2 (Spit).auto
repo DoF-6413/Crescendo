@@ -2,119 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6573619984846805,
-      "y": 6.69
+      "x": 0.8,
+      "y": 6.59
     },
-    "rotation": 58.98517347604325
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "PreloadShot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "DisableSpeakerRotationOverride"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": null
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ZeroAll"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "VisionPickUp"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PickUpStop"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": null
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ZeroAll"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoAlignWrist"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "FeederReverse"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EnableSpeakerRotationOverride"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootWhenReady"
+            "name": "PreloadShot"
           }
         },
         {
@@ -124,9 +24,53 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "DisableSpeakerRotationOverride"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SubAmp-M1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "UTB"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpitNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
           }
         },
         {
@@ -136,7 +80,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SubAmp-M2 (V)"
+                  "pathName": "M1-M2"
                 }
               },
               {
@@ -144,27 +88,14 @@
                 "data": {
                   "name": "ZeroAll"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
+              },
               {
                 "type": "named",
                 "data": {
-                  "name": "VisionPickUp"
+                  "name": "UTB"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PickUpStop"
           }
         },
         {
@@ -174,13 +105,45 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M2-Score (V)"
+                  "pathName": "M2-FScore"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "ZeroAll"
+                  "name": "PickUpStop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoAlignWrist"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "FeederReverse"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootWhenReady"
                 }
               }
             ]
@@ -191,35 +154,80 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "AutoAlignWrist"
+                  "pathName": "FScore-M3"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "FeederReverse"
+                  "name": "ZeroAll"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "EnableSpeakerRotationOverride"
+                  "name": "UTB"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "ShootWhenReady"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "M3-FScore"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpStop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoAlignWrist"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "FeederReverse"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootWhenReady"
+                }
+              }
+            ]
           }
         }
       ]
     }
   },
-  "folder": "Midfield Vision (Temp)",
+  "folder": "Midfield SubAmp",
   "choreoAuto": false
 }

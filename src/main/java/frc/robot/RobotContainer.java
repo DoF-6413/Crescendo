@@ -350,12 +350,18 @@ public class RobotContainer {
     autoChooser.addOption(
         "3 Piece Source-Midfield M2-M4 (Displacement)",
         new PathPlannerAuto("3P Source M2-M4 (Displace)"));
+     autoChooser.addOption(
+        "3 Piece Midfield Auto (M1 Spit)", new PathPlannerAuto("3P SubAmp M1-M2 (Spit)"));
     // ----------4 Piece----------
     autoChooser.addOption(
         "4 Piece (V) (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
     autoChooser.addOption(
         "4 Piece SubAmp Midfield M2-M5 (Displacement)",
         new PathPlannerAuto("4P Source M2-M5 (Displace)"));
+    autoChooser.addOption(
+        "4 Piece SubAMP Midfield M1-M3", new PathPlannerAuto("4P SubAmp M1-M2"));
+    autoChooser.addOption(
+        "4 Piece SubAmp Midfield M1-M3 (M1 Spit)", new PathPlannerAuto("4P SubAmp M1-M2 (Spit)"));
 
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());

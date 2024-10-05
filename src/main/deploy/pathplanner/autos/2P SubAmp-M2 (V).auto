@@ -43,7 +43,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SubAmp - M2"
+                  "pathName": "SubAmp - M2 (V)"
                 }
               },
               {
@@ -74,7 +74,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M2-Score"
+                  "pathName": "M2-Score (V)"
                 }
               },
               {

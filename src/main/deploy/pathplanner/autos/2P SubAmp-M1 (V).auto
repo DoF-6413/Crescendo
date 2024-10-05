@@ -50,7 +50,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SubAmp-M1"
+                  "pathName": null
                 }
               },
               {
@@ -81,7 +81,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Score-M1"
+                  "pathName": null
                 }
               },
               {

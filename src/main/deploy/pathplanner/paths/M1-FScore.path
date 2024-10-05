@@ -3,53 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.8,
-        "y": 6.59
+        "x": 8.24,
+        "y": 7.468314794110172
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.8748828930382976,
-        "y": 7.587192334672812
-      },
-      "isLocked": false,
-      "linkedName": "SubAmp"
-    },
-    {
-      "anchor": {
-        "x": 3.3953774320891967,
-        "y": 7.682809474881005
-      },
-      "prevControl": {
-        "x": 2.3953774320891967,
-        "y": 7.682809474881005
-      },
-      "nextControl": {
-        "x": 4.395377432089196,
-        "y": 7.682809474881005
+        "x": 6.972531431804542,
+        "y": 7.097823981871242
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.24,
-        "y": 7.47
+        "x": 3.89,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 7.46001934264735,
-        "y": 7.538248307519595
+        "x": 4.338488877975379,
+        "y": 6.212983558746215
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Score (3.89 m)"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 30.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [
     {
       "name": "Curve",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.85,
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 0.0,
       "constraints": {
         "maxVelocity": 5.2,
         "maxAcceleration": 3.0,
@@ -73,7 +63,7 @@
   "reversed": false,
   "folder": "SubAmp Midfield",
   "previewStartingState": {
-    "rotation": 60.0,
+    "rotation": 0.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

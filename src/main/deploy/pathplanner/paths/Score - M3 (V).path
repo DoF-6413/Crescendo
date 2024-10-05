@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.871816019166482,
-        "y": 4.1
+        "x": 2.0576577529759894,
+        "y": 6.05450249416904
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.871816019166482,
-        "y": 4.1
+        "x": 3.9196807637552493,
+        "y": 6.745441850370149
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.33,
-        "y": 4.1
+        "x": 7.848666424864946,
+        "y": 4.122214464115091
       },
       "prevControl": {
-        "x": 7.33,
-        "y": 4.1
+        "x": 7.760835150771585,
+        "y": 6.850839379282182
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,21 +32,21 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.2,
+    "maxAcceleration": 5.2,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Midfield Displace SubHP (NO)",
+  "folder": "SubAmp Midfield (V)",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

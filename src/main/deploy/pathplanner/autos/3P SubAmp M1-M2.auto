@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7167669684840067,
-      "y": 6.640044321458116
+      "x": 0.8,
+      "y": 6.59
     },
     "rotation": 60.0
   },
@@ -12,109 +12,9 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "PreloadShot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "DisableSpeakerRotationOverride"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "SubAmp - M2 (V)"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ZeroAll"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "VisionPickUp"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PickUpStop"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "M2-Score (V)"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ZeroAll"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoAlignWrist"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "FeederReverse"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EnableSpeakerRotationOverride"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootWhenReady"
+            "name": "PreloadShot"
           }
         },
         {
@@ -124,9 +24,28 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "DisableSpeakerRotationOverride"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SubAmp-M1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "UTB"
+                }
+              }
+            ]
           }
         },
         {
@@ -136,13 +55,89 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Score - M3 (V)"
+                  "pathName": "M1-FScore"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpStop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoAlignWrist"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "FeederReverse"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootWhenReady"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "FScore-M2"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "ZeroAll"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "UTB"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "M2-FScore"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpStop"
                 }
               }
             ]
@@ -151,6 +146,6 @@
       ]
     }
   },
-  "folder": "Midfield Vision (Temp)",
+  "folder": "Midfield SubAmp",
   "choreoAuto": false
 }

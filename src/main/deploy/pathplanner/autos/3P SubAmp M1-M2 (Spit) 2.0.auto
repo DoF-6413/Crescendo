@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SubAmp to M1"
+                  "pathName": "SubAmp-M1"
                 }
               },
               {
@@ -52,51 +52,31 @@
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "M1 to Score"
-                }
-              },
               {
                 "type": "named",
                 "data": {
                   "name": "PickUpStop"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpitNote"
+                }
               }
             ]
           }
         },
         {
-          "type": "sequential",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "AutoAlignWrist"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "FeederReverse"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              }
-            ]
+            "pathName": "M1 (Rotation)"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
           }
         },
         {
@@ -106,7 +86,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Score to M2"
+                  "pathName": "M1-M2 2.0"
                 }
               },
               {
@@ -131,7 +111,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M2 to Score"
+                  "pathName": "M2-FScore"
                 }
               },
               {
@@ -178,6 +158,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Midfield SubAmp",
   "choreoAuto": false
 }
