@@ -18,6 +18,10 @@ public class OTBRollerConstants {
   /** The range the RPM of the OTB Rollers can be within to be considered at it setpoint */
   public static final double RPM_TOLERENCE = 0.0;
 
+  // Sim Constants
+  /** Moment of Interia of the OTB Roller. Used for the flywheel physics simulation */
+  public static final double MOI_KG_M2 = 0.0001; // TODO: Update
+
   // Real Constants
   /** The CAN ID of the OTB Roller so it can be Identified on the CAN bus */
   public static final int CAN_ID = 16;
