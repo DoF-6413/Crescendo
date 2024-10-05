@@ -15,7 +15,7 @@ public class OTBRollerConstants {
   public static double KI = 0.0;
   /** KD represents the constant multiplied by the velocity error from setpoint (Derived Error) */
   public static double KD = 0.0;
-  /** The range the RPM of the OTB Rollers can be within to be considered at it Setpoint */
+  /** The range the RPM of the OTB Rollers can be within to be considered at it setpoint */
   public static final double RPM_TOLERENCE = 0.0;
 
   // Real Constants

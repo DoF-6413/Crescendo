@@ -279,11 +279,11 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "UTB",
         new InstantCommand(
-            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(-1), m_utbIntakeSubsystem));
+            () -> m_utbIntakeSubsystem.setPercentSpeed(-1), m_utbIntakeSubsystem));
     NamedCommands.registerCommand(
         "UTBStop",
         new InstantCommand(
-            () -> m_utbIntakeSubsystem.setUTBIntakePercentSpeed(0), m_utbIntakeSubsystem));
+            () -> m_utbIntakeSubsystem.setPercentSpeed(0), m_utbIntakeSubsystem));
     NamedCommands.registerCommand(
         "PickUp", new PickUp(m_utbIntakeSubsystem, CommandConstants.RUN_INTAKE));
     NamedCommands.registerCommand(
@@ -402,7 +402,7 @@ public class RobotContainer {
     m_armSubsystem.setBrakeMode(!isDisabled);
     m_wristSubsystem.setBrakeMode(!isDisabled);
     m_shooterSubsystem.setBrakeMode(!isDisabled);
-    m_utbIntakeSubsystem.setUTBIntakeBrakeMode(!isDisabled);
+    m_utbIntakeSubsystem.setBrakeMode(!isDisabled);
   }
 
   /** Sets the setpoint/position to zero */

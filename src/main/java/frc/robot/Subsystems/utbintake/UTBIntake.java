@@ -39,8 +39,8 @@ public class UTBIntake extends SubsystemBase {
    *
    * @param volts -12 to 12
    */
-  public void setUTBIntakeVoltage(double volts) {
-    io.setUTBIntakeVoltage(volts);
+  public void setVoltage(double volts) {
+    io.setVoltage(volts);
   }
 
   /**
@@ -48,8 +48,8 @@ public class UTBIntake extends SubsystemBase {
    *
    * @param percent -1 to 1
    */
-  public void setUTBIntakePercentSpeed(double percent) {
-    io.setUTBIntakePercentSpeed(percent);
+  public void setPercentSpeed(double percent) {
+    io.setPercentSpeed(percent);
   }
 
   /**
@@ -57,11 +57,7 @@ public class UTBIntake extends SubsystemBase {
    *
    * @param enable Enables brake mode if true, coast if false
    */
-  public void setUTBIntakeBrakeMode(boolean enable) {
-    io.setUTBIntakeBrakeMode(enable);
-  }
-
-  public double getCurrentDraw() {
-    return inputs.utbIntakeCurrentAmps;
+  public void setBrakeMode(boolean enable) {
+    io.setBrakeMode(enable);
   }
 }
