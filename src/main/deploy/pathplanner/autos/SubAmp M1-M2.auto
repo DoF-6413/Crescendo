@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SubAmp to C1"
+                  "pathName": "SubAmp to M1"
                 }
               },
               {
@@ -55,7 +55,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "C1 to Score"
+                  "pathName": "M1 to Score"
                 }
               },
               {
@@ -106,7 +106,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Score to C2"
+                  "pathName": "Score to M2"
                 }
               },
               {
@@ -131,7 +131,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "C2 to Score"
+                  "pathName": "M2 to Score"
                 }
               },
               {

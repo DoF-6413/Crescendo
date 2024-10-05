@@ -2,8 +2,6 @@ package frc.robot.Commands.AutonomousCommands;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
@@ -28,10 +26,8 @@ import frc.robot.Utils.PoseEstimator;
 
 public class PathPlannerAutos {
 
-  /**
-   * Same auto as the one from PathPlanner but with decision making
-   */
-  public static Command SubAmp_C1_C2_Smart(
+  /** Same auto as the one from PathPlanner but with decision making */
+  public static Command SubAmp_M1_M2_Smart(
       Drive drive,
       UTBIntake utb,
       Arm arm,
@@ -42,76 +38,103 @@ public class PathPlannerAutos {
       PoseEstimator pose) {
 
     // Normal Paths
-    PathPlannerPath SubAmp_to_C1 = PathPlannerPath.fromPathFile("SubAmp to C1");
-    PathPlannerPath C1_to_Score = PathPlannerPath.fromPathFile("C1 to Score");
-    PathPlannerPath Score_to_C2 = PathPlannerPath.fromPathFile("Score to C2");
-    PathPlannerPath C2_to_Score = PathPlannerPath.fromPathFile("C2 to Score");
+    PathPlannerPath SubAmp_to_M1 = PathPlannerPath.fromPathFile("SubAmp to M1");
+    PathPlannerPath M1_to_Score = PathPlannerPath.fromPathFile("M1 to Score");
+    PathPlannerPath Score_to_M2 = PathPlannerPath.fromPathFile("Score to M2");
+    PathPlannerPath M2_to_Score = PathPlannerPath.fromPathFile("M2 to Score");
     // Failsafe Paths
-    PathPlannerPath C1_to_C2 = PathPlannerPath.fromPathFile("C1 to C2");
+    PathPlannerPath M1_to_M2 = PathPlannerPath.fromPathFile("M1 to M2");
     // NOTEs Picked Up
     Trigger firstNote =
         new Trigger(
             () ->
                 (pose.getCurrentPose2d().getX() > 7.5
                     && true)); // TODO: Change true/false to Intake Beam Break once it exists
-    Trigger pastMidline = new Trigger(() -> (pose.getCurrentPose2d().getX() > 8.24));
+
+    Trigger pastMidline = new Trigger(() -> (pose.getCurrentPose2d().getX() > 8.55));
 
     return Commands.parallel(
             new PreloadShot(arm, wrist, shooter, feeder, ShooterConstants.CLOSE_RPM),
             Commands.runOnce(
-                () -> pose.resetPose(PathPlannerConstants.SUB_AMP_START_POSE), pose)) // Shoot preload, set start position
+                () -> pose.resetPose(PathPlannerConstants.SUB_AMP_START_POSE),
+                pose)) // Shoot preload, set start position
         .andThen(Commands.waitSeconds(0.25))
         .andThen(
             Commands.parallel(
-                AutoBuilder.followPath(SubAmp_to_C1),
+                AutoBuilder.followPath(SubAmp_to_M1).until(pastMidline),
                 Commands.runOnce(
                     () -> utb.setPercentSpeed(UTBIntakeConstants.INTAKE_PERCENT_SPEED), utb),
-                new ZeroAll(arm, wrist, shooter, feeder))) // Zero Entire Shooter Mech, Run Intake, and Go to C1
+                new ZeroAll(
+                    arm, wrist, shooter,
+                    feeder))) // Zero Entire Shooter Mech, Run Intake, and Go to M1
         .andThen(
-            new ConditionalCommand( // Either Score C1, or go to C2 depending if the C1 NOTE was intaken
-            /* Normal Path */
+            new ConditionalCommand( // Either Score M1, or go to M2 depending if the M1 NOTE was
+                // intaken
+                /* Normal Path */
                 Commands.parallel(
-                        AutoBuilder.followPath(C1_to_Score),
+                        AutoBuilder.followPath(M1_to_Score),
                         Commands.runOnce(() -> utb.setPercentSpeed(0), utb),
-                        new ZeroAll(arm, wrist, shooter, feeder)) // Zero Shooter Mech, Stop Intake, Go to score position
+                        new ZeroAll(
+                            arm, wrist, shooter,
+                            feeder)) // Zero Shooter Mech, Stop Intake, Go to score position
                     .andThen(
                         Commands.parallel(
                             new AimWrist(arm, wrist, pose),
-                            new ReverseNote(shooter, feeder, beamBreak))) // Aim Wrist to SPEAKER and Reverse NOTE
+                            new ReverseNote(
+                                shooter, feeder,
+                                beamBreak))) // Aim Wrist to SPEAKER and Reverse NOTE
                     .andThen(
-                        new ShootWhenReady(shooter, feeder, beamBreak, ShooterConstants.FAR_RPM)) // Shoot NOTE
+                        new ShootWhenReady(
+                            shooter, feeder, beamBreak, ShooterConstants.FAR_RPM)) // Shoot NOTE
                     .andThen(new WaitCommand(0.25))
                     .andThen(
                         Commands.parallel(
-                            AutoBuilder.followPath(Score_to_C2),
+                            AutoBuilder.followPath(Score_to_M2).until(pastMidline),
                             Commands.runOnce(
                                 () -> utb.setPercentSpeed(UTBIntakeConstants.INTAKE_PERCENT_SPEED),
                                 utb)),
-                        new ZeroAll(arm, wrist, shooter, feeder)) // Zero Shooter Mech, Run Intake, Go to C2
+                        new ZeroAll(
+                            arm, wrist, shooter, feeder)) // Zero Shooter Mech, Run Intake, Go to M2
                     .andThen(
                         Commands.parallel(
-                            AutoBuilder.followPath(C2_to_Score),
-                            Commands.runOnce(() -> utb.setPercentSpeed(0)))) // Stop Intake, Go to score position
+                            AutoBuilder.followPath(M2_to_Score),
+                            Commands.runOnce(
+                                () -> utb.setPercentSpeed(0)))) // Stop Intake, Go to score position
                     .andThen(
                         Commands.parallel(
                             new AimWrist(arm, wrist, pose),
-                            new ReverseNote(shooter, feeder, beamBreak))) // Aim Wrist to SPEAKER and Reverse NOTE
-                    .andThen(new ShootWhenReady(shooter, feeder, beamBreak, ShooterConstants.FAR_RPM)), // Shoot NOTE, End of the normal path
+                            new ReverseNote(
+                                shooter, feeder,
+                                beamBreak))) // Aim Wrist to SPEAKER and Reverse NOTE
+                    .andThen(
+                        new ShootWhenReady(
+                            shooter,
+                            feeder,
+                            beamBreak,
+                            ShooterConstants.FAR_RPM)), // Shoot NOTE, End of the normal path
                 Commands.parallel(
-                    /* Backup Path */
-                        AutoBuilder.followPath(C1_to_C2),
+                        /* Backup Path */
+                        AutoBuilder.followPath(M1_to_M2).until(pastMidline),
                         Commands.runOnce(
                             () -> utb.setPercentSpeed(UTBIntakeConstants.INTAKE_PERCENT_SPEED),
-                            utb)) // Run Intak, Go to C2
+                            utb)) // Run Intak, Go to M2
                     .andThen(
                         Commands.parallel(
-                            AutoBuilder.followPath(C2_to_Score),
-                        Commands.runOnce(() -> utb.setPercentSpeed(0), utb))) // Stop Intake, Go to Score
+                            AutoBuilder.followPath(M2_to_Score),
+                            Commands.runOnce(
+                                () -> utb.setPercentSpeed(0), utb))) // Stop Intake, Go to Score
                     .andThen(
                         Commands.parallel(
                             new AimWrist(arm, wrist, pose),
-                            new ReverseNote(shooter, feeder, beamBreak))) // Aim Wrist to SPEAKER and Reverse NOTE
-                    .andThen(new ShootWhenReady(shooter, feeder, beamBreak, ShooterConstants.FAR_RPM)), // Shoot NOTE, End of Backup path
+                            new ReverseNote(
+                                shooter, feeder,
+                                beamBreak))) // Aim Wrist to SPEAKER and Reverse NOTE
+                    .andThen(
+                        new ShootWhenReady(
+                            shooter,
+                            feeder,
+                            beamBreak,
+                            ShooterConstants.FAR_RPM)), // Shoot NOTE, End of Backup path
                 firstNote));
   }
 }

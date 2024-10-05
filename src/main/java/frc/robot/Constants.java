@@ -206,6 +206,7 @@ public final class Constants {
     public static final Pose2d AMP_RED_END_POSE =
         new Pose2d(14.69, 7.69, new Rotation2d(Units.degreesToRadians(-90)));
     /** Start position at the AMP side of the Subwoofer */
-    public static final Pose2d SUB_AMP_START_POSE = new Pose2d(0.80, 6.59, Rotation2d.fromDegrees(60));
+    public static final Pose2d SUB_AMP_START_POSE =
+        new Pose2d(0.80, 6.59, Rotation2d.fromDegrees(60));
   }
 }
