@@ -205,8 +205,11 @@ public final class Constants {
     /** Position to align the robot with the AMP in the Red Wing */
     public static final Pose2d AMP_RED_END_POSE =
         new Pose2d(14.69, 7.69, new Rotation2d(Units.degreesToRadians(-90)));
-    /** Start position at the AMP side of the Subwoofer */
-    public static final Pose2d SUB_AMP_START_POSE =
+    /** Start position at the AMP side of the Subwoofer on the Blue side */
+    public static final Pose2d SUB_AMP_BLUE_START_POSE =
         new Pose2d(0.80, 6.59, Rotation2d.fromDegrees(60));
+    /** Start position at the AMP side of the Subwoofer on the Red side */
+    public static final Pose2d SUB_AMP_RED_START_POSE =
+        new Pose2d(15.74, 6.59, Rotation2d.fromDegrees(120));
   }
 }
