@@ -28,10 +28,10 @@ public class OTBRoller extends SubsystemBase {
   /**
    * Sets OTB Roller Voltage
    *
-   * @param volts -12 to 12
+   * @param voltage -12V to 12V
    */
-  public void setVoltage(double volts) {
-    io.setVoltage(volts);
+  public void setVoltage(double voltage) {
+    io.setVoltage(voltage);
   }
 
   /**

@@ -37,8 +37,8 @@ public class OTBRollerIOSparkMax implements OTBRollerIO {
   }
 
   @Override
-  public void setVoltage(double volts) {
-    otbRollerMotor.setVoltage(volts);
+  public void setVoltage(double voltage) {
+    otbRollerMotor.setVoltage(voltage);
   }
 
   @Override

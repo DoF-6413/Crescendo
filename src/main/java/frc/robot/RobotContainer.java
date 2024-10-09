@@ -465,7 +465,7 @@ public class RobotContainer {
 
     // All Intakes (Intake)
     driverController
-        .rightTrigger()
+        .leftTrigger()
         .onTrue(
             new AllIntakesRun(
                     m_actuatorSubsystem,
@@ -474,7 +474,7 @@ public class RobotContainer {
                     m_feederSubsystem,
                     CommandConstants.RUN_INTAKE)
                 .unless(m_beamBreak::isNoteDetected)
-                .withName("AllIntakeRun"))
+                .withName("AllIntakesRun"))
         .onFalse(
             new AllIntakesRun(
                     m_actuatorSubsystem,
