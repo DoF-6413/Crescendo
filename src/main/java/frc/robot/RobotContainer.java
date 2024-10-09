@@ -266,7 +266,7 @@ public class RobotContainer {
     // Pick Ups
     NamedCommands.registerCommand(
         "UTB",
-        new InstantCommand(() -> m_utbIntakeSubsystem.setPercentSpeed(-1), m_utbIntakeSubsystem));
+        new InstantCommand(() -> m_utbIntakeSubsystem.setPercentSpeed(UTBIntakeConstants.INTAKE_PERCENT_SPEED), m_utbIntakeSubsystem));
     NamedCommands.registerCommand(
         "UTBStop",
         new InstantCommand(() -> m_utbIntakeSubsystem.setPercentSpeed(0), m_utbIntakeSubsystem));
@@ -312,8 +312,6 @@ public class RobotContainer {
     // autoChooser.addOption("Square Test", new PathPlannerAuto("Square"));
     // autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
     // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
-    autoChooser.addOption(
-        "Load Path Test", AutoBuilder.followPath(PathPlannerPath.fromPathFile("test2")));
     // ----------0 Piece----------
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
@@ -327,13 +325,15 @@ public class RobotContainer {
         "2 Piece Center (V) (Return)", new PathPlannerAuto("2P SubCenter-C2-Sub (V)"));
     // ----------3 Piece----------
     autoChooser.addOption(
-        "3 Piece SC-C2-C1 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C1-Sub (V)"));
+        "3 Piece Center (Amp NOTE) (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C1-Sub (V)"));
     autoChooser.addOption(
-        "3 Piece SC-C2-C3 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C3-Sub (V)"));
-    autoChooser.addOption("3 Piece SA-M1-M2", new PathPlannerAuto("3P SubAmp M1-M2"));
+        "3 Piece Center (Podium NOTE) (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C3-Sub (V)"));
+    autoChooser.addOption("3 Piece Midfield SubAMP Mid 1+2", new PathPlannerAuto("3P SubAmp M1-M2"));
     autoChooser.addOption(
-        "3 Piece Midfield SA-M1-M2 (Smart)",
-        PathPlannerAutos.SubAmp_M1_M2_Smart(
+        "3 Piece SubAMP Midfield Auto (M1 Spit)", new PathPlannerAuto("3P SubAmp M1-M2 (Spit)"));
+    autoChooser.addOption(
+        "3 Piece Midfield SubAMP Midfield M1-M2 (Blue) (Smart)",
+        PathPlannerAutos.SubAmp_M1_M2_Smart_Blue(
             m_driveSubsystem,
             m_utbIntakeSubsystem,
             m_armSubsystem,
@@ -343,35 +343,36 @@ public class RobotContainer {
             m_beamBreak,
             m_poseEstimator));
     autoChooser.addOption(
-        "3 Piece SubSource Spit", new PathPlannerAuto("3P Source-M4-M5 (Spit) (V)"));
+        "3 Piece Midfield SubAMP Midfield M1-M2 (Red) (Smart)",
+        PathPlannerAutos.SubAmp_M1_M2_Smart_Red(
+            m_driveSubsystem,
+            m_utbIntakeSubsystem,
+            m_armSubsystem,
+            m_wristSubsystem,
+            m_shooterSubsystem,
+            m_feederSubsystem,
+            m_beamBreak,
+            m_poseEstimator));
     autoChooser.addOption(
-        "3 Piece Source Sub Mid Field", new PathPlannerAuto("3P SubSource-M4-M5 (V)"));
+        "3 Piece Source Midfield M4-M5 (Spit)", new PathPlannerAuto("3P Source-M4-M5 (Spit) (V)"));
     autoChooser.addOption(
-        "3 Piece Source-Midfield M2-M4 (Displacement)",
+        "3 Piece Source Midfield M2-M4 (Displacement)",
         new PathPlannerAuto("3P Source M2-M4 (Displace)"));
-    autoChooser.addOption(
-        "3 Piece Midfield Auto (M1 Spit)", new PathPlannerAuto("3P SubAmp M1-M2 (Spit)"));
     // ----------4 Piece----------
     autoChooser.addOption(
-        "4 Piece (V) (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
+        "4 Piece Center (V) (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
     autoChooser.addOption(
-        "4 Piece SubAmp Midfield M2-M5 (Displacement)",
+        "4 Piece SubAMP Midfield M2-M5 (Displacement)",
         new PathPlannerAuto("4P Source M2-M5 (Displace)"));
     autoChooser.addOption("4 Piece SubAMP Midfield M1-M3", new PathPlannerAuto("4P SubAmp M1-M2"));
     autoChooser.addOption(
-        "4 Piece SubAmp Midfield M1-M3 (M1 Spit)", new PathPlannerAuto("4P SubAmp M1-M2 (Spit)"));
+        "4 Piece SubAMP Midfield M1-M3 (M1 Spit)", new PathPlannerAuto("4P SubAmp M1-M2 (Spit)"));
 
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
-    // Adds a delay to the deadreakoned autos
-    // SmartDashboard.putNumber("Delay", 0);
-
     // Configure the button bindings
     configureButtonBindings();
-
-    // SmartDashboard variable that uses the UTB current to determine if a NOTE has been intaked
-    SmartDashboard.putBoolean("Is Note Picked Up", false);
   }
 
   /**
