@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.24,
-        "y": 7.468314794110172
+        "x": 8.05261821049958,
+        "y": 7.432701005752889
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.972531431804542,
-        "y": 7.097823981871242
+        "x": 9.052618210499586,
+        "y": 7.432701005752889
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.89,
-        "y": 5.55
+        "x": 15.29816094719909,
+        "y": 6.589352476950569
       },
       "prevControl": {
-        "x": 4.33848887797538,
-        "y": 6.212983558746215
+        "x": 14.29816094719909,
+        "y": 6.589352476950569
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Score (3.89 m)"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -39,8 +39,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": true
+    "rotation": 120.0,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": null,

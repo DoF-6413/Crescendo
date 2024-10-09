@@ -342,6 +342,15 @@ public class RobotContainer {
             m_feederSubsystem,
             m_beamBreak,
             m_poseEstimator));
+    autoChooser.addOption(
+        "3 Piece SubSource Spit", new PathPlannerAuto("3P Source-M4-M5 (Spit) (V)"));
+    autoChooser.addOption(
+        "3 Piece Source Sub Mid Field", new PathPlannerAuto("3P SubSource-M4-M5 (V)"));
+    autoChooser.addOption(
+        "3 Piece Source-Midfield M2-M4 (Displacement)",
+        new PathPlannerAuto("3P Source M2-M4 (Displace)"));
+    autoChooser.addOption(
+        "3 Piece Midfield Auto (M1 Spit)", new PathPlannerAuto("3P SubAmp M1-M2 (Spit)"));
     // ----------4 Piece----------
     autoChooser.addOption(
         "4 Piece (V) (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
