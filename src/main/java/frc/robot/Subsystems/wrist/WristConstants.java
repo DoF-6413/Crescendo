@@ -57,7 +57,7 @@ public final class WristConstants {
    * 50% multipler of the Wrist speed when brining the Wrist down due to extra acceleration from
    * gravity
    */
-  public static final double HALF_SPEED_SCALAR = 0.5;
+  public static final double REDUCED_SPEED_SCALAR = 0.35;
 
   // Wrist positions
   /** Wrists default position for intaking NOTEs best */

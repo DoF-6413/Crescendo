@@ -24,7 +24,7 @@ public class ArmToZero extends SequentialCommandGroup {
         Commands.runOnce(
             () -> {
               arm.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
-              wrist.setSpeedScalar(WristConstants.HALF_SPEED_SCALAR);
+              wrist.setSpeedScalar(WristConstants.REDUCED_SPEED_SCALAR);
               wrist.setGoal(WristConstants.DEFAULT_POSITION_RAD);
             },
             arm,

@@ -330,7 +330,7 @@ public class RobotContainer {
         "3 Piece SC-C2-C1 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C1-Sub (V)"));
     autoChooser.addOption(
         "3 Piece SC-C2-C3 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C3-Sub (V)"));
-    autoChooser.addOption("3 Piece SA-M1-M2", new PathPlannerAuto("SubAmp M1-M2"));
+    autoChooser.addOption("3 Piece SA-M1-M2", new PathPlannerAuto("3P SubAmp M1-M2"));
     autoChooser.addOption(
         "3 Piece Midfield SA-M1-M2 (Smart)",
         PathPlannerAutos.SubAmp_M1_M2_Smart(
@@ -342,24 +342,13 @@ public class RobotContainer {
             m_feederSubsystem,
             m_beamBreak,
             m_poseEstimator));
-    autoChooser.addOption(
-        "3 Piece SubSource Spit", new PathPlannerAuto("3P Source-M4-M5 (Spit) (V)"));
-    autoChooser.addOption(
-        "3 Piece Source Sub Mid Field", new PathPlannerAuto("3P SubSource-M4-M5 (V)"));
-    autoChooser.addOption("3 Piece Amp sub Midfield", new PathPlannerAuto("3P SubAmp-M1-M2 (V)"));
-    autoChooser.addOption(
-        "3 Piece Source-Midfield M2-M4 (Displacement)",
-        new PathPlannerAuto("3P Source M2-M4 (Displace)"));
-     autoChooser.addOption(
-        "3 Piece Midfield Auto (M1 Spit)", new PathPlannerAuto("3P SubAmp M1-M2 (Spit)"));
     // ----------4 Piece----------
     autoChooser.addOption(
         "4 Piece (V) (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
     autoChooser.addOption(
         "4 Piece SubAmp Midfield M2-M5 (Displacement)",
         new PathPlannerAuto("4P Source M2-M5 (Displace)"));
-    autoChooser.addOption(
-        "4 Piece SubAMP Midfield M1-M3", new PathPlannerAuto("4P SubAmp M1-M2"));
+    autoChooser.addOption("4 Piece SubAMP Midfield M1-M3", new PathPlannerAuto("4P SubAmp M1-M2"));
     autoChooser.addOption(
         "4 Piece SubAmp Midfield M1-M3 (M1 Spit)", new PathPlannerAuto("4P SubAmp M1-M2 (Spit)"));
 
