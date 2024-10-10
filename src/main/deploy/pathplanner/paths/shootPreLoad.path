@@ -61,7 +61,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "OnePieceAuto",
+  "folder": "1PieceAuto",
   "previewStartingState": {
     "rotation": -1.0879126651246471e-13,
     "velocity": 0

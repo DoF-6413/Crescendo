@@ -366,9 +366,6 @@ public class RobotContainer {
     autoChooser.addOption(
         "4 Piece SubAMP Midfield M2-M5 (Displacement)",
         new PathPlannerAuto("4P Source M2-M5 (Displace)"));
-    autoChooser.addOption("4 Piece SubAMP Midfield M1-M3", new PathPlannerAuto("4P SubAmp M1-M2"));
-    autoChooser.addOption(
-        "4 Piece SubAMP Midfield M1-M3 (M1 Spit)", new PathPlannerAuto("4P SubAmp M1-M2 (Spit)"));
 
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
