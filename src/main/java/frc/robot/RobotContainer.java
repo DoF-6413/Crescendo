@@ -13,15 +13,12 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -266,7 +263,9 @@ public class RobotContainer {
     // Pick Ups
     NamedCommands.registerCommand(
         "UTB",
-        new InstantCommand(() -> m_utbIntakeSubsystem.setPercentSpeed(UTBIntakeConstants.INTAKE_PERCENT_SPEED), m_utbIntakeSubsystem));
+        new InstantCommand(
+            () -> m_utbIntakeSubsystem.setPercentSpeed(UTBIntakeConstants.INTAKE_PERCENT_SPEED),
+            m_utbIntakeSubsystem));
     NamedCommands.registerCommand(
         "UTBStop",
         new InstantCommand(() -> m_utbIntakeSubsystem.setPercentSpeed(0), m_utbIntakeSubsystem));
@@ -325,10 +324,13 @@ public class RobotContainer {
         "2 Piece Center (V) (Return)", new PathPlannerAuto("2P SubCenter-C2-Sub (V)"));
     // ----------3 Piece----------
     autoChooser.addOption(
-        "3 Piece Center (Amp NOTE) (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C1-Sub (V)"));
+        "3 Piece Center (Amp NOTE) (V) (Return)",
+        new PathPlannerAuto("3P SubCenter-C2-Sub-C1-Sub (V)"));
     autoChooser.addOption(
-        "3 Piece Center (Podium NOTE) (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C3-Sub (V)"));
-    autoChooser.addOption("3 Piece Midfield SubAMP Mid 1+2", new PathPlannerAuto("3P SubAmp M1-M2"));
+        "3 Piece Center (Podium NOTE) (V) (Return)",
+        new PathPlannerAuto("3P SubCenter-C2-Sub-C3-Sub (V)"));
+    autoChooser.addOption(
+        "3 Piece Midfield SubAMP Mid 1+2", new PathPlannerAuto("3P SubAmp M1-M2"));
     autoChooser.addOption(
         "3 Piece SubAMP Midfield Auto (M1 Spit)", new PathPlannerAuto("3P SubAmp M1-M2 (Spit)"));
     autoChooser.addOption(

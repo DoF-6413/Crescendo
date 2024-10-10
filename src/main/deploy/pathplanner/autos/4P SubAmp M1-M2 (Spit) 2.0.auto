@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SubAmp-M1"
+                  "pathName": null
                 }
               },
               {
@@ -70,7 +70,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M1 (Rotation)"
+            "pathName": null
           }
         },
         {
@@ -86,7 +86,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M1-M2 2.0"
+                  "pathName": "M1 to M2 v2"
                 }
               },
               {
@@ -111,7 +111,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M2-FScore"
+                  "pathName": null
                 }
               },
               {
@@ -162,7 +162,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "FScore-M3"
+                  "pathName": "Score to M3"
                 }
               },
               {
@@ -187,7 +187,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M3-FScore"
+                  "pathName": "M3 to Score"
                 }
               },
               {

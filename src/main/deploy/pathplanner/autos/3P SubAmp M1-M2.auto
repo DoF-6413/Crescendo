@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SubAmp-M1"
+                  "pathName": "SubAmp to M1"
                 }
               },
               {
@@ -55,7 +55,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M1-FScore"
+                  "pathName": "M1 to Score"
                 }
               },
               {
@@ -106,7 +106,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "FScore-M2"
+                  "pathName": "Score to M2"
                 }
               },
               {
@@ -131,7 +131,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M2-FScore"
+                  "pathName": "M2 to Score"
                 }
               },
               {

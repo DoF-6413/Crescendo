@@ -52,20 +52,15 @@ public class PathPlannerAutos {
     Trigger firstNote =
         new Trigger(
             () ->
-                pose.getCurrentPose2d().getX() > firstNoteXMeters); // TODO: Add Intake Beam Break once it exists
-    Trigger pastMidline =
-        new Trigger(
-            () ->
-                pose.getCurrentPose2d().getX() > tooFarOverMeters);
+                pose.getCurrentPose2d().getX()
+                    > firstNoteXMeters); // TODO: Add Intake Beam Break once it exists
+    Trigger pastMidline = new Trigger(() -> pose.getCurrentPose2d().getX() > tooFarOverMeters);
 
     return Commands.parallel(
             // Shoot preload, set start position
             new PreloadShot(arm, wrist, shooter, feeder, ShooterConstants.CLOSE_RPM),
             Commands.runOnce(
-                () ->
-                    pose.resetPose(
-                            PathPlannerConstants.SUB_AMP_BLUE_START_POSE),
-                pose))
+                () -> pose.resetPose(PathPlannerConstants.SUB_AMP_BLUE_START_POSE), pose))
         .andThen(Commands.waitSeconds(0.25))
         .andThen(
             // Zero Entire Shooter Mech, Run Intake, and Go to M1
@@ -160,20 +155,15 @@ public class PathPlannerAutos {
     Trigger firstNote =
         new Trigger(
             () ->
-                pose.getCurrentPose2d().getX() < firstNoteXMeters); // TODO: Add Intake Beam Break once it exists
-    Trigger pastMidline =
-        new Trigger(
-            () ->
-                pose.getCurrentPose2d().getX() < tooFarOverMeters);
+                pose.getCurrentPose2d().getX()
+                    < firstNoteXMeters); // TODO: Add Intake Beam Break once it exists
+    Trigger pastMidline = new Trigger(() -> pose.getCurrentPose2d().getX() < tooFarOverMeters);
 
     return Commands.parallel(
             // Shoot preload, set start position
             new PreloadShot(arm, wrist, shooter, feeder, ShooterConstants.CLOSE_RPM),
             Commands.runOnce(
-                () ->
-                    pose.resetPose(
-                            PathPlannerConstants.SUB_AMP_RED_START_POSE),
-                pose))
+                () -> pose.resetPose(PathPlannerConstants.SUB_AMP_RED_START_POSE), pose))
         .andThen(Commands.waitSeconds(0.25))
         .andThen(
             // Zero Entire Shooter Mech, Run Intake, and Go to M1

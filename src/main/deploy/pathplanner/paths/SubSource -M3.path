@@ -3,45 +3,33 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.25075702407937,
-        "y": 5.791356380812524
+        "x": 0.7509152340242001,
+        "y": 4.4671669970120575
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.93023641145234,
-        "y": 6.902665632897834
+        "x": 2.9026396514331485,
+        "y": 1.4266868419776726
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.89,
-        "y": 5.55
+        "x": 7.907737752797442,
+        "y": 4.1046482092964185
       },
       "prevControl": {
-        "x": 4.107109781915527,
-        "y": 6.473839455992451
+        "x": 7.919431907239883,
+        "y": 0.6548726487766385
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Score (3.89 m)"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Curve",
-      "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.0,
-      "constraints": {
-        "maxVelocity": 5.2,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 515.65,
-        "maxAngularAcceleration": 262.825
-      }
-    }
-  ],
+  "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.2,
@@ -51,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "SubAmp Midfield",
+  "folder": "Source Midfield (Temp)",
   "previewStartingState": {
-    "rotation": -8.75,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
