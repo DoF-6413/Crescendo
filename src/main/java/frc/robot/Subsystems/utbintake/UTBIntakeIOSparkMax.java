@@ -22,12 +22,17 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
     topUTBIntakeEncoder = topUTBIntakeMotor.getEncoder();
     bottomUTBIntakeEncoder = bottomUTBIntakeMotor.getEncoder();
 
+    /** Default inversion status of the motors */
     topUTBIntakeMotor.setInverted(UTBIntakeConstants.IS_TOP_INVERTED);
     bottomUTBIntakeMotor.setInverted(UTBIntakeConstants.IS_BOTTOM_INVERTED);
 
     /** Defaults to brake mode on initialization */
     topUTBIntakeMotor.setIdleMode(IdleMode.kBrake);
     bottomUTBIntakeMotor.setIdleMode(IdleMode.kBrake);
+
+    /** Sets the current limit of the motors */
+    topUTBIntakeMotor.setSmartCurrentLimit(UTBIntakeConstants.CUR_LIM_A);
+    bottomUTBIntakeMotor.setSmartCurrentLimit(UTBIntakeConstants.CUR_LIM_A);
 
     /** Saves the configuration to the SPARKMAX */
     topUTBIntakeMotor.burnFlash();

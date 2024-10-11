@@ -41,7 +41,7 @@ public final class ActuatorConstants {
    */
   public static final double GEAR_RATIO = 193.75;
   /** The Current Limit for the Actuator in Amps */
-  public static final int CUR_LIM_A = 20; // TODO: Verify
+  public static final int CUR_LIM_A = 20;
   /** Sets if Actuator Motor is Inverted */
   public static final boolean IS_INVERTED = false; // TODO: Verify
   /** The maximum angle the Actuator can rotate to */

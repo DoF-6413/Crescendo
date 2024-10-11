@@ -21,7 +21,7 @@ public final class UTBIntakeConstants {
   /** CAN ID of the Top UTB Intake motor */
   public static final int TOP_CAN_ID = 14;
   /** CAN ID of the Bottom UTB Intake motor */
-  public static final int BOTTOM_CAN_ID = 0; // TODO: Update
+  public static final int BOTTOM_CAN_ID = 17;
   /** Current limiting for the UTB Intake */
   public static final int CUR_LIM_A = 30;
   /** Gear ratio of 30:24 for the UTB Intake */

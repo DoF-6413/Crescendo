@@ -28,7 +28,7 @@ public final class BeamBreak implements Subsystem {
 
   /**
    * Detects if a NOTE is in the Shooter with the Beam Break
-   * 
+   *
    * @return True if NOTE hits the sensor, False if the sensor is unbroken
    */
   public boolean isNoteInShooter() {
@@ -43,7 +43,7 @@ public final class BeamBreak implements Subsystem {
 
   /**
    * Detects if a NOTE is in the Intake with the Beam Break
-   * 
+   *
    * @return True if NOTE hits the sensor, False if the sensor is unbroken
    */
   public boolean isNoteInIntake() {
