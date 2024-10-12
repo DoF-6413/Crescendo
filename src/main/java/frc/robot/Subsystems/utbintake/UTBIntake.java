@@ -1,5 +1,7 @@
 package frc.robot.Subsystems.utbintake;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -8,6 +10,8 @@ public class UTBIntake extends SubsystemBase {
   private final UTBIntakeIO io;
   private final UTBIntakeIOInputsAutoLogged inputs = new UTBIntakeIOInputsAutoLogged();
 
+  private PIDController utbIntakePIDController;
+
   /**
    * Creates an Under the Bumper (UTB) Intake, the subsystem that intakes game pieces from under the
    * bumper
@@ -15,6 +19,12 @@ public class UTBIntake extends SubsystemBase {
   public UTBIntake(UTBIntakeIO io) {
     System.out.println("[Init] Creating UTB Intake");
     this.io = io;
+
+    utbIntakePIDController =
+        new PIDController(UTBIntakeConstants.KP, UTBIntakeConstants.KI, UTBIntakeConstants.KD);
+
+    SmartDashboard.putNumber("UTB KP", 0);
+    SmartDashboard.putBoolean("UTB PID Tuning", false);
   }
 
   @Override
@@ -23,10 +33,17 @@ public class UTBIntake extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("UTBIntake", inputs);
 
-    // updates UTB Intake voltage from PID calculations
-    // setUTBIntakeVoltage(
-    //     utbIntakePIDController.calculateForVoltage(
-    //         inputs.utbIntakeRPM, UTBIntakeConstants.MAX_RPM));
+    if (SmartDashboard.getBoolean("UTB PID Tuning", false) == true) {
+      if (UTBIntakeConstants.KP != SmartDashboard.getNumber("UTB KP", 0)) {
+        UTBIntakeConstants.KP = SmartDashboard.getNumber("UTB KP", 0);
+        utbIntakePIDController.setP(UTBIntakeConstants.KP);
+      }
+
+      // updates UTB Intake voltage from PID calculations
+      setVoltage(
+          utbIntakePIDController.calculate(
+              (inputs.topUTBIntakeRPM + inputs.bottomUTBIntakeRPM) / 2));
+    }
   }
 
   /** Updates the inputs for the UTB Intake */
@@ -39,8 +56,8 @@ public class UTBIntake extends SubsystemBase {
    *
    * @param volts -12 to 12
    */
-  public void setUTBIntakeVoltage(double volts) {
-    io.setUTBIntakeVoltage(volts);
+  public void setVoltage(double volts) {
+    io.setVoltage(volts);
   }
 
   /**
@@ -48,8 +65,8 @@ public class UTBIntake extends SubsystemBase {
    *
    * @param percent -1 to 1
    */
-  public void setUTBIntakePercentSpeed(double percent) {
-    io.setUTBIntakePercentSpeed(percent);
+  public void setPercentSpeed(double percent) {
+    io.setPercentSpeed(percent);
   }
 
   /**
@@ -57,11 +74,15 @@ public class UTBIntake extends SubsystemBase {
    *
    * @param enable Enables brake mode if true, coast if false
    */
-  public void setUTBIntakeBrakeMode(boolean enable) {
-    io.setUTBIntakeBrakeMode(enable);
+  public void setBrakeMode(boolean enable) {
+    io.setBrakeMode(enable);
   }
 
-  public double getCurrentDraw() {
-    return inputs.utbIntakeCurrentAmps;
+  public void setSetpoint(double setpoint) {
+    utbIntakePIDController.setSetpoint(setpoint);
+  }
+
+  public boolean bothAtSetpoint() {
+    return utbIntakePIDController.atSetpoint();
   }
 }

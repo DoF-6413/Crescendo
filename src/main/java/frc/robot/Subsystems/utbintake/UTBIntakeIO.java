@@ -8,13 +8,22 @@ public interface UTBIntakeIO {
   @AutoLog
   public static class UTBIntakeIOInputs {
     /** The velocity of the UTB Intake in Rotations per Minute */
-    public double utbIntakeRPM = 0.0;
+    public double topUTBIntakeRPM = 0.0;
     /** Number of volts being sent to the UTB Intake motor */
-    public double utbIntakeAppliedVolts = 0.0;
+    public double topUTBIntakeAppliedVolts = 0.0;
     /** Number of amps being used by the UTB Intake motor */
-    public double utbIntakeCurrentAmps = 0;
+    public double topUTBIntakeCurrentAmps = 0.0;
     /** Tempature, in Celsius, of the UTB Intake motor */
-    public double utbIntakeTempCelsius = 0;
+    public double topUTBIntakeTempCelsius = 0.0;
+
+    /** The velocity of the UTB Intake in Rotations per Minute */
+    public double bottomUTBIntakeRPM = 0.0;
+    /** Number of volts being sent to the UTB Intake motor */
+    public double bottomUTBIntakeAppliedVolts = 0.0;
+    /** Number of amps being used by the UTB Intake motor */
+    public double bottomUTBIntakeCurrentAmps = 0.0;
+    /** Tempature, in Celsius, of the UTB Intake motor */
+    public double bottomUTBIntakeTempCelsius = 0.0;
   }
 
   /**
@@ -29,19 +38,19 @@ public interface UTBIntakeIO {
    *
    * @param volts -12 to 12
    */
-  public default void setUTBIntakeVoltage(double volts) {}
+  public default void setVoltage(double volts) {}
 
   /**
    * Sets UTB intake Voltage
    *
    * @param volts -12 to 12
    */
-  public default void setUTBIntakePercentSpeed(double percent) {}
+  public default void setPercentSpeed(double percent) {}
 
   /**
    * Sets brake mode of the UTB Intake
    *
    * @param enable Enables brake mode if true, coast if false
    */
-  public default void setUTBIntakeBrakeMode(boolean enable) {}
+  public default void setBrakeMode(boolean enable) {}
 }
