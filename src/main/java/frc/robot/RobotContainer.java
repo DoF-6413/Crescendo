@@ -34,6 +34,7 @@ import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootAtAngle;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootWhenReady;
 import frc.robot.Commands.TeleopCommands.AmpScore.PositionAmpScoreBackside;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
+import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
 import frc.robot.Commands.TeleopCommands.Intakes.ShooterRev;
 import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
 import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
@@ -41,10 +42,18 @@ import frc.robot.Commands.TeleopCommands.SpeakerScore.*; // Position to Shoot, O
 import frc.robot.Commands.VisionCommands.*;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
+import frc.robot.Subsystems.actuator.Actuator;
+import frc.robot.Subsystems.actuator.ActuatorIO;
+import frc.robot.Subsystems.actuator.ActuatorIOSim;
+import frc.robot.Subsystems.actuator.ActuatorIOSparkMax;
 import frc.robot.Subsystems.arm.*;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.feeder.*;
 import frc.robot.Subsystems.gyro.*;
+import frc.robot.Subsystems.otbroller.OTBRoller;
+import frc.robot.Subsystems.otbroller.OTBRollerIO;
+import frc.robot.Subsystems.otbroller.OTBRollerIOSim;
+import frc.robot.Subsystems.otbroller.OTBRollerIOSparkMax;
 import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.wrist.*;
@@ -65,6 +74,8 @@ public class RobotContainer {
   // Mechanisms
   private final Arm m_armSubsystem;
   private final UTBIntake m_utbIntakeSubsystem;
+  private final OTBRoller m_otbRollerSubsystem;
+  private final Actuator m_actuatorSubsystem;
   private final Shooter m_shooterSubsystem;
   private final Feeder m_feederSubsystem;
   private final Wrist m_wristSubsystem;
@@ -99,6 +110,8 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSparkMax());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
+        m_otbRollerSubsystem = new OTBRoller(new OTBRollerIOSparkMax());
+        m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
         m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         m_feederSubsystem = new Feeder(new FeederIOTalonFX());
         m_wristSubsystem = new Wrist(new WristIOSparkMax());
@@ -116,6 +129,8 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIOSim());
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
+        m_otbRollerSubsystem = new OTBRoller(new OTBRollerIOSim());
+        m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
         m_shooterSubsystem = new Shooter(new ShooterIOSim());
         m_feederSubsystem = new Feeder(new FeederIOSim());
         m_wristSubsystem = new Wrist(new WristIOSim());
@@ -133,6 +148,8 @@ public class RobotContainer {
                 m_gyroSubsystem);
         m_armSubsystem = new Arm(new ArmIO() {});
         m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
+        m_otbRollerSubsystem = new OTBRoller(new OTBRollerIO() {});
+        m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         m_shooterSubsystem = new Shooter(new ShooterIO() {});
         m_feederSubsystem = new Feeder(new FeederIO() {});
         m_wristSubsystem = new Wrist(new WristIO() {});
@@ -406,10 +423,11 @@ public class RobotContainer {
   /** Either Coast or Brake mechanisms depending on Disable or Enable */
   public void mechanismsCoastOnDisable(boolean isDisabled) {
     m_driveSubsystem.coastOnDisable(isDisabled);
+    m_actuatorSubsystem.setBrakeMode(!isDisabled);
     m_armSubsystem.setBrakeMode(!isDisabled);
     m_wristSubsystem.setBrakeMode(!isDisabled);
     m_shooterSubsystem.setBrakeMode(!isDisabled);
-    m_utbIntakeSubsystem.setUTBIntakeBrakeMode(!isDisabled);
+    m_utbIntakeSubsystem.setBrakeMode(!isDisabled);
   }
 
   /** Sets the setpoint/position to zero */
@@ -471,6 +489,30 @@ public class RobotContainer {
             new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem)
                 .withName("ZeroYaw"));
 
+    // All Intakes (Intake)
+    driverController
+        .leftTrigger()
+        .onTrue(
+            new AllIntakesRun(
+                    m_actuatorSubsystem,
+                    m_otbRollerSubsystem,
+                    m_utbIntakeSubsystem,
+                    m_feederSubsystem,
+                    CommandConstants.RUN_INTAKE)
+                .unless(m_beamBreak::isNoteInShooter)
+                .withName("AllIntakesRun"))
+        .onFalse(
+            new AllIntakesRun(
+                    m_actuatorSubsystem,
+                    m_otbRollerSubsystem,
+                    m_utbIntakeSubsystem,
+                    m_feederSubsystem,
+                    CommandConstants.STOP_INTAKE)
+                .withName("AllIntakesStop"))
+        .onFalse(
+            new ShooterRev(m_feederSubsystem, m_shooterSubsystem, m_beamBreak)
+                .withName("ShooterRev"));
+
     // UTB Intake (Intake)
     driverController
         .rightTrigger()
@@ -480,7 +522,7 @@ public class RobotContainer {
                     m_feederSubsystem,
                     CommandConstants.INTAKE_INWARDS,
                     CommandConstants.RUN_INTAKE)
-                .unless(m_beamBreak::isNoteDetected)
+                .unless(m_beamBreak::isNoteInShooter)
                 .withName("UTBIntakeRun"))
         .onFalse(
             new UTBIntakeRun(
@@ -516,6 +558,9 @@ public class RobotContainer {
         .onTrue(
             new Shoot(m_armSubsystem, m_shooterSubsystem, m_feederSubsystem)
                 .withName("ShootCommand"));
+
+    /* Brings Actuator back to its default position (all the way up) */
+    driverController.start().onTrue(new ActuatorToZero(m_actuatorSubsystem));
   }
 
   /** Contoller keybinds for the aux contoller port */

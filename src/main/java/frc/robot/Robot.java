@@ -88,7 +88,7 @@ public class Robot extends LoggedRobot {
     // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
     // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
     // Build)
-    SmartDashboard.putString("Beta Number", "1.73.126.86.0");
+    SmartDashboard.putString("Beta Number", "1.74.126.87.0");
     SmartDashboard.putString("Last Deployed at: ", BuildConstants.BUILD_DATE);
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
@@ -140,9 +140,7 @@ public class Robot extends LoggedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-    // robotContainer.isNotePickedUp();
-  }
+  public void autonomousPeriodic() {}
 
   /** This function is called once when teleop is enabled. */
   @Override
@@ -162,9 +160,7 @@ public class Robot extends LoggedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    // robotContainer.isNotePickedUp();
-  }
+  public void teleopPeriodic() {}
 
   /** This function is called once when test mode is enabled. */
   @Override

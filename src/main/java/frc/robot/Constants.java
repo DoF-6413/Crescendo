@@ -126,6 +126,7 @@ public final class Constants {
   /** Beam Break DIO Ports */
   public static class BeamBreakConstants {
     public static final int SHOOTER_BEAM_BREAK_PORT = 0;
+    public static final int INTAKE_BEAM_BREAK_PORT = 1; // TODO: Update
   }
 
   /** Constants used for various commands */

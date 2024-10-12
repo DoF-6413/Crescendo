@@ -7,51 +7,70 @@ import com.revrobotics.RelativeEncoder;
 
 /** UTB Intake motor controller */
 public class UTBIntakeIOSparkMax implements UTBIntakeIO {
-  private final CANSparkMax utbIntakeMotor;
-  private final RelativeEncoder utbIntakeEncoder;
+  private final CANSparkMax topUTBIntakeMotor;
+  private final CANSparkMax bottomUTBIntakeMotor;
+  private final RelativeEncoder topUTBIntakeEncoder;
+  private final RelativeEncoder bottomUTBIntakeEncoder;
 
   /** Creates the Motor and Encoder for the Under the Bumper (UTB) Intake */
   public UTBIntakeIOSparkMax() {
     System.out.println("[Init] Creating UTBIntakeIOSparkMax");
 
     /** Creates the Motor and Encoder for the UTB Intake */
-    utbIntakeMotor = new CANSparkMax(UTBIntakeConstants.CAN_ID, MotorType.kBrushless);
-    utbIntakeEncoder = utbIntakeMotor.getEncoder();
-    utbIntakeMotor.setInverted(UTBIntakeConstants.IS_INVERTED);
+    topUTBIntakeMotor = new CANSparkMax(UTBIntakeConstants.TOP_CAN_ID, MotorType.kBrushless);
+    bottomUTBIntakeMotor = new CANSparkMax(UTBIntakeConstants.BOTTOM_CAN_ID, MotorType.kBrushless);
+    topUTBIntakeEncoder = topUTBIntakeMotor.getEncoder();
+    bottomUTBIntakeEncoder = bottomUTBIntakeMotor.getEncoder();
+
+    /** Default inversion status of the motors */
+    topUTBIntakeMotor.setInverted(UTBIntakeConstants.IS_TOP_INVERTED);
+    bottomUTBIntakeMotor.setInverted(UTBIntakeConstants.IS_BOTTOM_INVERTED);
 
     /** Defaults to brake mode on initialization */
-    utbIntakeMotor.setIdleMode(IdleMode.kBrake);
+    topUTBIntakeMotor.setIdleMode(IdleMode.kBrake);
+    bottomUTBIntakeMotor.setIdleMode(IdleMode.kBrake);
+
+    /** Sets the current limit of the motors */
+    topUTBIntakeMotor.setSmartCurrentLimit(UTBIntakeConstants.CUR_LIM_A);
+    bottomUTBIntakeMotor.setSmartCurrentLimit(UTBIntakeConstants.CUR_LIM_A);
 
     /** Saves the configuration to the SPARKMAX */
-    utbIntakeMotor.burnFlash();
+    topUTBIntakeMotor.burnFlash();
+    bottomUTBIntakeMotor.burnFlash();
   }
 
   /** Updates the printed values for the UTB Intake */
   public void updateInputs(UTBIntakeIOInputs inputs) {
     // Converts rotaions to Radians and then divides it by the gear ratio
-    inputs.utbIntakeRPM = utbIntakeEncoder.getVelocity() / UTBIntakeConstants.GEAR_RATIO;
-    inputs.utbIntakeAppliedVolts =
-        utbIntakeMotor.getAppliedOutput() * utbIntakeMotor.getBusVoltage();
-    inputs.utbIntakeCurrentAmps = utbIntakeMotor.getOutputCurrent();
-    inputs.utbIntakeTempCelsius = utbIntakeMotor.getMotorTemperature();
+    inputs.topUTBIntakeRPM = topUTBIntakeEncoder.getVelocity() / UTBIntakeConstants.GEAR_RATIO_TOP;
+    inputs.topUTBIntakeAppliedVolts =
+        topUTBIntakeMotor.getAppliedOutput() * topUTBIntakeMotor.getBusVoltage();
+    inputs.topUTBIntakeCurrentAmps = topUTBIntakeMotor.getOutputCurrent();
+    inputs.topUTBIntakeTempCelsius = topUTBIntakeMotor.getMotorTemperature();
+
+    inputs.bottomUTBIntakeRPM =
+        bottomUTBIntakeEncoder.getVelocity() / UTBIntakeConstants.GEAR_RATIO_BOTTOM;
+    inputs.bottomUTBIntakeAppliedVolts =
+        bottomUTBIntakeMotor.getAppliedOutput() * bottomUTBIntakeMotor.getBusVoltage();
+    inputs.bottomUTBIntakeCurrentAmps = bottomUTBIntakeMotor.getOutputCurrent();
+    inputs.bottomUTBIntakeTempCelsius = bottomUTBIntakeMotor.getMotorTemperature();
   }
 
   @Override
-  public void setUTBIntakeVoltage(double voltage) {
-    utbIntakeMotor.setVoltage(voltage);
+  public void setVoltage(double voltage) {
+    topUTBIntakeMotor.setVoltage(voltage);
+    bottomUTBIntakeMotor.setVoltage(voltage);
   }
 
   @Override
   public void setPercentSpeed(double percent) {
-    utbIntakeMotor.set(percent);
+    topUTBIntakeMotor.set(percent);
+    bottomUTBIntakeMotor.set(percent);
   }
 
   @Override
-  public void setUTBIntakeBrakeMode(boolean enable) {
-    if (enable) {
-      utbIntakeMotor.setIdleMode(IdleMode.kBrake);
-    } else {
-      utbIntakeMotor.setIdleMode(IdleMode.kCoast);
-    }
+  public void setBrakeMode(boolean enable) {
+    topUTBIntakeMotor.setIdleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
+    bottomUTBIntakeMotor.setIdleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
   }
 }

@@ -61,7 +61,7 @@ public final class WristConstants {
 
   // Wrist positions
   /** Wrists default position for intaking NOTEs best */
-  public static final double DEFAULT_POSITION_RAD = Units.degreesToRadians(9);
+  public static final double DEFAULT_POSITION_RAD = Units.degreesToRadians(6);
   /** AMP Score back side */
   public static final double AMP_BACK_SIDE_RAD = Units.degreesToRadians(69);
   /** AMP Score front side */
