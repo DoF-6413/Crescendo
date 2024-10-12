@@ -112,7 +112,7 @@ public final class DriveConstants {
 
   /** Real Constants */
   /** Wheel Radius in Meters */
-  public static final double WHEEL_RADIUS_M = Units.inchesToMeters(2);
+  public static final double WHEEL_RADIUS_M = Units.inchesToMeters(2 * 0.98);
 
   /**
    * Chassis Width, distance between the centerline of two adjacent wheels same for length and width

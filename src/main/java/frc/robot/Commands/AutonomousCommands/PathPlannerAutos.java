@@ -53,9 +53,7 @@ public class PathPlannerAutos {
     double tooFarOverMeters = 8.6;
     Trigger firstNote =
         new Trigger(
-            () ->
-                pose.getCurrentPose2d().getX()
-                    > firstNoteXMeters); // TODO: Add Intake Beam Break once it exists
+            () -> pose.getCurrentPose2d().getX() > firstNoteXMeters && beamBreak.isNoteInIntake());
     Trigger pastMidline = new Trigger(() -> pose.getCurrentPose2d().getX() > tooFarOverMeters);
 
     return Commands.parallel(
@@ -174,9 +172,7 @@ public class PathPlannerAutos {
     double tooFarOverMeters = 8.0;
     Trigger firstNote =
         new Trigger(
-            () ->
-                pose.getCurrentPose2d().getX()
-                    < firstNoteXMeters); // TODO: Add Intake Beam Break once it exists
+            () -> pose.getCurrentPose2d().getX() < firstNoteXMeters && beamBreak.isNoteInIntake());
     Trigger pastMidline = new Trigger(() -> pose.getCurrentPose2d().getX() < tooFarOverMeters);
 
     return Commands.parallel(

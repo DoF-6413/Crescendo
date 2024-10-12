@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.3,
+        "y": 2.417940037780313
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.490770068000945,
+        "y": 2.9444269814905426
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.328755089814218,
+        "y": 4.241144824332404
+      },
+      "prevControl": {
+        "x": 7.601335567254548,
+        "y": 3.513725301772735
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 45.0,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "Midfield Source Spit M5-M3",
+  "previewStartingState": {
+    "rotation": 90.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

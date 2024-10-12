@@ -1,0 +1,107 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.4801997252450575,
+      "y": 2.076698500190349
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Source to M5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroYaw"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shooter1000"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Feeder"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "M5 to M4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "M4 to M3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shooter1000"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Feeder"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Midfield Spit Autos",
+  "choreoAuto": false
+}
