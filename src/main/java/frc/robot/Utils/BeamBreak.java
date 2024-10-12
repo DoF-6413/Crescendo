@@ -40,7 +40,6 @@ public final class BeamBreak implements Subsystem {
   public boolean getIntakeSensor() {
     return intakeBeamBreak.get();
   }
-
   /**
    * Detects if a NOTE is in the Intake with the Beam Break
    *

@@ -14,10 +14,10 @@ public class UTBIntakeIOSim implements UTBIntakeIO {
     System.out.println("[Init] Creating UTBIntakeIOSim");
     topUTBFlywheelSim =
         new FlywheelSim(
-            DCMotor.getNEO(1), UTBIntakeConstants.GEAR_RATIO, UTBIntakeConstants.MOI_KG_M2);
+            DCMotor.getNEO(1), UTBIntakeConstants.GEAR_RATIO_TOP, UTBIntakeConstants.MOI_KG_M2);
     bottomUTBFlywheelSim =
         new FlywheelSim(
-            DCMotor.getNEO(1), UTBIntakeConstants.GEAR_RATIO, UTBIntakeConstants.MOI_KG_M2);
+            DCMotor.getNEO(1), UTBIntakeConstants.GEAR_RATIO_BOTTOM, UTBIntakeConstants.MOI_KG_M2);
   }
 
   @Override

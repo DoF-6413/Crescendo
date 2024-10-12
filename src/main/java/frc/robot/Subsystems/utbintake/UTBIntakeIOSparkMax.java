@@ -42,14 +42,14 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
   /** Updates the printed values for the UTB Intake */
   public void updateInputs(UTBIntakeIOInputs inputs) {
     // Converts rotaions to Radians and then divides it by the gear ratio
-    inputs.topUTBIntakeRPM = topUTBIntakeEncoder.getVelocity() / UTBIntakeConstants.GEAR_RATIO;
+    inputs.topUTBIntakeRPM = topUTBIntakeEncoder.getVelocity() / UTBIntakeConstants.GEAR_RATIO_TOP;
     inputs.topUTBIntakeAppliedVolts =
         topUTBIntakeMotor.getAppliedOutput() * topUTBIntakeMotor.getBusVoltage();
     inputs.topUTBIntakeCurrentAmps = topUTBIntakeMotor.getOutputCurrent();
     inputs.topUTBIntakeTempCelsius = topUTBIntakeMotor.getMotorTemperature();
 
     inputs.bottomUTBIntakeRPM =
-        bottomUTBIntakeEncoder.getVelocity() / UTBIntakeConstants.GEAR_RATIO;
+        bottomUTBIntakeEncoder.getVelocity() / UTBIntakeConstants.GEAR_RATIO_BOTTOM;
     inputs.bottomUTBIntakeAppliedVolts =
         bottomUTBIntakeMotor.getAppliedOutput() * bottomUTBIntakeMotor.getBusVoltage();
     inputs.bottomUTBIntakeCurrentAmps = bottomUTBIntakeMotor.getOutputCurrent();
