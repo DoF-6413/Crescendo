@@ -343,7 +343,8 @@ public class RobotContainer {
             m_shooterSubsystem,
             m_feederSubsystem,
             m_beamBreak,
-            m_poseEstimator));
+            m_poseEstimator,
+            m_pathPlanner));
     autoChooser.addOption(
         "3 Piece Midfield SubAMP Midfield M1-M2 (Red) (Smart)",
         PathPlannerAutos.SubAmp_M1_M2_Smart_Red(

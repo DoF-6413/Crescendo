@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "1PieceAuto",
+  "folder": null,
   "previewStartingState": {
     "rotation": 59.30027744918555,
     "velocity": 0

@@ -96,6 +96,8 @@ public class Robot extends LoggedRobot {
     robotContainer = new RobotContainer();
 
     PathfindingCommand.warmupCommand().schedule();
+
+    robotContainer.enableVision(true);
   }
 
   /** This function is called periodically during all modes. */
@@ -112,7 +114,7 @@ public class Robot extends LoggedRobot {
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
-    robotContainer.mechanismsCoastOnDisable(true);
+    robotContainer.mechanismsCoastOnDisable(false);
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
