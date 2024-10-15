@@ -6,7 +6,7 @@ package frc.robot.Commands.ZeroCommands;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.arm.ArmConstants;
 import frc.robot.Subsystems.wrist.Wrist;
@@ -29,7 +29,7 @@ public class ArmToZero extends SequentialCommandGroup {
             },
             arm,
             wrist),
-        new WaitUntilCommand(() -> wrist.getPositionDeg() < 12),
+        new WaitCommand(1),
         Commands.runOnce(() -> wrist.setSpeedScalar(WristConstants.DEFAULT_SPEED_SCALAR), wrist));
   }
 }

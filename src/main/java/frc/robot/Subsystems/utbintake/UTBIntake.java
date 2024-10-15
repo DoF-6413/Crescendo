@@ -33,17 +33,17 @@ public class UTBIntake extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("UTBIntake", inputs);
 
-    if (SmartDashboard.getBoolean("UTB PID Tuning", false) == true) {
-      if (UTBIntakeConstants.KP != SmartDashboard.getNumber("UTB KP", 0)) {
-        UTBIntakeConstants.KP = SmartDashboard.getNumber("UTB KP", 0);
-        utbIntakePIDController.setP(UTBIntakeConstants.KP);
-      }
+    // if (SmartDashboard.getBoolean("UTB PID Tuning", false) == true) {
+    //   if (UTBIntakeConstants.KP != SmartDashboard.getNumber("UTB KP", 0)) {
+    //     UTBIntakeConstants.KP = SmartDashboard.getNumber("UTB KP", 0);
+    //     utbIntakePIDController.setP(UTBIntakeConstants.KP);
+    //   }
 
-      // updates UTB Intake voltage from PID calculations
-      setVoltage(
-          utbIntakePIDController.calculate(
-              (inputs.topUTBIntakeRPM + inputs.bottomUTBIntakeRPM) / 2));
-    }
+    //   // updates UTB Intake voltage from PID calculations
+    //   setVoltage(
+    //       utbIntakePIDController.calculate(
+    //           (inputs.topUTBIntakeRPM + inputs.bottomUTBIntakeRPM) / 2));
+    // }
   }
 
   /** Updates the inputs for the UTB Intake */
