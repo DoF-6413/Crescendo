@@ -379,6 +379,8 @@ public class RobotContainer {
     autoChooser.addOption(
         "3 Piece Source Midfield M2-M4 (Displacement)",
         new PathPlannerAuto("3P Source M2-M4 (Displace)"));
+        autoChooser.addOption("3P SubHP Midfield M5-M3 (M5 Spit) (M4 Spit)", new PathPlannerAuto("3P SubHP Midfield M5-M3 (M5 Spit) (M4 Displace)"));
+        autoChooser.addOption("3P SubHP Midfield M5-M3 (M5-M4 Spit)", new PathPlannerAuto("3P SubHP Midfield M5-M3 (M5-M4 Spit)"));
     // ----------4 Piece----------
     autoChooser.addOption(
         "4 Piece Center (V) (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));

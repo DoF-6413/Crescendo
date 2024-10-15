@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.4766948192954855,
-        "y": 2.0611072320575454
+        "x": 7.5,
+        "y": 2.43
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8033891338437944,
-        "y": 0.6899551121039572
+        "x": 6.586277479530882,
+        "y": 3.2743407122283643
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.68,
-        "y": 0.8068966565283563
+        "x": 8.3053390038404,
+        "y": 4.1046482092964185
       },
       "prevControl": {
-        "x": 7.68,
-        "y": 0.8068966565283563
+        "x": 8.2553390038404,
+        "y": 4.1046482092964185
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,19 +33,19 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": 45.0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "Source Midfield (Temp)",
+  "folder": "Midfield Source Spit M5-M3",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 0.0,
     "velocity": 0
   },
   "useDefaultConstraints": false
