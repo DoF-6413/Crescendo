@@ -66,7 +66,7 @@ public class ShooterConstants {
   /** Shooter speed for sending NOTEs from the SOURCE to Midfield */
   public static final double SOURCE_FEED_RPM = 5500;
   /** Shooter speed for sending NOTES from Midfield to alliance WING */
-  public static final double MIDFIELD_FEEDING_RPM = 2500;
+  public static final double MIDFIELD_FEEDING_RPM = 3200;
   /** Shooter speed for pre-revving the shooter after intaking */
   public static final double PRE_REV_RPM = 1500;
   /** Speed for backing NOTE up inside the Shooter */

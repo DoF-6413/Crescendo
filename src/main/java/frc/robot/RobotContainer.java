@@ -369,8 +369,12 @@ public class RobotContainer {
     autoChooser.addOption(
         "3 Piece Source Midfield M2-M4 (Displacement)",
         new PathPlannerAuto("3P Source M2-M4 (Displace)"));
-        autoChooser.addOption("3P SubHP Midfield M5-M3 (M5 Spit) (M4 Spit)", new PathPlannerAuto("3P SubHP Midfield M5-M3 (M5 Spit) (M4 Displace)"));
-        autoChooser.addOption("3P SubHP Midfield M5-M3 (M5-M4 Spit)", new PathPlannerAuto("3P SubHP Midfield M5-M3 (M5-M4 Spit)"));
+    autoChooser.addOption(
+        "3P SubHP Midfield M5-M3 (M5 Spit) (M4 Spit)",
+        new PathPlannerAuto("3P SubHP Midfield M5-M3 (M5 Spit) (M4 Displace)"));
+    autoChooser.addOption(
+        "3P SubHP Midfield M5-M3 (M5-M4 Spit)",
+        new PathPlannerAuto("3P SubHP Midfield M5-M3 (M5-M4 Spit)"));
     // ----------4 Piece----------
     autoChooser.addOption(
         "4 Piece Center (V) (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
@@ -474,6 +478,7 @@ public class RobotContainer {
                 m_poseEstimator,
                 driverController,
                 1,
+                auxController.b(),
                 () -> m_armSubsystem.getGoal() >= ArmConstants.SOURCE_BACK_SIDE_RAD)
             .withName("DefaultDriveCommand"));
 
@@ -589,7 +594,7 @@ public class RobotContainer {
                     m_feederSubsystem,
                     ArmConstants.SUBWOOFER_RAD,
                     WristConstants.SUBWOOFER_RAD,
-                    ShooterConstants.CLOSE_RPM)
+                    () -> ShooterConstants.CLOSE_RPM)
                 .withName("SubwooferPosition"))
         .onFalse(
             new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem)
@@ -621,7 +626,7 @@ public class RobotContainer {
                     m_feederSubsystem,
                     ArmConstants.DEFAULT_POSITION_RAD,
                     WristConstants.PODIUM_RAD,
-                    ShooterConstants.MID_RANGE_RPM)
+                    () -> ShooterConstants.MID_RANGE_RPM)
                 .withName("PodiumPosition"))
         .onFalse(
             new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem)
@@ -683,8 +688,8 @@ public class RobotContainer {
                     m_shooterSubsystem,
                     m_feederSubsystem,
                     ArmConstants.DEFAULT_POSITION_RAD,
-                    WristConstants.SUBWOOFER_RAD,
-                    ShooterConstants.MIDFIELD_FEEDING_RPM)
+                    WristConstants.FEEDING_RAD,
+                    () -> ShooterConstants.MIDFIELD_FEEDING_RPM)
                 .withName("MidfieldFeedingPosition"))
         .onFalse(
             new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem)

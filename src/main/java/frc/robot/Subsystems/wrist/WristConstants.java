@@ -71,7 +71,9 @@ public final class WristConstants {
   /** SPEAKER shot from subwoofer */
   public static final double SUBWOOFER_RAD = Units.degreesToRadians(33);
   /** SPEAKER shot from PODIUM */
-  public static final double PODIUM_RAD = Units.degreesToRadians(13.3886);
+  public static final double PODIUM_RAD = Units.degreesToRadians(9.7386);
   /** SPEAKER shot configuration from the PODIUM to score over "billboard-bots" */
   public static final double OVERSHOT_RAD = Units.degreesToRadians(38);
+  /** RPM for feeding NOTEs from Midfield */
+  public static final double FEEDING_RAD = Units.degreesToRadians(26.5);
 }

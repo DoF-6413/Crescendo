@@ -93,8 +93,8 @@ public final class Constants {
   }
 
   public static class HeadingControllerConstants {
-    public static final double KP = 5.0;
-    public static final double KD = 100.0;
+    public static double KP = 5.0;
+    public static double KD = 100.0;
   }
 
   /** Wrist to SPEAKER alignment lookup table */

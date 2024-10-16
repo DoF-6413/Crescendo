@@ -5,6 +5,8 @@
 package frc.robot.Utils;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.HeadingControllerConstants;
 
 /** Add your docs here. */
@@ -12,8 +14,8 @@ public class HeadingController {
 
   public HeadingController() {
     /** developer tools */
-    // SmartDashboard.putNumber("Heading Controller Kp", 5.0);
-    // SmartDashboard.putNumber("Heading Controller Kd", 100.0);
+    SmartDashboard.putNumber("Heading Controller Kp", 5.0);
+    SmartDashboard.putNumber("Heading Controller Kd", 100.0);
   }
 
   /**
@@ -27,8 +29,12 @@ public class HeadingController {
     double output =
         (setpoint.minus(gyroAngle).getRadians() * HeadingControllerConstants.KP
             + HeadingControllerConstants.KD * gyroRate);
-    // kp = SmartDashboard.getNumber("Heading Controller Kp", 5.0);
-    // kd = SmartDashboard.getNumber("Heading Controller Kd", 100.0);
+    HeadingControllerConstants.KP = SmartDashboard.getNumber("Heading Controller Kp", 1.0);
+    HeadingControllerConstants.KD = SmartDashboard.getNumber("Heading Controller Kd", 0.0);
+    SmartDashboard.putBoolean(
+        "HeadingControllerAtSetpoint",
+        gyroAngle.getRadians() <= Units.degreesToRadians(2) + setpoint.getRadians()
+            && gyroAngle.getRadians() >= setpoint.getRadians() - Units.degreesToRadians(2));
     return output;
   }
 }

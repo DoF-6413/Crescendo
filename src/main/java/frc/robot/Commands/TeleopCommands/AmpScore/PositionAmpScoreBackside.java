@@ -22,8 +22,10 @@ public class PositionAmpScoreBackside extends ParallelCommandGroup {
             Commands.runOnce(
                 () -> {
                   arm.setGoal(ArmConstants.AMP_BACK_SIDE_RAD);
+                  wrist.setSpeedScalar(WristConstants.DEFAULT_SPEED_SCALAR);
                 },
-                arm),
+                arm,
+                wrist),
             new WaitUntilCommand(() -> arm.getPositionDeg() > 6),
             Commands.runOnce(
                 () -> {
