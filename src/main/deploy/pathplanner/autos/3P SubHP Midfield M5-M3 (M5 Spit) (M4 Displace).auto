@@ -31,7 +31,7 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -56,7 +56,19 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SpitNote"
+                  "name": "Shooter1000"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Feeder"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EnableNOTERotationOverride"
                 }
               }
             ]
@@ -87,7 +99,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "UTB"
+                  "name": "VisionPickUp"
                 }
               }
             ]
@@ -118,7 +130,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "UTB"
+                  "name": "VisionPickUp"
                 }
               }
             ]
@@ -171,6 +183,6 @@
       ]
     }
   },
-  "folder": "Test Autos",
+  "folder": null,
   "choreoAuto": false
 }

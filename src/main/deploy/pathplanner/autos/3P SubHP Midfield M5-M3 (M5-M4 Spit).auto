@@ -18,13 +18,25 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "DisableSpeakerRotationOverride"
+                  "name": "DisableNOTERotationOverride"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "ZeroAll"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroYaw"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DisableSpeakerRotationOverride"
                 }
               }
             ]
@@ -48,6 +60,12 @@
                       "type": "path",
                       "data": {
                         "pathName": "Source - M5"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "EnableNOTERotationOverride"
                       }
                     }
                   ]
@@ -203,6 +221,6 @@
       ]
     }
   },
-  "folder": "Test Autos",
+  "folder": null,
   "choreoAuto": false
 }

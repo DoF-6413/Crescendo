@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 0.4801997252450575,
-        "y": 2.076698500190349
+        "y": 2.08
       },
       "prevControl": null,
       "nextControl": {
         "x": 5.99856287598561,
-        "y": 0.7702308991316326
+        "y": 0.7735323989412836
       },
       "isLocked": false,
       "linkedName": "Source Wall Start"
@@ -57,7 +57,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 515.65,
     "maxAngularAcceleration": 262.825
   },
