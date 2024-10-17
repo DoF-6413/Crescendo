@@ -53,18 +53,18 @@ public class PathPlannerAutos {
     double tooFarOverMeters = 8.6;
     Trigger firstNote =
         new Trigger(
-            () -> pose.getCurrentPose2d().getX() > firstNoteXMeters && beamBreak.isNoteInIntake());
+            () -> pose.getCurrentPose2d().getX() > firstNoteXMeters && beamBreak.getIntakeSensor());
     Trigger pastMidline = new Trigger(() -> pose.getCurrentPose2d().getX() > tooFarOverMeters);
 
     return Commands.parallel(
-            // Shoot preload, set start position
+            // Shoot preload, set start position, disable NOTE rotation override
             new PreloadShot(arm, wrist, shooter, feeder, ShooterConstants.CLOSE_RPM),
             Commands.runOnce(
                 () -> pose.resetPose(PathPlannerConstants.SUB_AMP_BLUE_START_POSE), pose),
             Commands.runOnce(() -> pathPlanner.enableNOTEAlignment(false), pathPlanner))
         .andThen(Commands.waitSeconds(0.25))
         .andThen(
-            // Zero Entire Shooter Mech, Run Intake, and Go to M1
+            // Zero Entire Shooter Mech, Run Intake, Go to M1, and Enable NOTE rotation override
             Commands.parallel(
                 AutoBuilder.followPath(SubAmp_to_M1).until(pastMidline),
                 Commands.runOnce(
@@ -76,7 +76,8 @@ public class PathPlannerAutos {
             // Either Score M1, or go to M2 depending if the M1 NOTE was intaken
             Commands.either(
                 /* Normal Path */
-                // Zero Shooter Mech, Stop Intake, Go to score position
+                // Zero Shooter Mech, Stop Intake, Go to score position, Disable NOTE rotation
+                // override
                 Commands.parallel(
                         AutoBuilder.followPath(M1_to_Score),
                         Commands.runOnce(() -> utb.setPercentSpeed(0), utb),
@@ -93,7 +94,7 @@ public class PathPlannerAutos {
                             shooter, feeder, beamBreak, ShooterConstants.MID_RANGE_RPM))
                     .andThen(new WaitCommand(0.25))
                     .andThen(
-                        // Zero Shooter Mech, Run Intake, Go to M2
+                        // Zero Shooter Mech, Run Intake, Go to M2, Enable NOTE rotation override
                         Commands.parallel(
                             AutoBuilder.followPath(Score_to_M2).until(pastMidline),
                             Commands.parallel(
@@ -107,10 +108,10 @@ public class PathPlannerAutos {
                                     () -> pathPlanner.enableNOTEAlignment(true), pathPlanner))),
                         new ZeroAll(arm, wrist, shooter, feeder))
                     .andThen(
-                        // Stop Intake, Go to score position
+                        // Stop Intake, Go to score position, Disable NOTE rotation override
                         Commands.parallel(
                             AutoBuilder.followPath(M2_to_Score),
-                            Commands.runOnce(() -> utb.setPercentSpeed(0)),
+                            Commands.runOnce(() -> utb.setPercentSpeed(0), utb),
                             Commands.runOnce(
                                 () -> pathPlanner.enableNOTEAlignment(false), pathPlanner)))
                     .andThen(
@@ -131,7 +132,7 @@ public class PathPlannerAutos {
                             utb),
                         Commands.runOnce(() -> pathPlanner.enableNOTEAlignment(true), pathPlanner))
                     .andThen(
-                        // Stop Intake, Go to Score
+                        // Stop Intake, Go to Score, Disable NOTE rotation override
                         Commands.parallel(
                             AutoBuilder.followPath(M2_to_Score),
                             Commands.runOnce(() -> utb.setPercentSpeed(0), utb),
@@ -158,7 +159,8 @@ public class PathPlannerAutos {
       Shooter shooter,
       Feeder feeder,
       BeamBreak beamBreak,
-      PoseEstimator pose) {
+      PoseEstimator pose,
+      PathPlanner pathPlanner) {
 
     // Normal Paths
     PathPlannerPath SubAmp_to_M1 = PathPlannerPath.fromPathFile("SubAmp to M1");
@@ -172,31 +174,37 @@ public class PathPlannerAutos {
     double tooFarOverMeters = 8.0;
     Trigger firstNote =
         new Trigger(
-            () -> pose.getCurrentPose2d().getX() < firstNoteXMeters && beamBreak.isNoteInIntake());
+            () -> pose.getCurrentPose2d().getX() < firstNoteXMeters && beamBreak.getIntakeSensor());
     Trigger pastMidline = new Trigger(() -> pose.getCurrentPose2d().getX() < tooFarOverMeters);
 
     return Commands.parallel(
-            // Shoot preload, set start position
+            // Shoot preload, set start position, disable NOTE rotation override
             new PreloadShot(arm, wrist, shooter, feeder, ShooterConstants.CLOSE_RPM),
             Commands.runOnce(
-                () -> pose.resetPose(PathPlannerConstants.SUB_AMP_RED_START_POSE), pose))
+                () -> pose.resetPose(PathPlannerConstants.SUB_AMP_RED_START_POSE), pose),
+            Commands.runOnce(() -> pathPlanner.enableNOTEAlignment(false), pathPlanner))
         .andThen(Commands.waitSeconds(0.25))
         .andThen(
-            // Zero Entire Shooter Mech, Run Intake, and Go to M1
+            // Zero Entire Shooter Mech, Run Intake, Go to M1, and Enable NOTE rotation override
             Commands.parallel(
                 AutoBuilder.followPath(SubAmp_to_M1).until(pastMidline),
                 Commands.runOnce(
                     () -> utb.setPercentSpeed(UTBIntakeConstants.INTAKE_PERCENT_SPEED), utb),
-                new ZeroAll(arm, wrist, shooter, feeder)))
+                new ZeroAll(arm, wrist, shooter, feeder),
+                Commands.runOnce(() -> pathPlanner.enableNOTEAlignment(true), pathPlanner)
+                    .beforeStarting(
+                        Commands.waitUntil(() -> pose.getCurrentPose2d().getX() < 11.64))))
         .andThen(
             // Either Score M1, or go to M2 depending if the M1 NOTE was intaken
             Commands.either(
                 /* Normal Path */
-                // Zero Shooter Mech, Stop Intake, Go to score position
+                // Zero Shooter Mech, Stop Intake, Go to score position, Disable NOTE rotation
+                // override
                 Commands.parallel(
                         AutoBuilder.followPath(M1_to_Score),
                         Commands.runOnce(() -> utb.setPercentSpeed(0), utb),
-                        new ZeroAll(arm, wrist, shooter, feeder))
+                        new ZeroAll(arm, wrist, shooter, feeder),
+                        Commands.runOnce(() -> pathPlanner.enableNOTEAlignment(false), pathPlanner))
                     .andThen(
                         // Aim Wrist to SPEAKER and Reverse NOTE
                         Commands.parallel(
@@ -208,18 +216,21 @@ public class PathPlannerAutos {
                             shooter, feeder, beamBreak, ShooterConstants.MID_RANGE_RPM))
                     .andThen(new WaitCommand(0.25))
                     .andThen(
-                        // Zero Shooter Mech, Run Intake, Go to M2
+                        // Zero Shooter Mech, Run Intake, Go to M2, Enable NOTE rotation override
                         Commands.parallel(
                             AutoBuilder.followPath(Score_to_M2).until(pastMidline),
                             Commands.runOnce(
                                 () -> utb.setPercentSpeed(UTBIntakeConstants.INTAKE_PERCENT_SPEED),
                                 utb)),
+                        Commands.runOnce(() -> pathPlanner.enableNOTEAlignment(true), pathPlanner),
                         new ZeroAll(arm, wrist, shooter, feeder))
                     .andThen(
-                        // Stop Intake, Go to score position
+                        // Stop Intake, Go to score position, Disable NOTE rotation override
                         Commands.parallel(
                             AutoBuilder.followPath(M2_to_Score),
-                            Commands.runOnce(() -> utb.setPercentSpeed(0))))
+                            Commands.runOnce(() -> utb.setPercentSpeed(0), utb),
+                            Commands.runOnce(
+                                () -> pathPlanner.enableNOTEAlignment(false), pathPlanner)))
                     .andThen(
                         // Aim Wrist to SPEAKER and Reverse NOTE
                         Commands.parallel(
@@ -240,7 +251,9 @@ public class PathPlannerAutos {
                         // Stop Intake, Go to Score
                         Commands.parallel(
                             AutoBuilder.followPath(M2_to_Score),
-                            Commands.runOnce(() -> utb.setPercentSpeed(0), utb)))
+                            Commands.runOnce(() -> utb.setPercentSpeed(0), utb),
+                            Commands.runOnce(
+                                () -> pathPlanner.enableNOTEAlignment(false), pathPlanner)))
                     .andThen(
                         // Aim Wrist to SPEAKER and Reverse NOTE
                         Commands.parallel(

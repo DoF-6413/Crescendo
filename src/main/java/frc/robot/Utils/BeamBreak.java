@@ -20,32 +20,23 @@ public final class BeamBreak implements Subsystem {
     getIntakeSensor();
   }
 
-  /** Returns true if nothing is blocking the Shooter Beam Break, false if there is */
-  @AutoLogOutput(key = "BeamBreaks/ShooterSensor")
-  public boolean getShooterSensor() {
-    return shooterBeamBreak.get();
-  }
-
   /**
    * Detects if a NOTE is in the Shooter with the Beam Break
    *
    * @return True if NOTE hits the sensor, False if the sensor is unbroken
    */
-  public boolean isNoteInShooter() {
+  @AutoLogOutput(key = "BeamBreaks/ShooterSensor")
+  public boolean getShooterSensor() {
     return !shooterBeamBreak.get();
   }
 
-  /** Returns true if nothing is blocking the Intake Beam Break, false if there is */
-  @AutoLogOutput(key = "BeamBreaks/IntakeSensor")
-  public boolean getIntakeSensor() {
-    return intakeBeamBreak.get();
-  }
   /**
    * Detects if a NOTE is in the Intake with the Beam Break
    *
    * @return True if NOTE hits the sensor, False if the sensor is unbroken
    */
-  public boolean isNoteInIntake() {
+  @AutoLogOutput(key = "BeamBreaks/IntakeSensor")
+  public boolean getIntakeSensor() {
     return !intakeBeamBreak.get();
   }
 }

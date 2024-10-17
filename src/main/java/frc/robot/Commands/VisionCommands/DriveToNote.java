@@ -38,12 +38,12 @@ public class DriveToNote extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (beamBreak.isNoteInIntake()) {
+    if (beamBreak.getIntakeSensor()) {
       timer.reset();
       timer.restart();
       timer.start();
     }
-    
+
     drive.driveWithNoteDetection(x, y, rotSpeed);
   }
 
@@ -56,7 +56,7 @@ public class DriveToNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !beamBreak.getShooterSensor()
+    return beamBreak.getShooterSensor()
         || timer.hasElapsed(CommandConstants.VISION_PICKUP_TIMEOUT_SEC);
   }
 }

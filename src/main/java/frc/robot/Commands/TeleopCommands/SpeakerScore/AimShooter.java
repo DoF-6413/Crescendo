@@ -56,7 +56,7 @@ public class AimShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (beamBreak.getShooterSensor() == false) {
+    if (beamBreak.getShooterSensor()) {
       feeder.setSetpoint(0);
       shooter.setSetpoint(ShooterConstants.MID_RANGE_RPM);
     }

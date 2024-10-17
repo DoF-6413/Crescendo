@@ -359,13 +359,17 @@ public class RobotContainer {
             m_shooterSubsystem,
             m_feederSubsystem,
             m_beamBreak,
-            m_poseEstimator));
+            m_poseEstimator,
+            m_pathPlanner));
     autoChooser.addOption(
         "3P SubHP Midfield M5-M3 (M5-M4 Spit)",
         new PathPlannerAuto("3P SubHP Midfield M5-M3 (M5-M4 Spit)"));
     // ----------4 Piece----------
     autoChooser.addOption(
         "4 Piece Center (V) (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
+    autoChooser.addOption(
+        "4 Piece Center (V) (Midfield M3)",
+        new PathPlannerAuto("4P SubCenter-C2-Sub-C1-Sub-M3 (V)"));
 
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
@@ -482,7 +486,7 @@ public class RobotContainer {
     //                 m_utbIntakeSubsystem,
     //                 m_feederSubsystem,
     //                 CommandConstants.RUN_INTAKE)
-    //             .unless(m_beamBreak::isNoteInShooter)
+    //             .unless(m_beamBreak::getShooterSensor)
     //             .withName("AllIntakesRun"))
     //     .onFalse(
     //         new AllIntakesRun(
@@ -505,7 +509,7 @@ public class RobotContainer {
                     m_feederSubsystem,
                     CommandConstants.INTAKE_INWARDS,
                     CommandConstants.RUN_INTAKE)
-                .unless(m_beamBreak::isNoteInShooter)
+                .unless(m_beamBreak::getShooterSensor)
                 .withName("UTBIntakeRun"))
         .onFalse(
             new UTBIntakeRun(
