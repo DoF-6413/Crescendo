@@ -11,7 +11,6 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PathPlannerConstants;
@@ -66,8 +65,6 @@ public class PathPlanner extends SubsystemBase {
     if (noteRotOverride) {
       PPHolonomicDriveController.setRotationTargetOverride(drive::noteAlignmentRotationOverride);
     }
-
-    SmartDashboard.putBoolean("NOTE Override", noteRotOverride);
   }
 
   /**

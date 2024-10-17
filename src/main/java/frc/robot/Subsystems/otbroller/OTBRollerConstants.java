@@ -28,7 +28,7 @@ public class OTBRollerConstants {
   /** Gear ratio of 30:24 for the OTB Roller */
   public static final double GEAR_RATIO = 2;
   /** The Current Limit for the OTB Roller in Amps */
-  public static final int CUR_LIM_A = 40; // TODO: Verify
+  public static final int CUR_LIM_A = 40;
   /** Ensure the OTB Roller wont be inverted on startup */
   public static final boolean IS_INVERTED = false; // TODO: Verify
   /** Percent speed for intaking */

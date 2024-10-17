@@ -5,7 +5,6 @@
 package frc.robot.Commands.VisionCommands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.Subsystems.drive.Drive;
@@ -39,11 +38,12 @@ public class DriveToNote extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (SmartDashboard.getBoolean("Is Note Picked Up", false) == true) {
+    if (beamBreak.isNoteInIntake()) {
       timer.reset();
+      timer.restart();
       timer.start();
     }
-
+    
     drive.driveWithNoteDetection(x, y, rotSpeed);
   }
 

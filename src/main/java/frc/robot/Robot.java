@@ -58,8 +58,8 @@ public class Robot extends LoggedRobot {
     // Set up data receivers & replay source
     switch (RobotStateConstants.getMode()) {
       case REAL:
-        // Running on a real robot, log to a USB stick ("/U/logs")
-        // Logger.addDataReceiver(new WPILOGWriter("/U/Crescendo/Logs")); // The name looks like
+        // Running on a real robot, log to a USB stick
+        Logger.addDataReceiver(new WPILOGWriter("/media/sda1")); // The name looks like
         // "Logs_Year-Month-Day_Hour-Minute-Second"
         Logger.addDataReceiver(new NT4Publisher());
         break;
@@ -88,7 +88,7 @@ public class Robot extends LoggedRobot {
     // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
     // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
     // Build)
-    SmartDashboard.putString("Beta Number", "1.74.126.95.0");
+    SmartDashboard.putString("Beta Number", "1.74.126.96.0");
     SmartDashboard.putString("Last Deployed at: ", BuildConstants.BUILD_DATE);
 
     // Instantiate our RobotContainer. This will perform all our button bindings,

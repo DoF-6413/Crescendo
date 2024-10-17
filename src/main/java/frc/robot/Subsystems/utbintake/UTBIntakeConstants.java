@@ -31,7 +31,7 @@ public final class UTBIntakeConstants {
   /** Sets the inversion status of the Top UTB Intake motor */
   public static final boolean IS_TOP_INVERTED = false;
   /** Sets the inversion status of the Bottom UTB Intake motor */
-  public static final boolean IS_BOTTOM_INVERTED = false; // TODO: Verify
+  public static final boolean IS_BOTTOM_INVERTED = false;
   /** Speed of the UTB Intake when intaking */
   public static final double INTAKE_PERCENT_SPEED = -0.75;
   /** Speed of the UTB Intake when outtaking */

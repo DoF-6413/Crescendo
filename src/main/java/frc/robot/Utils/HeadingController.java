@@ -14,8 +14,8 @@ public class HeadingController {
 
   public HeadingController() {
     /** developer tools */
-    SmartDashboard.putNumber("Heading Controller Kp", 5.0);
-    SmartDashboard.putNumber("Heading Controller Kd", 100.0);
+    SmartDashboard.putNumber("Heading Controller Kp", 1.0);
+    SmartDashboard.putNumber("Heading Controller Kd", 0.0);
   }
 
   /**
