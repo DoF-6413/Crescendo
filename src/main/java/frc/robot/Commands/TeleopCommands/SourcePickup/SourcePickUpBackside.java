@@ -27,6 +27,7 @@ public class SourcePickUpBackside extends SequentialCommandGroup {
             () -> {
               arm.setGoal(ArmConstants.SOURCE_BACK_SIDE_RAD);
               wrist.setGoal(WristConstants.SOURCE_BACK_SIDE_RAD);
+              wrist.setSpeedScalar(WristConstants.DEFAULT_SPEED_SCALAR);
             },
             arm,
             wrist),

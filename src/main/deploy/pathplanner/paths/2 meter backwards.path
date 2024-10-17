@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 0.0
+        "x": 0.4801997252450575,
+        "y": 2.076698500190349
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.079616055770419,
-        "y": 0.0
+        "x": 0.5598157810154767,
+        "y": 2.076698500190349
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Source Wall Start"
     },
     {
       "anchor": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 2.48,
+        "y": 2.08
       },
       "prevControl": {
-        "x": -1.0,
-        "y": 0.0
+        "x": 1.48,
+        "y": 2.08
       },
       "nextControl": null,
       "isLocked": false,

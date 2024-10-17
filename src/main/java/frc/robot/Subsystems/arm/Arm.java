@@ -133,6 +133,13 @@ public class Arm extends SubsystemBase {
   }
 
   /**
+   * @return The current position of the Absolute Encoder on the Arm
+   */
+  public double getPositionDeg() {
+    return inputs.armAbsolutePositionDeg;
+  }
+
+  /**
    * Changes the angle goal of the Arm
    *
    * @param increment Angle (Radians)

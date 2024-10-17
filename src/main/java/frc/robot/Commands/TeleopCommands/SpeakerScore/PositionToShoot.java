@@ -9,6 +9,7 @@ import frc.robot.Subsystems.arm.*;
 import frc.robot.Subsystems.feeder.*;
 import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.wrist.*;
+import java.util.function.DoubleSupplier;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,7 +23,7 @@ public class PositionToShoot extends SequentialCommandGroup {
       Feeder feeder,
       double angleArm,
       double angleWrist,
-      double RPM) {
+      DoubleSupplier RPM) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -36,7 +37,7 @@ public class PositionToShoot extends SequentialCommandGroup {
             () -> {
               wrist.setGoal(angleWrist);
               arm.setGoal(angleArm);
-              shooter.setSetpoint(RPM);
+              shooter.setSetpoint(RPM.getAsDouble());
               feeder.setSetpoint(0);
             },
             feeder,

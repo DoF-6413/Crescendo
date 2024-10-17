@@ -25,11 +25,11 @@ public interface ArmIO {
     public double armAbsolutePositionRad = 0.0;
     /** Returns the absolute position of the Arm in Degrees */
     public double armAbsolutePositionDeg = 0.0;
-    /** Returns the velocity of the Actuator in Rad/s */
+    /** Returns the velocity of the Arm in Rad/s */
     public double armVelocityRadPerSec = 0.0;
-    /** The Current Drawn from the Atuator in Amps */
+    /** The Current Drawn from the Arm in Amps */
     public double armCurrentAmps = 0;
-    /** The Temperature from the Actuator in Celsius */
+    /** The Temperature from the Arm in Celsius */
     public double armTempCelsius = 0;
   }
 

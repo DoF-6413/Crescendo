@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.44,
+        "y": 7.468314794110172
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.172531431804542,
+        "y": 7.097823981871242
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.89,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 4.33848887797538,
+        "y": 6.212983558746215
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Score (3.89 m)"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.2,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "SubAmp Midfield",
+  "previewStartingState": {
+    "rotation": 0.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

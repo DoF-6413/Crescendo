@@ -22,6 +22,7 @@ public class Wrist extends SubsystemBase {
   private final WristIOInputsAutoLogged inputs = new WristIOInputsAutoLogged();
   private final ProfiledPIDController wristPIDController;
   private SimpleMotorFeedforward wristFeedforward;
+  private double speedScalar = 1;
 
   /** Used to toggle PID calculations for the angle */
   private static boolean isPIDEnabled = true;
@@ -69,10 +70,12 @@ public class Wrist extends SubsystemBase {
 
     if (isPIDEnabled) {
       setPercentSpeed(
-          wristPIDController.calculate(inputs.wristAbsolutePositionRad)
-              + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
-                  / RobotStateConstants
-                      .BATTERY_VOLTAGE)); // Feedforward divided by 12 since it returns a voltage
+          this.speedScalar
+              * (wristPIDController.calculate(inputs.wristAbsolutePositionRad)
+                  + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
+                      / RobotStateConstants
+                          .BATTERY_VOLTAGE))); // Feedforward divided by 12 since it returns a
+      // voltage
     }
 
     if (isTestingEnabled) {
@@ -131,6 +134,22 @@ public class Wrist extends SubsystemBase {
   /** Returns whether the Wrist is at it's angle goal or not */
   public boolean atGoal() {
     return wristPIDController.atSetpoint();
+  }
+
+  /**
+   * @return The current position of the Absolute Encoder on the Wrist
+   */
+  public double getPositionDeg() {
+    return inputs.wristAbsolutePositionDeg;
+  }
+
+  /**
+   * Sets the value of the speed multiplier for the Wrist
+   *
+   * @param scalar Multiplier value of the Wrist speed
+   */
+  public void setSpeedScalar(double scalar) {
+    this.speedScalar = scalar;
   }
 
   /**

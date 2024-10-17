@@ -1,7 +1,6 @@
 package frc.robot.Subsystems.utbintake;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -22,9 +21,6 @@ public class UTBIntake extends SubsystemBase {
 
     utbIntakePIDController =
         new PIDController(UTBIntakeConstants.KP, UTBIntakeConstants.KI, UTBIntakeConstants.KD);
-
-    SmartDashboard.putNumber("UTB KP", 0);
-    SmartDashboard.putBoolean("UTB PID Tuning", false);
   }
 
   @Override
@@ -32,18 +28,6 @@ public class UTBIntake extends SubsystemBase {
   public void periodic() {
     this.updateInputs();
     Logger.processInputs("UTBIntake", inputs);
-
-    if (SmartDashboard.getBoolean("UTB PID Tuning", false) == true) {
-      if (UTBIntakeConstants.KP != SmartDashboard.getNumber("UTB KP", 0)) {
-        UTBIntakeConstants.KP = SmartDashboard.getNumber("UTB KP", 0);
-        utbIntakePIDController.setP(UTBIntakeConstants.KP);
-      }
-
-      // updates UTB Intake voltage from PID calculations
-      setVoltage(
-          utbIntakePIDController.calculate(
-              (inputs.topUTBIntakeRPM + inputs.bottomUTBIntakeRPM) / 2));
-    }
   }
 
   /** Updates the inputs for the UTB Intake */
