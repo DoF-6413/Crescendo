@@ -26,7 +26,7 @@ public class OTBRollerConstants {
   /** The CAN ID of the OTB Roller so it can be Identified on the CAN bus */
   public static final int CAN_ID = 16;
   /** Gear ratio of 30:24 for the OTB Roller */
-  public static final double GEAR_RATIO = 0.80;
+  public static final double GEAR_RATIO = 2;
   /** The Current Limit for the OTB Roller in Amps */
   public static final int CUR_LIM_A = 40; // TODO: Verify
   /** Ensure the OTB Roller wont be inverted on startup */
