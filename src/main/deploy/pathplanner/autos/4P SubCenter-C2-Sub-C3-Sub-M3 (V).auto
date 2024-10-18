@@ -146,10 +146,35 @@
           "data": {
             "name": "SubwooferShot"
           }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SubCenter to M3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroShooting"
+                }
+              }
+            ]
+          }
         }
       ]
     }
   },
-  "folder": "3 Piece Autos",
+  "folder": null,
   "choreoAuto": false
 }

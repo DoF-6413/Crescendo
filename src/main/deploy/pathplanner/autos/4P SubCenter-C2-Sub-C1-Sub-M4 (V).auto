@@ -81,9 +81,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "BM to Center (V)"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BM to Center (V)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              }
+            ]
           }
         },
         {
@@ -105,7 +118,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Center to BR (V)"
+                  "pathName": "Center to BL (V)"
                 }
               },
               {
@@ -136,9 +149,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "BR to Center (V)"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BL to Center (V)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroAll"
+                }
+              }
+            ]
           }
         },
         {
@@ -146,10 +172,35 @@
           "data": {
             "name": "SubwooferShot"
           }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SubCenter to M4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ZeroShooting"
+                }
+              }
+            ]
+          }
         }
       ]
     }
   },
-  "folder": "3 Piece Autos",
+  "folder": null,
   "choreoAuto": false
 }
