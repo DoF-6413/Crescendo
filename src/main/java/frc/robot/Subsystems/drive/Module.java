@@ -31,9 +31,6 @@ public class Module {
     this.io = io;
     this.index = index;
 
-    // SmartDashboard.putNumber("steer kp", 6.4);
-    // SmartDashboard.putNumber("steer ki", 0.0);
-    // SmartDashboard.putNumber("steer kd", 0.0);
     drivePID =
         new PIDController(
             DriveConstants.DRIVE_KP_KRAKEN,

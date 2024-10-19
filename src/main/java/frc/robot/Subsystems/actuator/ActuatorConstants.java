@@ -43,7 +43,7 @@ public final class ActuatorConstants {
   /** The Current Limit for the Actuator in Amps */
   public static final int CUR_LIM_A = 20;
   /** Sets if Actuator Motor is Inverted */
-  public static final boolean IS_INVERTED = false; // TODO: Verify
+  public static final boolean IS_INVERTED = true;
   /** The maximum angle the Actuator can rotate to */
   public static final double MAX_ANGLE_RADS = Units.degreesToRadians(135);
   /** The minimum angle the Actuator can rotate to */

@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
+import frc.robot.Commands.AutonomousCommands.PathPlannerAutos;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
 import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ReverseNote;
@@ -279,7 +280,17 @@ public class RobotContainer {
     // Pick Ups
     NamedCommands.registerCommand(
         "UTB",
-        new InstantCommand(() -> m_utbIntakeSubsystem.setPercentSpeed(-1), m_utbIntakeSubsystem));
+        new InstantCommand(
+            () -> m_utbIntakeSubsystem.setPercentSpeed(UTBIntakeConstants.INTAKE_PERCENT_SPEED),
+            m_utbIntakeSubsystem));
+    NamedCommands.registerCommand(
+        "AllIntakesRun",
+        new AllIntakesRun(
+            m_actuatorSubsystem,
+            m_otbRollerSubsystem,
+            m_utbIntakeSubsystem,
+            m_feederSubsystem,
+            CommandConstants.RUN_INTAKE));
     NamedCommands.registerCommand(
         "UTBStop",
         new InstantCommand(() -> m_utbIntakeSubsystem.setPercentSpeed(0), m_utbIntakeSubsystem));
@@ -335,32 +346,59 @@ public class RobotContainer {
     autoChooser.addOption("One Piece SubSource Leave", new PathPlannerAuto("SubSource Leave"));
     // ----------2 Piece----------
     autoChooser.addOption(
-        "2 Piece Center (V) (Return)", new PathPlannerAuto("2P SubCenter-C2-Sub (V)"));
+        "2 Piece Center (Return)", new PathPlannerAuto("2P SubCenter-C2-Sub (V)"));
     // ----------3 Piece----------
     autoChooser.addOption(
-        "3 Piece SC-C2-C1 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C1-Sub (V)"));
+        "3 Piece Center (Amp NOTE) (Return)",
+        new PathPlannerAuto("3P SubCenter-C2-Sub-C1-Sub (V)"));
     autoChooser.addOption(
-        "3 Piece SC-C2-C3 (V) (Return)", new PathPlannerAuto("3P SubCenter-C2-Sub-C3-Sub (V)"));
+        "3 Piece Center (Podium NOTE) (Return)",
+        new PathPlannerAuto("3P SubCenter-C2-Sub-C3-Sub (V)"));
     autoChooser.addOption(
-        "3 Piece SubSource Spit", new PathPlannerAuto("3P Source-M4-M5 (Spit) (V)"));
+        "3 Piece SubAMP Midfield M1-M2 (Blue) (Smart)",
+        PathPlannerAutos.SubAmp_M1_M2_Smart_Blue(
+            m_driveSubsystem,
+            m_utbIntakeSubsystem,
+            m_armSubsystem,
+            m_wristSubsystem,
+            m_shooterSubsystem,
+            m_feederSubsystem,
+            m_beamBreak,
+            m_poseEstimator,
+            m_pathPlanner));
     autoChooser.addOption(
-        "3 Piece Source Sub Mid Field", new PathPlannerAuto("3P SubSource-M4-M5 (V)"));
-    autoChooser.addOption("3 Piece Amp sub Midfield", new PathPlannerAuto("3P SubAmp-M1-M2 (V)"));
+        "3 Piece SubAMP Midfield M1-M2 (Red) (Smart)",
+        PathPlannerAutos.SubAmp_M1_M2_Smart_Red(
+            m_driveSubsystem,
+            m_utbIntakeSubsystem,
+            m_armSubsystem,
+            m_wristSubsystem,
+            m_shooterSubsystem,
+            m_feederSubsystem,
+            m_beamBreak,
+            m_poseEstimator,
+            m_pathPlanner));
     autoChooser.addOption(
-        "3 Piece Source-Midfield M2-M4 (Displacement)",
-        new PathPlannerAuto("3P Source M2-M4 (Displace)"));
+        "3 Piece Source Midfield M5-M3 (M5-M4 Spit)",
+        new PathPlannerAuto("3P SubHP Midfield M5-M3 (M5-M4 Spit)"));
     // ----------4 Piece----------
     autoChooser.addOption(
-        "4 Piece (V) (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
+        "4 Piece Center (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
     autoChooser.addOption(
-        "4 Piece SubAmp Midfield M2-M5 (Displacement)",
-        new PathPlannerAuto("4P Source M2-M5 (Displace)"));
+        "4 Piece Center (AMP) (C2, C1, M3)",
+        new PathPlannerAuto("4P SubCenter-C2-Sub-C1-Sub-M3 (V)"));
+    autoChooser.addOption(
+        "4 Piece Center (AMP) (C2, C1, M4)",
+        new PathPlannerAuto("4P SubCenter-C2-Sub-C1-Sub-M4 (V)"));
+    autoChooser.addOption(
+        "4 Piece Center (Podium) (C2, C3, M3)",
+        new PathPlannerAuto("4P SubCenter-C2-Sub-C3-Sub-M3 (V)"));
+    autoChooser.addOption(
+        "4 Piece Center (Podium) (C2, C3, M4)",
+        new PathPlannerAuto("4P SubCenter-C2-Sub-C3-Sub-M4 (V)"));
 
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
-
-    // Adds a delay to the deadreakoned autos
-    // SmartDashboard.putNumber("Delay", 0);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -397,7 +435,7 @@ public class RobotContainer {
   /** Either Coast or Brake mechanisms depending on Disable or Enable */
   public void mechanismsCoastOnDisable(boolean isDisabled) {
     m_driveSubsystem.coastOnDisable(isDisabled);
-    m_actuatorSubsystem.setBrakeMode(!isDisabled);
+    // m_actuatorSubsystem.setBrakeMode(!isDisabled);
     m_armSubsystem.setBrakeMode(!isDisabled);
     m_wristSubsystem.setBrakeMode(!isDisabled);
     m_shooterSubsystem.setBrakeMode(!isDisabled);
@@ -453,6 +491,7 @@ public class RobotContainer {
                 m_poseEstimator,
                 driverController,
                 1,
+                auxController.b(),
                 () -> m_armSubsystem.getGoal() >= ArmConstants.SOURCE_BACK_SIDE_RAD)
             .withName("DefaultDriveCommand"));
 
@@ -473,7 +512,7 @@ public class RobotContainer {
                     m_utbIntakeSubsystem,
                     m_feederSubsystem,
                     CommandConstants.RUN_INTAKE)
-                .unless(m_beamBreak::isNoteInShooter)
+                .unless(m_beamBreak::getShooterSensor)
                 .withName("AllIntakesRun"))
         .onFalse(
             new AllIntakesRun(
@@ -496,7 +535,7 @@ public class RobotContainer {
                     m_feederSubsystem,
                     CommandConstants.INTAKE_INWARDS,
                     CommandConstants.RUN_INTAKE)
-                .unless(m_beamBreak::isNoteInShooter)
+                .unless(m_beamBreak::getShooterSensor)
                 .withName("UTBIntakeRun"))
         .onFalse(
             new UTBIntakeRun(
@@ -568,7 +607,7 @@ public class RobotContainer {
                     m_feederSubsystem,
                     ArmConstants.SUBWOOFER_RAD,
                     WristConstants.SUBWOOFER_RAD,
-                    ShooterConstants.CLOSE_RPM)
+                    () -> ShooterConstants.CLOSE_RPM)
                 .withName("SubwooferPosition"))
         .onFalse(
             new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem)
@@ -600,7 +639,7 @@ public class RobotContainer {
                     m_feederSubsystem,
                     ArmConstants.DEFAULT_POSITION_RAD,
                     WristConstants.PODIUM_RAD,
-                    ShooterConstants.MID_RANGE_RPM)
+                    () -> ShooterConstants.MID_RANGE_RPM)
                 .withName("PodiumPosition"))
         .onFalse(
             new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem)
@@ -662,8 +701,8 @@ public class RobotContainer {
                     m_shooterSubsystem,
                     m_feederSubsystem,
                     ArmConstants.DEFAULT_POSITION_RAD,
-                    WristConstants.SUBWOOFER_RAD,
-                    ShooterConstants.MIDFIELD_FEEDING_RPM)
+                    WristConstants.FEEDING_RAD,
+                    () -> ShooterConstants.MIDFIELD_FEEDING_RPM)
                 .withName("MidfieldFeedingPosition"))
         .onFalse(
             new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem)

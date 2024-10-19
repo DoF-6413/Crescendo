@@ -12,28 +12,30 @@ import frc.robot.Subsystems.wrist.*;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PositionAmpScoreBackside extends SequentialCommandGroup {
+public class PositionAmpScoreBackside extends ParallelCommandGroup {
   /** Creates a new AmpScore. */
   public PositionAmpScoreBackside(Arm arm, Wrist wrist, Feeder feeder) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        Commands.runOnce(
-            () -> {
-              arm.setGoal(ArmConstants.AMP_BACK_SIDE_RAD);
-              feeder.setSetpoint(200);
-            },
-            arm,
-            feeder),
-        // new WaitUntilCommand(() -> arm.atGoal()),
-        new WaitCommand(0.5),
-        new InstantCommand(() -> feeder.setSetpoint(0), feeder),
-        new WaitCommand(0.5),
-        Commands.runOnce(
-            () -> {
-              wrist.setGoal(WristConstants.AMP_BACK_SIDE_RAD);
-            },
-            wrist),
-        new WaitUntilCommand(() -> wrist.atGoal()));
+        new SequentialCommandGroup(
+            Commands.runOnce(
+                () -> {
+                  arm.setGoal(ArmConstants.AMP_BACK_SIDE_RAD);
+                  wrist.setSpeedScalar(WristConstants.DEFAULT_SPEED_SCALAR);
+                },
+                arm,
+                wrist),
+            new WaitUntilCommand(() -> arm.getPositionDeg() > 6),
+            Commands.runOnce(
+                () -> {
+                  wrist.setGoal(WristConstants.AMP_BACK_SIDE_RAD);
+                },
+                wrist),
+            new WaitUntilCommand(() -> wrist.atGoal())),
+        new SequentialCommandGroup(
+            Commands.runOnce(() -> feeder.setSetpoint(200), feeder),
+            new WaitCommand(1),
+            Commands.runOnce(() -> feeder.setSetpoint(0), feeder)));
   }
 }

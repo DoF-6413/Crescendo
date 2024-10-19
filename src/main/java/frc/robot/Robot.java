@@ -58,8 +58,8 @@ public class Robot extends LoggedRobot {
     // Set up data receivers & replay source
     switch (RobotStateConstants.getMode()) {
       case REAL:
-        // Running on a real robot, log to a USB stick ("/U/logs")
-        // Logger.addDataReceiver(new WPILOGWriter("/U/Crescendo/Logs")); // The name looks like
+        // Running on a real robot, log to a USB stick
+        Logger.addDataReceiver(new WPILOGWriter("/media/sda1")); // The name looks like
         // "Logs_Year-Month-Day_Hour-Minute-Second"
         Logger.addDataReceiver(new NT4Publisher());
         break;
@@ -88,7 +88,7 @@ public class Robot extends LoggedRobot {
     // Beta Numbers (Repository Number, Pushes to Dev, Issue Number, Commit Number, If it Works)
     // (For if it works: 1 = Working, 0 = Works, but not as intended, -1 = Crashes, -2 Doesn't
     // Build)
-    SmartDashboard.putString("Beta Number", "1.74.0.81.0");
+    SmartDashboard.putString("Beta Number", "1.75.0.75.1");
     SmartDashboard.putString("Last Deployed at: ", BuildConstants.BUILD_DATE);
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
@@ -96,6 +96,8 @@ public class Robot extends LoggedRobot {
     robotContainer = new RobotContainer();
 
     PathfindingCommand.warmupCommand().schedule();
+
+    robotContainer.enableVision(true);
   }
 
   /** This function is called periodically during all modes. */
@@ -112,7 +114,7 @@ public class Robot extends LoggedRobot {
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
-    robotContainer.mechanismsCoastOnDisable(true);
+    robotContainer.mechanismsCoastOnDisable(false);
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
@@ -173,7 +175,9 @@ public class Robot extends LoggedRobot {
 
   /** This function is called once when the robot is first started up. */
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+    robotContainer.enableVision(false);
+  }
 
   /** This function is called periodically whilst in simulation. */
   @Override

@@ -350,9 +350,11 @@ public class Drive extends SubsystemBase {
 
   /** Used in Path Planner's rotation target override to align to a NOTE while following a path */
   public Optional<Rotation2d> noteAlignmentRotationOverride() {
-    if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) < -5) {
+    if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) < -5
+        && LimelightHelpers.getTY(VisionConstants.LIME_LIGHT_NAME) < -4) {
       return Optional.of(new Rotation2d(1));
-    } else if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) > 5) {
+    } else if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) > 5
+        && LimelightHelpers.getTY(VisionConstants.LIME_LIGHT_NAME) < -4) {
       return Optional.of(new Rotation2d(-1));
     } else {
       return Optional.empty();

@@ -53,7 +53,7 @@ public class ReverseNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !beamBreak.getShooterSensor()
+    return beamBreak.getShooterSensor()
         || timer.hasElapsed(CommandConstants.FEEDER_REVERSE_TIMEOUT_SEC);
   }
 }

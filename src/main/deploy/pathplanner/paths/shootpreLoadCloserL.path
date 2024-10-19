@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.3764027015233515,
-        "y": 6.911245275482004
+        "x": 16.54,
+        "y": 8.115743183053317
       },
       "prevControl": {
-        "x": 1.3764027015233515,
-        "y": 6.911245275482004
+        "x": 15.54,
+        "y": 8.115743183053317
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,25 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.2,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 5.0
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 5.2,
     "maxAcceleration": 5.2,
@@ -43,7 +61,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "OnePieceAuto",
+  "folder": null,
   "previewStartingState": {
     "rotation": 59.30027744918555,
     "velocity": 0

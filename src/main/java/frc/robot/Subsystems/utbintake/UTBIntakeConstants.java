@@ -23,17 +23,17 @@ public final class UTBIntakeConstants {
   /** CAN ID of the Bottom UTB Intake motor */
   public static final int BOTTOM_CAN_ID = 17;
   /** Current limiting for the UTB Intake */
-  public static final int CUR_LIM_A = 30;
-  /** Gear ratio of 30:24 for the UTB Intake */
-  public static final double GEAR_RATIO_BOTTOM = 0.8;
-  /** Gear ratio of 24:22 for the UTB Intake */
-  public static final double GEAR_RATIO_TOP = (24 / 22);
+  public static final int CUR_LIM_A = 40;
+  /** Gear ratio of 24:30 for the top UTB Intake roller */
+  public static final double GEAR_RATIO_TOP = (1.25);
+  /** Gear ratio of 22:24 for the bottom UTB Intake roller */
+  public static final double GEAR_RATIO_BOTTOM = (0.91667);
   /** Sets the inversion status of the Top UTB Intake motor */
   public static final boolean IS_TOP_INVERTED = false;
   /** Sets the inversion status of the Bottom UTB Intake motor */
-  public static final boolean IS_BOTTOM_INVERTED = false; // TODO: Verify
+  public static final boolean IS_BOTTOM_INVERTED = false;
   /** Speed of the UTB Intake when intaking */
-  public static final double INTAKE_PERCENT_SPEED = -0.75;
+  public static final double INTAKE_PERCENT_SPEED = -1;
   /** Speed of the UTB Intake when outtaking */
-  public static final double OUTTAKE_PERCENT_SPEED = 0.75;
+  public static final double OUTTAKE_PERCENT_SPEED = 1;
 }

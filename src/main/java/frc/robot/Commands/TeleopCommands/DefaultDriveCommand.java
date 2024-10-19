@@ -4,8 +4,12 @@
 
 package frc.robot.Commands.TeleopCommands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.RobotStateConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.gyro.Gyro;
 import frc.robot.Utils.HeadingController;
@@ -26,7 +30,9 @@ public class DefaultDriveCommand extends Command {
   boolean alreadyPressedL3 = false;
   boolean alreadyPressedTrigger = false;
   BooleanSupplier ampSlowdown;
+  BooleanSupplier feeding;
   double velocityScaler = 1.0;
+  double feedingAngleDeg;
 
   public DefaultDriveCommand(
       Drive drive,
@@ -34,6 +40,7 @@ public class DefaultDriveCommand extends Command {
       PoseEstimator pose,
       CommandXboxController controller,
       int startingIndex,
+      BooleanSupplier feeding,
       BooleanSupplier ampSlowdown) {
     this.controller = controller;
 
@@ -41,10 +48,15 @@ public class DefaultDriveCommand extends Command {
     this.gyro = gyro;
     this.pose = pose;
     this.ampSlowdown = ampSlowdown;
+    this.feeding = feeding;
     index = startingIndex;
     headingController = new HeadingController();
+    feedingAngleDeg =
+        (RobotStateConstants.getAlliance().isPresent()
+                && RobotStateConstants.getAlliance().get() == DriverStation.Alliance.Red
+            ? -38 + 180
+            : -38);
     addRequirements(drive);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -62,11 +74,18 @@ public class DefaultDriveCommand extends Command {
       velocityScaler = 1;
     }
 
-    if (controller.rightTrigger().getAsBoolean()) {
+    if (controller.leftTrigger().getAsBoolean() || controller.rightTrigger().getAsBoolean()) {
       /* Auto Rotates Chassis to Align With a NOTE */
       drive.driveWithNoteDetection(
           controller.getLeftX() * velocityScaler, -controller.getLeftY() * velocityScaler, 0.3);
 
+    } else if (feeding.getAsBoolean()
+        && !SmartDashboard.getBoolean("HeadingControllerAtSetpoint", false)) {
+      drive.driveWithDeadbandForAutoAlign(
+          controller.getLeftX() * velocityScaler,
+          -controller.getLeftY() * velocityScaler,
+          headingController.update(
+              Rotation2d.fromDegrees(feedingAngleDeg), pose.getRotation(), gyro.getRate()));
     } else {
       /* Normal Drive Mode */
       drive.driveWithDeadband(
@@ -75,18 +94,6 @@ public class DefaultDriveCommand extends Command {
               * velocityScaler, // Left/Right (multiply by -1 bc controller a())is inverted)
           -controller.getRightX() * velocityScaler); // Rotate chassis left/right
     }
-
-    // if ((controller.leftTrigger().getAsBoolean() || controller.rightTrigger().getAsBoolean())
-    //     && alreadyPressedTrigger != true) {
-    //   prevIndex = index;
-    //   index = -1;
-    //   alreadyPressedTrigger = true;
-    // } else if (!controller.leftTrigger().getAsBoolean()
-    //     && !controller.rightTrigger().getAsBoolean()
-    //     && alreadyPressedTrigger == true) {
-    //   index = prevIndex;
-    //   alreadyPressedTrigger = false;
-    // }
   }
 
   // Called once the command ends or is interrupted.

@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.34042146716772,
+        "y": 0.7601200387585969
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.744019590603283,
+        "y": 0.7952025020859156
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.118232532761363,
+        "y": 2.408995815142628
+      },
+      "prevControl": {
+        "x": 7.287947567348127,
+        "y": 2.0698653363118695
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.2,
+    "maxAcceleration": 5.2,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 18.43,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "SubHP Midfield (Temp)",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
