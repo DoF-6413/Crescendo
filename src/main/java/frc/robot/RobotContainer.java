@@ -284,6 +284,14 @@ public class RobotContainer {
             () -> m_utbIntakeSubsystem.setPercentSpeed(UTBIntakeConstants.INTAKE_PERCENT_SPEED),
             m_utbIntakeSubsystem));
     NamedCommands.registerCommand(
+        "AllIntakesRun",
+        new AllIntakesRun(
+            m_actuatorSubsystem,
+            m_otbRollerSubsystem,
+            m_utbIntakeSubsystem,
+            m_feederSubsystem,
+            CommandConstants.RUN_INTAKE));
+    NamedCommands.registerCommand(
         "UTBStop",
         new InstantCommand(() -> m_utbIntakeSubsystem.setPercentSpeed(0), m_utbIntakeSubsystem));
     NamedCommands.registerCommand(
@@ -565,7 +573,7 @@ public class RobotContainer {
                 .withName("ShootCommand"));
 
     /* Brings Actuator back to its default position (all the way up) */
-    // driverController.start().onTrue(new ActuatorToZero(m_actuatorSubsystem));
+    driverController.start().onTrue(new ActuatorToZero(m_actuatorSubsystem));
   }
 
   /** Contoller keybinds for the aux contoller port */

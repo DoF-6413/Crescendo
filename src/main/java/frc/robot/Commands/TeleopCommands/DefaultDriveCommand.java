@@ -54,8 +54,8 @@ public class DefaultDriveCommand extends Command {
     feedingAngleDeg =
         (RobotStateConstants.getAlliance().isPresent()
                 && RobotStateConstants.getAlliance().get() == DriverStation.Alliance.Red
-            ? -38 + 180 + 90
-            : -38 + 90);
+            ? -38 + 180
+            : -38);
     addRequirements(drive);
   }
 
@@ -74,7 +74,7 @@ public class DefaultDriveCommand extends Command {
       velocityScaler = 1;
     }
 
-    if (controller.rightTrigger().getAsBoolean()) {
+    if (controller.leftTrigger().getAsBoolean() || controller.rightTrigger().getAsBoolean()) {
       /* Auto Rotates Chassis to Align With a NOTE */
       drive.driveWithNoteDetection(
           controller.getLeftX() * velocityScaler, -controller.getLeftY() * velocityScaler, 0.3);
