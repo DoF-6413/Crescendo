@@ -30,8 +30,10 @@ public class PositionToShoot extends SequentialCommandGroup {
         Commands.runOnce(
             () -> {
               feeder.setSetpoint(-500);
+              wrist.setSpeedScalar(WristConstants.DEFAULT_SPEED_SCALAR);
             },
-            feeder),
+            feeder,
+            wrist),
         new WaitCommand(0.3),
         Commands.runOnce(
             () -> {

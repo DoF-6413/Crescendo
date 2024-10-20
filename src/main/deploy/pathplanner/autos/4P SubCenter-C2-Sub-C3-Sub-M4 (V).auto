@@ -111,13 +111,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ZeroAll"
+                  "name": "ZeroShooting"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "UTB"
+                  "name": "AllIntakesRun"
                 }
               }
             ]
