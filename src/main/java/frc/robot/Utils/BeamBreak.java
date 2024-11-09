@@ -7,17 +7,17 @@ import org.littletonrobotics.junction.AutoLogOutput;
 
 public final class BeamBreak implements Subsystem {
   private final DigitalInput shooterBeamBreak;
-  private final DigitalInput intakeBeamBreak;
+  // private final DigitalInput intakeBeamBreak;
 
   public BeamBreak() {
     System.out.println("[Init] Creating Beam Breaks");
     shooterBeamBreak = new DigitalInput(BeamBreakConstants.SHOOTER_BEAM_BREAK_PORT);
-    intakeBeamBreak = new DigitalInput(BeamBreakConstants.INTAKE_BEAM_BREAK_PORT);
+    // intakeBeamBreak = new DigitalInput(BeamBreakConstants.INTAKE_BEAM_BREAK_PORT);
   }
 
   public void periodic() {
     getShooterSensor();
-    getIntakeSensor();
+    // getIntakeSensor();
   }
 
   /**
@@ -35,8 +35,8 @@ public final class BeamBreak implements Subsystem {
    *
    * @return True if NOTE hits the sensor, False if the sensor is unbroken
    */
-  @AutoLogOutput(key = "BeamBreaks/IntakeSensor")
-  public boolean getIntakeSensor() {
-    return !intakeBeamBreak.get();
-  }
+  // @AutoLogOutput(key = "BeamBreaks/IntakeSensor")
+  // public boolean getIntakeSensor() {
+  //   return !intakeBeamBreak.get();
+  // }
 }

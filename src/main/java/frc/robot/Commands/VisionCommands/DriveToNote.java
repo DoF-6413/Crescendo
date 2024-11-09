@@ -38,11 +38,11 @@ public class DriveToNote extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (beamBreak.getIntakeSensor()) {
-      timer.reset();
-      timer.restart();
-      timer.start();
-    }
+    // if (beamBreak.getIntakeSensor()) {
+    //   timer.reset();
+    //   timer.restart();
+    //   timer.start();
+    // }
 
     drive.driveWithNoteDetection(x, y, rotSpeed);
   }
