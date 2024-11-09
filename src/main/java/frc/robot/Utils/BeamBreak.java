@@ -27,7 +27,7 @@ public final class BeamBreak implements Subsystem {
    */
   @AutoLogOutput(key = "BeamBreaks/ShooterSensor")
   public boolean getShooterSensor() {
-    return false;
+    return !shooterBeamBreak.get();
   }
 
   /**

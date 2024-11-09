@@ -512,6 +512,7 @@ public class RobotContainer {
                     m_utbIntakeSubsystem,
                     m_feederSubsystem,
                     CommandConstants.RUN_INTAKE)
+                .unless(m_beamBreak::getShooterSensor)
                 .withName("AllIntakesRun"))
         .onFalse(
             new AllIntakesRun(
@@ -534,6 +535,7 @@ public class RobotContainer {
                     m_feederSubsystem,
                     CommandConstants.INTAKE_INWARDS,
                     CommandConstants.RUN_INTAKE)
+                .unless(m_beamBreak::getShooterSensor)
                 .withName("UTBIntakeRun"))
         .onFalse(
             new UTBIntakeRun(
