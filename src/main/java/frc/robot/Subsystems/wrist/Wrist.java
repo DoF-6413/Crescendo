@@ -22,7 +22,7 @@ public class Wrist extends SubsystemBase {
   private final WristIOInputsAutoLogged inputs = new WristIOInputsAutoLogged();
   private final ProfiledPIDController wristPIDController;
   private SimpleMotorFeedforward wristFeedforward;
-  private double speedScalar = 1;
+  private double speedScalar;
 
   /** Used to toggle PID calculations for the angle */
   private static boolean isPIDEnabled = true;
@@ -50,6 +50,9 @@ public class Wrist extends SubsystemBase {
     /** Creates a new Feedforward Contoller for the Wrist */
     wristFeedforward =
         new SimpleMotorFeedforward(WristConstants.KS, WristConstants.KV, WristConstants.KA);
+
+    /** Sets the speed multiplier of the Wrist to the default value of 1 */
+    speedScalar = WristConstants.DEFAULT_SPEED_SCALAR;
 
     /** Developer tools */
     // Puts adjustable PPID and FF values onto the SmartDashboard for the testing mode
