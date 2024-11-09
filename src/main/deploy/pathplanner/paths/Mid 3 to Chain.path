@@ -1,0 +1,88 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.397212233020959,
+        "y": 4.113716473046981
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.166202541755695,
+        "y": 3.896656250963318
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.48,
+        "y": 4.97
+      },
+      "prevControl": {
+        "x": 4.738621898896219,
+        "y": 3.590105413829062
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -8.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Shoot Mid 3",
+      "waypointRelativePos": 0.4,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "PickUpStop"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "StopFeeder"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "ChainAngle"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.2,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -4.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Puzzle Pieces",
+  "previewStartingState": {
+    "rotation": 0.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

@@ -7,7 +7,7 @@ package frc.robot.Commands.TeleopCommands.Intakes;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.feeder.Feeder;
-import frc.robot.Subsystems.otbIntake.*;
+import frc.robot.Subsystems.otbroller.*;
 import frc.robot.Subsystems.utbintake.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -21,7 +21,7 @@ public class AllIntakesRun extends ParallelCommandGroup {
 
   /** Lowers OTB Intake and runs both Intakes to intake/outtake depending on isInwards */
   public AllIntakesRun(
-      Actuator actuator, OTBIntake otbIntake, UTBIntake utbIntake, Feeder feeder, boolean stop) {
+      Actuator actuator, OTBRoller otbRoller, UTBIntake utbIntake, Feeder feeder, boolean stop) {
 
     if (stop) {
       otbIntakePercentSpeed = 0;
@@ -29,8 +29,8 @@ public class AllIntakesRun extends ParallelCommandGroup {
       feederRPM = 0;
       actuatorPosition = ActuatorConstants.MIN_ANGLE_RADS;
     } else {
-      otbIntakePercentSpeed = -0.30;
-      utbIntakePercentSpeed = -1.0;
+      otbIntakePercentSpeed = OTBRollerConstants.INTAKE_PERCENT_SPEED;
+      utbIntakePercentSpeed = UTBIntakeConstants.INTAKE_PERCENT_SPEED;
 
       feederRPM = 1500;
       actuatorPosition = ActuatorConstants.MAX_ANGLE_RADS;
@@ -41,13 +41,11 @@ public class AllIntakesRun extends ParallelCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              actuator.setActuatorSetpoint(actuatorPosition);
+              actuator.setSetpoint(actuatorPosition);
             },
             actuator),
-        new InstantCommand(
-            () -> otbIntake.setOTBIntakePercentSpeed(otbIntakePercentSpeed), otbIntake),
-        new InstantCommand(
-            () -> utbIntake.setUTBIntakePercentSpeed(utbIntakePercentSpeed), utbIntake),
+        new InstantCommand(() -> otbRoller.setPercentSpeed(otbIntakePercentSpeed), otbRoller),
+        new InstantCommand(() -> utbIntake.setPercentSpeed(utbIntakePercentSpeed), utbIntake),
         new InstantCommand(() -> feeder.setSetpoint(feederRPM), feeder));
   }
 }

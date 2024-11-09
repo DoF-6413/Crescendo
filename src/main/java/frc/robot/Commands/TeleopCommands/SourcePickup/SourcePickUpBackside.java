@@ -4,7 +4,9 @@
 
 package frc.robot.Commands.TeleopCommands.SourcePickup;
 
-import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.arm.ArmConstants;
 import frc.robot.Subsystems.feeder.Feeder;
@@ -23,13 +25,14 @@ public class SourcePickUpBackside extends SequentialCommandGroup {
     addCommands(
         Commands.runOnce(
             () -> {
-              arm.setSetpoint(ArmConstants.SOURCE_BACK_SIDE_RAD);
-              wrist.setSetpoint(WristConstants.SOURCE_BACK_SIDE_RAD);
+              arm.setGoal(ArmConstants.SOURCE_BACK_SIDE_RAD);
+              wrist.setGoal(WristConstants.SOURCE_BACK_SIDE_RAD);
+              wrist.setSpeedScalar(WristConstants.DEFAULT_SPEED_SCALAR);
             },
             arm,
             wrist),
-        new WaitUntilCommand(() -> arm.atSetpoint()),
-        new WaitUntilCommand(() -> wrist.atSetpoint()),
+        new WaitUntilCommand(() -> arm.atGoal()),
+        new WaitUntilCommand(() -> wrist.atGoal()),
         Commands.runOnce(
             () -> {
               feeder.setSetpoint(FeederConstants.SOURCE_RPM);

@@ -7,18 +7,22 @@ package frc.robot.Subsystems.drive;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*; // Rotation2d and Translation2d
 import edu.wpi.first.math.kinematics.*; // ChassisSpeeds, SwerveDriveKinematics, SwerveModuleStates
-import edu.wpi.first.wpilibj.*; // Timer
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.gyro.Gyro;
+import frc.robot.Utils.HeadingController;
+import frc.robot.Utils.LimelightHelpers;
+import java.util.Optional;
 import org.littletonrobotics.junction.Logger; // Logger
 
 /** This Runs the full Swerve (All Modules) for all Modes of the Robot */
 public class Drive extends SubsystemBase {
-  private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
   private static final Module[] modules = new Module[4];
   private final Gyro gyro;
   private Twist2d twist = new Twist2d();
+  private final HeadingController headingController = new HeadingController();
+  double omega = 0;
 
   // swerve kinematics library
   public SwerveDriveKinematics swerveKinematics;
@@ -26,11 +30,14 @@ public class Drive extends SubsystemBase {
   // chassis & swerve modules
   private ChassisSpeeds setpoint = new ChassisSpeeds();
 
+  private double steerSetpoint = 0;
+
   // Gets previous Gyro position
   Rotation2d lastGyroYaw = new Rotation2d();
 
   // Gets previous module positions
   private double[] lastModulePositionsMeters = new double[] {0.0, 0.0, 0.0, 0.0};
+  private Rotation2d headingSetpoint = new Rotation2d(-Math.PI / 2);
 
   public Drive(
       ModuleIO FRModuleIO,
@@ -100,6 +107,10 @@ public class Drive extends SubsystemBase {
     Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
     Logger.recordOutput("SwerveStates/SetpointsOptimized", optimizedStates);
   }
+
+  public void moduleSteerDirectly(double setpoint) {
+    steerSetpoint = setpoint;
+  }
   /** Get Swerve Measured States */
   public SwerveModuleState[] getMeasuredStates() {
     // Tracks the state each module is in
@@ -124,7 +135,7 @@ public class Drive extends SubsystemBase {
   }
 
   /**
-   * Runs the drivetrain with raw values on a scale of (-1, 1)
+   * Runs the drivetrain with raw values on a scale
    *
    * @param x velociy in x direction of Entire Swerve Drive
    * @param y velocity in y direction of Entire Swerve Drive
@@ -146,6 +157,34 @@ public class Drive extends SubsystemBase {
         });
   }
 
+  public void driveWithDeadbandPlusHeading(double x, double y, double rot) {
+    // Apply deadband
+    double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), DriveConstants.DEADBAND);
+    Rotation2d linearDirection = new Rotation2d(x, y);
+    double omega = MathUtil.applyDeadband(rot, DriveConstants.DEADBAND);
+
+    // Square values
+    linearMagnitude = linearMagnitude * linearMagnitude;
+    omega = Math.copySign(omega * omega, omega);
+
+    if (Math.abs(omega) > 0.01) {
+      headingSetpoint = getRotation().plus(new Rotation2d(omega * Units.degreesToRadians(60)));
+    }
+    // Calcaulate new linear velocity
+    Translation2d linearVelocity =
+        new Pose2d(new Translation2d(), linearDirection)
+            .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
+            .getTranslation();
+
+    // The actual run command itself
+    this.runVelocity(
+        ChassisSpeeds.fromFieldRelativeSpeeds(
+            linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            linearVelocity.getY() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            headingController.update(headingSetpoint, getRotation(), gyro.getRate()),
+            this.getRotation()));
+  }
+
   public void driveWithDeadband(double x, double y, double rot) {
     // Apply deadband
     double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), DriveConstants.DEADBAND);
@@ -162,6 +201,10 @@ public class Drive extends SubsystemBase {
             .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
             .getTranslation();
 
+    if (Math.abs(omega) > 0.01) {
+      headingSetpoint = getRotation().plus(new Rotation2d(omega * Units.degreesToRadians(60)));
+    }
+
     // The actual run command itself
     this.runVelocity(
         ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -171,15 +214,65 @@ public class Drive extends SubsystemBase {
             this.getRotation()));
   }
 
-  /** stops the robot (sets velocity to 0 bu inputing empty Chassis Speeds which Default to 0) */
+  public void driveWithDeadbandForAutoAlign(double x, double y, double rot) {
+    // Apply deadband
+    double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), DriveConstants.DEADBAND);
+    Rotation2d linearDirection = new Rotation2d(x, y);
+
+    // Square values
+    linearMagnitude = linearMagnitude * linearMagnitude;
+
+    // Calcaulate new linear velocity
+    Translation2d linearVelocity =
+        new Pose2d(new Translation2d(), linearDirection)
+            .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
+            .getTranslation();
+
+    // The actual run command itself
+    this.runVelocity(
+        ChassisSpeeds.fromFieldRelativeSpeeds(
+            linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            linearVelocity.getY() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+            rot,
+            this.getRotation()));
+  }
+
+  public void driveWithNoteDetection(double x, double y, double alignmentRotSpeed) {
+    if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) < -VisionConstants.LL_NOTE_RANGE) {
+      this.driveWithDeadband(x, y, alignmentRotSpeed);
+    } else if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME)
+        > VisionConstants.LL_NOTE_RANGE) {
+      this.driveWithDeadband(x, y, -alignmentRotSpeed);
+    } else {
+      this.driveWithDeadband(x, y, 0);
+    }
+  }
+
+  /** Stops the robot (sets velocity to 0 bu inputing empty Chassis Speeds which Default to 0) */
   public void stop() {
     runVelocity(new ChassisSpeeds());
   }
 
-  /** stops the robot and sets wheels in the shape of an x */
+  /** Stops the robot and sets wheels in the shape of an X */
   public void stopWithX() {
+    Rotation2d[] headings = new Rotation2d[4];
+    for (int i = 0; i < 4; i++) {
+      headings[i] = DriveConstants.getModuleTranslations()[i].getAngle();
+    }
+    swerveKinematics.resetHeadings(headings);
     stop();
-    // TODO: Update
+  }
+
+  /**
+   * Sets the positions of the Swerve wheels to be an X. This makes the robot much more difficult to
+   * push by another robot.
+   */
+  public void wheelsToX() {
+    Rotation2d[] headings = new Rotation2d[4];
+    for (int i = 0; i < 4; i++) {
+      headings[i] = DriveConstants.getModuleTranslations()[i].getAngle();
+    }
+    swerveKinematics.resetHeadings(headings);
   }
 
   /**
@@ -239,11 +332,32 @@ public class Drive extends SubsystemBase {
     return lastGyroYaw;
   }
 
+  public Twist2d fieldVelocity() {
+    Translation2d linearFieldVelocity =
+        new Translation2d(twist.dx, twist.dy).rotateBy(getRotation());
+    return new Twist2d(linearFieldVelocity.getX(), linearFieldVelocity.getY(), twist.dtheta);
+  }
+
   public void updateHeading() {
     if (gyro.isConnected()) {
       gyro.zeroYaw();
     } else {
       // TODO: ADD HEADING FOR SIM/NO GYRO
+    }
+
+    headingSetpoint = new Rotation2d(Math.PI / 2);
+  }
+
+  /** Used in Path Planner's rotation target override to align to a NOTE while following a path */
+  public Optional<Rotation2d> noteAlignmentRotationOverride() {
+    if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) < -5
+        && LimelightHelpers.getTY(VisionConstants.LIME_LIGHT_NAME) < -4) {
+      return Optional.of(new Rotation2d(1));
+    } else if (LimelightHelpers.getTX(VisionConstants.LIME_LIGHT_NAME) > 5
+        && LimelightHelpers.getTY(VisionConstants.LIME_LIGHT_NAME) < -4) {
+      return Optional.of(new Rotation2d(-1));
+    } else {
+      return Optional.empty();
     }
   }
 }

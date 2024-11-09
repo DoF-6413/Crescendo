@@ -38,16 +38,16 @@ public class WristIOSim implements WristIO {
     inputs.wristAbsolutePositionDeg = inputs.wristRelativePositionDeg;
     inputs.wristVelocityRadPerSec = wristMotor.getVelocityRadPerSec();
     inputs.wristAppliedVolts = 0.0;
-    inputs.wristCurrentAmps = new double[] {Math.abs(wristMotor.getCurrentDrawAmps())};
+    inputs.wristCurrentAmps = Math.abs(wristMotor.getCurrentDrawAmps());
   }
 
   @Override
-  public void setWristPercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     wristMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 
   @Override
-  public void setWristVoltage(double volts) {
+  public void setVoltage(double volts) {
     wristMotor.setInputVoltage(volts);
   }
 }

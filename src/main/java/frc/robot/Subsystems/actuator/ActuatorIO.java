@@ -23,10 +23,10 @@ public interface ActuatorIO {
     public double actuatorPositionDeg = 0.0;
     /** Returns the velocity of the Actuator in Rad/s */
     public double actuatorVelocityRadPerSec = 0.0;
-    /** The Current Drawn from the Actuator in Amps */
-    public double[] actuatorCurrentAmps = new double[] {};
-    /** The Temperature from the Actuator in Celsius */
-    public double[] actuatorTempCelsius = new double[] {};
+    /** Current Drawn from the Actuator in Amps */
+    public double actuatorCurrentAmps = 0.0;
+    /** Temperature of the Actuator in Celsius */
+    public double actuatorTempCelsius = 0.0;
   }
 
   /** Updates inputs for the Actuator */
@@ -37,14 +37,14 @@ public interface ActuatorIO {
    *
    * @param volts -12 to 12
    */
-  public default void setActuatorVoltage(double volts) {}
+  public default void setVoltage(double volts) {}
 
   /**
    * Sets the Actuator motor to a percentage of its max speed
    *
    * @param percent -1 to 1
    */
-  public default void setActuatorPercentSpeed(double percent) {}
+  public default void setPercentSpeed(double percent) {}
 
   /**
    * Sets the Brake Mode for the Actuator (Brake means motor holds position, Coast means easy to
@@ -61,6 +61,6 @@ public interface ActuatorIO {
    */
   public default void setCurrentLimit(int current) {}
 
-  /** Resets the current position of the Actuator to be the new zero position */
+  /** Sets the current position of the Actuator to be the new zero position */
   public default void zeroPosition() {}
 }

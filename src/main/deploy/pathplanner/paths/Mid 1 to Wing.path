@@ -1,0 +1,88 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.25,
+        "y": 7.4
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.430847955711009,
+        "y": 6.826423563648953
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.861260725370453,
+        "y": 6.127736927838528
+      },
+      "prevControl": {
+        "x": 5.790550047251799,
+        "y": 6.057026249719874
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Shoot Mid 1",
+      "waypointRelativePos": 0.3,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "FeederReverse"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "WingAngle"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Shooter6000"
+              }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 0
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.2,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 5.0,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "Puzzle Pieces",
+  "previewStartingState": {
+    "rotation": 0.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

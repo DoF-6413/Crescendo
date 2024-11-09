@@ -17,12 +17,15 @@ public class ActuatorIOSparkMax implements ActuatorIO {
   /** Runs the real life Actuator with CANSpark Speed Controllers and NEO 550 motor */
   public ActuatorIOSparkMax() {
     System.out.println("[Init] Creating ActuatorIOSparkMax");
+
     actuatorMotor = new CANSparkMax(ActuatorConstants.CAN_ID, MotorType.kBrushless);
     actuatorEncoder = actuatorMotor.getEncoder();
+
     actuatorMotor.setSmartCurrentLimit(ActuatorConstants.CUR_LIM_A);
     actuatorMotor.setInverted(ActuatorConstants.IS_INVERTED);
     actuatorMotor.setIdleMode(IdleMode.kBrake);
-    // actuatorEncoder.setPosition(ActuatorConstants.MIN_ANGLE_RADS);
+
+    actuatorMotor.burnFlash();
   }
 
   @Override
@@ -35,27 +38,23 @@ public class ActuatorIOSparkMax implements ActuatorIO {
         Units.rotationsPerMinuteToRadiansPerSecond(actuatorEncoder.getVelocity())
             / ActuatorConstants.GEAR_RATIO;
     inputs.actuatorAppliedVolts = actuatorMotor.getAppliedOutput() * actuatorMotor.getBusVoltage();
-    inputs.actuatorCurrentAmps = new double[] {actuatorMotor.getOutputCurrent()};
-    inputs.actuatorTempCelsius = new double[] {actuatorMotor.getMotorTemperature()};
+    inputs.actuatorCurrentAmps = actuatorMotor.getOutputCurrent();
+    inputs.actuatorTempCelsius = actuatorMotor.getMotorTemperature();
   }
 
   @Override
-  public void setActuatorVoltage(double volts) {
+  public void setVoltage(double volts) {
     actuatorMotor.setVoltage(volts);
   }
 
   @Override
-  public void setActuatorPercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     actuatorMotor.set(percent);
   }
 
   @Override
   public void setBrakeMode(boolean enable) {
-    if (enable) {
-      actuatorMotor.setIdleMode(IdleMode.kBrake);
-    } else {
-      actuatorMotor.setIdleMode(IdleMode.kCoast);
-    }
+    actuatorMotor.setIdleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
   }
 
   @Override

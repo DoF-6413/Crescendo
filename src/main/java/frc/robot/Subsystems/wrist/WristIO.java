@@ -20,9 +20,9 @@ public interface WristIO {
     /** The velocity of the Wrist in Radians per Second */
     public double wristVelocityRadPerSec = 0.0;
     /** Number of amps used by the Wrist motor */
-    public double[] wristCurrentAmps = new double[] {};
+    public double wristCurrentAmps = 0;
     /** Tempature of the Wrist motor */
-    public double[] wristTempCelsius = new double[] {};
+    public double wristTempCelsius = 0;
   }
 
   /** Updates the set of loggable inputs for the Wrist */
@@ -33,14 +33,14 @@ public interface WristIO {
    *
    * @param percent -1 to 1
    */
-  public default void setWristPercentSpeed(double percent) {}
+  public default void setPercentSpeed(double percent) {}
 
   /**
    * Sets voltage of the Wrist
    *
    * @param volts -12 to 12
    */
-  public default void setWristVoltage(double volts) {}
+  public default void setVoltage(double volts) {}
 
   /**
    * Sets brake mode

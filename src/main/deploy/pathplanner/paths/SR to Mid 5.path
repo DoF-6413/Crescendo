@@ -1,0 +1,82 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.6807503073695607,
+        "y": 4.373613761472538
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 0.6807503073695609,
+        "y": 1.373613761472538
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.293644849397962,
+        "y": 0.7835083476434771
+      },
+      "prevControl": {
+        "x": 6.293644849397962,
+        "y": 0.7835083476434771
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.1,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "PickUp"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "ZeroAll"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.2,
+    "maxAcceleration": 5.2,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Puzzle Pieces",
+  "previewStartingState": {
+    "rotation": -59.62087398863174,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

@@ -5,8 +5,8 @@
 package frc.robot.Commands.TeleopCommands.Intakes;
 
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.Subsystems.actuator.*;
 import frc.robot.Subsystems.feeder.Feeder;
+import frc.robot.Subsystems.feeder.FeederConstants;
 import frc.robot.Subsystems.utbintake.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -20,22 +20,21 @@ public class UTBIntakeRun extends ParallelCommandGroup {
 
   /** Lowers OTB Intake and runs both Intakes to intake/outtake depending on isInwards */
   public UTBIntakeRun(UTBIntake utbIntake, Feeder feeder, boolean isInwards, boolean stop) {
-    if (isInwards) {
-      feederRPM = 1500;
-      utbIntakePercentSpeed = -1.0;
-    } else if (stop) {
+    if (stop) {
       feederRPM = 0;
       utbIntakePercentSpeed = 0;
+    } else if (isInwards) {
+      feederRPM = FeederConstants.INTAKE_RPM;
+      utbIntakePercentSpeed = UTBIntakeConstants.INTAKE_PERCENT_SPEED;
     } else {
-      feederRPM = -1500;
-      utbIntakePercentSpeed = 1.0;
+      feederRPM = FeederConstants.OUTTAKE_RPM;
+      utbIntakePercentSpeed = UTBIntakeConstants.OUTTAKE_PERCENT_SPEED;
     }
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new InstantCommand(
-            () -> utbIntake.setUTBIntakePercentSpeed(utbIntakePercentSpeed), utbIntake),
+        new InstantCommand(() -> utbIntake.setPercentSpeed(utbIntakePercentSpeed), utbIntake),
         new InstantCommand(() -> feeder.setSetpoint(feederRPM), feeder));
   }
 }

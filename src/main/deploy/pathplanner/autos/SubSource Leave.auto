@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7626093884666401,
+      "y": 4.443778688127177
+    },
+    "rotation": -59.5344550805401
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "PreloadShot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ZeroAll"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SubSource to Midfield"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "1 Piece Autos",
+  "choreoAuto": false
+}

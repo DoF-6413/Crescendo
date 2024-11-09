@@ -33,7 +33,7 @@ public class Actuator extends SubsystemBase {
   public void periodic() {
     this.updateInputs();
     // log the inputs
-    Logger.processInputs("Actuator", inputs);
+    Logger.processInputs("OTB/Actuator", inputs);
 
     if (actuatorPIDenable) {
       setActuatorPercentSpeed(actuatorPIDController.calculate(inputs.actuatorPositionRad));
@@ -51,7 +51,7 @@ public class Actuator extends SubsystemBase {
    * @param percent -1 to 1
    */
   public void setActuatorPercentSpeed(double percent) {
-    io.setActuatorPercentSpeed(percent);
+    io.setPercentSpeed(percent);
   }
 
   /**
@@ -60,7 +60,7 @@ public class Actuator extends SubsystemBase {
    * @param volts -12 to 12
    */
   public void setActuatorVoltage(double volts) {
-    io.setActuatorVoltage(volts);
+    io.setVoltage(volts);
   }
 
   /**
@@ -78,7 +78,7 @@ public class Actuator extends SubsystemBase {
    *
    * @param setpoint Angle (Radians)
    */
-  public void setActuatorSetpoint(double setpoint) {
+  public void setSetpoint(double setpoint) {
     actuatorPIDController.setSetpoint(setpoint);
   }
 
@@ -95,7 +95,7 @@ public class Actuator extends SubsystemBase {
    * @return The current ouputs of the Actuator in amps
    */
   public double getOutputCurrent() {
-    return inputs.actuatorCurrentAmps[0];
+    return inputs.actuatorCurrentAmps;
   }
 
   /** Resets the current position of the Actuator to be the new zero position */

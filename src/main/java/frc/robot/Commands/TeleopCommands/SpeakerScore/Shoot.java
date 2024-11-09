@@ -6,6 +6,7 @@ package frc.robot.Commands.TeleopCommands.SpeakerScore;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Subsystems.arm.Arm;
 import frc.robot.Subsystems.arm.ArmConstants;
@@ -19,37 +20,42 @@ import frc.robot.Subsystems.shooter.ShooterConstants;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Shoot extends SequentialCommandGroup {
   /** Creates a new Shoot. */
-  public Shoot(Feeder feeder, Arm arm, Shooter shooter) {
+  public Shoot(Arm arm, Shooter shooter, Feeder feeder) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new ConditionalCommand(
-            Commands.runOnce(
-                () -> {
-                  feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
-                },
-                feeder),
             new ConditionalCommand(
                 Commands.runOnce(
                     () -> {
-                      feeder.setSetpoint(FeederConstants.AMP_RPM);
-                      shooter.setSetpoint(ShooterConstants.AMP_RPM);
+                      feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
                     },
-                    feeder,
-                    shooter),
+                    feeder),
                 new ConditionalCommand(
                     Commands.runOnce(
                         () -> {
-                          feeder.setSetpoint(-FeederConstants.AMP_RPM);
+                          feeder.setSetpoint(FeederConstants.AMP_RPM);
+                          shooter.setSetpoint(ShooterConstants.AMP_RPM);
                         },
-                        feeder),
-                    Commands.runOnce(
-                        () -> {
-                          feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
-                        },
-                        feeder),
-                    () -> arm.getSetpoint() == ArmConstants.AMP_BACK_SIDE_RAD),
-                () -> arm.getSetpoint() == ArmConstants.AMP_FRONT_SIDE_RAD),
-            () -> arm.getSetpoint() == 0));
+                        feeder,
+                        shooter),
+                    new ConditionalCommand(
+                        Commands.runOnce(
+                            () -> {
+                              feeder.setSetpoint(-FeederConstants.AMP_RPM);
+                              shooter.setSetpoint(-750);
+                            },
+                            feeder,
+                            shooter),
+                        Commands.runOnce(
+                            () -> {
+                              feeder.setSetpoint(FeederConstants.SPEAKER_RPM);
+                            },
+                            feeder),
+                        () -> arm.getGoal() == ArmConstants.AMP_BACK_SIDE_RAD),
+                    () -> arm.getGoal() == ArmConstants.AMP_FRONT_SIDE_RAD),
+                () -> arm.getGoal() == ArmConstants.DEFAULT_POSITION_RAD),
+            new InstantCommand(),
+            () -> shooter.bothAtSetpoint()));
   }
 }

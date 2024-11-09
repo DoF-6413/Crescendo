@@ -1,0 +1,25 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.48994948346191375,
+      "y": 2.0864482584072066
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "test1"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Test Autos",
+  "choreoAuto": false
+}

@@ -25,14 +25,12 @@ public interface ArmIO {
     public double armAbsolutePositionRad = 0.0;
     /** Returns the absolute position of the Arm in Degrees */
     public double armAbsolutePositionDeg = 0.0;
-    /** Returns the velocity of the Actuator in Rad/s */
+    /** Returns the velocity of the Arm in Rad/s */
     public double armVelocityRadPerSec = 0.0;
-    /** The Current Drawn from the Atuator in Amps */
-    public double[] armCurrentAmps = new double[] {};
-    /** The Temperature from the Actuator in Celsius */
-    public double[] armTempCelsius = new double[] {};
-
-    public double armPositionRad;
+    /** The Current Drawn from the Arm in Amps */
+    public double armCurrentAmps = 0;
+    /** The Temperature from the Arm in Celsius */
+    public double armTempCelsius = 0;
   }
 
   /** Updates the set of loggable inputs for the Arm */
@@ -43,14 +41,14 @@ public interface ArmIO {
    *
    * @param percent -1 to 1
    */
-  public default void setArmPercentSpeed(double percent) {}
+  public default void setPercentSpeed(double percent) {}
 
   /**
    * Sets the voltage of the Arm motor
    *
    * @param volts -12 to 12
    */
-  public default void setArmVoltage(double volts) {}
+  public default void setMotorVoltage(double volts) {}
 
   /**
    * Sets the Brake Mode for the Arm (Brake means motor holds position, Coast means easy to move)

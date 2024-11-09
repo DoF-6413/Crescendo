@@ -18,11 +18,12 @@ public class Module {
   private final int index;
 
   // initialize PID controllers
-  private PIDController drivePID = new PIDController(0, 0, 0);
-  private PIDController steerPID = new PIDController(0, 0, 0);
+  private PIDController drivePID;
+  private PIDController steerPID;
 
   // initialize feedforward
-  private SimpleMotorFeedforward driveFeedforward = new SimpleMotorFeedforward(0, 0);
+  private SimpleMotorFeedforward driveFeedforward =
+      new SimpleMotorFeedforward(DriveConstants.DRIVE_KS_KRAKEN, DriveConstants.DRIVE_KV_KRAKEN);
 
   // construct module
   public Module(ModuleIO io, int index) {
@@ -30,15 +31,12 @@ public class Module {
     this.io = io;
     this.index = index;
 
-    // update drive pid values depending on neo or kraken
     drivePID =
         new PIDController(
-            DriveConstants.driveKP(
-                io.isL3()), // Directly used Kraken PID and FF values in a different commit
-            DriveConstants.driveKI(io.isL3()),
-            DriveConstants.driveKD(io.isL3()));
+            DriveConstants.DRIVE_KP_KRAKEN,
+            DriveConstants.DRIVE_KI_KRAKEN,
+            DriveConstants.DRIVE_KD_KRAKEN);
 
-    // update drive ff values depending on neo or kraken
     driveFeedforward =
         new SimpleMotorFeedforward(DriveConstants.DRIVE_KS_KRAKEN, DriveConstants.DRIVE_KV_KRAKEN);
 
@@ -166,7 +164,23 @@ public class Module {
     io.setDriveVoltage(
         driveFeedforward.calculate(velocityRadPerSec)
             + (drivePID.calculate(inputs.driveVelocityRadPerSec, velocityRadPerSec)));
-
     return optimizedState;
+  }
+
+  /**
+   * Run Setpoint is what Runs a Module based on Chassis Speeds
+   *
+   * @param steerPosition the angle of the steer module in radians
+   * @param drivePosition the speed of the propulsion motor in rad/s
+   */
+  public void runRaw(double steerPosition, double driveVelocity) {
+
+    // Run turn controller
+    io.setTurnVoltage(steerPID.calculate(getAngle().getRadians(), steerPosition));
+
+    // Run drive controller
+    io.setDriveVoltage(
+        driveFeedforward.calculate(driveVelocity)
+            + (drivePID.calculate(inputs.driveVelocityRadPerSec, driveVelocity)));
   }
 }

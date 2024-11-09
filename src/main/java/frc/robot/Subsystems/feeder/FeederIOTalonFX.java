@@ -32,17 +32,17 @@ public class FeederIOTalonFX implements FeederIO {
     // gear ratio to obatin the RPM of the feeder itself
     inputs.feederRPM = feederMotor.getVelocity().getValueAsDouble() / FeederConstants.GEAR_RATIO;
     inputs.feederAppliedVolts = feederMotor.getMotorVoltage().getValueAsDouble();
-    inputs.feederCurrentAmps = new double[] {feederMotor.getStatorCurrent().getValueAsDouble()};
-    inputs.feederTempCelsius = new double[] {feederMotor.getDeviceTemp().getValueAsDouble()};
+    inputs.feederCurrentAmps = feederMotor.getStatorCurrent().getValueAsDouble();
+    inputs.feederTempCelsius = feederMotor.getDeviceTemp().getValueAsDouble();
   }
 
   @Override
-  public void setFeederVoltage(double volts) {
+  public void setMotorVoltage(double volts) {
     feederMotor.setVoltage(volts);
   }
 
   @Override
-  public void setFeederPercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     feederMotor.set(percent);
   }
 

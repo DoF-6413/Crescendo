@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.actuator;
 
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.RobotStateConstants;
 
@@ -13,7 +14,7 @@ public class ActuatorIOSim implements ActuatorIO {
   private final SingleJointedArmSim actuatorMotor;
 
   /**
-   * This is a simulation for the actuator. It uses the arm simulation because it rotates around a
+   * This is a simulation for the Actuator. It uses the arm simulation because it rotates around a
    * point
    */
   public ActuatorIOSim() {
@@ -34,20 +35,19 @@ public class ActuatorIOSim implements ActuatorIO {
   public void updateInputs(ActuatorIOInputs inputs) {
     actuatorMotor.update(RobotStateConstants.LOOP_PERIODIC_SEC);
 
-    // inputs.actuatorAppliedVolts = 0.0;
     inputs.actuatorPositionRad = actuatorMotor.getAngleRads();
-    // inputs.actuatorPositionDeg = Units.radiansToDegrees(actuatorMotor.getAngleRads());
+    inputs.actuatorPositionDeg = Units.radiansToDegrees(actuatorMotor.getAngleRads());
     inputs.actuatorVelocityRadPerSec = actuatorMotor.getVelocityRadPerSec();
-    // inputs.actuatorCurrentAmps = new double[] {actuatorMotor.getCurrentDrawAmps()};
+    inputs.actuatorCurrentAmps = actuatorMotor.getCurrentDrawAmps();
   }
 
-  // @Override
-  // public void setActuatorVoltage(double volts) {
-  //   actuatorMotor.setInputVoltage(volts);
-  // }
+  @Override
+  public void setVoltage(double volts) {
+    actuatorMotor.setInputVoltage(volts);
+  }
 
   @Override
-  public void setActuatorPercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     actuatorMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 }

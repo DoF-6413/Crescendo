@@ -13,6 +13,14 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.path.PathConstraints;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -71,5 +79,138 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int AUX_CONTROLLER = 1;
+  }
+
+  /** Field Measurements */
+  public final class FieldConstants {
+    // all in meters
+    public static final double BLUE_SPEAKER_X = 0.23;
+    public static final double RED_SPEAKER_X = 16.49;
+    public static final double SPEAKER_Y = 5.3; // 16.412;
+    public static final double SPEAKER_Z = 2.08; // height of opening
+    public static final Translation2d BLUE_SPEAKER = new Translation2d(0, 5.55);
+    public static final Translation2d RED_SPEAKER = new Translation2d(16.58, 5.55);
+  }
+
+  public static class HeadingControllerConstants {
+    public static double KP = 5.0;
+    public static double KD = 100.0;
+  }
+
+  /** Wrist to SPEAKER alignment lookup table */
+  public static class ShootingInterpolationConstants {
+
+    /** Distance from the center subwoofer to the wall */
+    public static final double SPEAKER_TO_WALL_M = 0.904;
+
+    /**
+     * Creates a table with distance from the SPEAKER as the x variable and the Wrist angle as the
+     * output
+     */
+    public static final double[][] LOOKUP_TABLE_X_M_VS_THETA_DEG = {
+      // from tests
+      {
+        0.5 + SPEAKER_TO_WALL_M,
+        1 + SPEAKER_TO_WALL_M,
+        1.5 + SPEAKER_TO_WALL_M,
+        2 + SPEAKER_TO_WALL_M,
+        2.5 + SPEAKER_TO_WALL_M,
+        3 + SPEAKER_TO_WALL_M
+      }, // x in meters
+      /* Angles tested and collected 8-24-2024 */
+      {31, 21, 15.5, 11, 8, 2}, // theta_max_degrees
+      {23, 15, 10.5, 8, 4.25, 0} // theta_min_degrees
+    };
+  }
+
+  /** Beam Break DIO Ports */
+  public static class BeamBreakConstants {
+    public static final int SHOOTER_BEAM_BREAK_PORT = 0;
+    public static final int INTAKE_BEAM_BREAK_PORT = 1; // TODO: Update
+  }
+
+  /** Constants used for various commands */
+  public static class CommandConstants {
+    // Intakes Run
+    /** Runs the Intake(s) to intake NOTEs into the robot */
+    public static final boolean INTAKE_INWARDS = true;
+    /** Runs the Intake(s) to eject NOTEs out of the robot */
+    public static final boolean INTAKE_OUTWARDS = false;
+    /** Starts the Intake(s) */
+    public static final boolean RUN_INTAKE = false;
+    /** Stops the Intake(s) */
+    public static final boolean STOP_INTAKE = true;
+
+    // Vision Pick Up
+    public static final double VISION_PICKUP_TIMEOUT_SEC = 1.5; // TODO: Test and Update
+
+    // Feeder Reverse
+    public static final double FEEDER_REVERSE_TIMEOUT_SEC = 3; // TODO: Test and Update
+
+    // SPEAKER Rotation Target Override
+    public static final boolean SPEAKER_ROTATION_OVERRIDE_ENABLE = true;
+    public static final boolean SPEAKER_ROTATION_OVERRIDE_DISABLE = false;
+
+    // NOTE Rotation Target Override
+    public static final boolean NOTE_ROTATION_OVERRIDE_ENABLE = true;
+    public static final boolean NOTE_ROTATION_OVERRIDE_DISABLE = false;
+
+    // Preload Shot
+    public static final double PRELOAD_SHOT_TIMEOUT_SEC = 2.0;
+  }
+
+  /** Constants for all Vision systems */
+  public final class VisionConstants {
+    /** Offsets the back left camera's position to the center of the robot */
+    public static final Transform3d LEFT_CAMERA_ROBOT_OFFSET =
+        new Transform3d(
+            new Translation3d(-Units.inchesToMeters(10.541), Units.inchesToMeters(11.695), 0),
+            new Rotation3d(Math.PI, 0, Math.PI - Units.degreesToRadians(10.881)));
+
+    /** Offsets the back right camera's position to the center of the robot */
+    public static final Transform3d RIGHT_CAMERA_ROBOT_OFFSET =
+        new Transform3d(
+            new Translation3d(-Units.inchesToMeters(10.541), -Units.inchesToMeters(11.695), 0),
+            new Rotation3d(Math.PI, 0, Math.PI + Units.degreesToRadians(14.881)));
+
+    /** The name of the Lime Light camera */
+    public static final String LIME_LIGHT_NAME = "limelight";
+
+    // Photon Camera names
+    public static final String LEFT_CAMERA_NAME = "Back_Left";
+    public static final String RIGHT_CAMERA_NAME = "Back_Right";
+
+    /**
+     * The range a NOTE is allowed to be within to stop the robot from rotating during NOTE
+     * alignment
+     */
+    public static final double LL_NOTE_RANGE = 10;
+  }
+
+  /** Contants for PathPlanner and Path Finding */
+  public static class PathPlannerConstants {
+    public static final double TRANSLATION_KP = 1.2;
+    public static final double TRANSLATION_KD = 0.2;
+    public static final double ROTATION_KP = 0.3125;
+    public static final double ROTATION_KD = 0.025;
+
+    // PathFinding
+    /**
+     * Max translational and rotational speed and acceleration used for PathPlanner's PathFinding
+     */
+    public static final PathConstraints DEFAULT_PATH_CONSTRAINTS =
+        new PathConstraints(3, 3, Units.degreesToRadians(515.65), Units.degreesToRadians(262.82));
+    /** Position to align the robot with the AMP in the Blue Wing */
+    public static final Pose2d AMP_BLUE_END_POSE =
+        new Pose2d(1.85, 7.69, new Rotation2d(Units.degreesToRadians(-90)));
+    /** Position to align the robot with the AMP in the Red Wing */
+    public static final Pose2d AMP_RED_END_POSE =
+        new Pose2d(14.69, 7.69, new Rotation2d(Units.degreesToRadians(-90)));
+    /** Start position at the AMP side of the Subwoofer on the Blue side */
+    public static final Pose2d SUB_AMP_BLUE_START_POSE =
+        new Pose2d(0.80, 6.59, Rotation2d.fromDegrees(60));
+    /** Start position at the AMP side of the Subwoofer on the Red side */
+    public static final Pose2d SUB_AMP_RED_START_POSE =
+        new Pose2d(15.74, 6.59, Rotation2d.fromDegrees(120));
   }
 }

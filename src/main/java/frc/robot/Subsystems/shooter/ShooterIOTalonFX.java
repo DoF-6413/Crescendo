@@ -45,23 +45,25 @@ public class ShooterIOTalonFX implements ShooterIO {
     // Top Shooter Motor Inputs
     inputs.topShooterMotorRPM =
         topShooterMotor.getRotorVelocity().getValueAsDouble()
-            * 60; // Gets the velocity in Rotations per Sec and converts into Rotations Per Min
+            * 60
+            / ShooterConstants
+                .GEAR_RATIO; // Gets the velocity in Rotations per Sec and converts into Rotations
+    // Per Min
     // (Gear ratio is 1 so no need to divide the RPM by it)
     inputs.topShooterAppliedVolts = topShooterMotor.getMotorVoltage().getValueAsDouble();
-    inputs.topShooterCurrentAmps =
-        new double[] {topShooterMotor.getStatorCurrent().getValueAsDouble()};
-    inputs.topShooterTempCelsius =
-        new double[] {topShooterMotor.getDeviceTemp().getValueAsDouble()};
+    inputs.topShooterCurrentAmps = topShooterMotor.getStatorCurrent().getValueAsDouble();
+    inputs.topShooterTempCelsius = topShooterMotor.getDeviceTemp().getValueAsDouble();
     // Bottom Shooter Motor Inputs
     inputs.bottomShooterMotorRPM =
         bottomShooterMotor.getRotorVelocity().getValueAsDouble()
-            * 60; // Gets the velocity in Rotations per Sec and converts into Rotations Per Min
+            * 60
+            / ShooterConstants
+                .GEAR_RATIO; // Gets the velocity in Rotations per Sec and converts into Rotations
+    // Per Min
     // (Gear ratio is 1 so no need to divide the RPM by it)
     inputs.bottomShooterAppliedVolts = bottomShooterMotor.getMotorVoltage().getValueAsDouble();
-    inputs.bottomShooterCurrentAmps =
-        new double[] {bottomShooterMotor.getStatorCurrent().getValueAsDouble()};
-    inputs.bottomShooterTempCelsius =
-        new double[] {bottomShooterMotor.getDeviceTemp().getValueAsDouble()};
+    inputs.bottomShooterCurrentAmps = bottomShooterMotor.getStatorCurrent().getValueAsDouble();
+    inputs.bottomShooterTempCelsius = bottomShooterMotor.getDeviceTemp().getValueAsDouble();
   }
 
   @Override
@@ -76,24 +78,34 @@ public class ShooterIOTalonFX implements ShooterIO {
   }
 
   @Override
-  public void setBothShooterMotorsVoltage(double volts) {
+  public void setBothVoltage(double volts) {
     topShooterMotor.setVoltage(volts);
     bottomShooterMotor.setVoltage(volts);
   }
 
   @Override
-  public void setBottomShooterMotorVoltage(double volts) {
+  public void setBottomVoltage(double volts) {
     bottomShooterMotor.setVoltage(volts);
   }
 
   @Override
-  public void setTopShooterMotorVoltage(double volts) {
+  public void setTopVoltage(double volts) {
     topShooterMotor.setVoltage(volts);
   }
 
   @Override
-  public void setBothShooterMotorPercentSpeed(double percent) {
+  public void setBothPercentSpeed(double percent) {
     topShooterMotor.set(percent);
+    bottomShooterMotor.set(percent);
+  }
+
+  @Override
+  public void setTopPercentSpeed(double percent) {
+    topShooterMotor.set(percent);
+  }
+
+  @Override
+  public void setBottomPercentSpeed(double percent) {
     bottomShooterMotor.set(percent);
   }
 }

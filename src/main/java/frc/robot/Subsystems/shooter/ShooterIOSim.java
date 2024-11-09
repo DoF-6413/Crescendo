@@ -3,7 +3,6 @@ package frc.robot.Subsystems.shooter;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants.RobotStateConstants;
-import frc.robot.Utils.PIDController;
 
 public class ShooterIOSim implements ShooterIO {
   // Creating flywheels
@@ -14,9 +13,6 @@ public class ShooterIOSim implements ShooterIO {
   private final FlywheelSim bottomShooterFlywheel =
       new FlywheelSim(
           DCMotor.getFalcon500(1), ShooterConstants.GEAR_RATIO, ShooterConstants.MOI_KG_M2);
-
-  private PIDController topShooterPID;
-  private PIDController bottomShooterPID;
 
   public ShooterIOSim() {
     System.out.println("[Init] Creating ShooterIOSim");
@@ -31,33 +27,42 @@ public class ShooterIOSim implements ShooterIO {
     // Updates logged inputs of the simulated Shooter Flywheels
     inputs.topShooterMotorRPM = topShooterFlywheel.getAngularVelocityRPM();
     inputs.topShooterAppliedVolts = 0.0;
-    inputs.topShooterCurrentAmps = new double[] {Math.abs(topShooterFlywheel.getCurrentDrawAmps())};
+    inputs.topShooterCurrentAmps = Math.abs(topShooterFlywheel.getCurrentDrawAmps());
 
     inputs.bottomShooterMotorRPM = bottomShooterFlywheel.getAngularVelocityRPM();
     inputs.bottomShooterAppliedVolts = 0.0;
-    inputs.bottomShooterCurrentAmps =
-        new double[] {Math.abs(bottomShooterFlywheel.getCurrentDrawAmps())};
+    inputs.bottomShooterCurrentAmps = Math.abs(bottomShooterFlywheel.getCurrentDrawAmps());
   }
 
   @Override
-  public void setBothShooterMotorPercentSpeed(double percent) {
+  public void setBothPercentSpeed(double percent) {
     topShooterFlywheel.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
     bottomShooterFlywheel.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
   }
 
   @Override
-  public void setBothShooterMotorsVoltage(double volts) {
+  public void setTopPercentSpeed(double percent) {
+    topShooterFlywheel.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
+  }
+
+  @Override
+  public void setBottomPercentSpeed(double percent) {
+    bottomShooterFlywheel.setInputVoltage(RobotStateConstants.BATTERY_VOLTAGE * percent);
+  }
+
+  @Override
+  public void setBothVoltage(double volts) {
     topShooterFlywheel.setInputVoltage(volts);
     bottomShooterFlywheel.setInputVoltage(volts);
   }
 
   @Override
-  public void setTopShooterMotorVoltage(double volts) {
+  public void setTopVoltage(double volts) {
     topShooterFlywheel.setInputVoltage(volts);
   }
 
   @Override
-  public void setBottomShooterMotorVoltage(double volts) {
+  public void setBottomVoltage(double volts) {
     bottomShooterFlywheel.setInputVoltage(volts);
   }
 }

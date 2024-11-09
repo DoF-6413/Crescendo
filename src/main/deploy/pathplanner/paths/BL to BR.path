@@ -1,0 +1,92 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.0197318289373425,
+        "y": 7.03
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.9294497853150046,
+        "y": 5.353311279528994
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.7916949794013546,
+        "y": 4.25
+      },
+      "prevControl": {
+        "x": 1.1251281761822784,
+        "y": 4.25
+      },
+      "nextControl": {
+        "x": 2.71553318035411,
+        "y": 4.25
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.9143338058755885,
+        "y": 4.25
+      },
+      "prevControl": {
+        "x": 2.072029911033927,
+        "y": 4.25
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.3,
+      "rotationDegrees": 0.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Stop Shooter",
+      "waypointRelativePos": 0.25,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ZeroShooting"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.2,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Puzzle Pieces",
+  "previewStartingState": {
+    "rotation": 29.744881296942097,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

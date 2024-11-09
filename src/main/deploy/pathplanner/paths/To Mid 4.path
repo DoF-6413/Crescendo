@@ -1,0 +1,94 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.7748887076721527,
+        "y": 3.179685306739035
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.972504987745018,
+        "y": 0.9823089731649555
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.445668857149679,
+        "y": 2.502549050682148
+      },
+      "prevControl": {
+        "x": 7.946412747981366,
+        "y": 2.2653780284928344
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4,
+      "rotationDegrees": 0.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Pick Up Mid 4",
+      "waypointRelativePos": 0.15,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "StopShooter"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "ZeroWrist"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "UTB"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Feeder"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 515.65,
+    "maxAngularAcceleration": 262.825
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 25.41,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "Puzzle Pieces",
+  "previewStartingState": {
+    "rotation": -44.215175397008174,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

@@ -5,11 +5,15 @@
 package frc.robot.Utils;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.PathPlannerConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.DriveConstants;
 
@@ -17,6 +21,9 @@ import frc.robot.Subsystems.drive.DriveConstants;
 public class PathPlanner extends SubsystemBase {
   private Drive drive;
   private PoseEstimator pose;
+
+  private boolean speakerRotOverride = false;
+  private boolean noteRotOverride = false;
 
   public PathPlanner(Drive drive, PoseEstimator pose) {
     this.drive = drive;
@@ -28,17 +35,12 @@ public class PathPlanner extends SubsystemBase {
         drive::getChassisSpeed,
         drive::runVelocity,
         new HolonomicPathFollowerConfig(
-            new PIDConstants( // Translation PID constants
-                DriveConstants.DRIVE_KP_KRAKEN,
-                DriveConstants.DRIVE_KI_KRAKEN,
-                DriveConstants.DRIVE_KD_KRAKEN),
-            new PIDConstants( // Rotation PID constants
-                DriveConstants.STEER_KP_NEO,
-                DriveConstants.STEER_KI_NEO,
-                DriveConstants.STEER_KD_NEO),
+            new PIDConstants(
+                PathPlannerConstants.TRANSLATION_KP, 0, PathPlannerConstants.TRANSLATION_KD),
+            new PIDConstants(PathPlannerConstants.ROTATION_KP, 0, PathPlannerConstants.ROTATION_KD),
             DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
             DriveConstants
-                .TRACK_WIDTH_M, // Drive base radius in meters. Distance from robot center to
+                .DRIVE_BASE_RADIUS_M, // Drive base radius in meters. Distance from robot center to
             // furthest module.
             new ReplanningConfig()),
         () -> {
@@ -46,7 +48,6 @@ public class PathPlanner extends SubsystemBase {
           // alliance
           // This will flip the path being followed to the red side of the field.
           // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
           var alliance = DriverStation.getAlliance();
           if (alliance.isPresent()) {
             return alliance.get() == DriverStation.Alliance.Red;
@@ -54,5 +55,45 @@ public class PathPlanner extends SubsystemBase {
           return false;
         },
         drive);
+  }
+
+  public void periodic() {
+    if (speakerRotOverride) {
+      PPHolonomicDriveController.setRotationTargetOverride(pose::alignToSpeakerPathPlanner);
+    }
+
+    if (noteRotOverride) {
+      PPHolonomicDriveController.setRotationTargetOverride(drive::noteAlignmentRotationOverride);
+    }
+  }
+
+  /**
+   * Toggles the rotation target override for a NOTE during PathPlanner paths
+   *
+   * @param enable True to enable, False to disable
+   */
+  public void enableNOTEAlignment(boolean enable) {
+    noteRotOverride = enable;
+  }
+
+  /**
+   * Toggles the rotation target override for the SPEAKER during PathPlanner paths
+   *
+   * @param enable True to enable, False to disable
+   */
+  public void enableSpeakerAlignment(boolean enable) {
+    speakerRotOverride = enable;
+  }
+
+  /**
+   * Creates a command that drives the robot to the inputed position
+   *
+   * @param targetPose Pose2d of where the robot should end up
+   */
+  public Command pathFindToPose(Pose2d targetPose) {
+    // The pose to pathfind to
+    // The constraints to use while pathfinding
+    // The goal end velocity of the robot when reaching the target pose
+    return AutoBuilder.pathfindToPose(targetPose, PathPlannerConstants.DEFAULT_PATH_CONSTRAINTS, 0);
   }
 }

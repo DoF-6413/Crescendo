@@ -29,7 +29,7 @@ public class WristIOSparkMax implements WristIO {
     wristRelativeEncoder = wristMotor.getEncoder();
     wristAbsoluteEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
     wristAbsoluteEncoder.setInverted(WristConstants.IS_INVERTED);
-    wristAbsoluteEncoder.setZeroOffset(0.8);
+    wristAbsoluteEncoder.setZeroOffset(0.2);
 
     /** sets default to brake mode, which locks the motor position */
     wristMotor.setIdleMode(IdleMode.kBrake);
@@ -54,17 +54,17 @@ public class WristIOSparkMax implements WristIO {
             + Units.radiansToDegrees(WristConstants.ABS_ENCODER_OFFSET_RADS);
     inputs.wristVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(wristRelativeEncoder.getVelocity());
-    inputs.wristTempCelsius = new double[] {wristMotor.getMotorTemperature()};
-    inputs.wristCurrentAmps = new double[] {wristMotor.getOutputCurrent()};
+    inputs.wristTempCelsius = wristMotor.getMotorTemperature();
+    inputs.wristCurrentAmps = wristMotor.getOutputCurrent();
   }
 
   @Override
-  public void setWristPercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     wristMotor.set(percent);
   }
 
   @Override
-  public void setWristVoltage(double volts) {
+  public void setVoltage(double volts) {
     wristMotor.setVoltage(volts);
   }
 

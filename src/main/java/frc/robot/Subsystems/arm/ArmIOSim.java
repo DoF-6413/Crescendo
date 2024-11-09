@@ -40,16 +40,16 @@ public class ArmIOSim implements ArmIO {
     inputs.armAbsolutePositionDeg = inputs.armRelativePositionDeg;
     inputs.armVelocityRadPerSec = armMotor.getVelocityRadPerSec();
     inputs.armAppliedVolts = 0.0;
-    inputs.armCurrentAmps = new double[] {Math.abs(armMotor.getCurrentDrawAmps())};
+    inputs.armCurrentAmps = Math.abs(armMotor.getCurrentDrawAmps());
   }
 
   @Override
-  public void setArmPercentSpeed(double percent) {
+  public void setPercentSpeed(double percent) {
     armMotor.setInputVoltage(percent * RobotStateConstants.BATTERY_VOLTAGE);
   }
 
   @Override
-  public void setArmVoltage(double volts) {
+  public void setMotorVoltage(double volts) {
     armMotor.setInputVoltage(volts);
   }
 }
