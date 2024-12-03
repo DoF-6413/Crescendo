@@ -1,5 +1,5 @@
 {
-  "version": 1.0,
+  "version": "2025.0",
   "waypoints": [
     {
       "anchor": {
@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2771521839339972,
+        "x": 1.2771521839339977,
         "y": 4.911544865824775
       },
       "isLocked": false,
@@ -31,15 +31,16 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": -30.0,
-      "rotateFast": false
+      "rotationDegrees": -29.999999999999996
     }
   ],
   "constraintZones": [],
+  "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "Pick Up and Shoot",
       "waypointRelativePos": 0.1,
+      "endWaypointRelativePos": null,
       "command": {
         "type": "parallel",
         "data": {
@@ -71,18 +72,19 @@
     "maxVelocity": 5.2,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 515.65,
-    "maxAngularAcceleration": 262.825
+    "maxAngularAcceleration": 262.825,
+    "nominalVoltage": 12.0,
+    "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -30.0,
-    "rotateFast": false
+    "rotation": -29.999999999999996
   },
   "reversed": false,
-  "folder": "Puzzle Pieces",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": false
 }

@@ -1,5 +1,5 @@
 {
-  "version": 1.0,
+  "version": "2025.0",
   "waypoints": [
     {
       "anchor": {
@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 5.440271165442615,
-        "y": 1.274662834225955
+        "y": 1.2746628342259543
       },
       "isLocked": false,
       "linkedName": null
@@ -31,15 +31,16 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.1,
-      "rotationDegrees": 12.042509409759223,
-      "rotateFast": false
+      "rotationDegrees": 12.042509409759223
     }
   ],
   "constraintZones": [],
+  "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
       "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
       "command": {
         "type": "parallel",
         "data": {
@@ -64,19 +65,20 @@
   "globalConstraints": {
     "maxVelocity": 5.2,
     "maxAcceleration": 5.2,
-    "maxAngularVelocity": 515.65,
-    "maxAngularAcceleration": 262.825
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.30027744918559,
-    "rotateFast": false
+    "rotation": -59.30027744918559
   },
   "reversed": false,
-  "folder": "Puzzle Pieces",
-  "previewStartingState": {
-    "rotation": -1.3639275316028767,
-    "velocity": 0
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

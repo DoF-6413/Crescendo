@@ -1,12 +1,5 @@
 {
-  "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 0.47025552740564164,
-      "y": 2.058171181869431
-    },
-    "rotation": 0
-  },
+  "version": "2025.0",
   "command": {
     "type": "sequential",
     "data": {
@@ -183,6 +176,7 @@
       ]
     }
   },
-  "folder": "Midfield Spit Autos",
+  "resetOdom": true,
+  "folder": null,
   "choreoAuto": false
 }

@@ -1,5 +1,5 @@
 {
-  "version": 1.0,
+  "version": "2025.0",
   "waypoints": [
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 4.116342363738859
       },
       "prevControl": {
-        "x": 8.201492874992734,
-        "y": 4.128469144990675
+        "x": 8.007464374963668,
+        "y": 4.176976269997942
       },
       "nextControl": null,
       "isLocked": false,
@@ -38,27 +38,31 @@
         "maxVelocity": 5.2,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 515.65,
-        "maxAngularAcceleration": 262.825
+        "maxAngularAcceleration": 262.825,
+        "nominalVoltage": 12.0,
+        "unlimited": false
       }
     }
   ],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.2,
     "maxAcceleration": 5.2,
-    "maxAngularVelocity": 515.65,
-    "maxAngularAcceleration": 262.825
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": true
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "SubAmp Midfield",
-  "previewStartingState": {
-    "rotation": 0.0,
-    "velocity": 0
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

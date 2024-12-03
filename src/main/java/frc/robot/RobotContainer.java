@@ -15,10 +15,12 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -328,10 +330,11 @@ public class RobotContainer {
 
     /* Autos */
     // ----------Test Autos----------
-    // autoChooser.addOption("test1", new PathPlannerAuto("test1"));
-    // autoChooser.addOption("test2", new PathPlannerAuto("test2"));
-    // autoChooser.addOption("test3", new PathPlannerAuto("test3"));
-    // autoChooser.addOption("2M Test", new PathPlannerAuto("2 meter forwards"));
+    autoChooser.addOption("test1", new PathPlannerAuto("test1"));
+    autoChooser.addOption("test2", new PathPlannerAuto("test2"));
+    autoChooser.addOption("test3", new PathPlannerAuto("test3"));
+    autoChooser.addOption("2M Test", new PathPlannerAuto("2m test"));
+    autoChooser.addOption("180 Turn Test", new PathPlannerAuto("180 test"));
     // autoChooser.addOption("Override Test", new PathPlannerAuto("Speaker"));
     // autoChooser.addOption("Square Test", new PathPlannerAuto("Square"));
     // autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
@@ -402,6 +405,12 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+
+    SmartDashboard.putBoolean("PP PID Enable", false);
+    SmartDashboard.putNumber("PP Translation kP", 0);
+    SmartDashboard.putNumber("PP Translation kD", 0);
+    SmartDashboard.putNumber("PP Rotation kP", 0);
+    SmartDashboard.putNumber("PP Rotation kD", 0);
   }
 
   /**
@@ -574,6 +583,9 @@ public class RobotContainer {
 
     /* Brings Actuator back to its default position (all the way up) */
     driverController.start().onTrue(new ActuatorToZero(m_actuatorSubsystem));
+
+    driverController.x().onTrue(m_pathPlanner.runPath(PathPlannerPath.fromPathFile("2m test")));
+    driverController.y().onTrue(m_pathPlanner.runPath(PathPlannerPath.fromPathFile("180 Test")));
   }
 
   /** Contoller keybinds for the aux contoller port */

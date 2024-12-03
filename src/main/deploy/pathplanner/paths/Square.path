@@ -1,5 +1,5 @@
 {
-  "version": 1.0,
+  "version": "2025.0",
   "waypoints": [
     {
       "anchor": {
@@ -24,7 +24,7 @@
         "y": 7.0
       },
       "nextControl": {
-        "x": 3.55,
+        "x": 3.75,
         "y": 7.0
       },
       "isLocked": false,
@@ -41,7 +41,7 @@
       },
       "nextControl": {
         "x": 3.5,
-        "y": 4.95
+        "y": 4.75
       },
       "isLocked": false,
       "linkedName": null
@@ -56,7 +56,7 @@
         "y": 5.0
       },
       "nextControl": {
-        "x": 1.45,
+        "x": 1.25,
         "y": 5.0
       },
       "isLocked": false,
@@ -69,7 +69,7 @@
       },
       "prevControl": {
         "x": 1.5,
-        "y": 6.8
+        "y": 6.75
       },
       "nextControl": null,
       "isLocked": false,
@@ -78,23 +78,25 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.2,
     "maxAcceleration": 5.2,
-    "maxAngularVelocity": 515.65,
-    "maxAngularAcceleration": 262.825
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Test Paths",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

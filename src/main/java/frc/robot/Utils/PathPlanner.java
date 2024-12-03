@@ -6,12 +6,16 @@ package frc.robot.Utils;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PathPlannerConstants;
 import frc.robot.Subsystems.drive.Drive;
@@ -35,9 +39,8 @@ public class PathPlanner extends SubsystemBase {
         drive::getChassisSpeed,
         drive::runVelocity,
         new HolonomicPathFollowerConfig(
-            new PIDConstants(
-                PathPlannerConstants.TRANSLATION_KP, 0, PathPlannerConstants.TRANSLATION_KD),
-            new PIDConstants(PathPlannerConstants.ROTATION_KP, 0, PathPlannerConstants.ROTATION_KD),
+            new PIDConstants(0, 0, 0),
+            new PIDConstants(0, 0, 0),
             DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
             DriveConstants
                 .DRIVE_BASE_RADIUS_M, // Drive base radius in meters. Distance from robot center to
@@ -64,6 +67,41 @@ public class PathPlanner extends SubsystemBase {
 
     if (noteRotOverride) {
       PPHolonomicDriveController.setRotationTargetOverride(drive::noteAlignmentRotationOverride);
+    }
+
+    if (SmartDashboard.getBoolean("PP PID Enable", false)) {
+      AutoBuilder.configureHolonomic(
+          pose::getCurrentPose2d,
+          pose::resetPose,
+          drive::getChassisSpeed,
+          drive::runVelocity,
+          new HolonomicPathFollowerConfig(
+              new PIDConstants(
+                  SmartDashboard.getNumber("PP Translation kP", 0),
+                  0,
+                  SmartDashboard.getNumber("PP Translation kD", 0)),
+              new PIDConstants(
+                  SmartDashboard.getNumber("PP Rotation kP", 0),
+                  0,
+                  SmartDashboard.getNumber("PP Rotation kD", 0)),
+              DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
+              DriveConstants
+                  .DRIVE_BASE_RADIUS_M, // Drive base radius in meters. Distance from robot center
+              // to
+              // furthest module.
+              new ReplanningConfig()),
+          () -> {
+            // Boolean supplier that controls when the path will be mirrored for the red
+            // alliance
+            // This will flip the path being followed to the red side of the field.
+            // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+            var alliance = DriverStation.getAlliance();
+            if (alliance.isPresent()) {
+              return alliance.get() == DriverStation.Alliance.Red;
+            }
+            return false;
+          },
+          drive);
     }
   }
 
@@ -95,5 +133,11 @@ public class PathPlanner extends SubsystemBase {
     // The constraints to use while pathfinding
     // The goal end velocity of the robot when reaching the target pose
     return AutoBuilder.pathfindToPose(targetPose, PathPlannerConstants.DEFAULT_PATH_CONSTRAINTS, 0);
+  }
+
+  public Command runPath(PathPlannerPath path) {
+    return Commands.sequence(
+        Commands.runOnce(() -> pose.resetPose(new Pose2d(0, 2, new Rotation2d()))),
+        AutoBuilder.followPath(path));
   }
 }
