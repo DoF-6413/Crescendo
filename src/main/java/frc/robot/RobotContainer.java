@@ -393,9 +393,9 @@ public class RobotContainer {
     autoChooser.addOption(
         "4 Piece Center (Podium) (C2, C3, M3)",
         new PathPlannerAuto("4P SubCenter-C2-Sub-C3-Sub-M3 (V)"));
-    autoChooser.addOption(
-        "4 Piece Center (Podium) (C2, C3, M4)",
-        new PathPlannerAuto("4P SubCenter-C2-Sub-C3-Sub-M4 (V)"));
+    // autoChooser.addOption(
+    //     "4 Piece Center (Podium) (C2, C3, M4)",
+    //     new PathPlannerAuto("4P SubCenter-C2-Sub-C3-Sub-M4 (V)"));
 
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
