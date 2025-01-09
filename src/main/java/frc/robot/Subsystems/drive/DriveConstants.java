@@ -4,6 +4,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import java.util.Optional;
 
+import com.ctre.phoenix6.signals.InvertedValue;
+
 public final class DriveConstants {
 
   // PID Constants for Kraken Drive
@@ -185,15 +187,13 @@ public final class DriveConstants {
   }
   /** Set the inverted for the turn spark max */
   public static final boolean INVERT_TURN_SPARK_MAX = true;
-  /** DON'T set the inverted for the drive TalonFX */
-  public static final boolean INVERT_DRIVE_TALONFX = false;
 
   /** Current limiting in amps */
   public static final int CUR_LIM_A = 60;
   /** Enebles the current limit */
   public static final boolean ENABLE_CUR_LIM = true;
   /** Updates encoders every 10 milliseconds */
-  public static final int MEASUREMENT_PERIOD_MS = 10;
+  public static final int MEASUREMENT_PERIOD_HZ = 100;
   /**
    * Within 10% of the desired direction, the joystick is considered to be going in that direction
    */

@@ -5,7 +5,10 @@
 package frc.robot.Subsystems.shooter;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 /** Runs the Real Life Shooter with TalonFX Speed Controllers and Falcon500 Motors */
@@ -13,6 +16,8 @@ public class ShooterIOTalonFX implements ShooterIO {
 
   private final TalonFX topShooterMotor;
   private final TalonFX bottomShooterMotor;
+  private final MotorOutputConfigs topShooterConfig;
+  private final MotorOutputConfigs bottomShooterConfig;
 
   public ShooterIOTalonFX() {
     System.out.println("[Init] Creating ShooterIOTalonFX");
@@ -20,10 +25,12 @@ public class ShooterIOTalonFX implements ShooterIO {
     // Shooter motor IDs
     topShooterMotor = new TalonFX(ShooterConstants.TOP_MOTOR_ID);
     bottomShooterMotor = new TalonFX(ShooterConstants.BOTTOM_MOTOR_ID);
+    topShooterConfig = new MotorOutputConfigs();
+    bottomShooterConfig = new MotorOutputConfigs();
 
     // Inverts top shooter motor to spin CCW
-    topShooterMotor.setInverted(ShooterConstants.TOP_MOTOR_IS_INVERTED);
-    bottomShooterMotor.setInverted(ShooterConstants.BOTTOM_MOTOR_IS_INVERTED);
+    topShooterConfig.withInverted(InvertedValue.Clockwise_Positive); // TODO: Test and Verify
+    bottomShooterConfig.withInverted(InvertedValue.Clockwise_Positive); // TODO: Test and Verify
 
     // sets shooter motors to brake on default
     topShooterMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -37,6 +44,10 @@ public class ShooterIOTalonFX implements ShooterIO {
     bottomShooterMotor.getConfigurator().apply(currentLimitsConfig);
     currentLimitsConfig.withStatorCurrentLimitEnable(ShooterConstants.ENABLE_CUR_LIM);
     currentLimitsConfig.withSupplyCurrentLimitEnable(ShooterConstants.ENABLE_CUR_LIM);
+
+    // Apply motor configuration
+    topShooterMotor.getConfigurator().apply(topShooterConfig);
+    bottomShooterMotor.getConfigurator().apply(bottomShooterConfig);
   }
 
   @Override

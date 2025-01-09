@@ -1,28 +1,36 @@
 package frc.robot.Subsystems.feeder;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class FeederIOTalonFX implements FeederIO {
   private final TalonFX feederMotor;
+  private final MotorOutputConfigs feederConfig;
 
+  
   public FeederIOTalonFX() {
     System.out.println("[Init] Creating FeederIOTalonFX");
 
-    // Feeder motor ID
+    // Feeder motor ID and configuration
     feederMotor = new TalonFX(FeederConstants.FEEDER_MOTOR_ID);
+    feederConfig = new MotorOutputConfigs();
 
     // Sets the inverted status of the Feeder motor to false
-    feederMotor.setInverted(FeederConstants.IS_INVERTED);
+    feederConfig.withInverted(InvertedValue.CounterClockwise_Positive); // TODO: Verify
 
     // Sets the feeder motor to brake mode by default
-    feederMotor.setNeutralMode(NeutralModeValue.Brake);
+    feederConfig.withNeutralMode(NeutralModeValue.Brake);
 
     // Configure current limiting to the Feeder motor
     final CurrentLimitsConfigs currentLimitsConfigs =
         new CurrentLimitsConfigs().withStatorCurrentLimit(FeederConstants.CUR_LIM_A);
     feederMotor.getConfigurator().apply(currentLimitsConfigs);
+
+    // Apply motor configuration settings
+    feederMotor.getConfigurator().apply(feederConfig);
   }
 
   @Override

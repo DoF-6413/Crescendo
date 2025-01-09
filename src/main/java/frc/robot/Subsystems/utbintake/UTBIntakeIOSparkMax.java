@@ -1,42 +1,55 @@
 package frc.robot.Subsystems.utbintake;
-
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 /** UTB Intake motor controller */
 public class UTBIntakeIOSparkMax implements UTBIntakeIO {
-  private final CANSparkMax topUTBIntakeMotor;
-  private final CANSparkMax bottomUTBIntakeMotor;
+  private final SparkMax topUTBIntakeMotor;
+  private final SparkMax bottomUTBIntakeMotor;
   private final RelativeEncoder topUTBIntakeEncoder;
   private final RelativeEncoder bottomUTBIntakeEncoder;
+  private final SparkMaxConfig topUTBConfig;
+  private final SparkMaxConfig bottomUTBConfig;
+
 
   /** Creates the Motor and Encoder for the Under the Bumper (UTB) Intake */
   public UTBIntakeIOSparkMax() {
     System.out.println("[Init] Creating UTBIntakeIOSparkMax");
 
     /** Creates the Motor and Encoder for the UTB Intake */
-    topUTBIntakeMotor = new CANSparkMax(UTBIntakeConstants.TOP_CAN_ID, MotorType.kBrushless);
-    bottomUTBIntakeMotor = new CANSparkMax(UTBIntakeConstants.BOTTOM_CAN_ID, MotorType.kBrushless);
+    topUTBIntakeMotor = new SparkMax(UTBIntakeConstants.TOP_CAN_ID, MotorType.kBrushless);
+    bottomUTBIntakeMotor = new SparkMax(UTBIntakeConstants.BOTTOM_CAN_ID, MotorType.kBrushless);
     topUTBIntakeEncoder = topUTBIntakeMotor.getEncoder();
     bottomUTBIntakeEncoder = bottomUTBIntakeMotor.getEncoder();
+    topUTBConfig = new SparkMaxConfig();
+    bottomUTBConfig = new SparkMaxConfig();
+    topUTBConfig.idleMode(IdleMode.kBrake);
+    bottomUTBConfig.idleMode(IdleMode.kBrake);
+    topUTBConfig.inverted(UTBIntakeConstants.IS_TOP_INVERTED);
+    bottomUTBConfig.inverted(UTBIntakeConstants.IS_BOTTOM_INVERTED);
+    topUTBConfig.smartCurrentLimit(UTBIntakeConstants.CUR_LIM_A);
+    bottomUTBConfig.smartCurrentLimit(UTBIntakeConstants.CUR_LIM_A);
 
     /** Default inversion status of the motors */
-    topUTBIntakeMotor.setInverted(UTBIntakeConstants.IS_TOP_INVERTED);
-    bottomUTBIntakeMotor.setInverted(UTBIntakeConstants.IS_BOTTOM_INVERTED);
+    topUTBConfig.inverted(UTBIntakeConstants.IS_TOP_INVERTED);
+    bottomUTBConfig.inverted(UTBIntakeConstants.IS_BOTTOM_INVERTED);
 
     /** Defaults to brake mode on initialization */
-    topUTBIntakeMotor.setIdleMode(IdleMode.kBrake);
-    bottomUTBIntakeMotor.setIdleMode(IdleMode.kBrake);
+    topUTBConfig.idleMode(IdleMode.kBrake);
+    bottomUTBConfig.idleMode(IdleMode.kBrake);
 
     /** Sets the current limit of the motors */
-    topUTBIntakeMotor.setSmartCurrentLimit(UTBIntakeConstants.CUR_LIM_A);
-    bottomUTBIntakeMotor.setSmartCurrentLimit(UTBIntakeConstants.CUR_LIM_A);
+    topUTBConfig.smartCurrentLimit(UTBIntakeConstants.CUR_LIM_A);
+    bottomUTBConfig.smartCurrentLimit(UTBIntakeConstants.CUR_LIM_A);
 
     /** Saves the configuration to the SPARKMAX */
-    topUTBIntakeMotor.burnFlash();
-    bottomUTBIntakeMotor.burnFlash();
+    topUTBIntakeMotor.configure(topUTBConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    bottomUTBIntakeMotor.configure(bottomUTBConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   /** Updates the printed values for the UTB Intake */
@@ -70,7 +83,9 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
 
   @Override
   public void setBrakeMode(boolean enable) {
-    topUTBIntakeMotor.setIdleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
-    bottomUTBIntakeMotor.setIdleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
+    topUTBConfig.idleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
+    bottomUTBConfig.idleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
+    topUTBIntakeMotor.configure(topUTBConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    bottomUTBIntakeMotor.configure(bottomUTBConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 }

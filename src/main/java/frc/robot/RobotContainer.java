@@ -44,7 +44,7 @@ import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and 
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.Actuator;
 import frc.robot.Subsystems.actuator.ActuatorIO;
-import frc.robot.Subsystems.actuator.ActuatorIOSim;
+//import frc.robot.Subsystems.actuator.ActuatorIOSim;
 import frc.robot.Subsystems.actuator.ActuatorIOSparkMax;
 import frc.robot.Subsystems.arm.*;
 import frc.robot.Subsystems.drive.*;
@@ -52,7 +52,7 @@ import frc.robot.Subsystems.feeder.*;
 import frc.robot.Subsystems.gyro.*;
 import frc.robot.Subsystems.otbroller.OTBRoller;
 import frc.robot.Subsystems.otbroller.OTBRollerIO;
-import frc.robot.Subsystems.otbroller.OTBRollerIOSim;
+//import frc.robot.Subsystems.otbroller.OTBRollerIOSim;
 import frc.robot.Subsystems.otbroller.OTBRollerIOSparkMax;
 import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
@@ -122,18 +122,18 @@ public class RobotContainer {
         m_gyroSubsystem = new Gyro(new GyroIO() {});
         m_driveSubsystem =
             new Drive(
-                new ModuleIOSimNeoKraken(),
-                new ModuleIOSimNeoKraken(),
-                new ModuleIOSimNeoKraken(),
-                new ModuleIOSimNeoKraken(),
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
                 m_gyroSubsystem);
-        m_armSubsystem = new Arm(new ArmIOSim());
-        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSim());
-        m_otbRollerSubsystem = new OTBRoller(new OTBRollerIOSim());
-        m_actuatorSubsystem = new Actuator(new ActuatorIOSim());
-        m_shooterSubsystem = new Shooter(new ShooterIOSim());
-        m_feederSubsystem = new Feeder(new FeederIOSim());
-        m_wristSubsystem = new Wrist(new WristIOSim());
+        m_armSubsystem = new Arm(new ArmIO() {});
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
+        m_otbRollerSubsystem = new OTBRoller(new OTBRollerIO() {});
+        m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
+        m_shooterSubsystem = new Shooter(new ShooterIO() {});
+        m_feederSubsystem = new Feeder(new FeederIO() {});
+        m_wristSubsystem = new Wrist(new WristIO() {});
         break;
 
       default:

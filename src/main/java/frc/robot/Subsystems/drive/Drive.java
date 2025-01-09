@@ -181,7 +181,7 @@ public class Drive extends SubsystemBase {
         ChassisSpeeds.fromFieldRelativeSpeeds(
             linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
             linearVelocity.getY() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
-            headingController.update(headingSetpoint, getRotation(), gyro.getRate()),
+            headingController.update(headingSetpoint, getRotation(), gyro.getYawAngularVelocity()),
             this.getRotation()));
   }
 

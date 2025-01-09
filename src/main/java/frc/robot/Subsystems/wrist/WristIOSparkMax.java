@@ -7,35 +7,42 @@
 
 package frc.robot.Subsystems.wrist;
 
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
+import com.revrobotics.spark.SparkAbsoluteEncoder;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import edu.wpi.first.math.util.Units;
 
 public class WristIOSparkMax implements WristIO {
 
-  private final CANSparkMax wristMotor;
+  private final SparkMax wristMotor;
   private final RelativeEncoder wristRelativeEncoder;
   private final SparkAbsoluteEncoder wristAbsoluteEncoder;
+  private final SparkMaxConfig wristConfig;
 
-  // private final RelativeEncoder wristEncoder;
 
   public WristIOSparkMax() {
     /** Creates a new Wrist motor and encoder */
-    wristMotor = new CANSparkMax(WristConstants.CAN_ID, MotorType.kBrushless);
+    wristMotor = new SparkMax(WristConstants.CAN_ID, MotorType.kBrushless);
     wristRelativeEncoder = wristMotor.getEncoder();
-    wristAbsoluteEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
-    wristAbsoluteEncoder.setInverted(WristConstants.IS_INVERTED);
-    wristAbsoluteEncoder.setZeroOffset(0.2);
+    wristAbsoluteEncoder = wristMotor.getAbsoluteEncoder();
+    wristConfig = new SparkMaxConfig();
+
+    wristConfig.absoluteEncoder.inverted(WristConstants.IS_INVERTED);
+    wristConfig.absoluteEncoder.zeroOffset(0.2);
 
     /** sets default to brake mode, which locks the motor position */
-    wristMotor.setIdleMode(IdleMode.kBrake);
+    wristConfig.idleMode(IdleMode.kBrake);
 
     /** sets current limit */
-    wristMotor.setSmartCurrentLimit(WristConstants.CUR_LIM_A);
+    wristConfig.smartCurrentLimit(WristConstants.CUR_LIM_A);
+
+    wristMotor.configure(wristConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   @Override
@@ -71,9 +78,9 @@ public class WristIOSparkMax implements WristIO {
   @Override
   public void setBrakeMode(boolean enable) {
     if (enable) {
-      wristMotor.setIdleMode(IdleMode.kBrake);
+      wristConfig.idleMode(IdleMode.kBrake);
     } else {
-      wristMotor.setIdleMode(IdleMode.kCoast);
+      wristConfig.idleMode(IdleMode.kCoast);
     }
   }
 }

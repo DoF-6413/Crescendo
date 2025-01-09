@@ -219,7 +219,7 @@ public class PoseEstimator extends SubsystemBase {
    * @param currentPose2d Position to set the robot to
    */
   public void resetPose(Pose2d currentPose2d) {
-    poseEstimator.resetPosition(gyro.getAngle(), drive.getSwerveModulePositions(), currentPose2d);
+    poseEstimator.resetPosition(gyro.getYaw(), drive.getSwerveModulePositions(), currentPose2d);
   }
 
   /**
