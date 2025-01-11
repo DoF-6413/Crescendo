@@ -10,7 +10,7 @@ import org.littletonrobotics.junction.Logger;
 
 public class Feeder extends SubsystemBase {
   private final FeederIO io;
-  private final FeederIOInputsAutoLogged inputs = new FeederIOInputsAutoLogged();
+  protected final FeederIOInputsAutoLogged inputs = new FeederIOInputsAutoLogged();
 
   private final PIDController feederPIDController;
   private double setpointRPM = 0.0;

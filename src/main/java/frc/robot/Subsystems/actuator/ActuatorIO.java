@@ -12,7 +12,7 @@ import org.littletonrobotics.junction.AutoLog;
  */
 public interface ActuatorIO {
 
-  @AutoLog
+  @AutoLog  
   public static class ActuatorIOInputs {
 
     /** This returns the voltage the Actuator Recieves */

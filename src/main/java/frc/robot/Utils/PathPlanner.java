@@ -5,14 +5,16 @@
 package frc.robot.Utils;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.Constants.PathPlannerConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.DriveConstants;
@@ -24,25 +26,27 @@ public class PathPlanner extends SubsystemBase {
 
   private boolean speakerRotOverride = false;
   private boolean noteRotOverride = false;
+  
+  private RobotConfig robotConfig;
+  private ModuleConfig moduleConfig;
 
   public PathPlanner(Drive drive, PoseEstimator pose) {
     this.drive = drive;
     this.pose = pose;
+    moduleConfig = new ModuleConfig(DriveConstants.WHEEL_RADIUS_M, DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, 1.0, DCMotor.getKrakenX60(1), DriveConstants.GEAR_RATIO_L3, DriveConstants.CUR_LIM_A, 1); //TODO: get coefficient of friction between wheel and carpet
+    robotConfig = new RobotConfig(125, 1, moduleConfig, DriveConstants.TRACK_WIDTH_M); // TODO: Verify MOI and Mass
 
-    AutoBuilder.configureHolonomic(
+    AutoBuilder.configure(
         pose::getCurrentPose2d,
         pose::resetPose,
         drive::getChassisSpeed,
-        drive::runVelocity,
-        new HolonomicPathFollowerConfig(
+        (speeds, feedforwards) -> drive.runVelocity(speeds),
+        new PPHolonomicDriveController(
             new PIDConstants(
                 PathPlannerConstants.TRANSLATION_KP, 0, PathPlannerConstants.TRANSLATION_KD),
-            new PIDConstants(PathPlannerConstants.ROTATION_KP, 0, PathPlannerConstants.ROTATION_KD),
-            DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC, // Max module speed, in m/s
-            DriveConstants
-                .DRIVE_BASE_RADIUS_M, // Drive base radius in meters. Distance from robot center to
-            // furthest module.
-            new ReplanningConfig()),
+            new PIDConstants(PathPlannerConstants.ROTATION_KP, 0, PathPlannerConstants.ROTATION_KD)
+            ),
+          robotConfig,
         () -> {
           // Boolean supplier that controls when the path will be mirrored for the red
           // alliance
@@ -57,15 +61,7 @@ public class PathPlanner extends SubsystemBase {
         drive);
   }
 
-  public void periodic() {
-    if (speakerRotOverride) {
-      PPHolonomicDriveController.setRotationTargetOverride(pose::alignToSpeakerPathPlanner);
-    }
-
-    if (noteRotOverride) {
-      PPHolonomicDriveController.setRotationTargetOverride(drive::noteAlignmentRotationOverride);
-    }
-  }
+  public void periodic() {}
 
   /**
    * Toggles the rotation target override for a NOTE during PathPlanner paths

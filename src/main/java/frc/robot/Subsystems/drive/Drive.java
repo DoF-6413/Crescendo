@@ -16,6 +16,8 @@ import frc.robot.Utils.LimelightHelpers;
 import java.util.Optional;
 import org.littletonrobotics.junction.Logger; // Logger
 
+import com.pathplanner.lib.util.DriveFeedforwards;
+
 /** This Runs the full Swerve (All Modules) for all Modes of the Robot */
 public class Drive extends SubsystemBase {
   private static final Module[] modules = new Module[4];
@@ -130,6 +132,11 @@ public class Drive extends SubsystemBase {
    * OR Robot Orientated)
    */
   public void runVelocity(ChassisSpeeds speeds) {
+    ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
+    setpoint = discreteSpeeds;
+  }
+
+  public void runVelocityPathPlanner(ChassisSpeeds speeds, DriveFeedforwards feedforwards) {
     ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
     setpoint = discreteSpeeds;
   }

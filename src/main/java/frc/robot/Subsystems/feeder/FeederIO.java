@@ -6,7 +6,7 @@ import org.littletonrobotics.junction.AutoLog;
 public interface FeederIO {
 
   @AutoLog
-  public static class FeederIOInputs {
+  static class FeederIOInputs {
     /** Velocity of the Feeder Motor in Rotations per Minute */
     public double feederRPM = 0.0;
     /** Number of volts being sent to the Feeder Motor */
@@ -18,26 +18,26 @@ public interface FeederIO {
   }
 
   /** Updates the set of loggable inputs for both Feeder motors */
-  public default void updateInputs(FeederIOInputs inputs) {}
+  default void updateInputs(FeederIOInputs inputs) {}
 
   /**
    * Sets the voltage of the Feeder motor
    *
    * @param volts -12 to 12
    */
-  public default void setMotorVoltage(double volts) {}
+  default void setMotorVoltage(double volts) {}
 
   /**
    * Sets the speed of the Feeder motor based on a percent of its maximum speed
    *
    * @param percent -1 to 1
    */
-  public default void setPercentSpeed(double percent) {}
+  default void setPercentSpeed(double percent) {}
 
   /**
    * Sets the Feeder motor to brake mode
    *
    * @param enable Enables brake mode if true, coast if false
    */
-  public default void setBrakeMode(boolean enable) {}
+  default void setBrakeMode(boolean enable) {}
 }
