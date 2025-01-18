@@ -13,7 +13,6 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -25,20 +24,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
-import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.OnePieceAuto;
-import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PickUp;
-import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.PreloadShot;
-import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ReverseNote;
-import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootAtAngle;
-import frc.robot.Commands.AutonomousCommands.PathPlannerCommands.ShootWhenReady;
-import frc.robot.Commands.TeleopCommands.AmpScore.PositionAmpScoreBackside;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
-import frc.robot.Commands.TeleopCommands.Intakes.AllIntakesRun;
-import frc.robot.Commands.TeleopCommands.Intakes.ShooterRev;
-import frc.robot.Commands.TeleopCommands.Intakes.UTBIntakeRun;
-import frc.robot.Commands.TeleopCommands.SourcePickup.SourcePickUpBackside;
-import frc.robot.Commands.TeleopCommands.SpeakerScore.*; // Position to Shoot, Overshot, Shoot
-import frc.robot.Commands.VisionCommands.*;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.Actuator;
@@ -47,13 +33,11 @@ import frc.robot.Subsystems.actuator.ActuatorIO;
 import frc.robot.Subsystems.actuator.ActuatorIOSparkMax;
 import frc.robot.Subsystems.arm.*;
 import frc.robot.Subsystems.drive.*;
-import frc.robot.Subsystems.feeder.*;
 import frc.robot.Subsystems.gyro.*;
 import frc.robot.Subsystems.otbroller.OTBRoller;
 import frc.robot.Subsystems.otbroller.OTBRollerIO;
 //import frc.robot.Subsystems.otbroller.OTBRollerIOSim;
 import frc.robot.Subsystems.otbroller.OTBRollerIOSparkMax;
-import frc.robot.Subsystems.shooter.*;
 import frc.robot.Subsystems.utbintake.*;
 import frc.robot.Subsystems.wrist.*;
 import frc.robot.Utils.*;
@@ -71,13 +55,13 @@ public class RobotContainer {
   private final Drive m_driveSubsystem;
 
   // Mechanisms
-//   private final Arm m_armSubsystem;
-//   private final UTBIntake m_utbIntakeSubsystem;
-//   private final OTBRoller m_otbRollerSubsystem;
-//   private final Actuator m_actuatorSubsystem;
-//   private final Shooter m_shooterSubsystem;
-//   private final Feeder m_feederSubsystem;
-//   private final Wrist m_wristSubsystem;
+  private final Arm m_armSubsystem;
+  private final UTBIntake m_utbIntakeSubsystem;
+  private final OTBRoller m_otbRollerSubsystem;
+  private final Actuator m_actuatorSubsystem;
+  // private final Shooter m_shooterSubsystem;
+  // private final Feeder m_feederSubsystem;
+  private final Wrist m_wristSubsystem;
 
   // Utilities
   private final PoseEstimator m_poseEstimator;
@@ -107,13 +91,13 @@ public class RobotContainer {
                 new ModuleIOSparkMaxTalonFX(2),
                 new ModuleIOSparkMaxTalonFX(3),
                 m_gyroSubsystem);
-        // m_armSubsystem = new Arm(new ArmIOSparkMax());
-        // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
-        // m_otbRollerSubsystem = new OTBRoller(new OTBRollerIOSparkMax());
-        // m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
+        m_armSubsystem = new Arm(new ArmIOSparkMax());
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIOSparkMax());
+        m_otbRollerSubsystem = new OTBRoller(new OTBRollerIOSparkMax());
+        m_actuatorSubsystem = new Actuator(new ActuatorIOSparkMax());
         // m_shooterSubsystem = new Shooter(new ShooterIOTalonFX());
         // m_feederSubsystem = new Feeder(new FeederIOTalonFX());
-        // m_wristSubsystem = new Wrist(new WristIOSparkMax());
+        m_wristSubsystem = new Wrist(new WristIOSparkMax());
         break;
 
       case SIM:
@@ -126,13 +110,13 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
-        // m_armSubsystem = new Arm(new ArmIO() {});
-        // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
-        // m_otbRollerSubsystem = new OTBRoller(new OTBRollerIO() {});
-        // m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
+        m_armSubsystem = new Arm(new ArmIO() {});
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
+        m_otbRollerSubsystem = new OTBRoller(new OTBRollerIO() {});
+        m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         // m_shooterSubsystem = new Shooter(new ShooterIO() {});
         // m_feederSubsystem = new Feeder(new FeederIO() {});
-        // m_wristSubsystem = new Wrist(new WristIO() {});
+        m_wristSubsystem = new Wrist(new WristIO() {});
         break;
 
       default:
@@ -145,13 +129,13 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 m_gyroSubsystem);
-        // m_armSubsystem = new Arm(new ArmIO() {});
-        // m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
-        // m_otbRollerSubsystem = new OTBRoller(new OTBRollerIO() {});
-        // m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
+        m_armSubsystem = new Arm(new ArmIO() {});
+        m_utbIntakeSubsystem = new UTBIntake(new UTBIntakeIO() {});
+        m_otbRollerSubsystem = new OTBRoller(new OTBRollerIO() {});
+        m_actuatorSubsystem = new Actuator(new ActuatorIO() {});
         // m_shooterSubsystem = new Shooter(new ShooterIO() {});
         // m_feederSubsystem = new Feeder(new FeederIO() {});
-        // m_wristSubsystem = new Wrist(new WristIO() {});
+        m_wristSubsystem = new Wrist(new WristIO() {});
         break;
     }
 
@@ -160,218 +144,20 @@ public class RobotContainer {
     m_pathPlanner = new PathPlanner(m_driveSubsystem, m_poseEstimator);
     m_beamBreak = new BeamBreak();
 
-    /* PathPlanner Commands */
-    // Shooter
-    // NamedCommands.registerCommand(
-    //     "Shooter1000",
-    //     new InstantCommand(
-    //         () -> m_shooterSubsystem.setSetpoint(ShooterConstants.SLOW_RPM), m_shooterSubsystem));
-    // NamedCommands.registerCommand(
-    //     "Shooter4000",
-    //     new InstantCommand(
-    //         () -> m_shooterSubsystem.setSetpoint(ShooterConstants.CLOSE_RPM), m_shooterSubsystem));
-    // NamedCommands.registerCommand(
-    //     "Shooter5500",
-    //     new RunCommand(
-    //             () -> m_shooterSubsystem.setSetpoint(ShooterConstants.MID_RANGE_RPM),
-    //             m_shooterSubsystem)
-    //         .until(() -> m_shooterSubsystem.bothAtSetpoint()));
-    // NamedCommands.registerCommand(
-    //     "Shooter6000",
-    //     new InstantCommand(() -> m_shooterSubsystem.setSetpoint(6000), m_shooterSubsystem));
-    // NamedCommands.registerCommand(
-    //     "StopShooter",
-    //     new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
-
-    // Feeder
-    // NamedCommands.registerCommand(
-    //     "Feeder",
-    //     new InstantCommand(
-    //         () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM), m_feederSubsystem));
-    // NamedCommands.registerCommand(
-    //     "FeederReverse", new ReverseNote(m_shooterSubsystem, m_feederSubsystem, m_beamBreak));
-    // NamedCommands.registerCommand(
-    //     "StopFeeder",
-    //     new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem));
-
-    // Angles
-    // NamedCommands.registerCommand(
-    //     "SubwooferAngle",
-    //     new InstantCommand(
-    //         () -> {
-    //           m_wristSubsystem.setGoal(WristConstants.SUBWOOFER_RAD);
-    //           m_armSubsystem.setGoal(ArmConstants.SUBWOOFER_RAD);
-    //         },
-    //         m_wristSubsystem,
-    //         m_armSubsystem));
-    // NamedCommands.registerCommand(
-    //     "AutoAlignWrist", new AimWrist(m_armSubsystem, m_wristSubsystem, m_poseEstimator));
-
-    // Auto Shooting
-    // NamedCommands.registerCommand(
-    //     "PreloadShot",
-    //     new PreloadShot(
-    //         m_armSubsystem,
-    //         m_wristSubsystem,
-    //         m_shooterSubsystem,
-    //         m_feederSubsystem,
-    //         ShooterConstants.CLOSE_RPM));
-    // NamedCommands.registerCommand(
-    //     "SubwooferShot",
-    //     new ShootAtAngle(
-    //         m_armSubsystem,
-    //         m_wristSubsystem,
-    //         m_shooterSubsystem,
-    //         m_feederSubsystem,
-    //         m_beamBreak,
-    //         ArmConstants.SUBWOOFER_RAD,
-    //         WristConstants.SUBWOOFER_RAD,
-    //         ShooterConstants.CLOSE_RPM));
-    // NamedCommands.registerCommand(
-    //     "SpitNote",
-    //     new ShootWhenReady(
-    //         m_shooterSubsystem, m_feederSubsystem, m_beamBreak, ShooterConstants.SLOW_RPM));
-    // NamedCommands.registerCommand(
-    //     "ShootWhenReady",
-    //     new ShootWhenReady(
-    //         m_shooterSubsystem, m_feederSubsystem, m_beamBreak, ShooterConstants.MID_RANGE_RPM));
-
-    // Vision
-    NamedCommands.registerCommand("NoteAlign", new AlignToNote(m_driveSubsystem, 0.3));
-    // NamedCommands.registerCommand(
-    //     "VisionPickUp",
-    //     new VisionPickUp(
-    //         m_driveSubsystem,
-    //         m_utbIntakeSubsystem,
-    //         m_armSubsystem,
-    //         m_wristSubsystem,
-    //         m_feederSubsystem,
-    //         m_poseEstimator,
-    //         m_beamBreak));
-
-    // Rotation Override
-    NamedCommands.registerCommand(
-        "EnableNOTERotationOverride",
-        new InstantCommand(
-            () -> m_pathPlanner.enableNOTEAlignment(CommandConstants.NOTE_ROTATION_OVERRIDE_ENABLE),
-            m_pathPlanner));
-    NamedCommands.registerCommand(
-        "DisableNOTERotationOverride",
-        new InstantCommand(
-            () ->
-                m_pathPlanner.enableNOTEAlignment(CommandConstants.NOTE_ROTATION_OVERRIDE_DISABLE),
-            m_pathPlanner));
-    NamedCommands.registerCommand(
-        "EnableSpeakerRotationOverride",
-        new InstantCommand(
-            () ->
-                m_pathPlanner.enableSpeakerAlignment(
-                    CommandConstants.SPEAKER_ROTATION_OVERRIDE_ENABLE),
-            m_pathPlanner));
-    NamedCommands.registerCommand(
-        "DisableSpeakerRotationOverride",
-        new InstantCommand(
-            () ->
-                m_pathPlanner.enableSpeakerAlignment(
-                    CommandConstants.SPEAKER_ROTATION_OVERRIDE_DISABLE),
-            m_pathPlanner));
-
-    // Pick Ups
-    // NamedCommands.registerCommand(
-    //     "UTB",
-    //     new InstantCommand(
-    //         () -> m_utbIntakeSubsystem.setPercentSpeed(UTBIntakeConstants.INTAKE_PERCENT_SPEED),
-    //         m_utbIntakeSubsystem));
-    // // NamedCommands.registerCommand(
-    //     "AllIntakesRun",
-    //     new AllIntakesRun(
-    //         m_actuatorSubsystem,
-    //         m_otbRollerSubsystem,
-    //         m_utbIntakeSubsystem,
-    //         m_feederSubsystem,
-    //         CommandConstants.RUN_INTAKE));
-    // NamedCommands.registerCommand(
-    //     "UTBStop",
-    //     new InstantCommand(() -> m_utbIntakeSubsystem.setPercentSpeed(0), m_utbIntakeSubsystem));
-    // NamedCommands.registerCommand(
-    //     "PickUp", new PickUp(m_utbIntakeSubsystem, CommandConstants.RUN_INTAKE));
-    // NamedCommands.registerCommand(
-    //     "PickUpStop", new PickUp(m_utbIntakeSubsystem, CommandConstants.STOP_INTAKE));
-
-    // // Zero Commands
-    // NamedCommands.registerCommand(
-    //     "ZeroWrist",
-    //     new InstantCommand(
-    //         () -> m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD), m_wristSubsystem));
-    // NamedCommands.registerCommand(
-    //     "ZeroArm",
-    //     new InstantCommand(
-    //         () -> m_armSubsystem.setGoal(ArmConstants.DEFAULT_POSITION_RAD), m_armSubsystem));
-    // NamedCommands.registerCommand(
-    //     "ZeroShooting",
-    //     new InstantCommand(
-    //         () -> {
-    //           m_armSubsystem.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
-    //           m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD);
-    //           m_shooterSubsystem.setSetpoint(0);
-    //         },
-    //         m_armSubsystem,
-    //         m_wristSubsystem,
-    //         m_shooterSubsystem));
-    // NamedCommands.registerCommand(
-    //     "ZeroAll",
-    //     new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    // Gyro heading update
-    NamedCommands.registerCommand(
-        "ZeroYaw", new InstantCommand(() -> m_gyroSubsystem.zeroYaw(), m_gyroSubsystem));
-
     /* Autos */
     // ----------Test Autos----------
-    // autoChooser.addOption("test1", new PathPlannerAuto("test1"));
-    // autoChooser.addOption("test2", new PathPlannerAuto("test2"));
-    // autoChooser.addOption("test3", new PathPlannerAuto("test3"));
-    // autoChooser.addOption("2M Test", new PathPlannerAuto("2 meter forwards"));
-    // autoChooser.addOption("Override Test", new PathPlannerAuto("Speaker"));
-    // autoChooser.addOption("Square Test", new PathPlannerAuto("Square"));
-    // autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
-    // autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
+    autoChooser.addOption("test1", new PathPlannerAuto("test1"));
+    autoChooser.addOption("test2", new PathPlannerAuto("test2"));
+    autoChooser.addOption("test3", new PathPlannerAuto("test3"));
+    autoChooser.addOption("2M Test", new PathPlannerAuto("2 meter forwards"));
+    autoChooser.addOption("Override Test", new PathPlannerAuto("Speaker"));
+    autoChooser.addOption("Square Test", new PathPlannerAuto("Square"));
+    autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
+    autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
     // ----------0 Piece----------
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
-    // ----------1 Piece----------
-    // autoChooser.addDefaultOption(
-    //     "One Piece",
-    //     new OnePieceAuto(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem));
-    autoChooser.addOption("One Piece SubSource Leave", new PathPlannerAuto("SubSource Leave"));
-    // ----------2 Piece----------
-    autoChooser.addOption(
-        "2 Piece Center (Return)", new PathPlannerAuto("2P SubCenter-C2-Sub (V)"));
-    // ----------3 Piece----------
-    autoChooser.addOption(
-        "3 Piece Center (Amp NOTE) (Return)",
-        new PathPlannerAuto("3P SubCenter-C2-Sub-C1-Sub (V)"));
-    autoChooser.addOption(
-        "3 Piece Center (Podium NOTE) (Return)",
-        new PathPlannerAuto("3P SubCenter-C2-Sub-C3-Sub (V)"));
-    autoChooser.addOption(
-        "3 Piece Source Midfield M5-M3 (M5-M4 Spit)",
-        new PathPlannerAuto("3P SubHP Midfield M5-M3 (M5-M4 Spit)"));
-    // ----------4 Piece----------
-    autoChooser.addOption(
-        "4 Piece Center (Return)", new PathPlannerAuto("4P SubCenter-C2-C1-C3 (V) (R)"));
-    autoChooser.addOption(
-        "4 Piece Center (AMP) (C2, C1, M3)",
-        new PathPlannerAuto("4P SubCenter-C2-Sub-C1-Sub-M3 (V)"));
-    autoChooser.addOption(
-        "4 Piece Center (AMP) (C2, C1, M4)",
-        new PathPlannerAuto("4P SubCenter-C2-Sub-C1-Sub-M4 (V)"));
-    autoChooser.addOption(
-        "4 Piece Center (Podium) (C2, C3, M3)",
-        new PathPlannerAuto("4P SubCenter-C2-Sub-C3-Sub-M3 (V)"));
-    // autoChooser.addOption(
-    //     "4 Piece Center (Podium) (C2, C3, M4)",
-    //     new PathPlannerAuto("4P SubCenter-C2-Sub-C3-Sub-M4 (V)"));
-
+    
     // Adds an "auto" tab on ShuffleBoard
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
@@ -410,18 +196,18 @@ public class RobotContainer {
   /** Either Coast or Brake mechanisms depending on Disable or Enable */
   public void mechanismsCoastOnDisable(boolean isDisabled) {
     m_driveSubsystem.coastOnDisable(isDisabled);
-    // m_actuatorSubsystem.setBrakeMode(!isDisabled);
-    // m_armSubsystem.setBrakeMode(!isDisabled);
-    // m_wristSubsystem.setBrakeMode(!isDisabled);
-    // // m_shooterSubsystem.setBrakeMode(!isDisabled);
-    // m_utbIntakeSubsystem.setBrakeMode(!isDisabled);
+    m_actuatorSubsystem.setBrakeMode(!isDisabled);
+    m_armSubsystem.setBrakeMode(!isDisabled);
+    m_wristSubsystem.setBrakeMode(!isDisabled);
+    // m_shooterSubsystem.setBrakeMode(!isDisabled);
+    m_utbIntakeSubsystem.setBrakeMode(!isDisabled);
   }
 
   /** Sets the setpoint/position to zero */
   public void setAllSetpointsZero() {
     // m_shooterSubsystem.setSetpoint(0);
-    // m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD);
-    // m_armSubsystem.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
+    m_wristSubsystem.setGoal(WristConstants.DEFAULT_POSITION_RAD);
+    m_armSubsystem.setGoal(ArmConstants.DEFAULT_POSITION_RAD);
     // m_feederSubsystem.setSetpoint(0);
   }
 
@@ -431,8 +217,8 @@ public class RobotContainer {
    * @param enable True enables PID
    */
   public void enablePID(boolean enable) {
-    // m_armSubsystem.enablePID(enable);
-    // m_wristSubsystem.enablePID(enable);
+    m_armSubsystem.enablePID(enable);
+    m_wristSubsystem.enablePID(enable);
     // m_shooterSubsystem.enablePID(enable);
   }
 
@@ -442,8 +228,8 @@ public class RobotContainer {
    * @param enable True uses the PIDFF values typed onto SmartDashboard
    */
   public void enableTesting(boolean enable) {
-    // m_armSubsystem.enableTesting(enable);
-    // m_wristSubsystem.enableTesting(enable);
+    m_armSubsystem.enableTesting(enable);
+    m_wristSubsystem.enableTesting(enable);
     // m_shooterSubsystem.enableTesting(enable);
   }
 
@@ -467,7 +253,7 @@ public class RobotContainer {
                 driverController,
                 1,
                 auxController.b(),
-                () -> false)
+                () -> m_armSubsystem.getGoal() >= ArmConstants.SOURCE_BACK_SIDE_RAD)
             .withName("DefaultDriveCommand"));
 
     /* Reset Gyro heading */
@@ -548,45 +334,12 @@ public class RobotContainer {
     //             .withName("ShootCommand"));
 
     /* Brings Actuator back to its default position (all the way up) */
-    // driverController.start().onTrue(new ActuatorToZero(m_actuatorSubsystem));
+    driverController.start().onTrue(new ActuatorToZero(m_actuatorSubsystem));
   }
 
   /** Contoller keybinds for the aux contoller port */
   public void auxControllerBindings() {
-    /* Feeder */
-    // auxController
-    //     .a()
-    //     .onTrue(
-    //         new InstantCommand(
-    //                 () -> m_feederSubsystem.setSetpoint(FeederConstants.SPEAKER_RPM),
-    //                 m_feederSubsystem)
-    //             .withName("FeederRun"))
-    //     .onFalse(
-    //         new InstantCommand(() -> m_feederSubsystem.setSetpoint(0), m_feederSubsystem)
-    //             .withName("FeederStop"));
 
-    // auxController
-    //     .start()
-    //     .onTrue(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(-500), m_shooterSubsystem))
-    //     .onFalse(new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem));
-
-    /* SPEAKER Scoring */
-    // Subwoofer (w/o vision)
-    // auxController
-    //     .leftTrigger()
-    //     .onTrue(
-    //         new PositionToShoot(
-    //                 m_armSubsystem,
-    //                 m_wristSubsystem,
-    //                 m_shooterSubsystem,
-    //                 m_feederSubsystem,
-    //                 ArmConstants.SUBWOOFER_RAD,
-    //                 WristConstants.SUBWOOFER_RAD,
-    //                 () -> ShooterConstants.CLOSE_RPM)
-    //             .withName("SubwooferPosition"))
-    //     .onFalse(
-    //         new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem)
-    //             .withName("ZeroAll"));
     // // Position to shoot with Vision
     // auxController
     //     .rightTrigger()
@@ -603,32 +356,7 @@ public class RobotContainer {
     //     .onFalse(
     //         new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem)
     //             .withName("ZeroAll"));
-    // // PODIUM (w/o vision)
-    // auxController
-    //     .leftBumper()
-    //     .onTrue(
-    //         new PositionToShoot(
-    //                 m_armSubsystem,
-    //                 m_wristSubsystem,
-    //                 m_shooterSubsystem,
-    //                 m_feederSubsystem,
-    //                 ArmConstants.DEFAULT_POSITION_RAD,
-    //                 WristConstants.PODIUM_RAD,
-    //                 () -> ShooterConstants.MID_RANGE_RPM)
-    //             .withName("PodiumPosition"))
-    //     .onFalse(
-    //         new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem)
-    //             .withName("ZeroAll"));
-    // // Overshot
-    // auxController
-    //     .button(9)
-    //     .onTrue(
-    //         new OverShot(m_armSubsystem, m_wristSubsystem, m_feederSubsystem, m_shooterSubsystem)
-    //             .withName("OvershotPosition"))
-    //     .onFalse(
-    //         new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem)
-    //             .withName("ZeroAll"));
-
+    
     // /* AMP Scoring */
     // // Backside
     // auxController
@@ -664,24 +392,6 @@ public class RobotContainer {
     //     .onFalse(
     //         new InstantCommand(() -> m_shooterSubsystem.setSetpoint(0), m_shooterSubsystem)
     //             .withName("ShooterStop"));
-
-    // /* Misc */
-    // // Feeding shot from Midfield
-    // auxController
-    //     .b()
-    //     .onTrue(
-    //         new PositionToShoot(
-    //                 m_armSubsystem,
-    //                 m_wristSubsystem,
-    //                 m_shooterSubsystem,
-    //                 m_feederSubsystem,
-    //                 ArmConstants.DEFAULT_POSITION_RAD,
-    //                 WristConstants.FEEDING_RAD,
-    //                 () -> ShooterConstants.MIDFIELD_FEEDING_RPM)
-    //             .withName("MidfieldFeedingPosition"))
-    //     .onFalse(
-    //         new ZeroAll(m_armSubsystem, m_wristSubsystem, m_shooterSubsystem, m_feederSubsystem)
-    //             .withName("ZeroAll"));
 
     // /* Arm */
     // // Up by 1 degree on each button press
@@ -724,49 +434,49 @@ public class RobotContainer {
 
     /* Arm */
     // Continuously increases angle of the Arm by 1 degree
-    // auxController
-    //     .povUp()
-    //     .onTrue(
-    //         new RunCommand(
-    //                 () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)),
-    //                 m_armSubsystem)
-    //             .withName("IncrementArm"))
-    //     .onFalse(
-    //         new InstantCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem)
-    //             .withName("ArmStop"));
-    // // Continuously decreases angle of the Arm by 1 degree
-    // auxController
-    //     .povDown()
-    //     .onTrue(
-    //         new RunCommand(
-    //                 () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)),
-    //                 m_armSubsystem)
-    //             .withName("DecrementArm"))
-    //     .onFalse(
-    //         new InstantCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem)
-    //             .withName("ArmStop"));
-    // /* Wrist */
-    // // Continuously increases angle of the Wrist by 1 degree
-    // auxController
-    //     .povRight()
-    //     .onTrue(
-    //         new RunCommand(
-    //                 () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
-    //                 m_wristSubsystem)
-    //             .withName("IncrementWrist"))
-    //     .onFalse(
-    //         new InstantCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem)
-    //             .withName("WristStop"));
-    // // Continuously decreases angle of the Wrist by 1 degree
-    // auxController
-    //     .povLeft()
-    //     .onTrue(
-    //         new RunCommand(
-    //                 () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
-    //                 m_wristSubsystem)
-    //             .withName("DecrementWrist"))
-    //     .onFalse(
-    //         new InstantCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem)
-    //             .withName("WristStop"));
+    auxController
+        .povUp()
+        .onTrue(
+            new RunCommand(
+                    () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(1)),
+                    m_armSubsystem)
+                .withName("IncrementArm"))
+        .onFalse(
+            new InstantCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem)
+                .withName("ArmStop"));
+    // Continuously decreases angle of the Arm by 1 degree
+    auxController
+        .povDown()
+        .onTrue(
+            new RunCommand(
+                    () -> m_armSubsystem.incrementArmGoal(Units.degreesToRadians(-1)),
+                    m_armSubsystem)
+                .withName("DecrementArm"))
+        .onFalse(
+            new InstantCommand(() -> m_armSubsystem.incrementArmGoal(0), m_armSubsystem)
+                .withName("ArmStop"));
+    /* Wrist */
+    // Continuously increases angle of the Wrist by 1 degree
+    auxController
+        .povRight()
+        .onTrue(
+            new RunCommand(
+                    () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(1)),
+                    m_wristSubsystem)
+                .withName("IncrementWrist"))
+        .onFalse(
+            new InstantCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem)
+                .withName("WristStop"));
+    // Continuously decreases angle of the Wrist by 1 degree
+    auxController
+        .povLeft()
+        .onTrue(
+            new RunCommand(
+                    () -> m_wristSubsystem.incrementWristGoal(Units.degreesToRadians(-1)),
+                    m_wristSubsystem)
+                .withName("DecrementWrist"))
+        .onFalse(
+            new InstantCommand(() -> m_wristSubsystem.incrementWristGoal(0), m_wristSubsystem)
+                .withName("WristStop"));
   }
 }

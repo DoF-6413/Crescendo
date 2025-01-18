@@ -13,6 +13,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -22,7 +23,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.RobotStateConstants;
-import java.util.Optional;
 
 /** Runs an Individual Real Module with the Turn Motors as a Neo and Drive Motor as a Krakens */
 public class ModuleIOSparkMaxTalonFX implements ModuleIO {
@@ -83,7 +83,7 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
     turnRelativeEncoder = turnSparkMax.getEncoder();
 
     /** For each drive motor, update values */
-    driveOutputConfig.withInverted(InvertedValue.CounterClockwise_Positive); // TODO: Test and Verify
+    driveOutputConfig.withInverted(InvertedValue.CounterClockwise_Positive);
     driveOutputConfig.withNeutralMode(NeutralModeValue.Coast);
     turnSparkMaxConfig.inverted(DriveConstants.INVERT_TURN_SPARK_MAX);
     turnSparkMaxConfig.idleMode(IdleMode.kCoast);
@@ -102,6 +102,9 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
 
     // Sets Turn Position to 0
     turnRelativeEncoder.setPosition(0.0);
+
+    // Set PID Configuration
+    turnSparkMaxConfig.closedLoop.pid(DriveConstants.STEER_KP_NEO, DriveConstants.STEER_KI_NEO, DriveConstants.STEER_KD_NEO);
   
     // Apply configuration
     driveTalonFX.getConfigurator().apply(driveOutputConfig);
@@ -164,7 +167,11 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
   }
 
   @Override
-  public Optional<Boolean> isL3() {
-    return Optional.of(true);
+  public void setTurnPosition(Rotation2d rotation) {
+    double setpoint =
+        MathUtil.angleModulus(
+            rotation.plus(Rotation2d.fromRadians(absoluteEncoderOffsetRad)).getRadians());
+    turnSparkMax.getClosedLoopController().setReference(setpoint, ControlType.kPosition);
   }
+
 }
