@@ -6,6 +6,13 @@
   "configurations": [
 
     {
+      "type": "java",
+      "name": "GFG",
+      "request": "launch",
+      "mainClass": "GFG",
+      "projectName": "Crescendo"
+    },
+    {
       "type": "wpilib",
       "name": "WPILib Desktop Debug",
       "request": "launch",

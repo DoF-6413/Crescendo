@@ -18,26 +18,26 @@ public interface FeederIO {
   }
 
   /** Updates the set of loggable inputs for both Feeder motors */
-  default void updateInputs(FeederIOInputs inputs) {}
+  public default void updateInputs(FeederIOInputs inputs) {}
 
   /**
    * Sets the voltage of the Feeder motor
    *
    * @param volts -12 to 12
    */
-  default void setMotorVoltage(double volts) {}
+  public default void setMotorVoltage(double volts) {}
 
   /**
    * Sets the speed of the Feeder motor based on a percent of its maximum speed
    *
    * @param percent -1 to 1
    */
-  default void setPercentSpeed(double percent) {}
+  public default void setPercentSpeed(double percent) {}
 
   /**
    * Sets the Feeder motor to brake mode
    *
    * @param enable Enables brake mode if true, coast if false
    */
-  default void setBrakeMode(boolean enable) {}
+  public default void setBrakeMode(boolean enable) {}
 }

@@ -18,6 +18,8 @@ public interface GyroIO {
     public Rotation2d rawYawPositionRad = new Rotation2d();
     /** Gets the angular velocity of the yaw */
     public double yawVelocityRadPerSec = 0.0;
+
+    public double rateRadPerSec = 0.0;
   }
 
   /** Updates the set of loggable inputs. */
