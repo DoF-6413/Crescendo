@@ -40,7 +40,7 @@ public class PathPlanner extends SubsystemBase {
         pose::getCurrentPose2d,
         pose::resetPose,
         drive::getChassisSpeed,
-        (speeds, feedforwards) -> drive.runVelocity(speeds),
+        drive::runVelocity,
         new PPHolonomicDriveController(
             new PIDConstants(
                 PathPlannerConstants.TRANSLATION_KP, 0, PathPlannerConstants.TRANSLATION_KD),
