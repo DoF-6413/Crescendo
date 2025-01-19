@@ -68,32 +68,32 @@ public class DefaultDriveCommand extends Command {
   public void execute() {
 
     // If the Arm is over 28 degrees then reduce the max speed of the robot
-    if (ampSlowdown.getAsBoolean()) {
-      velocityScaler = 0.65;
-    } else {
-      velocityScaler = 1;
-    }
+    // if (ampSlowdown.getAsBoolean()) {
+    //   velocityScaler = 0.65;
+    // } else {
+    //   velocityScaler = 1;
+    // }
 
-    if (controller.leftTrigger().getAsBoolean() || controller.rightTrigger().getAsBoolean()) {
-      /* Auto Rotates Chassis to Align With a NOTE */
-      drive.driveWithNoteDetection(
-          controller.getLeftX() * velocityScaler, -controller.getLeftY() * velocityScaler, 0.3);
+    // if (controller.leftTrigger().getAsBoolean() || controller.rightTrigger().getAsBoolean()) {
+    //   /* Auto Rotates Chassis to Align With a NOTE */
+    //   drive.driveWithNoteDetection(
+    //       controller.getLeftX() * velocityScaler, -controller.getLeftY() * velocityScaler, 0.3);
 
-    } else if (feeding.getAsBoolean()
-        && !SmartDashboard.getBoolean("HeadingControllerAtSetpoint", false)) {
-      drive.driveWithDeadbandForAutoAlign(
-          controller.getLeftX() * velocityScaler,
-          -controller.getLeftY() * velocityScaler,
-          headingController.update(
-              Rotation2d.fromDegrees(feedingAngleDeg), pose.getRotation(), gyro.getYawAngularVelocity()));
-    } else {
+    // } else if (feeding.getAsBoolean()
+    //     && !SmartDashboard.getBoolean("HeadingControllerAtSetpoint", false)) {
+    //   drive.driveWithDeadbandForAutoAlign(
+    //       controller.getLeftX() * velocityScaler,
+    //       -controller.getLeftY() * velocityScaler,
+    //       headingController.update(
+    //           Rotation2d.fromDegrees(feedingAngleDeg), pose.getRotation(), gyro.getYawAngularVelocity()));
+    // } else {
       /* Normal Drive Mode */
       drive.driveWithDeadband(
           controller.getLeftX() * velocityScaler, // Forward/backward
           -controller.getLeftY()
               * velocityScaler, // Left/Right (multiply by -1 bc controller a())is inverted)
           -controller.getRightX() * velocityScaler); // Rotate chassis left/right
-    }
+    // }
   }
 
   // Called once the command ends or is interrupted.

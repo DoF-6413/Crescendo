@@ -65,4 +65,6 @@ public interface ModuleIO {
   public default void setTurnBrakeMode(boolean enable) {}
 
   public default void setTurnPosition(Rotation2d angle) {}
+
+  public default void setDriveVelocity(double velocity) {}
 }

@@ -171,6 +171,22 @@ public class Module {
   /**
    * Run Setpoint is what Runs a Module based on Chassis Speeds
    *
+   * @param Desired Swerve Module State (Desired Velocity and Angle)
+   */
+  public void runSetpointClosedLoop(SwerveModuleState state) {
+
+    // Optimize state based on current angle, aka take the shortest path for wheel to reach desired
+    // angle in rad (-pi,pi))
+    state.optimize(getAngle());
+    state.cosineScale(Rotation2d.fromRadians(inputs.turnAbsolutePositionRad));
+
+    io.setDriveVelocity(state.speedMetersPerSecond / DriveConstants.WHEEL_RADIUS_M);
+    io.setTurnPosition(state.angle);
+  }
+
+  /**
+   * Run Setpoint is what Runs a Module based on Chassis Speeds
+   *
    * @param steerPosition the angle of the steer module in radians
    * @param drivePosition the speed of the propulsion motor in rad/s
    */
