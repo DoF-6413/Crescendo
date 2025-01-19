@@ -108,6 +108,13 @@ public class Module {
   }
 
   /**
+   * @return the current drive velocity of the module in rad per second
+   */
+  public double getVelocityRadPerSec() {
+    return inputs.driveVelocityRadPerSec;
+  }
+
+  /**
    * @return the module position (turn angle and drive position)
    */
   public SwerveModulePosition getPosition() {
@@ -183,5 +190,15 @@ public class Module {
     io.setDriveVoltage(
         driveFeedforward.calculate(driveVelocity)
             + (drivePID.calculate(inputs.driveVelocityRadPerSec, driveVelocity)));
+  }
+
+  /**
+   * Locks module orientation at 0 degrees and runs drive motor at specified voltage
+   * 
+   * @param output Voltage
+   */
+  public void runCharacterization(double output) {
+    io.setDriveVoltage(output);
+    io.setTurnPosition(new Rotation2d());
   }
 }
