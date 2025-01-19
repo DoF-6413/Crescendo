@@ -71,15 +71,15 @@ public class Wrist extends SubsystemBase {
     this.updateInputs();
     Logger.processInputs("Wrist", inputs);
 
-    if (isPIDEnabled) {
-      setPercentSpeed(
-          this.speedScalar
-              * (wristPIDController.calculate(inputs.wristAbsolutePositionRad)
-                  + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
-                      / RobotStateConstants
-                          .BATTERY_VOLTAGE))); // Feedforward divided by 12 since it returns a
+    // if (isPIDEnabled) {
+    //   setPercentSpeed(
+    //       this.speedScalar
+    //           * (wristPIDController.calculate(inputs.wristAbsolutePositionRad)
+    //               + (wristFeedforward.calculate(inputs.wristVelocityRadPerSec)
+    //                   / RobotStateConstants
+    //                       .BATTERY_VOLTAGE))); // Feedforward divided by 12 since it returns a
       // voltage
-    }
+    // }
 
     if (isTestingEnabled) {
       testPIDFValues();
