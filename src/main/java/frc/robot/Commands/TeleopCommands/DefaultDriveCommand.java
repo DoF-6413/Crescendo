@@ -85,7 +85,7 @@ public class DefaultDriveCommand extends Command {
           controller.getLeftX() * velocityScaler,
           -controller.getLeftY() * velocityScaler,
           headingController.update(
-              Rotation2d.fromDegrees(feedingAngleDeg), pose.getRotation(), gyro.getRate()));
+              Rotation2d.fromDegrees(feedingAngleDeg), pose.getRotation(), gyro.getYawAngularVelocity()));
     } else {
       /* Normal Drive Mode */
       drive.driveWithDeadband(

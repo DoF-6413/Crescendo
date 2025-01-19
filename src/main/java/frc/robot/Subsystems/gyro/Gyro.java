@@ -38,10 +38,10 @@ public class Gyro extends SubsystemBase {
   }
 
   /**
-   * @return the angle of the robot in Radians
+   * @return the angular velocity of the robot in Radians per sec
    */
-  public Rotation2d getAngle() {
-    return inputs.anglePositionRad;
+  public double getYawAngularVelocity() {
+    return inputs.yawVelocityRadPerSec;
   }
 
   public double getRate() {

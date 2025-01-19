@@ -1,5 +1,7 @@
 package frc.robot.Subsystems.feeder;
 
+import com.ctre.phoenix6.signals.InvertedValue;
+
 public class FeederConstants {
 
   // PID Constants  TODO: Tune, update, finalize
@@ -26,8 +28,6 @@ public class FeederConstants {
   public static final double GEAR_RATIO = 1.33;
   /** Current limit Amps */
   public static final double CUR_LIM_A = 40;
-  /** Used to set the Feeder motor to not be inverted on startup */
-  public static final boolean IS_INVERTED = false;
 
   // Teleop Automations
   /** Intaking speed */

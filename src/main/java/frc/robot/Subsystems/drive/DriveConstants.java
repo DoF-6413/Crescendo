@@ -2,7 +2,6 @@ package frc.robot.Subsystems.drive;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import java.util.Optional;
 
 public final class DriveConstants {
 
@@ -49,60 +48,6 @@ public final class DriveConstants {
   public static final double DRIVE_KS_NEO = 0.4;
   /** KV represents the voltage used every second per meter */
   public static final double DRIVE_KV_NEO = 0.4;
-
-  /**
-   * returns P of PID constants for Drive Motors depending on whether the Module is an L3 (kraken)
-   * or L2 (neo)
-   */
-  public static final double driveKP(Optional<Boolean> isL3) {
-    if (isL3 == Optional.of(true)) {
-      return DRIVE_KP_KRAKEN;
-    } else {
-      return DRIVE_KP_NEO;
-    }
-  }
-
-  /** returns I of PID constants for Drive Motors depending on whether the Module is an L3 or L2 */
-  public static final double driveKI(Optional<Boolean> isL3) {
-    if (isL3 == Optional.of(true)) {
-      return DRIVE_KI_KRAKEN;
-    } else {
-      return DRIVE_KI_NEO;
-    }
-  }
-
-  /** returns D of PID constants for Drive Motors depending on whether the Module is an L3 or L2 */
-  public static final double driveKD(Optional<Boolean> isL3) {
-    if (isL3 == Optional.of(true)) {
-      return DRIVE_KD_KRAKEN;
-    } else {
-      return DRIVE_KD_NEO;
-    }
-  }
-
-  /**
-   * returns S of feedforward constants for Drive Motors depending on whether the Module is an L3 or
-   * L2
-   */
-  public static final double driveKS(Optional<Boolean> isL3) {
-    if (isL3 == Optional.of(true)) {
-      return DRIVE_KS_KRAKEN;
-    } else {
-      return DRIVE_KS_NEO;
-    }
-  }
-
-  /**
-   * returns V of feedforward constants for Drive Motors depending on whether the Module is an L3 or
-   * L2
-   */
-  public static final double driveKV(Optional<Boolean> isL3) {
-    if (isL3 == Optional.of(true)) {
-      return DRIVE_KV_KRAKEN;
-    } else {
-      return DRIVE_KV_NEO;
-    }
-  }
 
   /** Sim Constants */
   /** Moment of inertia of wheel when driving */
@@ -185,15 +130,13 @@ public final class DriveConstants {
   }
   /** Set the inverted for the turn spark max */
   public static final boolean INVERT_TURN_SPARK_MAX = true;
-  /** DON'T set the inverted for the drive TalonFX */
-  public static final boolean INVERT_DRIVE_TALONFX = false;
 
   /** Current limiting in amps */
   public static final int CUR_LIM_A = 60;
   /** Enebles the current limit */
   public static final boolean ENABLE_CUR_LIM = true;
   /** Updates encoders every 10 milliseconds */
-  public static final int MEASUREMENT_PERIOD_MS = 10;
+  public static final int MEASUREMENT_PERIOD_HZ = 100;
   /**
    * Within 10% of the desired direction, the joystick is considered to be going in that direction
    */

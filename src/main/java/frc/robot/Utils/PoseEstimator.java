@@ -102,17 +102,15 @@ public class PoseEstimator extends SubsystemBase {
     cameraLeft = new PhotonCamera(VisionConstants.LEFT_CAMERA_NAME);
     cameraRight = new PhotonCamera(VisionConstants.RIGHT_CAMERA_NAME);
 
-    visionPoseEstimatorLeft =
-        new PhotonPoseEstimator(
-            aprilTagFieldLayout,
-            PoseStrategy.LOWEST_AMBIGUITY,
-            cameraLeft,
+    visionPoseEstimatorLeft = 
+      new PhotonPoseEstimator(
+            aprilTagFieldLayout, 
+            PoseStrategy.LOWEST_AMBIGUITY, 
             VisionConstants.LEFT_CAMERA_ROBOT_OFFSET);
     visionPoseEstimatorRight =
         new PhotonPoseEstimator(
             aprilTagFieldLayout,
             PoseStrategy.LOWEST_AMBIGUITY,
-            cameraRight,
             VisionConstants.RIGHT_CAMERA_ROBOT_OFFSET);
   }
 
@@ -131,20 +129,20 @@ public class PoseEstimator extends SubsystemBase {
     // RobotStateConstants.Mode.REAL) {
     if (enable && RobotStateConstants.getMode() == RobotStateConstants.Mode.REAL) {
 
-      Optional<EstimatedRobotPose> leftPose = visionPoseEstimatorLeft.update();
-      Optional<EstimatedRobotPose> rightPose = visionPoseEstimatorRight.update();
-
+      
       // Saves pipeline results from left camera if present
       tempPipelineResult = cameraLeft.getLatestResult();
+      Optional<EstimatedRobotPose> leftPose = visionPoseEstimatorLeft.update(tempPipelineResult);
       if (tempPipelineResult.hasTargets()) {
         hasTargetsLeft = tempPipelineResult.hasTargets();
         tempTarget = tempPipelineResult.getBestTarget();
         fiducialIDLeft = tempTarget.getFiducialId();
         poseAmbiguityLeft = tempTarget.getPoseAmbiguity();
       }
-
+      
       // Saves pipeline results from right camera if present
       tempPipelineResult = cameraRight.getLatestResult();
+      Optional<EstimatedRobotPose> rightPose = visionPoseEstimatorRight.update(tempPipelineResult);
       if (tempPipelineResult.hasTargets()) {
         hasTargetsRight = tempPipelineResult.hasTargets();
         tempTarget = tempPipelineResult.getBestTarget();
@@ -219,7 +217,7 @@ public class PoseEstimator extends SubsystemBase {
    * @param currentPose2d Position to set the robot to
    */
   public void resetPose(Pose2d currentPose2d) {
-    poseEstimator.resetPosition(gyro.getAngle(), drive.getSwerveModulePositions(), currentPose2d);
+    poseEstimator.resetPosition(gyro.getYaw(), drive.getSwerveModulePositions(), currentPose2d);
   }
 
   /**

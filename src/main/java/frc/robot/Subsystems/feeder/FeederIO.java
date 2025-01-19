@@ -6,7 +6,7 @@ import org.littletonrobotics.junction.AutoLog;
 public interface FeederIO {
 
   @AutoLog
-  public static class FeederIOInputs {
+  static class FeederIOInputs {
     /** Velocity of the Feeder Motor in Rotations per Minute */
     public double feederRPM = 0.0;
     /** Number of volts being sent to the Feeder Motor */
