@@ -65,13 +65,13 @@ public class ActuatorIOSparkMax implements ActuatorIO {
   @Override
   public void setBrakeMode(boolean enable) {
     actuatorConfig.idleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
-    actuatorMotor.configure(actuatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    actuatorMotor.configure(actuatorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   @Override
   public void setCurrentLimit(int current) {
     actuatorConfig.smartCurrentLimit(current);
-    actuatorMotor.configure(actuatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    actuatorMotor.configure(actuatorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   @Override

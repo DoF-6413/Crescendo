@@ -94,7 +94,6 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
     driveTalonFXConfig.MotorOutput.withNeutralMode(NeutralModeValue.Coast);
     turnSparkMaxConfig.inverted(DriveConstants.INVERT_TURN_SPARK_MAX);
     turnSparkMaxConfig.idleMode(IdleMode.kCoast);
-    turnSparkMaxConfig.smartCurrentLimit(DriveConstants.CUR_LIM_A);
 
     // Configure Current Limits
     driveTalonFXConfig.CurrentLimits.withStatorCurrentLimit(DriveConstants.CUR_LIM_A);
@@ -115,10 +114,6 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
     driveTalonFXConfig.Slot0.withKD(DriveConstants.DRIVE_KD_KRAKEN);
     driveTalonFXConfig.Slot0.withKS(DriveConstants.DRIVE_KS_KRAKEN);
     driveTalonFXConfig.Slot0.withKV(DriveConstants.DRIVE_KV_KRAKEN);
-    turnSparkMaxConfig.closedLoop.pid(6.4, DriveConstants.STEER_KI_NEO, 0.05)
-    .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-    .positionWrappingEnabled(true)
-    .positionWrappingInputRange(-Math.PI, Math.PI);
   
     // Apply configuration
     driveTalonFX.getConfigurator().apply(driveTalonFXConfig);
@@ -177,15 +172,7 @@ public class ModuleIOSparkMaxTalonFX implements ModuleIO {
   @Override
   public void setTurnBrakeMode(boolean enable) {
     turnSparkMaxConfig.idleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
-    turnSparkMax.configure(turnSparkMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-  }
-
-  @Override
-  public void setTurnPosition(Rotation2d rotation) {
-    double setpoint =
-        MathUtil.angleModulus(
-            rotation.plus(Rotation2d.fromRadians(absoluteEncoderOffsetRad)).getRadians());
-    turnController.setReference(setpoint, ControlType.kPosition);
+    turnSparkMax.configure(turnSparkMaxConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   @Override

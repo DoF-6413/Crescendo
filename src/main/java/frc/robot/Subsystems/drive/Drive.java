@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.drive;
 
 import java.util.Optional;
+import java.util.function.DoubleSupplier;
 
 import org.littletonrobotics.junction.Logger; // Logger
 
@@ -103,7 +104,7 @@ public class Drive extends SubsystemBase {
 
     // Run modules at setpoints
     for (int i = 0; i < 4; i++) {
-      modules[i].runSetpointClosedLoop(setpointStates[i]); // Setpoints optimized within runSetpoint method
+      modules[i].runSetpoint(setpointStates[i]); // Setpoints optimized within runSetpoint method
       measuredStates[i] = modules[i].getState();
     }
 

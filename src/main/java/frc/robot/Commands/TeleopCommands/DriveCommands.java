@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.Subsystems.drive.Drive;
 import frc.robot.Subsystems.drive.DriveConstants;
 
@@ -25,22 +24,22 @@ public class DriveCommands {
    */
   public static Command fieldRelativeDrive(
       Drive drive,
-      DoubleSupplier xSupplier,
-      DoubleSupplier ySupplier,
-      DoubleSupplier omegaSupplier) {
+      DoubleSupplier joystickLeftX,
+      DoubleSupplier joystickLeftY,
+      DoubleSupplier joystickRightX) {
     return Commands.run(
         () -> {
           // Get the Linear Velocity & Omega from inputs
           Translation2d linearVelocity =
-              getLinearVelocity(xSupplier.getAsDouble(), ySupplier.getAsDouble());
-          double omega = getOmega(omegaSupplier.getAsDouble());
+              getLinearVelocity(joystickLeftX.getAsDouble(), joystickLeftY.getAsDouble());
+          double omega = getOmega(joystickRightX.getAsDouble());
 
           // Convert to field relative speeds & send command
           ChassisSpeeds speeds =
               new ChassisSpeeds(
                   linearVelocity.getX() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
-                  linearVelocity.getY() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
-                  omega * DriveConstants.MAX_ANGULAR_SPEED_RAD_PER_SEC);
+                  -linearVelocity.getY() * DriveConstants.MAX_LINEAR_SPEED_M_PER_SEC,
+                  -omega * DriveConstants.MAX_ANGULAR_SPEED_RAD_PER_SEC);
           boolean isFlipped =
               DriverStation.getAlliance().isPresent()
                   && DriverStation.getAlliance().get() == Alliance.Red;
