@@ -85,7 +85,7 @@ public class UTBIntakeIOSparkMax implements UTBIntakeIO {
   public void setBrakeMode(boolean enable) {
     topUTBConfig.idleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
     bottomUTBConfig.idleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
-    topUTBIntakeMotor.configure(topUTBConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    bottomUTBIntakeMotor.configure(bottomUTBConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    topUTBIntakeMotor.configure(topUTBConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    bottomUTBIntakeMotor.configure(bottomUTBConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 }

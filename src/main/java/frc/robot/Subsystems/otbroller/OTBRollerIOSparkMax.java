@@ -56,6 +56,6 @@ public class OTBRollerIOSparkMax implements OTBRollerIO {
   @Override
   public void setBrakeMode(boolean enable) {
     otbRollerConfig.idleMode(enable ? IdleMode.kBrake : IdleMode.kCoast);
-    otbRollerMotor.configure(otbRollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    otbRollerMotor.configure(otbRollerConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 }

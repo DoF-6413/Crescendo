@@ -18,6 +18,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -25,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.AutonomousCommands.DeadReckons.First3Pieces.LeaveAuto;
 import frc.robot.Commands.TeleopCommands.DefaultDriveCommand;
+import frc.robot.Commands.TeleopCommands.DriveCommands;
 import frc.robot.Commands.ZeroCommands.*; // Actuator, Arm, Wrist, Shooter, and Feeder
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.actuator.Actuator;
@@ -246,14 +248,7 @@ public class RobotContainer {
   public void driverControllerBindings() {
     /* Driving the robot */
     m_driveSubsystem.setDefaultCommand(
-        new DefaultDriveCommand(
-                m_driveSubsystem,
-                m_gyroSubsystem,
-                m_poseEstimator,
-                driverController,
-                1,
-                auxController.b(),
-                () -> m_armSubsystem.getGoal() >= ArmConstants.SOURCE_BACK_SIDE_RAD)
+        DriveCommands.fieldRelativeDrive(m_driveSubsystem, driverController::getLeftX, driverController::getLeftY, driverController::getRightX)
             .withName("DefaultDriveCommand"));
 
     /* Reset Gyro heading */
