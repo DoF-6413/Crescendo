@@ -81,7 +81,6 @@ public class PoseEstimator extends SubsystemBase {
 
   /** Pose Estimation aided by PhotonVision */
   public PoseEstimator(Drive drive, Gyro gyro) {
-
     field2d = new Field2d();
     SmartDashboard.putData(field2d);
     this.drive = drive;
@@ -95,9 +94,9 @@ public class PoseEstimator extends SubsystemBase {
             new Pose2d(new Translation2d(), new Rotation2d()));
     aprilTagFieldLayout =
         new AprilTagFieldLayout(
-            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getTags(),
-            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldLength(),
-            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField().getFieldWidth());
+            AprilTagFields.k2025Reefscape.loadAprilTagLayoutField().getTags(),
+            AprilTagFields.k2025Reefscape.loadAprilTagLayoutField().getFieldLength(),
+            AprilTagFields.k2025Reefscape.loadAprilTagLayoutField().getFieldWidth());
 
     cameraLeft = new PhotonCamera(VisionConstants.LEFT_CAMERA_NAME);
     cameraRight = new PhotonCamera(VisionConstants.RIGHT_CAMERA_NAME);
@@ -116,7 +115,6 @@ public class PoseEstimator extends SubsystemBase {
 
   @Override
   public void periodic() {
-
     timestamp = Timer.getFPGATimestamp();
 
     // When ran on the real robot it would overload the command scheduler, causing input delay from
@@ -164,9 +162,9 @@ public class PoseEstimator extends SubsystemBase {
               && poseAmbiguityRight < 0.2
               && poseAmbiguityRight > 0.0
               && fiducialIDLeft >= 1
-              && fiducialIDLeft <= 16
+              && fiducialIDLeft <= 22
               && fiducialIDRight >= 1
-              && fiducialIDRight <= 16) {
+              && fiducialIDRight <= 22) {
             poseEstimator.addVisionMeasurement(
                 averageVisionPoses(
                     leftPose.get().estimatedPose.toPose2d(),
@@ -183,7 +181,7 @@ public class PoseEstimator extends SubsystemBase {
               && poseAmbiguityLeft < 0.2
               && poseAmbiguityLeft > 0.0
               && fiducialIDLeft >= 1
-              && fiducialIDLeft <= 16) {
+              && fiducialIDLeft <= 22) {
             poseEstimator.addVisionMeasurement(leftPose.get().estimatedPose.toPose2d(), timestamp);
           }
         }
@@ -196,7 +194,7 @@ public class PoseEstimator extends SubsystemBase {
               && poseAmbiguityRight < 0.2
               && poseAmbiguityRight > 0.0
               && fiducialIDRight >= 1
-              && fiducialIDRight <= 16) {
+              && fiducialIDRight <= 22) {
             poseEstimator.addVisionMeasurement(rightPose.get().estimatedPose.toPose2d(), timestamp);
           }
         }
