@@ -18,6 +18,8 @@ import frc.robot.Constants.*;
 import frc.robot.Subsystems.drive.*;
 import frc.robot.Subsystems.gyro.*;
 import java.util.Optional;
+
+import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -125,8 +127,9 @@ public class PoseEstimator extends SubsystemBase {
     // counter++;
     // if (enable && counter % cyclesPerUpdate == 0 && RobotStateConstants.getMode() ==
     // RobotStateConstants.Mode.REAL) {
-    if (enable && RobotStateConstants.getMode() == RobotStateConstants.Mode.REAL) {
-
+    if (true) {
+      hasTargetsLeft = false;
+      hasTargetsRight = false;
       
       // Saves pipeline results from left camera if present
       tempPipelineResult = cameraLeft.getLatestResult();
@@ -148,6 +151,9 @@ public class PoseEstimator extends SubsystemBase {
         poseAmbiguityRight = tempTarget.getPoseAmbiguity();
       }
 
+      Logger.recordOutput("Vision/Back_Left/HasTarget", hasTargetsLeft);;
+      Logger.recordOutput("Vision/Back_Right/HasTarget", hasTargetsRight);;
+
       if (!hasTargetsLeft && !hasTargetsRight) {
         return;
 
@@ -157,14 +163,16 @@ public class PoseEstimator extends SubsystemBase {
 
           if (leftPose.isPresent()
               && rightPose.isPresent()
-              && poseAmbiguityLeft < 0.2
-              && poseAmbiguityLeft > 0.0
-              && poseAmbiguityRight < 0.2
-              && poseAmbiguityRight > 0.0
+              // && poseAmbiguityLeft < 0.2
+              // && poseAmbiguityLeft > 0.0
+              // && poseAmbiguityRight < 0.2
+              // && poseAmbiguityRight > 0.0
               && fiducialIDLeft >= 1
               && fiducialIDLeft <= 22
               && fiducialIDRight >= 1
               && fiducialIDRight <= 22) {
+            Logger.recordOutput("Vision/Back_Left/EstimatedPose", leftPose.get().estimatedPose.toPose2d());
+            Logger.recordOutput("Vision/Back_right/EstimatedPose", rightPose.get().estimatedPose.toPose2d());
             poseEstimator.addVisionMeasurement(
                 averageVisionPoses(
                     leftPose.get().estimatedPose.toPose2d(),
@@ -178,10 +186,11 @@ public class PoseEstimator extends SubsystemBase {
           prevTimestamp = timestamp;
 
           if (leftPose.isPresent()
-              && poseAmbiguityLeft < 0.2
-              && poseAmbiguityLeft > 0.0
+              // && poseAmbiguityLeft < 0.2
+              // && poseAmbiguityLeft > 0.0
               && fiducialIDLeft >= 1
               && fiducialIDLeft <= 22) {
+            Logger.recordOutput("Vision/Back_Left/EstimatedPose", leftPose.get().estimatedPose.toPose2d());
             poseEstimator.addVisionMeasurement(leftPose.get().estimatedPose.toPose2d(), timestamp);
           }
         }
@@ -191,10 +200,11 @@ public class PoseEstimator extends SubsystemBase {
           prevTimestamp = timestamp;
 
           if (rightPose.isPresent()
-              && poseAmbiguityRight < 0.2
-              && poseAmbiguityRight > 0.0
+              // && poseAmbiguityRight < 0.2
+              // && poseAmbiguityRight > 0.0
               && fiducialIDRight >= 1
               && fiducialIDRight <= 22) {
+            Logger.recordOutput("Vision/Back_right/EstimatedPose", rightPose.get().estimatedPose.toPose2d());
             poseEstimator.addVisionMeasurement(rightPose.get().estimatedPose.toPose2d(), timestamp);
           }
         }

@@ -148,14 +148,13 @@ public class RobotContainer {
 
     /* Autos */
     // ----------Test Autos----------
-    autoChooser.addOption("test1", new PathPlannerAuto("test1"));
-    autoChooser.addOption("test2", new PathPlannerAuto("test2"));
-    autoChooser.addOption("test3", new PathPlannerAuto("test3"));
-    autoChooser.addOption("2M Test", new PathPlannerAuto("2 meter forwards"));
-    autoChooser.addOption("Override Test", new PathPlannerAuto("Speaker"));
-    autoChooser.addOption("Square Test", new PathPlannerAuto("Square"));
-    autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
-    autoChooser.addOption("Midfield Test", new PathPlannerAuto("Midfield Test"));
+    // autoChooser.addOption("test1", new PathPlannerAuto("test1"));
+    // autoChooser.addOption("test2", new PathPlannerAuto("test2"));
+    // autoChooser.addOption("test3", new PathPlannerAuto("test3"));
+    // autoChooser.addOption("2M Test", new PathPlannerAuto("2 meter forwards"));
+    // autoChooser.addOption("Override Test", new PathPlannerAuto("Speaker"));
+    // autoChooser.addOption("Square Test", new PathPlannerAuto("Square"));
+    // autoChooser.addOption("Command Testing", new PathPlannerAuto("Command Testing"));
     // ----------0 Piece----------
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Leave", new LeaveAuto(m_driveSubsystem, 3, 1));
