@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PathPlannerConstants;
 import frc.robot.Subsystems.drive.Drive;
@@ -91,7 +92,6 @@ public class PathPlanner extends SubsystemBase {
     // The pose to pathfind to
     // The constraints to use while pathfinding
     // The goal end velocity of the robot when reaching the target pose
-    
-    return AutoBuilder.pathfindToPose(targetPose, PathPlannerConstants.DEFAULT_PATH_CONSTRAINTS, 0);
+    return AutoBuilder.pathfindToPose(targetPose, PathPlannerConstants.DEFAULT_PATH_CONSTRAINTS, 0).alongWith(new PrintCommand(targetPose.toString()));
   }
 }

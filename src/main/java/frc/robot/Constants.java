@@ -165,13 +165,13 @@ public final class Constants {
     public static final Transform3d LEFT_CAMERA_ROBOT_OFFSET =
         new Transform3d(
             new Translation3d(-Units.inchesToMeters(10.541), Units.inchesToMeters(11.695), 0),
-            new Rotation3d(Math.PI / 2, 0, Math.PI - Units.degreesToRadians(44.66185)));
+            new Rotation3d(Math.PI, 0, Math.PI - Units.degreesToRadians(44.66185)));
 
     /** Offsets the back right camera's position to the center of the robot */
     public static final Transform3d RIGHT_CAMERA_ROBOT_OFFSET =
         new Transform3d(
             new Translation3d(-Units.inchesToMeters(10.541), -Units.inchesToMeters(11.695), 0),
-            new Rotation3d(Math.PI / 2, Units.degreesToRadians(37.49265), Math.PI + Units.degreesToRadians(20.9849)));
+            new Rotation3d(Math.PI, Units.degreesToRadians(37.49265), Math.PI + Units.degreesToRadians(20.9849)));
 
     /** The name of the Lime Light camera */
     public static final String LIME_LIGHT_NAME = "limelight";
