@@ -252,7 +252,7 @@ public class RobotContainer {
   public void driverControllerBindings() {
     /* Driving the robot */
     m_driveSubsystem.setDefaultCommand(
-        DriveCommands.fieldRelativeDrive(m_driveSubsystem, driverController::getLeftX, driverController::getLeftY, driverController::getRightX)
+        DriveCommands.fieldRelativeDrive(m_driveSubsystem, driverController::getLeftY, driverController::getLeftX, driverController::getRightX)
             .withName("DefaultDriveCommand"));
 
     /* Reset Gyro heading */

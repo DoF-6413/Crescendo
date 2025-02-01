@@ -281,12 +281,13 @@ public class Drive extends SubsystemBase {
   }
 
   /**
-   * Combines the Rotation of the Modules AND the rotation of the gyroscope to determine how we have
-   * rotated
+   * Current heading of the robot. Updates based on the Gyro. If gyro is not connected, uses change
+   * in module position instead
+   *
+   * @return The current angle of the robot
    */
   public Rotation2d getRotation() {
-
-    var gyroYaw = new Rotation2d(gyro.getYaw().getRadians());
+    Rotation2d robotYaw;
 
     /*
      * Twist2d is a change in distance along an arc
@@ -295,20 +296,17 @@ public class Drive extends SubsystemBase {
      * // (left positive), and the component is the change in heading.
      */
     if (gyro.isConnected()) {
-      twist =
-          new Twist2d(
-              twist.dx,
-              twist.dy,
-              gyroYaw.minus(lastGyroYaw).getRadians()); // Updates twist based on GYRO
+      robotYaw = gyro.getYaw();
     } else {
       twist =
-          swerveKinematics.toTwist2d(getWheelDeltas()); // Updates Twist Based on MODULE position
-      gyroYaw =
+          swerveKinematics.toTwist2d(
+              getWheelDeltas()); // Updates Twist Based on MODULE position
+      robotYaw =
           lastGyroYaw.minus(
               new Rotation2d(twist.dtheta)); // Updates rotation 2d based on robot module position
     }
-    lastGyroYaw = gyroYaw;
-    return lastGyroYaw;
+    lastGyroYaw = robotYaw;
+    return robotYaw;
   }
 
   public Twist2d fieldVelocity() {

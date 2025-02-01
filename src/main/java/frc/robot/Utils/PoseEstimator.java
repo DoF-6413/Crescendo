@@ -129,15 +129,13 @@ public class PoseEstimator extends SubsystemBase {
     // counter++;
     // if (enable && counter % cyclesPerUpdate == 0 && RobotStateConstants.getMode() ==
     // RobotStateConstants.Mode.REAL) {
-    if (true) {
-      hasTargetsLeft = false;
-      hasTargetsRight = false;
+    if (enable) {
       
       // Saves pipeline results from left camera if present
       tempPipelineResult = cameraLeft.getLatestResult();
+      hasTargetsLeft = tempPipelineResult.hasTargets();
       Optional<EstimatedRobotPose> leftPose = visionPoseEstimatorLeft.update(tempPipelineResult);
-      if (tempPipelineResult.hasTargets()) {
-        hasTargetsLeft = tempPipelineResult.hasTargets();
+      if (hasTargetsLeft) {
         leftTarget = tempPipelineResult.getBestTarget();
         fiducialIDLeft = leftTarget.getFiducialId();
         poseAmbiguityLeft = leftTarget.getPoseAmbiguity();
@@ -145,9 +143,9 @@ public class PoseEstimator extends SubsystemBase {
       
       // Saves pipeline results from right camera if present
       tempPipelineResult = cameraRight.getLatestResult();
+      hasTargetsRight = tempPipelineResult.hasTargets();
       Optional<EstimatedRobotPose> rightPose = visionPoseEstimatorRight.update(tempPipelineResult);
-      if (tempPipelineResult.hasTargets()) {
-        hasTargetsRight = tempPipelineResult.hasTargets();
+      if (hasTargetsRight) {
         rightTarget = tempPipelineResult.getBestTarget();
         fiducialIDRight = rightTarget.getFiducialId();
         poseAmbiguityRight = rightTarget.getPoseAmbiguity();
@@ -303,26 +301,25 @@ public class PoseEstimator extends SubsystemBase {
   public Pose2d toAprilTag() {
 
     System.out.println("-==-=-=-==DOING THE THINGY-=-=-=-=-=-=-");
-    return this.getCurrentPose2d();
-    // if (!hasTargetsLeft && !hasTargetsRight) {
-    //   System.out.println("!!!!!!!!!!HAS NO TARGETS!!!!!!!!!!!!!");
-    //   return this.getCurrentPose2d();
-    // }
+    if (!hasTargetsLeft && !hasTargetsRight) {
+      System.out.println("!!!!!!!!!!HAS NO TARGETS!!!!!!!!!!!!!");
+      return new Pose2d(5, 5, new Rotation2d());
+    }
 
-    // if (hasTargetsLeft) {
-    //   System.out.println("[][][]HAS LEFT TARGET[][][]");
-    //   var tagPose2d = aprilTagFieldLayout.getTagPose(leftTarget.getFiducialId()).get().toPose2d();
-    //   var inFrontOfTag = new Pose2d(tagPose2d.getX() + Units.inchesToMeters(5)*tagPose2d.getRotation().getCos() , tagPose2d.getY() + Units.inchesToMeters(5)*tagPose2d.getRotation().getSin(), tagPose2d.getRotation().plus(Rotation2d.fromDegrees(180)));
-    //   SmartDashboard.putString("Pose In Front of Tag", inFrontOfTag.toString());
-    //   Logger.recordOutput("Vision/PoseInFrontOfTag", inFrontOfTag);
-    //   return inFrontOfTag;
-    // } else {
-    //   System.out.println("()()()HAS RIGHT TARGET()()())");
-    //   var tagPose2d = aprilTagFieldLayout.getTagPose(rightTarget.getFiducialId()).get().toPose2d();
-    //   var inFrontOfTag = new Pose2d(tagPose2d.getX() + Units.inchesToMeters(5)*tagPose2d.getRotation().getCos() , tagPose2d.getY() + Units.inchesToMeters(5)*tagPose2d.getRotation().getSin(), tagPose2d.getRotation().plus(Rotation2d.fromDegrees(180)));
-    //   SmartDashboard.putString("Pose In Front of Tag", inFrontOfTag.toString());
-    //   Logger.recordOutput("Vision/PoseInFrontOfTag", inFrontOfTag);
-    //   return inFrontOfTag;
-    // }
+    if (hasTargetsLeft) {
+      System.out.println("[][][]HAS LEFT TARGET[][][]");
+      var tagPose2d = aprilTagFieldLayout.getTagPose(leftTarget.getFiducialId()).get().toPose2d();
+      var inFrontOfTag = new Pose2d(tagPose2d.getX() + Units.inchesToMeters(5)*tagPose2d.getRotation().getCos() , tagPose2d.getY() + Units.inchesToMeters(5)*tagPose2d.getRotation().getSin(), tagPose2d.getRotation().plus(Rotation2d.fromDegrees(180)));
+      SmartDashboard.putString("Pose In Front of Tag", inFrontOfTag.toString());
+      Logger.recordOutput("Vision/PoseInFrontOfTag", inFrontOfTag);
+      return inFrontOfTag;
+    } else {
+      System.out.println("()()()HAS RIGHT TARGET()()())");
+      var tagPose2d = aprilTagFieldLayout.getTagPose(rightTarget.getFiducialId()).get().toPose2d();
+      var inFrontOfTag = new Pose2d(tagPose2d.getX() + Units.inchesToMeters(5)*tagPose2d.getRotation().getCos() , tagPose2d.getY() + Units.inchesToMeters(5)*tagPose2d.getRotation().getSin(), tagPose2d.getRotation().plus(Rotation2d.fromDegrees(180)));
+      SmartDashboard.putString("Pose In Front of Tag", inFrontOfTag.toString());
+      Logger.recordOutput("Vision/PoseInFrontOfTag", inFrontOfTag);
+      return inFrontOfTag;
+    }
   }
 }

@@ -31,7 +31,7 @@ public class DriveCommands {
         () -> {
           // Get the Linear Velocity & Omega from inputs
           Translation2d linearVelocity =
-              getLinearVelocity(joystickLeftX.getAsDouble(), joystickLeftY.getAsDouble());
+              getLinearVelocity(-joystickLeftX.getAsDouble(), joystickLeftY.getAsDouble());
           double omega = getOmega(joystickRightX.getAsDouble());
 
           // Convert to field relative speeds & send command
